@@ -1,0 +1,268 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6FFCCF9113BD7C0100F4B22B /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */; };
+		6FFCCF9D13BD82B100F4B22B /* SFOAuthCredentials+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */; };
+		6FFCCF9F13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF9E13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h */; };
+		CF19784913B510EC00AFCA56 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CF19784A13B510EC00AFCA56 /* SFOAuthCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19784613B510EC00AFCA56 /* SFOAuthCredentials.m */; };
+		CF19784E13B5114100AFCA56 /* SalesforceOAuth-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CF19784D13B5114100AFCA56 /* SalesforceOAuth-Prefix.pch */; };
+		CFA9ADD813AA86DA0024260E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA9ADD713AA86DA0024260E /* Foundation.framework */; };
+		CFCB5FA413B73F1C00F90FEB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCB5FA313B73F1C00F90FEB /* Security.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = SalesforceOAuth/Classes/SFOAuthCoordinator.h; sourceTree = SOURCE_ROOT; };
+		6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCoordinator.m; path = SalesforceOAuth/Classes/SFOAuthCoordinator.m; sourceTree = SOURCE_ROOT; };
+		6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthCredentials+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthCredentials+Internal.h"; sourceTree = SOURCE_ROOT; };
+		6FFCCF9E13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthCoordinator+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthCoordinator+Internal.h"; sourceTree = SOURCE_ROOT; };
+		CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = SalesforceOAuth/Classes/SFOAuthCredentials.h; sourceTree = SOURCE_ROOT; };
+		CF19784613B510EC00AFCA56 /* SFOAuthCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCredentials.m; path = SalesforceOAuth/Classes/SFOAuthCredentials.m; sourceTree = SOURCE_ROOT; };
+		CF19784D13B5114100AFCA56 /* SalesforceOAuth-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SalesforceOAuth-Prefix.pch"; sourceTree = "<group>"; };
+		CF19785513B5157400AFCA56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CF19785813B5157400AFCA56 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CFA9ADD413AA86DA0024260E /* libSalesforceOAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFA9ADD713AA86DA0024260E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CFCB5FA313B73F1C00F90FEB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		CFD31A3313D5956700A9074A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFA9ADD113AA86D80024260E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFCB5FA413B73F1C00F90FEB /* Security.framework in Frameworks */,
+				CFA9ADD813AA86DA0024260E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CF19778E13AFEF1100AFCA56 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6FFCCF9E13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h */,
+				6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */,
+				6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */,
+				6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */,
+				CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */,
+				CF19784613B510EC00AFCA56 /* SFOAuthCredentials.m */,
+			);
+			path = Classes;
+			sourceTree = SOURCE_ROOT;
+		};
+		CFA9ADC913AA86D80024260E = {
+			isa = PBXGroup;
+			children = (
+				CFA9ADD913AA86DA0024260E /* SalesforceOAuth */,
+				CFA9ADD613AA86DA0024260E /* Frameworks */,
+				CFA9ADD513AA86DA0024260E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CFA9ADD513AA86DA0024260E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9ADD413AA86DA0024260E /* libSalesforceOAuth.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CFA9ADD613AA86DA0024260E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CFA9ADD713AA86DA0024260E /* Foundation.framework */,
+				CF19785513B5157400AFCA56 /* UIKit.framework */,
+				CF19785813B5157400AFCA56 /* CoreGraphics.framework */,
+				CFCB5FA313B73F1C00F90FEB /* Security.framework */,
+				CFD31A3313D5956700A9074A /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CFA9ADD913AA86DA0024260E /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				CF19778E13AFEF1100AFCA56 /* Classes */,
+				CFA9ADDA13AA86DA0024260E /* Supporting Files */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		CFA9ADDA13AA86DA0024260E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CF19784D13B5114100AFCA56 /* SalesforceOAuth-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CFA9ADD213AA86D80024260E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF19784913B510EC00AFCA56 /* SFOAuthCredentials.h in Headers */,
+				6FFCCF9113BD7C0100F4B22B /* SFOAuthCoordinator.h in Headers */,
+				CF19784E13B5114100AFCA56 /* SalesforceOAuth-Prefix.pch in Headers */,
+				6FFCCF9D13BD82B100F4B22B /* SFOAuthCredentials+Internal.h in Headers */,
+				6FFCCF9F13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CFA9ADD313AA86D80024260E /* SalesforceOAuth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFA9ADDE13AA86DA0024260E /* Build configuration list for PBXNativeTarget "SalesforceOAuth" */;
+			buildPhases = (
+				CFA9ADD013AA86D80024260E /* Sources */,
+				CFA9ADD113AA86D80024260E /* Frameworks */,
+				CFA9ADD213AA86D80024260E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceOAuth;
+			productName = SalesforceOAuth;
+			productReference = CFA9ADD413AA86DA0024260E /* libSalesforceOAuth.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFA9ADCB13AA86D80024260E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Salesforce.com;
+			};
+			buildConfigurationList = CFA9ADCE13AA86D80024260E /* Build configuration list for PBXProject "SalesforceOAuth" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CFA9ADC913AA86D80024260E;
+			productRefGroup = CFA9ADD513AA86DA0024260E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFA9ADD313AA86D80024260E /* SalesforceOAuth */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFA9ADD013AA86D80024260E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF19784A13B510EC00AFCA56 /* SFOAuthCredentials.m in Sources */,
+				6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CFA9ADDC13AA86DA0024260E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceOAuth;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CFA9ADDD13AA86DA0024260E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceOAuth;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		CFA9ADDF13AA86DA0024260E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DSTROOT = /tmp/SalesforceOAuth.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
+				INSTALL_PATH = /;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CFA9ADE013AA86DA0024260E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DSTROOT = /tmp/SalesforceOAuth.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
+				INSTALL_PATH = /;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFA9ADCE13AA86D80024260E /* Build configuration list for PBXProject "SalesforceOAuth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFA9ADDC13AA86DA0024260E /* Debug */,
+				CFA9ADDD13AA86DA0024260E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFA9ADDE13AA86DA0024260E /* Build configuration list for PBXNativeTarget "SalesforceOAuth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFA9ADDF13AA86DA0024260E /* Debug */,
+				CFA9ADE013AA86DA0024260E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CFA9ADCB13AA86D80024260E /* Project object */;
+}
