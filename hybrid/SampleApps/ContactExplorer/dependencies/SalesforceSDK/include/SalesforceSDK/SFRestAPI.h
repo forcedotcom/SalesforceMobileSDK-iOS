@@ -111,7 +111,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
     // Display oauth UIWebView on main UIViewController
     - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator 
     didBeginAuthenticationWithView:(UIWebView *)view {
-        [self.viewController.view addSubview:view];
+        [self.window addSubview:view];
     }
  
     // The user is now logged in.
