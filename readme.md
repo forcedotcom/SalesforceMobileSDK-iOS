@@ -3,7 +3,13 @@
 
 Introduction
 ==
-(todo)
+**Native Mobile Libraries
+The Salesforce Mobile SDK provides essential libraries for quickly building native or hybrid mobile apps that seamlessly integrate with the Salesforce cloud architecture.  Out of the box, we provide an implementation of the OAuth2 protocol, abstracting away the complexity of securely storing tokens or fetching refresh tokens when a session expires. The SDK also provides ObjectiveC REST API wrappers, making it easy to retrieve, store, and manipulate data.
+
+
+**Salesforce Mobile Container
+HTML5 is quickly emerging as dominant technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript, some limitations remain, specifically: session management, access to the camera and address book, and the inability to distribute apps inside public App Stores. The Salesforce Mobile Container makes possible to combine the ease of web app development with power of the iOS platform by wrapping a web app inside a thin native container, producing a hybrid application.
+
 
 
 Installation (Xcode 4 Project Template)
