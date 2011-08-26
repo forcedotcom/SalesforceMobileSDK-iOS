@@ -1,5 +1,5 @@
-# Salesforce.com Mobile Container for iOS
-`Note: work in progress`
+# Salesforce.com Mobile SDK for iOS
+
 
 Introduction
 ==
