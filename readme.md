@@ -17,7 +17,7 @@ Installation (Xcode 4 Project Template)
 
 The easiest way to use the SalesforceSDK is to install the Xcode 4 project template:
 
-`cp -R native/Force.com-based\ Application.xctemplate ~/Library/Developer/Xcode/Templates/Project\ Templates/Application`
+`cp -R native/Force.com-based\ Application.xctemplate ~/Library/Developer/Xcode/Templates/Project\ Templates/Application/`
 
 
 This allows you to create new projects of type __Force.com-based Application__ directly from Xcode.
