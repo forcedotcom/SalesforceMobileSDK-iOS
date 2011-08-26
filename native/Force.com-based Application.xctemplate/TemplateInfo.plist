@@ -1382,7 +1382,7 @@ static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    self.window.rootViewController.view = view;
+    [self.window addSubview:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
@@ -1400,7 +1400,7 @@ static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
                                                     message:[NSString stringWithFormat:@"Can't connect to force.com: %@", error]
                                                    delegate:self
                                           cancelButtonTitle:@"Retry"
-                                          otherButtonTitles: nil];
+                                          otherButtonTitles:nil];
     [alert show];
 }
 
