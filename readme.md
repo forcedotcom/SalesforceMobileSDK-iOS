@@ -12,7 +12,7 @@ HTML5 is quickly emerging as dominant technology for developing cross-platform m
 
 
 __Developer Preview__
-The code, sample applications, and documentation offered in this repository are a preview of more full-fledged functionality to come.  In the lead-up to a general release, the public APIs may change from their current representation.
+The code, sample applications, and documentation offered in this repository represent a preview of more full-fledged functionality to come.  In the lead-up to a general release, the public APIs may change from their current representation and implementation details.
 
 
 
