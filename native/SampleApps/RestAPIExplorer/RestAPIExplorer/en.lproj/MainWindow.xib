@@ -44,6 +44,7 @@
 				<int key="NSvFlags">292</int>
 				<string key="NSFrameSize">{768, 1024}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -61,7 +62,6 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIViewController" id="578626022">
-				<bool key="IBUIAutoresizesArchivedViewToFullSize">NO</bool>
 				<object class="IBUIImageView" key="IBUIView" id="48899205">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>

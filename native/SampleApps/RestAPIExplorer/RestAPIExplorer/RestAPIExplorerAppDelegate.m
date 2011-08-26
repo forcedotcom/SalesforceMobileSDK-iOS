@@ -117,7 +117,7 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    [self.viewController.view addSubview:view];
+    [self.window addSubview:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
