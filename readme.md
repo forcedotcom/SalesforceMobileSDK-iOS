@@ -11,6 +11,10 @@ __Salesforce Mobile Container__
 HTML5 is quickly emerging as dominant technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript, some limitations remain, specifically: session management, access to the camera and address book, and the inability to distribute apps inside public App Stores. The Salesforce Mobile Container makes possible to combine the ease of web app development with power of the iOS platform by wrapping a web app inside a thin native container, producing a hybrid application.
 
 
+__Developer Preview__
+The code, sample applications, and documentation offered in this repository are a preview of more full-fledged functionality to come.  In the lead-up to a general release, the public APIs may change from their current representation.
+
+
 
 Installation (Xcode 4 Project Template)
 ==
