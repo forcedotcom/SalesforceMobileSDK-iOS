@@ -1,5 +1,5 @@
 # Salesforce.com Mobile Container for iOS
-Note: this is sample test page
+`Note: work in progress`
 
 Introduction
 ==
