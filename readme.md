@@ -58,11 +58,11 @@ You can also use the SDK in an existing project:
 
 1. Drag the folder `native/dependencies` into your project (check `Create groups for any added folders`)
 
-1. Open the Build Settings tab for the project.
+2. Open the Build Settings tab for the project.
 
   * Set __Other Linker Flags__ to `-ObjC -all_load`.
 
-1. Open the Build Phases tab for the project main target and link against the following required frameworks:
+3. Open the Build Phases tab for the project main target and link against the following required frameworks:
 
 	1. **CFNetwork.framework**
 	1. **CoreData.framework**
@@ -71,11 +71,18 @@ You can also use the SDK in an existing project:
 	1. **Security.framework**
 	1. **libxml2.dylib**
 
-1. Import the SalesforceSDK header via ``#import "SFRestAPI.h"``.
+4. Import the SalesforceSDK header via ``#import "SFRestAPI.h"``.
 
-1. Build the project to verify that the installation is successful.
+5. Build the project to verify that the installation is successful.
 
-1. Refer to the [SFRestAPI documentation](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceSDK/Classes/SFRestAPI.html) for some sample code to login into a salesforce instance and issue a REST API call.
+6. Refer to the [SFRestAPI documentation](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceSDK/Classes/SFRestAPI.html) for some sample code to login into a salesforce instance and issue a REST API call.
+
+
+Working with the hybrid sample apps
+==
+
+The sample applications contained under the hybrid/ folder are designed around the [PhoneGap](http://www.phonegap.com/) SDK.  Before you can work with those applications, you will need to download and install the [1.0.0](https://github.com/phonegap/phonegap/zipball/1.0.0) (or later) version of the PhoneGap SDK.  You can find more detailed instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
+
 
 Documentation
 ==
