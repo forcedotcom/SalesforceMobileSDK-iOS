@@ -81,7 +81,7 @@ You can also use the SDK in an existing project:
 Working with the hybrid sample apps
 ==
 
-The sample applications contained under the hybrid/ folder are designed around the [PhoneGap SDK](http://www.phonegap.com/).  Before you can work with those applications, you will need to download and install the [1.0.0](https://github.com/phonegap/phonegap/zipball/1.0.0) (or later) version of the PhoneGap SDK.  You can find more detailed instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
+The sample applications contained under the hybrid/ folder are designed around the [PhoneGap SDK](http://www.phonegap.com/).  Before you can work with those applications, you will need to download and install the **1.0.0** (or later) version of the PhoneGap SDK, which you can get from the PhoneGap website, linked above.  You can find more detailed installation instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
 
 
 Documentation
