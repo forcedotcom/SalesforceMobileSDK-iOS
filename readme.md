@@ -87,5 +87,5 @@ The sample applications contained under the hybrid/ folder are designed around t
 Documentation
 ==
 
-* [SalesforceSDK](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceSDK/index.html)
-* [SalesforceOAuth](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceOAuth/index.html)
+* [SalesforceSDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
+* [SalesforceOAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
