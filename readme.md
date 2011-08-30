@@ -85,6 +85,14 @@ Working with the hybrid sample apps
 
 The sample applications contained under the hybrid/ folder are designed around the [PhoneGap SDK](http://www.phonegap.com/).  Before you can work with those applications, you will need to download and install the **1.0.0** (or later) version of the PhoneGap SDK, which you can get from the PhoneGap website, linked above.  You can find more detailed installation instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
 
+**Note:** The hybrid sample applications are configured to look for the PhoneGap iOS Framework in /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework.  If you installed or moved the PhoneGap framework elsewhere, or otherwise get compilation errors related to the PhoneGap Framework not being found (e.g. 'Undefined symbols for architecture i386: "\_OBJC\_METACLASS\_$\_PhoneGapDelegate"'), you will need to add the PhoneGap Framework to the sample project:
+
+1. Open the Xcode project of the sample application.
+2. In the Project Navigator, right-click or control-click the Frameworks folder, and select 'Add files to "_Project Name_..."'.
+3. Navigate to the Phonegap.framework folder (the default location is /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework/), and click "Add".
+
+The sample application project should now build and run cleanly.
+
 
 Documentation
 ==
