@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SFRestAPI.h"
+#import "RestAPIExplorerAppDelegate.h"
 
 @interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate> {
     // action based query
