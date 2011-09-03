@@ -99,6 +99,11 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
     [self.coordinator authenticate];
 }
 
+- (void)logout {
+    [self.coordinator revokeAuthentication];
+    [self.coordinator authenticate];
+}
+
 - (void)loggedIn {
     [SFRestAPI APIWithCoordinator:self.coordinator];
 

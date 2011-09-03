@@ -14,6 +14,8 @@
     SFOAuthCoordinator *_coordinator;
 }
 
+-(void)logout;
+
 @property (nonatomic, retain) SFOAuthCoordinator *coordinator;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UIViewController *viewController;
