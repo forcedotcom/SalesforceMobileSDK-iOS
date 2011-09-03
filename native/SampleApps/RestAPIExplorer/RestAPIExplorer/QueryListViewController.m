@@ -31,6 +31,7 @@
                         @"requestForDeleteWithObjectType:objectId:", @"params: objectType, objectId",
                         @"query:", @"params: query",
                         @"search:", @"params: search",
+                        @"logout", @"no params",
                         nil];
     }
     return self;
