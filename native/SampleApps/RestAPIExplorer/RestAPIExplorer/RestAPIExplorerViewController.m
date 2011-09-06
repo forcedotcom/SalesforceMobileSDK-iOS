@@ -278,6 +278,11 @@
         }
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
+    else if ([text isEqualToString:@"logout"]) {
+        RestAPIExplorerAppDelegate *appDelegate = (RestAPIExplorerAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate logout];
+        return;
+    }
 
     _tfPath.text = request.path;
     _tvParams.text = [request.queryParams JSONRepresentation];
