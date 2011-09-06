@@ -1,0 +1,71 @@
+<project name="RestAPIExplorer" default="all">
+    <import file="../../../../shared/build.xml"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" value=".."/>
+    <property name="artifacts.dir" location="artifacts"/>
+    <property name="dependency.dir" value="../dependencies"/>
+    
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="sdk.iphoneos" name="sdk.iphoneos" value="${platform.iphoneos}"/>
+    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <!-- main -->
+    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <delete dir="${artifacts.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="all" depends="pre, build" description="do it all"/>
+
+    <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
+        depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk">
+        <antcall target="compileDebug"/>
+<!--        <antcall target="compileRelease"/>-->
+<!--        <delete dir="${project.dir}/build"/>-->
+    </target>
+
+    <target name="compileDebug">
+<!--        <antcall target="iOSShared.compile">-->
+<!--            <param name="install_path" value="${artifacts.dir}/${target.name}"/>-->
+<!--            <param name="configuration" value="${configuration.debug}"/>-->
+<!--            <param name="sdk" refid="platform.iphoneos"/>-->
+<!--            <param name="target" value="RestAPIExplorer"/>-->
+<!--            <param name="action" value="install"/>-->
+<!--        </antcall>-->
+
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration.debug}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="RestAPIExplorer"/>
+            <param name="action" value="install"/>
+        </antcall>
+    </target>
+
+    <target name="compileRelease">
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration.release}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="RestAPIExplorer"/>
+            <param name="action" value="install"/>
+        </antcall>
+    </target>
+
+    <target name="clean"
+        depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean">
+        <delete dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="clean.full"
+        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean">
+    </target>
+</project>
