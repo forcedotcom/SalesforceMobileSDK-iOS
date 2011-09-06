@@ -1,0 +1,6 @@
+[submodule "RestKit"]
+	path = RestKit
+	url = git@github.com:forcedotcom/MobileContainer-RestKit.git
+[submodule "json-framework"]
+	path = json-framework
+	url = git@github.com:forcedotcom/MobileContainer-json-framework.git

@@ -1,0 +1,149 @@
+<project name="iOSShared">
+    <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
+
+    <!-- ios group common tasks -->
+    <property name="buildCommonDir" location="${iOSShared.basedir}/common/build"/>
+    <import file="${buildCommonDir}/build.xml"/>
+<!--    <taskdef resource="net/sf/antcontrib/antcontrib.properties">-->
+<!--        <classpath>-->
+<!--            <pathelement location="${buildCommonDir}/tools/ant-contrib-1.0b3.jar"/>-->
+<!--        </classpath>-->
+<!--    </taskdef>-->
+
+    <!-- lipo -->
+    <target name="lipo">
+        <property name="device" value="${artifacts.dir}/${target.name}/${libname}"/>
+        <property name="simulator" value="${artifacts.dir}/Simulator/${libname}"/>
+        <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg line="-create -output ${lipo.output} ${device} ${simulator}"/>
+        </exec>
+        <move file="${lipo.output}" toFile="${device}"/>
+    </target>
+
+    <!-- compile -->
+    <target name="iOSShared.compile">
+        <property name="action" value="build"/>
+        <echo>${action}ing ${target.name} for SDK ${sdk}</echo>
+
+        <exec executable="xcodebuild" failonerror="true" logError="true">
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=${install_path} ${action}"/>
+        </exec>
+    </target>
+
+    <!-- dependency: SalesforceSDK -->
+    <property name="subproject.sdk.dir" value="${iOSShared.basedir}/../SalesforceSDK"/>
+
+    <target name="dependency.sdk.check">
+        <condition property="dependency.sdk.present">
+            <available file="${dependency.dir}/SalesforceSDK" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.sdk" depends="dependency.sdk.check" unless="dependency.sdk.present">
+        <property name="dependency.sdk.zip" value="${subproject.sdk.dir}/sfdc_build/artifacts/SalesforceSDK-Debug.zip"/>
+
+        <available file="${dependency.sdk.zip}" property="dependency.sdk.zip.present"/>
+        <antcall target="dependency.sdk.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.sdk.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.sdk.compile" unless="dependency.sdk.zip.present">
+        <ant dir="${subproject.sdk.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.sdk.clean">
+        <ant dir="${subproject.sdk.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceSDK"/>
+    </target>
+
+    <!-- dependency: SalesforceOAuth -->
+    <property name="subproject.oauth.dir" value="${iOSShared.basedir}/../SalesforceOAuth"/>
+
+    <target name="dependency.oauth.check">
+        <condition property="dependency.oauth.present">
+            <available file="${dependency.dir}/SalesforceOAuth" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.oauth" depends="dependency.oauth.check" unless="dependency.oauth.present">
+        <property name="dependency.oauth.zip" value="${subproject.oauth.dir}/sfdc_build/artifacts/SalesforceOAuth-Debug.zip"/>
+
+        <available file="${dependency.oauth.zip}" property="dependency.oauth.zip.present"/>
+        <antcall target="dependency.oauth.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.oauth.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.oauth.compile" unless="dependency.oauth.zip.present">
+        <ant dir="${subproject.oauth.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.oauth.clean">
+        <ant dir="${subproject.oauth.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceOAuth"/>
+    </target>
+
+    <!-- dependency: RestKit -->
+    <property name="subproject.restkit.dir" value="${iOSShared.basedir}/../RestKit"/>
+
+    <target name="dependency.restkit.check">
+        <condition property="dependency.restkit.present">
+            <available file="${dependency.dir}/RestKit" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.restkit" depends="dependency.restkit.check" unless="dependency.restkit.present">
+        <property name="dependency.restkit.zip" value="${subproject.restkit.dir}/sfdc_build/artifacts/RestKit-Debug.zip"/>
+
+        <available file="${dependency.restkit.zip}" property="dependency.restkit.zip.present"/>
+        <antcall target="dependency.restkit.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.restkit.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.restkit.compile" unless="dependency.restkit.zip.present">
+        <ant dir="${subproject.restkit.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.restkit.clean">
+        <ant dir="${subproject.restkit.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/RestKit"/>
+    </target>
+
+    <!-- dependency: SBJSON -->
+    <property name="subproject.sbjson.dir" value="${iOSShared.basedir}/../json-framework"/>
+
+    <target name="dependency.sbjson.check">
+        <condition property="dependency.sbjson.present">
+            <available file="${dependency.dir}/SBJSON" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.sbjson" depends="dependency.sbjson.check" unless="dependency.sbjson.present">
+        <property name="dependency.sbjson.zip" value="${subproject.sbjson.dir}/sfdc_build/artifacts/SBJSON-Debug.zip"/>
+
+        <available file="${dependency.sbjson.zip}" property="dependency.sbjson.zip.present"/>
+        <antcall target="dependency.sbjson.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.sbjson.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.sbjson.compile" unless="dependency.sbjson.zip.present">
+        <ant dir="${subproject.sbjson.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.sbjson.clean">
+        <ant dir="${subproject.sbjson.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SBJSON"/>
+    </target>
+</project>

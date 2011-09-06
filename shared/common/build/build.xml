@@ -1,0 +1,159 @@
+<!--
+    Common build file for iOS projects
+-->
+<project name="iOSCommon">
+    <dirname property="iOSCommon.basedir" file="${ant.file.iOSCommon}"/>
+
+    <!--[target] lipo: 
+        Generate a FAT binary composed of Device and Simulator binaries
+
+        @param library        Name of the library (e.g. libchatter.a)
+        @param outputDir      Location to save the fat result
+        @param buildDir       Path to the build result directory
+        @param configuration  Xcode build configuration to use (e.g. Debug, Release)
+    -->
+    <target name="lipo" description="Create fat static libraries">
+        <echo message="Creating FAT binary for ${library}" level="info" />
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg line="-create -output ${outputDir}/${library} ${buildDir}/${configuration}-iphoneos/${library} ${buildDir}/${configuration}-iphonesimulator/${library}"/>
+        </exec>
+    </target>
+
+    <!--[target] compress: 
+        Compress the given contents in a way that plays nice with Apple's iTunesConnect.
+
+        @param basedir  Base directory to compress
+        @param destfile Destination file to save the zip file to
+    -->
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k"/> <!-- PKZip format -->
+            <arg value="-c"/> <!-- compress -->
+            <arg value="--keepParent"/>
+            <arg value="--norsrc"/>
+            <arg value="${basedir}"/>
+            <arg file="${destfile}"/>
+        </exec>
+    </target>
+
+    <!--[target] doxygenDocumentation: 
+        Processes a Doxyfile config file and uses Doxygen to generate documentation, formatted
+        like Apple's own HTML documentation.
+
+        @param doxyfile  Path to the doxyfile configuration: defaults to "Doxyfile"
+        @param name      Name to use for the output documentation; will be used in the title
+        @param inputDir  Path to the source documentation
+        @param outputDir Where to save the resulting documentation
+    -->
+    <target name="doxygenDocumentation">
+        <property name="doxyfile" value="Doxyfile"/>
+
+        <echo message="Creating documentation" level="info" />
+        <delete dir="${outputDir}/RawDocs" />
+        <mkdir dir="${outputDir}/RawDocs" />
+        <exec executable="${iOSCommon.basedir}/tools/Doxygen.app/Contents/Resources/doxygen" failonerror="false" logError="false">
+            <env key="WORKSPACE" value="${env.WORKSPACE}"/>
+            <env key="OUTPUT" value="${outputDir}/RawDocs"/>
+            <arg line="${doxyfile}"/>
+        </exec>
+        <exec executable="${iOSCommon.basedir}/tools/doxyclean/doxyclean.py" failonerror="false" logError="false">
+            <arg line="--phone --name=&quot;${name}&quot; --input=${outputDir}/RawDocs/xml --output=${outputDir}"/>
+        </exec>
+        <delete dir="${outputDir}/RawDocs" />
+    </target>
+
+    <!--[target] appledocDocumentation: 
+        Generate Apple-like documentation using the "appledoc" command found here: http://www.gentlebytes.com/home/appledocapp/
+
+        @param globalSettings      Path to the global settings for your project: defaults to "AppledocSettings.plist"
+        @param additionalOptions   Additional command-line options to pass to appledoc
+        @param source              Path to the source documentation
+        @param output              Where to save the resulting documentation
+    -->
+    <target name="appledocDocumentation">
+        <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
+
+        <exec executable="echo">
+            <arg line="${iOSCommon.basedir}/tools/appledoc/bin/appledoc --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <exec executable="${iOSCommon.basedir}/tools/appledoc/bin/appledoc">
+            <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <delete file="${output}/docset-installed.txt"/>
+    </target>
+
+    <!--[target] getDependancy: 
+        Fetch dependencies from Jenkins.
+
+        @param srcpath  Path to where the source code root is for your project
+        @param url      URL for the dependency ZIP file to download
+    -->
+    <target name="getDependancy">
+        <echo message="Manually fetching dependency ${url}" level="info" />
+        <tempfile property="dependency.zip" deleteonexit="true" prefix="dependency" suffix=".zip"/>
+        <mkdir dir="${srcpath}/dependencies"/>
+
+        <exec executable="curl" failonerror="false" logError="true">
+            <arg line="-s -o ${dependency.zip} ${url}"/>
+        </exec>
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${srcpath}/dependencies ${dependency.zip}"/>
+        </exec>
+    </target>
+
+    <!--[target] makeIPA: 
+        Generate an IPA using Apple's own archiving command for easy installation on iTunes or OTA 
+
+        @param app_path        Path to the .app bundle to turn into an IPA
+        @param ipa_path        Path to the .ipa you want to generate
+        @param profile_path    Path to the .mobileprovision profile you want to embed (relative to the common profiles directory)
+        @param developer_name  The "developer name" you want to sign with
+        @param sdk             The SDK to generate it with; defaults to "iphoneos"
+    -->
+    <target name="makeIPA">
+        <property name="sdk" value="iphoneos"/>
+        <echo>Making IPA ${ipa_path}</echo>
+        <exec executable="xcrun" failonerror="true" logError="true">
+            <arg line="-sdk ${sdk} PackageApplication '${app_path}' -o '${ipa_path}' --sign '${developer_name}' --embed '${iOSCommon.basedir}/../provisioning/${profile_path}'"/>
+        </exec>
+    </target>
+
+    <!--[target] importLocalTestRunner: 
+        Use this to build and import dependencies from your local Perforce UnitTestRunner tree.
+        This assumes that you're following the standard Perforce branch structure.
+
+        @param projectDir             The path to the current project's "src" directory
+        @param basedir                The path to directory containing the current build.xml
+    -->
+    <target name="importLocalTestRunner">
+        <delete dir="${projectDir}/dependencies/UnitTestRunner"/>
+        <delete dir="${basedir}/../../../UnitTestRunner/main/build/artifacts"/>
+        <exec executable="ant" failonerror="true" logError="true">
+            <arg line="-buildfile ${basedir}/../../../UnitTestRunner/main/build/build.xml compileDebug"/>
+        </exec>
+        <copy todir="${projectDir}/dependencies/UnitTestRunner">
+            <fileset dir="${basedir}/../../../UnitTestRunner/main/build/artifacts/UnitTestRunner"/>
+        </copy>
+    </target>
+
+    <!--[target] importLocalSDK: 
+        Use this to build and import dependencies from your local Perforce SalesforceSDK tree.
+        This assumes that you're following the standard Perforce branch structure.
+
+        @param projectDir             The path to the current project's "src" directory
+        @param basedir                The path to directory containing the current build.xml
+    -->
+    <target name="importLocalSDK">
+        <delete dir="${projectDir}/dependencies/Debug"/>
+        <delete dir="${basedir}/../../../SalesforceSDK/main/build/artifacts/Debug"/>
+        <exec executable="ant" failonerror="true" logError="true">
+            <arg line="-buildfile ${basedir}/../../../SalesforceSDK/main/build/build.xml compileDebug.libraries"/>
+        </exec>
+        <copy todir="${projectDir}/dependencies/Debug">
+            <fileset dir="${basedir}/../../../SalesforceSDK/main/build/artifacts/Debug"/>
+        </copy>
+    </target>
+
+</project>
