@@ -32,7 +32,7 @@
     </target>
 
     <!-- dependency: SalesforceSDK -->
-    <property name="subproject.sdk.dir" value="${iOSShared.basedir}/../SalesforceSDK"/>
+    <property name="subproject.sdk.dir" value="${iOSShared.basedir}/../native/SalesforceSDK"/>
 
     <target name="dependency.sdk.check">
         <condition property="dependency.sdk.present">
@@ -61,7 +61,7 @@
     </target>
 
     <!-- dependency: SalesforceOAuth -->
-    <property name="subproject.oauth.dir" value="${iOSShared.basedir}/../SalesforceOAuth"/>
+    <property name="subproject.oauth.dir" value="${iOSShared.basedir}/../native/SalesforceOAuth"/>
 
     <target name="dependency.oauth.check">
         <condition property="dependency.oauth.present">
