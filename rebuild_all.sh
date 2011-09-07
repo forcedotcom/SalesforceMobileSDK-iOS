@@ -16,9 +16,9 @@ ant clean
 # now clean libraries with dependencies
 cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
 ant clean.full
-cd $CURRENT_DIR/native/SampleApp/RestAPIExplorer/sfdc_build
+cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant clean.full
-cd $CURRENT_DIR/hybrid/SampleApp/ContactExplorer/sfdc_build
+cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant clean.full
 
 # now rebuild everything, starting from the low level libraries
@@ -32,7 +32,7 @@ ant
 # now build libraries with dependencies
 cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
 ant
-cd $CURRENT_DIR/native/SampleApp/RestAPIExplorer/sfdc_build
+cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant
-cd $CURRENT_DIR/hybrid/SampleApp/ContactExplorer/sfdc_build
+cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant
