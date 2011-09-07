@@ -2,7 +2,7 @@
     Build file for SalesforceOAuth project
 -->
 <project name="SalesforceOAuth" default="all">
-    <import file="../../shared/build.xml"/>
+    <import file="../../../shared/build.xml"/>
 
     <property environment="env"/>
     <property name="env.BUILD_NUMBER" value="1"/>
