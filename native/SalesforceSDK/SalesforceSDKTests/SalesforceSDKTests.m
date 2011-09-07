@@ -425,7 +425,7 @@ NSString* const kDidTimeout = @"didTimeout";
         // restore token
         [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
         [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = validRefreshToken;
-        [[SFRestAPI sharedInstance].rkClient setValue:[NSString stringW`ithFormat:@"OAuth %@", validAccessToken] forHTTPHeaderField:@"Authorization"];        
+        [[SFRestAPI sharedInstance].rkClient setValue:[NSString stringWithFormat:@"OAuth %@", validAccessToken] forHTTPHeaderField:@"Authorization"];        
     }
 }
 @end
