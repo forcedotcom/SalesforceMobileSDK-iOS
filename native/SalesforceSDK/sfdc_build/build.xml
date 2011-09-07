@@ -1,0 +1,139 @@
+<project name="SalesforceSDK" default="all">
+    <import file="../../../shared/build.xml"/>
+
+    <property environment="env"/>
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" value=".."/>
+    <property name="artifacts.dir" location="artifacts"/>
+    <property name="dependency.dir" value="../dependencies"/>
+
+    <property name="xcodetemplate.fullname" value="Force.com-based Application.xctemplate"/>
+    <property name="xcodetemplate.base.dir" value="xcodetemplate_base"/>
+    <property name="xcodetemplate.dir" value="${project.dir}/../${xcodetemplate.fullname}"/>
+    <property name="xcodetemplate.install.dir" value="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/${xcodetemplate.fullname}"/>
+    <property name="xcodetemplate.dependency.dir" value="${xcodetemplate.dir}/dependencies"/>
+    
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="sdk.iphoneos" name="sdk.iphoneos" value="${platform.iphoneos}"/>
+    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <!-- main -->
+    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <delete dir="${artifacts.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="all" depends="pre, build" description="do it all"/>
+
+    <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
+        depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth">
+        <antcall target="compileDebug"/>
+        <antcall target="compileRelease"/>
+        <delete dir="${project.dir}/build"/>
+    </target>
+
+    <target name="compileDebug">
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration.debug}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="SalesforceSDK"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration.debug}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="SalesforceSDK"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <antcall target="iOSShared.lipo">
+            <param name="libname" value="libSalesforceSDK.a"/>
+        </antcall>
+
+        <delete dir="${artifacts.dir}/Simulator"/>
+
+        <antcall target="iOSCommon.compress">
+            <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
+            <param name="basedir" value="${artifacts.dir}/${target.name}"/>
+        </antcall>
+
+        <delete dir="${artifacts.dir}/${target.name}"/>
+    </target>
+
+    <target name="compileRelease">
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration.release}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="SalesforceSDK"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <!-- Generate the documentation -->
+        <antcall target="compileRelease.documentation"/>
+
+        <antcall target="iOSCommon.compress">
+            <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
+            <param name="basedir" value="${artifacts.dir}/${target.name}"/>
+        </antcall>
+
+        <!-- Copy the documentation out to the Artifacts root directory before we delete it -->
+        <delete dir="${project.dir}/Documentation" failonerror="false"/>
+        <copy todir="${project.dir}/Documentation">
+            <fileset dir="${artifacts.dir}/${target.name}/Documentation"/>
+        </copy>
+
+        <delete dir="${artifacts.dir}/${target.name}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="compileRelease.documentation">
+        <antcall target="iOSCommon.appledocDocumentation">
+            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
+            <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
+            <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
+        </antcall>
+        <antcall target="iOSCommon.appledocDocumentation">
+            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
+            <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
+            <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
+        </antcall>
+    </target>
+
+    <target name="clean.full"
+        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean">
+    </target>
+
+    <target name="xcodetemplate.create">
+        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        <copy todir="${xcodetemplate.dir}">
+            <fileset dir="${xcodetemplate.base.dir}"/>
+        </copy>
+        <copy todir="${xcodetemplate.dependency.dir}">
+            <fileset dir="${dependency.dir}"/>
+        </copy>
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d '${xcodetemplate.dependency.dir}' ${artifacts.dir}/${target.name}-Debug.zip"/>
+        </exec>
+    </target>
+
+    <target name="xcodetemplate.install" depends="xcodetemplate.create">
+        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+        <copy todir="${xcodetemplate.install.dir}">
+            <fileset dir="${xcodetemplate.dir}"/>
+        </copy>
+    </target>
+</project>
