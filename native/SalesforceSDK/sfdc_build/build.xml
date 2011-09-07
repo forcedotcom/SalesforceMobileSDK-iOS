@@ -36,6 +36,7 @@
         depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth">
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>
+        <antcall target="xcodetemplate.create"/>
         <delete dir="${project.dir}/build"/>
     </target>
 
