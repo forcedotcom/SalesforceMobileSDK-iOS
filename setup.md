@@ -11,3 +11,11 @@ submodules
 After you git clone, you need to initialize the submodules:
 
 `git submodule init; git submodule update; git submodule foreach git co master`
+
+merging
+==
+To pull changes from our public repo:
+
+`git fetch upstream`
+
+`git merge upstream/master`
