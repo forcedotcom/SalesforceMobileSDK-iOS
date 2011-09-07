@@ -30,6 +30,9 @@
         <antcall target="compileDebug"/>
 <!--        <antcall target="compileRelease"/>-->
 <!--        <delete dir="${project.dir}/build"/>-->
+        <move todir="${artifacts.dir}/build">
+            <fileset dir="../build"/>
+        </move>
     </target>
 
     <target name="compileDebug">
