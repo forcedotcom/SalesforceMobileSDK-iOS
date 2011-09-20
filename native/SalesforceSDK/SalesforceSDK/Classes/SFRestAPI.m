@@ -85,7 +85,11 @@ static SFRestAPI *_instance;
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
     NSLog(@"SFRestAPI::send:delegate: %@", request);
 
-    RKRequestDelegateWrapper *wrappedDelegate = [RKRequestDelegateWrapper wrapperWithDelegate:delegate request:request];
+    if (nil != delegate) {
+        request.delegate = delegate;
+    }
+    
+    RKRequestDelegateWrapper *wrappedDelegate = [RKRequestDelegateWrapper wrapperWithRequest:request];
     [wrappedDelegate send];
 }
 

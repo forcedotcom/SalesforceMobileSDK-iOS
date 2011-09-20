@@ -231,7 +231,8 @@ extern NSString* const kSFRestDefaultAPIVersion;
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
  * @param request the SFRestRequest to be sent
- * @param delegate the delegate object used when the response from the server is returned
+ * @param delegate the delegate object used when the response from the server is returned. 
+ * This overwrites the delegate property of the request.
  */
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
 
