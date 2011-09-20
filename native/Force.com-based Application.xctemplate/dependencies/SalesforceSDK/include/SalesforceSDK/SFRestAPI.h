@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFRestRequest.h"
 
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
@@ -42,39 +43,9 @@ extern NSInteger const kSFRestErrorCode;
 extern NSString* const kSFRestDefaultAPIVersion;
 
 
-@class SFRestRequest;
 @class SFOAuthCoordinator;
 @class RKClient;
 
-/**
- * Lifecycle events for SFRestRequests.
- */
-@protocol SFRestDelegate <NSObject>
-@optional
-/**
- * Sent when a request has finished loading.
- */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse;
-
-/**
- * Sent when a request has failed due to an error.
- * This includes HTTP network errors, as well as Salesforce errors
- * (for example, passing an invalid SOQL string when doing a query).
- */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
-
-/**
- * Sent to the delegate when a request was cancelled.
- */
-- (void)requestDidCancelLoad:(SFRestRequest *)request;
-
-/**
- * Sent to the delegate when a request has timed out. This is sent when a
- * backgrounded request expired before completion.
- */
-- (void)requestDidTimeout:(SFRestRequest *)request;
-    
-@end
 
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
@@ -84,13 +55,14 @@ extern NSString* const kSFRestDefaultAPIVersion;
 
  ## Initialization
  
- This class is initialized with `APIWithCoordinator:` after a successful
- OAuth authentication with Salesforce.
- After initialization, a singletion object
- is created, which can then be accessed using `[SFRestAPI sharedInstance]`.
+ This class is initialized with an SFOAuthCoordinator after a successful
+ OAuth authentication with Salesforce, by calling
+ [[SFRestAPI sharedInstance] setCoordinator:coordinator];
  
  The initialization is usually done in the method `oauthCoordinatorDidAuthenticate:coordinator:` of
  the class handling the OAuth connection.
+ 
+ After initialization, the singleton SFRestAPI can be accessed using `[SFRestAPI sharedInstance]`.
  
  Here is a full example (in the `ApplicationDelegate` class for instance):
  
@@ -118,7 +90,7 @@ extern NSString* const kSFRestDefaultAPIVersion;
     // The SFRestAPI can now be initialized
     - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
         [coordinator.view removeFromSuperview];
-        [SFRestAPI APIWithCoordinator:self.coordinator];
+        [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
         // ...
     }
  
@@ -212,21 +184,12 @@ extern NSString* const kSFRestDefaultAPIVersion;
 @property (nonatomic, retain) NSString *apiVersion;
 
 /**
- * Returns the configured singleton instance of `SFRestAPI`
+ * Returns the singleton instance of `SFRestAPI`
+ * After a successful oauth login with an SFOAuthCoordinator, you
+ * should set it as the coordinator property of this instance.
  */
 + (SFRestAPI *)sharedInstance;
 
-/**
- * Builds a new `SFResstApi` object with the supplied OAuth credentials.
- *
- * You don't need to keep a reference to this class. Once the class is created,
- * it gets assigned to the singleton instance `sharedInstance`
- * and can be retrieved by calling `[SFRestAPI sharedInstance]`
- * @warning This should only be called after a successful OAuth authentication
- * with Salesforce.
- * @see sharedInstance
- */
-+ (id)APIWithCoordinator:(SFOAuthCoordinator *)coordinator;
 
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.

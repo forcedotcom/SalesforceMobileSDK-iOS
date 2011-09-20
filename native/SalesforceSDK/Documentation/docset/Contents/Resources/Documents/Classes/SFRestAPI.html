@@ -41,8 +41,6 @@
 	
 	<option value="class_methods">Class Methods</option>
 	
-	<option value="//api/name/APIWithCoordinator:">&nbsp;&nbsp;&nbsp;&nbsp;+ APIWithCoordinator:</option>
-	
 	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
 	
 	
@@ -109,8 +107,6 @@
 
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/APIWithCoordinator:">APIWithCoordinator:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
 	
@@ -190,13 +186,14 @@ for more information regarding the Force.com REST API.</p>
 
 <h2>Initialization</h2>
 
-<p>This class is initialized with <code>APIWithCoordinator:</code> after a successful
-OAuth authentication with Salesforce.
-After initialization, a singletion object
-is created, which can then be accessed using <code>[SFRestAPI sharedInstance]</code>.</p>
+<p>This class is initialized with an SFOAuthCoordinator after a successful
+OAuth authentication with Salesforce, by calling
+[[SFRestAPI sharedInstance] setCoordinator:coordinator];</p>
 
 <p>The initialization is usually done in the method <code>oauthCoordinatorDidAuthenticate:coordinator:</code> of
 the class handling the OAuth connection.</p>
+
+<p>After initialization, the singleton SFRestAPI can be accessed using <code>[SFRestAPI sharedInstance]</code>.</p>
 
 <p>Here is a full example (in the <code>ApplicationDelegate</code> class for instance):</p>
 
@@ -224,7 +221,7 @@ didBeginAuthenticationWithView:(UIWebView *)view {
 // The SFRestAPI can now be initialized
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     [coordinator.view removeFromSuperview];
-    [SFRestAPI APIWithCoordinator:self.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     // ...
 }
 
@@ -328,14 +325,9 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v22
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
-		<span class="tooltip"><p>Returns the configured singleton instance of <code>SFRestAPI</code></p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/APIWithCoordinator:">+&nbsp;APIWithCoordinator:</a></code>
-		<span class="tooltip"><p>Builds a new <code>SFResstApi</code> object with the supplied OAuth credentials.</p></span>
+		<span class="tooltip"><p>Returns the singleton instance of <code>SFRestAPI</code>
+After a successful oauth login with an SFOAuthCoordinator, you
+should set it as the coordinator property of this instance.</p></span>
 	</span>
 	
 	
@@ -507,64 +499,15 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v22
 						<h2 class="subtitle subtitle-methods">Class Methods</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/APIWithCoordinator:" title="APIWithCoordinator:"></a>
-	<h3 class="subsubtitle method-title">APIWithCoordinator:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Builds a new <code>SFResstApi</code> object with the supplied OAuth credentials.</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>+ (id)APIWithCoordinator:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Builds a new <code>SFResstApi</code> object with the supplied OAuth credentials.</p>
-
-<p>You don&rsquo;t need to keep a reference to this class. Once the class is created,
-it gets assigned to the singleton instance <code>sharedInstance</code>
-and can be retrieved by calling <code>[SFRestAPI sharedInstance]</code></p><div class="warning"><p>This should only be called after a successful OAuth authentication
-with Salesforce.</p></div>
-	</div>
-	
-	
-	
-	
-	
-	<div class="method-subsection see-also-section">
-		<h4 class="method-subtitle">See Also</h4>
-		<ul>
-			
-			<li><code><p><a href="#//api/name/sharedInstance">+ sharedInstance</a></p></code></li>
-			
-		</ul>
-	</div>
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestAPI.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
 	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
 	<h3 class="subsubtitle method-title">sharedInstance</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Returns the configured singleton instance of <code>SFRestAPI</code></p>
+		<p>Returns the singleton instance of <code>SFRestAPI</code>
+After a successful oauth login with an SFOAuthCoordinator, you
+should set it as the coordinator property of this instance.</p>
 	</div>		
 	
 	
@@ -577,7 +520,9 @@ with Salesforce.</p></div>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Returns the configured singleton instance of <code>SFRestAPI</code></p>
+		<p>Returns the singleton instance of <code>SFRestAPI</code>
+After a successful oauth login with an SFOAuthCoordinator, you
+should set it as the coordinator property of this instance.</p>
 	</div>
 	
 	
@@ -1380,7 +1325,7 @@ This overwrites the delegate property of the request.</p></dd>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-09-19)</span><br />
+						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-09-20)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
