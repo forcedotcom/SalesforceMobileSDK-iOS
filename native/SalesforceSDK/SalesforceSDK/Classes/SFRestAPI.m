@@ -50,14 +50,11 @@ static SFRestAPI *_instance;
 
 #pragma mark - init/setup
 
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator {
+- (id)init {
     self = [super init];
     if (self) {
-        self.coordinator = coordinator;
         self.apiVersion = kSFRestDefaultAPIVersion;
-        self.rkClient = [RKClient clientWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
-        [_rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _coordinator.credentials.accessToken] forHTTPHeaderField:@"Authorization"];
-        [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        //note that rkClient is initially nil until we get a coordinator set
     }
     return self;
 }
@@ -70,14 +67,47 @@ static SFRestAPI *_instance;
 
 #pragma mark - singleton
 
-+ (id)APIWithCoordinator:(SFOAuthCoordinator *)coordinator {
-    [_instance release];
-    _instance = [[SFRestAPI alloc] initWithCoordinator:coordinator];
+
++ (SFRestAPI *)sharedInstance {
+    if (nil == _instance) {
+        _instance = [[SFRestAPI alloc] init];
+    }
     return _instance;
 }
 
-+ (SFRestAPI *)sharedInstance {
-    return _instance;
+#pragma mark - Properties
+
+- (RKClient *)rkClient {    
+    if (nil == _rkClient) {
+        if (nil != _coordinator) {
+            _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
+            [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [_rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _coordinator.credentials.accessToken] 
+             forHTTPHeaderField:@"Authorization"];
+        }
+    }
+    return _rkClient;
+}
+
+- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
+    if (![coordinator isEqual:_coordinator]) {
+        [_coordinator release];
+        _coordinator = [coordinator retain];
+        if (nil != _coordinator) {
+            if (nil != _rkClient) {
+                [self.rkClient setBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
+                [self.rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _coordinator.credentials.accessToken] 
+                     forHTTPHeaderField:@"Authorization"];
+            } else {
+                [self rkClient]; //touch to instantiate
+            }
+        } else {
+            //can't send requests without a coordinator's credentials
+            self.rkClient = nil; 
+        }
+        
+    }
+
 }
 
 #pragma mark - ajax methods
