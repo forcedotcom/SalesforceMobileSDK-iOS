@@ -31,6 +31,7 @@
 @synthesize queryParams=_queryParams;
 @synthesize path=_path;
 @synthesize method=_method;
+@synthesize delegate=_delegate;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
@@ -45,6 +46,7 @@
 - (void)dealloc {
     self.path = nil;
     self.queryParams = nil;
+    self.delegate = nil;
     [super dealloc];
 }
 

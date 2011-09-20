@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol SFRestDelegate;
+
 /**
  * HTTP methods for requests
  */
@@ -44,6 +46,7 @@ typedef enum SFRestMethod {
     SFRestMethod _method;
     NSString *_path;
     NSDictionary *_queryParams;
+    id<SFRestDelegate> _delegate;
 }
 
 
@@ -66,6 +69,13 @@ typedef enum SFRestMethod {
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
 @property (nonatomic, retain) NSDictionary *queryParams;
+
+
+/**
+ * The delegate for this request. Notified of request status.
+ */
+@property (nonatomic, assign) id<SFRestDelegate> delegate;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
