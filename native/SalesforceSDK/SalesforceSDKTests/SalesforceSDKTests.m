@@ -67,25 +67,27 @@ NSString* const kDidTimeout = @"didTimeout";
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"token" ofType:@"json"];
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
     
-    SBJsonParser *parser = [[[SBJsonParser alloc] init] autorelease];
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
     id jsonResponse = [parser objectWithData:tokenJson];
+    [parser release];
     
     NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
     NSString *accessToken = [dictResponse objectForKey:@"access_token"];
     NSString *refreshToken = [dictResponse objectForKey:@"refresh_token"];
     NSString *instanceUrl = [dictResponse objectForKey:@"instance_url"];
 
-    SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] initWithIdentifier:DEFAULT_CLIENT_ID] autorelease];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:DEFAULT_CLIENT_ID];
     credentials.domain = DEFAULT_HOST;
     credentials.redirectUri = DEFAULT_REDIRECT_URL;
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
     
-    SFOAuthCoordinator *coordinator = [[[SFOAuthCoordinator alloc] initWithCredentials:credentials] autorelease];
-    coordinator = [[[SFOAuthCoordinator alloc] initWithCredentials:credentials] autorelease];
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    [credentials release];
     
-    [SFRestAPI APIWithCoordinator:coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
+    [coordinator release];
 }
 
 // return true if request did load
