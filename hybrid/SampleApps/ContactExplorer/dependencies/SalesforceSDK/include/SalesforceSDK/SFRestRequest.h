@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SFRestDelegate;
 
 /**
  * HTTP methods for requests
@@ -37,6 +36,41 @@ typedef enum SFRestMethod {
     SFRestMethodHEAD,
     SFRestMethodPATCH,
 } SFRestMethod;
+
+
+//forward declaration
+@class SFRestRequest;
+
+/**
+ * Lifecycle events for SFRestRequests.
+ */
+@protocol SFRestDelegate <NSObject>
+@optional
+/**
+ * Sent when a request has finished loading.
+ */
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse;
+
+/**
+ * Sent when a request has failed due to an error.
+ * This includes HTTP network errors, as well as Salesforce errors
+ * (for example, passing an invalid SOQL string when doing a query).
+ */
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
+
+/**
+ * Sent to the delegate when a request was cancelled.
+ */
+- (void)requestDidCancelLoad:(SFRestRequest *)request;
+
+/**
+ * Sent to the delegate when a request has timed out. This is sent when a
+ * backgrounded request expired before completion.
+ */
+- (void)requestDidTimeout:(SFRestRequest *)request;
+
+@end
+
 
 /**
  * Request object used to send a REST request to Salesforce.com
