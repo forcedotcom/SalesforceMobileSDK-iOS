@@ -35,32 +35,31 @@
 
 @interface RKRequestDelegateWrapper (private)
 - (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams;
-- (id)initWithDelegate:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request;
+- (id)initWithRestRequest:(SFRestRequest *)request;
+
 @end
 
 @implementation RKRequestDelegateWrapper
 
-@synthesize delegate=_delegate;
 @synthesize request=_request;
 @synthesize previousOauthDelegate=_previousOauthDelegate;
 
 #pragma mark - init/setup
 
-- (id)initWithDelegate:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request {
+- (id)initWithRestRequest:(SFRestRequest *)request {
     self = [super init];
     if (self) {
-        self.delegate = delegate;
         self.request = request;
     }
     return self;
 }
 
-+ (id)wrapperWithDelegate:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request {
-    return [[[RKRequestDelegateWrapper alloc] initWithDelegate:delegate request:request] autorelease];
+
++ (id)wrapperWithRequest:(SFRestRequest *)request {
+    return [[[RKRequestDelegateWrapper alloc] initWithRestRequest:request] autorelease];
 }
 
 - (void)dealloc {
-    self.delegate = nil;
     self.request = nil;
     [super dealloc];
 }
@@ -121,6 +120,7 @@
         return;
     }
 
+    //TODO use builtin json framework if available?
     SBJsonParser *parser = [[[SBJsonParser alloc] init] autorelease];
     id jsonResponse = [parser objectWithData:response.body];
     if ([jsonResponse isKindOfClass:[NSArray class]]
@@ -136,8 +136,8 @@
         }
     }
 
-    if ([_delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
-        [_delegate request:_request didLoadResponse:jsonResponse];
+    if ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
+        [self.request.delegate request:_request didLoadResponse:jsonResponse];
     }
     [self release];
 }
@@ -145,22 +145,22 @@
 - (void)request:(RKRequest*)request didFailLoadWithError:(NSError*)error {
     // let's see if we have an expired session
     NSLog(@"error: %@", error);
-    if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
-        [_delegate request:_request didFailLoadWithError:error];
+    if ([self.request.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
+        [self.request.delegate request:_request didFailLoadWithError:error];
     }
     [self release];
 }
 
 - (void)requestDidCancelLoad:(RKRequest*)request {
-    if ([_delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
-        [_delegate requestDidCancelLoad:_request];
+    if ([self.request.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
+        [self.request.delegate requestDidCancelLoad:_request];
     }
     [self release];
 }
 
 - (void)requestDidTimeout:(RKRequest*)request {
-    if ([_delegate respondsToSelector:@selector(requestDidTimeout:)]) {
-        [_delegate requestDidTimeout:_request];
+    if ([self.request.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
+        [self.request.delegate requestDidTimeout:_request];
     }   
     [self release];
 }
@@ -191,7 +191,7 @@
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate with sessionid: %@, userId: %@", coordinator.credentials.accessToken, coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate");
 
     // the token exchange worked. Let's update the HTTP headers
     [self restoreOAuthDelegate];

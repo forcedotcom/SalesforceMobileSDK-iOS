@@ -105,7 +105,7 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 }
 
 - (void)loggedIn {
-    [SFRestAPI APIWithCoordinator:self.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
 
     // now show the true app view controller if it's not already shown
     if (![self.viewController isKindOfClass:RestAPIExplorerViewController.class]) {
