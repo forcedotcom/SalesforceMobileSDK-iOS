@@ -173,7 +173,7 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 }
 
 - (void)loggedIn {
-    [SFRestAPI APIWithCoordinator:self.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     
     if (!self.viewController) {
         // let's kickstart phonegap

@@ -30,16 +30,15 @@
 @class SFRestRequest;
 
 @interface RKRequestDelegateWrapper : NSObject<RKRequestDelegate, SFOAuthCoordinatorDelegate> {
-    id<SFRestDelegate> _delegate;
     SFRestRequest *_request;
     id<SFOAuthCoordinatorDelegate> _previousOauthDelegate;
 }
 
-@property (nonatomic, assign) id<SFRestDelegate>delegate;
 @property (nonatomic, retain) SFRestRequest *request;
 @property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOauthDelegate;
 
-+ (id)wrapperWithDelegate:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request;
++ (id)wrapperWithRequest:(SFRestRequest *)request;
 
 - (void)send;
+
 @end
