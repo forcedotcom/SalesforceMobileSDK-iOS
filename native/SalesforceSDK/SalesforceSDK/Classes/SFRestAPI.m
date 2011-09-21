@@ -29,6 +29,7 @@
 #import "SBJson.h"
 #import "SFOAuthCoordinator.h"
 #import "SFRestRequest.h"
+#import "SFSessionRefresher.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v22.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
@@ -48,16 +49,17 @@ static SFRestAPI *_instance;
 @synthesize apiVersion=_apiVersion;
 @synthesize rkClient=_rkClient;
 @synthesize activeRequests=_activeRequests;
+@synthesize sessionRefresher = _sessionRefresher;
 
 #pragma mark - init/setup
 
 - (id)init {
     self = [super init];
     if (self) {
-        NSMutableSet *managedRequests = [[NSMutableSet alloc] initWithCapacity:4];
-        self.activeRequests = managedRequests;
-        [managedRequests release];
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
+        _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
+        
         //note that rkClient is initially nil until we get a coordinator set
     }
     return self;
@@ -65,8 +67,9 @@ static SFRestAPI *_instance;
 
 - (void)dealloc {
     self.coordinator = nil;
+    [_sessionRefresher release]; _sessionRefresher = nil;
     self.rkClient = nil;
-    self.activeRequests = nil;
+    [_activeRequests release]; _activeRequests = nil;
     [super dealloc];
 }
 
@@ -81,10 +84,8 @@ static SFRestAPI *_instance;
 }
 
 + (void)clearSharedInstance {
-    
     [_instance release];
     _instance = nil;
-    
 }
 
 #pragma mark - Internal
