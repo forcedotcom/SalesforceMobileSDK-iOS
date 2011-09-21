@@ -29,6 +29,7 @@
 #import "SFRestRequest.h"
 #import "SFRestAPI+Internal.h"
 #import "SFOAuthCoordinator.h"
+#import "SFSessionRefresher.h"
 #import "RKRequestSerialization.h"
 
 #define KEY_ERROR_CODE @"errorCode"
@@ -42,7 +43,6 @@
 @implementation RKRequestDelegateWrapper
 
 @synthesize request=_request;
-@synthesize previousOauthDelegate=_previousOauthDelegate;
 
 #pragma mark - init/setup
 
@@ -112,13 +112,8 @@
 - (void)request:(RKRequest*)request didLoadResponse:(RKResponse*)response {
     // token has expired ?
     if ([response isUnauthorized]) {
-        NSLog(@"Got unauthorized response: refreshing access token");
-        // let's refresh the token
-        // but first, let's save the previous delegate
-        self.previousOauthDelegate = [SFRestAPI sharedInstance].coordinator.delegate;
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = nil;
-        [SFRestAPI sharedInstance].coordinator.delegate = self;
-        [[SFRestAPI sharedInstance].coordinator authenticate];
+        NSLog(@"Got unauthorized response");
+        [[SFRestAPI sharedInstance].sessionRefresher requestFailedDueToAuthFailure:self];
         return;
     }
 
@@ -167,49 +162,6 @@
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
-#pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)restoreOAuthDelegate {
-    [SFRestAPI sharedInstance].coordinator.delegate = self.previousOauthDelegate;
-    self.previousOauthDelegate = nil;
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");    
-    // we are in the token exchange flow so this should never happen
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
-    [self request:nil didFailLoadWithError:error];    
-
-    // we are creating a temp view here since the oauth library verifies that the view
-    // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
-    UIView *tempView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    [tempView addSubview:view];    
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate");
-
-    // the token exchange worked.
-    [self restoreOAuthDelegate];
-
-    // replay the request now
-    [self send];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-
-    // oauth error
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-    [self request:nil didFailLoadWithError:newError];    
-}
 
 @end

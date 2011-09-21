@@ -24,18 +24,15 @@
 
 #import <Foundation/Foundation.h>
 #import "RestKit.h"
-#import "SFOAuthCoordinator.h"
 #import "SFRestAPI.h"
 
 @class SFRestRequest;
 
-@interface RKRequestDelegateWrapper : NSObject<RKRequestDelegate, SFOAuthCoordinatorDelegate> {
+@interface RKRequestDelegateWrapper : NSObject<RKRequestDelegate> {
     SFRestRequest *_request;
-    id<SFOAuthCoordinatorDelegate> _previousOauthDelegate;
 }
 
 @property (nonatomic, retain) SFRestRequest *request;
-@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOauthDelegate;
 
 + (id)wrapperWithRequest:(SFRestRequest *)request;
 

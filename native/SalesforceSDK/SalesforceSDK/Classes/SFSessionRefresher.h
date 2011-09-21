@@ -22,26 +22,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
+#import "SFOAuthCoordinator.h"
 #import "SFRestAPI.h"
 
 @class RKRequestDelegateWrapper;
-@class SFSessionRefresher;
 
-@interface SFRestAPI () 
+@interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
+    id<SFOAuthCoordinatorDelegate> _previousOAuthDelegate;
+    NSMutableSet *_queuedRequests;
+    BOOL    _isRefreshing;
+}
 
+@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
 
-/**
- * Set of active RKRequestDelegateWrapper (requests) managed by us
- */
-@property (nonatomic, readonly, retain) NSMutableSet	*activeRequests;
-@property (nonatomic, readonly, retain) SFSessionRefresher *sessionRefresher;
-
-- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
+@property (assign) BOOL isRefreshing;
 
 /**
- * Release the sharedInstance: for testing.
+ * Tell the session refresher that this request failed due to oauth failure--
+ * this will kickoff a refresh of the access token if needed, and cause the
+ * request to be replayed when a new valid access token is available.
  */
-+ (void)clearSharedInstance;
+- (void)requestFailedDueToAuthFailure:(RKRequestDelegateWrapper*)req;
 
 @end
-
