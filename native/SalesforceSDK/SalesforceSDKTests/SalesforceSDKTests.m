@@ -46,6 +46,68 @@ NSString* const kDidCancel = @"didCancel";
 NSString* const kDidTimeout = @"didTimeout";
 
 
+@interface RequestListener : NSObject <SFRestDelegate> {
+    SFRestRequest *_originalRequest;
+    id _jsonResponse;
+    NSError *_lastError;
+    NSString *_returnStatus;
+}
+
+@property (nonatomic, retain) id jsonResponse;
+@property (nonatomic, retain) NSError *lastError;
+@property (nonatomic, retain) SFRestRequest *originalRequest;
+@property (nonatomic, retain) NSString *returnStatus;
+
+- (id)initWithRestRequest:(SFRestRequest*)request;
+
+@end
+
+@implementation RequestListener
+
+@synthesize originalRequest = _originalRequest;
+@synthesize jsonResponse = _jsonResponse;
+@synthesize lastError = _lastError;
+@synthesize returnStatus = _returnStatus;
+
+
+- (id)initWithRestRequest:(SFRestRequest*)request {
+    self = [super init];
+    if (nil != self) {
+        self.originalRequest = request;
+        request.delegate = self;
+        self.returnStatus = kWaiting;
+    }
+    
+    return self;
+}
+
+- (void)dealloc {
+    self.originalRequest = nil;
+    [super dealloc];
+}
+
+#pragma mark - SFRestDelegate
+
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
+    self.jsonResponse = jsonResponse;
+    self.returnStatus = kDidLoad;
+}
+
+- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
+    self.lastError = error;
+    self.returnStatus = kDidFail;
+}
+
+- (void)requestDidCancelLoad:(SFRestRequest *)request {
+    self.returnStatus = kDidCancel;
+}
+
+- (void)requestDidTimeout:(SFRestRequest *)request {
+    self.returnStatus = kDidTimeout;
+}
+
+@end
+
 @interface SalesforceSDKTests (private)
 + (NSString *)urlEncodeValue:(NSString *)str;
 + (void)readTokenFile;
@@ -123,18 +185,6 @@ NSString* const kDidTimeout = @"didTimeout";
     return self.apiReturnStatus;
 }
 
-- (void)sendAsyncRequest:(SFRestRequest *)request {
-    self.apiJsonResponse = nil;
-    self.apiError = nil;
-    self.apiErrorRequest = nil;
-    self.apiReturnStatus = kWaiting;
-    
-    [[SFRestAPI sharedInstance] send:request delegate:nil];
-    NSLog(@"## sleeping...");
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-
-}
-
 #pragma mark - SFRestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
@@ -189,7 +239,7 @@ NSString* const kDidTimeout = @"didTimeout";
     STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
 }
 
-// simple: just invoke requestForResources
+// simple: just invoke requestForDescribeGlobal
 - (void)testGetDescribeGlobal {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     [self sendSyncRequest:request];
@@ -471,9 +521,108 @@ NSString* const kDidTimeout = @"didTimeout";
 }
 
 
-- (void)testDelegateUnset {
+- (void)testDelegateSetUnset {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-    [self sendAsyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kWaiting, @"request completed?");
+    request.delegate = self;
+    self.apiJsonResponse = nil;
+    self.apiError = nil;
+    self.apiErrorRequest = nil;
+    self.apiReturnStatus = kWaiting;
+    
+    //delegate is already set on the request directly
+    [[SFRestAPI sharedInstance] send:request delegate:nil];
+    while ([self.apiReturnStatus isEqualToString:kWaiting]) {
+        NSLog(@"## sleeping...");
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+    
+    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    
+    //now unset the delegate and ensure we don't get called back
+    request.delegate = nil;
+    self.apiJsonResponse = nil;
+    self.apiError = nil;
+    self.apiErrorRequest = nil;
+    self.apiReturnStatus = kWaiting;
+    
+    [[SFRestAPI sharedInstance] send:request delegate:nil];
+    //no delegate means we'll never receive a callback
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+    STAssertEqualObjects(self.apiReturnStatus, kWaiting, @"received a callback when we shouldn't have");
+
 }
+
+
+// - set an invalid access token (simulate expired)
+// - make multiple simultaneous requests
+// - requests will fail in some arbitrary order
+// - ensure that a new access token is retrieved using refresh token
+// - ensure that all requests eventually succeed
+//
+-(void)testMultipleTransactionOauthFailures {
+    // save valid token
+    NSString *validAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+    @try {
+        // save invalid token
+        NSString *invalidAccessToken = @"xyz";
+        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
+        
+        // request (valid)
+        SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+        RequestListener *listener0 = [[[RequestListener alloc] initWithRestRequest:request0] autorelease];
+        
+        SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+        RequestListener *listener1 = [[[RequestListener alloc] initWithRestRequest:request1] autorelease];
+        
+        SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+        RequestListener *listener2 = [[[RequestListener alloc] initWithRestRequest:request2] autorelease];
+
+        SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+        RequestListener *listener3 = [[[RequestListener alloc] initWithRestRequest:request3] autorelease];
+        
+        SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+        RequestListener *listener4 = [[[RequestListener alloc] initWithRestRequest:request4] autorelease];
+       
+        //send two requests, both of which should fail with "unauthorized" 
+        [[SFRestAPI sharedInstance] send:request0 delegate:nil];
+        [[SFRestAPI sharedInstance] send:request1 delegate:nil];
+        [[SFRestAPI sharedInstance] send:request2 delegate:nil];
+        [[SFRestAPI sharedInstance] send:request3 delegate:nil];
+        [[SFRestAPI sharedInstance] send:request4 delegate:nil];
+        
+        NSDate *startTime = [NSDate date] ;
+        while ([listener0.returnStatus isEqualToString:kWaiting] || 
+               [listener1.returnStatus isEqualToString:kWaiting] ||
+               [listener2.returnStatus isEqualToString:kWaiting] ||
+               [listener3.returnStatus isEqualToString:kWaiting] ||
+               [listener4.returnStatus isEqualToString:kWaiting] 
+               ) {
+            NSLog(@"## sleeping...");
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+            NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
+            if (elapsed > 120.0) {
+                STAssertTrue(elapsed < 120.0, @"Transactions took too long to complete");
+                break;
+            }
+        }
+        
+        STAssertEqualObjects(listener0.returnStatus, kDidLoad, @"request0 failed");
+        STAssertEqualObjects(listener1.returnStatus, kDidLoad, @"request1 failed");
+        STAssertEqualObjects(listener2.returnStatus, kDidLoad, @"request2 failed");
+        STAssertEqualObjects(listener3.returnStatus, kDidLoad, @"request3 failed");
+        STAssertEqualObjects(listener4.returnStatus, kDidLoad, @"request4 failed");
+        
+        // let's make sure we have another access token
+        NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+
+        STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"token wasn't changed");
+        STAssertTrue([newAccessToken isEqualToString:validAccessToken], @"credentials.accessToken mismatch");
+        
+    }
+    @finally {
+        // restore token
+        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
+    }
+}
+
 @end

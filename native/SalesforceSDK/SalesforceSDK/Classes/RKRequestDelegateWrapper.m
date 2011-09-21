@@ -112,6 +112,7 @@
 - (void)request:(RKRequest*)request didLoadResponse:(RKResponse*)response {
     // token has expired ?
     if ([response isUnauthorized]) {
+        NSLog(@"Got unauthorized response: refreshing access token");
         // let's refresh the token
         // but first, let's save the previous delegate
         self.previousOauthDelegate = [SFRestAPI sharedInstance].coordinator.delegate;
