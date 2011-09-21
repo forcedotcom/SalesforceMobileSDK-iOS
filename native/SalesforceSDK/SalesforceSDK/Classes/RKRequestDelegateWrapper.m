@@ -27,7 +27,7 @@
 #import "RKResponse.h"
 #import "SBJson.h"
 #import "SFRestRequest.h"
-#import "SFRestAPI.h"
+#import "SFRestAPI+Internal.h"
 #import "SFOAuthCoordinator.h"
 #import "RKRequestSerialization.h"
 
@@ -76,7 +76,12 @@
 - (void)send {
     RKClient *rkClient = [SFRestAPI sharedInstance].rkClient;
     NSString *url = [NSString stringWithFormat:@"/services/data%@", _request.path];
-
+    SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
+    
+    //make sure we have the latest access token at the moment we send the request
+    [rkClient setValue:[NSString stringWithFormat:@"OAuth %@", coord.credentials.accessToken] 
+         forHTTPHeaderField:@"Authorization"];
+    
     if (_request.method == SFRestMethodGET) {
         [rkClient get:url queryParams:_request.queryParams delegate:self];
     }
@@ -98,12 +103,8 @@
         [rkClient post:newUrl params:[self formatParamsAsJson:_request.queryParams] delegate:self];
     }
 
-    // Note:
-    // We are retaining self,
-    // Otherwise its retain count would be 0 (the RKClient post/get/delete methods
-    // don't retain the delegate) and its memory will get reclaimed.
-    // Instead the callback delegate methods (RKRequestDelegate) will release the object as needed    
-    [self retain];
+    //Note: requests are now retained by the SFRestAPI in the activeRequests list
+
 }
 
 #pragma mark - RKRequestDelegate
@@ -139,7 +140,7 @@
     if ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
         [self.request.delegate request:_request didLoadResponse:jsonResponse];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)request:(RKRequest*)request didFailLoadWithError:(NSError*)error {
@@ -148,21 +149,21 @@
     if ([self.request.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
         [self.request.delegate request:_request didFailLoadWithError:error];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)requestDidCancelLoad:(RKRequest*)request {
     if ([self.request.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         [self.request.delegate requestDidCancelLoad:_request];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)requestDidTimeout:(RKRequest*)request {
     if ([self.request.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         [self.request.delegate requestDidTimeout:_request];
     }   
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
@@ -193,14 +194,11 @@
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     NSLog(@"oauthCoordinatorDidAuthenticate");
 
-    // the token exchange worked. Let's update the HTTP headers
+    // the token exchange worked.
     [self restoreOAuthDelegate];
-    NSString *newAccessToken = coordinator.credentials.accessToken;
-    [[SFRestAPI sharedInstance].rkClient setValue:[NSString stringWithFormat:@"OAuth %@", newAccessToken] forHTTPHeaderField:@"Authorization"];
 
     // replay the request now
     [self send];
-    [self release];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
