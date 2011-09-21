@@ -161,11 +161,17 @@ NSString* const kDidTimeout = @"didTimeout";
 #pragma mark - tests
 
 - (void)testSingletonStartup {
+    //this destroys the singleton created in setUp
     [SFRestAPI clearSharedInstance];
-    SFRestAPI *api = [SFRestAPI sharedInstance];
-    STAssertNil(api.coordinator, @"oauth coordinator should be initially nil");
-    STAssertNil(api.rkClient ,  @"rkClient should be initially nil");
-    [SFRestAPI clearSharedInstance];
+    @try {
+        SFRestAPI *api = [SFRestAPI sharedInstance];
+        STAssertNotNil(api, @"[SFRestAPI sharedInstance] should never return nil");
+        STAssertNil(api.coordinator, @"SFRestAPI.coordinator should be initially nil");
+        STAssertNil(api.rkClient ,  @"SFRestAPI.rkClient should be initially nil");
+    }
+    @finally {
+        [SFRestAPI clearSharedInstance];
+    }
 }
 
 
