@@ -43,6 +43,6 @@
  * this will kickoff a refresh of the access token if needed, and cause the
  * request to be replayed when a new valid access token is available.
  */
-- (void)requestFailedDueToAuthFailure:(RKRequestDelegateWrapper*)req;
+- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req;
 
 @end

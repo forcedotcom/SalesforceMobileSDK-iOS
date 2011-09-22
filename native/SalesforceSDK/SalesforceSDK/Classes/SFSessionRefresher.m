@@ -62,18 +62,30 @@
     
     return self;
 }
+
 - (void)dealloc {
     [self restoreOAuthDelegate];
     [_queuedRequests release]; _queuedRequests = nil;
     [super dealloc];
 }
 
-- (void)requestFailedDueToAuthFailure:(RKRequestDelegateWrapper*)req {
+#pragma mark - Public
+
+- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req {
     [_queuedRequests addObject:req];
     //check whether we're fetching new access token, kickoff if needed
     [self refreshAccessToken];
 }
 
+
+#pragma mark - Private
+
+- (void)restoreOAuthDelegate {
+    if (nil != self.previousOAuthDelegate) {
+        [SFRestAPI sharedInstance].coordinator.delegate = self.previousOAuthDelegate;
+        self.previousOAuthDelegate = nil;
+    }
+}
 
 - (void)refreshAccessToken {
     if (!self.isRefreshing) {
@@ -93,12 +105,7 @@
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)restoreOAuthDelegate {
-    if (nil != self.previousOAuthDelegate) {
-        [SFRestAPI sharedInstance].coordinator.delegate = self.previousOAuthDelegate;
-        self.previousOAuthDelegate = nil;
-    }
-}
+
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
@@ -107,6 +114,8 @@
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");    
     // we are in the token exchange flow so this should never happen
+    //TODO we should probably hand back control to the original coordinator delegate at this point,
+    //since we don't expect to be able to handle this condition!
     [self restoreOAuthDelegate];
     [coordinator stopAuthentication];
     NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
@@ -136,6 +145,7 @@
     [self failQueuedRequestsWithError:newError];
 }
 
+#pragma mark - Completion
 
 - (void)replayQueuedRequests {
     //replay all the queued requests

@@ -123,9 +123,7 @@ static SFRestAPI *_instance;
             //can't send requests without a coordinator's credentials
             self.rkClient = nil; 
         }
-        
     }
-
 }
 
 #pragma mark - ajax methods
