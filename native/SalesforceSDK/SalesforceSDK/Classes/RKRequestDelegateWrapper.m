@@ -113,7 +113,7 @@
     // token has expired ?
     if ([response isUnauthorized]) {
         NSLog(@"Got unauthorized response");
-        [[SFRestAPI sharedInstance].sessionRefresher requestFailedDueToAuthFailure:self];
+        [[SFRestAPI sharedInstance].sessionRefresher requestFailedUnauthorized:self];
         return;
     }
 

@@ -28,20 +28,10 @@
 
 @class TestRequestListener;
 
-@interface SalesforceSDKTests : SenTestCase <SFRestDelegate> {
-    // async/sync wrapper
-    id _apiJsonResponse;
-    NSError *_apiError;
-    SFRestRequest *_apiErrorRequest;
-    NSString *_apiReturnStatus;
-
+@interface SalesforceSDKTests : SenTestCase  {
+    /// The main request listener used when we only have one outstanding request
     TestRequestListener *_requestListener;
-    
 }
 
-@property (nonatomic, retain) id apiJsonResponse;
-@property (nonatomic, retain) NSError *apiError;
-@property (nonatomic, retain) SFRestRequest *apiErrorRequest;
-@property (nonatomic, retain) NSString *apiReturnStatus;
 
 @end

@@ -53,7 +53,7 @@ extern NSString* const kTestRequestStatusDidTimeout;
 /**
  * Wait for the request to complete (success or fail)
  * Waits for up to maxWaitTime.
- * @return returnStatus
+ * @return returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded
  */
 - (NSString *)waitForCompletion;
 
