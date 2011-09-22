@@ -45,6 +45,9 @@
  */
 - (void)failQueuedRequestsWithError:(NSError *)error;
 
+
+- (void)cleanupAfterRefresh;
+
 @end
 
 
@@ -56,6 +59,7 @@
 - (id)init {
     self = [super init];
     if (nil != self) {
+        _refreshLock = [[NSLock alloc] init];
         self.isRefreshing = NO;
         _queuedRequests = [[NSMutableSet alloc] initWithCapacity:5];
     }
@@ -65,6 +69,7 @@
 
 - (void)dealloc {
     [self restoreOAuthDelegate];
+    [_refreshLock release]; _refreshLock = nil;
     [_queuedRequests release]; _queuedRequests = nil;
     [super dealloc];
 }
@@ -88,7 +93,9 @@
 }
 
 - (void)refreshAccessToken {
-    if (!self.isRefreshing) {
+    
+    if ([_refreshLock tryLock]) {
+        //we now own the lock and can go crazy
         self.isRefreshing = YES;
         NSLog(@"Refreshing access token");
         SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
@@ -99,7 +106,9 @@
         coord.credentials.accessToken = nil;
         coord.delegate = self;
         [coord authenticate];
-    }
+    } 
+    //else somebody else owns the lock and will unlock once refresh completes
+
 }
 
 
@@ -133,6 +142,7 @@
     // the token exchange worked.
     [self restoreOAuthDelegate];
     [self replayQueuedRequests];
+    
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
@@ -146,6 +156,12 @@
 }
 
 #pragma mark - Completion
+
+- (void)cleanupAfterRefresh {
+    [_queuedRequests removeAllObjects];
+    self.isRefreshing = NO;
+    [_refreshLock unlock];
+}
 
 - (void)replayQueuedRequests {
     //replay all the queued requests
@@ -161,13 +177,13 @@
         }
     }
     
-    [_queuedRequests removeAllObjects];
-    self.isRefreshing = NO;
+    [self cleanupAfterRefresh];
 }
 
 - (void)failQueuedRequestsWithError:(NSError *)error {
     NSArray *allRequests = [_queuedRequests allObjects]; //no ordering preserved
     NSLog(@"failing %d requests",[allRequests count]);
+    
     for (RKRequestDelegateWrapper *req in allRequests) {
         @try {
             [req request:nil didFailLoadWithError:error];
@@ -177,7 +193,6 @@
         }
     }
     
-    [_queuedRequests removeAllObjects];
-    self.isRefreshing = NO;
+    [self cleanupAfterRefresh];
 }
 @end
