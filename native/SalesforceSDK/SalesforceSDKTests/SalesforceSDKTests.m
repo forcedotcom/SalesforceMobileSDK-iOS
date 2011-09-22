@@ -32,81 +32,15 @@
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
+#import "TestRequestListener.h"
 
-
+//TODO cleanup this stuff before publishing
+// -------------
 #define DEFAULT_HOST @"na1-blitz02.soma.salesforce.com"
 #define DEFAULT_CLIENT_ID @"3MVG9PhR6g6B7ps5qYgHpH7_y81rzx5N627yUg6rhQpEHUyz1ugyEV93J7yD3RKbyx0ANlspDFYy8EwGsY2p5"
 #define DEFAULT_REDIRECT_URL @"sfdc:///axm/detect/oauth/done"
+// -------------
 
-// easier than an enum to NSLog...
-NSString* const kWaiting = @"waiting";
-NSString* const kDidLoad = @"didLoad";
-NSString* const kDidFail = @"didFail";
-NSString* const kDidCancel = @"didCancel";
-NSString* const kDidTimeout = @"didTimeout";
-
-
-@interface RequestListener : NSObject <SFRestDelegate> {
-    SFRestRequest *_originalRequest;
-    id _jsonResponse;
-    NSError *_lastError;
-    NSString *_returnStatus;
-}
-
-@property (nonatomic, retain) id jsonResponse;
-@property (nonatomic, retain) NSError *lastError;
-@property (nonatomic, retain) SFRestRequest *originalRequest;
-@property (nonatomic, retain) NSString *returnStatus;
-
-- (id)initWithRestRequest:(SFRestRequest*)request;
-
-@end
-
-@implementation RequestListener
-
-@synthesize originalRequest = _originalRequest;
-@synthesize jsonResponse = _jsonResponse;
-@synthesize lastError = _lastError;
-@synthesize returnStatus = _returnStatus;
-
-
-- (id)initWithRestRequest:(SFRestRequest*)request {
-    self = [super init];
-    if (nil != self) {
-        self.originalRequest = request;
-        request.delegate = self;
-        self.returnStatus = kWaiting;
-    }
-    
-    return self;
-}
-
-- (void)dealloc {
-    self.originalRequest = nil;
-    [super dealloc];
-}
-
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    self.jsonResponse = jsonResponse;
-    self.returnStatus = kDidLoad;
-}
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    self.lastError = error;
-    self.returnStatus = kDidFail;
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    self.returnStatus = kDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kDidTimeout;
-}
-
-@end
 
 @interface SalesforceSDKTests (private)
 + (NSString *)urlEncodeValue:(NSString *)str;
@@ -126,6 +60,7 @@ NSString* const kDidTimeout = @"didTimeout";
 - (void)setUp
 {
     // Set-up code here.
+    [_requestListener release]; _requestListener = nil;
     if (nil == [[SFRestAPI sharedInstance] coordinator]) {
         [[self class] readTokenFile];
     }
@@ -169,15 +104,18 @@ NSString* const kDidTimeout = @"didTimeout";
     [coordinator release];
 }
 
-// return true if request did load
+
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
+    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    //TODO replace local response handling with TestRequestListener
+    
     self.apiJsonResponse = nil;
     self.apiError = nil;
     self.apiErrorRequest = nil;
-    self.apiReturnStatus = kWaiting;
+    self.apiReturnStatus = kTestRequestStatusWaiting;
     
     [[SFRestAPI sharedInstance] send:request delegate:self];
-    while ([self.apiReturnStatus isEqualToString:kWaiting]) {
+    while ([self.apiReturnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSLog(@"## sleeping...");
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
@@ -189,22 +127,22 @@ NSString* const kDidTimeout = @"didTimeout";
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
     self.apiJsonResponse = jsonResponse;
-    self.apiReturnStatus = kDidLoad;
+    self.apiReturnStatus = kTestRequestStatusDidLoad;
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
     self.apiError = error;
-    self.apiReturnStatus = kDidFail;
+    self.apiReturnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
     self.apiErrorRequest = request;
-    self.apiReturnStatus = kDidCancel;
+    self.apiReturnStatus = kTestRequestStatusDidCancel;
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
     self.apiErrorRequest = request;
-    self.apiReturnStatus = kDidTimeout;
+    self.apiReturnStatus = kTestRequestStatusDidTimeout;
 }
 
 
@@ -229,35 +167,35 @@ NSString* const kDidTimeout = @"didTimeout";
 - (void)testGetVersions {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForDescribeGlobal
 - (void)testGetDescribeGlobal {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
 - (void)testGetMetadataWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:@"Contact"];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForDescribeWithObjectType:@"Contact"
 - (void)testGetDescribeWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Contact"];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // - create object (requestForCreateWithObjectType)
@@ -282,7 +220,7 @@ NSString* const kDidTimeout = @"didTimeout";
 
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // make sure we got an id
     NSString *contactId = [[[(NSDictionary *)self.apiJsonResponse objectForKey:@"id"] retain] autorelease];
@@ -292,28 +230,28 @@ NSString* const kDidTimeout = @"didTimeout";
         // try to retrieve object with id
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         STAssertEqualObjects(lastName, [(NSDictionary *)self.apiJsonResponse objectForKey:@"LastName"], @"invalid last name");
         STAssertEqualObjects(@"John", [(NSDictionary *)self.apiJsonResponse objectForKey:@"FirstName"], @"invalid first name");
         
         // try to retrieve again, passing a list of fields
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:@"LastName, FirstName"];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         STAssertEqualObjects(lastName, [(NSDictionary *)self.apiJsonResponse objectForKey:@"LastName"], @"invalid last name");
         STAssertEqualObjects(@"John", [(NSDictionary *)self.apiJsonResponse objectForKey:@"FirstName"], @"invalid first name");
         
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         NSArray *records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
         // now search object
         request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = (NSArray *)self.apiJsonResponse;
         STAssertEquals((int)[records count], 1, @"expected just one search result");
     }
@@ -321,20 +259,20 @@ NSString* const kDidTimeout = @"didTimeout";
         // now delete object
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     }
     
     // well, let's do another query just to be sure
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
 
     // now search object
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     records = (NSArray *)self.apiJsonResponse;
     STAssertEquals((int)[records count], 0, @"expected no result");
 }
@@ -358,7 +296,7 @@ NSString* const kDidTimeout = @"didTimeout";
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // make sure we got an id
     NSString *contactId = [[[(NSDictionary *)self.apiJsonResponse objectForKey:@"id"] retain] autorelease];
@@ -369,7 +307,7 @@ NSString* const kDidTimeout = @"didTimeout";
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         NSArray *records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
@@ -379,19 +317,19 @@ NSString* const kDidTimeout = @"didTimeout";
                                        nil];
         request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:@"Contact" objectId:contactId fields:updatedFields];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");        
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");        
         
         // query updated object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]]; 
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
 
         // let's make sure the old object is not there anymore
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 0, @"expected no result");
     }
@@ -399,13 +337,13 @@ NSString* const kDidTimeout = @"didTimeout";
         // now delete object
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     }
     
     // well, let's do another query just to be sure
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = [(NSDictionary *)self.apiJsonResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
 }
@@ -414,7 +352,7 @@ NSString* const kDidTimeout = @"didTimeout";
 - (void)testSOQLError {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidFail, @"request was supposed to fail");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
     STAssertEqualObjects(self.apiError.domain, kSFRestErrorDomain, @"invalid domain");
     STAssertEquals(self.apiError.code, kSFRestErrorCode, @"invalid code");
 }
@@ -423,7 +361,7 @@ NSString* const kDidTimeout = @"didTimeout";
 - (void)testRetrieveError {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"xyz" fieldList:nil];
     [self sendSyncRequest:request];
-    STAssertEqualObjects(self.apiReturnStatus, kDidFail, @"request was supposed to fail");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     STAssertEqualObjects(self.apiError.domain, kSFRestErrorDomain, @"invalid domain");
     STAssertEquals(self.apiError.code, kSFRestErrorCode, @"invalid code");
 }
@@ -445,7 +383,7 @@ NSString* const kDidTimeout = @"didTimeout";
         // request (valid)
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
         NSLog(@"latest access token: %@", [SFRestAPI sharedInstance].coordinator.credentials.accessToken);
         
         // let's make sure we have another access token
@@ -477,7 +415,7 @@ NSString* const kDidTimeout = @"didTimeout";
         // request (invalid)
         SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidFail, @"request was supposed to fail");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
 
         // let's make sure we have another access token
         NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
@@ -508,7 +446,7 @@ NSString* const kDidTimeout = @"didTimeout";
         // request (valid)
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
         [self sendSyncRequest:request];
-        STAssertEqualObjects(self.apiReturnStatus, kDidFail, @"request should have failed");
+        STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidFail, @"request should have failed");
         STAssertEqualObjects(self.apiError.domain, kSFOAuthErrorDomain, @"invalid domain");
         STAssertEquals(self.apiError.code, kSFRestErrorCode, @"invalid code");
         STAssertNotNil(self.apiError.userInfo, nil);
@@ -527,28 +465,28 @@ NSString* const kDidTimeout = @"didTimeout";
     self.apiJsonResponse = nil;
     self.apiError = nil;
     self.apiErrorRequest = nil;
-    self.apiReturnStatus = kWaiting;
+    self.apiReturnStatus = kTestRequestStatusWaiting;
     
     //delegate is already set on the request directly
     [[SFRestAPI sharedInstance] send:request delegate:nil];
-    while ([self.apiReturnStatus isEqualToString:kWaiting]) {
+    while ([self.apiReturnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSLog(@"## sleeping...");
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     
-    STAssertEqualObjects(self.apiReturnStatus, kDidLoad, @"request failed");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     //now unset the delegate and ensure we don't get called back
     request.delegate = nil;
     self.apiJsonResponse = nil;
     self.apiError = nil;
     self.apiErrorRequest = nil;
-    self.apiReturnStatus = kWaiting;
+    self.apiReturnStatus = kTestRequestStatusWaiting;
     
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     //no delegate means we'll never receive a callback
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-    STAssertEqualObjects(self.apiReturnStatus, kWaiting, @"received a callback when we shouldn't have");
+    STAssertEqualObjects(self.apiReturnStatus, kTestRequestStatusWaiting, @"received a callback when we shouldn't have");
 
 }
 
@@ -569,21 +507,21 @@ NSString* const kDidTimeout = @"didTimeout";
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        RequestListener *listener0 = [[[RequestListener alloc] initWithRestRequest:request0] autorelease];
+        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRestRequest:request0] autorelease];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        RequestListener *listener1 = [[[RequestListener alloc] initWithRestRequest:request1] autorelease];
+        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRestRequest:request1] autorelease];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        RequestListener *listener2 = [[[RequestListener alloc] initWithRestRequest:request2] autorelease];
+        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRestRequest:request2] autorelease];
 
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        RequestListener *listener3 = [[[RequestListener alloc] initWithRestRequest:request3] autorelease];
+        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRestRequest:request3] autorelease];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        RequestListener *listener4 = [[[RequestListener alloc] initWithRestRequest:request4] autorelease];
+        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRestRequest:request4] autorelease];
        
-        //send two requests, both of which should fail with "unauthorized" 
+        //send multiple requests, all of which should fail with "unauthorized" 
         [[SFRestAPI sharedInstance] send:request0 delegate:nil];
         [[SFRestAPI sharedInstance] send:request1 delegate:nil];
         [[SFRestAPI sharedInstance] send:request2 delegate:nil];
@@ -591,11 +529,11 @@ NSString* const kDidTimeout = @"didTimeout";
         [[SFRestAPI sharedInstance] send:request4 delegate:nil];
         
         NSDate *startTime = [NSDate date] ;
-        while ([listener0.returnStatus isEqualToString:kWaiting] || 
-               [listener1.returnStatus isEqualToString:kWaiting] ||
-               [listener2.returnStatus isEqualToString:kWaiting] ||
-               [listener3.returnStatus isEqualToString:kWaiting] ||
-               [listener4.returnStatus isEqualToString:kWaiting] 
+        while ([listener0.returnStatus isEqualToString:kTestRequestStatusWaiting] || 
+               [listener1.returnStatus isEqualToString:kTestRequestStatusWaiting] ||
+               [listener2.returnStatus isEqualToString:kTestRequestStatusWaiting] ||
+               [listener3.returnStatus isEqualToString:kTestRequestStatusWaiting] ||
+               [listener4.returnStatus isEqualToString:kTestRequestStatusWaiting] 
                ) {
             NSLog(@"## sleeping...");
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
@@ -606,13 +544,13 @@ NSString* const kDidTimeout = @"didTimeout";
             }
         }
         
-        STAssertEqualObjects(listener0.returnStatus, kDidLoad, @"request0 failed");
-        STAssertEqualObjects(listener1.returnStatus, kDidLoad, @"request1 failed");
-        STAssertEqualObjects(listener2.returnStatus, kDidLoad, @"request2 failed");
-        STAssertEqualObjects(listener3.returnStatus, kDidLoad, @"request3 failed");
-        STAssertEqualObjects(listener4.returnStatus, kDidLoad, @"request4 failed");
+        STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
+        STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
+        STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
+        STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
+        STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
         
-        // let's make sure we have another access token
+        // let's make sure we have a new access token
         NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
 
         STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"token wasn't changed");

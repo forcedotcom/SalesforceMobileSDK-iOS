@@ -22,26 +22,40 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <Foundation/Foundation.h>
 
-#import "SFRestAPI.h"
+#import "SFRestRequest.h"
 
-@class TestRequestListener;
+extern NSString* const kTestRequestStatusWaiting;
+extern NSString* const kTestRequestStatusDidLoad;
+extern NSString* const kTestRequestStatusDidFail;
+extern NSString* const kTestRequestStatusDidCancel;
+extern NSString* const kTestRequestStatusDidTimeout;
 
-@interface SalesforceSDKTests : SenTestCase <SFRestDelegate> {
-    // async/sync wrapper
-    id _apiJsonResponse;
-    NSError *_apiError;
-    SFRestRequest *_apiErrorRequest;
-    NSString *_apiReturnStatus;
-
-    TestRequestListener *_requestListener;
-    
+@interface TestRequestListener : NSObject <SFRestDelegate> {
+    SFRestRequest *_originalRequest;
+    id _jsonResponse;
+    NSError *_lastError;
+    NSString *_returnStatus;
+    NSTimeInterval _maxWaitTime;
 }
 
-@property (nonatomic, retain) id apiJsonResponse;
-@property (nonatomic, retain) NSError *apiError;
-@property (nonatomic, retain) SFRestRequest *apiErrorRequest;
-@property (nonatomic, retain) NSString *apiReturnStatus;
+@property (nonatomic, retain) SFRestRequest *originalRequest;
+@property (nonatomic, retain) id jsonResponse;
+@property (nonatomic, retain) NSError *lastError;
+@property (nonatomic, retain) NSString *returnStatus;
+
+/// Max time to wait for request completion
+@property (nonatomic, assign) NSTimeInterval maxWaitTime;
+
+- (id)initWithRestRequest:(SFRestRequest*)request;
+
+/**
+ * Wait for the request to complete (success or fail)
+ * Waits for up to maxWaitTime.
+ * @return returnStatus
+ */
+- (NSString *)waitForCompletion;
 
 @end
+
