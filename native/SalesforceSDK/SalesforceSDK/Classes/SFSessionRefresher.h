@@ -31,12 +31,13 @@
 @interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
     id<SFOAuthCoordinatorDelegate> _previousOAuthDelegate;
     NSMutableSet *_queuedRequests;
+    NSLock *_refreshLock;
     BOOL    _isRefreshing;
 }
 
 @property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
 
-@property (assign) BOOL isRefreshing;
+@property (nonatomic, assign) BOOL isRefreshing;
 
 /**
  * Tell the session refresher that this request failed due to oauth failure--
