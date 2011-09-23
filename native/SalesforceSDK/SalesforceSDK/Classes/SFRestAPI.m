@@ -22,13 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFRestAPI.h"
+#import "SFRestAPI+Internal.h"
 
 #import "RKRequestDelegateWrapper.h"
 #import "RestKit.h"
 #import "SBJson.h"
 #import "SFOAuthCoordinator.h"
 #import "SFRestRequest.h"
+#import "SFSessionRefresher.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v22.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
@@ -47,13 +48,18 @@ static SFRestAPI *_instance;
 @synthesize coordinator=_coordinator;
 @synthesize apiVersion=_apiVersion;
 @synthesize rkClient=_rkClient;
+@synthesize activeRequests=_activeRequests;
+@synthesize sessionRefresher = _sessionRefresher;
 
 #pragma mark - init/setup
 
 - (id)init {
     self = [super init];
     if (self) {
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
+        _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
+        
         //note that rkClient is initially nil until we get a coordinator set
     }
     return self;
@@ -61,7 +67,9 @@ static SFRestAPI *_instance;
 
 - (void)dealloc {
     self.coordinator = nil;
+    [_sessionRefresher release]; _sessionRefresher = nil;
     self.rkClient = nil;
+    [_activeRequests release]; _activeRequests = nil;
     [super dealloc];
 }
 
@@ -75,6 +83,18 @@ static SFRestAPI *_instance;
     return _instance;
 }
 
++ (void)clearSharedInstance {
+    [_instance release];
+    _instance = nil;
+}
+
+#pragma mark - Internal
+
+- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request {
+    [self.activeRequests removeObject:request]; //this will typically release the request
+}
+
+
 #pragma mark - Properties
 
 - (RKClient *)rkClient {    
@@ -82,8 +102,7 @@ static SFRestAPI *_instance;
         if (nil != _coordinator) {
             _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            [_rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _coordinator.credentials.accessToken] 
-             forHTTPHeaderField:@"Authorization"];
+            //Authorization header (access token) is now set the moment before we actually send the request
         }
     }
     return _rkClient;
@@ -96,8 +115,7 @@ static SFRestAPI *_instance;
         if (nil != _coordinator) {
             if (nil != _rkClient) {
                 [self.rkClient setBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
-                [self.rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _coordinator.credentials.accessToken] 
-                     forHTTPHeaderField:@"Authorization"];
+                //Authorization header (access token) is now set the moment before we actually send the request
             } else {
                 [self rkClient]; //touch to instantiate
             }
@@ -105,9 +123,7 @@ static SFRestAPI *_instance;
             //can't send requests without a coordinator's credentials
             self.rkClient = nil; 
         }
-        
     }
-
 }
 
 #pragma mark - ajax methods
@@ -120,6 +136,7 @@ static SFRestAPI *_instance;
     }
     
     RKRequestDelegateWrapper *wrappedDelegate = [RKRequestDelegateWrapper wrapperWithRequest:request];
+    [self.activeRequests addObject:wrappedDelegate];
     [wrappedDelegate send];
 }
 

@@ -22,16 +22,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
-
+#import <Foundation/Foundation.h>
+#import "SFOAuthCoordinator.h"
 #import "SFRestAPI.h"
 
-@class TestRequestListener;
+@class RKRequestDelegateWrapper;
 
-@interface SalesforceSDKTests : SenTestCase  {
-    /// The main request listener used when we only have one outstanding request
-    TestRequestListener *_requestListener;
+@interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
+    id<SFOAuthCoordinatorDelegate> _previousOAuthDelegate;
+    NSMutableSet *_queuedRequests;
+    NSLock *_refreshLock;
+    BOOL    _isRefreshing;
 }
 
+@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
+
+@property (nonatomic, assign) BOOL isRefreshing;
+
+/**
+ * Tell the session refresher that this request failed due to oauth failure--
+ * this will kickoff a refresh of the access token if needed, and cause the
+ * request to be replayed when a new valid access token is available.
+ */
+- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req;
 
 @end
