@@ -148,7 +148,7 @@
                                  ? nil
                                  : (NSDictionary *)[params JSONValue]);
     SFRestMethod method = _segmentMethod.selectedSegmentIndex;
-    NSString *path = _tfPath.text;
+    NSString *path = self.tfPath.text;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
     [[SFRestAPI sharedInstance] send:request delegate:self];
@@ -162,10 +162,13 @@
         return;
     }
 
-    QueryListViewController *popoverContent = [[[QueryListViewController alloc] initWithAppViewController:self] autorelease];
+    QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
     popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 600);
     
-    self.popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
+    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
+    self.popoverController = myPopover;
+    [myPopover release];
+    [popoverContent release];
     
     [self.popoverController presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny 
@@ -175,17 +178,17 @@
 - (void)popoverOptionSelected:(NSString *)text {
     [self.popoverController dismissPopoverAnimated:YES];
 
-    SFRestRequest *request;
+    SFRestRequest *request = nil;
 
     // collect all the textfield values
-    NSString *objectType = _tfObjectType.text;
-    NSString *objectId = _tfObjectId.text;
-    NSString *fieldList = _tfFieldList.text;
-    NSDictionary *fields = [_tvFields.text JSONValue];
-    NSString *search = _tfSearch.text;
-    NSString *query = _tfQuery.text;
-    NSString *externalId = _tfExternalId.text;
-    NSString *externalFieldId = _tfExternalFieldId.text;
+    NSString *objectType = self.tfObjectType.text;
+    NSString *objectId = self.tfObjectId.text;
+    NSString *fieldList = self.tfFieldList.text;
+    NSDictionary *fields = [self.tvFields.text JSONValue];
+    NSString *search = self.tfSearch.text;
+    NSString *query = self.tfQuery.text;
+    NSString *externalId = self.tfExternalId.text;
+    NSString *externalFieldId = self.tfExternalFieldId.text;
     
     // make sure we set the value to nil if the field is empty
     if (!objectType.length)
@@ -282,13 +285,16 @@
         RestAPIExplorerAppDelegate *appDelegate = (RestAPIExplorerAppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate logout];
         return;
+    } 
+    
+    //don't attempt to send a nil request
+    if (nil != request) {
+        self.tfPath.text = request.path;
+        self.tvParams.text = [request.queryParams JSONRepresentation];
+        self.segmentMethod.selectedSegmentIndex = request.method;
+
+        [[SFRestAPI sharedInstance] send:request delegate:self];    
     }
-
-    _tfPath.text = request.path;
-    _tvParams.text = [request.queryParams JSONRepresentation];
-    _segmentMethod.selectedSegmentIndex = request.method;
-
-    [[SFRestAPI sharedInstance] send:request delegate:self];    
 }
 
 
