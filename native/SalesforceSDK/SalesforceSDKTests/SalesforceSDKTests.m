@@ -33,32 +33,21 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
-
-//TODO cleanup this stuff before publishing
-// These are defined in the Remote Access object in the org
-// -------------
-#define DEFAULT_CLIENT_ID @"3MVG9PhR6g6B7ps5qYgHpH7_y81rzx5N627yUg6rhQpEHUyz1ugyEV93J7yD3RKbyx0ANlspDFYy8EwGsY2p5"
-#define DEFAULT_REDIRECT_URL @"sfdc:///axm/detect/oauth/done"
-// -------------
+#import "TestSetupUtils.h"
 
 
-@interface SalesforceSDKTests (private)
-+ (NSString *)urlEncodeValue:(NSString *)str;
-+ (void)readTokenFile;
+@interface SalesforceSDKTests (Private)
 - (NSString *)sendSyncRequest:(SFRestRequest *)request;
 @end
 
+
 @implementation SalesforceSDKTests
-
-
 
 - (void)setUp
 {
     // Set-up code here.
     [_requestListener release]; _requestListener = nil;
-    if (nil == [[SFRestAPI sharedInstance] coordinator]) {
-        [[self class] readTokenFile];
-    }
+    [TestSetupUtils ensureCredentialsLoaded];
     [super setUp];
 }
 
@@ -70,36 +59,6 @@
 
 
 #pragma mark - help methods
-
-+ (void)readTokenFile {
-    // so, the shell script run at build time will have fetched the refresh token, etc...
-    NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"token" ofType:@"json"];
-    NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
-    
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    id jsonResponse = [parser objectWithData:tokenJson];
-    [parser release];
-    
-    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
-    NSString *accessToken = [dictResponse objectForKey:@"access_token"];
-    NSString *refreshToken = [dictResponse objectForKey:@"refresh_token"];
-    NSString *instanceUrl = [dictResponse objectForKey:@"instance_url"];
-
-    NSURL *fullInstanceUrl = [NSURL URLWithString:instanceUrl];
-    
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:DEFAULT_CLIENT_ID];
-    credentials.domain = [fullInstanceUrl host];
-    credentials.redirectUri = DEFAULT_REDIRECT_URL;
-    credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
-    credentials.accessToken = accessToken;
-    credentials.refreshToken = refreshToken;
-    
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-    [credentials release];
-    
-    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
-    [coordinator release];
-}
 
 
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
