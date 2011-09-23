@@ -41,15 +41,11 @@
     }
 }
 
-/**
- Forces a reload of authorization credentials from the configuration file.
- Normally you'd call ensureCredentialsLoaded unless you wish to force a reload.
- @see ensureCredentialsLoaded
- */
 + (void)readCredentialsConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
-    NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
+    NSAssert(nil != tokenPath,@"Test config file not found!");
     
+    NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     id jsonResponse = [parser objectWithData:tokenJson];
     [parser release];
@@ -59,21 +55,25 @@
     NSString *refreshToken = [dictResponse objectForKey:@"refresh_token"];
     NSString *instanceUrl = [dictResponse objectForKey:@"instance_url"];
     
-    //The following two items MUST match the Remote Access object configuration from your sandbox test org
+    //The following items MUST match the Remote Access object configuration from your sandbox test org
     NSString *clientID = [dictResponse objectForKey:@"test_client_id"];
     NSString *redirectUri = [dictResponse objectForKey:@"test_redirect_uri"];
-    
+    NSString *loginDomain = [dictResponse objectForKey:@"test_login_domain"];
+
     NSAssert1(nil != refreshToken &&
               nil != clientID &&
               nil != redirectUri &&
+              nil != loginDomain &&
               nil != instanceUrl, @"config credentials are missing! %@",
               dictResponse);
 
-    NSURL *fullInstanceUrl = [NSURL URLWithString:instanceUrl];
+    //check whether the test config file has never been edited
+    NSAssert(![refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
+             @"You need to obtain credentials for your test org and replace test_credentials.json");
     
     SFOAuthCredentials *credentials =
     [[SFOAuthCredentials alloc] initWithIdentifier:clientID];
-    credentials.domain = [fullInstanceUrl host];
+    credentials.domain = loginDomain;
     credentials.redirectUri = redirectUri; 
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
