@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */; };
+		7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */; };
+		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
+		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
+		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
 		C24DA3AC13F4F1900057A6F5 /* token.json in Resources */ = {isa = PBXBuildFile; fileRef = C24DA3AB13F4F1900057A6F5 /* token.json */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
@@ -125,6 +130,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
+		7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSessionRefresher.h; sourceTree = "<group>"; };
+		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
+		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
+		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
 		C24DA3AB13F4F1900057A6F5 /* token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = token.json; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26713BA13D6B845001FE0B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -333,6 +343,8 @@
 				C26713D413D6B845001FE0B8 /* SalesforceSDKTests.h */,
 				C26713D613D6B845001FE0B8 /* SalesforceSDKTests.m */,
 				C26713CE13D6B845001FE0B8 /* Supporting Files */,
+				7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */,
+				7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */,
 			);
 			path = SalesforceSDKTests;
 			sourceTree = "<group>";
@@ -357,6 +369,9 @@
 				C2C92E3513D9EBC7008833A4 /* RKRequestDelegateWrapper.m */,
 				C2C92E6513DE109F008833A4 /* SFRestRequest.h */,
 				C2C92E6613DE109F008833A4 /* SFRestRequest.m */,
+				7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */,
+				7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */,
+				7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -709,6 +724,8 @@
 				C2C92FAD13DF25F1008833A4 /* SBJsonStreamWriter.h in Headers */,
 				C2C92FAE13DF25F1008833A4 /* SBJsonStreamWriterAccumulator.h in Headers */,
 				C2C92FAF13DF25F1008833A4 /* SBJsonWriter.h in Headers */,
+				7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */,
+				7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +774,9 @@
 /* Begin PBXProject section */
 		C26713AE13D6B845001FE0B8 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = C26713B113D6B845001FE0B8 /* Build configuration list for PBXProject "SalesforceSDK" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -826,6 +846,7 @@
 				C26713F013D6B8DB001FE0B8 /* SFRestAPI.m in Sources */,
 				C2C92E3713D9EBC7008833A4 /* RKRequestDelegateWrapper.m in Sources */,
 				C2C92E6813DE10A0008833A4 /* SFRestRequest.m in Sources */,
+				7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +858,8 @@
 				C26713F113D6B8DB001FE0B8 /* SFRestAPI.m in Sources */,
 				C2C92E6913DE10A0008833A4 /* SFRestRequest.m in Sources */,
 				C2C4BACD13E0D2F100082E15 /* RKRequestDelegateWrapper.m in Sources */,
+				7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */,
+				7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

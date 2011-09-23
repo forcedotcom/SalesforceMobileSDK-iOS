@@ -27,8 +27,9 @@
 #import "RKResponse.h"
 #import "SBJson.h"
 #import "SFRestRequest.h"
-#import "SFRestAPI.h"
+#import "SFRestAPI+Internal.h"
 #import "SFOAuthCoordinator.h"
+#import "SFSessionRefresher.h"
 #import "RKRequestSerialization.h"
 
 #define KEY_ERROR_CODE @"errorCode"
@@ -42,7 +43,6 @@
 @implementation RKRequestDelegateWrapper
 
 @synthesize request=_request;
-@synthesize previousOauthDelegate=_previousOauthDelegate;
 
 #pragma mark - init/setup
 
@@ -76,7 +76,12 @@
 - (void)send {
     RKClient *rkClient = [SFRestAPI sharedInstance].rkClient;
     NSString *url = [NSString stringWithFormat:@"/services/data%@", _request.path];
-
+    SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
+    
+    //make sure we have the latest access token at the moment we send the request
+    [rkClient setValue:[NSString stringWithFormat:@"OAuth %@", coord.credentials.accessToken] 
+         forHTTPHeaderField:@"Authorization"];
+    
     if (_request.method == SFRestMethodGET) {
         [rkClient get:url queryParams:_request.queryParams delegate:self];
     }
@@ -98,12 +103,8 @@
         [rkClient post:newUrl params:[self formatParamsAsJson:_request.queryParams] delegate:self];
     }
 
-    // Note:
-    // We are retaining self,
-    // Otherwise its retain count would be 0 (the RKClient post/get/delete methods
-    // don't retain the delegate) and its memory will get reclaimed.
-    // Instead the callback delegate methods (RKRequestDelegate) will release the object as needed    
-    [self retain];
+    //Note: requests are now retained by the SFRestAPI in the activeRequests list
+
 }
 
 #pragma mark - RKRequestDelegate
@@ -111,12 +112,8 @@
 - (void)request:(RKRequest*)request didLoadResponse:(RKResponse*)response {
     // token has expired ?
     if ([response isUnauthorized]) {
-        // let's refresh the token
-        // but first, let's save the previous delegate
-        self.previousOauthDelegate = [SFRestAPI sharedInstance].coordinator.delegate;
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = nil;
-        [SFRestAPI sharedInstance].coordinator.delegate = self;
-        [[SFRestAPI sharedInstance].coordinator authenticate];
+        NSLog(@"Got unauthorized response");
+        [[SFRestAPI sharedInstance].sessionRefresher requestFailedUnauthorized:self];
         return;
     }
 
@@ -139,7 +136,7 @@
     if ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
         [self.request.delegate request:_request didLoadResponse:jsonResponse];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)request:(RKRequest*)request didFailLoadWithError:(NSError*)error {
@@ -148,69 +145,23 @@
     if ([self.request.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
         [self.request.delegate request:_request didFailLoadWithError:error];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)requestDidCancelLoad:(RKRequest*)request {
     if ([self.request.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         [self.request.delegate requestDidCancelLoad:_request];
     }
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)requestDidTimeout:(RKRequest*)request {
     if ([self.request.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         [self.request.delegate requestDidTimeout:_request];
     }   
-    [self release];
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
-#pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)restoreOAuthDelegate {
-    [SFRestAPI sharedInstance].coordinator.delegate = self.previousOauthDelegate;
-    self.previousOauthDelegate = nil;
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");    
-    // we are in the token exchange flow so this should never happen
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
-    [self request:nil didFailLoadWithError:error];    
-
-    // we are creating a temp view here since the oauth library verifies that the view
-    // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
-    UIView *tempView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    [tempView addSubview:view];    
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate");
-
-    // the token exchange worked. Let's update the HTTP headers
-    [self restoreOAuthDelegate];
-    NSString *newAccessToken = coordinator.credentials.accessToken;
-    [[SFRestAPI sharedInstance].rkClient setValue:[NSString stringWithFormat:@"OAuth %@", newAccessToken] forHTTPHeaderField:@"Authorization"];
-
-    // replay the request now
-    [self send];
-    [self release];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-
-    // oauth error
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-    [self request:nil didFailLoadWithError:newError];    
-}
 
 @end
