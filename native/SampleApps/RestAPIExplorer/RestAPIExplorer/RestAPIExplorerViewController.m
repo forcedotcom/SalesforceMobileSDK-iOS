@@ -225,79 +225,79 @@
         externalFieldId = nil;
     
     
-    if ([text isEqualToString:@"versions"]) {
+    if ([text isEqualToString:kActionVersions]) {
         request = [[SFRestAPI sharedInstance] requestForVersions];
     }
-    else if ([text isEqualToString:@"resources"]) {
+    else if ([text isEqualToString:kActionResources]) {
         request = [[SFRestAPI sharedInstance] requestForResources];
     }
-    else if ([text isEqualToString:@"describeGlobal"]) {
+    else if ([text isEqualToString:kActionDescribeGlobal]) {
         request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     }
-    else if ([text isEqualToString:@"metadataWithObjectType:"]) {
+    else if ([text isEqualToString:kActionObjectMetadata]) {
         if (!objectType) {
             [self showMissingFieldError:@"objectType"];
              return;
         }
         request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:objectType];
     }
-    else if ([text isEqualToString:@"describeWithObjectType:"]) {
+    else if ([text isEqualToString:kActionObjectDescribe]) {
         if (!objectType) {
             [self showMissingFieldError:@"objectType"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType];
     }
-    else if ([text isEqualToString:@"retrieveWithObjectType:objectId:fieldList:"]) {
+    else if ([text isEqualToString:kActionRetrieveObject]) {
         if (!objectType || !objectId) { // fieldList is optional
             [self showMissingFieldError:@"objectType, objectId"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:objectType objectId:objectId fieldList:fieldList];
     }
-    else if ([text isEqualToString:@"createWithObjectType:fields:"]) {
+    else if ([text isEqualToString:kActionCreateObject]) {
         if (!fields) {
             [self showMissingFieldError:@"fields"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
     }
-    else if ([text isEqualToString:@"upsertWithObjectType:externalField:externalId:fields:"]) {
+    else if ([text isEqualToString:kActionUpsertObject]) {
         if (!objectType || !externalFieldId || !externalId || !fields) {
             [self showMissingFieldError:@"objectType, objectId, fields"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType externalIdField:externalFieldId externalId:externalId fields:fields];
     }
-    else if ([text isEqualToString:@"updateWithObjectType:objectId:fields:"]) {
+    else if ([text isEqualToString:kActionUpdateObject]) {
         if (!objectType || !objectId || !fields) {
             [self showMissingFieldError:@"objectType, objectId, fields"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     }
-    else if ([text isEqualToString:@"requestForDeleteWithObjectType:objectId:"]) {
+    else if ([text isEqualToString:kActionDeleteObject]) {
         if (!objectType || !objectId) {
             [self showMissingFieldError:@"objectType, objectId"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
     }
-    else if ([text isEqualToString:@"query:"]) {
+    else if ([text isEqualToString:kActionQuery]) {
         if (!query) {
             [self showMissingFieldError:@"query"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForQuery:query];
     }
-    else if ([text isEqualToString:@"search:"]) {
+    else if ([text isEqualToString:kActionSearch]) {
         if (!search) {
             [self showMissingFieldError:@"search"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
-    else if ([text isEqualToString:@"logout"]) {
+    else if ([text isEqualToString:kActionLogout]) {
         RestAPIExplorerAppDelegate *appDelegate = (RestAPIExplorerAppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate logout];
         return;
@@ -328,7 +328,7 @@
 #pragma mark - SFRestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    _tfResult.backgroundColor = [UIColor colorWithRed:255/255.0 green:204/255.0 blue:102/255.0 alpha:1.0];
+    _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
     _tfResponseFor.text = [self formatRequest:request];
     _tfResult.text = [jsonResponse description];
 }

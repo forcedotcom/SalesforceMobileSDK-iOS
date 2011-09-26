@@ -26,7 +26,21 @@
 
 @class RestAPIExplorerViewController;
 
-//TODO make all of the action strings constants like this:
+
+//action constants
+extern NSString *const kActionVersions;
+extern NSString *const kActionResources;
+extern NSString *const kActionDescribeGlobal;
+extern NSString *const kActionObjectMetadata;
+extern NSString *const kActionObjectDescribe;
+extern NSString *const kActionRetrieveObject;
+extern NSString *const kActionCreateObject;
+extern NSString *const kActionUpsertObject;
+extern NSString *const kActionUpdateObject;
+extern NSString *const kActionDeleteObject;
+extern NSString *const kActionQuery;
+extern NSString *const kActionSearch;
+extern NSString *const kActionLogout;
 extern NSString *const kActionExportCredentialsForTesting;
 
 @interface QueryListViewController : UITableViewController {
