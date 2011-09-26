@@ -32,6 +32,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
+#import "TestSetupUtils.h"
 
 //TODO cleanup this stuff before publishing
 // These are defined in the Remote Access object in the org
