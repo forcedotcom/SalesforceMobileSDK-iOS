@@ -26,7 +26,7 @@
 
 @class RestAPIExplorerViewController;
 
-
+//TODO make all of the action strings constants like this:
 extern NSString *const kActionExportCredentialsForTesting;
 
 @interface QueryListViewController : UITableViewController {
