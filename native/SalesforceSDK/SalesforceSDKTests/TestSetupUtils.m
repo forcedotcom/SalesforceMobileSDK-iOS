@@ -86,4 +86,8 @@
     [coordinator release];
 }
 
++ (void)clearSFRestAPISingleton {
+    [SFRestAPI clearSharedInstance];
+}
+
 @end

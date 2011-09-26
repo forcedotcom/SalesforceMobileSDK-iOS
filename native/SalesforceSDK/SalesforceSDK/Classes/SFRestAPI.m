@@ -38,6 +38,7 @@ NSInteger const kSFRestErrorCode = 999;
 
 // singleton instance
 static SFRestAPI *_instance;
+static dispatch_once_t _sharedInstanceGuard;
 
 @interface SFRestAPI (private)
 - (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
@@ -77,15 +78,21 @@ static SFRestAPI *_instance;
 
 
 + (SFRestAPI *)sharedInstance {
-    if (nil == _instance) {
-        _instance = [[SFRestAPI alloc] init];
-    }
+    dispatch_once(&_sharedInstanceGuard, 
+                  ^{ 
+                      _instance = [[SFRestAPI alloc] init];
+                  });
     return _instance;
 }
 
 + (void)clearSharedInstance {
-    [_instance release];
-    _instance = nil;
+    //subverts dispatch_once by clearing _sharedInstanceGuard
+    //This should really only be used for unit testing.
+    @synchronized(self) {
+        [_instance release];
+        _instance = nil;
+        _sharedInstanceGuard = 0; 
+    }
 }
 
 #pragma mark - Internal

@@ -27,6 +27,13 @@
 @class RKRequestDelegateWrapper;
 @class SFSessionRefresher;
 
+
+/**
+ We declare here a set of interfaces that are meant to be used by code running internally
+ to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
+ from application code.  If you find yourself accessing properties or calling methods
+ declared in this file from app code, you're probably doing something wrong.
+ */
 @interface SFRestAPI () 
 
 
@@ -39,7 +46,8 @@
 - (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
 
 /**
- * Release the sharedInstance: for testing.
+ * Release the sharedInstance: for testing only!
+ * (Normally you should not need to release the shared instance after it's created.)
  */
 + (void)clearSharedInstance;
 
