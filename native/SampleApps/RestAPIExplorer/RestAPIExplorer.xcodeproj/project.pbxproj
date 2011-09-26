@@ -518,6 +518,9 @@
 /* Begin PBXProject section */
 		33438E3613CF7BA7006D3E31 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 33438E3913CF7BA7006D3E31 /* Build configuration list for PBXProject "RestAPIExplorer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
