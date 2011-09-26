@@ -40,13 +40,13 @@
 //For SalesforceSDKTests, this should match test_client_id in test_credentials.json 
 #error You must set a real value for remoteAccessConsumerKey from your Remote Access object 
 static NSString *const remoteAccessConsumerKey = 
-    @"__INSERT_REMOTE_ACCESS_CONSUMER_KEY_HERE___";
+    @"_INSERT_REMOTE_ACCESS_CONSUMER_KEY_HERE__";
 
 
 //For SalesforceSDKTests, this should match test_redirect_uri in test_credentials.json 
 #error You must set a real value for OAuthRedirectURI from your Remote Access object 
 static NSString *const OAuthRedirectURI = 
-    @"__INSERT_REMOTE_ACCESS_REDIRECT_URI_HERE___";
+    @"__INSERT_REMOTE_ACCESS_CALLBACK_URL_HERE__";
 
 //For SalesforceSDKTests, this should match test_login_domain in test_credentials.json 
 static NSString *const OAuthLoginDomain =  
