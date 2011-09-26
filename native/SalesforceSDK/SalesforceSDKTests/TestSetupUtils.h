@@ -22,34 +22,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFRestAPI.h"
-
-@class RKRequestDelegateWrapper;
-@class SFSessionRefresher;
+#import <Foundation/Foundation.h>
 
 
 /**
- We declare here a set of interfaces that are meant to be used by code running internally
- to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
- from application code.  If you find yourself accessing properties or calling methods
- declared in this file from app code, you're probably doing something wrong.
+ This class provides utilities useful to all unit tests based on the Salesforce SDK
  */
-@interface SFRestAPI () 
+@interface TestSetupUtils : NSObject
+
 
 
 /**
- * Set of active RKRequestDelegateWrapper (requests) managed by us
+ This method can be called from eg SenTestCase setUp to ensure that
+ oauth credentials required for the test are loaded.
+ @see readCredentialsConfigFile
  */
-@property (nonatomic, readonly, retain) NSMutableSet	*activeRequests;
-@property (nonatomic, readonly, retain) SFSessionRefresher *sessionRefresher;
-
-- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
++ (void)ensureCredentialsLoaded;
 
 /**
- * Release the sharedInstance: for testing only!
- * (Normally you should not need to release the shared instance after it's created.)
+ Forces a reload of authorization credentials from the configuration file.
+ Normally you'd call ensureCredentialsLoaded unless you wish to force a reload.
+ @see ensureCredentialsLoaded
  */
-+ (void)clearSharedInstance;
++ (void)readCredentialsConfigFile;
+
+
+/**
+ Clears the SFRestAPI sharedInstance.
+ This is handy for unit tests when you want to ensure that the SFRestAPI is reset to a known state.
+ */
++ (void)clearSFRestAPISingleton;
 
 @end
-
