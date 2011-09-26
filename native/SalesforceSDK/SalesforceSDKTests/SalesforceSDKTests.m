@@ -30,7 +30,6 @@
 #import "SBJsonParser.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
-#import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
 
@@ -118,7 +117,7 @@
 
 - (void)testSingletonStartup {
     //this destroys the singleton created in setUp
-    [SFRestAPI clearSharedInstance];
+    [TestSetupUtils clearSFRestAPISingleton];
     @try {
         SFRestAPI *api = [SFRestAPI sharedInstance];
         STAssertNotNil(api, @"[SFRestAPI sharedInstance] should never return nil");
@@ -126,7 +125,7 @@
         STAssertNil(api.rkClient ,  @"SFRestAPI.rkClient should be initially nil");
     }
     @finally {
-        [SFRestAPI clearSharedInstance];
+        [TestSetupUtils clearSFRestAPISingleton];
     }
 }
 
