@@ -26,6 +26,21 @@
 #import "RestAPIExplorerAppDelegate.h"
 #import "RestAPIExplorerViewController.h"
 
+
+//action constants
+NSString *const kActionVersions = @"versions";
+NSString *const kActionResources = @"resources";
+NSString *const kActionDescribeGlobal = @"describeGlobal";
+NSString *const kActionObjectMetadata = @"metadataWithObjectType:";
+NSString *const kActionObjectDescribe = @"describeWithObjectType:";
+NSString *const kActionRetrieveObject = @"retrieveWithObjectType:objectId:fieldList:";
+NSString *const kActionCreateObject = @"createWithObjectType:fields:";
+NSString *const kActionUpsertObject = @"upsertWithObjectType:externalField:externalId:fields:";
+NSString *const kActionUpdateObject = @"updateWithObjectType:objectId:fields:";
+NSString *const kActionDeleteObject = @"requestForDeleteWithObjectType:objectId:";
+NSString *const kActionQuery = @"query:";
+NSString *const kActionSearch = @"search:";
+NSString *const kActionLogout = @"logout";
 NSString *const kActionExportCredentialsForTesting = @"Export credentials to pasteboard";
 
 
@@ -39,19 +54,19 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
     if (self) {
         self.appViewController = appViewController;
         self.actions = [NSArray arrayWithObjects:
-                        @"versions", @"no params",
-                        @"resources", @"no params",
-                        @"describeGlobal", @"no params",
-                        @"metadataWithObjectType:", @"params: objectType",
-                        @"describeWithObjectType:", @"params: objectType",
-                        @"retrieveWithObjectType:objectId:fieldList:", @"params: objectType, objectId, fieldList",
-                        @"createWithObjectType:fields:", @"params: objectType, fields",
-                        @"upsertWithObjectType:externalField:externalId:fields:", @"params: objectType, externalField, externalId, fields",
-                        @"updateWithObjectType:objectId:fields:", @"params: objectType, objectId, fields",
-                        @"requestForDeleteWithObjectType:objectId:", @"params: objectType, objectId",
-                        @"query:", @"params: query",
-                        @"search:", @"params: search",
-                        @"logout", @"no params",
+                        kActionVersions, @"no params",
+                        kActionResources, @"no params",
+                        kActionDescribeGlobal, @"no params",
+                        kActionObjectMetadata, @"params: objectType",
+                        kActionObjectDescribe, @"params: objectType",
+                        kActionRetrieveObject, @"params: objectType, objectId, fieldList",
+                        kActionCreateObject, @"params: objectType, fields",
+                        kActionUpsertObject, @"params: objectType, externalField, externalId, fields",
+                        kActionUpdateObject, @"params: objectType, objectId, fields",
+                        kActionDeleteObject, @"params: objectType, objectId",
+                        kActionQuery, @"params: query",
+                        kActionSearch, @"params: search",
+                        kActionLogout, @"no params",
                         kActionExportCredentialsForTesting, @"no params",
                         nil];
     }
