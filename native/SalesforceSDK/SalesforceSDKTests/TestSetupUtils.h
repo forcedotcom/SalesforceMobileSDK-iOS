@@ -46,4 +46,11 @@
  */
 + (void)readCredentialsConfigFile;
 
+
+/**
+ Clears the SFRestAPI sharedInstance.
+ This is handy for unit tests when you want to ensure that the SFRestAPI is reset to a known state.
+ */
++ (void)clearSFRestAPISingleton;
+
 @end
