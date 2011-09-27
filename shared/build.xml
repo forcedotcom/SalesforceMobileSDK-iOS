@@ -1,16 +1,49 @@
 <project name="iOSShared">
     <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
-
-    <!-- ios group common tasks -->
-    <property name="buildCommonDir" location="${iOSShared.basedir}/common/build"/>
-    <import file="${buildCommonDir}/build.xml"/>
-<!--    <taskdef resource="net/sf/antcontrib/antcontrib.properties">-->
-<!--        <classpath>-->
-<!--            <pathelement location="${buildCommonDir}/tools/ant-contrib-1.0b3.jar"/>-->
-<!--        </classpath>-->
-<!--    </taskdef>-->
-
-    <!-- lipo -->
+    
+    <!--[target] compress: 
+     Compress the given contents in a way that plays nice with Apple's iTunesConnect.
+     
+     @param basedir  Base directory to compress
+     @param destfile Destination file to save the zip file to
+     -->
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k"/> <!-- PKZip format -->
+            <arg value="-c"/> <!-- compress -->
+            <arg value="--keepParent"/>
+            <arg value="--norsrc"/>
+            <arg value="${basedir}"/>
+            <arg file="${destfile}"/>
+        </exec>
+    </target>
+    
+    
+    <!--[target] appledocDocumentation: 
+     Generate Apple-like documentation using the "appledoc" command found here: http://www.gentlebytes.com/home/appledocapp/
+     
+     @param globalSettings      Path to the global settings for your project: defaults to "AppledocSettings.plist"
+     @param additionalOptions   Additional command-line options to pass to appledoc
+     @param source              Path to the source documentation
+     @param output              Where to save the resulting documentation
+     -->
+    <target name="appledocDocumentation">
+        <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
+        
+        <exec executable="echo">
+            <arg line="${iOSCommon.basedir}/tools/appledoc/bin/appledoc --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <exec executable="${iOSCommon.basedir}/tools/appledoc/bin/appledoc">
+            <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+        </exec>
+        <delete file="${output}/docset-installed.txt"/>
+    </target>
+    
+    <!--[target] lipo 
+     
+     -->
     <target name="lipo">
         <property name="device" value="${artifacts.dir}/${target.name}/${libname}"/>
         <property name="simulator" value="${artifacts.dir}/Simulator/${libname}"/>

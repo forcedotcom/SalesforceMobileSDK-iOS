@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script will recompile everything and update all the dependencies of all the projets.
+# This script will recompile everything and update all the dependencies of all the projects.
 # After running this script all the .a, .h in all the dependencies directory will be updated
 # with the latest and greatest.
 
