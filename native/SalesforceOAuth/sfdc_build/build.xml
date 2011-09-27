@@ -62,7 +62,7 @@
 
         <delete dir="${artifacts.dir}/Simulator"/>
 
-        <antcall target="iOSCommon.compress">
+        <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
@@ -83,7 +83,7 @@
         <antcall target="compileRelease.documentation"/>
 
         <!-- Create a ZIP archive for the release build -->
-        <antcall target="iOSCommon.compress">
+        <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
@@ -98,12 +98,12 @@
     </target>
 
     <target name="compileRelease.documentation">
-        <antcall target="iOSCommon.appledocDocumentation">
+        <antcall target="iOSShared.appledocDocumentation">
             <param name="source" value="${artifacts.dir}/${target.name}/include"/>
             <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
-        <antcall target="iOSCommon.appledocDocumentation">
+        <antcall target="iOSShared.appledocDocumentation">
             <param name="source" value="${artifacts.dir}/${target.name}/include"/>
             <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
