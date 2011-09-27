@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D055BE81431006700B571E6 /* TestSetupUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D055BE61431006700B571E6 /* TestSetupUtils.h */; };
-		7D055BEA1431008200B571E6 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D055BE51431006700B571E6 /* TestSetupUtils.m */; };
+		7D055BE81431006700B571E6 /* (null) in Headers */ = {isa = PBXBuildFile; };
 		7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */; };
+		7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D47D3142CEB04000F950D /* TestSetupUtils.m */; };
+		7D6F54DE14311EDB00EF1371 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D47D6142CF078000F950D /* test_credentials.json */; };
 		7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */; };
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
-		C24DA3AC13F4F1900057A6F5 /* token.json in Resources */ = {isa = PBXBuildFile; fileRef = C24DA3AB13F4F1900057A6F5 /* token.json */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -132,14 +132,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7D055BE51431006700B571E6 /* TestSetupUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSetupUtils.m; sourceTree = "<group>"; };
-		7D055BE61431006700B571E6 /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
 		7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
+		7D6D47D2142CEB04000F950D /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
+		7D6D47D3142CEB04000F950D /* TestSetupUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSetupUtils.m; sourceTree = "<group>"; };
+		7D6D47D6142CF078000F950D /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSessionRefresher.h; sourceTree = "<group>"; };
 		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
 		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
-		C24DA3AB13F4F1900057A6F5 /* token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = token.json; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26713BA13D6B845001FE0B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C26713BE13D6B845001FE0B8 /* SalesforceSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -349,8 +349,8 @@
 				C26713CE13D6B845001FE0B8 /* Supporting Files */,
 				7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */,
 				7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */,
-				7D055BE51431006700B571E6 /* TestSetupUtils.m */,
-				7D055BE61431006700B571E6 /* TestSetupUtils.h */,
+				7D6D47D2142CEB04000F950D /* TestSetupUtils.h */,
+				7D6D47D3142CEB04000F950D /* TestSetupUtils.m */,
 			);
 			path = SalesforceSDKTests;
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 		C26713CE13D6B845001FE0B8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C24DA3AB13F4F1900057A6F5 /* token.json */,
+				7D6D47D6142CF078000F950D /* test_credentials.json */,
 				C26713CF13D6B845001FE0B8 /* SalesforceSDKTests-Info.plist */,
 				C26713D013D6B845001FE0B8 /* InfoPlist.strings */,
 				C26713D313D6B845001FE0B8 /* SalesforceSDKTests-Prefix.pch */,
@@ -732,7 +732,7 @@
 				C2C92FAF13DF25F1008833A4 /* SBJsonWriter.h in Headers */,
 				7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */,
 				7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */,
-				7D055BE81431006700B571E6 /* TestSetupUtils.h in Headers */,
+				7D055BE81431006700B571E6 /* (null) in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,7 +809,7 @@
 			files = (
 				C26713D213D6B845001FE0B8 /* InfoPlist.strings in Resources */,
 				C26713D513D6B845001FE0B8 /* SalesforceSDKTests.h in Resources */,
-				C24DA3AC13F4F1900057A6F5 /* token.json in Resources */,
+				7D6F54DE14311EDB00EF1371 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,7 +867,7 @@
 				C2C4BACD13E0D2F100082E15 /* RKRequestDelegateWrapper.m in Sources */,
 				7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */,
 				7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */,
-				7D055BEA1431008200B571E6 /* TestSetupUtils.m in Sources */,
+				7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

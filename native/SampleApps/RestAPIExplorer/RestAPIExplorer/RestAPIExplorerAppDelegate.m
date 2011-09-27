@@ -1,20 +1,57 @@
-//
-//  RestAPIExplorerAppDelegate.m
-//  RestAPIExplorer
-//
-//  Created by Didier Prophete on 7/14/11.
-//  Copyright 2011 Salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "RestAPIExplorerAppDelegate.h"
 
+#import <MobileCoreServices/UTCoreTypes.h>
+
 #import "RestAPIExplorerViewController.h"
+
+#import "SBJson.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI.h"
 
-static NSString *const remoteAccessConsumerKey = @"3MVG99OxTyEMCQ3jIW9bdxrL5aAIBz8a993UAC3dntUFefeCE.FJeLrZ.Tt.vcR4USTTa2_H3EGJ6Ajt4dFOw";
-static NSString *const OAuthRedirectURI = @"https://login.salesforce.com/services/oauth2/success";
-static NSString *const OAuthLoginDomain = @"login.salesforce.com";
+
+
+// For unit testing purposes with SalesforceSDKTests, the following values should match
+// the values stored in test_credentials.json
+
+//For SalesforceSDKTests, this should match test_client_id in test_credentials.json 
+#error You must set a real value for remoteAccessConsumerKey from your Remote Access object 
+static NSString *const remoteAccessConsumerKey = 
+    @"_INSERT_REMOTE_ACCESS_CONSUMER_KEY_HERE__";
+
+
+//For SalesforceSDKTests, this should match test_redirect_uri in test_credentials.json 
+#error You must set a real value for OAuthRedirectURI from your Remote Access object 
+static NSString *const OAuthRedirectURI = 
+    @"__INSERT_REMOTE_ACCESS_CALLBACK_URL_HERE__";
+
+//For SalesforceSDKTests, this should match test_login_domain in test_credentials.json 
+static NSString *const OAuthLoginDomain =  
+    @"test.salesforce.com"; //sandbox
+
 
 @interface RestAPIExplorerAppDelegate (private)
 - (void)login;
@@ -114,6 +151,26 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
     }
 }
 
+#pragma mark - Unit test helpers
+
+- (void)exportTestingCredentials {
+    //collect credentials and copy to pasteboard 
+    SFOAuthCredentials *creds = [SFRestAPI sharedInstance].coordinator.credentials;
+    NSDictionary *configDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                remoteAccessConsumerKey, @"test_client_id", 
+                                OAuthLoginDomain, @"test_login_domain", 
+                                OAuthRedirectURI, @"test_redirect_uri", 
+                                creds.refreshToken,@"refresh_token",
+                                [creds.instanceUrl absoluteString] , @"instance_url", 
+                                @"__NOT_REQUIRED__",@"access_token",
+                                nil];
+
+    NSString *configJSON = [configDict JSONRepresentation];
+    UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
+    [gpBoard setValue:configJSON forPasteboardType:(NSString*)kUTTypeUTF8PlainText];
+
+}
+
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
@@ -126,7 +183,7 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate with sessionid: %@, userId: %@", coordinator.credentials.accessToken, coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate  userId: %@", coordinator.credentials.userId);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
