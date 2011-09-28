@@ -33,24 +33,31 @@
 #import "SFRestAPI.h"
 
 
+/*
+ NOTE These values are provided as usable examples to get you started with OAuth login;
+ however, when you create your own app you must create your own Remote Access object
+ in your Salesforce org. 
+ (When you are logged in as an org administrator, go to Setup -> Develop -> Remote Access -> New )
+ */
 
 // For unit testing purposes with SalesforceSDKTests, the following values should match
 // the values stored in test_credentials.json
 
 //For SalesforceSDKTests, this should match test_client_id in test_credentials.json 
-#error You must set a real value for remoteAccessConsumerKey from your Remote Access object 
-static NSString *const remoteAccessConsumerKey = 
-    @"_INSERT_REMOTE_ACCESS_CONSUMER_KEY_HERE__";
+#warning This value should be overwritten with the Consumer Key from your own Remote Access object
+static NSString *const remoteAccessConsumerKey =
+    @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 
 
 //For SalesforceSDKTests, this should match test_redirect_uri in test_credentials.json 
-#error You must set a real value for OAuthRedirectURI from your Remote Access object 
+#warning This value should be overwritten with the Callback URL from your own Remote Access object
 static NSString *const OAuthRedirectURI = 
-    @"__INSERT_REMOTE_ACCESS_CALLBACK_URL_HERE__";
+    @"testsfdc:///mobilesdk/detect/oauth/done";
 
 //For SalesforceSDKTests, this should match test_login_domain in test_credentials.json 
+#warning This value must match the org instance with which you're testing 
 static NSString *const OAuthLoginDomain =  
-    @"test.salesforce.com"; //sandbox
+    @"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
 
 
 @interface RestAPIExplorerAppDelegate (private)
