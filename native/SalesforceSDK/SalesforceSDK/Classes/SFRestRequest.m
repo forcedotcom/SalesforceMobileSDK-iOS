@@ -55,7 +55,7 @@
 }
 
 -(NSString *)description {
-    NSString *methodName;
+    NSString *methodName = @"Unset ";
     switch (_method) {
         case SFRestMethodGET: methodName = @"GET"; break;
         case SFRestMethodPOST: methodName = @"POST"; break;
