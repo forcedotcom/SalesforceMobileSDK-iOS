@@ -16,7 +16,7 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
-    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
+    <target name="pre"  depends="initArtifacts"/>
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>
@@ -25,7 +25,7 @@
 
     <target name="all" depends="pre, build" description="do it all"/>
 
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
+    <target name="build" description="builds all targets"
         depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk">
         <antcall target="compileDebug"/>
         <move todir="${artifacts.dir}/build">
