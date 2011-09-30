@@ -1,5 +1,6 @@
 <project name="iOSShared">
     <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
+    <dirname property="iOSCommon.basedir" file="${ant.file.iOSShared}/../common/build/tools" />
     
     <!--[target] compress: 
      Compress the given contents in a way that plays nice with Apple's iTunesConnect.
@@ -29,12 +30,13 @@
      -->
     <target name="appledocDocumentation">
         <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
-        
+        <property name="appledoc_path" value="${iOSCommon.basedir}/tools/appledoc/bin/appledoc" />
+        <echo>appledoc_path is '${appledoc_path}' </echo>
         <exec executable="echo">
-            <arg line="${iOSCommon.basedir}/tools/appledoc/bin/appledoc --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="appledoc_path --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
-        <exec executable="${iOSCommon.basedir}/tools/appledoc/bin/appledoc">
+        <exec executable="${appledoc_path}">
             <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
@@ -53,7 +55,23 @@
         </exec>
         <move file="${lipo.output}" toFile="${device}"/>
     </target>
+    
+    
+    <target name="lipo_full">
+        <property name="destinationDir" value="${artifacts.dir}/${configuration}" />
+        <property name="configuration" value="${configuration.debug}"/>
+        <property name="simulatorLibDir" value="${artifacts.dir}/${configuration}-Simulator/Libraries" />
+        <property name="deviceLibDir" value="${artifacts.dir}/${configuration}/Libraries" />
 
+        <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg line="-create -output ${lipo.output} ${deviceLibDir}/${libname} ${simulatorLibDir}/${libname}"/>
+        </exec>
+        <move file="${lipo.output}" toFile="${destinationDir}/${libname}"/>
+    </target>
+    
+
+    
     <!-- compile -->
     <target name="iOSShared.compile">
         <property name="action" value="build"/>
@@ -123,7 +141,7 @@
     </target>
 
     <!-- dependency: RestKit -->
-    <property name="subproject.restkit.dir" value="${iOSShared.basedir}/../RestKit"/>
+    <property name="subproject.restkit.dir" value="${iOSShared.basedir}/../external/RestKit"/>
 
     <target name="dependency.restkit.check">
         <condition property="dependency.restkit.present">
@@ -152,7 +170,7 @@
     </target>
 
     <!-- dependency: SBJSON -->
-    <property name="subproject.sbjson.dir" value="${iOSShared.basedir}/../json-framework"/>
+    <property name="subproject.sbjson.dir" value="${iOSShared.basedir}/../external/json-framework"/>
 
     <target name="dependency.sbjson.check">
         <condition property="dependency.sbjson.present">
@@ -179,4 +197,7 @@
         <ant dir="${subproject.sbjson.dir}/sfdc_build" target="clean" inheritAll="false"/>
         <delete dir="${dependency.dir}/SBJSON"/>
     </target>
+    
+    
+
 </project>

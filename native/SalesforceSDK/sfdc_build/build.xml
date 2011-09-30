@@ -32,7 +32,8 @@
 
     <target name="all" depends="pre, build" description="do it all"/>
 
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
+    
+    <target name="build" description="builds all targets"
         depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth">
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>

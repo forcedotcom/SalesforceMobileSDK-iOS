@@ -1,0 +1,135 @@
+<!--
+    Build file for RestKit
+    - Public Headers Folder Path to: <don't change>
+    - Installation Directory to: /
+    - Skip Install to: No
+-->
+<project name="RestKit" default="all">
+    <import file="../../../shared/build.xml"/>
+
+    <property environment="env"/>
+    <property name="env.BUILD_NUMBER" value="1"/>
+    <property name="env.WORKSPACE" value="."/>
+
+    <!-- Supplied by the automated build server -->
+    <property id="SDK" name="SDK" value="Latest"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" location="../RestKit"/>
+    <property name="artifacts.dir" location="${env.WORKSPACE}/artifacts"/>
+
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="sdk.iphoneos" name="sdk.iphoneos" value="${platform.iphoneos}"/>
+    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <target name="all" depends="pre, build" description="do it all"/>
+
+    <target name="build" description="builds all targets, runs unit tests and generates code coverage report">
+        <antcall target="compileDebug"/>
+        <antcall target="compileRelease"/>
+        <delete dir="${project.dir}/Build"/>
+    </target>
+
+    <target name="pre" depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <delete dir="${artifacts.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="compileDebug">
+        <property name="configuration" value="${configuration.debug}" />
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="RestKit"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="RestKit"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <!-- RestKit sticks its output in an unusual place -->
+        <property name="buildProductsDir" value="${artifacts.dir}/BuildProductsPath" />
+        <property name="simulatorLibDir" value="${buildProductsDir}/${configuration}-iphonesimulator" />
+        <property name="deviceLibDir" value="${buildProductsDir}/${configuration}-iphoneos" />
+            
+        <property name="destinationDir" value="${artifacts.dir}/${target.name}" />
+
+        <antcall target="iOSShared.lipo_full">
+            <param name="libname" value="libRestKitCoreData.a"/>
+        </antcall>
+        <antcall target="iOSShared.lipo_full">
+            <param name="libname" value="libRestKitNetwork.a"/>
+        </antcall>
+        <antcall target="iOSShared.lipo_full">
+            <param name="libname" value="libRestKitObjectMapping.a"/>
+        </antcall>
+        <antcall target="iOSShared.lipo_full">
+            <param name="libname" value="libRestKitSupport.a"/>
+        </antcall>
+        <antcall target="iOSShared.lipo_full">
+            <param name="libname" value="libRestKitXMLParserLibxml.a"/>
+        </antcall>
+
+        <!-- Copy includes along with libs -->
+        <move file="${deviceLibDir}/include" toFile="${artifacts.dir}/${target.name}/include" />
+        
+        <antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
+            <param name="basedir" value="${artifacts.dir}/${target.name}"/>
+        </antcall>
+
+        <delete dir="${artifacts.dir}/${target.name}"/>
+        <delete dir="${buildProductsDir}"/>
+    </target>
+
+    <target name="compileRelease">
+        <property name="configuration" value="${configuration.release}" />
+        <property name="deviceLibDir" value="${artifacts.dir}/BuildProductsPath/${configuration}-iphoneos" />
+        <property name="buildProductsDir" value="${artifacts.dir}/BuildProductsPath" />
+
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="RestKit"/>
+            <param name="action" value="install"/>
+        </antcall>
+
+        <!-- Copy includes along with libs -->
+        <move todir="${artifacts.dir}/${target.name}">
+            <filelist dir="${deviceLibDir}">
+                <file name="libRestKitCoreData.a"/>
+                <file name="libRestKitNetwork.a"/>
+                <file name="libRestKitObjectMapping.a"/>
+                <file name="libRestKitSupport.a"/>
+                <file name="libRestKitXMLParserLibxml.a"/>
+            </filelist>
+        </move>        
+        <move file="${deviceLibDir}/include" toFile="${artifacts.dir}/${target.name}/include" />
+        
+        <antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
+            <param name="basedir" value="${artifacts.dir}/${target.name}"/>
+        </antcall>
+
+        <delete dir="${artifacts.dir}/${target.name}"/>
+        <delete dir="${buildProductsDir}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${artifacts.dir}"/>
+    </target>
+</project>
