@@ -1,6 +1,6 @@
-[submodule "RestKit"]
-	path = RestKit
-	url = git@github.com:forcedotcom/MobileContainer-RestKit.git
-[submodule "json-framework"]
-	path = json-framework
-	url = git@github.com:forcedotcom/MobileContainer-json-framework.git
+[submodule "external/RestKit/RestKit"]
+	path = external/RestKit/RestKit
+	url = git://github.com/RestKit/RestKit.git
+[submodule "external/json-framework/json-framework"]
+	path = external/json-framework/json-framework
+	url = git://github.com/stig/json-framework.git

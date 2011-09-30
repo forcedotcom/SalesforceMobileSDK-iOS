@@ -3,14 +3,26 @@
 //  RestKit
 //
 //  Created by Blake Watters on 4/30/11.
-//  Copyright 2011 Two Toasters. All rights reserved.
+//  Copyright 2011 Two Toasters
+//  
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//  
+//  http://www.apache.org/licenses/LICENSE-2.0
+//  
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 #import "RKObjectMapping.h"
 #import "RKObjectAttributeMapping.h"
-#import "RKObjectFactory.h"
 
 @class RKObjectMappingOperation;
+@class RKMappingOperationQueue;
 
 @protocol RKObjectMappingOperationDelegate  <NSObject>
 
@@ -31,9 +43,9 @@
     id _destinationObject;
     RKObjectMapping* _objectMapping;    
     id<RKObjectMappingOperationDelegate> _delegate;
-    id<RKObjectFactory> _objectFactory;
     NSDictionary* _nestedAttributeSubstitution;
     NSError* _validationError;
+    RKMappingOperationQueue *_queue;
 }
 
 /**
@@ -58,21 +70,25 @@
 @property (nonatomic, assign) id<RKObjectMappingOperationDelegate> delegate;
 
 /**
- An object factory responsible for creating new instances of mappable objects
- necessary for the processing of relationship mappings
+ An operation queue for deferring portions of the mapping process until later
+ 
+ Defaults to nil. If this mapping operation was configured by an instance of RKObjectMapper, then
+ an instance of the operation queue will be configured and assigned for use. If the queue is nil,
+ the mapping operation will perform all its operations within the body of performMapping. If a queue
+ is present, it may elect to defer portions of the mapping operation using the queue.
  */
-@property (nonatomic, assign) id<RKObjectFactory> objectFactory;
+@property (nonatomic, retain) RKMappingOperationQueue *queue;
 
 /**
  Create a new mapping operation configured to transform the object representation
  in a source object to a new destination object according to an object mapping definition
  */
-+ (RKObjectMappingOperation*)mappingOperationFromObject:(id)sourceObject toObject:(id)destinationObject withObjectMapping:(RKObjectMapping*)objectMapping;
++ (RKObjectMappingOperation*)mappingOperationFromObject:(id)sourceObject toObject:(id)destinationObject withMapping:(id<RKObjectMappingDefinition>)mapping;
 
 /**
  Initialize a mapping operation for an object and set of data at a particular key path with an object mapping definition
  */
-- (id)initWithSourceObject:(id)sourceObject destinationObject:(id)destinationObject objectMapping:(RKObjectMapping*)objectMapping;
+- (id)initWithSourceObject:(id)sourceObject destinationObject:(id)destinationObject mapping:(id<RKObjectMappingDefinition>)mapping;
 
 /**
  Process all mappable values from the mappable dictionary and assign them to the target object
