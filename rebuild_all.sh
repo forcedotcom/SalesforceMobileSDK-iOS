@@ -6,9 +6,9 @@
 CURRENT_DIR=`pwd`
 
 # first, clean everything
-cd $CURRENT_DIR/json-framework/sfdc_build
+cd $CURRENT_DIR/external/json-framework/sfdc_build
 ant clean
-cd $CURRENT_DIR/RestKit/sfdc_build
+cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant clean
 cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
 ant clean
@@ -22,9 +22,9 @@ cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant clean.full
 
 # now rebuild everything, starting from the low level libraries
-cd $CURRENT_DIR/json-framework/sfdc_build
+cd $CURRENT_DIR/external/json-framework/sfdc_build
 ant
-cd $CURRENT_DIR/RestKit/sfdc_build
+cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant
 cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
 ant
