@@ -15,6 +15,42 @@
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
+		7DFF138F143B8A930063EF87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
+		7DFF1390143B8A930063EF87 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
+		7DFF1396143B8A930063EF87 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF1394143B8A930063EF87 /* InfoPlist.strings */; };
+		7DFF1398143B8A930063EF87 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF1397143B8A930063EF87 /* main.m */; };
+		7DFF139C143B8A930063EF87 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF139B143B8A930063EF87 /* AppDelegate.m */; };
+		7DFF139F143B8A930063EF87 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF139E143B8A930063EF87 /* ViewController.m */; };
+		7DFF13A2143B8A930063EF87 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF13A0143B8A930063EF87 /* ViewController_iPhone.xib */; };
+		7DFF13A5143B8A930063EF87 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF13A3143B8A930063EF87 /* ViewController_iPad.xib */; };
+		7DFF13AC143B8A930063EF87 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
+		7DFF13AD143B8A930063EF87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
+		7DFF13AE143B8A930063EF87 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
+		7DFF13B6143B8A940063EF87 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF13B4143B8A940063EF87 /* InfoPlist.strings */; };
+		7DFF13C3143B8B100063EF87 /* SalesforceSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C26713D613D6B845001FE0B8 /* SalesforceSDKTests.m */; };
+		7DFF13C4143B8B170063EF87 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
+		7DFF13C5143B8B170063EF87 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D47D3142CEB04000F950D /* TestSetupUtils.m */; };
+		7DFF13C6143B8B1C0063EF87 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D47D6142CF078000F950D /* test_credentials.json */; };
+		7DFF13CB143B8C670063EF87 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4B13DF25F1008833A4 /* libSalesforceOAuth.a */; };
+		7DFF13DA143B8CE10063EF87 /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4213DF25F1008833A4 /* libRestKitNetwork.a */; };
+		7DFF13DB143B8CE10063EF87 /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4313DF25F1008833A4 /* libRestKitObjectMapping.a */; };
+		7DFF13DC143B8CE10063EF87 /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4413DF25F1008833A4 /* libRestKitSupport.a */; };
+		7DFF13DE143B8CE60063EF87 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4B13DF25F1008833A4 /* libSalesforceOAuth.a */; };
+		7DFF13DF143B8CE90063EF87 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F5813DF25F1008833A4 /* libsbjson-ios.a */; };
+		7DFF13E0143B8CF90063EF87 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCB0413F1EAA10050371C /* Security.framework */; };
+		7DFF13E1143B8D060063EF87 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCB0213F1EA940050371C /* CFNetwork.framework */; };
+		7DFF13E3143B8D230063EF87 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C813D6B845001FE0B8 /* CoreGraphics.framework */; };
+		7DFF13E4143B8D420063EF87 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCAFC13F1EA620050371C /* SystemConfiguration.framework */; };
+		7DFF13E5143B8D620063EF87 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCAFC13F1EA620050371C /* SystemConfiguration.framework */; };
+		7DFF13E6143B8D6C0063EF87 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCB0213F1EA940050371C /* CFNetwork.framework */; };
+		7DFF13E7143B8D740063EF87 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C813D6B845001FE0B8 /* CoreGraphics.framework */; };
+		7DFF13E8143B8D820063EF87 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCB0413F1EAA10050371C /* Security.framework */; };
+		7DFF13E9143B8D8D0063EF87 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28DCB0013F1EA840050371C /* MobileCoreServices.framework */; };
+		7DFF13EA143B98320063EF87 /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4213DF25F1008833A4 /* libRestKitNetwork.a */; };
+		7DFF13EB143B98320063EF87 /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4313DF25F1008833A4 /* libRestKitObjectMapping.a */; };
+		7DFF13EC143B98320063EF87 /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F4413DF25F1008833A4 /* libRestKitSupport.a */; };
+		7DFF13EE143B998F0063EF87 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C92F5813DF25F1008833A4 /* libsbjson-ios.a */; };
+		7DFF13EF143B99B00063EF87 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -122,6 +158,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7DFF13AF143B8A930063EF87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C26713AE13D6B845001FE0B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFF138C143B8A930063EF87;
+			remoteInfo = AppTest;
+		};
+		7DFF13C0143B8AC40063EF87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C26713AE13D6B845001FE0B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C26713B613D6B845001FE0B8;
+			remoteInfo = SalesforceSDK;
+		};
+		7DFF13C7143B8B3B0063EF87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C26713AE13D6B845001FE0B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C26713B613D6B845001FE0B8;
+			remoteInfo = SalesforceSDK;
+		};
 		C26713CA13D6B845001FE0B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C26713AE13D6B845001FE0B8 /* Project object */;
@@ -140,6 +197,26 @@
 		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
 		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
+		7DFF1365143B8A090063EF87 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7DFF138D143B8A930063EF87 /* AppTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DFF1393143B8A930063EF87 /* AppTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppTest-Info.plist"; sourceTree = "<group>"; };
+		7DFF1395143B8A930063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DFF1397143B8A930063EF87 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7DFF1399143B8A930063EF87 /* AppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppTest-Prefix.pch"; sourceTree = "<group>"; };
+		7DFF139A143B8A930063EF87 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7DFF139B143B8A930063EF87 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7DFF139D143B8A930063EF87 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7DFF139E143B8A930063EF87 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7DFF13A1143B8A930063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		7DFF13A4143B8A930063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		7DFF13AB143B8A930063EF87 /* AppTestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DFF13B3143B8A930063EF87 /* AppTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppTestTests-Info.plist"; sourceTree = "<group>"; };
+		7DFF13B5143B8A940063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DFF13FB143B9D1D0063EF87 /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
+		7DFF13FD143B9D1D0063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DFF13FF143B9D1D0063EF87 /* LogicTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogicTests.h; sourceTree = "<group>"; };
+		7DFF1400143B9D1D0063EF87 /* LogicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogicTests.m; sourceTree = "<group>"; };
+		7DFF1402143B9D1D0063EF87 /* LogicTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LogicTests-Prefix.pch"; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26713BA13D6B845001FE0B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C26713BE13D6B845001FE0B8 /* SalesforceSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -248,6 +325,45 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7DFF138A143B8A930063EF87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF13E4143B8D420063EF87 /* SystemConfiguration.framework in Frameworks */,
+				7DFF13E3143B8D230063EF87 /* CoreGraphics.framework in Frameworks */,
+				7DFF13E1143B8D060063EF87 /* CFNetwork.framework in Frameworks */,
+				7DFF13E0143B8CF90063EF87 /* Security.framework in Frameworks */,
+				7DFF138F143B8A930063EF87 /* UIKit.framework in Frameworks */,
+				7DFF1390143B8A930063EF87 /* Foundation.framework in Frameworks */,
+				7DFF13DF143B8CE90063EF87 /* libsbjson-ios.a in Frameworks */,
+				7DFF13DE143B8CE60063EF87 /* libSalesforceOAuth.a in Frameworks */,
+				7DFF13DA143B8CE10063EF87 /* libRestKitNetwork.a in Frameworks */,
+				7DFF13DB143B8CE10063EF87 /* libRestKitObjectMapping.a in Frameworks */,
+				7DFF13DC143B8CE10063EF87 /* libRestKitSupport.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFF13A7143B8A930063EF87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF13E9143B8D8D0063EF87 /* MobileCoreServices.framework in Frameworks */,
+				7DFF13E8143B8D820063EF87 /* Security.framework in Frameworks */,
+				7DFF13E7143B8D740063EF87 /* CoreGraphics.framework in Frameworks */,
+				7DFF13E6143B8D6C0063EF87 /* CFNetwork.framework in Frameworks */,
+				7DFF13E5143B8D620063EF87 /* SystemConfiguration.framework in Frameworks */,
+				7DFF13AD143B8A930063EF87 /* UIKit.framework in Frameworks */,
+				7DFF13AE143B8A930063EF87 /* Foundation.framework in Frameworks */,
+				7DFF13AC143B8A930063EF87 /* SenTestingKit.framework in Frameworks */,
+				7DFF13EE143B998F0063EF87 /* libsbjson-ios.a in Frameworks */,
+				7DFF13CB143B8C670063EF87 /* libSalesforceOAuth.a in Frameworks */,
+				7DFF13EA143B98320063EF87 /* libRestKitNetwork.a in Frameworks */,
+				7DFF13EB143B98320063EF87 /* libRestKitObjectMapping.a in Frameworks */,
+				7DFF13EC143B98320063EF87 /* libRestKitSupport.a in Frameworks */,
+				7DFF13EF143B99B00063EF87 /* libSalesforceSDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C26713B413D6B845001FE0B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -282,12 +398,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DFF1391143B8A930063EF87 /* AppTest */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF139A143B8A930063EF87 /* AppDelegate.h */,
+				7DFF139B143B8A930063EF87 /* AppDelegate.m */,
+				7DFF139D143B8A930063EF87 /* ViewController.h */,
+				7DFF139E143B8A930063EF87 /* ViewController.m */,
+				7DFF13A0143B8A930063EF87 /* ViewController_iPhone.xib */,
+				7DFF13A3143B8A930063EF87 /* ViewController_iPad.xib */,
+				7DFF1392143B8A930063EF87 /* Supporting Files */,
+			);
+			path = AppTest;
+			sourceTree = "<group>";
+		};
+		7DFF1392143B8A930063EF87 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF1393143B8A930063EF87 /* AppTest-Info.plist */,
+				7DFF1394143B8A930063EF87 /* InfoPlist.strings */,
+				7DFF1397143B8A930063EF87 /* main.m */,
+				7DFF1399143B8A930063EF87 /* AppTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7DFF13B1143B8A930063EF87 /* AppTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF13B2143B8A930063EF87 /* Supporting Files */,
+			);
+			path = AppTestTests;
+			sourceTree = "<group>";
+		};
+		7DFF13B2143B8A930063EF87 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF13B3143B8A930063EF87 /* AppTestTests-Info.plist */,
+				7DFF13B4143B8A940063EF87 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7DFF13F9143B9D1D0063EF87 /* LogicTests */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF13FF143B9D1D0063EF87 /* LogicTests.h */,
+				7DFF1400143B9D1D0063EF87 /* LogicTests.m */,
+				7DFF13FA143B9D1D0063EF87 /* Supporting Files */,
+			);
+			path = LogicTests;
+			sourceTree = "<group>";
+		};
+		7DFF13FA143B9D1D0063EF87 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DFF13FB143B9D1D0063EF87 /* LogicTests-Info.plist */,
+				7DFF13FC143B9D1D0063EF87 /* InfoPlist.strings */,
+				7DFF1402143B9D1D0063EF87 /* LogicTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C26713AC13D6B845001FE0B8 = {
 			isa = PBXGroup;
 			children = (
 				C2C92EF513DF25F1008833A4 /* dependencies */,
 				C26713BC13D6B845001FE0B8 /* SalesforceSDK */,
 				C26713CD13D6B845001FE0B8 /* SalesforceSDKTests */,
+				7DFF1391143B8A930063EF87 /* AppTest */,
+				7DFF13B1143B8A930063EF87 /* AppTestTests */,
+				7DFF13F9143B9D1D0063EF87 /* LogicTests */,
 				C26713B913D6B845001FE0B8 /* Frameworks */,
 				C28DCAFB13F1EA4C0050371C /* FramekworksTests */,
 				C26713B813D6B845001FE0B8 /* Products */,
@@ -299,6 +480,8 @@
 			children = (
 				C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */,
 				C26713C413D6B845001FE0B8 /* SalesforceSDKTests.octest */,
+				7DFF138D143B8A930063EF87 /* AppTest.app */,
+				7DFF13AB143B8A930063EF87 /* AppTestTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -309,6 +492,7 @@
 				C26713BA13D6B845001FE0B8 /* Foundation.framework */,
 				C26713C513D6B845001FE0B8 /* UIKit.framework */,
 				C26713C813D6B845001FE0B8 /* CoreGraphics.framework */,
+				7DFF1365143B8A090063EF87 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -703,6 +887,44 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7DFF138C143B8A930063EF87 /* AppTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DFF13BA143B8A940063EF87 /* Build configuration list for PBXNativeTarget "AppTest" */;
+			buildPhases = (
+				7DFF1389143B8A930063EF87 /* Sources */,
+				7DFF138A143B8A930063EF87 /* Frameworks */,
+				7DFF138B143B8A930063EF87 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DFF13C1143B8AC40063EF87 /* PBXTargetDependency */,
+			);
+			name = AppTest;
+			productName = AppTest;
+			productReference = 7DFF138D143B8A930063EF87 /* AppTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7DFF13AA143B8A930063EF87 /* AppTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DFF13BD143B8A940063EF87 /* Build configuration list for PBXNativeTarget "AppTestTests" */;
+			buildPhases = (
+				7DFF13A6143B8A930063EF87 /* Sources */,
+				7DFF13A7143B8A930063EF87 /* Frameworks */,
+				7DFF13A8143B8A930063EF87 /* Resources */,
+				7DFF13A9143B8A930063EF87 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DFF13C8143B8B3B0063EF87 /* PBXTargetDependency */,
+				7DFF13B0143B8A930063EF87 /* PBXTargetDependency */,
+			);
+			name = AppTestTests;
+			productName = AppTestTests;
+			productReference = 7DFF13AB143B8A930063EF87 /* AppTestTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		C26713B613D6B845001FE0B8 /* SalesforceSDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C26713DA13D6B845001FE0B8 /* Build configuration list for PBXNativeTarget "SalesforceSDK" */;
@@ -762,11 +984,32 @@
 			targets = (
 				C26713B613D6B845001FE0B8 /* SalesforceSDK */,
 				C26713C313D6B845001FE0B8 /* SalesforceSDKTests */,
+				7DFF138C143B8A930063EF87 /* AppTest */,
+				7DFF13AA143B8A930063EF87 /* AppTestTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7DFF138B143B8A930063EF87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF1396143B8A930063EF87 /* InfoPlist.strings in Resources */,
+				7DFF13A2143B8A930063EF87 /* ViewController_iPhone.xib in Resources */,
+				7DFF13A5143B8A930063EF87 /* ViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFF13A8143B8A930063EF87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF13B6143B8A940063EF87 /* InfoPlist.strings in Resources */,
+				7DFF13C6143B8B1C0063EF87 /* test_credentials.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C26713C113D6B845001FE0B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -780,6 +1023,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7DFF13A9143B8A930063EF87 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		C24DA3A213F4EE970057A6F5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -810,6 +1066,26 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7DFF1389143B8A930063EF87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF1398143B8A930063EF87 /* main.m in Sources */,
+				7DFF139C143B8A930063EF87 /* AppDelegate.m in Sources */,
+				7DFF139F143B8A930063EF87 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFF13A6143B8A930063EF87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFF13C3143B8B100063EF87 /* SalesforceSDKTests.m in Sources */,
+				7DFF13C4143B8B170063EF87 /* TestRequestListener.m in Sources */,
+				7DFF13C5143B8B170063EF87 /* TestSetupUtils.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C26713B313D6B845001FE0B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -838,6 +1114,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7DFF13B0143B8A930063EF87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DFF138C143B8A930063EF87 /* AppTest */;
+			targetProxy = 7DFF13AF143B8A930063EF87 /* PBXContainerItemProxy */;
+		};
+		7DFF13C1143B8AC40063EF87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C26713B613D6B845001FE0B8 /* SalesforceSDK */;
+			targetProxy = 7DFF13C0143B8AC40063EF87 /* PBXContainerItemProxy */;
+		};
+		7DFF13C8143B8B3B0063EF87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C26713B613D6B845001FE0B8 /* SalesforceSDK */;
+			targetProxy = 7DFF13C7143B8B3B0063EF87 /* PBXContainerItemProxy */;
+		};
 		C26713CB13D6B845001FE0B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C26713B613D6B845001FE0B8 /* SalesforceSDK */;
@@ -846,6 +1137,46 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7DFF1394143B8A930063EF87 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DFF1395143B8A930063EF87 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7DFF13A0143B8A930063EF87 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DFF13A1143B8A930063EF87 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		7DFF13A3143B8A930063EF87 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DFF13A4143B8A930063EF87 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		7DFF13B4143B8A940063EF87 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DFF13B5143B8A940063EF87 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7DFF13FC143B9D1D0063EF87 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DFF13FD143B9D1D0063EF87 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		C26713D013D6B845001FE0B8 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -857,6 +1188,131 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7DFF13BB143B8A940063EF87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AppTest/AppTest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "AppTest/AppTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies/RestKit\"",
+					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7DFF13BC143B8A940063EF87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AppTest/AppTest-Prefix.pch";
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "AppTest/AppTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies/RestKit\"",
+					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
+				);
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7DFF13BE143B8A940063EF87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AppTest.app/AppTest";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AppTest/AppTest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "AppTestTests/AppTestTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
+					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/RestKit\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7DFF13BF143B8A940063EF87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AppTest.app/AppTest";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AppTest/AppTest-Prefix.pch";
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "AppTestTests/AppTestTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
+					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/RestKit\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		C26713D813D6B845001FE0B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -895,6 +1351,7 @@
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				GCC_VERSION = "";
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -914,6 +1371,7 @@
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				GCC_VERSION = "";
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -936,6 +1394,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDKTests/SalesforceSDKTests-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -964,6 +1423,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDKTests/SalesforceSDKTests-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -985,6 +1445,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7DFF13BA143B8A940063EF87 /* Build configuration list for PBXNativeTarget "AppTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DFF13BB143B8A940063EF87 /* Debug */,
+				7DFF13BC143B8A940063EF87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7DFF13BD143B8A940063EF87 /* Build configuration list for PBXNativeTarget "AppTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DFF13BE143B8A940063EF87 /* Debug */,
+				7DFF13BF143B8A940063EF87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C26713B113D6B845001FE0B8 /* Build configuration list for PBXProject "SalesforceSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
