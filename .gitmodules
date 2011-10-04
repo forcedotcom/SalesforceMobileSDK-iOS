@@ -1,6 +1,6 @@
 [submodule "external/RestKit/RestKit"]
 	path = external/RestKit/RestKit
-	url = git://github.com/RestKit/RestKit.git
+	url = https://github.com/RestKit/RestKit.git
 [submodule "external/json-framework/json-framework"]
 	path = external/json-framework/json-framework
-	url = git://github.com/stig/json-framework.git
+	url = https://github.com/stig/json-framework.git
