@@ -23,7 +23,7 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
-    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
+    <target name="pre"  depends="initArtifacts"/>
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>
@@ -41,6 +41,69 @@
         <delete dir="${project.dir}/build"/>
     </target>
 
+    <target name="utest" description="runs unit tests in simulator">
+        
+        <!-- get the latest iphonesimulator location -->
+        <exec executable="xcodebuild" outputproperty="latestSimSDKPath">
+            <arg line="xcodebuild -version -sdk iphonesimulator Path"/>
+        </exec>
+        
+        <antcall target="runUtestApp">
+            <param name="sdkPath" value="${latestSimSDKPath}" />
+            <!--
+             <param name="appTestExecutable" value="${artifactDir}/${configuration.debug}-TestApp/Applications/${testPackage}TestApp.app/${testPackage}TestApp" />
+             -->
+            <!-- Test app outputs an xml file into its temp dir that we can read -->
+            <!-- param name="testFilename" value="TESTS-${testPackage}.xml" /> -->
+        </antcall>
+    </target>
+    
+    <target name="runUtestApp" description="run app unit tests">
+        <echo message="sdkPath is: ${sdkPath}" />
+        <echo message="appTestExecutable is: ${appTestExecutable}" />
+        
+        <exec executable="mktemp" outputproperty="tmp_home">
+            <arg value="-d"/> <!-- create a temp _d_irectory -->
+            <arg value="-t"/> <!-- template -->
+            <arg value="unittests"/>
+        </exec>
+        <echo message="Created temp Home at ${tmp_home}"/>
+        
+        <echo message="Stoping any stale securityd ..."/>
+        <exec failonerror="false" executable="launchctl">
+            <arg line="remove RunIPhoneLaunchDaemons"/>
+        </exec>
+        
+        <echo message="Starting securityd ... "/>
+        <!-- some daemons are necessary for the iPhone to work, e.g. keychain -->
+        <exec failonerror="true" executable="launchctl">
+            <arg value="submit"/>
+            <arg value="-l"/>
+            <arg value="RunIPhoneLaunchDaemons"/>
+            <arg value="--"/>
+            <arg file="${basedir}/RunIPhoneLaunchDaemons.sh"/>
+            <arg value="${sdkPath}"/> <!-- $IPHONE_SIMULATOR_ROOT -->
+            <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
+        </exec>
+        
+        <exec executable="xcodebuild"  >
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug -sdk iphonesimulator build" />
+        </exec>
+        
+        <!--
+        <copy file="${tmp_home}/Documents/test-reports/junit.xml" tofile="${testReportDir}/${testFilename}" failonerror="false"/>
+        <delete dir="${tmp_home}"/>
+        -->
+        
+        <echo message="Stoping securityd ..."/>
+        <exec failonerror="true" executable="launchctl">
+            <arg line="remove RunIPhoneLaunchDaemons"/>
+        </exec>
+        
+    </target>
+    
+    
+    
     <target name="compileDebug">
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
