@@ -153,16 +153,6 @@
 		C26713D613D6B845001FE0B8 /* SalesforceSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKTests.m; sourceTree = "<group>"; };
 		C26713ED13D6B8DB001FE0B8 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
 		C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRestAPI.m; sourceTree = "<group>"; };
-		C28DCA6113F1DB620050371C /* SDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SDKTests-Info.plist"; sourceTree = "<group>"; };
-		C28DCA6313F1DB620050371C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C28DCA6513F1DB620050371C /* SDKTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDKTests-Prefix.pch"; sourceTree = "<group>"; };
-		C28DCA6613F1DB620050371C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C28DCA6813F1DB620050371C /* SDKTestsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDKTestsAppDelegate.h; sourceTree = "<group>"; };
-		C28DCA6913F1DB620050371C /* SDKTestsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDKTestsAppDelegate.m; sourceTree = "<group>"; };
-		C28DCA6C13F1DB620050371C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		C28DCA6E13F1DB620050371C /* SDKTestsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDKTestsViewController.h; sourceTree = "<group>"; };
-		C28DCA6F13F1DB620050371C /* SDKTestsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDKTestsViewController.m; sourceTree = "<group>"; };
-		C28DCA7213F1DB620050371C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SDKTestsViewController.xib; sourceTree = "<group>"; };
 		C28DCAF913F1EA3E0050371C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		C28DCAFC13F1EA620050371C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C28DCAFE13F1EA700050371C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -298,7 +288,6 @@
 				C2C92EF513DF25F1008833A4 /* dependencies */,
 				C26713BC13D6B845001FE0B8 /* SalesforceSDK */,
 				C26713CD13D6B845001FE0B8 /* SalesforceSDKTests */,
-				C28DCA5F13F1DB610050371C /* SDKTests */,
 				C26713B913D6B845001FE0B8 /* Frameworks */,
 				C28DCAFB13F1EA4C0050371C /* FramekworksTests */,
 				C26713B813D6B845001FE0B8 /* Products */,
@@ -380,31 +369,6 @@
 				7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		C28DCA5F13F1DB610050371C /* SDKTests */ = {
-			isa = PBXGroup;
-			children = (
-				C28DCA6813F1DB620050371C /* SDKTestsAppDelegate.h */,
-				C28DCA6913F1DB620050371C /* SDKTestsAppDelegate.m */,
-				C28DCA6B13F1DB620050371C /* MainWindow.xib */,
-				C28DCA6E13F1DB620050371C /* SDKTestsViewController.h */,
-				C28DCA6F13F1DB620050371C /* SDKTestsViewController.m */,
-				C28DCA7113F1DB620050371C /* SDKTestsViewController.xib */,
-				C28DCA6013F1DB620050371C /* Supporting Files */,
-			);
-			path = SDKTests;
-			sourceTree = "<group>";
-		};
-		C28DCA6013F1DB620050371C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C28DCA6113F1DB620050371C /* SDKTests-Info.plist */,
-				C28DCA6213F1DB620050371C /* InfoPlist.strings */,
-				C28DCA6513F1DB620050371C /* SDKTests-Prefix.pch */,
-				C28DCA6613F1DB620050371C /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		C28DCAFB13F1EA4C0050371C /* FramekworksTests */ = {
@@ -888,30 +852,6 @@
 				C26713D113D6B845001FE0B8 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		C28DCA6213F1DB620050371C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C28DCA6313F1DB620050371C /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		C28DCA6B13F1DB620050371C /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C28DCA6C13F1DB620050371C /* en */,
-			);
-			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		C28DCA7113F1DB620050371C /* SDKTestsViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C28DCA7213F1DB620050371C /* en */,
-			);
-			name = SDKTestsViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
