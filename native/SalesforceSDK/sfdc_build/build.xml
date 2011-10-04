@@ -30,7 +30,7 @@
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="all" depends="pre, build" description="do it all"/>
+    <target name="all" depends="pre, utest, build" description="do it all"/>
 
     
     <target name="build" description="builds all targets"
@@ -48,17 +48,14 @@
             <arg line="xcodebuild -version -sdk iphonesimulator Path"/>
         </exec>
         
-        <antcall target="runUtestApp">
+        <antcall target="runTestTarget">
             <param name="sdkPath" value="${latestSimSDKPath}" />
-            <!--
-             <param name="appTestExecutable" value="${artifactDir}/${configuration.debug}-TestApp/Applications/${testPackage}TestApp.app/${testPackage}TestApp" />
-             -->
-            <!-- Test app outputs an xml file into its temp dir that we can read -->
+            <!-- TODO Test outputs an xml file into its temp dir that we can read -->
             <!-- param name="testFilename" value="TESTS-${testPackage}.xml" /> -->
         </antcall>
     </target>
     
-    <target name="runUtestApp" description="run app unit tests">
+    <target name="runTestTarget" description="build and run test target" >
         <echo message="sdkPath is: ${sdkPath}" />
         <echo message="appTestExecutable is: ${appTestExecutable}" />
         
@@ -69,7 +66,7 @@
         </exec>
         <echo message="Created temp Home at ${tmp_home}"/>
         
-        <echo message="Stoping any stale securityd ..."/>
+        <echo message="Stopping any stale securityd ..."/>
         <exec failonerror="false" executable="launchctl">
             <arg line="remove RunIPhoneLaunchDaemons"/>
         </exec>
@@ -86,11 +83,13 @@
             <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
         
+        <!-- build and run the actual test target -->
         <exec executable="xcodebuild"  >
             <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug -sdk iphonesimulator build" />
         </exec>
         
         <!--
+         TODO copy the test output file to a report dir
         <copy file="${tmp_home}/Documents/test-reports/junit.xml" tofile="${testReportDir}/${testFilename}" failonerror="false"/>
         <delete dir="${tmp_home}"/>
         -->
