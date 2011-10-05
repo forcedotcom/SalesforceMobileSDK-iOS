@@ -32,9 +32,7 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
-    NSLog(@"my view controller: %@",_viewController);
-    
+         
     UnauthorizedViewController *bgVC = [[UnauthorizedViewController alloc] initWithNibName:@"UnauthorizedViewController" bundle:nil];
     self.viewController = bgVC;
     self.window.rootViewController = self.viewController;
