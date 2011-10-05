@@ -11,6 +11,7 @@
 #import "RestAPIExplorerViewController.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI.h"
+#import "UnauthorizedViewController.h"
 
 static NSString *const remoteAccessConsumerKey = @"3MVG99OxTyEMCQ3jIW9bdxrL5aAIBz8a993UAC3dntUFefeCE.FJeLrZ.Tt.vcR4USTTa2_H3EGJ6Ajt4dFOw";
 static NSString *const OAuthRedirectURI = @"https://login.salesforce.com/services/oauth2/success";
@@ -32,8 +33,14 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 {
     // Override point for customization after application launch.
      
+    NSLog(@"my view controller: %@",_viewController);
+    
+    UnauthorizedViewController *bgVC = [[UnauthorizedViewController alloc] initWithNibName:@"UnauthorizedViewController" bundle:nil];
+    self.viewController = bgVC;
     self.window.rootViewController = self.viewController;
+    [bgVC release];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -122,11 +129,17 @@ static NSString *const OAuthLoginDomain = @"login.salesforce.com";
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    [self.window addSubview:view];
+    
+    if ([self.viewController isKindOfClass:[UnauthorizedViewController class]]) {
+        [(UnauthorizedViewController*)self.viewController setOauthView:view];
+    } else {
+        [self.viewController.view addSubview:view];
+    }
+
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate with sessionid: %@, userId: %@", coordinator.credentials.accessToken, coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate with userId: %@", coordinator.credentials.userId);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
