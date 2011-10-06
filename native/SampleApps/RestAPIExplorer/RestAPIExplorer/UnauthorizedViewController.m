@@ -22,18 +22,41 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 
-@class RestAPIExplorerViewController;
+#import "UnauthorizedViewController.h"
 
-@interface QueryListViewController : UITableViewController {
-    NSArray *_actions;
-    RestAPIExplorerViewController *_appViewController;
+@implementation UnauthorizedViewController
+
+@synthesize oauthView = _oauthView;
+
+
+- (void)dealloc {
+    self.oauthView = nil;
+    [super dealloc];
 }
 
-@property (nonatomic, retain) NSArray *actions;
-@property (nonatomic, retain) RestAPIExplorerViewController *appViewController;
+#pragma mark - View lifecycle
 
-- (id)initWithAppViewController:(RestAPIExplorerViewController *)appViewController;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+	return YES;
+}
 
+
+#pragma mark - Properties
+
+- (void)setOauthView:(UIView *)oauthView {
+    if (![oauthView isEqual:_oauthView]) {
+        [_oauthView removeFromSuperview];
+        [_oauthView release];
+        _oauthView = [oauthView retain];
+        
+        if (nil != _oauthView) {
+            [_oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_oauthView setFrame:self.view.bounds];
+            [self.view addSubview:_oauthView];
+        }
+    }
+}
 @end
