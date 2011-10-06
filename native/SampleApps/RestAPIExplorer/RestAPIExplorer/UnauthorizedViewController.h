@@ -22,18 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #import <UIKit/UIKit.h>
 
-@class RestAPIExplorerViewController;
+@interface UnauthorizedViewController : UIViewController
 
-@interface QueryListViewController : UITableViewController {
-    NSArray *_actions;
-    RestAPIExplorerViewController *_appViewController;
-}
-
-@property (nonatomic, retain) NSArray *actions;
-@property (nonatomic, retain) RestAPIExplorerViewController *appViewController;
-
-- (id)initWithAppViewController:(RestAPIExplorerViewController *)appViewController;
+@property (nonatomic, retain) UIView *oauthView;
 
 @end
