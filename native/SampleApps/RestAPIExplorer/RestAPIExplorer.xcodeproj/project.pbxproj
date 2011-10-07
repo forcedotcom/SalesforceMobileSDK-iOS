@@ -22,6 +22,8 @@
 		334390DD13CFA063006D3E31 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334390DC13CFA063006D3E31 /* CoreData.framework */; };
 		334390DF13CFA09D006D3E31 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334390DE13CFA09D006D3E31 /* SystemConfiguration.framework */; };
 		3367018513CFA53100AE175E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3367018413CFA53100AE175E /* libxml2.dylib */; };
+		7DFF89AC143CE5C900E9CC34 /* UnauthorizedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF89AA143CE5C900E9CC34 /* UnauthorizedViewController.m */; };
+		7DFF89AD143CE5C900E9CC34 /* UnauthorizedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF89AB143CE5C900E9CC34 /* UnauthorizedViewController.xib */; };
 		C2499EBD1408214A003F30E3 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C2499EBC1408214A003F30E3 /* icon-72.png */; };
 		C2C92E4713D9F9D8008833A4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C2C92E4613D9F9D8008833A4 /* Default-Portrait~ipad.png */; };
 		C2C92E5713DA22AB008833A4 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C92E5513DA22AB008833A4 /* QueryListViewController.m */; };
@@ -57,6 +59,9 @@
 		334390DC13CFA063006D3E31 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		334390DE13CFA09D006D3E31 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3367018413CFA53100AE175E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		7DFF89A9143CE5C900E9CC34 /* UnauthorizedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnauthorizedViewController.h; sourceTree = "<group>"; };
+		7DFF89AA143CE5C900E9CC34 /* UnauthorizedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnauthorizedViewController.m; sourceTree = "<group>"; };
+		7DFF89AB143CE5C900E9CC34 /* UnauthorizedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnauthorizedViewController.xib; sourceTree = "<group>"; };
 		C2499EBC1408214A003F30E3 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
 		C2C92E4613D9F9D8008833A4 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		C2C92E5413DA22AB008833A4 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryListViewController.h; sourceTree = "<group>"; };
@@ -224,6 +229,9 @@
 				C2C92E5413DA22AB008833A4 /* QueryListViewController.h */,
 				C2C92E5513DA22AB008833A4 /* QueryListViewController.m */,
 				C2C92E5613DA22AB008833A4 /* QueryListViewController.xib */,
+				7DFF89A9143CE5C900E9CC34 /* UnauthorizedViewController.h */,
+				7DFF89AA143CE5C900E9CC34 /* UnauthorizedViewController.m */,
+				7DFF89AB143CE5C900E9CC34 /* UnauthorizedViewController.xib */,
 				33438E4A13CF7BA7006D3E31 /* Supporting Files */,
 			);
 			path = RestAPIExplorer;
@@ -549,6 +557,7 @@
 				C2C92E4713D9F9D8008833A4 /* Default-Portrait~ipad.png in Resources */,
 				C2C92E5813DA22AB008833A4 /* QueryListViewController.xib in Resources */,
 				C2499EBD1408214A003F30E3 /* icon-72.png in Resources */,
+				7DFF89AD143CE5C900E9CC34 /* UnauthorizedViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +572,7 @@
 				33438E5413CF7BA7006D3E31 /* RestAPIExplorerAppDelegate.m in Sources */,
 				33438E5A13CF7BA7006D3E31 /* RestAPIExplorerViewController.m in Sources */,
 				C2C92E5713DA22AB008833A4 /* QueryListViewController.m in Sources */,
+				7DFF89AC143CE5C900E9CC34 /* UnauthorizedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
