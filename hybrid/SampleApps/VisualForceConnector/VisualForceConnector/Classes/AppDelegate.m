@@ -37,7 +37,7 @@
  */
 
 #warning This value should be overwritten with the Consumer Key from your own Remote Access object
-static NSString *const remoteAccessConsumerKey =
+static NSString *const RemoteAccessConsumerKey =
 @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 
 
@@ -67,7 +67,8 @@ static NSString *const InstanceHostname =
 /**
  * This method will return the URL that PhoneGap will use to initialize the application.
  * For demonstration purposes, this simply points to https://instance_host_name/m.
- * Change this to refrence your VisualForce landing page.
+ * Change this to reference your VisualForce landing page.
+ * Example: [NSString stringWithFormat:@"https://%@/apex/MyVisualForcePage/", InstanceHostname];
  */
 + (NSString *)startPage {
     NSString *startPageString = [NSString stringWithFormat:@"https://%@/m", InstanceHostname];
@@ -110,6 +111,9 @@ static NSString *const InstanceHostname =
 	self.window = rootWindow;
     [rootWindow release];
 	self.window.autoresizesSubviews = YES;
+    
+    // We will allow PhoneGap's initialization to continue after we complete authentication.
+    // See the loggedIn method.
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -195,13 +199,17 @@ static NSString *const InstanceHostname =
 - (void)login {
     
     if (nil == self.coordinator) {
-        SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:remoteAccessConsumerKey];
+        SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:RemoteAccessConsumerKey];
         credentials.domain = OAuthLoginDomain;
         credentials.redirectUri = OAuthRedirectURI;
+        // TODO: OAuth libs need to be updated to accept scope as an argument for
+        // the credentials object.
+        // credentials.scope = "VisualForce API Web";
         SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-        [credentials release];
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
+        
+        [credentials release];
         [coordinator release];
     }
     
