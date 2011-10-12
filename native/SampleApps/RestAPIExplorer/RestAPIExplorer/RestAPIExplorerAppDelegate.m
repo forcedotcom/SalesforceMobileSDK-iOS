@@ -31,6 +31,7 @@
 #import "SBJson.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI.h"
+#import "UnauthorizedViewController.h"
 
 
 /*
@@ -75,9 +76,13 @@ static NSString *const OAuthLoginDomain =
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
+         
+    UnauthorizedViewController *bgVC = [[UnauthorizedViewController alloc] initWithNibName:@"UnauthorizedViewController" bundle:nil];
+    self.viewController = bgVC;
     self.window.rootViewController = self.viewController;
+    [bgVC release];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -186,11 +191,17 @@ static NSString *const OAuthLoginDomain =
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    [self.window addSubview:view];
+    
+    if ([self.viewController isKindOfClass:[UnauthorizedViewController class]]) {
+        [(UnauthorizedViewController*)self.viewController setOauthView:view];
+    } else {
+        [self.viewController.view addSubview:view];
+    }
+
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate  userId: %@", coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate with userId: %@", coordinator.credentials.userId);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
