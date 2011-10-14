@@ -34,7 +34,6 @@
 		CFD31A4713D5957300A9074A /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA9ADD413AA86DA0024260E /* libSalesforceOAuth.a */; };
 		CFD31A4A13D5987600A9074A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCB5FA313B73F1C00F90FEB /* Security.framework */; };
 		CFD31A5513D5FD9C00A9074A /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD31A5413D5FD9C00A9074A /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */; };
-		CFD31AB513D6705600A9074A /* DebugTestApp.app in Resources */ = {isa = PBXBuildFile; fileRef = CFD31AAF13D6705600A9074A /* DebugTestApp.app */; };
 		CFD31AB613D6705600A9074A /* libUnitTestRunner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD31AB413D6705600A9074A /* libUnitTestRunner.a */; };
 /* End PBXBuildFile section */
 
@@ -404,7 +403,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFD31A3F13D5956700A9074A /* SalesforceOAuthUnitTests.h in Resources */,
-				CFD31AB513D6705600A9074A /* DebugTestApp.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
