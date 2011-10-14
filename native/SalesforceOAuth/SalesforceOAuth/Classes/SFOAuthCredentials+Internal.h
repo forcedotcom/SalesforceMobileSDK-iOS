@@ -3,14 +3,14 @@
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-  * Redistributions of source code must retain the above copyright notice, this list of conditions
-    and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice, this list of
-    conditions and the following disclaimer in the documentation and/or other materials provided
-    with the distribution.
-  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
-    endorse or promote products derived from this software without specific prior written
-    permission of salesforce.com, inc.
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -29,11 +29,13 @@
 
 @property (nonatomic, readonly) NSMutableDictionary *tokenQuery;
 
-- (void)initKeychainWithIdentifier:(NSString *)identifier accessGroup:(NSString *)accessGroup;
+- (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup;
 - (NSString *)tokenForKey:(NSString *)key;
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
 - (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
+
++ (NSString *)stringForKeychainResultCode:(OSStatus)code;
 
 @end
 

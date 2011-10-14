@@ -138,13 +138,27 @@ static NSString *const OAuthLoginDomain =
 #pragma mark - Salesforce.com login helpers
 
 - (void)login {
-    SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] initWithIdentifier:remoteAccessConsumerKey] autorelease];
-    credentials.domain = OAuthLoginDomain;
-    credentials.redirectUri = OAuthRedirectURI;
     
-    self.coordinator = [[[SFOAuthCoordinator alloc] initWithCredentials:credentials] autorelease];
-    self.coordinator.delegate = self;
-//    [self.coordinator revokeAuthentication];
+    //create a new coordinator if we don't already have one
+    if (nil == self.coordinator) {
+        //Oauth credentials can have an identifier associated with them,
+        //such as an account identifier.  For this app we only support one
+        //"account" but you could provide your own means (eg NSUserDefaults) of 
+        //storing which account the user last accessed, and using that here.
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"RestExplorer-DefaultAccount"
+                                                                          clientId:remoteAccessConsumerKey
+                                     ];
+        
+        creds.domain = OAuthLoginDomain;
+        creds.redirectUri = OAuthRedirectURI;
+        
+        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+        self.coordinator = coord;
+        self.coordinator.delegate = self;
+        [coord release];
+    }
+    
+    //kickoff authentication
     [self.coordinator authenticate];
 }
 

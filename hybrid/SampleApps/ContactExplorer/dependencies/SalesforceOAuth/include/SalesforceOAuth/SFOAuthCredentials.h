@@ -3,14 +3,14 @@
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-  * Redistributions of source code must retain the above copyright notice, this list of conditions
-    and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice, this list of
-    conditions and the following disclaimer in the documentation and/or other materials provided
-    with the distribution.
-  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
-    endorse or promote products derived from this software without specific prior written
-    permission of salesforce.com, inc.
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -23,6 +23,16 @@
  */
 
 #import <Foundation/Foundation.h>
+
+/**
+ @enum Logging levels to control the verbosity of log output based on the severity of the event being logged.
+ */
+typedef enum {
+    kSFOAuthLogLevelDebug,
+    kSFOAuthLogLevelInfo,
+    kSFOAuthLogLevelWarning,
+    kSFOAuthLogLevelError
+} SFOAuthLogLevel;
 
 /** Object representing an individual user account's logon credentials.
  
@@ -46,16 +56,12 @@
  - Access token and secret
 
  @see SFOAuthCoordinator
-*/
+ */
 @interface SFOAuthCredentials : NSObject <NSCoding>
 
 /** HTTP protocol scheme.
-
- This value must be either `http` or `https`. Defaults to `https`.
- 
- @throws NSInvalidArgumentException if the value is not `http` or `https`
  */
-@property (nonatomic, copy) NSString *protocol;
+@property (nonatomic, readonly) NSString *protocol;
 
 /** Logon host domain name.
  
@@ -64,17 +70,29 @@
  */
 @property (nonatomic, copy) NSString *domain;
 
+/** Credential identifier used to uniquely identify this credential in the keychain.
+ 
+ This must not be modified while authenticating.
+ */
+@property (nonatomic, copy) NSString *identifier;
+
 /** Client consumer key.
  
- Client ID representing the client application.
-*/
+ Identifies the client for remote authentication.
+ */
 @property (nonatomic, copy) NSString *clientId;
 
 /** Callback URL to load at the end of the authentication process.
  
  This must match the callback URL in the Remote Access object exactly, or approval will fail.
-*/
+ */
 @property (nonatomic, copy) NSString *redirectUri;
+
+/** Activation code.
+ 
+ Activation code used in the client IP/IC bypass flow.
+ */
+@property (nonatomic, copy) NSString *activationCode;
 
 /** Token used to refresh the user's session.
  
@@ -92,7 +110,7 @@
  */
 @property (nonatomic, copy) NSString *accessToken;
 
-/** Organization ID
+/** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
  
  The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
@@ -120,27 +138,34 @@
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
-/** A convenience property returning the first 15 characters of the Salesforce User ID returned in the final path component 
- of the identityUrl.
+/** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
+ component of the identityUrl.
  
  The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSString *userId;
 
+/**
+ The log level controlling which events are logged based on their severity.
+ 
+ This property controls the logging level for all components of the SFOAuth library.
+ */
+@property (nonatomic, assign) SFOAuthLogLevel logLevel;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
 
-/** Initializes an authentication credential object with the given client ID identifier.
+/** Initializes an authentication credential object with the given identifier and client ID.
  
- The `anIdentifier` argument must not be empty or `nil`, as this client ID is used to
- securely identify the account within the device's secure keychain.
+ The `identifier` and `clientId` arguments may not be `nil` or empty. The identifier uniquely identifies the 
+ credentials object within the device's secure keychain. The client ID identifies the client for remote authentication. 
 
- @param anIdentifier The client ID (also known as consumer key) to be used for the oauth session. 
-                     The identifier may not be nil or empty.
+ @param theIdentifier An identifier for this credential instance. Must not be nil or empty.
+ @param theClientId The client ID (also known as consumer key) to be used for the OAuth session. Must not be nil or empty.
  @return The initialized authentication credential object.
  */
-- (id)initWithIdentifier:(NSString *)anIdentifier;
+- (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId;
 
 /** Revoke the OAuth access and refresh tokens.
  */
@@ -153,5 +178,9 @@
 /** Revoke the OAuth refresh token.
  */
 - (void)revokeRefreshToken;
+
+/** Revoke the OAuth activation code.
+ */
+- (void)revokeActivationCode;
 
 @end
