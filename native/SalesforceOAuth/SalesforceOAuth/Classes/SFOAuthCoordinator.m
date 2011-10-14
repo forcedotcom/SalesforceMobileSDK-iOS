@@ -215,11 +215,14 @@ static NSString * const kHttpPostContentType                    = @"application/
         
     if ([self.scopes count] > 0) {
         //append scopes
-        [approvalUrl appendString:@"&scope=
-        for (NSString *scope in scopes) {
-            
+        [approvalUrl appendString:@"&scope=refresh_token"];
+        for (NSString *scope in self.scopes) {
+            if (![scope isEqualToString:@"refresh_token"]) {
+                [approvalUrl appendFormat:@"%%20%@",scope];
+            }
         }
     }
+    
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         NSLog(@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl);
     }
