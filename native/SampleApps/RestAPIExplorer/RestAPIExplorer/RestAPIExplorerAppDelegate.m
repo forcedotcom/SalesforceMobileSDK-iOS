@@ -138,13 +138,34 @@ static NSString *const OAuthLoginDomain =
 #pragma mark - Salesforce.com login helpers
 
 - (void)login {
-    SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] initWithIdentifier:remoteAccessConsumerKey] autorelease];
-    credentials.domain = OAuthLoginDomain;
-    credentials.redirectUri = OAuthRedirectURI;
     
-    self.coordinator = [[[SFOAuthCoordinator alloc] initWithCredentials:credentials] autorelease];
-    self.coordinator.delegate = self;
-//    [self.coordinator revokeAuthentication];
+    //create a new coordinator if we don't already have one
+    if (nil == self.coordinator) {
+        //generate a unique ID for each "user account" -- you may use another method to
+        //uniquely identify each set of credentials
+        
+        CFUUIDRef   uuid;
+        CFStringRef uuidStr;
+        
+        uuid = CFUUIDCreate(NULL);        
+        uuidStr = CFUUIDCreateString(NULL, uuid);
+        
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:(NSString*)uuidStr
+                                                                          clientId:remoteAccessConsumerKey
+                                     ];
+        CFRelease(uuidStr);
+        CFRelease(uuid);
+        
+        creds.domain = OAuthLoginDomain;
+        creds.redirectUri = OAuthRedirectURI;
+        
+        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+        self.coordinator = coord;
+        self.coordinator.delegate = self;
+        [coord release];
+    }
+    
+    //kickoff authentication
     [self.coordinator authenticate];
 }
 
