@@ -52,6 +52,7 @@
     if ((self = [super initWithNibName:nibName bundle:nibBundle])) {
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId];
         _oauthCoordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+        _oauthCoordinator.scopes = [NSSet setWithObjects:@"api",@"visualforce", nil];
         _oauthCoordinator.delegate = self;
         [creds release];
     }
