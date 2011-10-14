@@ -2,9 +2,6 @@
 // Prefix header for all source files of the 'SalesforceOAuth' target in the 'SalesforceOAuth' project
 //
 
-#define SFOAUTH_LOG_VERBOSE FALSE       // true to log recoverable errors in addition to unrecoverable
-#define SFOAUTH_LOG_TOKENS  FALSE      // true to log tokens - WARNING: tokens should not be logged for production builds
-
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
 #endif
