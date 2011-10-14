@@ -141,20 +141,13 @@ static NSString *const OAuthLoginDomain =
     
     //create a new coordinator if we don't already have one
     if (nil == self.coordinator) {
-        //generate a unique ID for each "user account" -- you may use another method to
-        //uniquely identify each set of credentials
-        
-        CFUUIDRef   uuid;
-        CFStringRef uuidStr;
-        
-        uuid = CFUUIDCreate(NULL);        
-        uuidStr = CFUUIDCreateString(NULL, uuid);
-        
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:(NSString*)uuidStr
+        //Oauth credentials can have an identifier associated with them,
+        //such as an account identifier.  For this app we only support one
+        //"account" but you could provide your own means (eg NSUserDefaults) of 
+        //storing which account the user last accessed, and using that here.
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"RestExplorer-DefaultAccount"
                                                                           clientId:remoteAccessConsumerKey
                                      ];
-        CFRelease(uuidStr);
-        CFRelease(uuid);
         
         creds.domain = OAuthLoginDomain;
         creds.redirectUri = OAuthRedirectURI;
