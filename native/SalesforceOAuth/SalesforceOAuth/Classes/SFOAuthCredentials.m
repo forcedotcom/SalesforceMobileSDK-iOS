@@ -3,14 +3,14 @@
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-  * Redistributions of source code must retain the above copyright notice, this list of conditions
-    and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice, this list of
-    conditions and the following disclaimer in the documentation and/or other materials provided
-    with the distribution.
-  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
-    endorse or promote products derived from this software without specific prior written
-    permission of salesforce.com, inc.
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -25,28 +25,33 @@
 #import "SFOAuthCredentials+Internal.h"
 #import <Security/Security.h>
 
+static NSString * const kSFOAuthArchiveVersion      = @"1.0"; // internal version included when archiving via encodeWithCoder
+
 static NSString * const kSFOAuthAccessGroup         = @"com.salesforce.oauth";
-static NSString * const kSFOAuthDefaultProtocol     = @"https";
+static NSString * const kSFOAuthProtocolHttps       = @"https";
 
 static NSString * const kSFOAuthServiceAccess       = @"com.salesforce.oauth.access";
 static NSString * const kSFOAuthServiceRefresh      = @"com.salesforce.oauth.refresh";
+static NSString * const kSFOAuthServiceActivation   = @"com.salesforce.oauth.activation";
 
 static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 
 @implementation SFOAuthCredentials
 
-@synthesize protocol        = _protocol;
+@synthesize identifier      = _identifier;
 @synthesize domain          = _domain;
 @synthesize clientId        = _clientId;
 @synthesize redirectUri     = _redirectUri;
-@synthesize organizationId  = _organizationId;
+@synthesize organizationId  = _organizationId; // cached org ID dervied from identityURL
 @synthesize identityUrl     = _identityUrl;
-@synthesize userId          = _userId; // cached user ID derived from identityURL
+@synthesize userId          = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl     = _instanceUrl;
 @synthesize issuedAt        = _issuedAt;
+@synthesize logLevel        = _logLevel;
 
-@dynamic refreshToken;  // stored in keychain
-@dynamic accessToken;   // stored in keychain
+@dynamic refreshToken;   // stored in keychain
+@dynamic accessToken;    // stored in keychain
+@dynamic activationCode; // stored in keychain
 
 // private
 
@@ -55,7 +60,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        self.protocol       = [coder decodeObjectForKey:@"SFOAuthProtocol"];
+        self.identifier     = [coder decodeObjectForKey:@"SFOAuthIdentifier"];
         self.domain         = [coder decodeObjectForKey:@"SFOAuthDomain"];
         self.clientId       = [coder decodeObjectForKey:@"SFOAuthClientId"];
         self.redirectUri    = [coder decodeObjectForKey:@"SFOAuthRedirectUri"];
@@ -64,20 +69,21 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         self.instanceUrl    = [coder decodeObjectForKey:@"SFOAuthInstanceUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
         
-        [self initKeychainWithIdentifier:self.clientId accessGroup:kSFOAuthAccessGroup];
+        [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeObject:self.protocol       forKey:@"SFOAuthProtocol"];
-    [coder encodeObject:self.domain         forKey:@"SFOAuthDomain"];
-    [coder encodeObject:self.clientId       forKey:@"SFOAuthClientId"];
-    [coder encodeObject:self.redirectUri    forKey:@"SFOAuthRedirectUri"];
-    [coder encodeObject:self.organizationId forKey:@"SFOAuthOrganizationId"];
-    [coder encodeObject:self.identityUrl    forKey:@"SFOAuthIdentityUrl"];
-    [coder encodeObject:self.instanceUrl    forKey:@"SFOAuthInstanceUrl"];
-    [coder encodeObject:self.issuedAt       forKey:@"SFOAuthIssuedAt"];
+    [coder encodeObject:self.identifier         forKey:@"SFOAuthIdentifier"];
+    [coder encodeObject:self.domain             forKey:@"SFOAuthDomain"];
+    [coder encodeObject:self.clientId           forKey:@"SFOAuthClientId"];
+    [coder encodeObject:self.redirectUri        forKey:@"SFOAuthRedirectUri"];
+    [coder encodeObject:self.organizationId     forKey:@"SFOAuthOrganizationId"];
+    [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
+    [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
+    [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
+    [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
 }
 
 - (id)init {
@@ -88,33 +94,36 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     return nil;
 }
 
-- (id)initWithIdentifier:(NSString *)anIdentifier {
-    NSAssert([anIdentifier length] > 0, @"identifier cannot be nil or empty");
+- (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId {
+    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
+    NSAssert([theClientId length] > 0,  @"clientId cannot be nil or empty");
     
     self = [super init];
     if (self) {
-        self.clientId       = anIdentifier;
-        self.protocol       = kSFOAuthDefaultProtocol;
+        self.identifier     = theIdentifier;
+        self.clientId       = theClientId;
         self.domain         = kSFOAuthDefaultDomain;
+        self.logLevel       = kSFOAuthLogLevelInfo;
         
-        [self initKeychainWithIdentifier:self.clientId accessGroup:kSFOAuthAccessGroup];
+        [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
 }
 
-- (void)initKeychainWithIdentifier:(NSString *)identifier accessGroup:(NSString *)accessGroup {
+- (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup {
+    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
+    
     _tokenQuery = [[NSMutableDictionary alloc] init];
+    [self.tokenQuery setObject:theIdentifier                forKey:(id)kSecAttrAccount];
     [self.tokenQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
-    [self.tokenQuery setObject:identifier                   forKey:(id)kSecAttrAccount];
     [self.tokenQuery setObject:(id)kSecMatchLimitOne        forKey:(id)kSecMatchLimit];
     [self.tokenQuery setObject:(id)kCFBooleanTrue           forKey:(id)kSecReturnAttributes];
-    
-    // TODO: access group
+    // TODO: access group for keychain item sharing amongst apps
 }
 
 - (void)dealloc {
-    [_protocol release];        _protocol = nil;
     [_domain release];          _domain = nil;
+    [_identifier release];      _identifier = nil;
     [_clientId release];        _clientId = nil;
     [_redirectUri release];     _redirectUri = nil;
     [_instanceUrl release];     _instanceUrl = nil;
@@ -144,42 +153,53 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     } else {
         result = SecItemDelete((CFDictionaryRef)dict); // remove token
     }
+    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
+        NSLog(@"%@:setAccessToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
+    }
 }
 
-- (void)setClientId:(NSString *)identifier {
-    [_clientId autorelease];
-    _clientId = [identifier copy];
-    if (_clientId != nil) {
-        [self.tokenQuery setObject:_clientId forKey:(id)kSecAttrAccount];
+- (void)setClientId:(NSString *)theClientId {
+    NSAssert([theClientId length] > 0,  @"clientId cannot be nil or empty");
+    
+    if (![theClientId isEqualToString:_clientId]) {
+        [_clientId release];
+        _clientId = [theClientId copy];
+    }
+}
+
+- (void)setIdentifier:(NSString *)theIdentifier {
+    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
+    
+    if (![theIdentifier isEqualToString:_identifier]) {
+        [_identifier release];
+        _identifier = [theIdentifier copy];
+        [self.tokenQuery setObject:_identifier forKey:(id)kSecAttrAccount];
     }
 }
 
 // This setter is exposed publically for unit tests.
 - (void)setIdentityUrl:(NSURL *)identityUrl {
     if (![identityUrl isEqual:_identityUrl]) {
-        [_identityUrl autorelease];
+        [_identityUrl release];
         _identityUrl = [identityUrl copy];
         
-        [_userId autorelease]; _userId = nil;
+        [_userId release];         _userId = nil;
+        [_organizationId release]; _organizationId = nil;
+        
         if (_identityUrl.path) {
-            NSRange r = [_identityUrl.path rangeOfString:@"/" options:NSBackwardsSearch];
-            if (r.location != NSNotFound) {
-                self.userId = [_identityUrl.path substringFromIndex:r.location + r.length];
+            NSArray *pathComps = [_identityUrl.path componentsSeparatedByString:@"/"];
+            if (pathComps.count < 2) {
+                NSLog(@"%@:setIdentityUrl: invalid identityUrl: %@", [self class], _identityUrl);
+                return;
             }
+            self.userId = [pathComps objectAtIndex:pathComps.count - 1];
+            self.organizationId = [pathComps objectAtIndex:pathComps.count - 2];
         }
     }
 }
 
-- (void)setProtocol:(NSString *)protocol {
-    NSString *lc = [protocol lowercaseString];
-    if (!([lc isEqualToString:@"http"] || [lc isEqualToString:@"https"])) {
-        NSException *exp = [NSException exceptionWithName:NSInvalidArgumentException reason:@"protocol must be http or https" userInfo:nil];
-        @throw exp;
-    }
-    if (![protocol isEqualToString:_protocol]) {
-        [_protocol autorelease];
-        _protocol = [protocol copy];
-    }
+- (NSString *)protocol {
+    return kSFOAuthProtocolHttps;
 }
 
 - (NSString *)refreshToken {
@@ -192,12 +212,37 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceRefresh];
     if ([token length] > 0) {
         [dict setObject:token forKey:(id)kSecValueData];
-        [self writeToKeychain:dict];
+        result = [self writeToKeychain:dict];
     } else {
         result = SecItemDelete((CFDictionaryRef)dict); // remove token
         self.instanceUrl = nil;
         self.issuedAt    = nil;
         self.identityUrl = nil;
+    }
+    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
+        NSLog(@"%@:setRefreshToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
+    }
+}
+    
+- (NSString *)activationCode {
+    return [self tokenForKey:kSFOAuthServiceActivation];
+}
+    
+// This setter is exposed publically for unit tests. Other external client code should use the revoke methods.
+- (void)setActivationCode:(NSString *)token {
+    OSStatus result;
+    NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceActivation];
+    if ([token length] > 0) {
+        [dict setObject:token forKey:(id)kSecValueData];
+        result = [self writeToKeychain:dict];
+    } else {
+        result = SecItemDelete((CFDictionaryRef)dict); // remove token
+        self.instanceUrl = nil;
+        self.issuedAt    = nil;
+        self.identityUrl = nil;
+    }
+    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
+        NSLog(@"%@:setActivationCode: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
     }
 }
 
@@ -207,15 +252,17 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     //since some sources might set 15 char, some might set 18 char
     NSString *truncUserId = [userId substringToIndex:MIN([userId length], 15)]; 
     if (![truncUserId isEqualToString:_userId]) {
-        [_userId autorelease];
+        [_userId release];
         _userId = [truncUserId copy];
     }
 }
 
 - (NSString *)description {
-    NSString *format = @"<%@ domain=\"%@\" instanceURL=\"%@\" issuedAt=\"%@\" organizationId=\"%@\" protocol=\"%@\" redirectUri=\"%@\" identityURL=\"%@\">";
+    NSString *format = @"<%@ identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" "
+                       @"issuedAt=\"%@\" organizationId=\"%@\" protocol=\"%@\" redirectUri=\"%@\">";
     return [NSString stringWithFormat:format, [self class], 
-            self.domain, self.instanceUrl, self.issuedAt, self.organizationId, self.protocol, self.redirectUri, self.identityUrl];
+            self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl, 
+            self.issuedAt, self.organizationId, self.protocol, self.redirectUri];
 }
 
 - (void)revoke {
@@ -224,20 +271,24 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (void)revokeAccessToken {
-#if SFOAUTH_LOG_VERBOSE
-    NSLog(@"%@:revokeAccessToken: access token revoked", [self class]);
-#endif
+    if (self.logLevel < kSFOAuthLogLevelWarning) {
+        NSLog(@"%@:revokeAccessToken: access token revoked", [self class]);
+    }
     self.accessToken = nil;
 }
 
 - (void)revokeRefreshToken {
-#if SFOAUTH_LOG_VERBOSE
-    NSLog(@"%@:revokeAccessToken: refresh token revoked. instanceUrl, issuedAt, userId cleared", [self class]);
-#endif
+    if (self.logLevel < kSFOAuthLogLevelWarning) {
+        NSLog(@"%@:revokeAccessToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt", [self class]);
+    }
     self.refreshToken = nil;
     self.instanceUrl  = nil;
     self.issuedAt     = nil;
     self.identityUrl  = nil;
+}
+
+- (void)revokeActivationCode {
+    self.activationCode = nil;
 }
 
 #pragma mark - Private Keychain Methods
@@ -245,16 +296,16 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 // TODO: reuse dictionaries
 
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key {
-    NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh, @"invalid key \"%@\"", key);
+    NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh || key == kSFOAuthServiceActivation, @"invalid key \"%@\"", key);
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:5];
     [dict setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
-    [dict setObject:self.clientId forKey:(id)kSecAttrAccount];
+    [dict setObject:self.identifier forKey:(id)kSecAttrAccount];
     [dict setObject:key forKey:(id)kSecAttrService];
     return dict;
 }
 
 - (NSString *)tokenForKey:(NSString*)key {
-    NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh, @"invalid key \"%@\"", key);
+    NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh || key == kSFOAuthServiceActivation, @"invalid key \"%@\"", key);
     
     OSStatus result;
     NSMutableDictionary *itemDict = nil;
@@ -265,11 +316,11 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     if (noErr == result) {
         itemDict = [self keychainItemWithConvertedTokenForMatchingItem:outDict];
     } else if (errSecItemNotFound == result) {
-#if SFOAUTH_LOG_VERBOSE
-        NSLog(@"SFOAuthCredentials:tokenForKey: (%ld) no existing \"%@\" item matching \"%@\"", result, key, self.tokenQuery);
-#endif
+        if (self.logLevel < kSFOAuthLogLevelInfo) {
+            NSLog(@"%@:tokenForKey: (%ld) no existing \"%@\" item matching \"%@\"", [self class], result, key, self.tokenQuery);
+        }
     } else {
-        NSLog(@"SFOAuthCredentials:tokenForKey: (%ld) error retrieving \"%@\" item matching \"%@\"", result, key, self.tokenQuery);
+        NSLog(@"%@:tokenForKey: (%ld) error retrieving \"%@\" item matching \"%@\"", [self class], result, key, self.tokenQuery);
     }
     [outDict release];
     return [itemDict valueForKey:(id)kSecValueData];
@@ -296,9 +347,9 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         }
         [tokenString release];
     } else if (errSecItemNotFound == result) {
-        NSLog(@"SFOAuthCredentials:keychainItemWithConvertedTokenForMatchingItem: (%ld) no match for item \"%@\"", result, returnDict);
+        NSLog(@"%@:keychainItemWithConvertedTokenForMatchingItem: (%ld) no match for item \"%@\"", [self class], result, returnDict);
     } else {
-        NSLog(@"SFOAuthCredentials:keychainItemWithConvertedTokenForMatchingItem: (%ld) error copying item \"%@\"", result, returnDict);
+        NSLog(@"%@:keychainItemWithConvertedTokenForMatchingItem: (%ld) error copying item \"%@\"", [self class], result, returnDict);
     }
     [tokenData release];
     return returnDict;
@@ -326,22 +377,63 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         [updateQuery setObject:[self.tokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
         result = SecItemUpdate((CFDictionaryRef)updateQuery, (CFDictionaryRef)updateDict);
         if (noErr != result) {
-            NSLog(@"SFOAuthCredentials:writeToKeychain: (%ld) error updating item: %@", result, updateQuery);
+            NSLog(@"%@:writeToKeychain: (%ld) %@ Updating item: %@", 
+                  [self class], result, [[self class] stringForKeychainResultCode:result] , updateQuery);
         }
     } else if (errSecItemNotFound == result) {
         // add a new keychain item
         [updateDict setObject:[self.tokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
-        [updateDict setObject:self.clientId forKey:(id)kSecAttrAccount];
+        [updateDict setObject:self.identifier forKey:(id)kSecAttrAccount];
         [updateDict setObject:[dictionary objectForKey:(id)kSecAttrService] forKey:(id)kSecAttrService];
         // TODO: [updateDict setObject:self.accessGroup forKey:(id)kSecAttrAccessGroup];
         result = SecItemAdd((CFDictionaryRef)updateDict, NULL);
         if (noErr != result) {
-            NSLog(@"SFOAuthCredentials:writeToKeychain: (%ld) error adding item: %@", result, updateDict);
+            NSLog(@"%@:writeToKeychain: (%ld) error adding item: %@", [self class], result, updateDict);
         }
     } else {
-        NSLog(@"SFOAuthCredentials:writeToKeychain: (%ld) error copying item: %@", result, dictionary);
+        NSLog(@"%@:writeToKeychain: (%ld) error copying item: %@", [self class], result, dictionary);
     }
     return result;
+}
+
++ (NSString *)stringForKeychainResultCode:(OSStatus)code {
+    NSString *s;
+    switch (code) {
+        case errSecSuccess:
+            s = @"errSecSuccess";
+            break;
+        case errSecUnimplemented:
+            s = @"errSecUnimplemented";
+            break;
+        case errSecParam:
+            s = @"errSecParam";
+            break;
+        case errSecAllocate:
+            s = @"errSecAllocate";
+            break;
+        case errSecNotAvailable:
+            s = @"errSecNotAvailable";
+            break;
+        case errSecAuthFailed:
+            s = @"errSecAuthFailed";
+            break;
+        case errSecDuplicateItem:
+            s = @"errSecDuplicateItem";
+            break;
+        case errSecItemNotFound:
+            s = @"errSecItemNotFound";
+            break;
+        case errSecInteractionNotAllowed:
+            s = @"errSecInteractionNotAllowed";
+            break;
+        case errSecDecode:
+            s = @"errSecDecode";
+            break;
+        default:
+            s = [NSString stringWithFormat:@"%ld", code];
+            break;
+    }
+    return s;
 }
 
 @end

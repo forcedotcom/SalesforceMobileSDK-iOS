@@ -42,6 +42,10 @@
 	
 	<option value="//api/name/oauthCoordinator:didFailWithError:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didFailWithError:</option>
 	
+	<option value="//api/name/oauthCoordinator:didFinishLoad:error:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didFinishLoad:error:</option>
+	
+	<option value="//api/name/oauthCoordinator:didStartLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didStartLoad:</option>
+	
 	<option value="//api/name/oauthCoordinator:willBeginAuthenticationWithView:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:willBeginAuthenticationWithView:</option>
 	
 	<option value="//api/name/oauthCoordinatorDidAuthenticate:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinatorDidAuthenticate:</option>
@@ -77,6 +81,10 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithView:">oauthCoordinator:didBeginAuthenticationWithView:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didFailWithError:">oauthCoordinator:didFailWithError:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didFinishLoad:error:">oauthCoordinator:didFinishLoad:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didStartLoad:">oauthCoordinator:didStartLoad:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:willBeginAuthenticationWithView:">oauthCoordinator:willBeginAuthenticationWithView:</a></span></li>
 	
@@ -142,6 +150,20 @@ Use these methods to update your interface and refresh your application once a s
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:willBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:willBeginAuthenticationWithView:</a></code>
 		<span class="tooltip"><p>Sent when authentication will begin.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCoordinator:didStartLoad:">&ndash;&nbsp;oauthCoordinator:didStartLoad:</a></code>
+		<span class="tooltip"><p>Sent when the web will starts to load its content.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCoordinator:didFinishLoad:error:">&ndash;&nbsp;oauthCoordinator:didFinishLoad:error:</a></code>
+		<span class="tooltip"><p>Sent when the web will completed to load its content.</p></span>
 	</span>
 	
 	
@@ -309,6 +331,115 @@ The receiver should display the view in the implementation of this method.</p><d
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/oauthCoordinator:didFinishLoad:error:" title="oauthCoordinator:didFinishLoad:error:"></a>
+	<h3 class="subsubtitle method-title">oauthCoordinator:didFinishLoad:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sent when the web will completed to load its content.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFinishLoad:(UIWebView *)<em>view</em> error:(NSError *)<em>errorOrNil</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>coordinator</em></dt>
+			<dd><p>The SFOAuthCoordinator instance processing this message</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>view</em></dt>
+			<dd><p>The UIWebView instance that will be used to conduct the authentication workflow</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>errorOrNil</em></dt>
+			<dd><p>Contains the error or nil if no error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sent when the web will completed to load its content.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFOAuthCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/oauthCoordinator:didStartLoad:" title="oauthCoordinator:didStartLoad:"></a>
+	<h3 class="subsubtitle method-title">oauthCoordinator:didStartLoad:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sent when the web will starts to load its content.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didStartLoad:(UIWebView *)<em>view</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>coordinator</em></dt>
+			<dd><p>The SFOAuthCoordinator instance processing this message</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>view</em></dt>
+			<dd><p>The UIWebView instance that will be used to conduct the authentication workflow</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sent when the web will starts to load its content.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFOAuthCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/oauthCoordinator:willBeginAuthenticationWithView:" title="oauthCoordinator:willBeginAuthenticationWithView:"></a>
 	<h3 class="subsubtitle method-title">oauthCoordinator:willBeginAuthenticationWithView:</h3>
 	
@@ -442,7 +573,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-09-07)</span><br />
+						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-10-13)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

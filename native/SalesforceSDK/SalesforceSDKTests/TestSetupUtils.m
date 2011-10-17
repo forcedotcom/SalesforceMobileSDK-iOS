@@ -72,7 +72,7 @@
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     
     SFOAuthCredentials *credentials =
-    [[SFOAuthCredentials alloc] initWithIdentifier:clientID];
+    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount" clientId:clientID ];     
     credentials.domain = loginDomain;
     credentials.redirectUri = redirectUri; 
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
