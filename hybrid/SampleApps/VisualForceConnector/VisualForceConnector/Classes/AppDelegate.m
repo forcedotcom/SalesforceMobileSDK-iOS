@@ -23,6 +23,8 @@
  */
 
 #import "AppDelegate.h"
+#import "UnauthorizedViewController.h"
+
 #ifdef PHONEGAP_FRAMEWORK
 	#import <PhoneGap/PhoneGapViewController.h>
 #else
@@ -63,6 +65,7 @@ static NSString *const InstanceHostname =
 
 @synthesize invokeString;
 @synthesize coordinator=_coordinator;
+@synthesize authViewController=_authViewController;
 
 /**
  * This method will return the URL that PhoneGap will use to initialize the application.
@@ -87,6 +90,7 @@ static NSString *const InstanceHostname =
 - (void)dealloc
 {
     self.coordinator = nil;
+    self.authViewController = nil;
 	[ super dealloc ];
 }
 
@@ -104,20 +108,24 @@ static NSString *const InstanceHostname =
 		NSLog(@"VisualForceConnector launchOptions = %@",url);
 	}
 	
-	// Before PhoneGap loads its own UI artifacts, we need interim UI artifacts to handle the authentication
-    // flow.
     CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
     UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
 	self.window = rootWindow;
     [rootWindow release];
-	self.window.autoresizesSubviews = YES;
+    
+	// Set up a view controller for the authentication process.
+    UnauthorizedViewController *authVc = [[UnauthorizedViewController alloc] initWithNibName:@"UnauthorizedViewController" bundle:nil];
+    self.authViewController = authVc;
+    self.window.rootViewController = self.authViewController;
+    self.window.autoresizesSubviews = YES;
+    [authVc release];
     
     // We will allow PhoneGap's initialization to continue after we complete authentication.
     // See the loggedIn method.
     
     [self.window makeKeyAndVisible];
     return YES;
-
+    
 }
 
 // this happens while we are running ( in the background, or from within our own app )
@@ -236,8 +244,13 @@ static NSString *const InstanceHostname =
     [newCookies addObject:sidCookie];
     [cookieStorage setCookies:newCookies forURL:hostURL mainDocumentURL:nil];
     
-    if (!self.viewController) {
-        // Main app not initialized yet.  Let's continue on, and kickstart the PhoneGap app.
+    // If we have the UnauthorizedViewController, we're in the initialization of the app.
+    // Remove this view controller, and let PhoneGap continue its initialization with the
+    // standard view controller.
+    if (self.authViewController) {
+        self.window.rootViewController = nil;
+        self.authViewController = nil;
+        self.window = nil;
         [super application:[UIApplication sharedApplication] didFinishLaunchingWithOptions:nil];
     }
     else {
@@ -288,7 +301,14 @@ static NSString *const InstanceHostname =
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    [self.window addSubview:view];
+    
+    if (self.authViewController) {
+        // We're in the initialization of the app.  Make sure the auth view is in the foreground.
+        [self.window bringSubviewToFront:self.authViewController.view];
+        [self.authViewController setOauthView:view];
+    }
+    else
+        [self.viewController.view addSubview:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {

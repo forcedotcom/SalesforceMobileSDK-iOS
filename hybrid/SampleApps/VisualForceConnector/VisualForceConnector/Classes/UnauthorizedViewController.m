@@ -22,32 +22,42 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#ifdef PHONEGAP_FRAMEWORK
-	#import <PhoneGap/PhoneGapDelegate.h>
-#else
-	#import "PhoneGapDelegate.h"
-#endif
+#import "UnauthorizedViewController.h"
 
-#import "SFOAuthCoordinator.h"
 
-@class UnauthorizedViewController;
+@implementation UnauthorizedViewController
 
-@interface AppDelegate : PhoneGapDelegate <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
+@synthesize oauthView = _oauthView;
 
-	NSString* invokeString;
-    SFOAuthCoordinator *_coordinator;
-    UnauthorizedViewController *_authViewController;
+
+- (void)dealloc {
+    self.oauthView = nil;
+    [super dealloc];
 }
 
-// invoke string is passed to your app on launch, this is only valid if you 
-// edit VisualForceConnector.plist to add a protocol
-// a simple tutorial can be found here : 
-// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+#pragma mark - View lifecycle
 
-@property (copy)  NSString* invokeString;
-@property (nonatomic, retain) SFOAuthCoordinator *coordinator;
-@property (nonatomic, retain) UnauthorizedViewController *authViewController;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+	return YES;
+}
+
+
+#pragma mark - Properties
+
+- (void)setOauthView:(UIView *)oauthView {
+    if (![oauthView isEqual:_oauthView]) {
+        [_oauthView removeFromSuperview];
+        [_oauthView release];
+        _oauthView = [oauthView retain];
+        
+        if (nil != _oauthView) {
+            [_oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_oauthView setFrame:self.view.bounds];
+            [self.view addSubview:_oauthView];
+        }
+    }
+}
 
 @end
-
