@@ -22,32 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#ifdef PHONEGAP_FRAMEWORK
-	#import <PhoneGap/PhoneGapDelegate.h>
-#else
-	#import "PhoneGapDelegate.h"
-#endif
-
-#import "SFOAuthCoordinator.h"
-
-@class UnauthorizedViewController;
-
-@interface AppDelegate : PhoneGapDelegate <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
-
-	NSString* invokeString;
-    SFOAuthCoordinator *_coordinator;
-    UnauthorizedViewController *_authViewController;
+@interface UnauthorizedViewController : UIViewController {
+    
 }
 
-// invoke string is passed to your app on launch, this is only valid if you 
-// edit VisualForceConnector.plist to add a protocol
-// a simple tutorial can be found here : 
-// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-
-@property (copy)  NSString* invokeString;
-@property (nonatomic, retain) SFOAuthCoordinator *coordinator;
-@property (nonatomic, retain) UnauthorizedViewController *authViewController;
+@property (nonatomic, retain) UIView *oauthView;
 
 @end
-

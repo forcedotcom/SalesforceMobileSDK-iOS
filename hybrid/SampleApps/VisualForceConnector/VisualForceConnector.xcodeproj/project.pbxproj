@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8207449E1447EF07008A3C2B /* UnauthorizedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207449C1447EF07008A3C2B /* UnauthorizedViewController.m */; };
+		8207449F1447EF07008A3C2B /* UnauthorizedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8207449D1447EF07008A3C2B /* UnauthorizedViewController.xib */; };
 		8212B40E1445099B00734277 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212B40D1445099B00734277 /* Foundation.framework */; };
 		8212B4101445099B00734277 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212B40F1445099B00734277 /* UIKit.framework */; };
 		8212B4121445099B00734277 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212B4111445099B00734277 /* CoreGraphics.framework */; };
@@ -41,6 +43,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8207449B1447EF07008A3C2B /* UnauthorizedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnauthorizedViewController.h; path = Classes/UnauthorizedViewController.h; sourceTree = "<group>"; };
+		8207449C1447EF07008A3C2B /* UnauthorizedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnauthorizedViewController.m; path = Classes/UnauthorizedViewController.m; sourceTree = "<group>"; };
+		8207449D1447EF07008A3C2B /* UnauthorizedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UnauthorizedViewController.xib; path = Classes/UnauthorizedViewController.xib; sourceTree = "<group>"; };
 		8212B4091445099A00734277 /* VisualForceConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualForceConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8212B40D1445099B00734277 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8212B40F1445099B00734277 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -233,6 +238,9 @@
 			children = (
 				8212B44C1445099B00734277 /* AppDelegate.h */,
 				8212B44D1445099B00734277 /* AppDelegate.m */,
+				8207449B1447EF07008A3C2B /* UnauthorizedViewController.h */,
+				8207449C1447EF07008A3C2B /* UnauthorizedViewController.m */,
+				8207449D1447EF07008A3C2B /* UnauthorizedViewController.xib */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -343,6 +351,7 @@
 				8212B457144509FB00734277 /* www in Resources */,
 				8212B45A14450AA300734277 /* Default-Portrait~ipad.png in Resources */,
 				8212B45B14450AA300734277 /* Default~iPad.png in Resources */,
+				8207449F1447EF07008A3C2B /* UnauthorizedViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +380,7 @@
 			files = (
 				8212B42F1445099B00734277 /* main.m in Sources */,
 				8212B44E1445099B00734277 /* AppDelegate.m in Sources */,
+				8207449E1447EF07008A3C2B /* UnauthorizedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +514,7 @@
 				8212B4551445099B00734277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
