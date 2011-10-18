@@ -948,7 +948,6 @@
 			buildPhases = (
 				C26713BF13D6B845001FE0B8 /* Sources */,
 				C26713C013D6B845001FE0B8 /* Frameworks */,
-				C24DA3A213F4EE970057A6F5 /* ShellScript */,
 				C26713C113D6B845001FE0B8 /* Resources */,
 				C26713C213D6B845001FE0B8 /* ShellScript */,
 			);
@@ -1035,20 +1034,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-		C24DA3A213F4EE970057A6F5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "HOST=na1-blitz02.soma.salesforce.com\nCLIENT_ID=3MVG9PhR6g6B7ps5qYgHpH7_y81rzx5N627yUg6rhQpEHUyz1ugyEV93J7yD3RKbyx0ANlspDFYy8EwGsY2p5\nCLIENT_SECRET=6634867668920427024\nUSERNAME=didier@mdev.com\nPASSWORD=123456\nREDIRECT_URL=sfdc:///axm/detect/oauth/done\n\nRES=`curl -X POST \"https://$HOST\" -d \"un=$USERNAME&pw=$PASSWORD\" 2>/dev/null`\nSID_ENCODED=`echo $RES|sed -e 's/^.*sid=\\([^&]*\\).*/\\1/'`\nSID=`echo $SID_ENCODED|sed -e 's/%21/!/'`\n\nRES=`curl -X GET \"https://$HOST/services/oauth2/authorize?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URL\" 2>/dev/null`\nREDIR_URL=`echo $RES|sed -e 's/^.*href=\"\\(.*\\)\".*/\\1/'|sed -e 's/login-/na1-/'`\n\nRES=`curl -X GET \"$REDIR_URL\" -H \"Cookie: sid=$SID\" 2>/dev/null`\nCODE=`echo $RES|sed -e 's/^.*code=\\(.*\\).; if.*/\\1/'`\n\nRES=`curl -X POST \"https://$HOST/services/oauth2/token\" -d \"grant_type=authorization_code&code=$CODE&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&redirect_uri=$REDIRECT_URL\" 2>/dev/null`\necho $RES > $PROJECT_DIR/SalesforceSDKTests/token.json";
-			showEnvVarsInLog = 0;
 		};
 		C26713C213D6B845001FE0B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1452,6 +1437,7 @@
 				7DFF13BC143B8A940063EF87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7DFF13BD143B8A940063EF87 /* Build configuration list for PBXNativeTarget "AppTestTests" */ = {
 			isa = XCConfigurationList;
@@ -1460,6 +1446,7 @@
 				7DFF13BF143B8A940063EF87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C26713B113D6B845001FE0B8 /* Build configuration list for PBXProject "SalesforceSDK" */ = {
 			isa = XCConfigurationList;
