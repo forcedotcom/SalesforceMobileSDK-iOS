@@ -215,12 +215,19 @@ static NSString * const kHttpPostContentType                    = @"application/
         
     if ([self.scopes count] > 0) {
         //append scopes
-        [approvalUrl appendString:@"&scope=refresh_token"];
+        [approvalUrl appendString:@"&scope="];
+        NSMutableString *scopeStr = [[NSMutableString alloc] initWithFormat:@"refresh_token"];
+
+        //stringByAddingPercentEscapesUsingEncoding
         for (NSString *scope in self.scopes) {
             if (![scope isEqualToString:@"refresh_token"]) {
-                [approvalUrl appendFormat:@"%%20%@",scope];
+                [scopeStr appendFormat:@" %@",scope];
             }
         }
+        
+        NSString *finalScopeStr = [scopeStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [scopeStr release];
+        [approvalUrl appendString:finalScopeStr];
     }
     
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
