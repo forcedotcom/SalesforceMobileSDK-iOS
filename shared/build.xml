@@ -19,7 +19,18 @@
         </exec>
     </target>
     
-    
+    <!-- [target] covreport:
+	Generate a coverage report from gcda files
+    -->
+	<target name="covreport">
+		<property name="inputPath" value="." />
+		<echo>inputPath is '${inputPath}' </echo>
+		<echo>outputPath is '${outputPath}' </echo>
+	        <property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
+		<exec executable="${gcovr_path}">
+		    <arg line="-x -b -p --object-directory=${inputPath} --output=${outputPath}/coverage.xml" />
+		</exec>	
+	</target>	 
     <!--[target] appledocDocumentation: 
      Generate Apple-like documentation using the "appledoc" command found here: http://www.gentlebytes.com/home/appledocapp/
      
