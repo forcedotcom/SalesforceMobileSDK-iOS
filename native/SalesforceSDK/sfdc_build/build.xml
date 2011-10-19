@@ -95,6 +95,7 @@
 	<antcall target="iOSShared.covreport">
 		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
 		<param name="outputPath" value="${artifacts.dir}" />
+		<param name="rootPath" value="${artifacts.dir}/../.." />
 	</antcall> 
         <!--
          TODO copy the test output file to a report dir
