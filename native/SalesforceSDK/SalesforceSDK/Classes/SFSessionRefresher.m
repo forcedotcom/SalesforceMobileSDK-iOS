@@ -115,11 +115,6 @@
 #pragma mark - SFOAuthCoordinatorDelegate
 
 
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
-}
-
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");    
     // we are in the token exchange flow so this should never happen
@@ -142,7 +137,6 @@
     // the token exchange worked.
     [self restoreOAuthDelegate];
     [self replayQueuedRequests];
-    
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {

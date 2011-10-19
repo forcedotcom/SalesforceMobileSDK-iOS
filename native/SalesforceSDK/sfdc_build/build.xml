@@ -96,6 +96,7 @@
 		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
 		<param name="outputPath" value="${artifacts.dir}" />
 		<param name="rootPath" value="${artifacts.dir}/../.." />
+		<param name="excludePattern" value="'.*/SalesforceSDKTests/'" />
 	</antcall> 
         <!--
          TODO copy the test output file to a report dir

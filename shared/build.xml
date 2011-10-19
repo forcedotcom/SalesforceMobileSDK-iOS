@@ -26,12 +26,13 @@
 		<property name="inputPath" value="." />
 		<property name="outputPath" value="." />
 		<property name="rootPath" value="." />
+		<property name="excludePattern" value="*Tests.m" />
 		<echo>inputPath is '${inputPath}' </echo>
 		<echo>outputPath is '${outputPath}' </echo>
 		<echo>rootPath is '${rootPath}' </echo>
 	        <property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
 		<exec executable="${gcovr_path}">
-		    <arg line="-x -k -p --root=${rootPath} --object-directory=${inputPath} --output=${outputPath}/coverage.xml" />
+		    <arg line="-x -k -p -e ${excludePattern} --root=${rootPath} --object-directory=${inputPath} --output=${outputPath}/coverage.xml" />
 		</exec>	
 	</target>	 
     <!--[target] appledocDocumentation: 
