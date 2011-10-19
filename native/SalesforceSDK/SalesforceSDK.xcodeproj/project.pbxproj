@@ -1038,7 +1038,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir $CONFIGURATION_BUILD_DIR/coverage\ncp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
+			shellScript = "echo \"OBJECT_FILE_DIR is $OBJECT_FILE_DIR\"\necho \"CONFIGURATION_BUILD_DIR is $CONFIGURATION_BUILD_DIR\"\ncp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
 		};
 		7DFF13A9143B8A930063EF87 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
