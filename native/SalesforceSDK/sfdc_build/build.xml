@@ -84,6 +84,7 @@
         </exec>
        
 	<delete dir="${artifacts.dir}/BuildProducts" />
+	<mkdir dir="${artifacts.dir}/BuildProducts/coverage" />
  
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild"  >
