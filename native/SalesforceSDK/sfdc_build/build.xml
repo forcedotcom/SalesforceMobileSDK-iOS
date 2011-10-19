@@ -82,12 +82,19 @@
             <arg value="${sdkPath}"/> <!-- $IPHONE_SIMULATOR_ROOT -->
             <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
-        
+       
+	<delete dir="${artifacts.dir}/BuildProducts" />
+ 
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild"  >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug -sdk iphonesimulator build" />
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
         </exec>
-        
+       
+	<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
+	<antcall target="iOSShared.covreport">
+		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
+		<param name="outputPath" value="${artifacts.dir}" />
+	</antcall> 
         <!--
          TODO copy the test output file to a report dir
         <copy file="${tmp_home}/Documents/test-reports/junit.xml" tofile="${testReportDir}/${testFilename}" failonerror="false"/>

@@ -15,6 +15,7 @@
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
+		7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9E50D2144F3656003B013F /* libprofile_rt.dylib */; };
 		7DFF138F143B8A930063EF87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		7DFF1390143B8A930063EF87 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		7DFF1396143B8A930063EF87 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DFF1394143B8A930063EF87 /* InfoPlist.strings */; };
@@ -197,6 +198,7 @@
 		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
 		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
+		7D9E50D2144F3656003B013F /* libprofile_rt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprofile_rt.dylib; path = usr/lib/libprofile_rt.dylib; sourceTree = DEVELOPER_DIR; };
 		7DFF1365143B8A090063EF87 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7DFF138D143B8A930063EF87 /* AppTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DFF1393143B8A930063EF87 /* AppTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppTest-Info.plist"; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */,
 				C28DCB0513F1EAA20050371C /* Security.framework in Frameworks */,
 				C28DCB0313F1EA940050371C /* CFNetwork.framework in Frameworks */,
 				C28DCB0113F1EA840050371C /* MobileCoreServices.framework in Frameworks */,
@@ -558,6 +561,7 @@
 		C28DCAFB13F1EA4C0050371C /* FramekworksTests */ = {
 			isa = PBXGroup;
 			children = (
+				7D9E50D2144F3656003B013F /* libprofile_rt.dylib */,
 				C28DCAF913F1EA3E0050371C /* libxml2.dylib */,
 				C28DCB0413F1EAA10050371C /* Security.framework */,
 				C28DCAFE13F1EA700050371C /* CoreData.framework */,
@@ -950,6 +954,7 @@
 				C26713C013D6B845001FE0B8 /* Frameworks */,
 				C26713C113D6B845001FE0B8 /* Resources */,
 				C26713C213D6B845001FE0B8 /* ShellScript */,
+				7D9E50D9144F4E72003B013F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1022,6 +1027,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7D9E50D9144F4E72003B013F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir $CONFIGURATION_BUILD_DIR/coverage\ncp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
+		};
 		7DFF13A9143B8A930063EF87 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1377,15 +1395,18 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDKTests/SalesforceSDKTests-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/RestKit\"",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
+					"\"$(DEVELOPER_DIR)/usr/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1406,15 +1427,18 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDKTests/SalesforceSDKTests-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/RestKit\"",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
+					"\"$(DEVELOPER_DIR)/usr/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
