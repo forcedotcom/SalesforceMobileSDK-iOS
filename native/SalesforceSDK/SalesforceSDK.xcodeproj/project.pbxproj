@@ -1038,7 +1038,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"OBJECT_FILE_DIR is $OBJECT_FILE_DIR\"\necho \"CONFIGURATION_BUILD_DIR is $CONFIGURATION_BUILD_DIR\"\ncp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
+			shellScript = "cp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
+			showEnvVarsInLog = 0;
 		};
 		7DFF13A9143B8A930063EF87 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1065,6 +1066,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
