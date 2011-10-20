@@ -3,14 +3,14 @@
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-  * Redistributions of source code must retain the above copyright notice, this list of conditions
-    and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice, this list of
-    conditions and the following disclaimer in the documentation and/or other materials provided
-    with the distribution.
-  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
-    endorse or promote products derived from this software without specific prior written
-    permission of salesforce.com, inc.
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -50,7 +50,7 @@ enum {
     kSFOAuthErrorAccessDenied,              // end user denied authorization
     kSFOAuthErrorInvalidClientId,
     kSFOAuthErrorInvalidClientCredentials,  // client secret invalid
-    kSFOAuthErrorInvalidGrant,              // expired access/refresh token, or, IP restricted or invalid login hours
+    kSFOAuthErrorInvalidGrant,              // expired access/refresh token, or IP restricted, or invalid login hours
     kSFOAuthErrorInvalidRequest,
     kSFOAuthErrorInactiveUser,
     kSFOAuthErrorInactiveOrg,
@@ -81,6 +81,19 @@ enum {
  @see SFOAuthCoordinator
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view;
+
+/** Sent when the web will starts to load its content.
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view;
+
+/** Sent when the web will completed to load its content.
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ @param errorOrNil  Contains the error or nil if no error
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil;
 
 @required
 
@@ -160,6 +173,24 @@ enum {
  @see SFOAuthCoordinatorDelegate
  */
 @property (nonatomic, readonly) UIWebView *view;
+
+
+/** A set of scopes for OAuth.
+ See: 
+ https://help.salesforce.com/apex/HTViewHelpDoc?language=en&id=remoteaccess_oauth_scopes.htm
+ 
+
+ Generally you need not specify this unless you are using something other than "api".
+ For instances, if you are accessing Visualforce pages as well as the REST API, you could use:
+ [@"api",@"Visualforce"]
+ 
+ (You need not specify "refresh_token" -- that is always requested by this library.)
+
+ If you do not set this property, the library does not add the "scope" parameter to the
+ initial OAuth request.
+ */
+@property (nonatomic, copy) NSSet *scopes;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
