@@ -24,12 +24,14 @@
 
 #import "SalesforceSDKTests.h"
 
+#import "RKRequestDelegateWrapper.h"
 #import "RKReachabilityObserver.h"
 #import "RestKit.h"
 #import "SBJSON.h"
 #import "SBJsonParser.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
+#import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
 #import "TestSetupUtils.h"
@@ -126,6 +128,43 @@
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForDescribeGlobal, force a cancel & timeout
+- (void)testGetDescribeGlobal_Cancel {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    
+    [_requestListener release]; //in case there's any existing one hanging around
+    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    [[SFRestAPI sharedInstance] send:request delegate:nil];
+
+    RKRequestDelegateWrapper *activeRequest =  [[[SFRestAPI sharedInstance] activeRequests] anyObject];
+    STAssertNotNil(activeRequest, @"should have activeRequest");
+    [activeRequest requestDidCancelLoad:nil];
+    [_requestListener waitForCompletion];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
+
+    //fake-cancelling in this way trashes the singleton
+    [TestSetupUtils clearSFRestAPISingleton];
+
+}
+
+// simple: just invoke requestForDescribeGlobal, force a timeout
+- (void)testGetDescribeGlobal_Timeout {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    
+    [_requestListener release]; //in case there's any existing one hanging around
+    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    [[SFRestAPI sharedInstance] send:request delegate:nil];
+    
+    RKRequestDelegateWrapper *activeRequest =  [[[SFRestAPI sharedInstance] activeRequests] anyObject];
+    STAssertNotNil(activeRequest, @"should have activeRequest");
+    [activeRequest requestDidTimeout:nil];
+    [_requestListener waitForCompletion];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
+ 
+    //fake-timeout in this way trashes the singleton
+    [TestSetupUtils clearSFRestAPISingleton];
 }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
