@@ -135,14 +135,10 @@
     _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
-    RKRequestDelegateWrapper *activeRequest =  [[[SFRestAPI sharedInstance] activeRequests] anyObject];
-    STAssertNotNil(activeRequest, @"should have activeRequest");
-    [activeRequest requestDidCancelLoad:nil];
+    [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
+    
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
-
-    //fake-cancelling in this way trashes the singleton
-    [TestSetupUtils clearSFRestAPISingleton];
 
 }
 
@@ -160,8 +156,9 @@
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
  
-    //fake-timeout in this way trashes the singleton
-    [TestSetupUtils clearSFRestAPISingleton];
+    //this cleans up the singleton RKClient
+    [[[RKClient sharedClient] requestQueue] cancelAllRequests];
+
 }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
