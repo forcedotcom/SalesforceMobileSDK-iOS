@@ -82,10 +82,16 @@
         STAssertNotNil(api, @"[SFRestAPI sharedInstance] should never return nil");
         STAssertNil(api.coordinator, @"SFRestAPI.coordinator should be initially nil");
         STAssertNil(api.rkClient ,  @"SFRestAPI.rkClient should be initially nil");
+        
+        //now force a reload of the credentials -- tests setting rkClient setBaseURL
+        [TestSetupUtils readCredentialsConfigFile];
+        
     }
     @finally {
         [TestSetupUtils clearSFRestAPISingleton];
     }
+    
+    
 }
 
 
