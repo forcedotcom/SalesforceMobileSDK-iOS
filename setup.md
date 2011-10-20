@@ -8,9 +8,10 @@ After you git clone, you need to add the upstream repo (pointing to the public r
 
 submodules
 ==
-After you git clone, you need to initialize the submodules:
+After you git clone, you need to initialize the (external) submodules:
 
-`git submodule init; git submodule update; git submodule foreach git co master`
+`git submodule init`
+`git submodule update`
 
 merging
 ==

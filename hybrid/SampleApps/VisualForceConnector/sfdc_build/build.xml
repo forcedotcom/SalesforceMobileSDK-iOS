@@ -1,4 +1,4 @@
-<project name="ContactExplorer" default="all">
+<project name="VisualForceConnector" default="all">
     <import file="../../../../shared/build.xml"/>
 
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
@@ -40,7 +40,7 @@
             <param name="install_path" value="${artifacts.dir}/Simulator"/>
             <param name="configuration" value="${configuration.debug}"/>
             <param name="sdk" refid="platform.iphonesimulator"/>
-            <param name="target" value="ContactExplorer"/>
+            <param name="target" value="VisualForceConnector"/>
             <param name="action" value="install"/>
         </antcall>
     </target>
@@ -50,7 +50,7 @@
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.release}"/>
             <param name="sdk" refid="platform.iphoneos"/>
-            <param name="target" value="ContactExplorer"/>
+            <param name="target" value="VisualForceConnector"/>
             <param name="action" value="install"/>
         </antcall>
     </target>
