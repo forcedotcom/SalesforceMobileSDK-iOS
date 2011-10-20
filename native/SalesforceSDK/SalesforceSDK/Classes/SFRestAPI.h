@@ -50,7 +50,8 @@ extern NSString* const kSFRestDefaultAPIVersion;
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
  
- See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
+ See the [Force.com REST API Developer's Guide]:
+ http://www.salesforce.com/us/developer/docs/api_rest/index.htm
  for more information regarding the Force.com REST API.
 
  ## Initialization

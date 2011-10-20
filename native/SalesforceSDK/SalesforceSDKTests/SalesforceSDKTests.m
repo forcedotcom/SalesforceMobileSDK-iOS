@@ -175,6 +175,15 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+
+// attempt to create a Contact with none of the required fields (should fail)
+- (void)testCreateBogusContact {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+}
+
+
 // - create object (requestForCreateWithObjectType)
 // - retrieve new object using object id (with all fields)
 // - retrieve new object using object id (with only a few fields)

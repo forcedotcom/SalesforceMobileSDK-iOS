@@ -35,7 +35,7 @@
 #define KEY_ERROR_CODE @"errorCode"
 
 @interface RKRequestDelegateWrapper (private)
-- (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams;
++ (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams;
 - (id)initWithRestRequest:(SFRestRequest *)request;
 
 @end
@@ -66,8 +66,8 @@
 
 #pragma mark - helper methods
 
-- (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams {
-    if (!queryParams)
++ (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams {
+    if (!([queryParams count] > 0))
         return nil;
     NSData *data = [[queryParams JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
     return [RKRequestSerialization serializationWithData:data MIMEType:@"application/json"];
@@ -89,10 +89,10 @@
         [rkClient delete:url delegate:self];
     }
     else if (_request.method == SFRestMethodPUT) {
-        [rkClient put:url params:[self formatParamsAsJson:_request.queryParams] delegate:self];
+        [rkClient put:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
     else if (_request.method == SFRestMethodPOST) {
-        [rkClient post:url params:[self formatParamsAsJson:_request.queryParams] delegate:self];
+        [rkClient post:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
     else if (_request.method == SFRestMethodPATCH) {
         // PATCH is not fully supported yet so using POST instead
@@ -100,7 +100,7 @@
                                ? @"?"
                                : @"&");
         NSString *newUrl = [NSString stringWithFormat:@"%@%@_HttpMethod=PATCH", url, delimiter];
-        [rkClient post:newUrl params:[self formatParamsAsJson:_request.queryParams] delegate:self];
+        [rkClient post:newUrl params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
 
     //Note: requests are now retained by the SFRestAPI in the activeRequests list
@@ -120,17 +120,21 @@
     //TODO use builtin json framework if available?
     SBJsonParser *parser = [[[SBJsonParser alloc] init] autorelease];
     id jsonResponse = [parser objectWithData:response.body];
-    if ([jsonResponse isKindOfClass:[NSArray class]]
-        && ([(NSArray *)jsonResponse count] == 1)
-        && [[(NSArray*)jsonResponse objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *potentialError = [jsonResponse objectAtIndex:0];
-        NSString *potentialErrorCode = [potentialError objectForKey:KEY_ERROR_CODE];
-        if (potentialErrorCode) {
-            // we have an error
-            NSError *error = [NSError errorWithDomain:kSFRestErrorDomain code:kSFRestErrorCode userInfo:potentialError];
-            [self request:request didFailLoadWithError:error];
-            return;
+    if ([jsonResponse isKindOfClass:[NSArray class]]) {
+        if ([jsonResponse count] == 1) {
+            id potentialError = [jsonResponse objectAtIndex:0];
+            if ([potentialError isKindOfClass:[NSDictionary class]]) {
+                NSString *potentialErrorCode = [potentialError objectForKey:KEY_ERROR_CODE];
+                if (nil != potentialErrorCode) {
+                    // we have an error
+                    NSError *error = [NSError errorWithDomain:kSFRestErrorDomain code:kSFRestErrorCode userInfo:potentialError];
+                    [self request:request didFailLoadWithError:error];
+                    return;
+                }
+            }
         }
+
+
     }
 
     if ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
