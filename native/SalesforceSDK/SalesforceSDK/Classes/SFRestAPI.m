@@ -121,6 +121,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _coordinator = [coordinator retain];
         if (nil != _coordinator) {
             if (nil != _rkClient) {
+                NSLog(@"_rkClient already exists when coordinator set for first time?");
                 [self.rkClient setBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
                 //Authorization header (access token) is now set the moment before we actually send the request
             } else {
