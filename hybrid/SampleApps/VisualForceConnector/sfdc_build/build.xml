@@ -26,7 +26,7 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
     <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
-        depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk">
+        depends="iOSShared.dependency.oauth, iOSShared.dependency.sdk">
         <antcall target="compileDebug"/>
 <!--        <antcall target="compileRelease"/>-->
 <!--        <delete dir="${project.dir}/build"/>-->
@@ -56,7 +56,7 @@
     </target>
 
     <target name="clean"
-        depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean">
+        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean">
         <delete dir="${artifacts.dir}"/>
     </target>
 
