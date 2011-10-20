@@ -96,6 +96,18 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testGetVersion_SetDelegate {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
+
+    [_requestListener release]; //in case there's any existing one hanging around
+    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    
+    //exercises overwriting the delegate at send time
+    [[SFRestAPI sharedInstance] send:request delegate:_requestListener];
+    [_requestListener waitForCompletion];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
@@ -272,6 +284,37 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
+}
+
+
+//exercise upsert on an externalIdField that does not exist
+- (void)testUpsert {
+        
+    //create an account name based on timestamp
+    NSTimeInterval secs = [NSDate timeIntervalSinceReferenceDate];
+    NSString *acctName = [NSString stringWithFormat:@"GenAccount %.2f",secs];
+    NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
+                            acctName,@"Name",
+                            nil];
+    
+    //create a unique account number
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    CFStringRef uuidStr = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+
+    
+    SFRestRequest *request = [[SFRestAPI sharedInstance]
+                              requestForUpsertWithObjectType:@"Account"
+                              externalIdField:@"bogusField__c" //this field shouldn't be defined in the test org
+                              externalId: (NSString*)uuidStr
+                              fields:fields
+                              ];
+    
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    NSDictionary *errDict = _requestListener.lastError.userInfo;
+    NSString *restErrCode = [errDict objectForKey:@"errorCode"];
+    STAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
+
 }
 
 // issue invalid SOQL and test for errors
