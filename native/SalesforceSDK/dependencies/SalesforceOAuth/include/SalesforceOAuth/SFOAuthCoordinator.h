@@ -174,6 +174,24 @@ enum {
  */
 @property (nonatomic, readonly) UIWebView *view;
 
+
+/** A set of scopes for OAuth.
+ See: 
+ https://help.salesforce.com/apex/HTViewHelpDoc?language=en&id=remoteaccess_oauth_scopes.htm
+ 
+
+ Generally you need not specify this unless you are using something other than "api".
+ For instances, if you are accessing Visualforce pages as well as the REST API, you could use:
+ [@"api",@"Visualforce"]
+ 
+ (You need not specify "refresh_token" -- that is always requested by this library.)
+
+ If you do not set this property, the library does not add the "scope" parameter to the
+ initial OAuth request.
+ */
+@property (nonatomic, copy) NSSet *scopes;
+
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
