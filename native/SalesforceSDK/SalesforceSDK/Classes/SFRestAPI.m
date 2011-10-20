@@ -120,10 +120,7 @@ static dispatch_once_t _sharedInstanceGuard;
         [_coordinator release];
         _coordinator = [coordinator retain];
         if (nil != _coordinator) {
-            if (nil != _rkClient) {
-                [self.rkClient setBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
-                //Authorization header (access token) is now set the moment before we actually send the request
-            } else {
+            if (nil == _rkClient) {
                 [self rkClient]; //touch to instantiate
             }
         } else {
