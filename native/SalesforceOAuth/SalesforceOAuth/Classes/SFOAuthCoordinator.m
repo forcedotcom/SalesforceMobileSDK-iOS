@@ -100,6 +100,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize responseData         = _responseData;
 @synthesize initialRequestLoaded = _initialRequestLoaded;
 @synthesize approvalCode         = _approvalCode;
+@synthesize scopes               = _scopes;
 
 - (id)init {
     SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] init] autorelease];
@@ -212,6 +213,23 @@ static NSString * const kHttpPostContentType                    = @"application/
         [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];        
     }
         
+    if ([self.scopes count] > 0) {
+        //append scopes
+        [approvalUrl appendString:@"&scope="];
+        NSMutableString *scopeStr = [[NSMutableString alloc] initWithFormat:@"refresh_token"];
+
+        //stringByAddingPercentEscapesUsingEncoding
+        for (NSString *scope in self.scopes) {
+            if (![scope isEqualToString:@"refresh_token"]) {
+                [scopeStr appendFormat:@" %@",scope];
+            }
+        }
+        
+        NSString *finalScopeStr = [scopeStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [scopeStr release];
+        [approvalUrl appendString:finalScopeStr];
+    }
+    
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         NSLog(@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl);
     }
