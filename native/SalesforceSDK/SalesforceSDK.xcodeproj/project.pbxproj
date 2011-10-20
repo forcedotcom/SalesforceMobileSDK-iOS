@@ -1038,8 +1038,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\n\n                                \n";
-			showEnvVarsInLog = 0;
+			shellScript = "if [$CONFIGURATION_BUILD_DIR] then\ncp $OBJECT_FILE_DIR-normal/i386/*.gc* $CONFIGURATION_BUILD_DIR/coverage\nfi\n\n                                \n";
 		};
 		7DFF13A9143B8A930063EF87 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
