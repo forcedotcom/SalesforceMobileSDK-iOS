@@ -51,9 +51,6 @@ static NSString *const OAuthRedirectURI =
 static NSString *const OAuthLoginDomain =  
 @"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
 
-#warning This value must match the login domain with which you're testing
-static NSString *const InstanceHostname =
-@"tapp0.salesforce.com";
 
 @interface AppDelegate (private)
 - (void)login;
@@ -69,13 +66,15 @@ static NSString *const InstanceHostname =
 
 /**
  * This method will return the URL that PhoneGap will use to initialize the application.
- * For demonstration purposes, this simply points to https://instance_host_name/m.
+ * For demonstration purposes, this simply points to https://instance_host_name/apex/BasicVFPage
  * Change this to reference your VisualForce landing page.
- * Example: [NSString stringWithFormat:@"https://%@/apex/MyVisualForcePage/", InstanceHostname];
  */
 + (NSString *)startPage {
-    NSString *startPageString = [NSString stringWithFormat:@"https://%@/m", InstanceHostname];
-    NSLog(@"PhoneGap's startPage value: %@", startPageString);
+    AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    SFOAuthCredentials *creds = me.coordinator.credentials;
+    NSString *instanceHost = [creds.instanceUrl host];
+    NSString *startPageString = [NSString stringWithFormat:@"https://%@/apex/BasicVFPage",instanceHost ]; 
+    NSLog(@"startPageString value: %@", startPageString);
     return startPageString;
 }
 
@@ -207,15 +206,18 @@ static NSString *const InstanceHostname =
 - (void)login {
     
     if (nil == self.coordinator) {
-        SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:RemoteAccessConsumerKey];
+        SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] 
+                                           initWithIdentifier:@"VFConnector-DefaultAccount"  
+                                           clientId:RemoteAccessConsumerKey];
         credentials.domain = OAuthLoginDomain;
         credentials.redirectUri = OAuthRedirectURI;
-        // TODO: OAuth libs need to be updated to accept scope as an argument for
-        // the credentials object.
-        // credentials.scope = "VisualForce API Web";
+        
         SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+        //we ask for both visualforce and api scope here in case we decide to use the REST API later
+        coordinator.scopes = [NSSet setWithObjects:@"visualforce",@"api", nil];
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
+        self.coordinator.credentials = credentials;
         
         [credentials release];
         [coordinator release];
@@ -228,12 +230,15 @@ static NSString *const InstanceHostname =
  * This method will be called once the authentication process has completed.
  */
 - (void)loggedIn {
+    NSURL *instanceUrl = self.coordinator.credentials.instanceUrl;
+    NSString *domain = [instanceUrl host]; 
+    
     // Set the session ID cookie to be used by the web view.
-    NSURL *hostURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", InstanceHostname]];
+    NSURL *hostURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", domain]];
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *cookies = [cookieStorage cookiesForURL:hostURL];
     NSHTTPCookie *sidCookie = [NSHTTPCookie cookieWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  InstanceHostname, NSHTTPCookieDomain,
+                                                                  domain, NSHTTPCookieDomain,
                                                                   @"/", NSHTTPCookiePath,
                                                                   self.coordinator.credentials.accessToken, NSHTTPCookieValue,
                                                                   @"sid", NSHTTPCookieName,
