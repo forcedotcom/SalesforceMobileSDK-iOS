@@ -307,13 +307,13 @@ static NSString * const kHttpPostContentType                    = @"application/
  */
 - (void)handleRefreshResponse {
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-    NSError * error = nil;
+    NSError * jsonError = nil;
     id json = nil;
 
     Class NSJSONClass = NSClassFromString(@"NSJSONSerialization");
     Class SBJSONClass = NSClassFromString(@"SBJsonParser");
     if (nil != NSJSONClass) {
-        json = [NSJSONClass JSONObjectWithData:self.responseData options:0 error:&error];
+        json = [NSJSONClass JSONObjectWithData:self.responseData options:0 error:&jsonError];
     } else if (nil != SBJSONClass) {
         id parser = [[SBJSONClass alloc] init];
         
@@ -330,12 +330,16 @@ static NSString * const kHttpPostContentType                    = @"application/
         if (!json) {
             SEL selectorError = @selector(error);
             if ([parser respondsToSelector:selectorError]) {
-                error = [parser performSelector:selectorError];
+                jsonError = [parser performSelector:selectorError];
             }
         }
         [parser release];
+    } else {
+        NSLog(@"Both SBJsonParser and NSJSONSerialization are missing");
+        NSAssert(NO,@"Either SBJsonParser or NSJSONSerialization must be available!");
     }
-    if (nil == error && [json isKindOfClass:[NSDictionary class]]) {
+    
+    if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)json;
         if (nil != [dict objectForKey:kSFOAuthError]) {
             NSError *error = [[self class] errorWithType:[dict objectForKey:kSFOAuthError] description:[dict objectForKey:kSFOAuthErrorDescription]];
@@ -356,8 +360,9 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         // failed to parse JSON
+        NSLog(@"JSON parse error: %@",jsonError);
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
-        NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+        NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {
             [errorDict setObject:responseString forKey:@"response_data"];
         }
