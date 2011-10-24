@@ -38,7 +38,7 @@
 		7D2681D11452289C00AB84A5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2681D01452289C00AB84A5 /* Security.framework */; };
 		7D2681D3145229E500AB84A5 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681D2145229E500AB84A5 /* www */; };
 		7D2681FB1452332A00AB84A5 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681FA1452332A00AB84A5 /* VERSION */; };
-		7D26823414524D3F00AB84A5 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D26823314524D3F00AB84A5 /* PhoneGap.framework */; };
+		7D8FD5CC1455D8DC0052B582 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +81,7 @@
 		7D2681D01452289C00AB84A5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7D2681D2145229E500AB84A5 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7D2681FA1452332A00AB84A5 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
-		7D26823314524D3F00AB84A5 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = "../../../../phonegap-iphone-public/PhoneGapLib/build/Release-universal/PhoneGap.framework"; sourceTree = "<group>"; };
+		7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = "../../../../my_phonegap_2/PhoneGapLib/build/Release-universal/PhoneGap.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 				7D26817F1452255200AB84A5 /* MobileCoreServices.framework in Frameworks */,
 				7D2681811452255200AB84A5 /* CoreMedia.framework in Frameworks */,
 				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
-				7D26823414524D3F00AB84A5 /* PhoneGap.framework in Frameworks */,
+				7D8FD5CC1455D8DC0052B582 /* PhoneGap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +140,7 @@
 		7D2681671452255200AB84A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7D26823314524D3F00AB84A5 /* PhoneGap.framework */,
+				7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */,
 				7D2681D01452289C00AB84A5 /* Security.framework */,
 				7D2681681452255200AB84A5 /* Foundation.framework */,
 				7D26816A1452255200AB84A5 /* UIKit.framework */,
@@ -471,6 +471,7 @@
 					/Users/Shared/PhoneGap/Frameworks,
 					"\"$(SRCROOT)/../../../../phonegap-iphone-public/PhoneGapLib/build/Release-universal\"",
 					"\"$(SRCROOT)/../../../../../../../Shared/hold_PhoneGap_1_0/Frameworks\"",
+					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -510,6 +511,7 @@
 					/Users/Shared/PhoneGap/Frameworks,
 					"\"$(SRCROOT)/../../../../phonegap-iphone-public/PhoneGapLib/build/Release-universal\"",
 					"\"$(SRCROOT)/../../../../../../../Shared/hold_PhoneGap_1_0/Frameworks\"",
+					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
