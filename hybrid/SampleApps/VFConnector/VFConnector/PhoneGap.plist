@@ -20,10 +20,10 @@
 	<false/>
 	<key>AllowInlineMediaPlayback</key>
 	<false/>
+	<key>OpenAllWhitelistURLsInWebView</key>
+	<true/>
 	<key>ExternalHosts</key>
 	<array>
-		<string>na1-blitz02.soma.salesforce.com</string>
-		<string>login-blitz02.soma.salesforce.com</string>
 		<string>*.force.com</string>
 		<string>*.salesforce.com</string>
 	</array>

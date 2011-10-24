@@ -92,7 +92,8 @@ static NSString *const OAuthLoginDomain =
     AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     SFOAuthCredentials *creds = me.coordinator.credentials;
     NSString *instanceHost = [creds.instanceUrl host];
-    NSString *startPageString = [NSString stringWithFormat:@"https://%@/m",instanceHost]; //apex/BasicVFPage",instanceHost ]; 
+    //NSString *startPageString = [NSString stringWithFormat:@"https://%@/m",instanceHost]; 
+    NSString *startPageString = [NSString stringWithFormat:@"https://%@/apex/BasicVFPage",instanceHost ]; 
     NSLog(@"startPageString value: %@", startPageString);
     return startPageString;
 }
@@ -178,6 +179,9 @@ static NSString *const OAuthLoginDomain =
 - (void)webView:(UIWebView *)theWebView didFailLoadWithError:(NSError *)error 
 {
     NSLog(@"AppDelegate:webView:didFailLoadWithError: %@",error);
+    if (error.code == kCFURLErrorCancelled) {
+        NSLog(@"URL cancelled: '%@'",[error.userInfo objectForKey:@"NSErrorFailingURLStringKey"]);
+    }
 	return [ super webView:theWebView didFailLoadWithError:error ];
 }
 
@@ -190,8 +194,13 @@ static NSString *const OAuthLoginDomain =
 {
     NSLog(@"AppDelegate:webView:shouldStartLoadWithRequest:(navType=%u): scheme=%@ host=%@ path=%@", 
           navigationType, request.URL.scheme, request.URL.host, request.URL.path);
-	BOOL result = 
-        [ super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType ];
+	BOOL result = NO;
+    
+    if ([request.URL.host hasPrefix:@"umps"]) {
+        NSLog(@"trying to load umps? fuck that!");
+    } else{
+        result = [ super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType ];
+    }
     NSLog(@"shouldStartLoad: %d",result);
     
     return result;
@@ -218,7 +227,6 @@ static NSString *const OAuthLoginDomain =
         credentials.redirectUri = OAuthRedirectURI;
         
         SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-        //we ask for both visualforce and api scope here in case we decide to use the REST API later
         coordinator.scopes = [NSSet setWithObjects:@"web",@"api",nil] ; //]@"visualforce",@"api", nil];
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
@@ -238,7 +246,16 @@ static NSString *const OAuthLoginDomain =
     // Set the session ID cookie to be used by the web view.
     NSURL *hostURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", domain]];
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *existingCookies = [cookieStorage cookiesForURL:hostURL];
+    NSMutableArray *newCookies = [NSMutableArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
+    
+    //remove any stale cookies with the same domain
+    for (NSHTTPCookie *cookie in newCookies) {
+        if ([cookie.domain isEqualToString:domain] && [cookie.name isEqualToString:@"sid"]  ) {
+            [newCookies removeObject:cookie];
+            break;
+        }
+    }
+    
     NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                    domain, NSHTTPCookieDomain,
                                                                    @"/", NSHTTPCookiePath,
@@ -248,7 +265,9 @@ static NSString *const OAuthLoginDomain =
                                                                    @"TRUE", NSHTTPCookieSecure,
                                                                    nil]];
     
-    NSArray *newCookies = [existingCookies arrayByAddingObject:sidCookie0 ];
+
+    [newCookies addObject:sidCookie0];
+    
     [cookieStorage setCookies:newCookies forURL:hostURL mainDocumentURL:nil];
 }
 
@@ -260,8 +279,8 @@ static NSString *const OAuthLoginDomain =
     NSString *domain = [instanceUrl host]; 
     
     [self addSidCookieForDomain:domain];
-    [self addSidCookieForDomain:@"*.force.com"];
-    [self addSidCookieForDomain:@"*.salesforce.com"];
+    [self addSidCookieForDomain:@".force.com"];
+    [self addSidCookieForDomain:@".salesforce.com"];
     
     // If we have the UnauthorizedViewController, we're in the initialization of the app.
     // Remove this view controller, and let PhoneGap continue its initialization with the
