@@ -23,6 +23,7 @@
  */
 
 #import "AppDelegate.h"
+#import "SFOAuthCoordinator.h"
 #import "UnauthorizedViewController.h"
 
 #ifdef PHONEGAP_FRAMEWORK
@@ -41,8 +42,8 @@
 
 #warning This value should be overwritten with the Consumer Key from your own Remote Access object
 static NSString *const RemoteAccessConsumerKey =
-@"3MVG9PhR6g6B7ps5qYgHpH7_y89IgAoK_4Zs6kZExjGrxYWFNc.FQc_ZmuPmF1ZvmR8hfv9kau5.HRfjP6erp"; //blitz02
-//@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"; //sandbox
+//@"3MVG9PhR6g6B7ps5qYgHpH7_y89IgAoK_4Zs6kZExjGrxYWFNc.FQc_ZmuPmF1ZvmR8hfv9kau5.HRfjP6erp"; //blitz02
+@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"; //sandbox
 
 
 #warning This value should be overwritten with the Callback URL from your own Remote Access object
@@ -51,13 +52,14 @@ static NSString *const OAuthRedirectURI =
 
 #warning This value must match the org instance with which you're testing 
 static NSString *const OAuthLoginDomain =  
-@"login-blitz02.soma.salesforce.com";
-//@"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
+//@"login-blitz02.soma.salesforce.com";
+@"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
 
 
 @interface AppDelegate (private)
 - (void)login;
 - (void)loggedIn;
+- (void)logout;
 - (void)sendJavascriptLoginEvent:(UIWebView *)webView;
 @end
 
@@ -214,6 +216,12 @@ static NSString *const OAuthLoginDomain =
 
 #pragma mark - Salesforce.com login helpers
 
+
+- (void)logout {
+    [self.coordinator revokeAuthentication];
+    [self.coordinator authenticate];
+}
+
 /**
  * This method will initiate the authentication process.
  */
@@ -359,14 +367,21 @@ static NSString *const OAuthLoginDomain =
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
     [coordinator.view removeFromSuperview];
     
-    // show alert and retry
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                    message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
-                                                   delegate:self
-                                          cancelButtonTitle:@"Retry"
-                                          otherButtonTitles: nil];
-    [alert show];
-    [alert release];
+    if (error.code == kSFOAuthErrorInvalidGrant) {
+        //restart the login process asynchronously
+        NSLog(@"Logging out because the cached refresh token is invalid");
+        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    }
+    else {
+        // show alert and retry
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+                                                       delegate:self
+                                              cancelButtonTitle:@"Retry"
+                                              otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
