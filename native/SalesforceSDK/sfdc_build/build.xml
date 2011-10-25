@@ -154,18 +154,13 @@
         </antcall>
 
         <!-- Generate the documentation -->
-        <antcall target="compileRelease.documentation"/>
+        <antcall target="documentation.generate" />
+		<antcall target="documentation.archive" />
 
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
-
-        <!-- Copy the documentation out to the Artifacts root directory before we delete it -->
-        <delete dir="${project.dir}/Documentation" failonerror="false"/>
-        <copy todir="${project.dir}/Documentation">
-            <fileset dir="${artifacts.dir}/${target.name}/Documentation"/>
-        </copy>
 
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
@@ -174,7 +169,15 @@
         <delete dir="${artifacts.dir}"/>
     </target>
 
-    <target name="compileRelease.documentation">
+	<target name="documentation.archive" >
+		<!-- Copy the documentation out to the Artifacts root directory before we delete it -->
+        <delete dir="${project.dir}/Documentation" failonerror="false"/>
+        <copy todir="${project.dir}/Documentation">
+            <fileset dir="${artifacts.dir}/${target.name}/Documentation"/>
+        </copy>
+	</target>
+	
+    <target name="documentation.generate">
         <antcall target="iOSShared.appledocDocumentation">
             <param name="source" value="${artifacts.dir}/${target.name}/include"/>
             <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
