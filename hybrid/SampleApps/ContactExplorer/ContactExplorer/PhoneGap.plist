@@ -17,7 +17,10 @@
 	<key>ShowSplashScreenSpinner</key>
 	<true/>
 	<key>ExternalHosts</key>
-	<array/>
+	<array>
+		<string>*.force.com</string>
+		<string>*.salesforce.com</string>
+	</array>
 	<key>Plugins</key>
 	<dict>
 		<key>com.phonegap.accelerometer</key>
