@@ -26,7 +26,7 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
     <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
-        depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk">
+        depends="iOSShared.dependency.oauth">
         <antcall target="compileDebug"/>
 <!--        <antcall target="compileRelease"/>-->
 <!--        <delete dir="${project.dir}/build"/>-->
