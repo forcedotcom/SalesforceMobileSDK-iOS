@@ -92,7 +92,6 @@ static NSString *const OAuthLoginDomain =
     AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     SFOAuthCredentials *creds = me.coordinator.credentials;
     NSString *instanceHost = [creds.instanceUrl host];
-    //NSString *startPageString = [NSString stringWithFormat:@"https://%@/m",instanceHost]; 
     NSString *startPageString = [NSString stringWithFormat:@"https://%@/apex/BasicVFPage",instanceHost ]; 
     NSLog(@"startPageString value: %@", startPageString);
     return startPageString;
@@ -233,7 +232,7 @@ static NSString *const OAuthLoginDomain =
         credentials.redirectUri = OAuthRedirectURI;
         
         SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-        coordinator.scopes = [NSSet setWithObjects:@"web",@"api",nil] ; //]@"visualforce",@"api", nil];
+        coordinator.scopes = [NSSet setWithObjects:@"web",@"api",nil] ; //TODO eventually use "visualforce" instead of "web"
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
         self.coordinator.credentials = credentials;
