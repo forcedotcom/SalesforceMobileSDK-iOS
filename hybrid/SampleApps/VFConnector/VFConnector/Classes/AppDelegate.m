@@ -33,6 +33,7 @@
 #endif
 
 
+#pragma mark - Remote Access / org settings
 /*
  NOTE These values are provided as usable examples to get you started with OAuth login;
  however, when you create your own app you must create your own Remote Access object
@@ -92,7 +93,9 @@ static NSString *const OAuthLoginDomain =
     AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     SFOAuthCredentials *creds = me.coordinator.credentials;
     NSString *instanceHost = [creds.instanceUrl host];
+    //Our custom apex/visualforce start page
     NSString *startPageString = [NSString stringWithFormat:@"https://%@/apex/BasicVFPage",instanceHost ]; 
+    
     NSLog(@"startPageString value: %@", startPageString);
     return startPageString;
 }
@@ -225,8 +228,12 @@ static NSString *const OAuthLoginDomain =
 - (void)login {
     
     if (nil == self.coordinator) {
+        //here we use the login domain as part of the identifier
+        //to distinguish between eg  sandbox and production credentials
+        NSString *acctIdentifier = [NSString stringWithFormat:@"VFConnector-Default-%@",OAuthLoginDomain];
+        
         SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] 
-                                           initWithIdentifier:@"VFConnector-DefaultAccount"  
+                                           initWithIdentifier:acctIdentifier  
                                            clientId:RemoteAccessConsumerKey];
         credentials.domain = OAuthLoginDomain;
         credentials.redirectUri = OAuthRedirectURI;
