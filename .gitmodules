@@ -6,4 +6,4 @@
 	url = https://github.com/stig/json-framework.git
 [submodule "external/PhoneGap/PhoneGap"]
 	path = external/PhoneGap/PhoneGap
-	url = git@github.com:tstellanova-sfdc/phonegap-iphone.git
+	url = https://tstellanova-sfdc@github.com/tstellanova-sfdc/phonegap-iphone.git 
