@@ -40,7 +40,7 @@
  */
 
 #warning This value should be overwritten with the Consumer Key from your own Remote Access object
-static NSString *const remoteAccessConsumerKey =
+static NSString *const RemoteAccessConsumerKey =
     @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 
 #warning This value should be overwritten with the Callback URL from your own Remote Access object
@@ -197,13 +197,20 @@ static NSString *const OAuthLoginDomain =
     
     //create a new coordinator if we don't already have one
     if (nil == self.coordinator) {
+        
+        //here we use the login domain as part of the identifier
+        //to distinguish between eg  sandbox and production credentials
+        NSString *acctIdentifier = [NSString stringWithFormat:@"ContactExplorer-Default-%@",OAuthLoginDomain];
+        
         //Oauth credentials can have an identifier associated with them,
         //such as an account identifier.  For this app we only support one
         //"account" but you could provide your own means (eg NSUserDefaults) of 
         //storing which account the user last accessed, and using that here.
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"ContactExplorer-DefaultAccount"
-                                                                          clientId:remoteAccessConsumerKey
-                                     ];
+        
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
+                                           initWithIdentifier:acctIdentifier  
+                                           clientId:RemoteAccessConsumerKey];
+
         
         creds.domain = OAuthLoginDomain;
         creds.redirectUri = OAuthRedirectURI;
