@@ -232,19 +232,19 @@ static NSString *const OAuthLoginDomain =
         //to distinguish between eg  sandbox and production credentials
         NSString *acctIdentifier = [NSString stringWithFormat:@"VFConnector-Default-%@",OAuthLoginDomain];
         
-        SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] 
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
                                            initWithIdentifier:acctIdentifier  
                                            clientId:RemoteAccessConsumerKey];
-        credentials.domain = OAuthLoginDomain;
-        credentials.redirectUri = OAuthRedirectURI;
+        creds.domain = OAuthLoginDomain;
+        creds.redirectUri = OAuthRedirectURI;
         
-        SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+        SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
         coordinator.scopes = [NSSet setWithObjects:@"web",@"api",nil] ; //TODO eventually use "visualforce" instead of "web"
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
-        self.coordinator.credentials = credentials;
+        self.coordinator.credentials = creds;
         
-        [credentials release];
+        [creds release];
         [coordinator release];
     }
     
