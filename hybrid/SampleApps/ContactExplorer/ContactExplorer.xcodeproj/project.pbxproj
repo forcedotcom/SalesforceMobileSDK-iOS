@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7DA00AED1458C3D5005CD3DD /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA00AEC1458C3D5005CD3DD /* libsbjson-ios.a */; };
 		C212D87313E7253C00EAF26D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87213E7253C00EAF26D /* Foundation.framework */; };
 		C212D87513E7253C00EAF26D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87413E7253C00EAF26D /* UIKit.framework */; };
 		C212D87713E7253C00EAF26D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87613E7253C00EAF26D /* CoreGraphics.framework */; };
@@ -44,6 +45,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7DA00AE31458C3D5005CD3DD /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		7DA00AE41458C3D5005CD3DD /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		7DA00AE51458C3D5005CD3DD /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		7DA00AE61458C3D5005CD3DD /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		7DA00AE71458C3D5005CD3DD /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		7DA00AE81458C3D5005CD3DD /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		7DA00AE91458C3D5005CD3DD /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		7DA00AEA1458C3D5005CD3DD /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		7DA00AEB1458C3D5005CD3DD /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		7DA00AEC1458C3D5005CD3DD /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsbjson-ios.a"; sourceTree = "<group>"; };
 		C212D86E13E7253C00EAF26D /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C212D87213E7253C00EAF26D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C212D87413E7253C00EAF26D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -111,6 +122,7 @@
 				C212D88B13E7253C00EAF26D /* CoreMedia.framework in Frameworks */,
 				C212D89613E7253C00EAF26D /* PhoneGap.framework in Frameworks */,
 				C212D93213E7298000EAF26D /* libSalesforceOAuth.a in Frameworks */,
+				7DA00AED1458C3D5005CD3DD /* libsbjson-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +136,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DA00AE01458C3D5005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00AE11458C3D5005CD3DD /* include */,
+				7DA00AEC1458C3D5005CD3DD /* libsbjson-ios.a */,
+			);
+			path = SBJson;
+			sourceTree = "<group>";
+		};
+		7DA00AE11458C3D5005CD3DD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00AE21458C3D5005CD3DD /* SBJson */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7DA00AE21458C3D5005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00AE31458C3D5005CD3DD /* NSObject+SBJson.h */,
+				7DA00AE41458C3D5005CD3DD /* SBJson.h */,
+				7DA00AE51458C3D5005CD3DD /* SBJsonParser.h */,
+				7DA00AE61458C3D5005CD3DD /* SBJsonStreamParser.h */,
+				7DA00AE71458C3D5005CD3DD /* SBJsonStreamParserAccumulator.h */,
+				7DA00AE81458C3D5005CD3DD /* SBJsonStreamParserAdapter.h */,
+				7DA00AE91458C3D5005CD3DD /* SBJsonStreamWriter.h */,
+				7DA00AEA1458C3D5005CD3DD /* SBJsonStreamWriterAccumulator.h */,
+				7DA00AEB1458C3D5005CD3DD /* SBJsonWriter.h */,
+			);
+			path = SBJson;
+			sourceTree = "<group>";
+		};
 		C212D86013E7253C00EAF26D = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +305,7 @@
 		C212D8D013E7298000EAF26D /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DA00AE01458C3D5005CD3DD /* SBJson */,
 				C212D92113E7298000EAF26D /* SalesforceOAuth */,
 			);
 			path = dependencies;
@@ -481,6 +527,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -504,6 +551,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
