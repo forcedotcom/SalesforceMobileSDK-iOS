@@ -1,4 +1,4 @@
-<project name="VisualForceConnector" default="all">
+<project name="VFConnector" default="all">
     <import file="../../../../shared/build.xml"/>
 
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
@@ -25,11 +25,9 @@
 
     <target name="all" depends="pre, build" description="do it all"/>
 
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
-        depends="iOSShared.dependency.oauth, iOSShared.dependency.sdk">
+    <target name="build"  
+        depends="iOSShared.dependency.oauth, iOSShared.dependency.callback-ios">
         <antcall target="compileDebug"/>
-<!--        <antcall target="compileRelease"/>-->
-<!--        <delete dir="${project.dir}/build"/>-->
         <move todir="${artifacts.dir}/build">
             <fileset dir="../build"/>
         </move>
@@ -40,7 +38,7 @@
             <param name="install_path" value="${artifacts.dir}/Simulator"/>
             <param name="configuration" value="${configuration.debug}"/>
             <param name="sdk" refid="platform.iphonesimulator"/>
-            <param name="target" value="VisualForceConnector"/>
+            <param name="target" value="VFConnector"/>
             <param name="action" value="install"/>
         </antcall>
     </target>
@@ -50,13 +48,13 @@
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.release}"/>
             <param name="sdk" refid="platform.iphoneos"/>
-            <param name="target" value="VisualForceConnector"/>
+            <param name="target" value="VFConnector"/>
             <param name="action" value="install"/>
         </antcall>
     </target>
 
     <target name="clean"
-        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean">
+        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.callback-ios.clean  ">
         <delete dir="${artifacts.dir}"/>
     </target>
 

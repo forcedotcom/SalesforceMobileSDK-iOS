@@ -4,7 +4,7 @@
     - Installation Directory to: /
     - Skip Install to: No
 -->
-<project name="PhoneGapLib" default="compileRelease">
+<project name="PhoneGapLib" default="all">
     <import file="../../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -28,9 +28,20 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
 
+    <target name="all" depends="pre, build" description="do it all"/>
+    <target name="pre"  depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <delete dir="${artifacts.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+	<target name="build">
+		<antcall target="compileRelease" />
+	</target>
+	
     <target name="compileRelease">
         <property name="configuration" value="${configuration.release}" />
-
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration}"/>
@@ -38,10 +49,14 @@
             <param name="target" value="UniversalFramework"/>
             <param name="action" value="install"/>
         </antcall>
+		<antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/callback-ios-${configuration}.zip"/>
+            <param name="basedir" value="${project.dir}/build//Release-universal/PhoneGap.framework"/>
+        </antcall>
     </target>
 
     <target name="clean">
-	<delete dir="${project.dir}/build" />
+		<delete dir="${project.dir}/build" />
         <delete dir="${artifacts.dir}"/>
     </target>
 </project>
