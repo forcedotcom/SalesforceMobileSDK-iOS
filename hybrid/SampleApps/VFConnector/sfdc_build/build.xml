@@ -26,7 +26,7 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
     <target name="build"  
-        depends="iOSShared.dependency.oauth, iOSShared.dependency.callback-ios">
+        depends="iOSShared.dependency.oauth, iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios">
         <antcall target="compileDebug"/>
         <move todir="${artifacts.dir}/build">
             <fileset dir="../build"/>
@@ -54,7 +54,7 @@
     </target>
 
     <target name="clean"
-        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.callback-ios.clean  ">
+        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean  ">
         <delete dir="${artifacts.dir}"/>
     </target>
 
