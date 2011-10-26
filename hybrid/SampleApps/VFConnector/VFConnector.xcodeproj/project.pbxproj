@@ -38,7 +38,8 @@
 		7D2681D11452289C00AB84A5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2681D01452289C00AB84A5 /* Security.framework */; };
 		7D2681D3145229E500AB84A5 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681D2145229E500AB84A5 /* www */; };
 		7D2681FB1452332A00AB84A5 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681FA1452332A00AB84A5 /* VERSION */; };
-		7D8FD5CC1455D8DC0052B582 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */; };
+		7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D866D5C1458B43600959E6E /* PhoneGap.framework */; };
+		7DA00AD51458BD36005CD3DD /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +82,17 @@
 		7D2681D01452289C00AB84A5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7D2681D2145229E500AB84A5 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7D2681FA1452332A00AB84A5 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
-		7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = "../../../../my_phonegap_2/PhoneGapLib/build/Release-universal/PhoneGap.framework"; sourceTree = "<group>"; };
+		7D866D5C1458B43600959E6E /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
+		7DA00ACB1458BD36005CD3DD /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		7DA00ACC1458BD36005CD3DD /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		7DA00ACD1458BD36005CD3DD /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		7DA00ACE1458BD36005CD3DD /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		7DA00ACF1458BD36005CD3DD /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		7DA00AD01458BD36005CD3DD /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		7DA00AD11458BD36005CD3DD /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		7DA00AD21458BD36005CD3DD /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		7DA00AD31458BD36005CD3DD /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsbjson-ios.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +100,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DA00AD51458BD36005CD3DD /* libsbjson-ios.a in Frameworks */,
+				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
+				7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */,
 				7D2681D11452289C00AB84A5 /* Security.framework in Frameworks */,
 				7D2681691452255200AB84A5 /* Foundation.framework in Frameworks */,
 				7D26816B1452255200AB84A5 /* UIKit.framework in Frameworks */,
@@ -103,15 +117,6 @@
 				7D26817D1452255200AB84A5 /* SystemConfiguration.framework in Frameworks */,
 				7D26817F1452255200AB84A5 /* MobileCoreServices.framework in Frameworks */,
 				7D2681811452255200AB84A5 /* CoreMedia.framework in Frameworks */,
-				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
-				7D8FD5CC1455D8DC0052B582 /* PhoneGap.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7D2681611452255200AB84A5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +145,6 @@
 		7D2681671452255200AB84A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7D8FD5CB1455D8DC0052B582 /* PhoneGap.framework */,
 				7D2681D01452289C00AB84A5 /* Security.framework */,
 				7D2681681452255200AB84A5 /* Foundation.framework */,
 				7D26816A1452255200AB84A5 /* UIKit.framework */,
@@ -253,6 +257,8 @@
 		7D2681BB145227DD00AB84A5 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DA00AC81458BD36005CD3DD /* SBJson */,
+				7D866D5C1458B43600959E6E /* PhoneGap.framework */,
 				7D2681BC145227DD00AB84A5 /* SalesforceOAuth */,
 			);
 			path = dependencies;
@@ -284,6 +290,39 @@
 			path = SalesforceOAuth;
 			sourceTree = "<group>";
 		};
+		7DA00AC81458BD36005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00AC91458BD36005CD3DD /* include */,
+				7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */,
+			);
+			path = SBJson;
+			sourceTree = "<group>";
+		};
+		7DA00AC91458BD36005CD3DD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00ACA1458BD36005CD3DD /* SBJson */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7DA00ACA1458BD36005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00ACB1458BD36005CD3DD /* NSObject+SBJson.h */,
+				7DA00ACC1458BD36005CD3DD /* SBJson.h */,
+				7DA00ACD1458BD36005CD3DD /* SBJsonParser.h */,
+				7DA00ACE1458BD36005CD3DD /* SBJsonStreamParser.h */,
+				7DA00ACF1458BD36005CD3DD /* SBJsonStreamParserAccumulator.h */,
+				7DA00AD01458BD36005CD3DD /* SBJsonStreamParserAdapter.h */,
+				7DA00AD11458BD36005CD3DD /* SBJsonStreamWriter.h */,
+				7DA00AD21458BD36005CD3DD /* SBJsonStreamWriterAccumulator.h */,
+				7DA00AD31458BD36005CD3DD /* SBJsonWriter.h */,
+			);
+			path = SBJson;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,7 +334,6 @@
 				7D26815E1452255200AB84A5 /* Frameworks */,
 				7D26815F1452255200AB84A5 /* Resources */,
 				7D2681601452255200AB84A5 /* Sources */,
-				7D2681611452255200AB84A5 /* Frameworks */,
 				7D2681621452255200AB84A5 /* ShellScript */,
 			);
 			buildRules = (
@@ -368,7 +406,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\n\t\t\t\t\t\t\t\tif [ ! -d \"$PROJECT_DIR/www\" ] ; then\n\t\t\t\t\t\t\t\t\tcp -R /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework/www \"$PROJECT_DIR\"\n\t\t\t\t\t\t\t\tfi\n\t\t\t\t\t\t\t\t# detect www folder reference in project, if missing, print warning\n\t\t\t\t\t\t\t\tgrep \"{isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = \\\"<group>\\\"; };\" \"$PROJECT_DIR/$PROJECT_NAME.xcodeproj/project.pbxproj\"\n\t\t\t\t\t\t\t\trc=$? \n\t\t\t\t\t\t\t\tif [ $rc != 0 ] ; then\n\t\t\t\t\t\t\t\techo -e \"warning: Missing - Add $PROJECT_DIR/www as a folder reference in your project. Just drag and drop the folder into your project, into the Project Navigator of Xcode 4. Make sure you select the second radio-button: 'Create folder references for any added folders' (which will create a blue folder)\" 1>&2\n\t\t\t\t\t\t\t\tfi\t\t\t\t\t\t\t";
+			shellScript = "\n\t\t\t\t\t\t\t\t# detect www folder reference in project, if missing, print warning\n\t\t\t\t\t\t\t\tgrep \"{isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = \\\"<group>\\\"; };\" \"$PROJECT_DIR/$PROJECT_NAME.xcodeproj/project.pbxproj\"\n\t\t\t\t\t\t\t\trc=$? \n\t\t\t\t\t\t\t\tif [ $rc != 0 ] ; then\n\t\t\t\t\t\t\t\techo -e \"warning: Missing - Add $PROJECT_DIR/www as a folder reference in your project. Just drag and drop the folder into your project, into the Project Navigator of Xcode 4. Make sure you select the second radio-button: 'Create folder references for any added folders' (which will create a blue folder)\" 1>&2\n\t\t\t\t\t\t\t\tfi\t\t\t\t\t\t\t";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -468,10 +507,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/PhoneGap/Frameworks,
-					"\"$(SRCROOT)/../../../../phonegap-iphone-public/PhoneGapLib/build/Release-universal\"",
-					"\"$(SRCROOT)/../../../../../../../Shared/hold_PhoneGap_1_0/Frameworks\"",
-					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies\"/**",
+					"\"$(SRCROOT)/dependencies\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -482,10 +520,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SalesforceSDK\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
+					"-ObjC",
 					"-weak_framework",
 					UIKit,
 					"-weak_framework",
@@ -508,10 +546,9 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/Shared/PhoneGap/Frameworks,
-					"\"$(SRCROOT)/../../../../phonegap-iphone-public/PhoneGapLib/build/Release-universal\"",
-					"\"$(SRCROOT)/../../../../../../../Shared/hold_PhoneGap_1_0/Frameworks\"",
-					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
+					"$(inherited)",
+					"\"$(SRCROOT)/dependencies\"/**",
+					"\"$(SRCROOT)/dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
@@ -521,10 +558,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SalesforceSDK\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
+					"-ObjC",
 					"-weak_framework",
 					UIKit,
 					"-weak_framework",

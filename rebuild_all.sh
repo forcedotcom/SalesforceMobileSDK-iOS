@@ -10,6 +10,8 @@ cd $CURRENT_DIR/external/json-framework/sfdc_build
 ant clean
 cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant clean
+cd $CURRENT_DIR/external/callback-ios/sfdc_build
+ant clean
 cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
 ant clean
 
@@ -21,7 +23,7 @@ cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant clean.full
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant clean.full
-cd $CURRENT_DIR/hybrid/SampleApps/VisualForceConnector/sfdc_build
+cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
 ant clean.full
 
 
@@ -30,11 +32,11 @@ cd $CURRENT_DIR/external/json-framework/sfdc_build
 ant
 cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant
+cd $CURRENT_DIR/external/callback-ios/sfdc_build
+ant 
 
 # build salesforce libraries
 cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
-ant
-cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant
 
 # build sample apps with dependencies
@@ -42,6 +44,6 @@ cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant
-cd $CURRENT_DIR/hybrid/SampleApps/VisualForceConnector/sfdc_build
+cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
 ant
 
