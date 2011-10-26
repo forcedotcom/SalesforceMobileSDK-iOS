@@ -1,0 +1,47 @@
+<!--
+    Build file for PhoneGapLib 
+    - Public Headers Folder Path to: <don't change>
+    - Installation Directory to: /
+    - Skip Install to: No
+-->
+<project name="PhoneGapLib" default="compileRelease">
+    <import file="../../../shared/build.xml"/>
+
+    <property environment="env"/>
+    <property name="env.BUILD_NUMBER" value="1"/>
+    <property name="env.WORKSPACE" value="."/>
+
+    <!-- Supplied by the automated build server -->
+    <property id="SDK" name="SDK" value="Latest"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}" />
+    <property name="project.dir" location="../PhoneGap/PhoneGapLib" />
+    <property name="artifacts.dir" location="${env.WORKSPACE}/artifacts" />
+
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="sdk.iphoneos" name="sdk.iphoneos" value="${platform.iphoneos}"/>
+    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+
+    <target name="compileRelease">
+        <property name="configuration" value="${configuration.release}" />
+
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="UniversalFramework"/>
+            <param name="action" value="install"/>
+        </antcall>
+    </target>
+
+    <target name="clean">
+	<delete dir="${project.dir}/build" />
+        <delete dir="${artifacts.dir}"/>
+    </target>
+</project>
