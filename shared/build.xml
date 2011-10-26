@@ -214,5 +214,33 @@
     </target>
     
     
+    <!-- dependency: callback-ios -->
+    <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
+
+    <target name="dependency.callback-ios.check">
+        <condition property="dependency.callback-ios.present">
+            <available file="${dependency.dir}/callback-ios" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.callback-ios" depends="dependency.callback-ios.check" unless="dependency.callback-ios.present">
+        <property name="dependency.callback-ios.zip" value="${subproject.callback-ios.dir}/sfdc_build/artifacts/callback-ios-Release.zip"/>
+
+        <available file="${dependency.callback-ios.zip}" property="dependency.callback-ios.zip.present"/>
+        <antcall target="dependency.callback-ios.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.callback-ios.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.callback-ios.compile" unless="dependency.callback-ios.zip.present">
+        <ant dir="${subproject.callback-ios.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.callback-ios.clean">
+        <ant dir="${subproject.callback-ios.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/callback-ios"/>
+    </target>
 
 </project>
