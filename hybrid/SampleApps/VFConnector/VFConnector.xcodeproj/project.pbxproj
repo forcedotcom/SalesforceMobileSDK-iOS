@@ -38,7 +38,7 @@
 		7D2681D11452289C00AB84A5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2681D01452289C00AB84A5 /* Security.framework */; };
 		7D2681D3145229E500AB84A5 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681D2145229E500AB84A5 /* www */; };
 		7D2681FB1452332A00AB84A5 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681FA1452332A00AB84A5 /* VERSION */; };
-		7D79DEF914571FF0001BC13B /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D79DEF814571FF0001BC13B /* PhoneGap.framework */; };
+		7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D866D5C1458B43600959E6E /* PhoneGap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +81,7 @@
 		7D2681D01452289C00AB84A5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7D2681D2145229E500AB84A5 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7D2681FA1452332A00AB84A5 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
-		7D79DEF814571FF0001BC13B /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = "../../../external/PhoneGap/PhoneGap/PhoneGapLib/build/Release-universal/PhoneGap.framework"; sourceTree = "<group>"; };
+		7D866D5C1458B43600959E6E /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 				7D26817F1452255200AB84A5 /* MobileCoreServices.framework in Frameworks */,
 				7D2681811452255200AB84A5 /* CoreMedia.framework in Frameworks */,
 				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
-				7D79DEF914571FF0001BC13B /* PhoneGap.framework in Frameworks */,
+				7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +140,6 @@
 		7D2681671452255200AB84A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7D79DEF814571FF0001BC13B /* PhoneGap.framework */,
 				7D2681D01452289C00AB84A5 /* Security.framework */,
 				7D2681681452255200AB84A5 /* Foundation.framework */,
 				7D26816A1452255200AB84A5 /* UIKit.framework */,
@@ -253,6 +252,7 @@
 		7D2681BB145227DD00AB84A5 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D866D5C1458B43600959E6E /* PhoneGap.framework */,
 				7D2681BC145227DD00AB84A5 /* SalesforceOAuth */,
 			);
 			path = dependencies;
@@ -368,7 +368,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\n\t\t\t\t\t\t\t\tif [ ! -d \"$PROJECT_DIR/www\" ] ; then\n\t\t\t\t\t\t\t\t\tcp -R /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework/www \"$PROJECT_DIR\"\n\t\t\t\t\t\t\t\tfi\n\t\t\t\t\t\t\t\t# detect www folder reference in project, if missing, print warning\n\t\t\t\t\t\t\t\tgrep \"{isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = \\\"<group>\\\"; };\" \"$PROJECT_DIR/$PROJECT_NAME.xcodeproj/project.pbxproj\"\n\t\t\t\t\t\t\t\trc=$? \n\t\t\t\t\t\t\t\tif [ $rc != 0 ] ; then\n\t\t\t\t\t\t\t\techo -e \"warning: Missing - Add $PROJECT_DIR/www as a folder reference in your project. Just drag and drop the folder into your project, into the Project Navigator of Xcode 4. Make sure you select the second radio-button: 'Create folder references for any added folders' (which will create a blue folder)\" 1>&2\n\t\t\t\t\t\t\t\tfi\t\t\t\t\t\t\t";
+			shellScript = "\n\t\t\t\t\t\t\t\t# detect www folder reference in project, if missing, print warning\n\t\t\t\t\t\t\t\tgrep \"{isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = \\\"<group>\\\"; };\" \"$PROJECT_DIR/$PROJECT_NAME.xcodeproj/project.pbxproj\"\n\t\t\t\t\t\t\t\trc=$? \n\t\t\t\t\t\t\t\tif [ $rc != 0 ] ; then\n\t\t\t\t\t\t\t\techo -e \"warning: Missing - Add $PROJECT_DIR/www as a folder reference in your project. Just drag and drop the folder into your project, into the Project Navigator of Xcode 4. Make sure you select the second radio-button: 'Create folder references for any added folders' (which will create a blue folder)\" 1>&2\n\t\t\t\t\t\t\t\tfi\t\t\t\t\t\t\t";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -469,8 +470,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
-					"\"$(SRCROOT)/../../../external/PhoneGap/PhoneGap/PhoneGapLib/build/Release-universal\"",
+					"\"$(SRCROOT)/dependencies\"/**",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -481,7 +481,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SalesforceSDK\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
@@ -508,8 +507,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../my_phonegap_2/PhoneGapLib/build/Release-universal\"",
-					"\"$(SRCROOT)/../../../external/PhoneGap/PhoneGap/PhoneGapLib/build/Release-universal\"",
+					"\"$(SRCROOT)/dependencies\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
@@ -519,7 +517,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SalesforceSDK\"",
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
