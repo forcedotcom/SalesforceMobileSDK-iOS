@@ -39,6 +39,7 @@
 		7D2681D3145229E500AB84A5 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681D2145229E500AB84A5 /* www */; };
 		7D2681FB1452332A00AB84A5 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 7D2681FA1452332A00AB84A5 /* VERSION */; };
 		7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D866D5C1458B43600959E6E /* PhoneGap.framework */; };
+		7DA00AD51458BD36005CD3DD /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,16 @@
 		7D2681D2145229E500AB84A5 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7D2681FA1452332A00AB84A5 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		7D866D5C1458B43600959E6E /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
+		7DA00ACB1458BD36005CD3DD /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		7DA00ACC1458BD36005CD3DD /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		7DA00ACD1458BD36005CD3DD /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		7DA00ACE1458BD36005CD3DD /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		7DA00ACF1458BD36005CD3DD /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		7DA00AD01458BD36005CD3DD /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		7DA00AD11458BD36005CD3DD /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		7DA00AD21458BD36005CD3DD /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		7DA00AD31458BD36005CD3DD /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsbjson-ios.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +100,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DA00AD51458BD36005CD3DD /* libsbjson-ios.a in Frameworks */,
+				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
+				7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */,
 				7D2681D11452289C00AB84A5 /* Security.framework in Frameworks */,
 				7D2681691452255200AB84A5 /* Foundation.framework in Frameworks */,
 				7D26816B1452255200AB84A5 /* UIKit.framework in Frameworks */,
@@ -103,8 +117,6 @@
 				7D26817D1452255200AB84A5 /* SystemConfiguration.framework in Frameworks */,
 				7D26817F1452255200AB84A5 /* MobileCoreServices.framework in Frameworks */,
 				7D2681811452255200AB84A5 /* CoreMedia.framework in Frameworks */,
-				7D2681C8145227DE00AB84A5 /* libSalesforceOAuth.a in Frameworks */,
-				7D866D5D1458B43600959E6E /* PhoneGap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +257,7 @@
 		7D2681BB145227DD00AB84A5 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DA00AC81458BD36005CD3DD /* SBJson */,
 				7D866D5C1458B43600959E6E /* PhoneGap.framework */,
 				7D2681BC145227DD00AB84A5 /* SalesforceOAuth */,
 			);
@@ -275,6 +288,39 @@
 				7D2681C0145227DD00AB84A5 /* SFOAuthCredentials.h */,
 			);
 			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7DA00AC81458BD36005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00AC91458BD36005CD3DD /* include */,
+				7DA00AD41458BD36005CD3DD /* libsbjson-ios.a */,
+			);
+			path = SBJson;
+			sourceTree = "<group>";
+		};
+		7DA00AC91458BD36005CD3DD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00ACA1458BD36005CD3DD /* SBJson */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7DA00ACA1458BD36005CD3DD /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7DA00ACB1458BD36005CD3DD /* NSObject+SBJson.h */,
+				7DA00ACC1458BD36005CD3DD /* SBJson.h */,
+				7DA00ACD1458BD36005CD3DD /* SBJsonParser.h */,
+				7DA00ACE1458BD36005CD3DD /* SBJsonStreamParser.h */,
+				7DA00ACF1458BD36005CD3DD /* SBJsonStreamParserAccumulator.h */,
+				7DA00AD01458BD36005CD3DD /* SBJsonStreamParserAdapter.h */,
+				7DA00AD11458BD36005CD3DD /* SBJsonStreamWriter.h */,
+				7DA00AD21458BD36005CD3DD /* SBJsonStreamWriterAccumulator.h */,
+				7DA00AD31458BD36005CD3DD /* SBJsonWriter.h */,
+			);
+			path = SBJson;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -463,6 +509,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies\"/**",
+					"\"$(SRCROOT)/dependencies\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -476,6 +523,7 @@
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
+					"-ObjC",
 					"-weak_framework",
 					UIKit,
 					"-weak_framework",
@@ -500,6 +548,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/dependencies\"/**",
+					"\"$(SRCROOT)/dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
@@ -512,6 +561,7 @@
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
+					"-ObjC",
 					"-weak_framework",
 					UIKit,
 					"-weak_framework",
