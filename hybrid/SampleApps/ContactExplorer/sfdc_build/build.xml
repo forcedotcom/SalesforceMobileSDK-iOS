@@ -26,7 +26,7 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
     <target name="build" description="builds all targets, runs unit tests and generates code coverage report"
-        depends="iOSShared.dependency.oauth,iOSShared.dependency.sbjson">
+        depends="iOSShared.dependency.oauth, iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios">
         <antcall target="compileDebug"/>
 <!--        <antcall target="compileRelease"/>-->
 <!--        <delete dir="${project.dir}/build"/>-->
@@ -60,6 +60,6 @@
     </target>
 
     <target name="clean.full"
-        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.oauth.clean ">
+        depends="clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.oauth.clean ">
     </target>
 </project>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7DA00AED1458C3D5005CD3DD /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA00AEC1458C3D5005CD3DD /* libsbjson-ios.a */; };
+		7DA00AFA1458D5A6005CD3DD /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DA00AF91458D5A6005CD3DD /* PhoneGap.framework */; };
 		C212D87313E7253C00EAF26D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87213E7253C00EAF26D /* Foundation.framework */; };
 		C212D87513E7253C00EAF26D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87413E7253C00EAF26D /* UIKit.framework */; };
 		C212D87713E7253C00EAF26D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D87613E7253C00EAF26D /* CoreGraphics.framework */; };
@@ -23,7 +24,6 @@
 		C212D88B13E7253C00EAF26D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D88A13E7253C00EAF26D /* CoreMedia.framework */; };
 		C212D89113E7253C00EAF26D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C212D88F13E7253C00EAF26D /* InfoPlist.strings */; };
 		C212D89413E7253C00EAF26D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C212D89313E7253C00EAF26D /* main.m */; };
-		C212D89613E7253C00EAF26D /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C212D89513E7253C00EAF26D /* PhoneGap.framework */; };
 		C212D89B13E7253C00EAF26D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C212D89913E7253C00EAF26D /* Localizable.strings */; };
 		C212D89F13E7253C00EAF26D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C212D89D13E7253C00EAF26D /* Localizable.strings */; };
 		C212D8A213E7253C00EAF26D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C212D8A113E7253C00EAF26D /* icon.png */; };
@@ -55,6 +55,7 @@
 		7DA00AEA1458C3D5005CD3DD /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
 		7DA00AEB1458C3D5005CD3DD /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		7DA00AEC1458C3D5005CD3DD /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsbjson-ios.a"; sourceTree = "<group>"; };
+		7DA00AF91458D5A6005CD3DD /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
 		C212D86E13E7253C00EAF26D /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C212D87213E7253C00EAF26D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C212D87413E7253C00EAF26D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -73,7 +74,6 @@
 		C212D89013E7253C00EAF26D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C212D89213E7253C00EAF26D /* ContactExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContactExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		C212D89313E7253C00EAF26D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C212D89513E7253C00EAF26D /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework; sourceTree = "<absolute>"; };
 		C212D89A13E7253C00EAF26D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C212D89E13E7253C00EAF26D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C212D8A113E7253C00EAF26D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
@@ -120,9 +120,9 @@
 				C212D88713E7253C00EAF26D /* SystemConfiguration.framework in Frameworks */,
 				C212D88913E7253C00EAF26D /* MobileCoreServices.framework in Frameworks */,
 				C212D88B13E7253C00EAF26D /* CoreMedia.framework in Frameworks */,
-				C212D89613E7253C00EAF26D /* PhoneGap.framework in Frameworks */,
 				C212D93213E7298000EAF26D /* libSalesforceOAuth.a in Frameworks */,
 				7DA00AED1458C3D5005CD3DD /* libsbjson-ios.a in Frameworks */,
+				7DA00AFA1458D5A6005CD3DD /* PhoneGap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +193,6 @@
 			children = (
 				C212D93813E72AC800EAF26D /* libxml2.dylib */,
 				C212DA0A13E8BFB800EAF26D /* CoreData.framework */,
-				C212D89513E7253C00EAF26D /* PhoneGap.framework */,
 				C212D93613E72AA000EAF26D /* CFNetwork.framework */,
 				C212D93413E729E700EAF26D /* Security.framework */,
 				C212D87213E7253C00EAF26D /* Foundation.framework */,
@@ -305,6 +304,7 @@
 		C212D8D013E7298000EAF26D /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DA00AF91458D5A6005CD3DD /* PhoneGap.framework */,
 				7DA00AE01458C3D5005CD3DD /* SBJson */,
 				C212D92113E7298000EAF26D /* SalesforceOAuth */,
 			);
@@ -516,7 +516,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/Shared/PhoneGap/Frameworks,
+					"\"$(SRCROOT)/dependencies\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
@@ -541,7 +544,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/Shared/PhoneGap/Frameworks,
+					"\"$(SRCROOT)/dependencies\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
