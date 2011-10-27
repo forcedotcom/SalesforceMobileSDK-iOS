@@ -36,11 +36,11 @@
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-	<target name="build">
-		<antcall target="compileRelease" />
-	</target>
+   <target name="build">
+	<antcall target="compileRelease" />
+   </target>
 	
-    <target name="compileRelease">
+    <target name="compileRelease" depends="pre" >
         <property name="configuration" value="${configuration.release}" />
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
@@ -49,7 +49,7 @@
             <param name="target" value="UniversalFramework"/>
             <param name="action" value="install"/>
         </antcall>
-		<antcall target="iOSShared.compress">
+	<antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/callback-ios-${configuration}.zip"/>
             <param name="basedir" value="${project.dir}/build//Release-universal/PhoneGap.framework"/>
         </antcall>

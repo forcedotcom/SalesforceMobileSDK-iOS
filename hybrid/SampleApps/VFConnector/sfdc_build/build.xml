@@ -53,8 +53,7 @@
         </antcall>
     </target>
 
-    <target name="clean"
-        depends="iOSShared.dependency.oauth.clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean  ">
+    <target name="clean" >
         <delete dir="${artifacts.dir}"/>
     </target>
 
