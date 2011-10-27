@@ -1269,13 +1269,14 @@
 #import "SFRestAPI.h"
 
 // Fill these in when creating a new Remote Access client on Force.com 
-static NSString *const remoteAccessConsumerKey = @"___VARIABLE_publicKey___";
+static NSString *const RemoteAccessConsumerKey = @"___VARIABLE_publicKey___";
 static NSString *const OAuthRedirectURI = @"___VARIABLE_redirectURL___";
 static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
 
 
 @interface AppDelegate (private)
 - (void)login;
+- (void)logout;
 - (void)loggedIn;
 @end
 
@@ -1348,24 +1349,42 @@ static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
 #pragma mark - Salesforce.com login helpers
 
 - (void)login {
-    SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] initWithIdentifier:remoteAccessConsumerKey] autorelease];
-    credentials.domain = OAuthLoginDomain;
-    credentials.redirectUri = OAuthRedirectURI;
+    
+    //create a new coordinator if we don't already have one
+    if (nil == self.coordinator) {
+        
+        //here we use the login domain as part of the identifier
+        //to distinguish between eg  sandbox and production credentials
+        NSString *acctIdentifier = [NSString stringWithFormat:@"MyApp-Default-%@",OAuthLoginDomain];
 
-    self.coordinator = [[[SFOAuthCoordinator alloc] initWithCredentials:credentials] autorelease];
-    self.coordinator.delegate = self;
+        //Oauth credentials can have an identifier associated with them,
+        //such as an account identifier.  For this app we only support one
+        //"account" but you could provide your own means (eg NSUserDefaults) of 
+        //storing which account the user last accessed, and using that here.
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:acctIdentifier
+                                                                          clientId:RemoteAccessConsumerKey
+                                     ];
+        
+        creds.domain = OAuthLoginDomain;
+        creds.redirectUri = OAuthRedirectURI;
+        
+        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+        self.coordinator = coord;
+        self.coordinator.delegate = self;
+        [coord release];
+    }
     
-    // By default, the oauth key is stored securely KeyChain so the
-    // user doesn't have to relogin when the app restarts.
-    // Uncomment this line to force a relogin.
-    // [self.coordinator revokeAuthentication];
-    
-    //now let's authenticate
+    //kickoff authentication
+    [self.coordinator authenticate];
+}
+
+- (void)logout {
+    [self.coordinator revokeAuthentication];
     [self.coordinator authenticate];
 }
 
 - (void)loggedIn {
-    [SFRestAPI APIWithCoordinator:self.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
 
     // now show the true app view controller if it's not already shown
     if (![self.viewController isKindOfClass:RootViewController.class]) {
@@ -1373,6 +1392,7 @@ static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
         self.window.rootViewController = self.viewController;
     }
 }
+
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
