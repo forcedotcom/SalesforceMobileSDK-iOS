@@ -16,24 +16,24 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
-    <target name="pre"  depends="initArtifacts"/>
+    <target name="pre"  
+        depends="initArtifacts,iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk" />
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="all" depends="pre, build" description="do it all"/>
+    <target name="all" depends="build" description="do it all"/>
 
-    <target name="build" description="builds all targets"
-        depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk">
+    <target name="build" description="builds all targets" >
         <antcall target="compileDebug"/>
         <move todir="${artifacts.dir}/build">
             <fileset dir="../build"/>
         </move>
     </target>
 
-    <target name="compileDebug">
+    <target name="compileDebug" depends="pre" >
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/Simulator"/>
             <param name="configuration" value="${configuration.debug}"/>
