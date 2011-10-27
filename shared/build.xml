@@ -118,7 +118,7 @@
     </target>
 
     <target name="dependency.sdk.compile" unless="dependency.sdk.zip.present">
-        <ant dir="${subproject.sdk.dir}/sfdc_build" inheritAll="false"/>
+        <ant dir="${subproject.sdk.dir}/sfdc_build" target="build" inheritAll="false"/>
     </target>
 
     <target name="dependency.sdk.clean">
@@ -147,7 +147,7 @@
     </target>
 
     <target name="dependency.oauth.compile" unless="dependency.oauth.zip.present">
-        <ant dir="${subproject.oauth.dir}/sfdc_build" inheritAll="false"/>
+        <ant dir="${subproject.oauth.dir}/sfdc_build" target="build" inheritAll="false"/>
     </target>
 
     <target name="dependency.oauth.clean">

@@ -31,13 +31,16 @@
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="all" depends="utest, build" description="do it all"/>
-
-    <target name="build" description="builds all targets"
-	depends="pre" >
+    <target name="all" depends="pre,utest" description="do it all">
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>
         <antcall target="xcodetemplate.create"/>
+        <delete dir="${project.dir}/build"/>
+   </target>
+
+    <target name="build" description="builds main artifacts"
+	depends="pre" >
+        <antcall target="compileDebug"/>
         <delete dir="${project.dir}/build"/>
     </target>
 
@@ -156,7 +159,7 @@
 
         <!-- Generate the documentation -->
         <antcall target="documentation.generate" />
-		<antcall target="documentation.archive" />
+	<antcall target="documentation.archive" />
 
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>

@@ -24,22 +24,25 @@
     <property id="configuration.debug" name="configuration.debug" value="Debug"/>
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
-    <target name="all" depends="pre, build" description="do it all"/>
-
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report">
+    <target name="all" depends="pre" description="do it all">
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>
         <delete dir="${project.dir}/build"/>
+   </target>
+
+    <target name="build" description="builds main artifacts" > 
+        <antcall target="compileDebug"/>
+        <delete dir="${project.dir}/build"/>
     </target>
 
-    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
+   <target name="pre" depends="initArtifacts" />
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="compileDebug">
+    <target name="compileDebug" depends="pre" >
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.debug}"/>
@@ -70,7 +73,7 @@
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
 
-    <target name="compileRelease">
+    <target name="compileRelease" depends="pre" >
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.release}"/>
