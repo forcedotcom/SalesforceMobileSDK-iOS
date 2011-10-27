@@ -20,3 +20,4 @@ To pull changes from our public repo:
 `git fetch upstream`
 
 `git merge upstream/master`
+

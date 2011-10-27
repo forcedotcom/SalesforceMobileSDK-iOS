@@ -83,13 +83,18 @@ You can also use the SDK in an existing project:
 Working with the hybrid sample apps
 ==
 
-The sample applications contained under the hybrid/ folder are designed around the [PhoneGap SDK](http://www.phonegap.com/).  Before you can work with those applications, you will need to download and install the **1.0.0** (or later) version of the PhoneGap SDK, which you can get from the PhoneGap website, linked above.  You can find more detailed installation instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
+The sample applications contained under the hybrid/ folder are designed around the [PhoneGap SDK](http://www.phonegap.com/), also known as [callback-ios](https://github.com/callback/callback-ios).  
 
-**Note:** The hybrid sample applications are configured to look for the PhoneGap iOS Framework in /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework, and may not load the framework properly if it is located elsewhere.  To find out if the PhoneGap framework is properly linked in the sample project, take the following action:
+Before you can work with those applications, you will need to ensure that you've updated the submodules for the SalesforceSDK project.  
+See the setup.md file for instructions on using `git submodule` to grab the correct PhoneGap libraries.
+
+You can find more detailed installation instructions, as well as documentation for working with the PhoneGap SDK, in the [Getting Started Guide](http://www.phonegap.com/start).
+
+**Note:** The hybrid sample applications are configured to look for the PhoneGap iOS Framework in their dependencies folder. To find out if the PhoneGap framework is properly linked in a sample project, take the following action:
 
 1. Open the project in Xcode.
-2. In Project Navigator, expand the Frameworks folder.
-3. If PhoneGap.framework is listed among the configured frameworks, your project should be fine, and no further action should be necessary. 
+2. In Project Navigator, expand the dependencies folder.
+3. If PhoneGap.framework is listed among the dependencies , your project should be fine, and no further action should be necessary. 
 
 If you do not see the PhoneGap framework, or otherwise get compilation errors related to the PhoneGap Framework not being found (e.g. 'Undefined symbols for architecture i386: "\_OBJC\_METACLASS\_$\_PhoneGapDelegate"'), you will need to add the PhoneGap Framework to the sample project:
 
@@ -99,6 +104,9 @@ If you do not see the PhoneGap framework, or otherwise get compilation errors re
 
 The sample application project should now build and run cleanly.
 
+**Note:** The sample applications currently have SBJson as a dependency.  This is because this version of the SalesforceSDK supports iOS 4.3.
+In the near future we intend to deprecate iOS 4.3 in favor of iOS 5.0, where we can eliminate the SBJson dependency in favor of builtin iOS 5.0
+features. _You may also choose to eliminate the SBJson dependency if your app targets iOS 5.0+._
 
 Documentation
 ==
