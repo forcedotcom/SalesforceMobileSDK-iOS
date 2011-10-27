@@ -4,3 +4,6 @@ project.xcworkspace
 artifacts
 
 /native/SalesforceSDK/SalesforceSDKTests/token.json
+
+hybrid/SampleApps/ContactExplorer/build/
+native/SalesforceSDK/build/
