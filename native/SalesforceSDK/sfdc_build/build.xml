@@ -23,25 +23,26 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
-    <target name="pre"  depends="initArtifacts"/>
+    <target name="pre"  
+	depends="initArtifacts,iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth"/>
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="all" depends="pre, utest, build" description="do it all"/>
+    <target name="all" depends="utest, build" description="do it all"/>
 
-    
     <target name="build" description="builds all targets"
-        depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth">
+	depends="pre" >
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>
         <antcall target="xcodetemplate.create"/>
         <delete dir="${project.dir}/build"/>
     </target>
 
-    <target name="utest" description="runs unit tests in simulator">
+    <target name="utest" depends="pre"
+	 description="runs unit tests in simulator">
         
         <!-- get the latest iphonesimulator location -->
         <exec executable="xcodebuild" outputproperty="latestSimSDKPath">
@@ -113,7 +114,7 @@
     
     
     
-    <target name="compileDebug">
+    <target name="compileDebug" depends="pre">
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.debug}"/>
@@ -144,7 +145,7 @@
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
 
-    <target name="compileRelease">
+    <target name="compileRelease" depends="pre" >
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.release}"/>
