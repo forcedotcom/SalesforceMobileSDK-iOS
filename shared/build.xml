@@ -216,16 +216,16 @@
     
     <!-- dependency: callback-ios -->
     <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
-
     <target name="dependency.callback-ios.check">
         <condition property="dependency.callback-ios.present">
-            <available file="${dependency.dir}/callback-ios" type="dir"/>
+            <available file="${dependency.dir}/PhoneGap.framework" type="dir"/>
         </condition>
     </target>
 
     <target name="dependency.callback-ios" depends="dependency.callback-ios.check" unless="dependency.callback-ios.present">
         <property name="dependency.callback-ios.zip" value="${subproject.callback-ios.dir}/sfdc_build/artifacts/callback-ios-Release.zip"/>
 
+	<echo>dependency.callback-ios.zip = '${dependency.callback-ios.zip}' </echo>
         <available file="${dependency.callback-ios.zip}" property="dependency.callback-ios.zip.present"/>
         <antcall target="dependency.callback-ios.compile"/>
 
@@ -240,7 +240,7 @@
 
     <target name="dependency.callback-ios.clean">
         <ant dir="${subproject.callback-ios.dir}/sfdc_build" target="clean" inheritAll="false"/>
-        <delete dir="${dependency.dir}/callback-ios"/>
+	<delete dir="${dependency.dir}/PhoneGap.framework" />
     </target>
 
 </project>
