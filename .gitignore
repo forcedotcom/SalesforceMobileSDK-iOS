@@ -7,3 +7,4 @@ artifacts
 
 hybrid/SampleApps/ContactExplorer/build/
 native/SalesforceSDK/build/
+native/SalesforceOAuth/build/
