@@ -1366,6 +1366,7 @@
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
 			name = Debug;
 		};
@@ -1386,6 +1387,7 @@
 					"\"$(SRCROOT)/dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
 			name = Release;
 		};
