@@ -60,6 +60,7 @@ static NSString *const OAuthLoginDomain =
 - (void)loggedIn;
 - (void)logout;
 - (void)sendJavascriptLoginEvent:(UIWebView *)webView;
+- (void)addSidCookieForDomain:(NSString*)domain;
 @end
 
 @implementation AppDelegate
@@ -135,6 +136,13 @@ static NSString *const OAuthLoginDomain =
     return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    //We refresh the oauth access token (session ID / sid) each time the
+    //app restarts because we want to avoid having the session expire
+    //while we have the VisualForce page loaded.
+
+	[self login];
+}
 
 
 // this happens while we are running ( in the background, or from within our own app )
@@ -239,7 +247,14 @@ static NSString *const OAuthLoginDomain =
         creds.redirectUri = OAuthRedirectURI;
         
         SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-        coordinator.scopes = [NSSet setWithObjects:@"web",@"api",nil] ; //TODO eventually use "visualforce" instead of "web"
+        
+        //NOTE: We only ask for "visualforce" scope here since we're only
+        //loading a VisualForce page in the UIWebView in this sample; however,
+        //if you wish to use the REST API with eg forcetk.js, you can also
+        //mix and match the visualforce scope with the "api" scope: 
+        //coordinator.scopes = [NSSet setWithObjects:@"visualforce","api",nil] ; 
+        coordinator.scopes = [NSSet setWithObjects:@"visualforce",nil] ; 
+        
         self.coordinator = coordinator;
         self.coordinator.delegate = self;
         self.coordinator.credentials = creds;
@@ -251,6 +266,12 @@ static NSString *const OAuthLoginDomain =
     [self.coordinator authenticate];
 }
 
+
+/**
+ Using the oauth token we've obtained,
+ set a cookie on the shared cookie storage,
+ that will be used to authenticate our VisualForce page loads.
+ */
 - (void)addSidCookieForDomain:(NSString*)domain
 {
     NSLog(@"addSidCookieForDomain: %@",domain);
@@ -396,13 +417,6 @@ static NSString *const OAuthLoginDomain =
 
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
-    
-	// In our case, we'll refresh the auth session.
-	[self login];
-}
+
 
 @end
