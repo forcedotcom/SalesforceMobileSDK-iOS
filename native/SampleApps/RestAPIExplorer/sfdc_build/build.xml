@@ -24,7 +24,7 @@
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-    <target name="all" depends="pre, build" description="do it all"/>
+    <target name="all" depends="build" description="do it all"/>
 
     <target name="build" description="builds all targets" >
         <antcall target="compileDebug"/>
