@@ -1352,7 +1352,7 @@
 		C26713DB13D6B845001FE0B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
@@ -1373,7 +1373,7 @@
 		C26713DC13D6B845001FE0B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
