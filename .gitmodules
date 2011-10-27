@@ -4,6 +4,3 @@
 [submodule "external/json-framework/json-framework"]
 	path = external/json-framework/json-framework
 	url = https://github.com/stig/json-framework.git
-[submodule "external/callback-ios/PhoneGap"]
-	path = external/callback-ios/PhoneGap
-	url = https://github.com/forcedotcom/callback-ios.git
