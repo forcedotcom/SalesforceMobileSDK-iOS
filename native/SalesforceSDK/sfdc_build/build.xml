@@ -99,9 +99,7 @@
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
             <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
         </exec>
-       
-		<echo>utestResult is: ${utestResult}</echo>
-		
+       		
 	<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
 	<antcall target="iOSShared.covreport">
 		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
@@ -115,14 +113,15 @@
         <delete dir="${tmp_home}"/>
         -->
         
-        <echo message="Stoping securityd ..."/>
+        <echo message="Stopping securityd ..."/>
         <exec failonerror="true" executable="launchctl">
             <arg line="remove RunIPhoneLaunchDaemons"/>
         </exec>
         
 		<!-- verify that the utestResult is zero (no error)
 		We do this AFTER stopping securityd, exiting app -->
-		<fail message="Unit tests failed">
+					
+		<fail message="Unit tests failed with error: '${utestResult}'">
 			<condition>
 				<not>
 					<equals arg1="${utestResult}" arg2="0" />
