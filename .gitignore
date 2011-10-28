@@ -11,3 +11,4 @@ native/SalesforceOAuth/build/
 native/Force.com-based Application.xctemplate/
 native/SalesforceSDK/dependencies/RestKit/
 native/SalesforceSDK/dependencies/SBJson/
+native/SalesforceSDK/dependencies/
