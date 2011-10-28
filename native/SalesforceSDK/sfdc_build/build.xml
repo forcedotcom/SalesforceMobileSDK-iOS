@@ -27,7 +27,6 @@
 	depends="initArtifacts,iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth"/>
 
     <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
@@ -97,10 +96,12 @@
 	<mkdir dir="${artifacts.dir}/BuildProducts/coverage" />
  
         <!-- build and run the actual test target -->
-        <exec executable="xcodebuild"  >
+        <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
             <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
         </exec>
        
+		<echo>utestResult is: ${utestResult}</echo>
+		
 	<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
 	<antcall target="iOSShared.covreport">
 		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
@@ -119,6 +120,16 @@
             <arg line="remove RunIPhoneLaunchDaemons"/>
         </exec>
         
+		<!-- verify that the utestResult is zero (no error)
+		We do this AFTER stopping securityd, exiting app -->
+		<fail>
+			<condition>
+				<not>
+					<equals arg1="${utestResult}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+		<fail />
     </target>
     
     
