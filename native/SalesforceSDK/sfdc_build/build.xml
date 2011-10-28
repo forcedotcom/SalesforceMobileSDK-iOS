@@ -33,8 +33,8 @@
 
     <target name="all" depends="pre,utest" description="do it all">
         <antcall target="compileDebug"/>
+        <antcall target="xcodetemplate.install" />
         <antcall target="compileRelease"/>
-        <antcall target="xcodetemplate.create"/>
         <delete dir="${project.dir}/build"/>
    </target>
 
@@ -205,7 +205,7 @@
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
     </target>
 
-    <target name="xcodetemplate.create">
+    <target name="xcodetemplate.create" depends="compileDebug" >
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <copy todir="${xcodetemplate.dir}">
             <fileset dir="${xcodetemplate.base.dir}"/>
