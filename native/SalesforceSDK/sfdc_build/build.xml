@@ -38,6 +38,12 @@
         <delete dir="${project.dir}/build"/>
    </target>
 
+   <target name="install" depends="pre" description="create fresh install artifacts" >
+      <antcall target="compileDebug" />
+      <antcall target="xcodetemplate.install" />
+      <delete dir="${project.dir}/build"/>
+   </target>
+
     <target name="build" description="builds main artifacts"
 	depends="pre" >
         <antcall target="compileDebug"/>
@@ -196,6 +202,7 @@
 
     <target name="clean.full"
         depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean">
+        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
     </target>
 
     <target name="xcodetemplate.create">
