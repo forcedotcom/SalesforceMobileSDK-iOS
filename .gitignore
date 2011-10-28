@@ -8,3 +8,6 @@ artifacts
 hybrid/SampleApps/ContactExplorer/build/
 native/SalesforceSDK/build/
 native/SalesforceOAuth/build/
+native/Force.com-based Application.xctemplate/
+native/SalesforceSDK/dependencies/RestKit/
+native/SalesforceSDK/dependencies/SBJson/
