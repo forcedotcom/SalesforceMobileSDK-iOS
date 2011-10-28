@@ -122,7 +122,7 @@
         
 		<!-- verify that the utestResult is zero (no error)
 		We do this AFTER stopping securityd, exiting app -->
-		<fail>
+		<fail message="Unit tests failed">
 			<condition>
 				<not>
 					<equals arg1="${utestResult}" arg2="0" />
