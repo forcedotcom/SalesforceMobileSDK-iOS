@@ -1,7 +1,7 @@
 #!/bin/bash
-# This script will recompile everything and update all the dependencies of all the projects.
-# After running this script all the .a, .h in all the dependencies directory will be updated
-# with the latest and greatest.
+# Running this script will install all dependencies needed for all of the projects, 
+# as well as generating the latest .h and template files.
+# This assumes you have already setup submodules in the /external directory.
 
 CURRENT_DIR=`pwd`
 
@@ -38,6 +38,9 @@ ant
 # build salesforce libraries
 cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
 ant
+
+cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
+ant install
 
 # build sample apps with dependencies
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
