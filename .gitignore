@@ -12,3 +12,6 @@ native/Force.com-based Application.xctemplate/
 native/SalesforceSDK/dependencies/RestKit/
 native/SalesforceSDK/dependencies/SBJson/
 native/SalesforceSDK/dependencies/
+hybrid/SampleApps/ContactExplorer/dependencies/
+hybrid/SampleApps/VFConnector/dependencies/
+native/SampleApps/RestAPIExplorer/dependencies/
