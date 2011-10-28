@@ -3,9 +3,13 @@
 # as well as generating the latest .h and template files.
 # This assumes you have already setup submodules in the /external directory.
 
+# ensure that we have the correct version of all submodules
+git submodule init
+git submodule update
+
 CURRENT_DIR=`pwd`
 
-# first, clean libs
+# clean libs
 cd $CURRENT_DIR/external/json-framework/sfdc_build
 ant clean
 cd $CURRENT_DIR/external/RestKit/sfdc_build
