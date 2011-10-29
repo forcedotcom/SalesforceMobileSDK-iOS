@@ -130,8 +130,6 @@
 		</fail>
     </target>
     
-    
-    
     <target name="compileDebug" depends="pre">
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
