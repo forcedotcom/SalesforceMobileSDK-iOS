@@ -38,7 +38,7 @@
     <target name="pre" depends="initArtifacts"/>
 
     <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
+		<echo>artifacts.dir is '${artifacts.dir}'</echo>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
