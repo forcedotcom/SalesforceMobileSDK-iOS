@@ -28,21 +28,20 @@
     <property id="configuration.debug" name="configuration.debug" value="Debug"/>
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
+    <target name="pre"  depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+		<echo>artifacts.dir is '${artifacts.dir}'</echo>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
     <target name="all" depends="pre, build" description="do it all"/>
 
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report">
+    <target name="build" >
         <antcall target="compileDebug"/>
         <antcall target="compileRelease"/>
         <delete dir="${project.dir}/build"/>
     </target>
-
-    <target name="pre" description="runs clanger, builds debug build, runs unit tests" depends="initArtifacts"/>
-
-    <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
-        <mkdir dir="${artifacts.dir}"/>
-    </target>
-
     <target name="compileDebug">
         <property name="configuration" value="${configuration.debug}" />
         <property name="uninstalled_products.dir" value="${project.dir}/build/UninstalledProducts" />
