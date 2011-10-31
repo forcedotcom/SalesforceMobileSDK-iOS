@@ -6,7 +6,6 @@ After you git clone, you need to add the upstream repo (pointing to the public r
 
 `git remote add upstream git@github.com:forcedotcom/SalesforceMobileSDK-iOS.git`
 
-
 Installation and Submodules
 ==
 
