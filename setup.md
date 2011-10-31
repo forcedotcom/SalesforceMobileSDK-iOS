@@ -17,7 +17,6 @@ sample apps themselves.  In addition it installs the Force.com app templates int
 XCode projects template location under ~/Library/Developer/Xcode/Templates. (This allows you to create new projects of type __Force.com-based Application__ directly from Xcode.
 )
 
-
 Merging Public Repo
 ==
 To pull changes from our public repo:
