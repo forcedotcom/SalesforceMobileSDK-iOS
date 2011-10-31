@@ -10,6 +10,7 @@
     <property environment="env"/>
     <property name="env.BUILD_NUMBER" value="1"/>
     <property name="env.WORKSPACE" value="."/>
+	<echo>${ant.project.name} env.WORKSPACE is '${env.WORKSPACE}'</echo>
 
     <!-- Supplied by the automated build server -->
     <property id="SDK" name="SDK" value="Latest"/>

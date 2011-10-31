@@ -2,6 +2,8 @@
     <import file="../../../shared/build.xml"/>
 
     <property environment="env"/>
+    <property name="env.WORKSPACE" value="."/>
+	<echo>${ant.project.name} env.WORKSPACE is '${env.WORKSPACE}'</echo>
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" value=".."/>
     <property name="artifacts.dir" location="artifacts"/>
