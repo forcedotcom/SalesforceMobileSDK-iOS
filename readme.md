@@ -16,17 +16,10 @@ HTML5 is quickly emerging as dominant technology for developing cross-platform m
 
 
 
-
-
 Installation (Xcode 4 Project Template)
 ==
 
-The easiest way to use the SalesforceSDK is to install the Xcode 4 project template:
-
-`cp -R native/Force.com-based\ Application.xctemplate ~/Library/Developer/Xcode/Templates/Project\ Templates/Application/`
-
-
-This allows you to create new projects of type __Force.com-based Application__ directly from Xcode.
+See the setup.md file for installation instructions.  Running `./install.sh` will setup the SalesforceSDK with everything you should need to run the sample apps. 
 
 
 Using the SDK (in a Force.com project)
