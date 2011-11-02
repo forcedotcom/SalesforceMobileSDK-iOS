@@ -195,23 +195,19 @@ static NSString *const OAuthLoginDomain =
 	return [ super webView:theWebView didFailLoadWithError:error ];
 }
 
+
 /**
- * Start Loading Request
- * This is where most of the magic happens... We take the request(s) and process the response.
- * From here we can re direct links and other protocalls to different internal methods.
+ We simply wrap the super call for the purposes of the sample app, so that you can see,
+ from the logs, what kinds of pages are being loaded.
  */
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"AppDelegate:webView:shouldStartLoadWithRequest:(navType=%u): scheme=%@ host=%@ path=%@", 
           navigationType, request.URL.scheme, request.URL.host, request.URL.path);
-	BOOL result = NO;
     
-    if ([request.URL.host hasPrefix:@"umps"]) {
-        NSLog(@"trying to load umps? fuck that!");
-    } else{
-        result = [ super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType ];
-    }
-    NSLog(@"shouldStartLoad: %d",result);
+	BOOL result = NO;
+    result = [ super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType ];
+    NSLog(@"super shouldStartLoad: %d",result);
     
     return result;
 }
