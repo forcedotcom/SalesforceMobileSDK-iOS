@@ -31,6 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
+NSString * const kSFMobileSDKVersion = @"0090";
 NSString* const kSFRestDefaultAPIVersion = @"v22.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -109,6 +110,10 @@ static dispatch_once_t _sharedInstanceGuard;
         if (nil != _coordinator) {
             _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            //set a user agent string based on the mobile sdk version
+            NSString *uaStr = [NSString stringWithFormat:@"SalesforceMobileSDK-iOS-nREST%@",kSFMobileSDKVersion];
+            [_rkClient setValue:uaStr forHTTPHeaderField:@"User-Agent"];
+
             //Authorization header (access token) is now set the moment before we actually send the request
         }
     }
