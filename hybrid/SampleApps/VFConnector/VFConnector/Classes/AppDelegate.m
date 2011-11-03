@@ -76,9 +76,10 @@ static NSString *const OAuthLoginDomain =
 	 **/
     self = [super init];
     if (nil != self) {
-        NSSString *myUserAgent = @"SalesforceMobileSDK-iOS-hybrid-0.9";
+        //Replace the app-wide HTTP User-Agent
+        NSString *myUserAgent = @"SalesforceMobileSDK-iOS-hybrid-0.9";
         NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:myUserAgent, @"UserAgent", nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentReplacement];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
     }
     return self;
