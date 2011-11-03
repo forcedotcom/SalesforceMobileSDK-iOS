@@ -78,8 +78,16 @@ if (forcetk.Client === undefined) {
         this.apiVersion = null;
         this.instanceUrl = null;
         this.asyncAjax = true;
+        this.userAgentString = null;
     }
 
+    /**
+    * Set a User-Agent to use in the client.
+    * @param uaString A User-Agent string to use for all requests.
+    */
+    forcetk.Client.prototype.setUserAgentString = function(uaString) {
+        this.userAgentString = uaString;
+    } 
     /**
      * Set a refresh token in the client.
      * @param refreshToken an OAuth refresh token
@@ -177,6 +185,10 @@ if (forcetk.Client === undefined) {
                 }
                 xhr.setRequestHeader(that.authzHeader, "OAuth " + that.sessionId);
                 xhr.setRequestHeader('X-User-Agent', 'salesforce-toolkit-rest-javascript/' + that.apiVersion);
+                		
+                if (that.userAgentString !== null) {
+                    xhr.setRequestHeader('User-Agent',that.userAgentString);
+                }
             }
         });
     }
