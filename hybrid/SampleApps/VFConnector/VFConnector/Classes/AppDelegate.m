@@ -76,7 +76,7 @@ static NSString *const OAuthLoginDomain =
 	 **/
     self = [super init];
     if (nil != self) {
-        //Replace the app-wide HTTP User-Agent
+        //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *myUserAgent = @"SalesforceMobileSDK-iOS-hybrid-0.9";
         NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:myUserAgent, @"UserAgent", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
