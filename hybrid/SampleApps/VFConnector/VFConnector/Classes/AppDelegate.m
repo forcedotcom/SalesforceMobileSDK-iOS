@@ -103,6 +103,7 @@ static NSString *const OAuthLoginDomain =
     SFOAuthCredentials *creds = me.coordinator.credentials;
     NSString *instanceHost = [creds.instanceUrl host];
     //Our custom apex/visualforce start page
+#warning Change this to match the full URL of the Visualforce page you wish to load after oauth login
     NSString *startPageString = [NSString stringWithFormat:@"https://%@/apex/BasicVFPage",instanceHost ]; 
     
     NSLog(@"startPageString value: %@", startPageString);
