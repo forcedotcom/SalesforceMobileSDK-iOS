@@ -285,47 +285,7 @@ static NSString *const OAuthLoginDomain =
     [webView stringByEvaluatingJavaScriptFromString:jsString];
     
 }
-/*
-- (void)sendJavascriptLoginEvent:(UIWebView *)webView {
-    SFOAuthCredentials *creds = [SFRestAPI sharedInstance].coordinator.credentials;
-    NSString *accessToken = creds.accessToken;
-    NSString *refreshToken = creds.refreshToken;
-    NSString *clientId = creds.clientId;
-    NSString *userId = creds.userId;
-    NSString *orgId = creds.organizationId;
-    NSString *instanceUrl = creds.instanceUrl.absoluteString;
-    NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
 
-
-    NSString *apiVersion = [SFRestAPI sharedInstance].apiVersion;
-
-    NSString* jsString = [NSString stringWithFormat:@""
-                          "(function() {"
-                          "  var e = document.createEvent('Events');"
-                          "  e.initEvent('salesforce_oauth_login');"
-                          "  e.data = {"
-                          "    accessToken: \"%@\","
-                          "    refreshToken: \"%@\","
-                          "    clientId: \"%@\","
-                          "    loginUrl: \"%@\","
-                          "    userId: \"%@\","
-                          "    orgId: \"%@\","
-                          "    instanceUrl: \"%@\","
-                          "    apiVersion: \"%@\""
-                          "  };"
-                          "  document.dispatchEvent(e);"
-                          "})()",
-                          accessToken,
-                          refreshToken,
-                          clientId,
-                          loginUrl,
-                          userId,
-                          orgId,
-                          instanceUrl,
-                          apiVersion];
-    [webView stringByEvaluatingJavaScriptFromString:jsString];
-}
- */
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
