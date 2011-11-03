@@ -56,6 +56,7 @@ static NSString *const OAuthLoginDomain =
 - (void)login;
 - (void)loggedIn;
 - (void)sendJavascriptLoginEvent:(UIWebView *)webView;
+- (NSString *)getUserAgentString;
 @end
 
 @implementation AppDelegate
@@ -73,8 +74,8 @@ static NSString *const OAuthLoginDomain =
     self = [super init];
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *myUserAgent = @"SalesforceMobileSDK-iOS-hybrid-0.9";
-        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:myUserAgent, @"UserAgent", nil];
+        NSString *uaString = [self getUserAgentString];
+        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, @"UserAgent", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
     }
@@ -256,6 +257,7 @@ static NSString *const OAuthLoginDomain =
     NSString *orgId = creds.organizationId;
     NSString *instanceUrl = creds.instanceUrl.absoluteString;
     NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+    NSString *uaString = [self getUserAgentString];
     
     NSString* jsString = [NSString stringWithFormat:@""
                           "(function() {"
@@ -269,7 +271,8 @@ static NSString *const OAuthLoginDomain =
                           "    userId: \"%@\","
                           "    orgId: \"%@\","
                           "    instanceUrl: \"%@\","
-                          "    apiVersion: \"%@\""
+                          "    userAgent: \"%@\","
+                          "    apiVersion: \"%@\","
                           "  };"
                           "  document.dispatchEvent(e);"
                           "})()",
@@ -279,13 +282,31 @@ static NSString *const OAuthLoginDomain =
                           loginUrl,
                           userId,
                           orgId,
-                          instanceUrl ,
+                          instanceUrl,
+                          uaString,
                           @"v22.0"
                           ];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
     
 }
 
+
+- (NSString *)getUserAgentString {
+
+    //set a user agent string based on the mobile sdk version
+    //We are building a user agent of the form:
+    //SalesforceMobileSDK-nREST/1.0 iPad 3g/3.2.0 
+
+    UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *myUserAgent = [NSString stringWithFormat:
+                             @"SalesforceMobileSDK-hREST/0.9 %@/%@",
+                             [curDevice model], 
+                             [curDevice systemVersion]
+                             ];
+    
+    return myUserAgent;
+
+}
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
