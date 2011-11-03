@@ -43,7 +43,7 @@
 
 #warning This value should be overwritten with the Consumer Key from your own Remote Access object
 static NSString *const RemoteAccessConsumerKey =
-@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"; //sandbox
+@"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"; //works with Sandbox or Production orgs
 
 
 #warning This value should be overwritten with the Callback URL from your own Remote Access object
