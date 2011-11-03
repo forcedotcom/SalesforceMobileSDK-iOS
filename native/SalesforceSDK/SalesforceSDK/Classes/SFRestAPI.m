@@ -110,9 +110,19 @@ static dispatch_once_t _sharedInstanceGuard;
         if (nil != _coordinator) {
             _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            
             //set a user agent string based on the mobile sdk version
-            NSString *uaStr = [NSString stringWithFormat:@"SalesforceMobileSDK-iOS-nREST-%@",kSFMobileSDKVersion];
-            [_rkClient setValue:uaStr forHTTPHeaderField:@"User-Agent"];
+            //We are building a user agent of the form:
+			//SalesforceMobileSDK-nREST/1.0 iPad 3g/3.2.0 
+            
+			UIDevice *curDevice = [UIDevice currentDevice];
+			NSString *myUserAgent = [NSString stringWithFormat:
+                                     @"SalesforceMobileSDK-nREST/%@ %@/%@",
+                                     kSFMobileSDKVersion,
+									 [curDevice model], 
+									 [curDevice systemVersion]
+									 ];
+            [_rkClient setValue:myUserAgent forHTTPHeaderField:@"User-Agent"];
 
             //Authorization header (access token) is now set the moment before we actually send the request
         }

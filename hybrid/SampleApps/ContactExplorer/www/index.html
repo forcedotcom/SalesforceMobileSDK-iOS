@@ -75,9 +75,9 @@
         });
 
         $('#link_reset').click(function() {
-            logToConsole("link_reset clicked");
             $("#div_device_contact_list").html("")
             $("#div_sfdc_contact_list").html("")
+            logToConsole("link_reset clicked");
         });
     }
 
@@ -86,6 +86,7 @@
         forcetkClient = new forcetk.Client(event.data.clientId, event.data.loginUrl);
         forcetkClient.setSessionToken(event.data.accessToken, event.data.apiVersion, event.data.instanceUrl);
         forcetkClient.setRefreshToken(event.data.refreshToken);
+        forcetkClient.setUserAgentString(event.data.userAgent);
     }
 
     function onSuccessDevice(contacts) {
