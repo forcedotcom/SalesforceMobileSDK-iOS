@@ -284,7 +284,7 @@ static NSString *const OAuthLoginDomain =
                           orgId,
                           instanceUrl,
                           uaString,
-                          @"v22.0"
+                          @"v23.0"
                           ];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
     
@@ -292,20 +292,20 @@ static NSString *const OAuthLoginDomain =
 
 
 - (NSString *)getUserAgentString {
-
     //set a user agent string based on the mobile sdk version
     //We are building a user agent of the form:
-    //SalesforceMobileSDK-nREST/1.0 iPad 3g/3.2.0 
+    //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
 
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK-hREST/0.9 %@/%@",
-                             [curDevice model], 
-                             [curDevice systemVersion]
+                             @"SalesforceMobileSDK/0.9 %@/%@ (%@)",
+                             [curDevice systemName],
+                             [curDevice systemVersion],
+                             [curDevice model]
                              ];
     
+    
     return myUserAgent;
-
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
