@@ -52,6 +52,9 @@ static NSString *const OAuthLoginDomain =
     @"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
 
 
+static NSString * const kSFMobileSDKVersion = @"0.9";
+static NSString * const kRestAPIVersion = @"v23.0";
+
 @interface AppDelegate (private)
 - (void)login;
 - (void)loggedIn;
@@ -284,7 +287,7 @@ static NSString *const OAuthLoginDomain =
                           orgId,
                           instanceUrl,
                           uaString,
-                          @"v23.0"
+                          kRestAPIVersion
                           ];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
     
@@ -295,10 +298,11 @@ static NSString *const OAuthLoginDomain =
     //set a user agent string based on the mobile sdk version
     //We are building a user agent of the form:
     //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
-
+    
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/0.9 %@/%@ (%@)",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@)",
+                             kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
                              [curDevice model]
