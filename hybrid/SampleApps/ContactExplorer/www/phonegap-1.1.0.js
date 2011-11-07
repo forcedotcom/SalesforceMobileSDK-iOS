@@ -1,5 +1,5 @@
 /*
- * PhoneGap v1.0.0 is available under *either* the terms of the modified BSD license *or* the
+ * PhoneGap v1.1.0 is available under *either* the terms of the modified BSD license *or* the
  * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
  * 
  * Copyright (c) 2005-2010, Nitobi Software Inc.
@@ -9,75 +9,6 @@
  * 
  */
 
-/* Helper code to resolve anonymous callback functions,
-
-If the function callback can be resolved by name it is returned unaltered.
-If the function is defined in an unknown scope and can't be resolved, an internal reference to the function is added to the internal map.
-
-Callbacks added to the map are one time use only, they will be deleted once called.  
-
-example 1:
-
-function myCallback(){};
-
-fString = GetFunctionName(myCallback);
-
-- result, the function is defined in the global scope, and will be returned as is because it can be resolved by name.
-
-example 2:
-
-fString = GetFunctionName(function(){};);
-
-- result, the function is defined in place, so it will be returned unchanged.
-
-example 3:
-
-function myMethod()
-{
-    var funk = function(){};
-    fString = GetFunctionName(funk);
-}
-
-- result, the function CANNOT be resolved by name, so an internal reference wrapper is created and returned.
-
-
-*/
-
-
-var _anomFunkMap = {};
-var _anomFunkMapNextId = 0; 
-
-function anomToNameFunk(fun)
-{
-	var funkId = "f" + _anomFunkMapNextId++;
-	var funk = function()
-	{
-		fun.apply(this,arguments);
-		_anomFunkMap[funkId] = null;
-		delete _anomFunkMap[funkId];	
-	}
-	_anomFunkMap[funkId] = funk;
-
-	return "_anomFunkMap." + funkId;
-}
-
-function GetFunctionName(fn)
-{
-  if (typeof fn === "function") {
-    var name= fn.name;	
-	if (!name) {
-      var m = fn.toString().match(/^\s*function\s+([^\s\(]+)/);
-      name= m && m[1];	
-	}
-	if (name && (window[name] === fn)) {
-		return name;
-	} else {
-		return anomToNameFunk(fn);
-	} 
-  }else {
-  	return null;
-  }
-}
 if (typeof PhoneGap === "undefined") {
 
 if (typeof(DeviceInfo) !== 'object'){
@@ -89,12 +20,15 @@ if (typeof(DeviceInfo) !== 'object'){
  * @class
  */
 PhoneGap = {
-    queue: {
-        ready: true,
-        commands: [],
-        timer: null
-    },
-    _constructors: []
+    // This queue holds the currently executing command and all pending
+    // commands executed with PhoneGap.exec().
+    commandQueue: [],
+    // Indicates if we're currently in the middle of flushing the command
+    // queue on the native side.
+    commandQueueFlushing: false,
+    _constructors: [],
+    documentEventHandler: {},   // Collection of custom document event handlers
+    windowEventHandler: {} 
 };
 
 /**
@@ -135,50 +69,50 @@ PhoneGap.available = DeviceInfo.uuid != undefined;
 PhoneGap.addConstructor = function(func) {
     var state = document.readyState;
     if ( ( state == 'loaded' || state == 'complete' ) && DeviceInfo.uuid != null )
-	{
-		func();
-	}
+    {
+        func();
+    }
     else
-	{
+    {
         PhoneGap._constructors.push(func);
-	}
+    }
 };
 
 (function() 
  {
     var timer = setInterval(function()
-	{
-							
-		var state = document.readyState;
-							
+    {
+                            
+        var state = document.readyState;
+                            
         if ( ( state == 'loaded' || state == 'complete' ) && DeviceInfo.uuid != null )
-		{
-			clearInterval(timer); // stop looking
-			// run our constructors list
-			while (PhoneGap._constructors.length > 0) 
-			{
-				var constructor = PhoneGap._constructors.shift();
-				try 
-				{
-					constructor();
-				} 
-				catch(e) 
-				{
-					if (typeof(console['log']) == 'function')
-					{
-						console.log("Failed to run constructor: " + console.processMessage(e));
-					}
-					else
-					{
-						alert("Failed to run constructor: " + e.message);
-					}
-				}
+        {
+            clearInterval(timer); // stop looking
+            // run our constructors list
+            while (PhoneGap._constructors.length > 0) 
+            {
+                var constructor = PhoneGap._constructors.shift();
+                try 
+                {
+                    constructor();
+                } 
+                catch(e) 
+                {
+                    if (typeof(console['log']) == 'function')
+                    {
+                        console.log("Failed to run constructor: " + console.processMessage(e));
+                    }
+                    else
+                    {
+                        alert("Failed to run constructor: " + e.message);
+                    }
+                }
             }
-			// all constructors run, now fire the deviceready event
-			var e = document.createEvent('Events'); 
-			e.initEvent('deviceready');
-			document.dispatchEvent(e);
-		}
+            // all constructors run, now fire the deviceready event
+            var e = document.createEvent('Events'); 
+            e.initEvent('deviceready');
+            document.dispatchEvent(e);
+        }
     }, 1);
 })();
 
@@ -202,115 +136,140 @@ PhoneGap.callbackStatus = {
     };
 
 /**
- * Execute a PhoneGap command in a queued fashion, to ensure commands do not
- * execute with any race conditions, and only run when PhoneGap is ready to
- * receive them.
+ * Creates a gap bridge iframe used to notify the native code about queued
+ * commands.
  *
+ * @private
  */
-PhoneGap.exec = function() { 
-	
-    PhoneGap.queue.commands.push(arguments);
-    if (PhoneGap.queue.timer == null)
-        PhoneGap.queue.timer = setInterval(PhoneGap.run_command, 10);
-};
+PhoneGap.createGapBridge = function() {
+    gapBridge = document.createElement("iframe");
+    gapBridge.setAttribute("style", "display:none;");
+    gapBridge.setAttribute("height","0px");
+    gapBridge.setAttribute("width","0px");
+    gapBridge.setAttribute("frameborder","0");
+    document.documentElement.appendChild(gapBridge);
+    return gapBridge;
+}
 
-/**
- * Internal function used to dispatch the request to PhoneGap.  It processes the
- * command queue and executes the next command on the list.  Simple parameters are passed
- * as arguments on the url.  JavaScript objects converted into a JSON string and passed as a
- * query string argument of the url.
+/** 
+ * Execute a PhoneGap command by queuing it and letting the native side know
+ * there are queued commands. The native side will then request all of the
+ * queued commands and execute them.
+ *
  * Arguments may be in one of two formats:
- *   FORMAT ONE (preferable)
- * The native side will call PhoneGap.callbackSuccess or PhoneGap.callbackError,
- * depending upon the result of the action.
+ *
+ * FORMAT ONE (preferable)
+ * The native side will call PhoneGap.callbackSuccess or
+ * PhoneGap.callbackError, depending upon the result of the action.
  *
  * @param {Function} success    The success callback
  * @param {Function} fail       The fail callback
  * @param {String} service      The name of the service to use
- * @param {String} action		The name of the action to use
+ * @param {String} action       The name of the action to use
  * @param {String[]} [args]     Zero or more arguments to pass to the method
- *  	
+ *      
  * FORMAT TWO
- * @param {String} command Command to be run in PhoneGap, e.g. "ClassName.method"
- * @param {String[]} [args] Zero or more arguments to pass to the method
- * object parameters are passed as an array object [object1, object2] each object will be passed as JSON strings 
- * @private
+ * @param {String} command    Command to be run in PhoneGap, e.g.
+ *                            "ClassName.method"
+ * @param {String[]} [args]   Zero or more arguments to pass to the method
+ *                            object parameters are passed as an array object
+ *                            [object1, object2] each object will be passed as
+ *                            JSON strings 
  */
-PhoneGap.run_command = function() {
-    if (!PhoneGap.available || !PhoneGap.queue.ready)
+PhoneGap.exec = function() { 
+    if (!PhoneGap.available) {
+        alert("ERROR: Attempting to call PhoneGap.exec()"
+              +" before 'deviceready'. Ignoring.");
         return;
-
-    PhoneGap.queue.ready = false;
-
-    if(!this.gapBridge){
-        this.gapBridge = document.createElement("iframe");
-		this.gapBridge.setAttribute("style", "display:none;");
-		this.gapBridge.setAttribute("height","0px");
-		this.gapBridge.setAttribute("width","0px");
-		this.gapBridge.setAttribute("frameborder","0");
-		document.documentElement.appendChild(this.gapBridge);
     }
 
-    var args = PhoneGap.queue.commands.shift();
-    if (PhoneGap.queue.commands.length == 0) {
-        clearInterval(PhoneGap.queue.timer);
-        PhoneGap.queue.timer = null;
-    }
-	
-	var service;
-	var callbackId = null;
-	var start=0;
-    try {
- 		if (args[0] == null || typeof args[0] === "function") {
- 			var success = args[0];
- 			var fail = args[1];
- 			service = args[2] + "." + args[3];
-			args = args[4];  //array of arguments to 
- 			callbackId = service + PhoneGap.callbackId++;
-        	if (success || fail) {
-            	PhoneGap.callbacks[callbackId] = {success:success, fail:fail};
-        	}
- 		} else { 
- 			service = args[0]; 
- 			start = 1;
- 		}
-        
-        var uri = [];
-    	var dict = null;
-    
-    	for (var i = start; i < args.length; i++) {
-        	var arg = args[i];
-        	if (arg == undefined || arg == null)
-            	continue;
-        	if (typeof(arg) == 'object')
-            	dict = arg;
-        	else
-            	uri.push(encodeURIComponent(arg));
-    	}
-    	var next = callbackId != null  ?  ("/" + callbackId + "/") : "/";
-        //add the sessionId in the user field of the URL conforming to RFC1808
-        var url = "gap://" + PhoneGap.sessionKey + "@" + service + next + uri.join("/");
+    var successCallback, failCallback, service, action, actionArgs;
+    var callbackId = null;
+    if (typeof arguments[0] !== "string") {
+        // FORMAT ONE
+        successCallback = arguments[0];
+        failCallback = arguments[1];
+        service = arguments[2];
+        action = arguments[3];
+        actionArgs = arguments[4];
 
-    	if (dict != null) {
-        	url += "?" + encodeURIComponent(JSON.stringify(dict));
-    	}
-
-        this.gapBridge.src = url;
-   
-    } catch (e) {
-        console.log("PhoneGapExec Error: "+e);
+        // Since we need to maintain backwards compatibility, we have to pass
+        // an invalid callbackId even if no callback was provided since plugins
+        // will be expecting it. The PhoneGap.exec() implementation allocates
+        // an invalid callbackId and passes it even if no callbacks were given.
+        callbackId = 'INVALID';
+    } else {
+        // FORMAT TWO
+        splitCommand = arguments[0].split(".");
+        action = splitCommand.pop();
+        service = splitCommand.join(".");
+        actionArgs = Array.prototype.splice.call(arguments, 1);
     }
     
+    // Start building the command object.
+    var command = {
+        className: service,
+        methodName: action,
+        arguments: []
+    };
 
-};
+    // Register the callbacks and add the callbackId to the positional
+    // arguments if given.
+    if (successCallback || failCallback) {
+        callbackId = service + PhoneGap.callbackId++;
+        PhoneGap.callbacks[callbackId] = 
+            {success:successCallback, fail:failCallback};
+    }
+    if (callbackId != null) {
+        command.arguments.push(callbackId);
+    }
+
+    for (var i = 0; i < actionArgs.length; ++i) {
+        var arg = actionArgs[i];
+        if (arg == undefined || arg == null) {
+            continue;
+        } else if (typeof(arg) == 'object') {
+            command.options = arg;
+        } else {
+            command.arguments.push(arg);
+        }
+    }
+
+    // Stringify and queue the command. We stringify to command now to
+    // effectively clone the command arguments in case they are mutated before
+    // the command is executed.
+    PhoneGap.commandQueue.push(JSON.stringify(command));
+
+    // If the queue length is 1, then that means it was empty before we queued
+    // the given command, so let the native side know that we have some
+    // commands to execute, unless the queue is currently being flushed, in
+    // which case the command will be picked up without notification.
+    if (PhoneGap.commandQueue.length == 1 && !PhoneGap.commandQueueFlushing) {
+        if (!PhoneGap.gapBridge) {
+            PhoneGap.gapBridge = PhoneGap.createGapBridge();
+        }
+
+        PhoneGap.gapBridge.src = "gap://ready";
+    }
+}
+
+/**
+ * Called by native code to retrieve all queued commands and clear the queue.
+ */
+PhoneGap.getAndClearQueuedCommands = function() {
+  json = JSON.stringify(PhoneGap.commandQueue);
+  PhoneGap.commandQueue = [];
+  return json;
+}
+
 /**
  * Called by native code when returning successful result from an action.
  *
  * @param callbackId
  * @param args
- *		args.status - PhoneGap.callbackStatus
- *		args.message - return value
- *		args.keepCallback - 0 to remove callback, 1 to keep callback in PhoneGap.callbacks[]
+ *        args.status - PhoneGap.callbackStatus
+ *        args.message - return value
+ *        args.keepCallback - 0 to remove callback, 1 to keep callback in PhoneGap.callbacks[]
  */
 PhoneGap.callbackSuccess = function(callbackId, args) {
     if (PhoneGap.callbacks[callbackId]) {
@@ -319,7 +278,7 @@ PhoneGap.callbackSuccess = function(callbackId, args) {
         if (args.status == PhoneGap.callbackStatus.OK) {
             try {
                 if (PhoneGap.callbacks[callbackId].success) {
-               		PhoneGap.callbacks[callbackId].success(args.message);
+                       PhoneGap.callbacks[callbackId].success(args.message);
                 }
             }
             catch (e) {
@@ -366,87 +325,206 @@ PhoneGap.callbackError = function(callbackId, args) {
  * @return
  */
 PhoneGap.clone = function(obj) {
-	if(!obj) { 
-		return obj;
-	}
+    if(!obj) { 
+        return obj;
+    }
 
-	if(obj instanceof Array){
-		var retVal = new Array();
-		for(var i = 0; i < obj.length; ++i){
-			retVal.push(PhoneGap.clone(obj[i]));
-		}
-		return retVal;
-	}
+    if(obj instanceof Array){
+        var retVal = new Array();
+        for(var i = 0; i < obj.length; ++i){
+            retVal.push(PhoneGap.clone(obj[i]));
+        }
+        return retVal;
+    }
 
-	if (obj instanceof Function) {
-		return obj;
-	}
+    if (obj instanceof Function) {
+        return obj;
+    }
 
-	if(!(obj instanceof Object)){
-		return obj;
-	}
-	
-	if (obj instanceof Date) {
-		return obj;
-	}
+    if(!(obj instanceof Object)){
+        return obj;
+    }
+    
+    if (obj instanceof Date) {
+        return obj;
+    }
 
-	retVal = new Object();
-	for(i in obj){
-		if(!(i in retVal) || retVal[i] != obj[i]) {
-			retVal[i] = PhoneGap.clone(obj[i]);
-		}
-	}
-	return retVal;
+    retVal = new Object();
+    for(i in obj){
+        if(!(i in retVal) || retVal[i] != obj[i]) {
+            retVal[i] = PhoneGap.clone(obj[i]);
+        }
+    }
+    return retVal;
 };
 
-// Intercept calls to document.addEventListener and watch for unload
-
+// Intercept calls to document.addEventListener 
 PhoneGap.m_document_addEventListener = document.addEventListener;
 
+// Intercept calls to window.addEventListener
+PhoneGap.m_window_addEventListener = window.addEventListener;
+
+/**
+ * Add a custom window event handler.
+ *
+ * @param {String} event            The event name that callback handles
+ * @param {Function} callback       The event handler
+ */
+PhoneGap.addWindowEventHandler = function(event, callback) {
+    PhoneGap.windowEventHandler[event] = callback;
+}
+
+/**
+ * Add a custom document event handler.
+ *
+ * @param {String} event            The event name that callback handles
+ * @param {Function} callback       The event handler
+ */
+PhoneGap.addDocumentEventHandler = function(event, callback) {
+    PhoneGap.documentEventHandler[event] = callback;
+}
+
+/**
+ * Intercept adding document event listeners and handle our own
+ *
+ * @param {Object} evt
+ * @param {Function} handler
+ * @param capture
+ */
 document.addEventListener = function(evt, handler, capture) {
     var e = evt.toLowerCase();
-    if (e === 'unload') 
-	{
-        PhoneGap.onUnload = function(e){ return handler(e);};
-    }     
-    else 
-    {        
-        PhoneGap.m_document_addEventListener.call(document, evt, handler, capture);
+           
+    // If subscribing to an event that is handled by a plugin
+    if (typeof PhoneGap.documentEventHandler[e] !== "undefined") {
+        if (PhoneGap.documentEventHandler[e](e, handler, true)) {
+            return; // Stop default behavior
+        }
     }
+    
+    PhoneGap.m_document_addEventListener.call(document, evt, handler, capture); 
 };
 
-// Intercept calls to document.removeEventListener and watch for events that 
-// are generated by PhoneGap native code
+/**
+ * Intercept adding window event listeners and handle our own
+ *
+ * @param {Object} evt
+ * @param {Function} handler
+ * @param capture
+ */
+window.addEventListener = function(evt, handler, capture) {
+    var e = evt.toLowerCase();
+        
+    // If subscribing to an event that is handled by a plugin
+    if (typeof PhoneGap.windowEventHandler[e] !== "undefined") {
+        if (PhoneGap.windowEventHandler[e](e, handler, true)) {
+            return; // Stop default behavior
+        }
+    }
+        
+    PhoneGap.m_window_addEventListener.call(window, evt, handler, capture);
+};
 
+// Intercept calls to document.removeEventListener and watch for events that
+// are generated by PhoneGap native code
 PhoneGap.m_document_removeEventListener = document.removeEventListener;
 
-document.removeEventListener = function(evt, handler, capture) 
-{
+// Intercept calls to window.removeEventListener
+PhoneGap.m_window_removeEventListener = window.removeEventListener;
+
+/**
+ * Intercept removing document event listeners and handle our own
+ *
+ * @param {Object} evt
+ * @param {Function} handler
+ * @param capture
+ */
+document.removeEventListener = function(evt, handler, capture) {
     var e = evt.toLowerCase();
 
-    if (e === 'unload') 
-	{
-        PhoneGap.onUnload = null;
-    } 
+    // If unsubcribing from an event that is handled by a plugin
+    if (typeof PhoneGap.documentEventHandler[e] !== "undefined") {
+        if (PhoneGap.documentEventHandler[e](e, handler, false)) {
+            return; // Stop default behavior
+        }
+    }
 
     PhoneGap.m_document_removeEventListener.call(document, evt, handler, capture);
 };
 
 /**
- * Method to fire event from native code
+ * Intercept removing window event listeners and handle our own
+ *
+ * @param {Object} evt
+ * @param {Function} handler
+ * @param capture
  */
-PhoneGap.fireEvent = function(type, target) {
+window.removeEventListener = function(evt, handler, capture) {
+    var e = evt.toLowerCase();
+
+    // If unsubcribing from an event that is handled by a plugin
+    if (typeof PhoneGap.windowEventHandler[e] !== "undefined") {
+        if (PhoneGap.windowEventHandler[e](e, handler, false)) {
+            return; // Stop default behavior
+        }
+    }
+
+    PhoneGap.m_window_removeEventListener.call(window, evt, handler, capture);
+};
+
+/**
+ * Method to fire document event
+ *
+ * @param {String} type             The event type to fire
+ * @param {Object} data             Data to send with event
+ */
+PhoneGap.fireDocumentEvent = function(type, data) {
     var e = document.createEvent('Events');
     e.initEvent(type);
+    if (data) {
+        for (var i in data) {
+            e[i] = data[i];
+        }
+    }
+    document.dispatchEvent(e);
+};
 
-	target = target || document;
-	if (target.dispatchEvent === undefined) { // ie window.dispatchEvent is undefined in iOS 3.x
-		target = document;
-	} 
+/**
+ * Method to fire window event
+ *
+ * @param {String} type             The event type to fire
+ * @param {Object} data             Data to send with event
+ */
+PhoneGap.fireWindowEvent = function(type, data) {
+    var e = document.createEvent('Events');
+    e.initEvent(type);
+    if (data) {
+        for (var i in data) {
+            e[i] = data[i];
+        }
+    }
+    window.dispatchEvent(e);
+};
+
+/**
+ * Method to fire event from native code
+ * Leaving this generic version to handle problems with iOS 3.x. Is currently used by orientation and battery events
+ * Remove when iOS 3.x no longer supported and call fireWindowEvent or fireDocumentEvent directly
+ */
+PhoneGap.fireEvent = function(type, target, data) {
+    var e = document.createEvent('Events');
+    e.initEvent(type);
+    if (data) {
+        for (var i in data) {
+            e[i] = data[i];
+        }
+    }
+    target = target || document;
+    if (target.dispatchEvent === undefined) { // ie window.dispatchEvent is undefined in iOS 3.x
+        target = document;
+    } 
 
     target.dispatchEvent(e);
 };
-
 /**
  * Create a UUID
  *
@@ -691,6 +769,10 @@ PositionOptions = function(enableHighAccuracy, timeout, maximumAge) {
      * in milliseconds. 
      */
 	this.maximumAge = maximumAge || 0;
+	
+	if (this.maximumAge < 0) {
+		this.maximumAge = 0;
+	}
 };
 
 /**
@@ -907,7 +989,136 @@ Accelerometer.installDeviceMotionHandler = function()
 PhoneGap.addConstructor(Accelerometer.install);
 PhoneGap.addConstructor(Accelerometer.installDeviceMotionHandler);
 
-};if (!PhoneGap.hasResource("camera")) {
+};/*
+ * PhoneGap is available under *either* the terms of the modified BSD license *or* the
+ * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
+ *
+ * Copyright (c) 2005-2010, Nitobi Software Inc.
+ * Copyright (c) 2010-2011, IBM Corporation
+ */
+
+if (!PhoneGap.hasResource("battery")) {
+PhoneGap.addResource("battery");
+
+/**
+ * This class contains information about the current battery status.
+ * @constructor
+ */
+var Battery = function() {
+    this._level = null;
+    this._isPlugged = null;
+    this._batteryListener = [];
+    this._lowListener = [];
+    this._criticalListener = [];
+};
+
+/**
+ * Registers as an event producer for battery events.
+ * 
+ * @param {Object} eventType
+ * @param {Object} handler
+ * @param {Object} add
+ */
+Battery.prototype.eventHandler = function(eventType, handler, add) {
+    var me = navigator.battery;
+    if (add) {
+        // If there are no current registered event listeners start the battery listener on native side.
+        if (me._batteryListener.length === 0 && me._lowListener.length === 0 && me._criticalListener.length === 0) {
+            PhoneGap.exec(me._status, me._error, "com.phonegap.battery", "start", []);
+        }
+        
+        // Register the event listener in the proper array
+        if (eventType === "batterystatus") {
+            var pos = me._batteryListener.indexOf(handler);
+            if (pos === -1) {
+            	me._batteryListener.push(handler);
+            }
+        } else if (eventType === "batterylow") {
+            var pos = me._lowListener.indexOf(handler);
+            if (pos === -1) {
+            	me._lowListener.push(handler);
+            }
+        } else if (eventType === "batterycritical") {
+            var pos = me._criticalListener.indexOf(handler);
+            if (pos === -1) {
+            	me._criticalListener.push(handler);
+            }
+        }
+    } else {
+        // Remove the event listener from the proper array
+        if (eventType === "batterystatus") {
+            var pos = me._batteryListener.indexOf(handler);
+            if (pos > -1) {
+                me._batteryListener.splice(pos, 1);        
+            }
+        } else if (eventType === "batterylow") {
+            var pos = me._lowListener.indexOf(handler);
+            if (pos > -1) {
+                me._lowListener.splice(pos, 1);        
+            }
+        } else if (eventType === "batterycritical") {
+            var pos = me._criticalListener.indexOf(handler);
+            if (pos > -1) {
+                me._criticalListener.splice(pos, 1);        
+            }
+        }
+        
+        // If there are no more registered event listeners stop the battery listener on native side.
+        if (me._batteryListener.length === 0 && me._lowListener.length === 0 && me._criticalListener.length === 0) {
+            PhoneGap.exec(null, null, "com.phonegap.battery", "stop", []);
+        }
+    }
+};
+
+/**
+ * Callback for battery status
+ * 
+ * @param {Object} info			keys: level, isPlugged
+ */
+Battery.prototype._status = function(info) {
+	if (info) {
+		var me = this;
+		if (me._level != info.level || me._isPlugged != info.isPlugged) {
+			// Fire batterystatus event
+			//PhoneGap.fireWindowEvent("batterystatus", info);
+			// use this workaround since iOS 3.x does have window.dispatchEvent
+			PhoneGap.fireEvent("batterystatus", window, info);	
+
+			// Fire low battery event
+			if (info.level == 20 || info.level == 5) {
+				if (info.level == 20) {
+					//PhoneGap.fireWindowEvent("batterylow", info);
+					// use this workaround since iOS 3.x does not have window.dispatchEvent
+					PhoneGap.fireEvent("batterylow", window, info);
+				}
+				else {
+					//PhoneGap.fireWindowEvent("batterycritical", info);
+					// use this workaround since iOS 3.x does not have window.dispatchEvent
+					PhoneGap.fireEvent("batterycritical", window, info);
+				}
+			}
+		}
+		me._level = info.level;
+		me._isPlugged = info.isPlugged;	
+	}
+};
+
+/**
+ * Error callback for battery start
+ */
+Battery.prototype._error = function(e) {
+    console.log("Error initializing Battery: " + e);
+};
+
+PhoneGap.addConstructor(function() {
+    if (typeof navigator.battery === "undefined") {
+        navigator.battery = new Battery();
+        PhoneGap.addWindowEventHandler("batterystatus", navigator.battery.eventHandler);
+        PhoneGap.addWindowEventHandler("batterylow", navigator.battery.eventHandler);
+        PhoneGap.addWindowEventHandler("batterycritical", navigator.battery.eventHandler);
+    }
+});
+}if (!PhoneGap.hasResource("camera")) {
 	PhoneGap.addResource("camera");
 	
 
@@ -972,6 +1183,23 @@ Camera.EncodingType = {
 };
 Camera.prototype.EncodingType = Camera.EncodingType;
 
+/** 
+ * Type of pictures to select from.  Only applicable when
+ *	PictureSourceType is PHOTOLIBRARY or SAVEDPHOTOALBUM 
+ * 
+ * Example: navigator.camera.getPicture(success, fail, 
+ *              { quality: 80, 
+ *                destinationType: Camera.DestinationType.DATA_URL, 
+ *                sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+ *                mediaType: Camera.MediaType.PICTURE}) 
+ */ 
+Camera.MediaType = { 
+	PICTURE: 0,             // allow selection of still pictures only. DEFAULT. Will return format specified via DestinationType
+	VIDEO: 1,                // allow selection of video only, ONLY RETURNS URL
+	ALLMEDIA : 2			// allow selection from all media types
+};
+Camera.prototype.MediaType = Camera.MediaType;
+
 /**
  * Gets a picture from source defined by "options.sourceType", and returns the
  * image as defined by the "options.destinationType" option.
@@ -1005,6 +1233,43 @@ PhoneGap.addConstructor(function() {
 });
 };
 
+if (!PhoneGap.hasResource("device")) {
+	PhoneGap.addResource("device");
+
+/**
+ * this represents the mobile device, and provides properties for inspecting the model, version, UUID of the
+ * phone, etc.
+ * @constructor
+ */
+Device = function() 
+{
+    this.platform = null;
+    this.version  = null;
+    this.name     = null;
+    this.phonegap      = null;
+    this.uuid     = null;
+    try 
+	{      
+		this.platform = DeviceInfo.platform;
+		this.version  = DeviceInfo.version;
+		this.name     = DeviceInfo.name;
+		this.phonegap = DeviceInfo.gap;
+		this.uuid     = DeviceInfo.uuid;
+
+    } 
+	catch(e) 
+	{
+        // TODO: 
+    }
+	this.available = PhoneGap.available = this.uuid != null;
+}
+
+PhoneGap.addConstructor(function() {
+	if (typeof navigator.device === "undefined") {
+    	navigator.device = window.device = new Device();
+	}
+});
+};
 
 if (!PhoneGap.hasResource("capture")) {
 	PhoneGap.addResource("capture");
@@ -1608,43 +1873,6 @@ PhoneGap.addConstructor(function() {
     if(typeof navigator.contacts == "undefined") {
     	navigator.contacts = new Contacts();
     }
-});
-};
-if (!PhoneGap.hasResource("device")) {
-	PhoneGap.addResource("device");
-
-/**
- * this represents the mobile device, and provides properties for inspecting the model, version, UUID of the
- * phone, etc.
- * @constructor
- */
-Device = function() 
-{
-    this.platform = null;
-    this.version  = null;
-    this.name     = null;
-    this.phonegap      = null;
-    this.uuid     = null;
-    try 
-	{      
-		this.platform = DeviceInfo.platform;
-		this.version  = DeviceInfo.version;
-		this.name     = DeviceInfo.name;
-		this.phonegap = DeviceInfo.gap;
-		this.uuid     = DeviceInfo.uuid;
-
-    } 
-	catch(e) 
-	{
-        // TODO: 
-    }
-	this.available = PhoneGap.available = this.uuid != null;
-}
-
-PhoneGap.addConstructor(function() {
-	if (typeof navigator.device === "undefined") {
-    	navigator.device = window.device = new Device();
-	}
 });
 };
 if (!PhoneGap.hasResource("file")) {
@@ -2982,16 +3210,6 @@ PositionOptions
  
 Geolocation.prototype.getCurrentPosition = function(successCallback, errorCallback, options) 
 {
-    // if (this.listener != null) 
-    // {
-    //     console.log("Geolocation Error: Still waiting for previous getCurrentPosition() request.");
-    //     if (errorCallback && typeof(errorCallback) == 'function')
-    //     {
-    //         errorCallback(new PositionError(PositionError.TIMEOUT, "Geolocation Error: Still waiting for previous getCurrentPosition() request."));
-    //     } 
-    //     return PositionError.TIMEOUT;
-    // }
-    
     // create an always valid local success callback
     var win = successCallback;
     if (!win || typeof(win) != 'function')
@@ -3021,7 +3239,7 @@ Geolocation.prototype.getCurrentPosition = function(successCallback, errorCallba
             if(this.lastPosition)
             {
                 var now = new Date().getTime();
-                if(now - this.lastPosition.timestamp < options.maximumAge)
+                if((now - this.lastPosition.timestamp) < options.maximumAge)
                 {
                     win(this.lastPosition); // send cached position immediately 
                     return;                 // Note, execution stops here -jm
@@ -3046,7 +3264,8 @@ Geolocation.prototype.getCurrentPosition = function(successCallback, errorCallba
 	{
 	    self.setError(new PositionError(PositionError.TIMEOUT,"Geolocation Error: Timeout."));
 	};
-	 
+
+    clearTimeout(this.timeoutTimerId);
     this.timeoutTimerId = setTimeout(onTimeout, params.timeout); 
 };
 
@@ -3083,9 +3302,9 @@ Geolocation.prototype.watchPosition = function(successCallback, errorCallback, o
 	var that = this;
     var lastPos = that.lastPosition? that.lastPosition.clone() : null;
     
-	return setInterval(function() 
-	{
-        var filterFun = function(position) {
+	var intervalFunction = function() {
+        
+		var filterFun = function(position) {
             if (lastPos == null || !position.equals(lastPos)) {
                 // only call the success callback when there is a change in position, per W3C
                 successCallback(position);
@@ -3094,8 +3313,14 @@ Geolocation.prototype.watchPosition = function(successCallback, errorCallback, o
             // clone the new position, save it as our last position (internal var)
             lastPos = position.clone();
         };
+		
 		that.getCurrentPosition(filterFun, errorCallback, params);
-	}, params.timeout);
+	};
+	
+    // Retrieve location immediately and schedule next retrieval afterwards
+	intervalFunction();
+	
+	return setInterval(intervalFunction, params.timeout);
 };
 
 
@@ -3198,78 +3423,59 @@ PhoneGap.addConstructor(function()
 };
 if (!PhoneGap.hasResource("compass")) {
 	PhoneGap.addResource("compass");
-	
+
+CompassError = function(){
+   this.code = null;
+};
+
+// Capture error codes
+CompassError.COMPASS_INTERNAL_ERR = 0;
+CompassError.COMPASS_NOT_SUPPORTED = 20;
+
+CompassHeading = function() {
+	this.magneticHeading = null;
+	this.trueHeading = null;
+	this.headingAccuracy = null;
+	this.timestamp = null;
+}	
 /**
  * This class provides access to device Compass data.
  * @constructor
  */
 Compass = function() {
     /**
-     * The last known Compass position.
+     * List of compass watch timers
      */
-    // lastHeading actually contains a bit more info than what we return to our callbacks 
-    // timestamp, magneticHeading, trueHeading, headingAccuracy, x, y, z
-    // docs specify that the return value is a simple 'heading'
-    // if possible we will use trueHeading, otherwise magneticHeading is returned
-    // trueHeading is only available if location services is ON
-	this.lastHeading = null;
-    this.lastError = null;
-	this.callbacks = {
-		onHeadingChanged: [],
-        onError:           []
-    };
+    this.timers = {};
 };
 
 /**
- * Asynchronously aquires the current heading.
+ * Asynchronously acquires the current heading.
  * @param {Function} successCallback The function to call when the heading
  * data is available
  * @param {Function} errorCallback The function to call when there is an error 
  * getting the heading data.
- * @param {PositionOptions} options The options for getting the heading data
- * such as timeout.
+ * @param {PositionOptions} options The options for getting the heading data (not used).
  */
 Compass.prototype.getCurrentHeading = function(successCallback, errorCallback, options) {
-	if (this.lastHeading == null) {
-        this.callbacks.onHeadingChanged.push(successCallback);
-        this.callbacks.onError.push(errorCallback);
-		this.start(options);
-	}
-	else
-	{
-	    if(options.maximumAge)
-        {
-            var now = new Date().getTime();
-            if(now - this.lastHeading.timestamp > options.maximumAge)
-            {
-                this.callbacks.onHeadingChanged.push(successCallback);
-                this.callbacks.onError.push(errorCallback);
-                
-                this.start(options); // we have a cached value that is old ...
-                return;
-            }
-        } 
+ 	// successCallback required
+    if (typeof successCallback !== "function") {
+        console.log("Compass Error: successCallback is not a function");
+        return;
+    }
 
-        // we have a last heading + it is NOT older than maximumAge, or maximumAge is not specified
-        if (typeof successCallback == "function") 
-    	{
-    	    var returnHeading = -1;
-    	    if(this.lastHeading.trueHeading > -1)
-    	    {
-    	        returnHeading = this.lastHeading.trueHeading;
-    	    }
-    	    else if( this.lastHeading.magneticHeading )
-    	    {
-    	        returnHeading = this.lastHeading.magneticHeading;
-    	    }
-    		successCallback(returnHeading);
-    	}
-	}
-	
+    // errorCallback optional
+    if (errorCallback && (typeof errorCallback !== "function")) {
+        console.log("Compass Error: errorCallback is not a function");
+        return;
+    }
+
+    // Get heading
+    PhoneGap.exec(successCallback, errorCallback, "com.phonegap.geolocation", "getCurrentHeading", []);
 };
 
 /**
- * Asynchronously aquires the heading repeatedly at a given interval.
+ * Asynchronously acquires the heading repeatedly at a given interval.
  * @param {Function} successCallback The function to call each time the heading
  * data is available
  * @param {Function} errorCallback The function to call when there is an error 
@@ -3279,17 +3485,29 @@ Compass.prototype.getCurrentHeading = function(successCallback, errorCallback, o
  */
 Compass.prototype.watchHeading= function(successCallback, errorCallback, options) 
 {
-	// Invoke the appropriate callback with a new Position object every time the implementation 
-	// determines that the position of the hosting device has changed. 
-	
-	var frequency = (options && options.frequency) ? options.frequency : 1000;
-	var self = this;
-	var funk = function() 
-	{
-		self.getCurrentHeading(successCallback, errorCallback, options);
-	};
-	funk();
-	return setInterval(funk, frequency);
+	// Default interval (100 msec)
+    var frequency = (options !== undefined) ? options.frequency : 100;
+
+    // successCallback required
+    if (typeof successCallback !== "function") {
+        console.log("Compass Error: successCallback is not a function");
+        return;
+    }
+
+    // errorCallback optional
+    if (errorCallback && (typeof errorCallback !== "function")) {
+        console.log("Compass Error: errorCallback is not a function");
+        return;
+    }
+
+    // Start watch timer to get headings
+    var id = PhoneGap.createUUID();
+    navigator.compass.timers[id] = setInterval(
+        function() {
+            PhoneGap.exec(successCallback, errorCallback, "com.phonegap.geolocation", "getCurrentHeading", [{repeats: 1}]);
+        }, frequency);
+
+    return id;
 };
 
 
@@ -3297,67 +3515,57 @@ Compass.prototype.watchHeading= function(successCallback, errorCallback, options
  * Clears the specified heading watch.
  * @param {String} watchId The ID of the watch returned from #watchHeading.
  */
-Compass.prototype.clearWatch = function(watchId) 
+Compass.prototype.clearWatch = function(id) 
 {
-	clearInterval(watchId);
+	// Stop javascript timer & remove from timer list
+    if (id && navigator.compass.timers[id]) {
+        clearInterval(navigator.compass.timers[id]);
+        delete navigator.compass.timers[id];
+    }
+    if (navigator.compass.timers.length == 0) {
+    	// stop the 
+    	PhoneGap.exec(null, null, "com.phonegap.geolocation", "stopHeading", []);
+    }
 };
 
-
-/**
- * Called by the geolocation framework when the current heading is found.
- * @param {heading} heading The current heading.
- */
-Compass.prototype.setHeading = function(heading) 
+/** iOS only
+ * Asynchronously fires when the heading changes from the last reading.  The amount of distance 
+ * required to trigger the event is specified in the filter paramter.
+ * @param {Function} successCallback The function to call each time the heading
+ * data is available
+ * @param {Function} errorCallback The function to call when there is an error 
+ * getting the heading data.
+ * @param {HeadingOptions} options The options for getting the heading data
+ * 			@param {filter} number of degrees change to trigger a callback with heading data (float)
+ *
+ * In iOS this function is more efficient than calling watchHeading  with a frequency for updates.
+ * Only one watchHeadingFilter can be in effect at one time.  If a watchHeadingFilter is in effect, calling
+ * getCurrentHeading or watchHeading will use the existing filter value for specifying heading change. 
+  */
+Compass.prototype.watchHeadingFilter = function(successCallback, errorCallback, options) 
 {
-    this.lastHeading = heading;
-    // the last heading we are storing has lots more info, but the current API docs only state that 
-    // the direction value is returned.
-    var returnHeading = -1;
-    if(this.lastHeading.trueHeading > -1)
-    {
-        returnHeading = this.lastHeading.trueHeading;
-    }
-    else if( this.lastHeading.magneticHeading )
-    {
-        returnHeading = this.lastHeading.magneticHeading;
-    }
-    
-    var arr = this.callbacks.onHeadingChanged;
-    for (var i = 0, len = arr.length; i < len; i++) 
-    {
-        arr[i](returnHeading);
-    }
-    // callbacks are only used once, so cleanup
-    this.callbacks.onHeadingChanged = [];
-    this.callbacks.onError = [];
-};
+ 
+ 	if (options === undefined || options.filter === undefined) {
+ 		console.log("Compass Error:  options.filter not specified");
+ 		return;
+ 	}
 
-/**
- * Called by the geolocation framework when an error occurs while looking up the current position.
- * @param {String} message The text of the error message.
- */
-Compass.prototype.setError = function(message) 
-{
-    this.lastError = message;
-    var arr = this.callbacks.onError;
-    for (var i = 0,len = arr.length; i < len; i++) 
-    {
-        arr[i](message);
+    // successCallback required
+    if (typeof successCallback !== "function") {
+        console.log("Compass Error: successCallback is not a function");
+        return;
     }
-    // callbacks are only used once, so cleanup
-    this.callbacks.onHeadingChanged = [];
-    this.callbacks.onError = [];
-    this.stop();
-};
 
-Compass.prototype.start = function(options) 
+    // errorCallback optional
+    if (errorCallback && (typeof errorCallback !== "function")) {
+        console.log("Compass Error: errorCallback is not a function");
+        return;
+    }
+    PhoneGap.exec(successCallback, errorCallback, "com.phonegap.geolocation", "watchHeadingFilter", [options]);
+}
+Compass.prototype.clearWatchFilter = function() 
 {
-    PhoneGap.exec(null, null, "com.phonegap.geolocation", "startHeading", [options]);
-};
-
-Compass.prototype.stop = function() 
-{
-    PhoneGap.exec(null, null, "com.phonegap.geolocation", "stopHeading", []);
+    	PhoneGap.exec(null, null, "com.phonegap.geolocation", "stopHeading", []);
 };
 
 PhoneGap.addConstructor(function() 
@@ -3612,7 +3820,10 @@ Notification = function() {
  * @param {String} buttonLabel          Label of the close button (default: OK)
  */
 Notification.prototype.alert = function(message, completeCallback, title, buttonLabel) {
-    var _title = (title || "Alert");
+    var _title = title;
+    if (title == null || typeof title === 'undefined') {
+        _title = "Alert";
+    }
     var _buttonLabel = (buttonLabel || "OK");
     PhoneGap.exec(completeCallback, null, "com.phonegap.notification", "alert", [message,{ "title": _title, "buttonLabel": _buttonLabel}]);
 };

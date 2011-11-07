@@ -58,6 +58,7 @@ static NSString * const kRestAPIVersion = @"v23.0";
 @interface AppDelegate (private)
 - (void)login;
 - (void)loggedIn;
+- (void)logout;
 - (void)sendJavascriptLoginEvent:(UIWebView *)webView;
 - (NSString *)getUserAgentString;
 @end
@@ -238,6 +239,11 @@ static NSString * const kRestAPIVersion = @"v23.0";
 
 }
 
+- (void)logout {
+    [self.coordinator revokeAuthentication];
+    [self.coordinator authenticate];
+}
+
 - (void)loggedIn {
     
     if (!self.viewController) {
@@ -333,14 +339,21 @@ static NSString * const kRestAPIVersion = @"v23.0";
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
     [coordinator.view removeFromSuperview];
     
-    // show alert and retry
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                    message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
-                                                   delegate:self
-                                          cancelButtonTitle:@"Retry"
-                                          otherButtonTitles: nil];
-    [alert show];
-    [alert release];
+    NSInteger errCode = [error code];
+    
+    if (errCode != kSFOAuthErrorTimeout) {
+        NSLog(@"logging out and restarting auth");
+        [self logout];
+    } else {
+        // show alert and allow retry
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+                                                       delegate:self
+                                              cancelButtonTitle:@"Retry"
+                                              otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
