@@ -16,10 +16,16 @@ HTML5 is quickly emerging as dominant technology for developing cross-platform m
 
 
 
-Installation (Xcode 4 Project Template)
+Installation 
 ==
 
-See the setup.md file for installation instructions.  Running `./install.sh` will setup the SalesforceSDK with everything you should need to run the sample apps. 
+After cloning the SalesforceMobileSDK, run the install script from the Terminal command line:
+
+'./install/sh'
+
+This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
+
+See the setup.md file for additional instructions. 
 
 
 Using the SDK (in a Force.com project)
@@ -93,7 +99,7 @@ If you do not see the PhoneGap framework, or otherwise get compilation errors re
 
 1. Open the Xcode project of the sample application.
 2. In the Project Navigator, right-click or control-click the Frameworks folder, and select 'Add files to "_Project Name_..."'.
-3. Navigate to the Phonegap.framework folder (the default location is /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework/), and click "Add".
+3. Navigate to the Phonegap.framework folder (the default location is project/dependencies/PhoneGap.framework), and click "Add".
 
 The sample application project should now build and run cleanly.
 
