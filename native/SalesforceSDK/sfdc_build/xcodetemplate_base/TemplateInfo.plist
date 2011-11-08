@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+	<!-- Salesforce Mobile SDK Native App Template, derived from: -->
     <!-- db.com template v1.0 by Quinton Wall - twitter: @quintonwall -->
     <!-- It's awesome -->
     <dict>
@@ -15,7 +16,7 @@
         <key>Description</key>
         <string>This template provides the starting point for building a native application which securely connects to force.com/database.com. The template will create everything else you need to access your data in the cloud.</string>
         <key>Identifier</key>
-        <string>com.database.ios.template</string>  <!-- must be unique, else template doesn't show in xcode -->
+        <string>com.salesforce.mobilesdk.native.template</string>  <!-- must be unique, else template doesn't show in xcode -->
         <key>Kind</key>
         <string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
         <key>Platforms</key>
