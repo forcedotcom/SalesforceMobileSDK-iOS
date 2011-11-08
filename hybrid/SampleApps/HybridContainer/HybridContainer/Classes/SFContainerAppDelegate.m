@@ -305,6 +305,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSURL *instanceUrl = self.coordinator.credentials.instanceUrl;
     NSString *domain = [instanceUrl host]; 
     
+    //addSidCookieForDomain can be called before the webview exists
     [self addSidCookieForDomain:domain];
     [self addSidCookieForDomain:@".force.com"];
     [self addSidCookieForDomain:@".salesforce.com"];
@@ -378,7 +379,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSMutableArray *newCookies = [NSMutableArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
     
-    //remove any stale cookies with the same domain
+    //remove any stale sid cookies with the same domain
     for (NSHTTPCookie *cookie in newCookies) {
         if ([cookie.domain isEqualToString:domain] && [cookie.name isEqualToString:@"sid"]  ) {
             [newCookies removeObject:cookie];
