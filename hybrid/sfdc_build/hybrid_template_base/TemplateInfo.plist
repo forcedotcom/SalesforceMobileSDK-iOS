@@ -430,6 +430,17 @@
 		<key>Path</key>
 		<string>Resources/splash/Default-Portrait~ipad.png</string>
 	</dict>
+	
+	<key>Resources/splash/Default-Landscape~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Landscape~ipad.png</string>
+	</dict>
 
 	<key>Resources/splash/Default.png</key>
 	<dict>
@@ -498,6 +509,7 @@
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon.png</string>
 	<string>Resources/icons/icon@2x.png</string>
+	<string>Resources/splash/Default-Landscape~ipad.png</string>
 	<string>Resources/splash/Default-Portrait~ipad.png</string>
 	<string>Resources/splash/Default.png</string>
 	<string>Resources/splash/Default@2x.png</string>
