@@ -21,7 +21,7 @@
         <key>--explicit-crossref</key>
         <true/>
         <key>--project-name</key>
-        <string>SalesforceSDK</string>
+        <string>SalesforceMobileSDK-Hybrid</string>
         <key>--verbose</key>
         <integer>4</integer>
         <key>--logformat</key>

@@ -1,4 +1,4 @@
-<project name="Hybrid" default="install">
+<project name="HybridContainer" default="install">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -34,36 +34,38 @@
       <antcall target="xcodetemplate.install" />
    </target>
 
- 
     <target name="clean">
         <delete dir="${artifacts.dir}"/>
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
     </target>
 
-	<target name="documentation.archive" >
+	<target name="documentation.archive" 
+		depends="documentation.generate" >
 		<!-- Copy the documentation out to the Artifacts root directory before we delete it -->
         <delete dir="${project.dir}/Documentation" failonerror="false"/>
-        <copy todir="${project.dir}/Documentation">
-            <fileset dir="${artifacts.dir}/${target.name}/Documentation"/>
+        <copy todir="${project.dir}/Documentation/${target.name}">
+            <fileset dir="${artifacts.dir}/Documentation"/>
         </copy>
 	</target>
 	
     <target name="documentation.generate">
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
-            <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
+            <param name="source" value="${xcodetemplate.base.dir}/Classes"/>
+            <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
+
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
-            <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
+            <param name="source" value="${xcodetemplate.base.dir}/Classes"/>
+            <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
         </antcall>
+
     </target>
 
     <target name="clean.full"
-        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean">
-        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean">
+	<delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
     </target>
 
     <target name="xcodetemplate.create"  >
@@ -74,9 +76,6 @@
         <copy todir="${xcodetemplate.dependency.dir}">
             <fileset dir="${dependency.dir}"/>
         </copy>
-        <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d '${xcodetemplate.dependency.dir}' ${artifacts.dir}/${target.name}-Debug.zip"/>
-        </exec>
     </target>
 
     <target name="xcodetemplate.install" depends="xcodetemplate.create">
@@ -85,4 +84,5 @@
             <fileset dir="${xcodetemplate.dir}"/>
         </copy>
     </target>
+
 </project>
