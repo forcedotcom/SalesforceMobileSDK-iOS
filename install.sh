@@ -21,6 +21,9 @@ ant clean
 # clean libraries with dependencies
 cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
 ant clean.full
+cd $CURRENT_DIR/hybrid/sfdc_build
+ant clean.full
+
 # clean sample apps
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant clean.full

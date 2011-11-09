@@ -32,6 +32,7 @@
 
    <target name="install" depends="pre" description="create fresh install artifacts" >
       <antcall target="xcodetemplate.install" />
+	<antcall target="documentation.archive" />
    </target>
 
     <target name="clean">
