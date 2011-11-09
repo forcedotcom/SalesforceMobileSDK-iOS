@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>--ignore</key>
+        <array>
+                <string>ThirdParty</string>
+                <string>Libraries</string>
+                <string>Frameworks</string>
+                <string>Testing</string>
+        </array>
+        <key>--project-company</key>
+        <string>Salesforce.com</string>
+        <key>--company-id</key>
+        <string>com.salesforce</string>
+        <key>--install-docset</key>
+        <false/>
+        <key>--merge-categories</key>
+        <true/>
+        <key>--explicit-crossref</key>
+        <true/>
+        <key>--project-name</key>
+        <string>SalesforceSDK</string>
+        <key>--verbose</key>
+        <integer>4</integer>
+        <key>--logformat</key>
+        <integer>1</integer>
+</dict>
+</plist>
+
