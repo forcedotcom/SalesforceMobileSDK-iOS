@@ -1,7 +1,6 @@
 #!/bin/bash
 # Running this script will install all dependencies needed for all of the projects, 
 # as well as generating the latest .h and template files.
-# This assumes you have already setup submodules in the /external directory.
 
 # ensure that we have the correct version of all submodules
 git submodule init
@@ -44,6 +43,9 @@ cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
 ant
 
 cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
+ant install
+
+cd $CURRENT_DIR/hybrid/sfdc_build
 ant install
 
 # build sample apps with dependencies
