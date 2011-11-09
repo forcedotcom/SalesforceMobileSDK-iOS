@@ -428,7 +428,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 }
 
 + (NSSet *)oauthScopes {
-    return [NSSet setWithObjects:@"visualforce","api",nil] ; 
+    return [NSSet setWithObjects:@"visualforce",@"api",nil] ; 
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
