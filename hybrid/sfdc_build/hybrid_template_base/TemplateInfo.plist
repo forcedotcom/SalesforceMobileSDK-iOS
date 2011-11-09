@@ -41,6 +41,12 @@
                 <string>latest_iphoneos</string>
 				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
 				<string>PHONEGAP_FRAMEWORK=YES</string>
+				<key>OTHER_LDFLAGS</key>
+				<string>-ObjC -all_load</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>iPhone Developer</string>
             </dict>
         </dict>
 
@@ -157,13 +163,15 @@
         <key>Path</key>
         <string>readme.md</string>
     </dict>
-    <key>Resources</key>
-    <dict>
+
+
+    <key>Plugins/README</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
         <key>Path</key>
-        <string>Resources</string>
-		<key>PathType</key>
-		<string>Group</string>
-    </dict>
+        <string>Plugins/README</string>
+	</dict>
 
     <key>www</key>
     <dict>
@@ -173,7 +181,26 @@
 		<string>Group</string>
     </dict>
 
-
+	<key>PhoneGapResources.bundle</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>PhoneGapResources.bundle</string>
+		<key>FileType</key>
+		<string>wrapper.plug-in</string>
+	</dict>
+	
+	<key>Settings.bundle</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>Settings.bundle</string>
+		<key>FileType</key>
+		<string>wrapper.plug-in</string>
+	</dict>
+	
 	<key>dependencies/PhoneGap.framework</key>
 	<dict>
 		<key>PathType</key>
@@ -360,6 +387,83 @@
 	</dict>
 	
 	
+	<key>Resources/icons/icon-72.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon-72.png</string>
+	</dict>
+
+	<key>Resources/icons/icon.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon.png</string>
+	</dict>
+
+	<key>Resources/icons/icon@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default-Portrait~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Portrait~ipad.png</string>
+	</dict>
+
+	<key>Resources/splash/Default.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default.png</string>
+	</dict>
+
+	<key>Resources/splash/Default@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default~iPad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default~iPad.png</string>
+	</dict>
+	
 	
 	<!-- end generated dependencies section -->
 
@@ -390,9 +494,18 @@
 	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
 	<string>dependencies/SBJson/libsbjson-ios.a</string>
 	
+	
+	<string>Resources/icons/icon-72.png</string>
+	<string>Resources/icons/icon.png</string>
+	<string>Resources/icons/icon@2x.png</string>
+	<string>Resources/splash/Default-Portrait~ipad.png</string>
+	<string>Resources/splash/Default.png</string>
+	<string>Resources/splash/Default@2x.png</string>
+	<string>Resources/splash/Default~iPad.png</string>
 	<!-- end generated dependencies -->
 	
     <string>readme.md</string>
+
     <!-- classes -->
     <string>AppDelegate.h</string>
     <string>AppDelegate.m</string>
@@ -406,9 +519,12 @@
     <string>main.m</string>
     <string>PhoneGap.plist</string>
     <string>en.lproj/InfoPlist.strings</string>
+
     <!-- media -->
-	<string>Resources</string>
-	<string>Plugins</string>
+
+	<string>Settings.bundle</string>
+	<string>PhoneGapResources.bundle</string>
+	<string>Plugins/README</string>
 
 </array>
 <key>Targets</key>
