@@ -35,8 +35,7 @@
                 <string>$(ARCHS_STANDARD_32_BIT)</string>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>YES</string>
-                <key>GCC_VERSION</key>
-                <string>com.apple.compilers.llvmgcc42</string>
+
                 <key>IPHONEOS_DEPLOYMENT_TARGET</key>
                 <string>latest_iphoneos</string>
 				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
@@ -47,6 +46,8 @@
 				<string>1,2</string>
 				<key>CODE_SIGN_IDENTITY</key>
 				<string>iPhone Developer</string>
+				<!-- GCC_VERSION = com.apple.compilers.llvm.clang.1_0 -->
+				
             </dict>
         </dict>
 
@@ -558,14 +559,6 @@
                 <key>Class</key>
                 <string>Sources</string> <!-- Add Build Phase Compile Source -->
             </dict>
-            <!--
-        <dict>
-            <key>Class</key>
-                <string>Frameworks</string> 
-                    <key>Path</key>
-                    <string>libxml2.dylib</string>
-        </dict>
-    -->
     </array>
     <key>Frameworks</key>
     <array>
