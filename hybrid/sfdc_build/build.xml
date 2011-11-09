@@ -1,4 +1,4 @@
-<project name="HybridContainer" default="install">
+<project name="HybridContainer" default="build">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -30,14 +30,22 @@
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
-   <target name="install" depends="pre" description="create fresh install artifacts" >
-      <antcall target="xcodetemplate.install" />
-	<antcall target="documentation.archive" />
+   <target name="install" depends="build" description="create fresh install artifacts" >
+		<antcall target="documentation.archive" />
    </target>
+
+<target name="build" depends="pre" description="regenerate main build artifacts" >
+	<antcall target="xcodetemplate.install" />
+</target>
 
     <target name="clean">
         <delete dir="${artifacts.dir}"/>
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+    </target>
+
+    <target name="clean.full"
+        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean">
+	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
     </target>
 
 	<target name="documentation.archive" 
@@ -64,10 +72,7 @@
 
     </target>
 
-    <target name="clean.full"
-        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean">
-	<delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
-    </target>
+
 
     <target name="xcodetemplate.create"  >
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
