@@ -32,6 +32,11 @@
 #import "SFOAuthCoordinator.h"
 
 
+/**
+ 
+ Base class for hybrid Salesforce Mobile SDK applications.
+ 
+ */
 
 @interface SFContainerAppDelegate : PhoneGapDelegate <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
     
@@ -58,7 +63,7 @@
 /**
  Override this method to change the scopes that should be used,
  default value is:
- [NSSet setWithObjects:@"visualforce","api",nil]
+ [NSSet setWithObjects:@"visualforce",@"api",nil]
  
  @return The set of oauth scopes that should be requested for this app.
  */
