@@ -39,8 +39,9 @@
 </target>
 
     <target name="clean">
-        <delete dir="${artifacts.dir}"/>
+        <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
     </target>
 
     <target name="clean.full"
