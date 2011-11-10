@@ -25,9 +25,11 @@
 #import "AppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
 
-
-
 #import "SFOAuthCredentials.h"
+#import "SFAuthorizingViewController.h"
+
+
+
 
 
 static NSString *const kDefaultOAuthLoginDomain =  
@@ -68,11 +70,18 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
  */
 + (BOOL)updateLoginHost;
 
+
+/**
+ Set the SFAuthorzingViewController as the root view controller.
+ */
+- (void)setupAuthorizingViewController;
+
 @end
 
 @implementation SFContainerAppDelegate
 
 @synthesize invokeString;
+@synthesize authViewController=_authViewController;
 
 #pragma mark - init/dealloc
 
@@ -94,6 +103,8 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 - (void)dealloc
 {
+    self.authViewController = nil;
+
     [_coordinator setDelegate:nil];
     [_coordinator release]; _coordinator = nil;
 	[ super dealloc ];
@@ -115,13 +126,22 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 		NSLog(@"app launchOptions = %@",url);
 	}
     
-    // init window
-	CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
-	self.window = [ [ [ UIWindow alloc ] initWithFrame:screenBounds ] autorelease ];
-	self.window.autoresizesSubviews = YES;
+    
+    //init window
+    CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
+    UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
+	self.window = rootWindow;
+    [rootWindow release];
+    
+    [self setupAuthorizingViewController];
+    
+    
+    // We will allow PhoneGap's initialization to continue after we complete authentication.
+    // See the loggedIn method.
     
     [self.window makeKeyAndVisible];
     return YES;
+
 }
 
 // this happens while we are running ( in the background, or from within our own app )
@@ -143,6 +163,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAccountLogoutUserDefault];
         [defs synchronize];
+        [self setupAuthorizingViewController];
     } else {
     
         BOOL loginHostChanged = [[self class] updateLoginHost];
@@ -151,6 +172,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
             [_coordinator release]; _coordinator = nil;
             
             [self clearDataModel];
+            [self setupAuthorizingViewController];
         }
     }
     
@@ -308,16 +330,20 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [self addSidCookieForDomain:@".force.com"];
     [self addSidCookieForDomain:@".salesforce.com"];
     
-    //this is kinda hokey. phonegap doesn't allow us to reset the main view controller easily,
-    //so instead we detect nil webview and reinit
-    if ((!self.viewController) || !self.webView) {
-        // let's kickstart phonegap
+    // If we have the authViewController, we're in the initialization of the app.
+    // Remove this view controller, and let PhoneGap continue its initialization with the
+    // standard view controller.
+    if (nil != self.authViewController) {
+        self.window.rootViewController = nil;
+        self.authViewController = nil;
+        self.window = nil;
         [super application:[UIApplication sharedApplication] didFinishLaunchingWithOptions:nil];
     }
     else {
         // otherwise, simply notify the webview that we have logged in
         [self sendJavascriptLoginEvent:self.webView];
-    }
+    }    
+
 }
 
 
@@ -429,15 +455,34 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     return [NSSet setWithObjects:@"visualforce",@"api",nil] ; 
 }
 
+
+- (void)setupAuthorizingViewController {
+    // Set up a view controller for the authentication process.
+    SFAuthorizingViewController *authVc = [[SFAuthorizingViewController alloc] initWithNibName:@"SFAuthorizingViewController" bundle:nil];
+    self.authViewController = authVc;
+    self.window.rootViewController = self.authViewController;
+    self.window.autoresizesSubviews = YES;
+    [authVc release];
+}
+
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
 }
 
+
+
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    [self.window addSubview:view];
+    
+    if (nil != self.authViewController) {
+        // We're in the initialization of the app.  Make sure the auth view is in the foreground.
+        [self.window bringSubviewToFront:self.authViewController.view];
+        [self.authViewController setOauthView:view];
+    }
+    else
+        [self.viewController.view addSubview:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {

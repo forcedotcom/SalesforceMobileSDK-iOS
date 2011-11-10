@@ -28,6 +28,7 @@
 
 #import "SFOAuthCoordinator.h"
 
+@class SFAuthorizingViewController;
 
 /**
  
@@ -39,16 +40,28 @@
     
 	NSString* invokeString;
     SFOAuthCoordinator *_coordinator;
+    SFAuthorizingViewController *_authViewController;
+
 }
 
-// invoke string is passed to your app on launch, this is only valid if you 
-// edit App.plist to add a protocol
-// a simple tutorial can be found here : 
-// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
-@property (copy)  NSString* invokeString;
+/**
+ invoke string is passed to your app on launch, this is only valid if you 
+ edit App.plist to add a protocol
+ a simple tutorial can be found here : 
+ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+*/
+@property (nonatomic, copy)  NSString* invokeString;
 
+/**
+ The SFOAuthCoordinator used for managing login/logout.
+ */
 @property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
+
+/**
+ View controller that gives the app some view state while authorizing.
+ */
+@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
 
 
 /**

@@ -65,6 +65,8 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<key>Default</key>
+		<string>3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
     </dict>
     <dict>
         <key>OAuth Redirect URL</key>
@@ -77,6 +79,8 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<key>Default</key>
+		<string>testsfdc:///mobilesdk/detect/oauth/done</string>
     </dict>
 </array>
 
@@ -157,7 +161,27 @@
         <key>Path</key>
         <string>Classes/SFContainerAppDelegate.h</string>
     </dict>
-
+    <key>SFAuthorizingViewController.m</key>
+    <dict>
+        <key>Group</key>
+        <string>Classes</string>
+        <key>Path</key>
+        <string>Classes/SFAuthorizingViewController.m</string>
+    </dict>
+    <key>SFAuthorizingViewController.h</key>
+    <dict>
+        <key>Group</key>
+        <string>Classes</string>
+        <key>Path</key>
+        <string>Classes/SFAuthorizingViewController.h</string>
+    </dict>
+    <key>SFAuthorizingViewController.xib</key>
+    <dict>
+        <key>Group</key>
+        <string>Classes</string>
+        <key>Path</key>
+        <string>Classes/SFAuthorizingViewController.xib</string>
+    </dict>
 
     <key>readme.md</key>
     <dict>
@@ -524,6 +548,10 @@
     <string>AppDelegate.m</string>
     <string>SFContainerAppDelegate.h</string>
     <string>SFContainerAppDelegate.m</string>
+	<string>SFAuthorizingViewController.h</string>
+	<string>SFAuthorizingViewController.m</string>
+	<string>SFAuthorizingViewController.xib</string>
+	
     <!-- views -->
 
     <!-- supporting files -->
