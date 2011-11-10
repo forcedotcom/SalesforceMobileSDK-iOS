@@ -147,40 +147,42 @@
         <key>Path</key>
         <string>Classes/AppDelegate.h</string>
     </dict>
+
+	<!-- Container --> 
     <key>SFContainerAppDelegate.m</key>
     <dict>
         <key>Group</key>
-        <string>Classes</string>
+        <string>Container</string>
         <key>Path</key>
-        <string>Classes/SFContainerAppDelegate.m</string>
+        <string>Container/SFContainerAppDelegate.m</string>
     </dict>
     <key>SFContainerAppDelegate.h</key>
     <dict>
         <key>Group</key>
-        <string>Classes</string>
+        <string>Container</string>
         <key>Path</key>
-        <string>Classes/SFContainerAppDelegate.h</string>
+        <string>Container/SFContainerAppDelegate.h</string>
     </dict>
     <key>SFAuthorizingViewController.m</key>
     <dict>
         <key>Group</key>
-        <string>Classes</string>
+        <string>Container</string>
         <key>Path</key>
-        <string>Classes/SFAuthorizingViewController.m</string>
+        <string>Container/SFAuthorizingViewController.m</string>
     </dict>
     <key>SFAuthorizingViewController.h</key>
     <dict>
         <key>Group</key>
-        <string>Classes</string>
+        <string>Container</string>
         <key>Path</key>
-        <string>Classes/SFAuthorizingViewController.h</string>
+        <string>Container/SFAuthorizingViewController.h</string>
     </dict>
     <key>SFAuthorizingViewController.xib</key>
     <dict>
         <key>Group</key>
-        <string>Classes</string>
+        <string>Container</string>
         <key>Path</key>
-        <string>Classes/SFAuthorizingViewController.xib</string>
+        <string>Container/SFAuthorizingViewController.xib</string>
     </dict>
 
     <key>readme.md</key>
@@ -543,9 +545,11 @@
 	
     <string>readme.md</string>
 
-    <!-- classes -->
+    <!-- Classes -->
     <string>AppDelegate.h</string>
     <string>AppDelegate.m</string>
+
+	<!-- Container -->
     <string>SFContainerAppDelegate.h</string>
     <string>SFContainerAppDelegate.m</string>
 	<string>SFAuthorizingViewController.h</string>

@@ -127,19 +127,12 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 	}
     
     
-    //init window
-    CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
-    UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
-	self.window = rootWindow;
-    [rootWindow release];
-    
     [self setupAuthorizingViewController];
     
     
     // We will allow PhoneGap's initialization to continue after we complete authentication.
     // See the loggedIn method.
     
-    [self.window makeKeyAndVisible];
     return YES;
 
 }
@@ -457,12 +450,29 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 
 - (void)setupAuthorizingViewController {
+
+    //clear all children of the existing window, if any
+    if (nil != self.window) {
+        NSLog(@"SFContainerAppDelegate clearing self.window");
+        [self.window.subviews  makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        self.window = nil;
+    }
+    
+    //(re)init window
+    CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
+    UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
+	self.window = rootWindow;
+    [rootWindow release];
+    
     // Set up a view controller for the authentication process.
     SFAuthorizingViewController *authVc = [[SFAuthorizingViewController alloc] initWithNibName:@"SFAuthorizingViewController" bundle:nil];
     self.authViewController = authVc;
     self.window.rootViewController = self.authViewController;
     self.window.autoresizesSubviews = YES;
     [authVc release];
+    
+    [self.window makeKeyAndVisible];
+
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate

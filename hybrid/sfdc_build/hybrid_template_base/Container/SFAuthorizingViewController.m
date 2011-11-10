@@ -39,6 +39,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation:%d",interfaceOrientation);
     // Return YES for supported orientations
 	return YES;
 }
