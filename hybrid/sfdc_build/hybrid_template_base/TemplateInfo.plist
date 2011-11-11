@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<!-- Salesforce Mobile SDK Hybrid App Template derived from: -->
+    <!-- db.com template v1.0 by Quinton Wall - twitter: @quintonwall -->
+    <!-- It's awesome -->
+    <dict>
+        <key>Ancestors</key>
+        <array>
+            <string>com.apple.dt.unit.objectiveCApplication</string>
+            <string>com.apple.dt.unit.iPhoneBase</string> <!-- Identifier can find in any TemplateInfo.plist -->
+        </array>
+        <key>Concrete</key> 
+        <true/>
+        <!-- text displayed in the new project wizard -->
+        <key>Description</key>
+        <string>This template provides a starting point for building a hybrid Salesforce Mobile SDK application. This provides
+		support for both PhoneGap/callback-ios as well as Visualforce and the Salesforce REST API.</string>
+        <key>Identifier</key>
+        <string>com.salesforce.mobilesdk.hybrid.template</string>  <!-- must be unique, else template doesn't show in xcode -->
+        <key>Kind</key>
+        <string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+        <key>Platforms</key>
+        <array>
+            <string>com.apple.platform.iphoneos</string>
+        </array>
+
+        <key>Project</key>
+        <dict>
+            <key>SDK</key>
+            <string>iphoneos</string>
+            <key>SharedSettings</key>
+            <dict>
+                <key>ARCHS</key>
+                <string>$(ARCHS_STANDARD_32_BIT)</string>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>YES</string>
+
+                <key>IPHONEOS_DEPLOYMENT_TARGET</key>
+                <string>latest_iphoneos</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<string>PHONEGAP_FRAMEWORK=YES</string>
+				<key>OTHER_LDFLAGS</key>
+				<string>-ObjC -all_load</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>iPhone Developer</string>
+				<!-- GCC_VERSION = com.apple.compilers.llvm.clang.1_0 -->
+				
+            </dict>
+        </dict>
+
+<!-- add our custom wizard fields -->
+<key>Options</key>
+<array>
+    <dict>
+        <key>Consumer Public Key</key>
+        <string>The consumer key from your remote access provider</string>
+        <key>Identifier</key>
+        <string>publicKey</string>
+        <key>Name</key>
+        <string>Consumer Key</string>
+        <key>NotPersisted</key>
+        <true/>
+        <key>Type</key>
+        <string>text</string>
+		<key>Default</key>
+		<string>3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
+    </dict>
+    <dict>
+        <key>OAuth Redirect URL</key>
+        <string>The URL used by OAuth to handle the callback</string>
+        <key>Identifier</key>
+        <string>redirectURL</string>
+        <key>Name</key>
+        <string>Redirect URL</string>
+        <key>NotPersisted</key>
+        <true/>
+        <key>Type</key>
+        <string>text</string>
+		<key>Default</key>
+		<string>testsfdc:///mobilesdk/detect/oauth/done</string>
+    </dict>
+</array>
+
+<key>Definitions</key>
+<dict>
+	
+	<!-- add all of our non-generated files -->
+    
+	<!-- Supporting Files -->
+    <key>___PACKAGENAME___-Prefix.pch</key>
+    <dict>
+        <key>Group</key>
+        <string>Supporting Files</string>
+        <key>Path</key>
+        <string>___PACKAGENAME___-Prefix.pch</string>
+    </dict>
+	<key>___PACKAGENAME___-Info.plist</key>
+	<dict>
+		<key>Group</key>
+		<array>
+			<string>Supporting Files</string>
+		</array>
+		<key>Path</key>
+		<string>./___PACKAGENAME___-Info.plist</string>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>TargetIndices</key>
+		<array/>
+	</dict>
+    <key>main.m</key>
+    <dict>
+        <key>Group</key>
+        <string>Supporting Files</string>
+        <key>Path</key>
+        <string>main.m</string>
+    </dict>
+    <key>PhoneGap.plist</key>
+    <dict>
+        <key>Group</key>
+        <string>Supporting Files</string>
+        <key>Path</key>
+        <string>PhoneGap.plist</string>
+    </dict>
+    <key>en.lproj/InfoPlist.strings</key>
+    <dict>
+        <key>Group</key>
+        <string>Supporting Files</string>
+        <key>Path</key>
+        <string>en.lproj/InfoPlist.strings</string>
+    </dict>
+
+	<!-- Classes --> 
+     <key>AppDelegate.m</key>
+    <dict>
+        <key>Group</key>
+        <string>Classes</string>
+        <key>Path</key>
+        <string>Classes/AppDelegate.m</string>
+    </dict>
+    <key>AppDelegate.h</key>
+    <dict>
+        <key>Group</key>
+        <string>Classes</string>
+        <key>Path</key>
+        <string>Classes/AppDelegate.h</string>
+    </dict>
+
+	<!-- Container --> 
+    <key>SFContainerAppDelegate.m</key>
+    <dict>
+        <key>Group</key>
+        <string>Container</string>
+        <key>Path</key>
+        <string>Container/SFContainerAppDelegate.m</string>
+    </dict>
+    <key>SFContainerAppDelegate.h</key>
+    <dict>
+        <key>Group</key>
+        <string>Container</string>
+        <key>Path</key>
+        <string>Container/SFContainerAppDelegate.h</string>
+    </dict>
+    <key>SFAuthorizingViewController.m</key>
+    <dict>
+        <key>Group</key>
+        <string>Container</string>
+        <key>Path</key>
+        <string>Container/SFAuthorizingViewController.m</string>
+    </dict>
+    <key>SFAuthorizingViewController.h</key>
+    <dict>
+        <key>Group</key>
+        <string>Container</string>
+        <key>Path</key>
+        <string>Container/SFAuthorizingViewController.h</string>
+    </dict>
+    <key>SFAuthorizingViewController.xib</key>
+    <dict>
+        <key>Group</key>
+        <string>Container</string>
+        <key>Path</key>
+        <string>Container/SFAuthorizingViewController.xib</string>
+    </dict>
+
+    <key>readme.md</key>
+    <dict>
+        <key>Path</key>
+        <string>readme.md</string>
+    </dict>
+
+
+    <key>Plugins/README</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
+        <key>Path</key>
+        <string>Plugins/README</string>
+	</dict>
+
+    <key>www</key>
+    <dict>
+        <key>Path</key>
+        <string>www</string>
+		<key>PathType</key>
+		<string>Group</string>
+    </dict>
+
+	<key>PhoneGapResources.bundle</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>PhoneGapResources.bundle</string>
+		<key>FileType</key>
+		<string>wrapper.plug-in</string>
+	</dict>
+	
+	<key>Settings.bundle</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>Settings.bundle</string>
+		<key>FileType</key>
+		<string>wrapper.plug-in</string>
+	</dict>
+	
+	<key>dependencies/PhoneGap.framework</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>dependencies/PhoneGap.framework</string>
+		<key>FileType</key>
+		<string>wrapper.framework</string>
+	</dict>
+	
+	
+
+	
+
+	<!-- generated in part by using template_generator.py 
+	https://github.com/MrGando/Xcode-4-Template-Generator/
+	-->
+	<!-- begin generated dependencies section -->
+
+
+	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceOAuth</string>
+			<string>include</string>
+			<string>SalesforceOAuth</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceOAuth</string>
+			<string>include</string>
+			<string>SalesforceOAuth</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceOAuth/libSalesforceOAuth.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceOAuth</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJson.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonParser.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/include/SBJson/SBJsonWriter.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+			<string>include</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
+	</dict>
+
+	<key>dependencies/SBJson/libsbjson-ios.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SBJson</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SBJson/libsbjson-ios.a</string>
+	</dict>
+	
+	
+	<key>Resources/icons/icon-72.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon-72.png</string>
+	</dict>
+
+	<key>Resources/icons/icon.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon.png</string>
+	</dict>
+
+	<key>Resources/icons/icon@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default-Portrait~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Portrait~ipad.png</string>
+	</dict>
+	
+	<key>Resources/splash/Default-Landscape~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Landscape~ipad.png</string>
+	</dict>
+
+	<key>Resources/splash/Default.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default.png</string>
+	</dict>
+
+	<key>Resources/splash/Default@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default~iPad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default~iPad.png</string>
+	</dict>
+	
+	
+	<!-- end generated dependencies section -->
+
+</dict>
+
+<!-- Nodes section -->
+<key>Nodes</key>
+<array>
+	<string>www</string>
+	
+	<!-- generated in part by using template_generator.py 
+	https://github.com/MrGando/Xcode-4-Template-Generator/
+	-->
+	<!-- begin generated dependencies -->
+
+	<string>dependencies/PhoneGap.framework</string>
+	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
+	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
+	<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+	<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
+	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
+	<string>dependencies/SBJson/libsbjson-ios.a</string>
+	
+	
+	<string>Resources/icons/icon-72.png</string>
+	<string>Resources/icons/icon.png</string>
+	<string>Resources/icons/icon@2x.png</string>
+	<string>Resources/splash/Default-Landscape~ipad.png</string>
+	<string>Resources/splash/Default-Portrait~ipad.png</string>
+	<string>Resources/splash/Default.png</string>
+	<string>Resources/splash/Default@2x.png</string>
+	<string>Resources/splash/Default~iPad.png</string>
+	<!-- end generated dependencies -->
+	
+    <string>readme.md</string>
+
+    <!-- Classes -->
+    <string>AppDelegate.h</string>
+    <string>AppDelegate.m</string>
+
+	<!-- Container -->
+    <string>SFContainerAppDelegate.h</string>
+    <string>SFContainerAppDelegate.m</string>
+	<string>SFAuthorizingViewController.h</string>
+	<string>SFAuthorizingViewController.m</string>
+	<string>SFAuthorizingViewController.xib</string>
+	
+    <!-- views -->
+
+    <!-- supporting files -->
+    <string>___PACKAGENAME___-Prefix.pch</string>
+    <string>___PACKAGENAME___-Info.plist</string>
+    <string>main.m</string>
+    <string>PhoneGap.plist</string>
+    <string>en.lproj/InfoPlist.strings</string>
+
+    <!-- media -->
+
+	<string>Settings.bundle</string>
+	<string>PhoneGapResources.bundle</string>
+	<string>Plugins/README</string>
+
+</array>
+<key>Targets</key>
+<array>
+    <dict>
+        <key>Summary</key>
+        <array>
+            <dict>
+                <key>iOSApplicationTarget</key>
+                <dict>
+                    <key>Devices</key>
+                    <string>Universal</string>
+                </dict>
+            </dict>
+        </array>
+        <key>BuildPhases</key>
+        <array>
+            <dict>
+                <key>Class</key>
+                <string>Sources</string> <!-- Add Build Phase Compile Source -->
+            </dict>
+    </array>
+    <key>Frameworks</key>
+    <array>
+		<string>Foundation</string>
+		<string>UIKit</string>
+		<string>CFNetwork</string>
+		<string>CoreGraphics</string>
+		<string>CoreLocation</string>
+		<string>CoreMedia</string>
+        <string>QuartzCore</string>
+        <string>Security</string>
+        <string>MobileCoreServices</string>
+		<string>AddressBook</string>
+		<string>AddressBookUI</string>
+		<string>AudioToolbox</string>
+		<string>AVFoundation</string>
+		<string>MediaPlayer</string>
+		<string>SystemConfiguration</string>
+    </array>
+</dict>
+</array>
+
+</dict>
+</plist>
