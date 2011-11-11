@@ -32,10 +32,14 @@
             <dict>
                 <key>ARCHS</key>
                 <string>$(ARCHS_STANDARD_32_BIT)</string>
-                <key>GCC_VERSION</key>
-                <string>com.apple.compilers.llvmgcc42</string>
                 <key>IPHONEOS_DEPLOYMENT_TARGET</key>
                 <string>latest_iphoneos</string>
+				<key>OTHER_LDFLAGS</key>
+				<string>-ObjC -all_load</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>iPhone Developer</string>
             </dict>
         </dict>
 
@@ -53,6 +57,8 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<key>Default</key>
+		<string>3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
     </dict>
     <dict>
         <key>OAuth Redirect URL</key>
@@ -65,6 +71,8 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<key>Default</key>
+		<string>testsfdc:///mobilesdk/detect/oauth/done</string>
     </dict>
     <dict>
         <key>Force.com Login URL</key>
@@ -77,6 +85,8 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<key>Default</key>
+		<string>login.salesforce.com</string>
     </dict>
 </array>
 
