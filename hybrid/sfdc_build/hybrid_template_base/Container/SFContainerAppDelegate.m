@@ -150,12 +150,15 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    //Apparently when app is foregrounded, NSUserDefaults can be stale
+	[defs synchronize];
+
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         [self logout];
         [self clearDataModel];
         
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAccountLogoutUserDefault];
         [defs synchronize];
         [self setupAuthorizingViewController];
