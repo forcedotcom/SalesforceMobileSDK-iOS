@@ -60,6 +60,7 @@
 		821149E8146DA45200650565 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 821149E7146DA45200650565 /* PhoneGapResources.bundle */; };
 		821149EB146DA45200650565 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 821149EA146DA45200650565 /* README */; };
 		821149F2146DA47E00650565 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 821149F1146DA47E00650565 /* www */; };
+		82697566146DB1F000C68C51 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82697565146DB1F000C68C51 /* SalesforceOAuthPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,8 @@
 		821149E7146DA45200650565 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		821149EA146DA45200650565 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		821149F1146DA47E00650565 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		82697564146DB1F000C68C51 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
+		82697565146DB1F000C68C51 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +345,8 @@
 			isa = PBXGroup;
 			children = (
 				821149EA146DA45200650565 /* README */,
+				82697564146DB1F000C68C51 /* SalesforceOAuthPlugin.h */,
+				82697565146DB1F000C68C51 /* SalesforceOAuthPlugin.m */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 				821149D7146DA45100650565 /* AppDelegate.m in Sources */,
 				821149DC146DA45100650565 /* SFContainerAppDelegate.m in Sources */,
 				821149E0146DA45100650565 /* SFAuthorizingViewController.m in Sources */,
+				82697566146DB1F000C68C51 /* SalesforceOAuthPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +577,7 @@
 				821149F0146DA45200650565 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

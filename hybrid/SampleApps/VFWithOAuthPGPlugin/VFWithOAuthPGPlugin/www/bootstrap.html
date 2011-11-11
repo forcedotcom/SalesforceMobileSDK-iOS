@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VisualForce Bootstrap Page with OAuth Plugin</title>
+        <style type="text/css">
+            #console > p, #errors > p { padding:0px; margin:0px; }
+        </style>
+        <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+        <script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+        <script type="text/javascript">
+            var debugMode = true;
+            var loginHost = "";
+            
+            function logToConsole(txt) {
+                if (debugMode) {
+                    log("#console", txt);
+                }
+            }
+            
+            function logError(txt) {
+                log("#errors", txt);
+            }
+            
+            function log(section, txt) {
+                var now = new Date();
+                $(section).append("<p>" + now + ": " + txt + "</p>");
+            }
+            
+            $(function() {
+                if (debugMode) {
+                    $("#console").css("display", "block");
+                }
+                logToConsole("jQuery is ready");
+                document.addEventListener("deviceready", onDeviceReady,false);
+                logToConsole("Added onDeviceReady event listener.");
+            });
+            
+            function onDeviceReady() {
+                logToConsole("onDeviceReady called");
+                SalesforceOAuthPlugin.getLoginHost(receivedLoginHost, getLoginHostError);
+            }
+            
+            function receivedLoginHost(host) {
+                loginHost = host;
+                logToConsole("loginHost: " + loginHost);
+            }
+            
+            function getLoginHostError(error) {
+                $("#errors").css("display", "block");
+                logError("Error retrieving login host: " + error);
+            }
+            
+            </script>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Loading...</h1>
+            <fieldset id="errors" style="display:none">
+                <legend>Errors</legend>
+            </fieldset>
+            <fieldset id="console" style="display:none">
+                <legend>Debug Console:</legend>
+            </fieldset>
+        </div>
+    </body>
+</html>

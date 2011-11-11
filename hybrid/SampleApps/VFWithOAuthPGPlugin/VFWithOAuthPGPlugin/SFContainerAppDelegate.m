@@ -200,19 +200,23 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
  We override startPage to return a Visualforce path, if one exists
  */
 + (NSString *)startPage {
-    NSString *vfPath = [self visualForcePath];
-    if (nil == vfPath) {
-        return [super startPage];
-    }
-
-    AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    SFOAuthCredentials *creds = me.coordinator.credentials;
-    NSString *instanceHost = [creds.instanceUrl host];
-    //Our custom apex/visualforce start page
-    NSString *startPageString = [NSString stringWithFormat:@"https://%@/%@",instanceHost,vfPath ]; 
+//    NSString *vfPath = [self visualForcePath];
+//    if (nil == vfPath) {
+//        return [super startPage];
+//    }
+//
+//    AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+//    SFOAuthCredentials *creds = me.coordinator.credentials;
+//    NSString *instanceHost = [creds.instanceUrl host];
+//    //Our custom apex/visualforce start page
+//    NSString *startPageString = [NSString stringWithFormat:@"https://%@/%@",instanceHost,vfPath ]; 
+//    
+//    NSLog(@"startPageString value: %@", startPageString);
+//    return startPageString;
     
-    NSLog(@"startPageString value: %@", startPageString);
-    return startPageString;
+    // TODO: Repurpose the commented code above to either live in the bootstrap page, or be called
+    // from it (potentially in the plug-in).
+    return @"bootstrap.html";
 }
 
 
