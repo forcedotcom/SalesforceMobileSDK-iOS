@@ -62,13 +62,13 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 /**
  @return  YES if  user requested a logout in Settings.
  */
-+ (BOOL)checkForUserLogout;
+- (BOOL)checkForUserLogout;
 
 /**
  Update login host from user Settings. 
  @return  YES if login host has changed. 
  */
-+ (BOOL)updateLoginHost;
+- (BOOL)updateLoginHost;
 
 
 /**
@@ -97,6 +97,8 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, @"UserAgent", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
+        
+        [[self class] ensureAccountDefaultsExist];
     }
     return self;
 }
@@ -148,7 +150,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
-    BOOL shouldLogout = [[self class] checkForUserLogout] ;
+    BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         [self logout];
         [self clearDataModel];
@@ -159,7 +161,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         [self setupAuthorizingViewController];
     } else {
     
-        BOOL loginHostChanged = [[self class] updateLoginHost];
+        BOOL loginHostChanged = [self updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
             [_coordinator release]; _coordinator = nil;
@@ -565,8 +567,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 /*
  Update login host. Returns true if login host is changed. 
  */
-+ (BOOL)updateLoginHost{
-    [self ensureAccountDefaultsExist];
+- (BOOL)updateLoginHost{
     
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	//the old calculated login host, if any.  Will be nil if this method has never run before
@@ -633,10 +634,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 	}	
 }
 
-+ (BOOL)checkForUserLogout {
-	//need to ensure that login host prefs are set before we continue down the "should we logout" path
-	//this ensures that if client app never calls ensureAccountDefaultsExist, we set something there
-	[self ensureAccountDefaultsExist];
+- (BOOL)checkForUserLogout {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kAccountLogoutUserDefault];
 }
 
