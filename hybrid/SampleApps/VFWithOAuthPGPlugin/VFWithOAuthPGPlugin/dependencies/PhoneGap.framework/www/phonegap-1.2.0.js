@@ -1,5 +1,5 @@
 /*
- * PhoneGap v1.1.0 is available under *either* the terms of the modified BSD license *or* the
+ * PhoneGap v1.2.0 is available under *either* the terms of the modified BSD license *or* the
  * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
  * 
  * Copyright (c) 2005-2010, Nitobi Software Inc.
@@ -1138,6 +1138,8 @@ Camera = function() {
  *	{number} targetWidth - width in pixels to scale image default = 0 (no scaling)
  *  {number} targetHeight - height in pixels to scale image default = 0 (no scaling)
  *  {Camera.EncodingType} - encodingType default = JPEG
+ *  {boolean} correctOrientation - Rotate the image to correct for the orientation of the device during capture (iOS only)
+ *  {boolean} saveToPhotoAlbum - Save the image to the photo album on the device after capture (iOS only)
  */
 /**
  * Format of image that is returned from getPicture.
@@ -3720,7 +3722,6 @@ MediaError = function() {
 	this.code = null,
 	this.message = "";
 }
-
 
 MediaError.MEDIA_ERR_ABORTED        = 1;
 MediaError.MEDIA_ERR_NETWORK        = 2;
