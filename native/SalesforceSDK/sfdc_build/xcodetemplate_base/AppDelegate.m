@@ -32,7 +32,6 @@
 // Fill these in when creating a new Remote Access client on Force.com 
 static NSString *const RemoteAccessConsumerKey = @"___VARIABLE_publicKey___";
 static NSString *const OAuthRedirectURI = @"___VARIABLE_redirectURL___";
-static NSString *const OAuthLoginDomain = @"___VARIABLE_loginURL___";
 
 
 @interface AppDelegate (private)

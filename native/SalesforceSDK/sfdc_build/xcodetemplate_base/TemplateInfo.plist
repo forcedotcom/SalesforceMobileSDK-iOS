@@ -57,8 +57,9 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<!-- We provide default values here for the SalesforceMobileSDK Test App -->
 		<key>Default</key>
-		<string>3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
+	<string>3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
     </dict>
     <dict>
         <key>OAuth Redirect URL</key>
@@ -71,23 +72,11 @@
         <true/>
         <key>Type</key>
         <string>text</string>
+		<!-- We provide default values here for the SalesforceMobileSDK Test App -->
 		<key>Default</key>
 		<string>testsfdc:///mobilesdk/detect/oauth/done</string>
     </dict>
-    <dict>
-        <key>Force.com Login URL</key>
-        <string>The Force.com login domain URL. Typically login.salesforce.com</string>
-        <key>Identifier</key>
-        <string>loginURL</string>
-        <key>Name</key>
-        <string>Login URL</string>
-        <key>NotPersisted</key>
-        <true/>
-        <key>Type</key>
-        <string>text</string>
-		<key>Default</key>
-		<string>login.salesforce.com</string>
-    </dict>
+
 </array>
 
 <key>Definitions</key>
@@ -115,34 +104,79 @@
         <key>Path</key>
         <string>Main.m</string>
     </dict>
-    <key>RootViewController.h</key>
+
+	
+	<key>NativeRestApp/SFNativeRestAppDelegate.h</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFNativeRestAppDelegate.h</string>
+    </dict>
+    <key>NativeRestApp/SFNativeRestAppDelegate.m</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFNativeRestAppDelegate.m</string>
+    </dict>
+
+	<key>NativeRestApp/SFAuthorizingViewController.h</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFAuthorizingViewController.h</string>
+    </dict>
+    <key>NativeRestApp/SFAuthorizingViewController.m</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFAuthorizingViewController.m</string>
+    </dict>
+	<key>NativeRestApp/SFAuthorizingViewController.xib</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFAuthorizingViewController.xib</string>
+    </dict>
+	
+	
+	
+	<key>Classes/AppDelegate.h</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
         <key>Path</key>
-        <string>RootViewController.h</string>
+        <string>Classes/AppDelegate.h</string>
     </dict>
-    <key>RootViewController.m</key>
+
+	<key>Classes/AppDelegate.m</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
         <key>Path</key>
-        <string>RootViewController.m</string>
+        <string>Classes/AppDelegate.m</string>
     </dict>
-    <key>AppDelegate.m</key>
+	
+	
+    <key>Classes/RootViewController.h</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
         <key>Path</key>
-        <string>AppDelegate.m</string>
+        <string>Classes/RootViewController.h</string>
     </dict>
-    <key>AppDelegate.h</key>
+    <key>Classes/RootViewController.m</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
         <key>Path</key>
-        <string>AppDelegate.h</string>
+        <string>Classes/RootViewController.m</string>
     </dict>
+
     <key>en.lproj/InfoPlist.strings</key>
     <dict>
         <key>Group</key>
@@ -171,6 +205,7 @@
         <key>Path</key>
         <string>en.lproj/RootViewController.xib</string>
     </dict>
+
     <key>readme.txt</key>
     <dict>
         <key>Path</key>
@@ -198,6 +233,9 @@
         <string>Default-Portrait~ipad.png</string>
     </dict>
 
+
+
+	
 	<!-- generated in part by using template_generator.py 
 	https://github.com/MrGando/Xcode-4-Template-Generator/
 	-->
@@ -2093,11 +2131,20 @@
 	<!-- end generated dependencies -->
 	
     <string>readme.txt</string>
+
     <!-- classes -->
-    <string>RootViewController.h</string>
-    <string>RootViewController.m</string>
-    <string>AppDelegate.h</string>
-    <string>AppDelegate.m</string>
+    <string>Classes/AppDelegate.h</string>
+    <string>Classes/AppDelegate.m</string>
+    <string>Classes/RootViewController.h</string>
+    <string>Classes/RootViewController.m</string>
+
+	<!-- NativeRestApp template -->
+	<string>NativeRestApp/SFAuthorizingViewController.h</string>
+	<string>NativeRestApp/SFAuthorizingViewController.m</string>
+	<string>NativeRestApp/SFAuthorizingViewController.xib</string>
+	<string>NativeRestApp/SFNativeRestAppDelegate.h</string>
+	<string>NativeRestApp/SFNativeRestAppDelegate.m</string>
+	
     <!-- views -->
     <string>en.lproj/MainWindow.xib</string>
     <string>en.lproj/MainWindow-iPad.xib</string>
