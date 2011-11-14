@@ -228,6 +228,15 @@
         <string>Default-Portrait~ipad.png</string>
     </dict>
 
+	<key>Settings.bundle</key>
+	<dict>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>Path</key>
+		<string>Settings.bundle</string>
+		<key>FileType</key>
+		<string>wrapper.plug-in</string>
+	</dict>
 
 
 	
@@ -2254,6 +2263,9 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
+
+
+	<string>Settings.bundle</string>
 
 </array>
 <key>Targets</key>
