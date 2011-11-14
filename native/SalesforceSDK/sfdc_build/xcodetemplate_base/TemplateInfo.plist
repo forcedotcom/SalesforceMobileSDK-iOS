@@ -14,7 +14,7 @@
         <true/>
         <!-- text displayed in the new project wizard -->
         <key>Description</key>
-        <string>This template provides the starting point for building a native application which securely connects to force.com/database.com. The template will create everything else you need to access your data in the cloud.</string>
+        <string>This template provides the starting point for a native REST-based application that securely connects to force.com/database.com. The template will create a project with everything you need to access your data in the cloud.</string>
         <key>Identifier</key>
         <string>com.salesforce.mobilesdk.native.template</string>  <!-- must be unique, else template doesn't show in xcode -->
         <key>Kind</key>
@@ -197,20 +197,7 @@
         <key>Path</key>
         <string>en.lproj/InfoPlist.strings</string>
     </dict>
-    <key>en.lproj/MainWindow.xib</key>
-    <dict>
-        <key>Group</key>
-        <string>Views</string>
-        <key>Path</key>
-        <string>en.lproj/MainWindow.xib</string>
-    </dict>
-    <key>en.lproj/MainWindow-iPad.xib</key>
-    <dict>
-        <key>Group</key>
-        <string>Views</string>
-        <key>Path</key>
-        <string>en.lproj/MainWindow-iPad.xib</string>
-    </dict>
+
     <key>en.lproj/RootViewController.xib</key>
     <dict>
         <key>Group</key>
@@ -224,13 +211,8 @@
         <key>Path</key>
         <string>readme.txt</string>
     </dict>
-    <key>dbdotcomlogo.png</key>
-    <dict>
-        <key>Group</key>
-        <string>Media</string>
-        <key>Path</key>
-        <string>dbdotcomlogo.png</string>
-    </dict>
+
+
     <key>Default.png</key>
     <dict>
         <key>Group</key>
@@ -2007,6 +1989,97 @@
 		<string>dependencies/SBJson/libsbjson-ios.a</string>
 	</dict>
 
+
+
+	<key>Resources/icons/icon-72.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon-72.png</string>
+	</dict>
+
+	<key>Resources/icons/icon.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon.png</string>
+	</dict>
+
+	<key>Resources/icons/icon@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>icons</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/icons/icon@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default-Portrait~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Portrait~ipad.png</string>
+	</dict>
+	
+	<key>Resources/splash/Default-Landscape~ipad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default-Landscape~ipad.png</string>
+	</dict>
+
+	<key>Resources/splash/Default.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default.png</string>
+	</dict>
+
+	<key>Resources/splash/Default@2x.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default@2x.png</string>
+	</dict>
+
+	<key>Resources/splash/Default~iPad.png</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>Resources</string>
+			<string>splash</string>
+		</array>
+		<key>Path</key>
+		<string>Resources/splash/Default~iPad.png</string>
+	</dict>
+
+
 	<!-- end generated dependencies section -->
 
 
@@ -2143,9 +2216,20 @@
 	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
 	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
 	<string>dependencies/SBJson/libsbjson-ios.a</string>
+	
+	<string>Resources/icons/icon-72.png</string>
+	<string>Resources/icons/icon.png</string>
+	<string>Resources/icons/icon@2x.png</string>
+	<string>Resources/splash/Default-Landscape~ipad.png</string>
+	<string>Resources/splash/Default-Portrait~ipad.png</string>
+	<string>Resources/splash/Default.png</string>
+	<string>Resources/splash/Default@2x.png</string>
+	<string>Resources/splash/Default~iPad.png</string>
+	
 	<!-- end generated dependencies -->
 	
     <string>readme.txt</string>
+
 
     <!-- classes -->
     <string>Classes/AppDelegate.h</string>
@@ -2161,21 +2245,16 @@
 	<string>NativeRestApp/SFNativeRestAppDelegate.m</string>
 	
     <!-- views -->
-    <string>en.lproj/MainWindow.xib</string>
-    <string>en.lproj/MainWindow-iPad.xib</string>
     <string>en.lproj/RootViewController.xib</string>
+
     <!-- supporting files -->
+    <string>main.m</string>
     <string>___PACKAGENAME___-Prefix.pch</string>
     <string>___PACKAGENAME___-Info.plist</string>
-    <string>main.m</string>
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
 
-    <!-- media -->
-    <string>dbdotcomlogo.png</string>
-    <string>Default.png</string>
-    <string>Default-Portrait~ipad.png</string>
 </array>
 <key>Targets</key>
 <array>
@@ -2196,29 +2275,6 @@
                 <key>Class</key>
                 <string>Sources</string> <!-- Add Build Phase Compile Source -->
             </dict>
-
-<!--
- libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
--->
-
-<!--
-			<dict>
-				<key>Class</key>
-		        <string>Frameworks</string>
-				<key>PathType</key>
-				<string>CurrentSDK</string>
-		        <key>Path</key>
-		        <string>libxml2.dylib</string>
-			</dict>
-		-->
-            <!--
-        <dict>
-            <key>Class</key>
-                <string>Frameworks</string> 
-                    <key>Path</key>
-                    <string>libxml2.dylib</string>
-        </dict>
-    -->
     </array>
     <key>Frameworks</key>
     <array>
