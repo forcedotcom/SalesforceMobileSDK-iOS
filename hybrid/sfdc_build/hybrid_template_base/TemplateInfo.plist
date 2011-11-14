@@ -35,7 +35,6 @@
                 <string>$(ARCHS_STANDARD_32_BIT)</string>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>YES</string>
-
                 <key>IPHONEOS_DEPLOYMENT_TARGET</key>
                 <string>latest_iphoneos</string>
 				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
@@ -47,7 +46,6 @@
 				<key>CODE_SIGN_IDENTITY</key>
 				<string>iPhone Developer</string>
 				<!-- GCC_VERSION = com.apple.compilers.llvm.clang.1_0 -->
-				
             </dict>
         </dict>
 
@@ -200,13 +198,16 @@
         <string>Plugins/README</string>
 	</dict>
 
-    <key>www</key>
-    <dict>
-        <key>Path</key>
-        <string>www</string>
+
+
+	<key>www</key>
+	<dict>
 		<key>PathType</key>
 		<string>Group</string>
-    </dict>
+	    <key>Path</key>
+	    <string>www</string>
+	</dict>
+
 
 	<key>PhoneGapResources.bundle</key>
 	<dict>
