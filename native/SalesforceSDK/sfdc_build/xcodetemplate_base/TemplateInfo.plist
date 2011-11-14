@@ -88,14 +88,20 @@
         <key>Path</key>
         <string>___PACKAGENAME___-Prefix.pch</string>
     </dict>
-    <key>___PACKAGENAME___-Info.plist</key>
-    <dict>
-        <key>Group</key>
-        <string>Supporting Files</string>
-        <key>Path</key>
-        <string>___PACKAGENAME___-Info.plist</string>
-    </dict>
-
+	<key>___PACKAGENAME___-Info.plist</key>
+	<dict>
+		<key>Group</key>
+		<array>
+			<string>Supporting Files</string>
+		</array>
+		<key>Path</key>
+		<string>./___PACKAGENAME___-Info.plist</string>
+		<key>PathType</key>
+		<string>Group</string>
+		<key>TargetIndices</key>
+		<array/>
+	</dict>
+	
     <!-- add all of our non-generated files -->
     <key>main.m</key>
     <dict>
