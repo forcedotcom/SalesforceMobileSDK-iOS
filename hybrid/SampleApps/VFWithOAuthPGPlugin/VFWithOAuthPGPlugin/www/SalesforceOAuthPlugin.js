@@ -26,6 +26,31 @@ var SalesforceOAuthPlugin = {
      */
     authenticate: function(success, fail, oauthProperties) {
         PhoneGap.exec(success, fail, "com.salesforce.oauth", "authenticate", [JSON.stringify(oauthProperties)]);
+    },
+
+    /**
+     * Creates the full app URL, based on the user's start page and the instance where
+     * the user is authenticated.
+     *   pageLocation     - The user-defined start page on the service (e.g. apex/MyVisualForcePage).
+     *   oauthCredentials - The credentials data, used to determine the instance URL.  See
+     *                      authenticate() above for a description of the data structure.
+     * Returns:
+     *   Full URL to the user's page, e.g. https://na1.salesforce.com/apex/MyVisualForcePage.
+     */
+    buildAppUrl: function(pageLocation, oauthCredentials) {
+        var instanceUrl = oauthCredentials.instanceUrl;
+
+        // Manage '/' between instance and page URL on the page var side.
+        if (instanceUrl.charAt(instanceUrl.length-1) == '/')
+            instanceUrl = instanceUrl.substr(0, instanceUrl.length-1);
+
+        var trimmedPageLocation = pageLocation.replace(/^\s+/, '').replace(/\s+$/, '');
+        if (trimmedPageLocation == "" || trimmedPageLocation == "/")
+            return oauthCredentials.instanceUrl + "/";
+        if (trimmedPageLocation.charAt(0) != '/')
+            trimmedPageLocation = "/" + trimmedPageLocation;
+
+        return instanceUrl + trimmedPageLocation;
     }
 };
 

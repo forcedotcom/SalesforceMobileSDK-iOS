@@ -41,7 +41,7 @@
         // The start page of the application.  This is the [pagePath] portion of
         // http://[host]/[pagePath].  Leave blank to use the local index.html page.
         // var startPage = "";  // Used for local "index.html" PhoneGap app.
-        var startPage = "apex/SampleVisualForcePage.jsp";
+        var startPage = "apex/BasicVFPage";
         
         // This application retrieves login host information from the app's settings, using
         // SalesforceOAuthPlugin.getLoginHost().  If you wish to supply the login host using
@@ -130,6 +130,10 @@
          */
         function loginSuccess(result) {
             logToConsole("login success: " + result);
+            var oauthCredentials = eval("(" + result + ")");
+            var fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
+            logToConsole("fullAppUrl: " + fullAppUrl);
+            location.href = fullAppUrl;
         }
             
         /**

@@ -39,7 +39,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 @interface SFContainerAppDelegate (private)
 
 - (void)sendJavascriptLoginEvent:(UIWebView *)webView;
-- (void)addSidCookieForDomain:(NSString*)domain;
 - (NSString *)getUserAgentString;
 
 @end
@@ -51,8 +50,8 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 #pragma mark - init/dealloc
 
 - (id) init
-{	
-	/** If you need to do any extra app-specific initialization, you can do it here
+{
+    /** If you need to do any extra app-specific initialization, you can do it here
 	 *  -jm
 	 **/
     self = [super init];
@@ -62,8 +61,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
         NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, @"UserAgent", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
-        
-        _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
     }
     return self;
 }
@@ -82,7 +79,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	
 	NSArray *keyArray = [launchOptions allKeys];
 	if ([launchOptions objectForKey:[keyArray objectAtIndex:0]]!=nil) 
 	{
@@ -104,6 +100,9 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    if (nil == _oauthPlugin)
+        _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
+    
     if ([_oauthPlugin resetAppState]) {
 //        [self teardownWebView];
 //        [self reinitializeWebView];

@@ -100,6 +100,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSString *callbackId = [arguments pop];
     
     NSString *loginHost = [self oauthLoginDomain];
+    NSLog(@"In getLoginHost:withDict: loginHost = %@", loginHost);
     
     PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:loginHost];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
@@ -132,6 +133,8 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 - (BOOL)resetAppState
 {
+    NSLog(@"resetAppState");
+    
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         [self.coordinator revokeAuthentication];
@@ -346,6 +349,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 - (BOOL)updateLoginHost{
     
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs synchronize];
 	//the old calculated login host, if any.  Will be nil if this method has never run before
 	NSString *prevLoginHost = [defs objectForKey:kLoginHostUserDefault];
     
