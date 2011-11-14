@@ -31,11 +31,6 @@
 
 
 
-
-static NSString *const kDefaultOAuthLoginDomain =  
-@"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
-
-
 static NSString * const kSFMobileSDKVersion = @"0.9";
 static NSString * const kRestAPIVersion = @"v23.0";
 
