@@ -68,6 +68,9 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 #pragma mark - init/dealloc
 
+/**
+ This is PhoneGap's default initializer for plugins.
+ */
 - (PGPlugin*) initWithWebView:(UIWebView*)theWebView
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
@@ -98,7 +101,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     
     NSString *loginHost = [self oauthLoginDomain];
     
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:[loginHost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:loginHost];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
@@ -212,7 +215,6 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     else {
         // otherwise, simply notify the webview that we have logged in
         NSString *jsonCreds = [self credentialsAsJson];
-//        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:[jsonCreds stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:jsonCreds];
         [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
         _isAuthenticating = NO;
