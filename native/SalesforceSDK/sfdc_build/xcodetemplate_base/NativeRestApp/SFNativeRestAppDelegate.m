@@ -132,7 +132,6 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         [defs synchronize];
         [self setupAuthorizingViewController];
     } else {
-    
         BOOL loginHostChanged = [self updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
@@ -210,9 +209,16 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     
     // now show the true app view controller if it's not already shown
-    if (![self.viewController isKindOfClass:RootViewController.class]) {
-        self.viewController = [[[RootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    if (nil != self.authViewController) {
+        self.authViewController = nil;
+    }
+
+    if (nil == self.viewController) {
+        RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+        self.viewController = rootVC;
+        [rootVC release];
         self.window.rootViewController = self.viewController;
+        [self.window makeKeyAndVisible];
     }
 }
 
@@ -238,7 +244,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 
 - (void)clearDataModel {
-      
+    self.viewController = nil;
 }
 
 + (NSSet *)oauthScopes {
