@@ -1,8 +1,8 @@
-Additional steps to be completed once your project has been created.
+This app was created from the SalesforceMobileSDK Native Rest App template.
 
-1. Open the Build Settings tab for the project.
-2. Set Other Linker Flags to -ObjC -all_load
-3. Open the Build Phases tab for the project main target.
-4. Link against the following required framework: libxml2.dylib
+The login host can be configured in system Settings on the device:
+You can switch between Production, Sandbox, or a custom host if needed.
 
-Your project is now ready to be compiled.
+In addition, selecting Logout in Settings will force your application to logout of the current Salesforce account the next time the app is launched.
+
+Please enjoy!

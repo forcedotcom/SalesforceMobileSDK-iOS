@@ -177,6 +177,19 @@
         <string>Classes/RootViewController.m</string>
     </dict>
 
+	<!-- libxml is required by some RestKit classes currently -->
+	<key>dependencies/libxml2.dylib</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+		</array>
+		<key>Path</key>
+		<string>/usr/lib/libxml2.dylib</string>
+		<key>PathType</key>
+		<string>CurrentSDK</string>
+	</dict>
+	
     <key>en.lproj/InfoPlist.strings</key>
     <dict>
         <key>Group</key>
@@ -1996,6 +2009,8 @@
 
 	<!-- end generated dependencies section -->
 
+
+
 </dict>
 
 <!-- Nodes section -->
@@ -2154,6 +2169,9 @@
     <string>___PACKAGENAME___-Info.plist</string>
     <string>main.m</string>
     <string>en.lproj/InfoPlist.strings</string>
+
+	<string>dependencies/libxml2.dylib</string>
+
     <!-- media -->
     <string>dbdotcomlogo.png</string>
     <string>Default.png</string>
@@ -2178,6 +2196,21 @@
                 <key>Class</key>
                 <string>Sources</string> <!-- Add Build Phase Compile Source -->
             </dict>
+
+<!--
+ libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+-->
+
+<!--
+			<dict>
+				<key>Class</key>
+		        <string>Frameworks</string>
+				<key>PathType</key>
+				<string>CurrentSDK</string>
+		        <key>Path</key>
+		        <string>libxml2.dylib</string>
+			</dict>
+		-->
             <!--
         <dict>
             <key>Class</key>
