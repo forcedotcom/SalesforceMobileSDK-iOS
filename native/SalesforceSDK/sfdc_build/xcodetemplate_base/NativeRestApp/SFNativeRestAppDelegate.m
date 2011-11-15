@@ -214,7 +214,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     }
 
     if (nil == self.viewController) {
-        RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+        UIViewController *rootVC = [self newRootViewController];
         self.viewController = rootVC;
         [rootVC release];
         self.window.rootViewController = self.viewController;
@@ -222,6 +222,10 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     }
 }
 
+- (UIViewController*)newRootViewController {
+    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+    return rootVC;
+}
 
 
 - (NSString *)getUserAgentString {

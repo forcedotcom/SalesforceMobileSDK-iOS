@@ -123,5 +123,13 @@ By default this method obtains the login domain from Settings (see Settings.bund
  */
 - (NSString*)userAccountIdentifier;
 
+
+/**
+ Create and return a new instance of your app's root view controlller.
+ This should be the view controller loaded after login succeeds.
+ @return UIViewController A view controller to be shown after login succeeds.
+ */
+- (UIViewController*)newRootViewController;
+
 @end
 

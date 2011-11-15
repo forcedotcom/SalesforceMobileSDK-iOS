@@ -204,13 +204,6 @@
         <string>en.lproj/InfoPlist.strings</string>
     </dict>
 
-    <key>en.lproj/RootViewController.xib</key>
-    <dict>
-        <key>Group</key>
-        <string>Views</string>
-        <key>Path</key>
-        <string>en.lproj/RootViewController.xib</string>
-    </dict>
 
     <key>readme.txt</key>
     <dict>
@@ -2259,9 +2252,6 @@
 	<string>NativeRestApp/SFNativeRestAppDelegate.h</string>
 	<string>NativeRestApp/SFNativeRestAppDelegate.m</string>
 	
-    <!-- views -->
-    <string>en.lproj/RootViewController.xib</string>
-
     <!-- supporting files -->
     <string>main.m</string>
     <string>___PACKAGENAME___-Prefix.pch</string>
