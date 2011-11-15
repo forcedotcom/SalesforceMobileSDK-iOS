@@ -57,5 +57,9 @@ static NSString *const OAuthRedirectURI = @"___VARIABLE_redirectURL___";
 //NOTE be sure to call all super methods you override.
 
 
+- (UIViewController*)newRootViewController {
+    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+    return rootVC;
+}
 
 @end
