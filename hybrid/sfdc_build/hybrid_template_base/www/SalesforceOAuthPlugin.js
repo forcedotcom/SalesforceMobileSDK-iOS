@@ -11,6 +11,10 @@ var SalesforceOAuthPlugin = {
         PhoneGap.exec(success, fail, "com.salesforce.oauth", "getLoginHost", []);
     },
     
+    getAccessInfo: function(success, fail) {
+        PhoneGap.exec(success, fail, "com.salesforce.oauth","getAccessInfo",[]);
+    },
+    
     /**
      * Initiates the authentication process, with the given app configuration.
      *   success         - The success callback function to use.

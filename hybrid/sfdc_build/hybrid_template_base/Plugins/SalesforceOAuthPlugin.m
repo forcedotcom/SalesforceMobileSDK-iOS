@@ -158,6 +158,41 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
+- (void)getAccessInfo:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+{
+    NSLog(@"getAccessInfo:withDict: %@",options);
+    
+    NSString *callbackId = [arguments pop];
+    NSLog(@"callbackId: %@", callbackId);
+    
+    
+    SFOAuthCredentials *creds = self.coordinator.credentials;
+    NSString *accessToken = creds.accessToken;
+    NSString *refreshToken = creds.refreshToken;
+    NSString *clientId = creds.clientId;
+    NSString *userId = creds.userId;
+    NSString *orgId = creds.organizationId;
+    NSString *instanceUrl = creds.instanceUrl.absoluteString;
+    NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+    //NSString *uaString = [self getUserAgentString];
+    
+    NSDictionary *resultDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                accessToken, @"accessToken",
+                                refreshToken,@"refreshToken",
+                                clientId, @"clientId",
+                                userId, @"userId",
+                                orgId, @"orgId",
+                                loginUrl, @"loginUrl",
+                                instanceUrl, @"instanceUrl",
+                                kRestAPIVersion, @"apiVersion",
+                                //TODO User Agent string?
+                                nil];
+    
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:resultDict];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+
+}
+
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSLog(@"authenticate:withDict:");

@@ -94,6 +94,9 @@
  */
 - (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
+//TODO rename this something that makes more sense, header doc
+- (void)getAccessInfo:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
 /**
  PhoneGap plug-in method to authenticate a user to the application.
  */
