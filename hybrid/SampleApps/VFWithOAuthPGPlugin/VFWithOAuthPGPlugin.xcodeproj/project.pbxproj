@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8256FA07146F302600024763 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */; };
+		8266FEF2146F2767002D3C28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF1146F2767002D3C28 /* Foundation.framework */; };
+		8266FEF4146F2767002D3C28 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF3146F2767002D3C28 /* UIKit.framework */; };
+		8266FEF6146F2767002D3C28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF5146F2767002D3C28 /* CFNetwork.framework */; };
+		8266FEF8146F2767002D3C28 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF7146F2767002D3C28 /* CoreGraphics.framework */; };
+		8266FEFA146F2767002D3C28 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF9146F2767002D3C28 /* CoreLocation.framework */; };
+		8266FEFC146F2767002D3C28 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEFB146F2767002D3C28 /* CoreMedia.framework */; };
+		8266FEFE146F2767002D3C28 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEFD146F2767002D3C28 /* QuartzCore.framework */; };
+		8266FF00146F2767002D3C28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEFF146F2767002D3C28 /* Security.framework */; };
+		8266FF02146F2767002D3C28 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF01146F2767002D3C28 /* MobileCoreServices.framework */; };
+		8266FF04146F2767002D3C28 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF03146F2767002D3C28 /* AddressBook.framework */; };
+		8266FF06146F2767002D3C28 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF05146F2767002D3C28 /* AddressBookUI.framework */; };
+		8266FF08146F2767002D3C28 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF07146F2767002D3C28 /* AudioToolbox.framework */; };
+		8266FF0A146F2767002D3C28 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF09146F2767002D3C28 /* AVFoundation.framework */; };
+		8266FF0C146F2767002D3C28 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF0B146F2767002D3C28 /* MediaPlayer.framework */; };
+		8266FF0E146F2767002D3C28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF0D146F2767002D3C28 /* SystemConfiguration.framework */; };
+		8266FF14146F2768002D3C28 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF12146F2768002D3C28 /* InfoPlist.strings */; };
+		8266FF16146F2768002D3C28 /* VFWithOAuthPGPlugin-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF15146F2768002D3C28 /* VFWithOAuthPGPlugin-Prefix.pch */; };
+		8266FF18146F2768002D3C28 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF17146F2768002D3C28 /* main.m */; };
+		8266FF2E146F2769002D3C28 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF2D146F2769002D3C28 /* PhoneGap.framework */; };
+		8266FF34146F2769002D3C28 /* SFOAuthCoordinator.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF33146F2769002D3C28 /* SFOAuthCoordinator.h */; };
+		8266FF36146F2769002D3C28 /* SFOAuthCredentials.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF35146F2769002D3C28 /* SFOAuthCredentials.h */; };
+		8266FF38146F2769002D3C28 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF37146F2769002D3C28 /* libSalesforceOAuth.a */; };
+		8266FF3D146F2769002D3C28 /* NSObject+SBJson.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF3C146F2769002D3C28 /* NSObject+SBJson.h */; };
+		8266FF3F146F2769002D3C28 /* SBJson.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF3E146F2769002D3C28 /* SBJson.h */; };
+		8266FF41146F2769002D3C28 /* SBJsonParser.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF40146F2769002D3C28 /* SBJsonParser.h */; };
+		8266FF43146F2769002D3C28 /* SBJsonStreamParser.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF42146F2769002D3C28 /* SBJsonStreamParser.h */; };
+		8266FF45146F2769002D3C28 /* SBJsonStreamParserAccumulator.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF44146F2769002D3C28 /* SBJsonStreamParserAccumulator.h */; };
+		8266FF47146F2769002D3C28 /* SBJsonStreamParserAdapter.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF46146F2769002D3C28 /* SBJsonStreamParserAdapter.h */; };
+		8266FF49146F2769002D3C28 /* SBJsonStreamWriter.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF48146F2769002D3C28 /* SBJsonStreamWriter.h */; };
+		8266FF4B146F2769002D3C28 /* SBJsonStreamWriterAccumulator.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF4A146F2769002D3C28 /* SBJsonStreamWriterAccumulator.h */; };
+		8266FF4D146F2769002D3C28 /* SBJsonWriter.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF4C146F2769002D3C28 /* SBJsonWriter.h */; };
+		8266FF4F146F2769002D3C28 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FF4E146F2769002D3C28 /* libsbjson-ios.a */; };
+		8266FF53146F2769002D3C28 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF52146F2769002D3C28 /* icon-72.png */; };
+		8266FF55146F2769002D3C28 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF54146F2769002D3C28 /* icon.png */; };
+		8266FF57146F2769002D3C28 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF56146F2769002D3C28 /* icon@2x.png */; };
+		8266FF5A146F2769002D3C28 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF59146F2769002D3C28 /* Default-Landscape~ipad.png */; };
+		8266FF5C146F2769002D3C28 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF5B146F2769002D3C28 /* Default-Portrait~ipad.png */; };
+		8266FF5E146F2769002D3C28 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF5D146F2769002D3C28 /* Default.png */; };
+		8266FF60146F2769002D3C28 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF5F146F2769002D3C28 /* Default@2x.png */; };
+		8266FF62146F276A002D3C28 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF61146F276A002D3C28 /* Default~iPad.png */; };
+		8266FF64146F276A002D3C28 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF63146F276A002D3C28 /* readme.md */; };
+		8266FF67146F276A002D3C28 /* AppDelegate.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF66146F276A002D3C28 /* AppDelegate.h */; };
+		8266FF69146F276A002D3C28 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF68146F276A002D3C28 /* AppDelegate.m */; };
+		8266FF6C146F276A002D3C28 /* SFContainerAppDelegate.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */; };
+		8266FF6E146F276A002D3C28 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */; };
+		8266FF76146F276A002D3C28 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF75146F276A002D3C28 /* PhoneGap.plist */; };
+		8266FF78146F276A002D3C28 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF77146F276A002D3C28 /* Settings.bundle */; };
+		8266FF7A146F276A002D3C28 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF79146F276A002D3C28 /* PhoneGapResources.bundle */; };
+		8266FF7D146F276A002D3C28 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF7C146F276A002D3C28 /* README */; };
+		8266FF84146F2791002D3C28 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF83146F2791002D3C28 /* www */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8256FA05146F302600024763 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
+		8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
+		8266FEED146F2767002D3C28 /* VFWithOAuthPGPlugin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFWithOAuthPGPlugin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8266FEF1146F2767002D3C28 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8266FEF3146F2767002D3C28 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8266FEF5146F2767002D3C28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8266FEF7146F2767002D3C28 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8266FEF9146F2767002D3C28 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8266FEFB146F2767002D3C28 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		8266FEFD146F2767002D3C28 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8266FEFF146F2767002D3C28 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8266FF01146F2767002D3C28 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		8266FF03146F2767002D3C28 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		8266FF05146F2767002D3C28 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		8266FF07146F2767002D3C28 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8266FF09146F2767002D3C28 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8266FF0B146F2767002D3C28 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		8266FF0D146F2767002D3C28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8266FF11146F2768002D3C28 /* VFWithOAuthPGPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VFWithOAuthPGPlugin-Info.plist"; sourceTree = "<group>"; };
+		8266FF13146F2768002D3C28 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8266FF15146F2768002D3C28 /* VFWithOAuthPGPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VFWithOAuthPGPlugin-Prefix.pch"; sourceTree = "<group>"; };
+		8266FF17146F2768002D3C28 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8266FF2D146F2769002D3C28 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = VFWithOAuthPGPlugin/dependencies/PhoneGap.framework; sourceTree = "<group>"; };
+		8266FF33146F2769002D3C28 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
+		8266FF35146F2769002D3C28 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
+		8266FF37146F2769002D3C28 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/libSalesforceOAuth.a; sourceTree = "<group>"; };
+		8266FF3C146F2769002D3C28 /* NSObject+SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "dependencies/SBJson/include/SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
+		8266FF3E146F2769002D3C28 /* SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = dependencies/SBJson/include/SBJson/SBJson.h; sourceTree = "<group>"; };
+		8266FF40146F2769002D3C28 /* SBJsonParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = dependencies/SBJson/include/SBJson/SBJsonParser.h; sourceTree = "<group>"; };
+		8266FF42146F2769002D3C28 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParser.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParser.h; sourceTree = "<group>"; };
+		8266FF44146F2769002D3C28 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		8266FF46146F2769002D3C28 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAdapter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		8266FF48146F2769002D3C28 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		8266FF4A146F2769002D3C28 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		8266FF4C146F2769002D3C28 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
+		8266FF4E146F2769002D3C28 /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsbjson-ios.a"; path = "dependencies/SBJson/libsbjson-ios.a"; sourceTree = "<group>"; };
+		8266FF52146F2769002D3C28 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		8266FF54146F2769002D3C28 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		8266FF56146F2769002D3C28 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		8266FF59146F2769002D3C28 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		8266FF5B146F2769002D3C28 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		8266FF5D146F2769002D3C28 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		8266FF5F146F2769002D3C28 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		8266FF61146F276A002D3C28 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
+		8266FF63146F276A002D3C28 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		8266FF66146F276A002D3C28 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8266FF68146F276A002D3C28 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContainerAppDelegate.h; sourceTree = "<group>"; };
+		8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFContainerAppDelegate.m; sourceTree = "<group>"; };
+		8266FF75146F276A002D3C28 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
+		8266FF77146F276A002D3C28 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8266FF79146F276A002D3C28 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
+		8266FF7C146F276A002D3C28 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		8266FF83146F2791002D3C28 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8266FEE9146F2767002D3C28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8266FEF2146F2767002D3C28 /* Foundation.framework in Frameworks */,
+				8266FEF4146F2767002D3C28 /* UIKit.framework in Frameworks */,
+				8266FEF6146F2767002D3C28 /* CFNetwork.framework in Frameworks */,
+				8266FEF8146F2767002D3C28 /* CoreGraphics.framework in Frameworks */,
+				8266FEFA146F2767002D3C28 /* CoreLocation.framework in Frameworks */,
+				8266FEFC146F2767002D3C28 /* CoreMedia.framework in Frameworks */,
+				8266FEFE146F2767002D3C28 /* QuartzCore.framework in Frameworks */,
+				8266FF00146F2767002D3C28 /* Security.framework in Frameworks */,
+				8266FF02146F2767002D3C28 /* MobileCoreServices.framework in Frameworks */,
+				8266FF04146F2767002D3C28 /* AddressBook.framework in Frameworks */,
+				8266FF06146F2767002D3C28 /* AddressBookUI.framework in Frameworks */,
+				8266FF08146F2767002D3C28 /* AudioToolbox.framework in Frameworks */,
+				8266FF0A146F2767002D3C28 /* AVFoundation.framework in Frameworks */,
+				8266FF0C146F2767002D3C28 /* MediaPlayer.framework in Frameworks */,
+				8266FF0E146F2767002D3C28 /* SystemConfiguration.framework in Frameworks */,
+				8266FF2E146F2769002D3C28 /* PhoneGap.framework in Frameworks */,
+				8266FF38146F2769002D3C28 /* libSalesforceOAuth.a in Frameworks */,
+				8266FF4F146F2769002D3C28 /* libsbjson-ios.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8266FEE1146F2767002D3C28 = {
+			isa = PBXGroup;
+			children = (
+				8266FF0F146F2767002D3C28 /* VFWithOAuthPGPlugin */,
+				8266FEF0146F2767002D3C28 /* Frameworks */,
+				8266FEEE146F2767002D3C28 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8266FEEE146F2767002D3C28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8266FEED146F2767002D3C28 /* VFWithOAuthPGPlugin.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8266FEF0146F2767002D3C28 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8266FEF1146F2767002D3C28 /* Foundation.framework */,
+				8266FEF3146F2767002D3C28 /* UIKit.framework */,
+				8266FEF5146F2767002D3C28 /* CFNetwork.framework */,
+				8266FEF7146F2767002D3C28 /* CoreGraphics.framework */,
+				8266FEF9146F2767002D3C28 /* CoreLocation.framework */,
+				8266FEFB146F2767002D3C28 /* CoreMedia.framework */,
+				8266FF2D146F2769002D3C28 /* PhoneGap.framework */,
+				8266FEFD146F2767002D3C28 /* QuartzCore.framework */,
+				8266FEFF146F2767002D3C28 /* Security.framework */,
+				8266FF01146F2767002D3C28 /* MobileCoreServices.framework */,
+				8266FF03146F2767002D3C28 /* AddressBook.framework */,
+				8266FF05146F2767002D3C28 /* AddressBookUI.framework */,
+				8266FF07146F2767002D3C28 /* AudioToolbox.framework */,
+				8266FF09146F2767002D3C28 /* AVFoundation.framework */,
+				8266FF0B146F2767002D3C28 /* MediaPlayer.framework */,
+				8266FF0D146F2767002D3C28 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8266FF0F146F2767002D3C28 /* VFWithOAuthPGPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF83146F2791002D3C28 /* www */,
+				8266FF63146F276A002D3C28 /* readme.md */,
+				8266FF77146F276A002D3C28 /* Settings.bundle */,
+				8266FF79146F276A002D3C28 /* PhoneGapResources.bundle */,
+				8266FF2F146F2769002D3C28 /* dependencies */,
+				8266FF50146F2769002D3C28 /* Resources */,
+				8266FF65146F276A002D3C28 /* Classes */,
+				8266FF6A146F276A002D3C28 /* Container */,
+				8266FF7B146F276A002D3C28 /* Plugins */,
+				8266FF10146F2767002D3C28 /* Supporting Files */,
+			);
+			path = VFWithOAuthPGPlugin;
+			sourceTree = "<group>";
+		};
+		8266FF10146F2767002D3C28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF11146F2768002D3C28 /* VFWithOAuthPGPlugin-Info.plist */,
+				8266FF12146F2768002D3C28 /* InfoPlist.strings */,
+				8266FF15146F2768002D3C28 /* VFWithOAuthPGPlugin-Prefix.pch */,
+				8266FF17146F2768002D3C28 /* main.m */,
+				8266FF75146F276A002D3C28 /* PhoneGap.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8266FF2F146F2769002D3C28 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF30146F2769002D3C28 /* SalesforceOAuth */,
+				8266FF39146F2769002D3C28 /* SBJson */,
+			);
+			name = dependencies;
+			sourceTree = "<group>";
+		};
+		8266FF30146F2769002D3C28 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF37146F2769002D3C28 /* libSalesforceOAuth.a */,
+				8266FF31146F2769002D3C28 /* include */,
+			);
+			name = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		8266FF31146F2769002D3C28 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF32146F2769002D3C28 /* SalesforceOAuth */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		8266FF32146F2769002D3C28 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF33146F2769002D3C28 /* SFOAuthCoordinator.h */,
+				8266FF35146F2769002D3C28 /* SFOAuthCredentials.h */,
+			);
+			name = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		8266FF39146F2769002D3C28 /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF4E146F2769002D3C28 /* libsbjson-ios.a */,
+				8266FF3A146F2769002D3C28 /* include */,
+			);
+			name = SBJson;
+			sourceTree = "<group>";
+		};
+		8266FF3A146F2769002D3C28 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF3B146F2769002D3C28 /* SBJson */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		8266FF3B146F2769002D3C28 /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF3C146F2769002D3C28 /* NSObject+SBJson.h */,
+				8266FF3E146F2769002D3C28 /* SBJson.h */,
+				8266FF40146F2769002D3C28 /* SBJsonParser.h */,
+				8266FF42146F2769002D3C28 /* SBJsonStreamParser.h */,
+				8266FF44146F2769002D3C28 /* SBJsonStreamParserAccumulator.h */,
+				8266FF46146F2769002D3C28 /* SBJsonStreamParserAdapter.h */,
+				8266FF48146F2769002D3C28 /* SBJsonStreamWriter.h */,
+				8266FF4A146F2769002D3C28 /* SBJsonStreamWriterAccumulator.h */,
+				8266FF4C146F2769002D3C28 /* SBJsonWriter.h */,
+			);
+			name = SBJson;
+			sourceTree = "<group>";
+		};
+		8266FF50146F2769002D3C28 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF51146F2769002D3C28 /* icons */,
+				8266FF58146F2769002D3C28 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8266FF51146F2769002D3C28 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF52146F2769002D3C28 /* icon-72.png */,
+				8266FF54146F2769002D3C28 /* icon.png */,
+				8266FF56146F2769002D3C28 /* icon@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		8266FF58146F2769002D3C28 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF59146F2769002D3C28 /* Default-Landscape~ipad.png */,
+				8266FF5B146F2769002D3C28 /* Default-Portrait~ipad.png */,
+				8266FF5D146F2769002D3C28 /* Default.png */,
+				8266FF5F146F2769002D3C28 /* Default@2x.png */,
+				8266FF61146F276A002D3C28 /* Default~iPad.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		8266FF65146F276A002D3C28 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF66146F276A002D3C28 /* AppDelegate.h */,
+				8266FF68146F276A002D3C28 /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		8266FF6A146F276A002D3C28 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */,
+				8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */,
+			);
+			name = Container;
+			sourceTree = "<group>";
+		};
+		8266FF7B146F276A002D3C28 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				8266FF7C146F276A002D3C28 /* README */,
+				8256FA05146F302600024763 /* SalesforceOAuthPlugin.h */,
+				8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8266FEEC146F2767002D3C28 /* VFWithOAuthPGPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8266FF80146F276A002D3C28 /* Build configuration list for PBXNativeTarget "VFWithOAuthPGPlugin" */;
+			buildPhases = (
+				8266FEE8146F2767002D3C28 /* Sources */,
+				8266FEE9146F2767002D3C28 /* Frameworks */,
+				8266FEEA146F2767002D3C28 /* Resources */,
+				8266FEEB146F2767002D3C28 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VFWithOAuthPGPlugin;
+			productName = VFWithOAuthPGPlugin;
+			productReference = 8266FEED146F2767002D3C28 /* VFWithOAuthPGPlugin.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8266FEE3146F2767002D3C28 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 8266FEE6146F2767002D3C28 /* Build configuration list for PBXProject "VFWithOAuthPGPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8266FEE1146F2767002D3C28;
+			productRefGroup = 8266FEEE146F2767002D3C28 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8266FEEC146F2767002D3C28 /* VFWithOAuthPGPlugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8266FEEA146F2767002D3C28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8266FF14146F2768002D3C28 /* InfoPlist.strings in Resources */,
+				8266FF16146F2768002D3C28 /* VFWithOAuthPGPlugin-Prefix.pch in Resources */,
+				8266FF34146F2769002D3C28 /* SFOAuthCoordinator.h in Resources */,
+				8266FF36146F2769002D3C28 /* SFOAuthCredentials.h in Resources */,
+				8266FF3D146F2769002D3C28 /* NSObject+SBJson.h in Resources */,
+				8266FF3F146F2769002D3C28 /* SBJson.h in Resources */,
+				8266FF41146F2769002D3C28 /* SBJsonParser.h in Resources */,
+				8266FF43146F2769002D3C28 /* SBJsonStreamParser.h in Resources */,
+				8266FF45146F2769002D3C28 /* SBJsonStreamParserAccumulator.h in Resources */,
+				8266FF47146F2769002D3C28 /* SBJsonStreamParserAdapter.h in Resources */,
+				8266FF49146F2769002D3C28 /* SBJsonStreamWriter.h in Resources */,
+				8266FF4B146F2769002D3C28 /* SBJsonStreamWriterAccumulator.h in Resources */,
+				8266FF4D146F2769002D3C28 /* SBJsonWriter.h in Resources */,
+				8266FF53146F2769002D3C28 /* icon-72.png in Resources */,
+				8266FF55146F2769002D3C28 /* icon.png in Resources */,
+				8266FF57146F2769002D3C28 /* icon@2x.png in Resources */,
+				8266FF5A146F2769002D3C28 /* Default-Landscape~ipad.png in Resources */,
+				8266FF5C146F2769002D3C28 /* Default-Portrait~ipad.png in Resources */,
+				8266FF5E146F2769002D3C28 /* Default.png in Resources */,
+				8266FF60146F2769002D3C28 /* Default@2x.png in Resources */,
+				8266FF62146F276A002D3C28 /* Default~iPad.png in Resources */,
+				8266FF64146F276A002D3C28 /* readme.md in Resources */,
+				8266FF67146F276A002D3C28 /* AppDelegate.h in Resources */,
+				8266FF6C146F276A002D3C28 /* SFContainerAppDelegate.h in Resources */,
+				8266FF76146F276A002D3C28 /* PhoneGap.plist in Resources */,
+				8266FF78146F276A002D3C28 /* Settings.bundle in Resources */,
+				8266FF7A146F276A002D3C28 /* PhoneGapResources.bundle in Resources */,
+				8266FF7D146F276A002D3C28 /* README in Resources */,
+				8266FF84146F2791002D3C28 /* www in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8266FEE8146F2767002D3C28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8266FF18146F2768002D3C28 /* main.m in Sources */,
+				8266FF69146F276A002D3C28 /* AppDelegate.m in Sources */,
+				8266FF6E146F276A002D3C28 /* SFContainerAppDelegate.m in Sources */,
+				8256FA07146F302600024763 /* SalesforceOAuthPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8266FEEB146F2767002D3C28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8266FF12146F2768002D3C28 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8266FF13146F2768002D3C28 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8266FF7E146F276A002D3C28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8266FF7F146F276A002D3C28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8266FF81146F276A002D3C28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VFWithOAuthPGPlugin/VFWithOAuthPGPlugin-Prefix.pch";
+				INFOPLIST_FILE = "VFWithOAuthPGPlugin/VFWithOAuthPGPlugin-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies/SBJson\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8266FF82146F276A002D3C28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VFWithOAuthPGPlugin/VFWithOAuthPGPlugin-Prefix.pch";
+				INFOPLIST_FILE = "VFWithOAuthPGPlugin/VFWithOAuthPGPlugin-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/VFWithOAuthPGPlugin/dependencies/SBJson\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8266FEE6146F2767002D3C28 /* Build configuration list for PBXProject "VFWithOAuthPGPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8266FF7E146F276A002D3C28 /* Debug */,
+				8266FF7F146F276A002D3C28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8266FF80146F276A002D3C28 /* Build configuration list for PBXNativeTarget "VFWithOAuthPGPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8266FF81146F276A002D3C28 /* Debug */,
+				8266FF82146F276A002D3C28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8266FEE3146F2767002D3C28 /* Project object */;
+}

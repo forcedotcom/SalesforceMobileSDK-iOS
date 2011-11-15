@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VisualForce Bootstrap Page with OAuth Plugin</title>
+        
+        <style type="text/css">
+            .logWindow { display:none; width:700px; }
+            .logWindow > p { padding:0px; margin:0px; word-wrap:break-word; }
+        </style>
+        
+        <script type="text/javascript" src="phonegap-1.2.0.js"></script>
+        <script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+        
+        <script type="text/javascript">
+            
+        // When debugMode is true, logToConsole() messages will be written to a
+        // "debug console" section of the page.
+        var debugMode = true;
+        var appStartTime = new Date();  // Used for debug timing measurements.
+            
+        //-----------------------------------------------------------------
+        // Replace the values below with your own app configuration values.
+        //-----------------------------------------------------------------
+        
+        // The client ID value specified for your remote access object that defines
+        // your application in Salesforce.
+        var remoteAccessConsumerKey = "3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
+        
+        // The redirect URI value specified for your remote access object that defines
+        // your application in Salesforce.
+        var oauthRedirectURI = "testsfdc:///mobilesdk/detect/oauth/done";
+        
+        // The authorization/access scope(s) you wish to define for your application.
+        var oauthScopes = ["visualforce", "api"];
+        
+        // An account identifier such as most recently used username, which you can use/vary e.g.
+        // to manage multiple account stores in your app.  You probably don't need to change this. 
+        var userAccountIdentifier = "Default";
+        
+        // The start page of the application.  This is the [pagePath] portion of
+        // http://[host]/[pagePath].  Leave blank to use the local index.html page.
+        // var startPage = "";  // Used for local "index.html" PhoneGap app.
+        var startPage = "apex/BasicVFPage";
+        
+        // This application retrieves login host information from the app's settings, using
+        // SalesforceOAuthPlugin.getLoginHost().  If you wish to supply the login host using
+        // another implementation, be sure to specify it in the OAuthProperties settings that
+        // are passed to SalesforceOAuthPlugin.authenticate().  See the receivedLoginHost()
+        // method below.
+        //
+        // var loginHost = "login.salesforce.com";
+            
+        //-----------------------------------------------------------------
+        // End configuration block
+        //-----------------------------------------------------------------
+        
+        
+        /**
+         * Logs debug messages to a "debug console" section of the page.  Only
+         * shows when debugMode (above) is set to true.
+         *   txt - The text (html) to log to the console.
+         */
+        function logToConsole(txt) {
+            if (debugMode) {
+                $("#console").css("display", "block");
+                var now = new Date();
+                var fullTxt = "<i><b>* At " + (now.getTime() - appStartTime.getTime()) + "ms:</b></i> " + txt;
+                log("#console", fullTxt);
+            }
+        }
+        
+        /**
+         * Use to log error messages to an "error console" section of the page.
+         *   txt - The text (html) to log to the console.
+         */
+        function logError(txt) {
+            $("#errors").css("display", "block");
+            log("#errors", txt);
+        }
+        
+        /**
+         * Logs text to a given section of the page.
+         *   section - HTML section (CSS-identified) to log to.
+         *   txt - The text (html) to log.
+         */
+        function log(section, txt) {
+            $(section).append("<p>" + txt + "</p>");
+        }
+        
+        /**
+         * JQuery's "ready" function.  This will execute once JQuery is successfully loaded.
+         */
+        $(function() {
+            logToConsole("jQuery is ready");
+            document.addEventListener("deviceready", onDeviceReady,false);
+            logToConsole("Added onDeviceReady event listener.");
+        });
+        
+        /**
+         * Handler for PhoneGap's "deviceready" event, signifying that PhoneGap is successfully
+         * loaded.
+         */
+        function onDeviceReady() {
+            logToConsole("onDeviceReady called: PhoneGap is ready.");
+            SalesforceOAuthPlugin.getLoginHost(receivedLoginHost, getLoginHostError);
+        }
+            
+        /**
+         * Sucess callback for the SalesforceOAuthPlugin.getLoginHost() method.  Continues
+         * the authentication process.
+         */
+        function receivedLoginHost(loginHost) {
+            logToConsole("Retrieved login host from settings: " + loginHost);
+            var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, oauthRedirectURI, loginHost, oauthScopes, userAccountIdentifier);
+            SalesforceOAuthPlugin.authenticate(loginSuccess, loginFailure, oauthProperties);
+        }
+        
+        /**
+         * Error callback for the SalesforceOAuthPlugin.getLoginHost() method, in the event
+         * that the login host could not be retrieved.
+         */
+        function getLoginHostError(error) {
+            logError("Error retrieving login host: " + error);
+        }
+            
+        /**
+         * Success callback for the SalesforceOAuthPlugin.authenticate() method.
+         */
+        function loginSuccess(result) {
+            logToConsole("login success: " + result);
+            var oauthCredentials = eval("(" + result + ")");
+            var fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
+            logToConsole("fullAppUrl: " + fullAppUrl);
+            location.href = fullAppUrl;
+        }
+            
+        /**
+         * Error callback for the SalesforceOAuthPlugin.authenticate() method.
+         * TODO: Is there more that we'd want to do here?
+         */
+        function loginFailure(result) {
+            logError("login failure: " + result);
+        }
+            
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Loading...</h1>
+            <fieldset id="errors" class="logWindow">
+                <legend>Errors</legend>
+            </fieldset>
+            <fieldset id="console" class="logWindow">
+                <legend>Debug Console</legend>
+            </fieldset>
+        </div>
+    </body>
+</html>
