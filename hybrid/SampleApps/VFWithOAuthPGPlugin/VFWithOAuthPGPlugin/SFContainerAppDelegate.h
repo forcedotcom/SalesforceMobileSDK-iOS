@@ -38,6 +38,7 @@
 
 extern NSString * const kSFMobileSDKVersion;
 extern NSString * const kRestAPIVersion;
+extern NSString * const kUserAgentPropKey;
 
 @interface SFContainerAppDelegate : PhoneGapDelegate {
     
@@ -58,12 +59,6 @@ extern NSString * const kRestAPIVersion;
  @return YES if this device is an iPad
  */
 + (BOOL) isIPad;
-
-/**
- Override this method if you wish to have the app start on a visualforce page
- @return Path of Visualforce path to load after login (need not include the leading slash)
- */
-+ (NSString*)visualForcePath;
 
 @end
 

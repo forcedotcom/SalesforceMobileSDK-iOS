@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8256FA07146F302600024763 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */; };
 		8266FEF2146F2767002D3C28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF1146F2767002D3C28 /* Foundation.framework */; };
 		8266FEF4146F2767002D3C28 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF3146F2767002D3C28 /* UIKit.framework */; };
 		8266FEF6146F2767002D3C28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8266FEF5146F2767002D3C28 /* CFNetwork.framework */; };
@@ -52,18 +53,16 @@
 		8266FF69146F276A002D3C28 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF68146F276A002D3C28 /* AppDelegate.m */; };
 		8266FF6C146F276A002D3C28 /* SFContainerAppDelegate.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */; };
 		8266FF6E146F276A002D3C28 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */; };
-		8266FF70146F276A002D3C28 /* SFAuthorizingViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF6F146F276A002D3C28 /* SFAuthorizingViewController.h */; };
-		8266FF72146F276A002D3C28 /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8266FF71146F276A002D3C28 /* SFAuthorizingViewController.m */; };
-		8266FF74146F276A002D3C28 /* SFAuthorizingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF73146F276A002D3C28 /* SFAuthorizingViewController.xib */; };
 		8266FF76146F276A002D3C28 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF75146F276A002D3C28 /* PhoneGap.plist */; };
 		8266FF78146F276A002D3C28 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF77146F276A002D3C28 /* Settings.bundle */; };
 		8266FF7A146F276A002D3C28 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF79146F276A002D3C28 /* PhoneGapResources.bundle */; };
 		8266FF7D146F276A002D3C28 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF7C146F276A002D3C28 /* README */; };
 		8266FF84146F2791002D3C28 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 8266FF83146F2791002D3C28 /* www */; };
-		8256FA07146F302600024763 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8256FA05146F302600024763 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
+		8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		8266FEED146F2767002D3C28 /* VFWithOAuthPGPlugin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFWithOAuthPGPlugin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8266FEF1146F2767002D3C28 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8266FEF3146F2767002D3C28 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -111,16 +110,11 @@
 		8266FF68146F276A002D3C28 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContainerAppDelegate.h; sourceTree = "<group>"; };
 		8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFContainerAppDelegate.m; sourceTree = "<group>"; };
-		8266FF6F146F276A002D3C28 /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
-		8266FF71146F276A002D3C28 /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAuthorizingViewController.m; sourceTree = "<group>"; };
-		8266FF73146F276A002D3C28 /* SFAuthorizingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SFAuthorizingViewController.xib; sourceTree = "<group>"; };
 		8266FF75146F276A002D3C28 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		8266FF77146F276A002D3C28 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8266FF79146F276A002D3C28 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		8266FF7C146F276A002D3C28 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		8266FF83146F2791002D3C28 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		8256FA05146F302600024763 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
-		8256FA06146F302600024763 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,9 +328,6 @@
 			children = (
 				8266FF6B146F276A002D3C28 /* SFContainerAppDelegate.h */,
 				8266FF6D146F276A002D3C28 /* SFContainerAppDelegate.m */,
-				8266FF6F146F276A002D3C28 /* SFAuthorizingViewController.h */,
-				8266FF71146F276A002D3C28 /* SFAuthorizingViewController.m */,
-				8266FF73146F276A002D3C28 /* SFAuthorizingViewController.xib */,
 			);
 			name = Container;
 			sourceTree = "<group>";
@@ -423,8 +414,6 @@
 				8266FF64146F276A002D3C28 /* readme.md in Resources */,
 				8266FF67146F276A002D3C28 /* AppDelegate.h in Resources */,
 				8266FF6C146F276A002D3C28 /* SFContainerAppDelegate.h in Resources */,
-				8266FF70146F276A002D3C28 /* SFAuthorizingViewController.h in Resources */,
-				8266FF74146F276A002D3C28 /* SFAuthorizingViewController.xib in Resources */,
 				8266FF76146F276A002D3C28 /* PhoneGap.plist in Resources */,
 				8266FF78146F276A002D3C28 /* Settings.bundle in Resources */,
 				8266FF7A146F276A002D3C28 /* PhoneGapResources.bundle in Resources */,
@@ -443,7 +432,6 @@
 				8266FF18146F2768002D3C28 /* main.m in Sources */,
 				8266FF69146F276A002D3C28 /* AppDelegate.m in Sources */,
 				8266FF6E146F276A002D3C28 /* SFContainerAppDelegate.m in Sources */,
-				8266FF72146F276A002D3C28 /* SFAuthorizingViewController.m in Sources */,
 				8256FA07146F302600024763 /* SalesforceOAuthPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

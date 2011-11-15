@@ -11,24 +11,31 @@
 
 #import "SalesforceOAuthPlugin.h"
 #import "AppDelegate.h"
-#import "SFAuthorizingViewController.h"
 #import "NSObject+SBJson.h"
 
-static NSString *const kDefaultOAuthLoginDomain =  
-@"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
+// ------------------------------------------
+// Private constants
+// ------------------------------------------
 
-
+// Key for storing the user's configured login host.
 NSString * const kLoginHostUserDefault = @"login_host_pref";
 
-// key for primary login host
+// Key for the primary login host, as defined in the app settings.
 NSString * const kPrimaryLoginHostUserDefault = @"primary_login_host_pref";
-// key for custom login host
-NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
-/// Value to use for login host if user never opens Settings
-NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
+// Key for the custom login host value in the app settings.
+NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
+
+// Key for whether or not the user has chosen the app setting to logout of the
+// app when it is re-opened.
 NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
+/// Value to use for login host if user never opens the app settings.
+NSString * const kDefaultLoginHost = @"login.salesforce.com";
+
+// ------------------------------------------
+// Private methods interface
+// ------------------------------------------
 @interface SalesforceOAuthPlugin (private)
 
 /**
@@ -37,29 +44,42 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 - (BOOL)checkForUserLogout;
 
 /**
- Update login host from user Settings. 
- @return  YES if login host has changed. 
+ Update the configured login host based on the user-defined app settings. 
+ @return  YES if login host has changed in the app settings, NO otherwise. 
  */
 - (BOOL)updateLoginHost;
 
 /**
- Set the SFAuthorzingViewController as the root view controller.
+ Initializes the app settings, in the event that the user has not configured
+ them before the first launch of the application.
  */
-- (void)setupAuthorizingViewController;
-
 + (void)ensureAccountDefaultsExist;
-- (void)sendJavascriptLoginEvent:(UIWebView *)webView;
+
+/**
+ Adds the access (session) token cookie to the web view, for authentication.
+ */
 - (void)addSidCookieForDomain:(NSString*)domain;
+
+/**
+ Convert the post-authentication credentials into a JSON string, to return to
+ the calling client code.
+ */
 - (NSString *)credentialsAsJson;
+
+/**
+ Converts the OAuth properties JSON input string into an object, and populates
+ the OAuth properties of the plug-in with the values.
+ */
 - (void)populateOAuthProperties:(NSString *)propsJsonString;
 
 @end
 
-
+// ------------------------------------------
+// Main implementation
+// ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
 @synthesize coordinator=_coordinator;
-@synthesize authViewController=_authViewController;
 @synthesize remoteAccessConsumerKey=_remoteAccessConsumerKey;
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
@@ -87,17 +107,23 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [_coordinator setDelegate:nil];
     [_coordinator release]; _coordinator = nil;
     [_callbackId release];
+    [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
+    [_oauthRedirectURI release]; _oauthRedirectURI = nil;
+    [_oauthLoginDomain release]; _oauthLoginDomain = nil;
+    [_oauthScopes release]; _oauthScopes = nil;
+    [_userAccountIdentifier release]; _userAccountIdentifier = nil;
     
     [super dealloc];
 }
 
-#pragma mark - Plugin methods
+#pragma mark - PhoneGap plugin methods
 
 - (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options  
 {
-    NSLog(@"getLoginHost:");
+    NSLog(@"getLoginHost:withDict:");
     
     NSString *callbackId = [arguments pop];
+    NSLog(@"callbackId: %@", callbackId);
     
     NSString *loginHost = [self oauthLoginDomain];
     NSLog(@"In getLoginHost:withDict: loginHost = %@", loginHost);
@@ -108,13 +134,12 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSLog(@"authenticate:");
+    NSLog(@"authenticate:withDict:");
     
     NSString *callbackId = [arguments pop];
     if (_isAuthenticating) {
         NSString *errorMessage = @"Authentication is already in progress.";
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                    messageAsString:[errorMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:errorMessage];
         [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
         return;
     }
@@ -126,7 +151,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [self populateOAuthProperties:argsString];
     
     _callbackId = [callbackId copy];
-    [self.coordinator authenticate];
+    [self login];
 }
 
 #pragma mark - AppDelegate interaction
@@ -144,7 +169,6 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         [defs synchronize];
         return shouldLogout;
     } else {
-        
         BOOL loginHostChanged = [self updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
@@ -156,22 +180,21 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 #pragma mark - Salesforce.com login helpers
 
-- (SFOAuthCoordinator*)coordinator {
+- (SFOAuthCoordinator*)coordinator
+{
     //create a new coordinator if we don't already have one
     if (nil == _coordinator) {
         
         NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSString *loginDomain = self.oauthLoginDomain;
         NSString *accountIdentifier = self.userAccountIdentifier;
-        //here we use the login domain as part of the identifier
-        //to distinguish between eg  sandbox and production credentials
-        NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@",appName,accountIdentifier,loginDomain];
-        
+        // Here we use the login domain as part of the identifier
+        // to distinguish between e.g. sandbox and production credentials.
+        NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@", appName, accountIdentifier, loginDomain];
         
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
                                      initWithIdentifier:fullKeychainIdentifier  
-                                     clientId: self.remoteAccessConsumerKey ];
-        
+                                     clientId:self.remoteAccessConsumerKey ];
         
         creds.domain = loginDomain;
         creds.redirectUri = self.oauthRedirectURI;
@@ -186,43 +209,33 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     return _coordinator;
 }
 
-- (void)login {
-    
-    //kickoff authentication
+- (void)login
+{
+    // Kick off authentication.
     [self.coordinator authenticate];
 }
 
-- (void)logout {
+- (void)logout
+{
     [self.coordinator revokeAuthentication];
     [self.coordinator authenticate];
 }
 
-- (void)loggedIn {
-    
+- (void)loggedIn
+{
     NSURL *instanceUrl = self.coordinator.credentials.instanceUrl;
     NSString *domain = [instanceUrl host]; 
     
-    //addSidCookieForDomain can be called before the webview exists
+    // addSidCookieForDomain can be called before the web view exists.
     [self addSidCookieForDomain:domain];
     [self addSidCookieForDomain:@".force.com"];
     [self addSidCookieForDomain:@".salesforce.com"];
     
-    // If we have the authViewController, we're in the initialization of the app.
-    // Remove this view controller, and let PhoneGap continue its initialization with the
-    // standard view controller.
-    if (nil != self.authViewController) {
-        _appDelegate.window.rootViewController = nil;
-        self.authViewController = nil;
-        _appDelegate.window = nil;
-    }
-    else {
-        // otherwise, simply notify the webview that we have logged in
-        NSString *jsonCreds = [self credentialsAsJson];
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:jsonCreds];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
-        _isAuthenticating = NO;
-    }    
-    
+    // Call back to the client with the authentication credentials.
+    NSString *jsonCreds = [self credentialsAsJson];
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:jsonCreds];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
+    _isAuthenticating = NO;
 }
 
 - (NSString *)credentialsAsJson {
@@ -234,7 +247,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSString *orgId = creds.organizationId;
     NSString *instanceUrl = creds.instanceUrl.absoluteString;
     NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-    NSString *uaString = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserAgent"];
+    NSString *uaString = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAgentPropKey];
     
     NSDictionary *credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                      accessToken, @"accessToken",
@@ -250,21 +263,16 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     return [credentialsDict JSONRepresentation];
 }
 
-/**
- Using the oauth token we've obtained,
- set a cookie on the shared cookie storage,
- that will be used to authenticate our VisualForce page loads.
- */
 - (void)addSidCookieForDomain:(NSString*)domain
 {
-    NSLog(@"addSidCookieForDomain: %@",domain);
+    NSLog(@"addSidCookieForDomain: %@", domain);
     
     // Set the session ID cookie to be used by the web view.
     NSURL *hostURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", domain]];
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSMutableArray *newCookies = [NSMutableArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
     
-    //remove any stale sid cookies with the same domain
+    // Remove any stale sid cookies with the same domain.
     for (NSHTTPCookie *cookie in newCookies) {
         if ([cookie.domain isEqualToString:domain] && [cookie.name isEqualToString:@"sid"]  ) {
             [newCookies removeObject:cookie];
@@ -297,42 +305,6 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     self.userAccountIdentifier = [propsDict objectForKey:@"userAccountIdentifier"];
 }
 
-- (void)setupAuthorizingViewController {
-    
-    //clear all children of the existing window, if any
-    if (nil != _appDelegate.window) {
-        NSLog(@"SFContainerAppDelegate clearing self.window");
-        [_appDelegate.window.subviews  makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        _appDelegate.window = nil;
-    }
-    
-    //(re)init window
-    CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
-    UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
-	_appDelegate.window = rootWindow;
-    [rootWindow release];
-    
-    // Set up a view controller for the authentication process.
-    SFAuthorizingViewController *authVc = [[SFAuthorizingViewController alloc] initWithNibName:@"SFAuthorizingViewController" bundle:nil];
-    self.authViewController = authVc;
-    _appDelegate.window.rootViewController = self.authViewController;
-    _appDelegate.window.autoresizesSubviews = YES;
-    [authVc release];
-    
-    [_appDelegate.window makeKeyAndVisible];
-    
-}
-
-- (void)clearDataModel {
-    [self.webView removeFromSuperview];
-    self.webView = nil; //clear the web view.    
-}
-
-+ (NSSet *)oauthScopes {
-    return [NSSet setWithObjects:@"visualforce",@"api",nil] ; 
-}
-
-
 #pragma mark - Settings utilities
 
 - (NSString*)oauthLoginDomain {
@@ -340,79 +312,82 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 	NSString *loginHost = [defs objectForKey:kLoginHostUserDefault];
     
     return loginHost;
-    
 }
 
-/*
- Update login host. Returns true if login host is changed. 
- */
-- (BOOL)updateLoginHost{
-    
+- (BOOL)updateLoginHost
+{
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs synchronize];
-	//the old calculated login host, if any.  Will be nil if this method has never run before
+    
+	// The old calculated login host, if any.  This will be nil if this method has never run before.
 	NSString *prevLoginHost = [defs objectForKey:kLoginHostUserDefault];
     
-	//kPrimaryLoginHostUserDefault is either the actual production or sandbox hostname, or special value @"CUSTOM",
-	//which indicates that kCustomLoginHostUserDefault should be used to set kLoginHostUserDefault
+	// kPrimaryLoginHostUserDefault is either the actual production or sandbox login host name, or the
+    // special value @"CUSTOM", which indicates that kCustomLoginHostUserDefault should be used to
+    // set the kLoginHostUserDefault property.
 	NSString *loginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
 	NSString *customLoginHost = [defs objectForKey:kCustomLoginHostUserDefault];
     NSLog(@"Hosts before update: loginHost=%@ customLoginHost=%@", loginHost, customLoginHost);
     
-	//user can type whatever they want into kCustomLoginHostUserDefault:
-	//here we sanitize it a bit by downcasing it
+	// The user can type whatever they want into kCustomLoginHostUserDefault.  Here we sanitize it a
+    // bit by downcasing it.
     customLoginHost = (customLoginHost != nil) ? [customLoginHost lowercaseString] : customLoginHost; 
 	
-	if([loginHost isEqualToString:@"CUSTOM"]){
-		//use custom login host if it is valid
-		if (!([customLoginHost length] > 0)) {
-			//looks like user selected "custom" and forgot to type custom hostname. Reset it back to whatever it was before. 
-			//see what user is currently using in the app. 
-			loginHost = prevLoginHost;
-			//if it is not valid, reset it to default one. 
-			loginHost = (!([loginHost length] > 0))? kDefaultLoginHost : loginHost;
-			NSLog(@"Reseting the loginhost Settings back to previous settings: %@", loginHost);
-			//reflect the changes back in Settings app. 
+	if ([loginHost isEqualToString:@"CUSTOM"]) {
+        
+		// Use the custom login host if it is valid.
+        if (nil != customLoginHost && [customLoginHost length] > 0) {
+            loginHost = customLoginHost;
+        } else {
+			// Looks like the user selected "custom" but forgot to give a custom hostname.
+            // Reset it back to whatever it was before, or the default value if no value
+            // was previously set. 
+			loginHost = (nil != prevLoginHost ? prevLoginHost : kDefaultLoginHost);
+            
+			// Reflect the changes back into app settings.
+            NSLog(@"The custom login host value was not set in the app settings.  Resetting the login host app settings back to previous value: %@", loginHost);
 			[defs setValue:loginHost forKey:kPrimaryLoginHostUserDefault];
-		}else {
-			//use custom login host. 
-			loginHost = customLoginHost; 
 		}
 	}
 	
-	//kPrimaryLoginHostUserDefault is user selected value in Settings app. No need to change that here.
-	//kLoginHostUserDefault contains actual (generated) value of the host used for login.
+	// kPrimaryLoginHostUserDefault is the user-selected value in the app settings. No need to change that here.
+	// kLoginHostUserDefault contains the generated value of the host used for login, based on kPrimaryLoginHostUserDefault.
 	[defs setValue:loginHost forKey:kLoginHostUserDefault];
     
 	NSLog(@"loginHost=%@ customLoginHost=%@", loginHost, customLoginHost);
     
-	//return if hostname changed
-	BOOL result = (prevLoginHost && ![prevLoginHost isEqualToString:loginHost]);
-	if (result) {
-		NSLog(@"updateLoginHost detected host change");
+	BOOL hostnameChanged = (nil != prevLoginHost && ![prevLoginHost isEqualToString:loginHost]);
+	if (hostnameChanged) {
+		NSLog(@"updateLoginHost detected a host change in the app settings.");
 	}
 	
-	return result;
+	return hostnameChanged;
 }
 
 - (BOOL)checkForUserLogout {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:kAccountLogoutUserDefault];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+	return [userDefaults boolForKey:kAccountLogoutUserDefault];
 }
 
 + (void)ensureAccountDefaultsExist {
-	//ensure that we have some default settings in case the user
-	//doesn't ever open Settings
+	// Ensure that we have some default settings in case the user
+	// doesn't ever open the app settings.
 	
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    //Apparently when app is foregrounded, NSUserDefaults can be stale
+    // Apparently when the app is foregrounded, NSUserDefaults can be stale.
 	[defs synchronize];
     
-	//user may have set a custom primary kPrimaryLoginHostUserDefault, 
-	//and login kLoginHostUserDefault might not yet have been updated
-	//(this sometimes happens when user sets prefs before a fresh boot)
+	// User may have set a custom primary kPrimaryLoginHostUserDefault, 
+	// and the calculated login host (kLoginHostUserDefault) may not yet have been updated.
+	// (This sometimes happens when user sets prefs before a fresh boot.)
 	NSString *primaryLoginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
-	if (!([primaryLoginHost length] > 0)) {
-		//Set values for "production"
+    if (nil != primaryLoginHost && [primaryLoginHost length] > 0) {
+        NSString *calculatedHost = [defs objectForKey:kLoginHostUserDefault];
+        if (nil == calculatedHost || [calculatedHost length] == 0) {
+            [defs setValue:primaryLoginHost forKey:kLoginHostUserDefault];
+        }
+    } else {  // No values have been set yet.  Set everything to default.
 		[defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
 		[defs setValue:kDefaultLoginHost forKey:kLoginHostUserDefault];
 	}	
@@ -424,18 +399,10 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
 }
 
-
-
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
     
-    if (nil != self.authViewController) {
-        // We're in the initialization of the app.  Make sure the auth view is in the foreground.
-        [_appDelegate.window bringSubviewToFront:self.authViewController.view];
-        [self.authViewController setOauthView:view];
-    }
-    else
-        [_appDelegate.viewController.view addSubview:view];
+    [_appDelegate.viewController.view addSubview:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
@@ -444,14 +411,13 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [self loggedIn];
 }
 
-
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
     [coordinator.view removeFromSuperview];
     
-    if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
-        //restart the login process asynchronously
-        NSLog(@"Logging out because oauth failed with error code: %d",error.code);
+    if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
+        // Restart the login process asynchronously.
+        NSLog(@"Logging out because oauth failed with error code: %d", error.code);
         [self performSelector:@selector(logout) withObject:nil afterDelay:0];
     }
     else {
@@ -469,7 +435,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.coordinator authenticate];    
+    [self login];    
 }
 
 @end

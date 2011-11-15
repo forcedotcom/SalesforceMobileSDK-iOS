@@ -24,21 +24,18 @@
 
 #import "AppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
-
-#import "SFOAuthCredentials.h"
-#import "SFAuthorizingViewController.h"
 #import "SalesforceOAuthPlugin.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"0.9";
 NSString * const kRestAPIVersion = @"v23.0";
+NSString * const kUserAgentPropKey = @"UserAgent";
 
 // Private constants
 static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
 @interface SFContainerAppDelegate (private)
 
-- (void)sendJavascriptLoginEvent:(UIWebView *)webView;
 - (NSString *)getUserAgentString;
 
 @end
@@ -58,7 +55,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *uaString = [self getUserAgentString];
-        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, @"UserAgent", nil];
+        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
     }
@@ -68,6 +65,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 - (void)dealloc
 {
     [_oauthPlugin release]; _oauthPlugin = nil;
+    [invokeString release]; invokeString = nil;
     
 	[ super dealloc ];
 }
@@ -103,14 +101,25 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     if (nil == _oauthPlugin)
         _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
     
+    // If the app is in a state where it should be reset, re-initialize the app.
     if ([_oauthPlugin resetAppState]) {
-//        [self teardownWebView];
-//        [self reinitializeWebView];
-//        [self loadStartPageIntoWebView];
+        [_oauthPlugin release]; _oauthPlugin = nil;
+        [self reinitializePlugins];
+        [self reinitializeWebView];
+        [self loadStartPageIntoWebView];
+        [self.window makeKeyAndVisible];
     }
 }
 
 #pragma mark - PhoneGap helpers
+
+/**
+ We override startPage to load the bootstrap.html page, which will handle
+ the app bootstrapping process from client code.
+ */
++ (NSString *)startPage {
+    return @"bootstrap.html";
+}
 
 -(id) getCommandInstance:(NSString*)className
 {
@@ -124,36 +133,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 {
 	return [ super execute:command];
 }
-
-
-+ (NSString*)visualForcePath {
-    return nil;
-}
-
-
-/**
- We override startPage to return a Visualforce path, if one exists
- */
-+ (NSString *)startPage {
-    //    NSString *vfPath = [self visualForcePath];
-    //    if (nil == vfPath) {
-    //        return [super startPage];
-    //    }
-    //
-    //    AppDelegate *me = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    //    SFOAuthCredentials *creds = me.coordinator.credentials;
-    //    NSString *instanceHost = [creds.instanceUrl host];
-    //    //Our custom apex/visualforce start page
-    //    NSString *startPageString = [NSString stringWithFormat:@"https://%@/%@",instanceHost,vfPath ]; 
-    //    
-    //    NSLog(@"startPageString value: %@", startPageString);
-    //    return startPageString;
-    
-    // TODO: Repurpose the commented code above to either live in the bootstrap page, or be called
-    // from it (potentially in the plug-in).
-    return @"bootstrap.html";
-}
-
 
 + (BOOL) isIPad {
 #ifdef UI_USER_INTERFACE_IDIOM
@@ -206,13 +185,14 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 }
 
 
-#pragma mark - Salesforce.com login helpers
+#pragma mark - Salesforce.com helpers
 
+/**
+ Set a user agent string based on the mobile SDK version.
+ We are building a user agent of the form:
+   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
+ */
 - (NSString *)getUserAgentString {
-    //set a user agent string based on the mobile sdk version
-    //We are building a user agent of the form:
-    //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
-    
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *myUserAgent = [NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@)",
@@ -222,28 +202,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
                              [curDevice model]
                              ];
     
-    
     return myUserAgent;
-}
-
-- (NSString*)remoteAccessConsumerKey {
-    NSLog(@"You must override this method in your subclass");
-    [self doesNotRecognizeSelector:@selector(remoteAccessConsumerKey)];
-    return nil;
-}
-
-- (NSString*)oauthRedirectURI {
-    NSLog(@"You must override this method in your subclass");
-    [self doesNotRecognizeSelector:@selector(oauthRedirectURI)];
-    return nil;
-}
-
-- (NSString*)userAccountIdentifier {
-    //OAuth credentials can have an identifier associated with them,
-    //such as an account identifier.  For this app we only support one
-    //"account" but you could provide your own means (eg NSUserDefaults) of 
-    //storing which account the user last accessed, and using that here
-    return @"Default";
 }
 
 @end
