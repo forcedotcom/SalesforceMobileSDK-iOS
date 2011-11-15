@@ -7,7 +7,7 @@
     <property name="artifacts.dir" location="artifacts"/>
     <property name="dependency.dir" value="../dependencies"/>
 
-    <property name="xcodetemplate.fullname" value="Native Salesforce REST App.xctemplate"/>
+    <property name="xcodetemplate.fullname" value="Native Force.com REST App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="xcodetemplate_base"/>
     <property name="xcodetemplate.dir" value="${project.dir}/../${xcodetemplate.fullname}"/>
     <property name="xcodetemplate.install.dir" value="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/${xcodetemplate.fullname}"/>

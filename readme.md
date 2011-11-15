@@ -21,38 +21,28 @@ Installation
 
 After cloning the SalesforceMobileSDK, run the install script from the Terminal command line:
 
-'./install/sh'
+'./install.sh'
 
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
 
 See the setup.md file for additional instructions. 
 
 
-Using the SDK (in a Force.com project)
+Using the Native REST SDK (in a Force.com project)
 ==
 
-Create a new Force.com project. These 3 parameters are required:
+Create a new "Native Force.com REST App" project. These parameters are required:
 
 1. **Consumer Public Key**: The consumer key from your remote access provider.
 1. **OAuth Redirect URL**: The URL used by OAuth to handle the callback.
-1. **Force.com Login URL**: The Force.com login domain URL. Typically `login.salesforce.com`.
+1. **Company Identifier**: Something like com.mycompany.foo -- should correspond with an App ID you created in your Apple iOS dev center account.
 
-
-After creating the project, you will need to:
-
-1. Open the Build Settings tab for the project.
-
-  * Set __Other Linker Flags__ to `-ObjC -all_load`
-
-1. Open the Build Phases tab for the project main target and link against the following required framework:
-
-  * **libxml2.dylib**
 
 You should then be able to compile and run the sample project. It's a simple project which logs you into 
 a salesforce instance via oauth, issues a 'select Name from Account' query and displays the result in a UITableView.
 
 
-Using the SDK (in an existing project)
+Using the Native REST SDK (in an existing project)
 ==
 
 You can also use the SDK in an existing project:
@@ -77,6 +67,18 @@ You can also use the SDK in an existing project:
 5. Build the project to verify that the installation is successful.
 
 6. Refer to the [SFRestAPI documentation](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceSDK/Classes/SFRestAPI.html) for some sample code to login into a salesforce instance and issue a REST API call.
+
+
+Using the Hybrid app  SDK (in a Force.com project)
+==
+
+Create a new "Hybrid Force.com App" project. These parameters are required:
+
+1. **Consumer Public Key**: The consumer key from your remote access provider.
+1. **OAuth Redirect URL**: The URL used by OAuth to handle the callback.
+1. **Company Identifier**: Something like com.mycompany.foo -- should correspond with an App ID you created in your Apple iOS dev center account.
+
+You should then be able to compile and run the sample project, which is very similar to the ContactExplorer sample app.
 
 
 Working with the hybrid sample apps
