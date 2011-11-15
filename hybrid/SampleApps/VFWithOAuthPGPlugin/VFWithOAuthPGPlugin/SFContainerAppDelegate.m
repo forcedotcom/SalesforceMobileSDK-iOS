@@ -104,10 +104,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     // If the app is in a state where it should be reset, re-initialize the app.
     if ([_oauthPlugin resetAppState]) {
         [_oauthPlugin release]; _oauthPlugin = nil;
-        [self reinitializePlugins];
-        [self reinitializeWebView];
         [self loadStartPageIntoWebView];
-        [self.window makeKeyAndVisible];
     }
 }
 
