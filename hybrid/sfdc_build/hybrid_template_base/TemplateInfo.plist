@@ -200,7 +200,21 @@
         <string>Plugins/README</string>
 	</dict>
 
-
+    <key>Plugins/SalesforceOAuthPlugin.m</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
+        <key>Path</key>
+        <string>Plugins/SalesforceOAuthPlugin.m</string>
+	</dict>
+	
+	<key>Plugins/SalesforceOAuthPlugin.h</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
+        <key>Path</key>
+        <string>Plugins/SalesforceOAuthPlugin.h</string>
+	</dict>
 
 	<key>www</key>
 	<dict>
@@ -559,6 +573,11 @@
 	<string>SFAuthorizingViewController.m</string>
 	<string>SFAuthorizingViewController.xib</string>
 	
+	<!-- Plugins -->
+	<string>Plugins/README</string>
+	<string>Plugins/SalesforceOAuthPlugin.m</string>
+	<string>Plugins/SalesforceOAuthPlugin.h</string>
+	
     <!-- views -->
 
     <!-- supporting files -->
@@ -568,11 +587,13 @@
     <string>PhoneGap.plist</string>
     <string>en.lproj/InfoPlist.strings</string>
 
-    <!-- media -->
+    <!-- resources -->
 
 	<string>Settings.bundle</string>
 	<string>PhoneGapResources.bundle</string>
-	<string>Plugins/README</string>
+
+	
+	SalesforceOAuthPlugin
 
 </array>
 <key>Targets</key>
