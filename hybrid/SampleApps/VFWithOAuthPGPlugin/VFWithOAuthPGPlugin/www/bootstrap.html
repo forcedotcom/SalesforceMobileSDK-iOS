@@ -129,8 +129,13 @@
          */
         function loginSuccess(result) {
             logToConsole("login success: " + result);
-            var oauthCredentials = eval("(" + result + ")");
-            var fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
+            var fullAppUrl;
+            if (startPage == "") {
+                fullAppUrl = "index.html";
+            } else {
+                var oauthCredentials = eval("(" + result + ")");
+                fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
+            }
             logToConsole("fullAppUrl: " + fullAppUrl);
             location.href = fullAppUrl;
         }
