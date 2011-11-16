@@ -21,3 +21,4 @@ hybrid/dependencies
 hybrid/Hybrid Salesforce App.xctemplate/
 native/Native Salesforce REST App.xctemplate/
 hybrid/Hybrid Force.com App.xctemplate/
+native/Native Force.com REST App.xctemplate/
