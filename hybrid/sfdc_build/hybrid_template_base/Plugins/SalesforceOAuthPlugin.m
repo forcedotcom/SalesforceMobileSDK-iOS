@@ -87,10 +87,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)addSidCookieForDomain:(NSString*)domain;
 
 /**
- Convert the post-authentication credentials into a JSON string, to return to
+ Convert the post-authentication credentials into a Dictionary, to return to
  the calling client code.
+ @return Dictionary representation of oauth credentials.
  */
-- (NSString *)credentialsAsJson;
+- (NSDictionary *)credentialsAsDictionary;
 
 /**
  Converts the OAuth properties JSON input string into an object, and populates
@@ -111,6 +112,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize oauthLoginDomain=_oauthLoginDomain;
 @synthesize oauthScopes=_oauthScopes;
 @synthesize userAccountIdentifier=_userAccountIdentifier;
+@synthesize lastRefreshCompleted = _lastRefreshCompleted;
+@synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
 
 #pragma mark - init/dealloc
 
@@ -132,7 +135,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     [_coordinator setDelegate:nil];
     [_coordinator release]; _coordinator = nil;
-    [_callbackId release];
+    [_callbackId release]; _callbackId = nil;
     [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
     [_oauthRedirectURI release]; _oauthRedirectURI = nil;
     [_oauthLoginDomain release]; _oauthLoginDomain = nil;
@@ -158,39 +161,42 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
-- (void)getAccessInfo:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+- (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
 {
-    NSLog(@"getAccessInfo:withDict: %@",options);
+    NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
     
-    NSString *callbackId = [arguments pop];
+    NSString *callbackId = [arguments objectAtIndex:0];
     NSLog(@"callbackId: %@", callbackId);
     
-    
-    SFOAuthCredentials *creds = self.coordinator.credentials;
-    NSString *accessToken = creds.accessToken;
-    NSString *refreshToken = creds.refreshToken;
-    NSString *clientId = creds.clientId;
-    NSString *userId = creds.userId;
-    NSString *orgId = creds.organizationId;
-    NSString *instanceUrl = creds.instanceUrl.absoluteString;
-    NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-    //NSString *uaString = [self getUserAgentString];
-    
-    NSDictionary *resultDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                accessToken, @"accessToken",
-                                refreshToken,@"refreshToken",
-                                clientId, @"clientId",
-                                userId, @"userId",
-                                orgId, @"orgId",
-                                loginUrl, @"loginUrl",
-                                instanceUrl, @"instanceUrl",
-                                kRestAPIVersion, @"apiVersion",
-                                //TODO User Agent string?
-                                nil];
-    
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:resultDict];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    NSDictionary *authDict = [self credentialsAsDictionary];
 
+    if (nil != self.lastRefreshCompleted) {
+        //we've refreshed during the lifetime of this (singleton) plugin:
+        //check for timeout
+        
+        NSDate *curDate = [NSDate date];
+        NSTimeInterval delta = [curDate timeIntervalSinceDate:self.lastRefreshCompleted];
+        NSLog(@"lastRefreshCompleted %0.2f seconds ago",delta);
+
+        if (delta < 120.0f) { //seconds
+            PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+            [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+        } else {
+            [self authenticate:arguments withDict:nil];
+        }
+        
+    } else {
+        //If authdict is not nil and we have a refresh token then we can ask for a refresh.
+        NSLog(@"We have not authenticated during app lifetime! ");
+        if (nil != authDict) {
+            [self authenticate:arguments withDict:nil];
+        } else {
+            NSString *errorMessage = @"No auth info available.";
+            PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:errorMessage];
+            [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
+        }
+    }
+ 
 }
 
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -200,19 +206,51 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSString *callbackId = [arguments pop];
     if (_isAuthenticating) {
         NSString *errorMessage = @"Authentication is already in progress.";
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:errorMessage];
+        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:errorMessage];
         [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
         return;
     }
     
     _isAuthenticating = YES;
     
-    // Build the OAuth args from the JSON object string argument.
     NSString *argsString = [arguments pop];
-    [self populateOAuthProperties:argsString];
+    //if we are refreshing, there will be no options: just reuse the known options
+    if (nil != argsString) {
+        // Build the OAuth args from the JSON object string argument.
+        [self populateOAuthProperties:argsString];
+    }
     
     _callbackId = [callbackId copy];
     [self login];
+}
+
+#pragma  mark - Plugin utilities
+
+- (NSDictionary*)credentialsAsDictionary {
+    NSDictionary *credentialsDict = nil;
+    
+    SFOAuthCredentials *creds = self.coordinator.credentials;
+    if (nil != creds) {
+        NSString *instanceUrl = creds.instanceUrl.absoluteString;
+        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+        NSString *uaString = [_appDelegate userAgentString];
+        
+        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    creds.accessToken, @"accessToken",
+                                    creds.refreshToken,@"refreshToken",
+                                    creds.clientId, @"clientId",
+                                    creds.userId, @"userId",
+                                    creds.organizationId, @"orgId",
+                                    loginUrl, @"loginUrl",
+                                    instanceUrl, @"instanceUrl",
+                                    kRestAPIVersion, @"apiVersion",
+                                    uaString, @"userAgentString",
+                                    nil];
+            
+    }
+
+    
+    return credentialsDict;
 }
 
 #pragma mark - AppDelegate interaction
@@ -221,22 +259,32 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSLog(@"resetAppState");
     
+    BOOL shouldReset = NO;
+    
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
+        shouldReset = YES;
         [self.coordinator revokeAuthentication];
         
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAccountLogoutUserDefault];
         [defs synchronize];
-        return shouldLogout;
     } else {
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
+            shouldReset = YES;
             [_coordinator setDelegate:nil];
             [_coordinator release]; _coordinator = nil;
         }
-        return loginHostChanged;
     }
+    
+    if (!shouldReset) {
+        if (self.autoRefreshOnForeground) {
+            [self login];
+        }
+    }
+    
+    return shouldReset;
 }
 
 #pragma mark - Salesforce.com login helpers
@@ -292,38 +340,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self addSidCookieForDomain:@".force.com"];
     [self addSidCookieForDomain:@".salesforce.com"];
     
-    // Call back to the client with the authentication credentials.
-    NSString *jsonCreds = [self credentialsAsJson];
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:jsonCreds];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
-    _isAuthenticating = NO;
+    self.lastRefreshCompleted = [NSDate date];
+    
+    if (nil != _callbackId) {
+        // Call back to the client with the authentication credentials.    
+        NSDictionary *authDict = [self credentialsAsDictionary];
+        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
+        _isAuthenticating = NO;
+    }
 }
 
-- (NSString *)credentialsAsJson
-{
-    SFOAuthCredentials *creds = self.coordinator.credentials;
-    NSString *accessToken = creds.accessToken;
-    NSString *refreshToken = creds.refreshToken;
-    NSString *clientId = creds.clientId;
-    NSString *userId = creds.userId;
-    NSString *orgId = creds.organizationId;
-    NSString *instanceUrl = creds.instanceUrl.absoluteString;
-    NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-    NSString *uaString = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAgentPropKey];
-    
-    NSDictionary *credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     accessToken, @"accessToken",
-                                     refreshToken, @"refreshToken",
-                                     clientId, @"clientId",
-                                     loginUrl, @"loginUrl",
-                                     userId, @"userId",
-                                     orgId, @"orgId",
-                                     instanceUrl, @"instanceUrl",
-                                     uaString, @"userAgent",
-                                     kRestAPIVersion, @"apiVersion",
-                                     nil];
-    return [credentialsDict JSONRepresentation];
-}
+
 
 - (void)addSidCookieForDomain:(NSString*)domain
 {
@@ -365,6 +393,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self.oauthLoginDomain = [propsDict objectForKey:@"oauthLoginDomain"];
     self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     self.userAccountIdentifier = [propsDict objectForKey:@"userAccountIdentifier"];
+    self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
+
 }
 
 #pragma mark - Settings utilities
@@ -384,7 +414,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
 	NSString *previousLoginHost = [defs objectForKey:kLoginHostUserDefault];
 	NSString *currentLoginHost = [[self class] primaryLoginHost];
-	NSLog(@"Hosts before update: previousLoginHost=%@ currentLoginHost=%@", previousLoginHost, currentLoginHost);
     
     // Update the previous app settings value to current.
 	[defs setValue:currentLoginHost forKey:kLoginHostUserDefault];

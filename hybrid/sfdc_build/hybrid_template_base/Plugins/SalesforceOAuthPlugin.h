@@ -39,6 +39,8 @@
     NSString *_oauthLoginDomain;
     NSString *_userAccountIdentifier;
     NSSet *_oauthScopes;
+    NSDate *_lastRefreshCompleted;
+    BOOL _autoRefreshOnForeground;
 }
 
 /**
@@ -71,6 +73,18 @@
  */
 @property (nonatomic, copy) NSString *userAccountIdentifier;
 
+
+/**
+ The timestamp at which the last oauth refresh completed.
+ */
+@property (nonatomic, retain) NSDate *lastRefreshCompleted;
+
+
+/**
+ Whether the app should automatically refresh oauth session when foregrounded
+ */
+@property (nonatomic, assign) BOOL autoRefreshOnForeground;
+
 /**
  Forces a logout from the current account.
  This throws out the OAuth refresh token.
@@ -94,8 +108,10 @@
  */
 - (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
-//TODO rename this something that makes more sense, header doc
-- (void)getAccessInfo:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+/**
+ PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
+ */
+- (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  PhoneGap plug-in method to authenticate a user to the application.

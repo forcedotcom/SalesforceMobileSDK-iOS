@@ -53,12 +53,20 @@ extern NSString * const kUserAgentPropKey;
  a simple tutorial can be found here : 
  http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 */
-@property (nonatomic, copy)  NSString* invokeString;
+@property (nonatomic, copy)  NSString *invokeString;
+
+/**
+ The User-Agent string presented by this application
+ */
+@property (nonatomic, readonly) NSString *userAgentString;
+
 
 /**
  @return YES if this device is an iPad
  */
 + (BOOL) isIPad;
+
+
 
 @end
 

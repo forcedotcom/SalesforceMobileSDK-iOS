@@ -1,5 +1,25 @@
 var SalesforceOAuthPlugin = {
 
+	/**
+	* Obtain authentication credentials, calling 'authenticate' only if necessary.
+	* Most index.html authors can simply use this method to obtain auth credentials
+	* after onDeviceReady.
+    *   success - The success callback function to use.
+    *   fail    - The failure/error callback function to use.
+	* PhoneGrap returns a dictionary with:
+	* 	accessToken
+	* 	refreshToken
+	* 	userId
+	* 	orgId
+	* 	loginUrl
+	* 	instanceUrl
+	* 	apiVersion
+	* 	userAgent
+	*/
+    getAuthCredentials: function(success, fail) {
+        PhoneGap.exec(success, fail, "com.salesforce.oauth","getAuthCredentials",[]);
+    },
+
     /**
      * Gets the login host configured in the settings for this application.
      *   success - The success callback function to use.
@@ -9,10 +29,6 @@ var SalesforceOAuthPlugin = {
      */
     getLoginHost: function(success, fail) {
         PhoneGap.exec(success, fail, "com.salesforce.oauth", "getLoginHost", []);
-    },
-    
-    getAccessInfo: function(success, fail) {
-        PhoneGap.exec(success, fail, "com.salesforce.oauth","getAccessInfo",[]);
     },
     
     /**
@@ -65,11 +81,13 @@ var SalesforceOAuthPlugin = {
  *   oauthLoginDomain        - String containing the login domain for authentication (e.g. login.salesforce.com).
  *   oauthScopes             - Array of strings specifying the authorization scope of the app (e.g ["api", "visualforce"]).
  *   userAccountIdentifier   - String containing a unique identifier to associated with the credentials store.
+ *   autoRefreshOnForeground - Boolean, determines whether the container automatically refreshes OAuth session when app is foregrounded
  */
-function OAuthProperties(remoteAccessConsumerKey, oauthRedirectURI, oauthLoginDomain, oauthScopes, userAccountIdentifier) {
+function OAuthProperties(remoteAccessConsumerKey, oauthRedirectURI, oauthLoginDomain, oauthScopes, userAccountIdentifier, autoRefreshOnForeground) {
     this.remoteAccessConsumerKey = remoteAccessConsumerKey;
     this.oauthRedirectURI = oauthRedirectURI;
     this.oauthLoginDomain = oauthLoginDomain;
     this.oauthScopes = oauthScopes;
     this.userAccountIdentifier = userAccountIdentifier;
+    this.autoRefreshOnForeground = autoRefreshOnForeground;
 }

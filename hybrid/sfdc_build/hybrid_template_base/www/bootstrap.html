@@ -43,6 +43,12 @@
         // var startPage = "";  // Used for local "index.html" PhoneGap app.
         var startPage = "apex/BasicVFPage";
         
+        
+        //Whether the container app should automatically refresh our oauth session on app foreground:
+        //generally a good idea for Visualforce pages.  For REST-based apps we recommend using
+        //onAppResume to refresh if needed.
+        var autoRefreshOnForeground = false;
+            
         // This application retrieves login host information from the app's settings, using
         // SalesforceOAuthPlugin.getLoginHost().  If you wish to supply the login host using
         // another implementation, be sure to specify it in the OAuthProperties settings that
@@ -112,7 +118,12 @@
          */
         function receivedLoginHost(loginHost) {
             logToConsole("Retrieved login host from settings: " + loginHost);
-            var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, oauthRedirectURI, loginHost, oauthScopes, userAccountIdentifier);
+            var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, 
+                                                      oauthRedirectURI, 
+                                                      loginHost, 
+                                                      oauthScopes, 
+                                                      userAccountIdentifier, 
+                                                      autoRefreshOnForeground);
             SalesforceOAuthPlugin.authenticate(loginSuccess, loginFailure, oauthProperties);
         }
         
@@ -127,13 +138,12 @@
         /**
          * Success callback for the SalesforceOAuthPlugin.authenticate() method.
          */
-        function loginSuccess(result) {
-            logToConsole("login success: " + result);
+        function loginSuccess(oauthCredentials) {
+            logToConsole("loginSuccess");
             var fullAppUrl;
             if (startPage == "") {
                 fullAppUrl = "index.html";
             } else {
-                var oauthCredentials = eval("(" + result + ")");
                 fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
             }
             logToConsole("fullAppUrl: " + fullAppUrl);
@@ -145,7 +155,7 @@
          * TODO: Is there more that we'd want to do here?
          */
         function loginFailure(result) {
-            logError("login failure: " + result);
+            logError("loginFailure: " + result);
         }
             
         </script>

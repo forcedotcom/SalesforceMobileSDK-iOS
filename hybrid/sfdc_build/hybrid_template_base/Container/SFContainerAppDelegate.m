@@ -34,11 +34,6 @@ NSString * const kUserAgentPropKey = @"UserAgent";
 // Private constants
 static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
-@interface SFContainerAppDelegate (private)
-
-- (NSString *)getUserAgentString;
-
-@end
 
 @implementation SFContainerAppDelegate
 
@@ -54,7 +49,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     self = [super init];
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *uaString = [self getUserAgentString];
+        NSString *uaString = [self userAgentString];
         NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
         [appUserAgent release];
@@ -189,7 +184,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
  We are building a user agent of the form:
    SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
  */
-- (NSString *)getUserAgentString {
+- (NSString *)userAgentString {
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *myUserAgent = [NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@)",

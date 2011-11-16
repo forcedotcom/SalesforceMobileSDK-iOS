@@ -53,29 +53,38 @@
         //Add event listeners and so forth here
         logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
+
     });
 
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
         logToConsole("onDeviceReady: PhoneGap ready");
-        SalesforceOAuthPlugin.getAccessInfo(receivedAccessInfo, getAccessInfoError);
-
-    }
-
-    function receivedAccessInfo(creds) {
-        logToConsole("Retrieved receivedAccessInfo" );
-        forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
-        forcetkClient.setSessionToken(creds.accessToken, creds.apiVersion, creds.instanceUrl);
-        forcetkClient.setRefreshToken(creds.refreshToken);
-        //forcetkClient.setUserAgentString(creds.userAgent); //TODO? no need?
-        
+        SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
         //enable buttons
         regLinkClickHandlers();
     }
+        
+    // When this function is called, the app has been foregrounded
+    function onAppResume() {
+        logToConsole("onAppResume:");
+        //SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
+    }
+
+    function receivedAuthCredentials(creds) {
+        logToConsole("receivedAuthCredentials" );
+        //make sure we know when the app re-foregrounds so we can refresh if necessary
+        document.addEventListener("resume", onAppResume,false);
+
+        forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
+        forcetkClient.setSessionToken(creds.accessToken, creds.apiVersion, creds.instanceUrl);
+        forcetkClient.setRefreshToken(creds.refreshToken);
+        forcetkClient.setUserAgentString(creds.userAgent);
+
+    }
 
 
-    function getAccessInfoError(error) {
-        logError("getAccessInfoError: " + error);
+    function getAuthCredentialsError(error) {
+        logError("getAuthCredentialsError: " + error);
     }
         
     </script>

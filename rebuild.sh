@@ -31,7 +31,7 @@ ant clean
 # build SDK components
 
 cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
-ant build
+ant install
  
 cd $CURRENT_DIR/hybrid/sfdc_build
 ant build

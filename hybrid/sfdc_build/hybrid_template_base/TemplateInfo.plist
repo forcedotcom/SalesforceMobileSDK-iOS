@@ -133,14 +133,14 @@
     </dict>
 
 	<!-- Classes --> 
-     <key>AppDelegate.m</key>
+     <key>Classes/AppDelegate.m</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
         <key>Path</key>
         <string>Classes/AppDelegate.m</string>
     </dict>
-    <key>AppDelegate.h</key>
+    <key>Classes/AppDelegate.h</key>
     <dict>
         <key>Group</key>
         <string>Classes</string>
@@ -149,14 +149,14 @@
     </dict>
 
 	<!-- Container --> 
-    <key>SFContainerAppDelegate.m</key>
+    <key>Container/SFContainerAppDelegate.m</key>
     <dict>
         <key>Group</key>
         <string>Container</string>
         <key>Path</key>
         <string>Container/SFContainerAppDelegate.m</string>
     </dict>
-    <key>SFContainerAppDelegate.h</key>
+    <key>Container/SFContainerAppDelegate.h</key>
     <dict>
         <key>Group</key>
         <string>Container</string>
@@ -543,12 +543,12 @@
     <string>readme.md</string>
 
     <!-- Classes -->
-    <string>AppDelegate.h</string>
-    <string>AppDelegate.m</string>
+    <string>Classes/AppDelegate.h</string>
+    <string>Classes/AppDelegate.m</string>
 
 	<!-- Container -->
-    <string>SFContainerAppDelegate.h</string>
-    <string>SFContainerAppDelegate.m</string>
+    <string>Container/SFContainerAppDelegate.h</string>
+    <string>Container/SFContainerAppDelegate.m</string>
 	
 	<!-- Plugins -->
 	<string>Plugins/README</string>
