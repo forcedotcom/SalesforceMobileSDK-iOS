@@ -23,6 +23,7 @@
  */
 
 #import "AppDelegate.h"
+#import "RootViewController.h"
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
