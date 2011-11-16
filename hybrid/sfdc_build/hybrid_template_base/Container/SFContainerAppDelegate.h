@@ -28,7 +28,7 @@
 
 #import "SFOAuthCoordinator.h"
 
-@class SFAuthorizingViewController;
+@class SalesforceOAuthPlugin;
 
 /**
  
@@ -36,12 +36,14 @@
  
  */
 
-@interface SFContainerAppDelegate : PhoneGapDelegate <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
+extern NSString * const kSFMobileSDKVersion;
+extern NSString * const kRestAPIVersion;
+extern NSString * const kUserAgentPropKey;
+
+@interface SFContainerAppDelegate : PhoneGapDelegate {
     
 	NSString* invokeString;
-    SFOAuthCoordinator *_coordinator;
-    SFAuthorizingViewController *_authViewController;
-
+    SalesforceOAuthPlugin *_oauthPlugin;
 }
 
 
@@ -54,88 +56,9 @@
 @property (nonatomic, copy)  NSString* invokeString;
 
 /**
- The SFOAuthCoordinator used for managing login/logout.
- */
-@property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
-
-/**
- View controller that gives the app some view state while authorizing.
- */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
-
-
-/**
  @return YES if this device is an iPad
  */
 + (BOOL) isIPad;
-
-
-/**
- Override this method to change the scopes that should be used,
- default value is:
- [NSSet setWithObjects:@"visualforce",@"api",nil]
- 
- @return The set of oauth scopes that should be requested for this app.
- */
-+ (NSSet *)oauthScopes;
-
-
-/**
- Override this method if you wish to have the app start on a visualforce page
- @return Path of Visualforce path to load after login (need not include the leading slash)
- */
-+ (NSString*)visualForcePath;
-
-/**
- Kickoff the login process.
- */
-- (void)login;
-
-/**
- Sent whenever the use has been logged in using current settings.
- Be sure to call super if you override this.
- */
-- (void)loggedIn;
-
-/**
- Forces a logout from the current account.
- This throws out the OAuth refresh token.
- */
-- (void)logout;
-
-/**
- This disposes of any current data.
- */
-- (void)clearDataModel;
-
-
-/**
- Your subclass MUST override this method
- @return NSString the Remote Access object consumer key
- */
-- (NSString*)remoteAccessConsumerKey;
-
-/**
- Your subclass MUST override this method
- @return NSString the Remote Access object redirect URI
- */
-- (NSString*)oauthRedirectURI;
-
-/**
-By default this method obtains the login domain from Settings (see Settings.bundle)
- Your subclass MAY override this to lock logins to a particular domain.
- @return NSString the Remote Access object Login Domain
- */
-- (NSString*)oauthLoginDomain;
-
-
-/**
- Your subclass MAY override this method to provide an account identifier,
- such as the most-recently-used username.
- 
- @return NSString An account identifier such as most recently used username.
- */
-- (NSString*)userAccountIdentifier;
 
 @end
 

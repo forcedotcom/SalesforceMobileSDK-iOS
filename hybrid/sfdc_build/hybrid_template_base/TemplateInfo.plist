@@ -163,27 +163,7 @@
         <key>Path</key>
         <string>Container/SFContainerAppDelegate.h</string>
     </dict>
-    <key>SFAuthorizingViewController.m</key>
-    <dict>
-        <key>Group</key>
-        <string>Container</string>
-        <key>Path</key>
-        <string>Container/SFAuthorizingViewController.m</string>
-    </dict>
-    <key>SFAuthorizingViewController.h</key>
-    <dict>
-        <key>Group</key>
-        <string>Container</string>
-        <key>Path</key>
-        <string>Container/SFAuthorizingViewController.h</string>
-    </dict>
-    <key>SFAuthorizingViewController.xib</key>
-    <dict>
-        <key>Group</key>
-        <string>Container</string>
-        <key>Path</key>
-        <string>Container/SFAuthorizingViewController.xib</string>
-    </dict>
+
 
     <key>readme.md</key>
     <dict>
@@ -200,7 +180,21 @@
         <string>Plugins/README</string>
 	</dict>
 
-
+    <key>Plugins/SalesforceOAuthPlugin.m</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
+        <key>Path</key>
+        <string>Plugins/SalesforceOAuthPlugin.m</string>
+	</dict>
+	
+	<key>Plugins/SalesforceOAuthPlugin.h</key>
+	<dict>
+		<key>Group</key>
+        <string>Plugins</string>
+        <key>Path</key>
+        <string>Plugins/SalesforceOAuthPlugin.h</string>
+	</dict>
 
 	<key>www</key>
 	<dict>
@@ -555,9 +549,11 @@
 	<!-- Container -->
     <string>SFContainerAppDelegate.h</string>
     <string>SFContainerAppDelegate.m</string>
-	<string>SFAuthorizingViewController.h</string>
-	<string>SFAuthorizingViewController.m</string>
-	<string>SFAuthorizingViewController.xib</string>
+	
+	<!-- Plugins -->
+	<string>Plugins/README</string>
+	<string>Plugins/SalesforceOAuthPlugin.m</string>
+	<string>Plugins/SalesforceOAuthPlugin.h</string>
 	
     <!-- views -->
 
@@ -568,11 +564,12 @@
     <string>PhoneGap.plist</string>
     <string>en.lproj/InfoPlist.strings</string>
 
-    <!-- media -->
+    <!-- resources -->
 
 	<string>Settings.bundle</string>
 	<string>PhoneGapResources.bundle</string>
-	<string>Plugins/README</string>
+
+	
 
 </array>
 <key>Targets</key>

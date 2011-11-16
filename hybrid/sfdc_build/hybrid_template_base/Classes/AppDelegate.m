@@ -24,38 +24,10 @@
 
 #import "AppDelegate.h"
 
-/*
- NOTE if you ever need to update these, you can obtain them from your Salesforce org,
- (When you are logged in as an org administrator, go to Setup -> Develop -> Remote Access -> New )
- */
-
-
-// Fill these in when creating a new Remote Access client on Force.com 
-static NSString *const RemoteAccessConsumerKey = @"___VARIABLE_publicKey___";
-static NSString *const OAuthRedirectURI = @"___VARIABLE_redirectURL___";
-
-
 @implementation AppDelegate
-
-
-#pragma mark - Remote Access / OAuth configuration
-
-
-- (NSString*)remoteAccessConsumerKey {
-    return RemoteAccessConsumerKey;
-}
-
-- (NSString*)oauthRedirectURI {
-    return OAuthRedirectURI;
-}
-
-
 
 #pragma mark - App lifecycle
 
-
-//NOTE be sure to call all super methods you override.
-
-
+// NOTE: be sure to call all super methods you override.
 
 @end

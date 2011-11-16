@@ -10,7 +10,10 @@
     <script src="jquery/jquery.mobile-1.0b2.min.js"></script>
         
     <!-- include phonegap / callback -->
-	<script type="text/javascript" charset="utf-8" src="phonegap-1.1.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+    <!-- required for oauth plugin support -->    
+    <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+
     <!-- include forcetk for REST transaction support -->
     <script src="forcetk.js"></script>       
 
@@ -49,25 +52,30 @@
     $(function() {
         //Add event listeners and so forth here
         logToConsole("onLoad: jquery ready");
-		document.addEventListener("salesforce_oauth_login", onSalesforceOAuthLogin,false);
 		document.addEventListener("deviceready", onDeviceReady,false);
     });
 
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
         logToConsole("onDeviceReady: PhoneGap ready");
-        regLinkClickHandlers();
+        SalesforceOAuthPlugin.getAccessInfo(receivedAccessInfo, getAccessInfoError);
+
     }
-        
-    function onSalesforceOAuthLogin(event) {
-        logToConsole("onSalesforceOAuthLogin: Salesforce session ready");
-        //Here we setup forcetk for REST transactions
-        //If you are strictly using Visualforce, you need not do this
-        var creds = event.data;
+
+    function receivedAccessInfo(creds) {
+        logToConsole("Retrieved receivedAccessInfo" );
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, creds.apiVersion, creds.instanceUrl);
         forcetkClient.setRefreshToken(creds.refreshToken);
-        forcetkClient.setUserAgentString(creds.userAgent);
+        //forcetkClient.setUserAgentString(creds.userAgent); //TODO? no need?
+        
+        //enable buttons
+        regLinkClickHandlers();
+    }
+
+
+    function getAccessInfoError(error) {
+        logError("getAccessInfoError: " + error);
     }
         
     </script>
