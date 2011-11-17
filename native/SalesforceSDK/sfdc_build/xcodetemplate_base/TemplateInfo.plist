@@ -14,7 +14,7 @@
         <true/>
         <!-- text displayed in the new project wizard -->
         <key>Description</key>
-        <string>This template provides the starting point for a native REST-based application that securely connects to force.com/database.com. The template will create a project with everything you need to access your data in the cloud.</string>
+        <string>This template provides the starting point for a native REST-based application that securely connects to Force.com. The template will create a project with everything you need to access your data in the cloud.</string>
         <key>Identifier</key>
         <string>com.salesforce.mobilesdk.native.template</string>  <!-- must be unique, else template doesn't show in xcode -->
         <key>Kind</key>
