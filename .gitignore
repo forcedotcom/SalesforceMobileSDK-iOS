@@ -23,3 +23,4 @@ native/Native Salesforce REST App.xctemplate/
 hybrid/Hybrid Force.com App.xctemplate/
 native/Native Force.com REST App.xctemplate/
 native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
+hybrid/SampleApps/VFConnector/VFConnector/dependencies/
