@@ -1,0 +1,833 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>SFContainerAppDelegate Class Reference</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFContainerAppDelegate Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/invokeString">&nbsp;&nbsp;&nbsp;&nbsp;invokeString</option>
+	
+	<option value="//api/name/userAgentString">&nbsp;&nbsp;&nbsp;&nbsp;userAgentString</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/isIPad">&nbsp;&nbsp;&nbsp;&nbsp;+ isIPad</option>
+	
+	<option value="//api/name/startPage">&nbsp;&nbsp;&nbsp;&nbsp;+ startPage</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/application:didFinishLaunchingWithOptions:">&nbsp;&nbsp;&nbsp;&nbsp;- application:didFinishLaunchingWithOptions:</option>
+	
+	<option value="//api/name/dealloc">&nbsp;&nbsp;&nbsp;&nbsp;- dealloc</option>
+	
+	<option value="//api/name/execute:">&nbsp;&nbsp;&nbsp;&nbsp;- execute:</option>
+	
+	<option value="//api/name/webView:didFailLoadWithError:">&nbsp;&nbsp;&nbsp;&nbsp;- webView:didFailLoadWithError:</option>
+	
+	<option value="//api/name/webView:shouldStartLoadWithRequest:navigationType:">&nbsp;&nbsp;&nbsp;&nbsp;- webView:shouldStartLoadWithRequest:navigationType:</option>
+	
+	<option value="//api/name/webViewDidStartLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- webViewDidStartLoad:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/invokeString">invokeString</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAgentString">userAgentString</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isIPad">isIPad</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/startPage">startPage</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/application:didFinishLaunchingWithOptions:">application:didFinishLaunchingWithOptions:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dealloc">dealloc</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/execute:">execute:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webView:didFailLoadWithError:">webView:didFailLoadWithError:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webView:shouldStartLoadWithRequest:navigationType:">webView:shouldStartLoadWithRequest:navigationType:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webViewDidStartLoad:">webViewDidStartLoad:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFContainerAppDelegate Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFContainerAppDelegate Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">PhoneGapDelegate</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFContainerAppDelegate.h<br />SFContainerAppDelegate.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Base class for hybrid Salesforce Mobile SDK applications.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/invokeString">&nbsp;&nbsp;invokeString</a></code>
+		<span class="tooltip"><p>invoke string is passed to your app on launch, this is only valid if you
+edit App.plist to add a protocol
+a simple tutorial can be found here :
+http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userAgentString">&nbsp;&nbsp;userAgentString</a></code>
+		<span class="tooltip"><p>The User-Agent string presented by this application</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isIPad">+&nbsp;isIPad</a></code>
+		<span class="tooltip"><p>YES if this device is an iPad</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dealloc">&ndash;&nbsp;dealloc</a></code>
+		<span class="tooltip"><p>If you need to do any extra app-specific initialization, you can do it here
+-jm</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/application:didFinishLaunchingWithOptions:">&ndash;&nbsp;application:didFinishLaunchingWithOptions:</a></code>
+		<span class="tooltip"><p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/startPage">+&nbsp;startPage</a></code>
+		<span class="tooltip"><p>We override startPage to load the bootstrap.html page, which will handle
+the app bootstrapping process from client code.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/execute:">&ndash;&nbsp;execute:</a></code>
+		<span class="tooltip"><p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
+own app specific protocol to it. -jm</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/webViewDidStartLoad:">&ndash;&nbsp;webViewDidStartLoad:</a></code>
+		<span class="tooltip"><p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/webView:didFailLoadWithError:">&ndash;&nbsp;webView:didFailLoadWithError:</a></code>
+		<span class="tooltip"><p>Fail Loading With Error
+Error &ndash; If the webpage failed to load display an error with the reason.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/webView:shouldStartLoadWithRequest:navigationType:">&ndash;&nbsp;webView:shouldStartLoadWithRequest:navigationType:</a></code>
+		<span class="tooltip"><p>Start Loading Request
+This is where most of the magic happens&hellip; We take the request(s) and process the response.
+From here we can re direct links and other protocalls to different internal methods.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/invokeString" title="invokeString"></a>
+	<h3 class="subsubtitle method-title">invokeString</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>invoke string is passed to your app on launch, this is only valid if you
+edit App.plist to add a protocol
+a simple tutorial can be found here :
+http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *invokeString</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>invoke string is passed to your app on launch, this is only valid if you
+edit App.plist to add a protocol
+a simple tutorial can be found here :
+http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userAgentString" title="userAgentString"></a>
+	<h3 class="subsubtitle method-title">userAgentString</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The User-Agent string presented by this application</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *userAgentString</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The User-Agent string presented by this application</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/isIPad" title="isIPad"></a>
+	<h3 class="subsubtitle method-title">isIPad</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>YES if this device is an iPad</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (BOOL)isIPad</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if this device is an iPad</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/startPage" title="startPage"></a>
+	<h3 class="subsubtitle method-title">startPage</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>We override startPage to load the bootstrap.html page, which will handle
+the app bootstrapping process from client code.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)startPage</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>We override startPage to load the bootstrap.html page, which will handle
+the app bootstrapping process from client code.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/application:didFinishLaunchingWithOptions:" title="application:didFinishLaunchingWithOptions:"></a>
+	<h3 class="subsubtitle method-title">application:didFinishLaunchingWithOptions:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)application:(UIApplication *)<em>application</em> didFinishLaunchingWithOptions:(NSDictionary *)<em>launchOptions</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dealloc" title="dealloc"></a>
+	<h3 class="subsubtitle method-title">dealloc</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If you need to do any extra app-specific initialization, you can do it here
+-jm</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)dealloc</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>If you need to do any extra app-specific initialization, you can do it here
+-jm</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/execute:" title="execute:"></a>
+	<h3 class="subsubtitle method-title">execute:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
+own app specific protocol to it. -jm</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)execute:(InvokedUrlCommand *)<em>command</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
+own app specific protocol to it. -jm</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/webView:didFailLoadWithError:" title="webView:didFailLoadWithError:"></a>
+	<h3 class="subsubtitle method-title">webView:didFailLoadWithError:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Fail Loading With Error
+Error &ndash; If the webpage failed to load display an error with the reason.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)webView:(UIWebView *)<em>theWebView</em> didFailLoadWithError:(NSError *)<em>error</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Fail Loading With Error
+Error &ndash; If the webpage failed to load display an error with the reason.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/webView:shouldStartLoadWithRequest:navigationType:" title="webView:shouldStartLoadWithRequest:navigationType:"></a>
+	<h3 class="subsubtitle method-title">webView:shouldStartLoadWithRequest:navigationType:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Start Loading Request
+This is where most of the magic happens&hellip; We take the request(s) and process the response.
+From here we can re direct links and other protocalls to different internal methods.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)webView:(UIWebView *)<em>theWebView</em> shouldStartLoadWithRequest:(NSURLRequest *)<em>request</em> navigationType:(UIWebViewNavigationType)<em>navigationType</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Start Loading Request
+This is where most of the magic happens&hellip; We take the request(s) and process the response.
+From here we can re direct links and other protocalls to different internal methods.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/webViewDidStartLoad:" title="webViewDidStartLoad:"></a>
+	<h3 class="subsubtitle method-title">webViewDidStartLoad:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)webViewDidStartLoad:(UIWebView *)<em>theWebView</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-11-17)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+		</script>
+	</body>
+</html>

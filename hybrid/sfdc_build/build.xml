@@ -60,13 +60,13 @@
 	
     <target name="documentation.generate">
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Classes"/>
+            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
 
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Classes"/>
+            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
         </antcall>
