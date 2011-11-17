@@ -2,8 +2,8 @@
 
 Additional steps to be completed once your project has been created.
 
-- Open the project and delete the www folder (Right-click the www folder in the Select "Remove References Only")
-- Re-add the www folder. Right-click the project, Add file, and selecting "Create folder references for any added folders"
+- Open the project and remove the www folder (Right-click the www folder in the Project Navigator, select Delete from the popup menu, and click "Remove References Only")
+- Re-add the www folder. Right-click the project name folder in the Project Navigator, Add Files, and select the www folder in the file selection dialog. Be sure that "Create folder references for any added folders" is selected
 
 Your project is now ready to be compiled.
 
