@@ -67,7 +67,7 @@
     // When this function is called, the app has been foregrounded
     function onAppResume() {
         logToConsole("onAppResume:");
-        //SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
+        SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
     }
 
     function receivedAuthCredentials(creds) {

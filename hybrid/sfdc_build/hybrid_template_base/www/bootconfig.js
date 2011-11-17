@@ -21,14 +21,14 @@ var userAccountIdentifier = "Default";
 
 // The start page of the application.  This is the [pagePath] portion of
 // http://[host]/[pagePath].  Leave blank to use the local index.html page.
-// var startPage = "";  // Used for local "index.html" PhoneGap app.
-var startPage = "apex/BasicVFPage";
+var startPage = "";  // Used for local REST-based"index.html" PhoneGap app.
+//var startPage = "apex/BasicVFPage"; //used for Visualforce-based apps
 
 
 // Whether the container app should automatically refresh our oauth session on app foreground:
 // generally a good idea for Visualforce pages.  For REST-based apps we recommend using
 // onAppResume to refresh if needed.
-var autoRefreshOnForeground = false;
+var autoRefreshOnForeground = false; //Use true for Visualforce-based apps
     
 // This application retrieves login host information from the app's settings, using
 // SalesforceOAuthPlugin.getLoginHost().  If you wish to supply the login host using
