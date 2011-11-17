@@ -34,21 +34,35 @@ static NSString * const kSFMobileSDKVersion = @"0.9";
 static NSString * const kRestAPIVersion = @"v23.0";
 
 
+// Key for storing the user's configured login host.
 NSString * const kLoginHostUserDefault = @"login_host_pref";
 
-// key for primary login host
+// Key for the primary login host, as defined in the app settings.
 NSString * const kPrimaryLoginHostUserDefault = @"primary_login_host_pref";
-// key for custom login host
+
+// Key for the custom login host value in the app settings.
 NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
-/// Value to use for login host if user never opens Settings
+
+// Value for kPrimaryLoginHostUserDefault when a custom host is chosen.
+NSString * const kPrimaryLoginHostCustomValue = @"CUSTOM";
+
+// Key for whether or not the user has chosen the app setting to logout of the
+// app when it is re-opened.
+NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
+
+/// Value to use for login host if user never opens the app settings.
 NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
-NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 
 @interface SFNativeRestAppDelegate (private)
 
 - (NSString *)getUserAgentString;
+
+/**
+ Initializes the app settings, in the event that the user has not configured
+ them before the first launch of the application.
+ */
 + (void)ensureAccountDefaultsExist;
 
 /**
@@ -57,10 +71,17 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 - (BOOL)checkForUserLogout;
 
 /**
- Update login host from user Settings. 
- @return  YES if login host has changed. 
+ Gets the primary login host value from app settings, initializing it to a default
+ value first, if a valid one did not previously exist.
+ @return The login host value from the app settings.
  */
-- (BOOL)updateLoginHost;
++ (NSString *)primaryLoginHost;
+
+/**
+ Update the configured login host based on the user-defined app settings. 
+ @return  YES if login host has changed in the app settings, NO otherwise. 
+ */
++ (BOOL)updateLoginHost;
 
 
 /**
@@ -97,12 +118,12 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 - (void)dealloc
 {
     self.authViewController = nil;
-
+    
     [_coordinator setDelegate:nil];
     [_coordinator release]; _coordinator = nil;
     self.window = nil;
     self.viewController = nil;
-
+    
 	[ super dealloc ];
 }
 
@@ -121,7 +142,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     //Apparently when app is foregrounded, NSUserDefaults can be stale
 	[defs synchronize];
-
+    
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         [self logout];
@@ -131,7 +152,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         [defs synchronize];
         [self setupAuthorizingViewController];
     } else {
-        BOOL loginHostChanged = [self updateLoginHost];
+        BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
             [_coordinator release]; _coordinator = nil;
@@ -173,7 +194,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         //to distinguish between eg  sandbox and production credentials
         NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@",appName,accountIdentifier,loginDomain];
         
-
+        
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
                                      initWithIdentifier:fullKeychainIdentifier  
                                      clientId: [self remoteAccessConsumerKey] ];
@@ -184,7 +205,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
         
         SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
         coord.scopes = [[self class] oauthScopes]; 
-
+        
         coord.delegate = self;
         _coordinator = coord;        
     } 
@@ -211,7 +232,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     if (nil != self.authViewController) {
         self.authViewController = nil;
     }
-
+    
     if (nil == self.viewController) {
         UIViewController *rootVC = [self newRootViewController];
         self.viewController = rootVC;
@@ -257,7 +278,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 
 - (void)setupAuthorizingViewController {
-
+    
     //clear all children of the existing window, if any
     if (nil != self.window) {
         NSLog(@"SFNativeRestAppDelegate clearing self.window");
@@ -279,7 +300,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
     [authVc release];
     
     [self.window makeKeyAndVisible];
-
+    
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
@@ -369,74 +390,85 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 
 #pragma mark - Settings utilities
 
-/*
- Update login host. Returns true if login host is changed. 
- */
-- (BOOL)updateLoginHost{
-    
++ (BOOL)updateLoginHost
+{
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	//the old calculated login host, if any.  Will be nil if this method has never run before
-	NSString *prevLoginHost = [defs objectForKey:kLoginHostUserDefault];
+    [defs synchronize];
     
-	//kPrimaryLoginHostUserDefault is either the actual production or sandbox hostname, or special value @"CUSTOM",
-	//which indicates that kCustomLoginHostUserDefault should be used to set kLoginHostUserDefault
-	NSString *loginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
-	NSString *customLoginHost = [defs objectForKey:kCustomLoginHostUserDefault];
-    NSLog(@"Hosts before update: loginHost=%@ customLoginHost=%@", loginHost, customLoginHost);
+	NSString *previousLoginHost = [defs objectForKey:kLoginHostUserDefault];
+	NSString *currentLoginHost = [self primaryLoginHost];
+	NSLog(@"Hosts before update: previousLoginHost=%@ currentLoginHost=%@", previousLoginHost, currentLoginHost);
     
-	//user can type whatever they want into kCustomLoginHostUserDefault:
-	//here we sanitize it a bit by downcasing it
-    customLoginHost = (customLoginHost != nil) ? [customLoginHost lowercaseString] : customLoginHost; 
-	
-	if([loginHost isEqualToString:@"CUSTOM"]){
-		//use custom login host if it is valid
-		if (!([customLoginHost length] > 0)) {
-			//looks like user selected "custom" and forgot to type custom hostname. Reset it back to whatever it was before. 
-			//see what user is currently using in the app. 
-			loginHost = prevLoginHost;
-			//if it is not valid, reset it to default one. 
-			loginHost = (!([loginHost length] > 0))? kDefaultLoginHost : loginHost;
-			NSLog(@"Reseting the loginhost Settings back to previous settings: %@", loginHost);
-			//reflect the changes back in Settings app. 
-			[defs setValue:loginHost forKey:kPrimaryLoginHostUserDefault];
-		}else {
-			//use custom login host. 
-			loginHost = customLoginHost; 
-		}
+    // Update the previous app settings value to current.
+	[defs setValue:currentLoginHost forKey:kLoginHostUserDefault];
+    
+	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
+	if (hostnameChanged) {
+		NSLog(@"updateLoginHost detected a host change in the app settings, from %@ to %@.", previousLoginHost, currentLoginHost);
 	}
 	
-	//kPrimaryLoginHostUserDefault is user selected value in Settings app. No need to change that here.
-	//kLoginHostUserDefault contains actual (generated) value of the host used for login.
-	[defs setValue:loginHost forKey:kLoginHostUserDefault];
-    
-	NSLog(@"loginHost=%@ customLoginHost=%@", loginHost, customLoginHost);
-    
-	//return if hostname changed
-	BOOL result = (prevLoginHost && ![prevLoginHost isEqualToString:loginHost]);
-	if (result) {
-		NSLog(@"updateLoginHost detected host change");
-	}
-	
-	return result;
+	return hostnameChanged;
 }
 
-+ (void)ensureAccountDefaultsExist {
-	//ensure that we have some default settings in case the user
-	//doesn't ever open Settings
-	
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    //Apparently when app is foregrounded, NSUserDefaults can be stale
-	[defs synchronize];
+
++ (NSString *)primaryLoginHost
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs synchronize];
+    NSString *primaryLoginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
     
-	//user may have set a custom primary kPrimaryLoginHostUserDefault, 
-	//and login kLoginHostUserDefault might not yet have been updated
-	//(this sometimes happens when user sets prefs before a fresh boot)
-	NSString *primaryLoginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
-	if (!([primaryLoginHost length] > 0)) {
-		//Set values for "production"
-		[defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
-		[defs setValue:kDefaultLoginHost forKey:kLoginHostUserDefault];
-	}	
+    // If the primary host value is nil/empty, it's never been set.  Initialize it to default and return it.
+    if (nil == primaryLoginHost || [primaryLoginHost length] == 0) {
+        [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
+        [defs synchronize];
+        return kDefaultLoginHost;
+    }
+    
+    // If a custom login host value was chosen and configured, return it.  If a custom value is
+    // chosen but the value is *not* configured, reset the primary login host to a sane
+    // value and return that.
+    if ([primaryLoginHost isEqualToString:kPrimaryLoginHostCustomValue]) {  // User specified to use a custom host.
+        NSString *customLoginHost = [defs objectForKey:kCustomLoginHostUserDefault];
+        if (nil != customLoginHost && [customLoginHost length] > 0) {
+            // Custom value is set.  Return that.
+            return customLoginHost;
+        } else {
+            // The custom host value is empty.  We'll try to set a previous user-defined
+            // value for the primary first, and if we can't set that, we'll just set it to the default host.
+            NSString *prevUserDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
+            if (nil != prevUserDefinedLoginHost && [prevUserDefinedLoginHost length] > 0) {
+                // We found a previously user-defined value.  Use that.
+                [defs setValue:prevUserDefinedLoginHost forKey:kPrimaryLoginHostUserDefault];
+                [defs synchronize];
+                return prevUserDefinedLoginHost;
+            } else {
+                // No previously user-defined value either.  Use the default.
+                [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
+                [defs synchronize];
+                return kDefaultLoginHost;
+            }
+        }
+    }
+    
+    // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
+    return primaryLoginHost;
+}
+
++ (void)ensureAccountDefaultsExist
+{
+    
+    // Getting primary login host will initialize it to a proper value if it isn't already
+    // set.
+	NSString *currentHostValue = [self primaryLoginHost];
+    
+    // Make sure we initialize the user-defined app setting as well, if it's not already.
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs synchronize];
+    NSString *userDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
+    if (nil == userDefinedLoginHost || [userDefinedLoginHost length] == 0) {
+        [defs setValue:currentHostValue forKey:kLoginHostUserDefault];
+        [defs synchronize];
+    }
 }
 
 - (BOOL)checkForUserLogout {
