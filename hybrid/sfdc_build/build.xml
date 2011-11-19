@@ -10,7 +10,7 @@
     <property name="xcodetemplate.fullname" value="Hybrid Force.com App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="hybrid_template_base"/>
     <property name="xcodetemplate.dir" value="${project.dir}/${xcodetemplate.fullname}"/>
-    <property name="xcodetemplate.www.dir" value="${project.dir}/${xcodetemplate.fullname}/www"/>
+    <property name="xcodetemplate.www.dir" value="${xcodetemplate.dir}/www"/>
     <property name="xcodetemplate.install.dir" value="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/${xcodetemplate.fullname}"/>
     <property name="xcodetemplate.dependency.dir" value="${xcodetemplate.dir}/dependencies"/>
     <property name="xcodetemplate.shared.base.dir" value="../../external/shared"/>
