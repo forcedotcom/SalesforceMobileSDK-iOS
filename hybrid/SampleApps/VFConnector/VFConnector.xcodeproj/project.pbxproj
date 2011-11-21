@@ -336,6 +336,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7D8DD38F1475B29B006B9372 /* Build configuration list for PBXNativeTarget "VFConnector" */;
 			buildPhases = (
+				7D7D1E8A147AE157005CDD2C /* ShellScript */,
 				7D8DD3041475B298006B9372 /* Sources */,
 				7D8DD3051475B298006B9372 /* Frameworks */,
 				7D8DD3061475B298006B9372 /* Resources */,
@@ -400,6 +401,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7D7D1E8A147AE157005CDD2C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ant -buildfile sfdc_build/build.xml ensureDependencies";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7D8DD3041475B298006B9372 /* Sources */ = {
@@ -546,6 +564,7 @@
 				7D8DD3911475B29B006B9372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
