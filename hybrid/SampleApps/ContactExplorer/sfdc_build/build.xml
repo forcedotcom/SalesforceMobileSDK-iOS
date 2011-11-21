@@ -22,10 +22,8 @@
 		/>
 		
     <target name="pre" depends="initArtifacts,ensureDependencies"/>
-
 		
     <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
     </target>
 
