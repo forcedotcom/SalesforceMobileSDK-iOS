@@ -336,6 +336,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7D14A5471475B9C1007A04DE /* Build configuration list for PBXNativeTarget "ContactExplorer" */;
 			buildPhases = (
+				7D7D1E7B147ADEFF005CDD2C /* ShellScript */,
 				7D14A4BC1475B9BF007A04DE /* Sources */,
 				7D14A4BD1475B9BF007A04DE /* Frameworks */,
 				7D14A4BE1475B9BF007A04DE /* Resources */,
@@ -400,6 +401,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7D7D1E7B147ADEFF005CDD2C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ant -buildfile sfdc_build/build.xml ensureDependencies";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7D14A4BC1475B9BF007A04DE /* Sources */ = {
@@ -546,6 +564,7 @@
 				7D14A5491475B9C1007A04DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
