@@ -16,8 +16,12 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
+	<target name="ensureDependencies"
+		depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk"
+		/>
+		
     <target name="pre"  
-        depends="initArtifacts,iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk" />
+        depends="initArtifacts,ensureDependencies" />
 
     <target name="initArtifacts">
         <delete dir="${artifacts.dir}"/>

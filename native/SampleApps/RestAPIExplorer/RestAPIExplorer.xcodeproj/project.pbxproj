@@ -683,6 +683,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DF4D3BF1472E23B005CE144 /* Build configuration list for PBXNativeTarget "RestAPIExplorer" */;
 			buildPhases = (
+				7D7D1E75147ADE25005CDD2C /* Run Script */,
 				7DF4D2D51472E238005CE144 /* Sources */,
 				7DF4D2D61472E238005CE144 /* Frameworks */,
 				7DF4D2D71472E238005CE144 /* Resources */,
@@ -746,6 +747,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7D7D1E75147ADE25005CDD2C /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ant -buildfile sfdc_build/build.xml ensureDependencies";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7DF4D2D51472E238005CE144 /* Sources */ = {
