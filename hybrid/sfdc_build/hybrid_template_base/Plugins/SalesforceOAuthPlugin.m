@@ -218,6 +218,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     SFOAuthCredentials *creds = self.coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
+        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
         NSString *uaString = [_appDelegate userAgentString];
         
         credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -226,6 +227,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                     creds.clientId, @"clientId",
                                     creds.userId, @"userId",
                                     creds.organizationId, @"orgId",
+                                    loginUrl, @"loginUrl",
                                     instanceUrl, @"instanceUrl",
                                     uaString, @"userAgentString",
                                     nil];

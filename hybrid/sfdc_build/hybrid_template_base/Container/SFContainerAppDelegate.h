@@ -37,7 +37,6 @@
  */
 
 extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kRestAPIVersion;
 extern NSString * const kUserAgentPropKey;
 
 @interface SFContainerAppDelegate : PhoneGapDelegate {
