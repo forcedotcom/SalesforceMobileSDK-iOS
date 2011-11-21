@@ -6,6 +6,7 @@
     <property name="project.dir" value=".."/>
     <property name="artifacts.dir" location="artifacts"/>
     <property name="dependency.dir" value="../dependencies"/>
+    <property name="dist.dir" location="../../../dist"/>
 
     <property name="xcodetemplate.fullname" value="Native Force.com REST App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="xcodetemplate_base"/>
@@ -24,11 +25,15 @@
 
     <!-- main -->
     <target name="pre"  
-	depends="initArtifacts,iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth"/>
+	depends="initArtifacts,ensureDependencies"/>
 
     <target name="initArtifacts">
         <mkdir dir="${artifacts.dir}"/>
     </target>
+
+	<target name="ensureDependencies"
+		depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth"
+		/>
 
     <target name="all" depends="pre,utest" description="do it all">
         <antcall target="compileDebug"/>
@@ -158,6 +163,10 @@
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
 
+		<!-- Copy the zip product to the distribution dir -->
+		<copy todir="${dist.dir}/${target.name}"
+		    file="${artifacts.dir}/${target.name}-Debug.zip" />
+		
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
 
@@ -179,11 +188,16 @@
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
 
+		<!-- Copy the zip product to the distribution dir -->
+		<copy todir="${dist.dir}/${target.name}"
+		    file="${artifacts.dir}/${target.name}-Release.zip" />
+		
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
 
     <target name="clean">
-        <delete dir="${artifacts.dir}"/>
+        <delete dir="${artifacts.dir}" failonerror="false" />
+        <delete dir="${dist.dir}/${target.name}" failonerror="false" />
     </target>
 
 	<target name="documentation.archive" >

@@ -14,6 +14,7 @@
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" location=".."/>
     <property name="artifacts.dir" location="artifacts"/>
+    <property name="dist.dir" location="../../../dist"/>
 
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
@@ -70,6 +71,10 @@
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
 
+		<!-- Copy the zip product to the distribution dir -->
+		<copy todir="${dist.dir}/${target.name}"
+		    file="${artifacts.dir}/${target.name}-Debug.zip" />
+
         <delete dir="${artifacts.dir}/${target.name}"/>
     </target>
 
@@ -90,6 +95,10 @@
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
             <param name="basedir" value="${artifacts.dir}/${target.name}"/>
         </antcall>
+
+		<!-- Copy the zip product to the distribution dir -->
+		<copy todir="${dist.dir}/${target.name}"
+			file="${artifacts.dir}/${target.name}-Release.zip"/>
 
         <!-- Copy the documentation out to the Artifacts root directory before we delete it -->
         <delete dir="${project.dir}/Documentation" failonerror="false"/>
@@ -114,6 +123,7 @@
     </target>
 
     <target name="clean">
-        <delete dir="${artifacts.dir}"/>
+        <delete dir="${artifacts.dir}" failonerror="false" />
+        <delete dir="${dist.dir}/${target.name}" failonerror="false" />
     </target>
 </project>
