@@ -147,20 +147,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 #pragma mark - PhoneGap plugin methods
 
-- (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options  
-{
-    NSLog(@"getLoginHost:withDict:");
-    
-    NSString *callbackId = [arguments pop];
-    NSLog(@"callbackId: %@", callbackId);
-    
-    NSString *loginHost = [self oauthLoginDomain];
-    NSLog(@"In getLoginHost:withDict: loginHost = %@", loginHost);
-    
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:loginHost];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-}
-
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
 {
     NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
@@ -243,7 +229,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                     creds.organizationId, @"orgId",
                                     loginUrl, @"loginUrl",
                                     instanceUrl, @"instanceUrl",
-                                    kRestAPIVersion, @"apiVersion",
                                     uaString, @"userAgentString",
                                     nil];
             
@@ -390,7 +375,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSDictionary *propsDict = [propsJsonString JSONValue];
     self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
     self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-    self.oauthLoginDomain = [propsDict objectForKey:@"oauthLoginDomain"];
     self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     self.userAccountIdentifier = [propsDict objectForKey:@"userAccountIdentifier"];
     self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
