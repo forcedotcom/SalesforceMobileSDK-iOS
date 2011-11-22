@@ -225,9 +225,7 @@
 
     <target name="clean.full"
         depends="clean, cleanDependencies">
-		<!-- remove the native template from the 0.9 version of the sdk -->
-		<delete dir="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Force.com-based Application.xctemplate"
-			failonerror="false" />
+
     </target>
 
 </project>
