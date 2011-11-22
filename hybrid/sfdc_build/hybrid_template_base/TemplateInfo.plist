@@ -14,8 +14,7 @@
         <true/>
         <!-- text displayed in the new project wizard -->
         <key>Description</key>
-        <string>This template provides a starting point for building a hybrid Salesforce Mobile SDK application. This provides
-		support for both PhoneGap/callback-ios as well as Visualforce and the Salesforce REST API.</string>
+        <string>This template provides a starting point for building a hybrid Salesforce Mobile SDK application. This provides support for both PhoneGap/callback-ios as well as Visualforce and the Salesforce REST API.</string>
         <key>Identifier</key>
         <string>com.salesforce.mobilesdk.hybrid.template</string>  <!-- must be unique, else template doesn't show in xcode -->
         <key>Kind</key>
