@@ -29,8 +29,16 @@
 
     <!-- main -->
     <target name="pre"  
-	depends="initArtifacts, iOSShared.dependency.sbjson,  iOSShared.dependency.callback-ios, iOSShared.dependency.oauth"/>
+	depends="initArtifacts, ensureDependencies"/>
 
+	<target name="ensureDependencies"
+		depends="iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios, iOSShared.dependency.oauth"
+		/>
+		
+	<target name="cleanDependencies"
+		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean"
+		/>
+		
     <target name="initArtifacts">
         <mkdir dir="${artifacts.dir}"/>
     </target>
@@ -39,20 +47,9 @@
 		<antcall target="documentation.archive" />
    </target>
 
-<target name="build" depends="pre" description="regenerate main build artifacts" >
-	<antcall target="xcodetemplate.install" />
-</target>
-
-    <target name="clean">
-        <delete dir="${artifacts.dir}" failonerror="false" />
-        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
-        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
-    </target>
-
-    <target name="clean.full"
-        depends="clean, iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean">
-	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
-    </target>
+	<target name="build" depends="pre" description="regenerate main build artifacts" >
+		<antcall target="xcodetemplate.install" />
+	</target>
 
 	<target name="documentation.archive" 
 		depends="documentation.generate" >
@@ -101,6 +98,20 @@
         <copy todir="${xcodetemplate.install.dir}">
             <fileset dir="${xcodetemplate.dir}"/>
         </copy>
+    </target>
+
+
+    <target name="clean">
+        <delete dir="${artifacts.dir}" failonerror="false" />
+        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+    </target>
+	
+
+		
+    <target name="clean.full"
+        depends="clean, cleanDependencies">
+	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
     </target>
 
 </project>
