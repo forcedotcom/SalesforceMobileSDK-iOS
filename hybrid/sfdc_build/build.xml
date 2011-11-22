@@ -105,6 +105,7 @@
         <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+        <delete dir="${dependency.dir}" failonerror="false"/>
     </target>
 	
 

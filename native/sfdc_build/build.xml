@@ -32,7 +32,6 @@
 	<target name="cleanDependencies"
 		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean"
 		>
-        <delete dir="${dependency.dir}" failonerror="false"/>
 	</target>
 		
    <target name="install" depends="pre" description="create fresh install artifacts" >
@@ -60,6 +59,7 @@
         <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+        <delete dir="${dependency.dir}" failonerror="false"/>
 		<!-- remove the native template from the 0.9 version of the sdk -->
 		<delete dir="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Force.com-based Application.xctemplate"
 			failonerror="false" />
