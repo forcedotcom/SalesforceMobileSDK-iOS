@@ -31,7 +31,6 @@
 
 
 static NSString * const kSFMobileSDKVersion = @"0.9";
-static NSString * const kRestAPIVersion = @"v23.0";
 
 
 // Key for storing the user's configured login host.
