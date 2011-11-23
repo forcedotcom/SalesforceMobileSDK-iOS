@@ -96,11 +96,6 @@
  */
 - (void)loggedIn;
 
-/**
- PhoneGap plug-in method to get the currently configured login host from the app's
- settings.
- */
-- (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.

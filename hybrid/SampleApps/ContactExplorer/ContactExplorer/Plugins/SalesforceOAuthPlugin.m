@@ -151,19 +151,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 #pragma mark - PhoneGap plugin methods
 
-- (void)getLoginHost:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options  
-{
-    NSLog(@"getLoginHost:withDict:");
-    
-    NSString *callbackId = [arguments pop];
-    NSLog(@"callbackId: %@", callbackId);
-    
-    NSString *loginHost = [self oauthLoginDomain];
-    NSLog(@"In getLoginHost:withDict: loginHost = %@", loginHost);
-    
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:loginHost];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-}
 
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
 {
