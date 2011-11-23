@@ -140,7 +140,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     [_coordinator setDelegate:nil];
     [_coordinator release]; _coordinator = nil;
-    [_callbackId release]; _callbackId = nil;
+    [_authCallbackId release]; _authCallbackId = nil;
     [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
     [_oauthRedirectURI release]; _oauthRedirectURI = nil;
     [_oauthLoginDomain release]; _oauthLoginDomain = nil;
@@ -169,7 +169,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         NSTimeInterval delta = [curDate timeIntervalSinceDate:self.lastRefreshCompleted];
         NSLog(@"lastRefreshCompleted %0.2f seconds ago",delta);
 
-        if (delta < 120.0f) { //seconds
+        if (delta < 120.0f) { //seconds            
             PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
@@ -193,17 +193,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSLog(@"authenticate:withDict:");
-    
     NSString *callbackId = [arguments pop];
-    if (_isAuthenticating) {
+
+    //Verify that we're not already authenticating
+    if (nil != _authCallbackId) {
         NSString *errorMessage = @"Authentication is already in progress.";
         PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:errorMessage];
         [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
         return;
     }
     
-    _isAuthenticating = YES;
-    
+    _authCallbackId = [callbackId copy];
+
     NSString *argsString = [arguments pop];
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {
@@ -211,7 +212,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self populateOAuthProperties:argsString];
     }
     
-    _callbackId = [callbackId copy];
     [self login];
 }
 
@@ -242,6 +242,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
     return credentialsDict;
 }
+
+
 
 #pragma mark - AppDelegate interaction
 
@@ -333,11 +335,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self.lastRefreshCompleted = [NSDate date];
     
     NSDictionary *authDict = [self credentialsAsDictionary];
-    if (nil != _callbackId) {
+    if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.    
         PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
-        _isAuthenticating = NO;
+        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
+        
+        [_authCallbackId release]; _authCallbackId = nil;
     } else {
         //fire a notification that the session has been refreshed
         [self fireSessionRefreshEvent:authDict];

@@ -32,8 +32,7 @@
 @interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
     AppDelegate *_appDelegate;
-    NSString *_callbackId;
-    BOOL _isAuthenticating;
+    NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;
     NSString *_oauthRedirectURI;
     NSString *_oauthLoginDomain;
