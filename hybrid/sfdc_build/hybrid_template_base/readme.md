@@ -45,5 +45,5 @@ Generally we expect that developers will use this template as a starting point t
 
 - Ensure that your oauthScopes includes "api"
 - Set your startPage to the empty string "".  This will automatically load your index.html file after login completes.
-- Set autoRefreshOnForeground to false and ensure that you manage your own session refresh. (See the example onAppResume method.)
+- Set autoRefreshOnForeground to true.  This will cause the app container to refresh your oauth session each time the app is foregrounded. This helps avoid problems with session timeout. 
 - Edit the index.html to suit your needs.  The example index.html provided shows how you might access a couple different CRM object types, but you can easily modify this to access other types.
