@@ -6,7 +6,7 @@
 
 // When debugMode is true, logToConsole() messages will be written to a
 // "debug console" section of the page.
-var debugMode = false;
+var debugMode = true;
 
 // The client ID value specified for your remote access object that defines
 // your application in Salesforce.

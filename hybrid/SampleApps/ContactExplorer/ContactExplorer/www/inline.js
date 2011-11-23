@@ -1,3 +1,5 @@
+//Sample code for Hybrid REST Explorer
+
 function regLinkClickHandlers() {
     $('#link_fetch_device_contacts').click(function() {
                                            logToConsole("link_fetch_device_contacts clicked");

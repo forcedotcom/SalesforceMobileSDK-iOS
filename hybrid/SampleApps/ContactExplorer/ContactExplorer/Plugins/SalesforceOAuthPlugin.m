@@ -234,7 +234,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                     creds.organizationId, @"orgId",
                                     loginUrl, @"loginUrl",
                                     instanceUrl, @"instanceUrl",
-                                    kRestAPIVersion, @"apiVersion",
                                     uaString, @"userAgentString",
                                     nil];
             

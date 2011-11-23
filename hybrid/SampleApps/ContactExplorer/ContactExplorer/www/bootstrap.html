@@ -16,7 +16,6 @@
         
         <script type="text/javascript">
             
-
         var appStartTime = new Date();  // Used for debug timing measurements.
          
         
@@ -66,7 +65,9 @@
          * loaded.
          */
         function onDeviceReady() {
-            logToConsole("onDeviceReady called: PhoneGap is ready.");            
+            logToConsole("onDeviceReady called: PhoneGap is ready.");
+            
+            // Authenticate via the Salesforce OAuth plugin.
             var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, 
                                                       oauthRedirectURI, 
                                                       oauthScopes, 

@@ -132,7 +132,7 @@ if (forcetk.Client === undefined) {
     forcetk.Client.prototype.setSessionToken = function(sessionId, apiVersion, instanceUrl) {
         this.sessionId = sessionId;
         this.apiVersion = (typeof apiVersion === 'undefined' || apiVersion === null)
-        ? 'v21.0': apiVersion;
+        ? 'v23.0': apiVersion;
         if (typeof instanceUrl === 'undefined' || instanceUrl == null) {
             // location.hostname can be of the form 'abc.na1.visual.force.com' or
             // 'na1.salesforce.com'. Split on '.', and take the [1] or [0] element
