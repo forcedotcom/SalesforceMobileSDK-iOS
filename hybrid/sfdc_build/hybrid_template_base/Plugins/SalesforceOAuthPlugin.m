@@ -99,6 +99,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)populateOAuthProperties:(NSString *)propsJsonString;
 
+/**
+ Broadcast a document event to js that we've updated the Salesforce session.
+ @param creds  OAuth credentials as a dictionary
+ */
+- (void)fireSessionRefreshEvent:(NSDictionary*)creds;
+
 @end
 
 // ------------------------------------------
@@ -111,7 +117,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
 @synthesize oauthScopes=_oauthScopes;
-@synthesize userAccountIdentifier=_userAccountIdentifier;
 @synthesize lastRefreshCompleted = _lastRefreshCompleted;
 @synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
 
@@ -140,12 +145,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [_oauthRedirectURI release]; _oauthRedirectURI = nil;
     [_oauthLoginDomain release]; _oauthLoginDomain = nil;
     [_oauthScopes release]; _oauthScopes = nil;
-    [_userAccountIdentifier release]; _userAccountIdentifier = nil;
     
     [super dealloc];
 }
 
 #pragma mark - PhoneGap plugin methods
+
 
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
 {
@@ -229,6 +234,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                     creds.organizationId, @"orgId",
                                     loginUrl, @"loginUrl",
                                     instanceUrl, @"instanceUrl",
+                                    kRestAPIVersion, @"apiVersion",
                                     uaString, @"userAgentString",
                                     nil];
             
@@ -281,7 +287,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         
         NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSString *loginDomain = self.oauthLoginDomain;
-        NSString *accountIdentifier = self.userAccountIdentifier;
+        NSString *accountIdentifier = @"Default"; //TODO support multiple accounts someday
         // Here we use the login domain as part of the identifier
         // to distinguish between e.g. sandbox and production credentials.
         NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@", appName, accountIdentifier, loginDomain];
@@ -327,12 +333,15 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
     self.lastRefreshCompleted = [NSDate date];
     
+    NSDictionary *authDict = [self credentialsAsDictionary];
     if (nil != _callbackId) {
         // Call back to the client with the authentication credentials.    
-        NSDictionary *authDict = [self credentialsAsDictionary];
         PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
         [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
         _isAuthenticating = NO;
+    } else {
+        //fire a notification that the session has been refreshed
+        [self fireSessionRefreshEvent:authDict];
     }
 }
 
@@ -376,10 +385,19 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
     self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
     self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
-    self.userAccountIdentifier = [propsDict objectForKey:@"userAccountIdentifier"];
     self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
-
 }
+
+
+- (void)fireSessionRefreshEvent:(NSDictionary*)creds
+{
+    NSString *credsStr = [creds JSONString];
+    NSString *eventStr = [[NSString alloc] initWithFormat:@"PhoneGap.fireDocumentEvent('salesforceSessionRefresh',%@);",
+                          credsStr];
+    [super writeJavascript:eventStr];
+    [eventStr release];
+}
+
 
 #pragma mark - Settings utilities
 

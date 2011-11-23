@@ -37,7 +37,6 @@
     NSString *_remoteAccessConsumerKey;
     NSString *_oauthRedirectURI;
     NSString *_oauthLoginDomain;
-    NSString *_userAccountIdentifier;
     NSSet *_oauthScopes;
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
@@ -68,11 +67,6 @@
  */
 @property (nonatomic, retain) NSSet *oauthScopes;
 
-/**
- An account identifier such as most recently used username.
- */
-@property (nonatomic, copy) NSString *userAccountIdentifier;
-
 
 /**
  The timestamp at which the last oauth refresh completed.
@@ -102,6 +96,7 @@
  */
 - (void)loggedIn;
 
+
 /**
  PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
  */
@@ -116,5 +111,6 @@
  Used to reset the application to its initial state, with a cleared authentication state.
  */
 - (BOOL)resetAppState;
+
 
 @end
