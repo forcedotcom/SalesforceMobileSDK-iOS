@@ -352,9 +352,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
         [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
         _isAuthenticating = NO;
+    } else {
+        //fire a notification that the session has been refreshed
+        [self fireSessionRefreshEvent:authDict];
     }
-    
-    [self fireSessionRefreshEvent:authDict];
 }
 
 
