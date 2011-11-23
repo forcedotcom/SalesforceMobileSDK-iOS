@@ -396,10 +396,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSDictionary *propsDict = [propsJsonString JSONValue];
     self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
     self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-    self.oauthLoginDomain = [propsDict objectForKey:@"oauthLoginDomain"];
     self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
-
 }
 
 
