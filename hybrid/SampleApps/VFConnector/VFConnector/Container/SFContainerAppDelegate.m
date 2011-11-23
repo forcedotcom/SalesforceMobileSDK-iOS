@@ -28,7 +28,6 @@
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"0.9";
-NSString * const kRestAPIVersion = @"v23.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 
 // Private constants
