@@ -8,47 +8,29 @@ git submodule update
 
 CURRENT_DIR=`pwd`
 
-# clean libs
-cd $CURRENT_DIR/external/json-framework/sfdc_build
-ant clean
-cd $CURRENT_DIR/external/RestKit/sfdc_build
-ant clean
-cd $CURRENT_DIR/external/callback-ios/sfdc_build
-ant clean
-cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
-ant clean
 
-# clean libraries with dependencies
-cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
-ant clean.full
+# keep anything existing in /dist
+
+# clean our xcode templates for reinstallation
 cd $CURRENT_DIR/hybrid/sfdc_build
-ant clean.full
+ant clean
+cd $CURRENT_DIR/native/sfdc_build
+ant clean
 
 # clean sample apps
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
-ant clean.full
+ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
-ant clean.full
+ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
-ant clean.full
+ant clean
 
 
-# build external libraries we depend upon
-cd $CURRENT_DIR/external/json-framework/sfdc_build
-ant
-cd $CURRENT_DIR/external/RestKit/sfdc_build
-ant
-cd $CURRENT_DIR/external/callback-ios/sfdc_build
-ant 
-
-# build salesforce libraries
-cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
-ant
-
-cd $CURRENT_DIR/native/SalesforceSDK/sfdc_build
+# build salesforce libraries and install templates
+cd $CURRENT_DIR/hybrid/sfdc_build
 ant install
 
-cd $CURRENT_DIR/hybrid/sfdc_build
+cd $CURRENT_DIR/native/sfdc_build
 ant install
 
 # build sample apps with dependencies
