@@ -13,13 +13,12 @@ var remoteAccessConsumerKey = "3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYH
 var oauthRedirectURI = "testsfdc:///mobilesdk/detect/oauth/done";
 
 // The authorization/access scope(s) you wish to define for your application.
-var oauthScopes = ["api"];
-
+var oauthScopes = ["visualforce","api"];
 
 // The start page of the application.  This is the [pagePath] portion of
 // http://[host]/[pagePath].  Leave blank to use the local index.html page.
-var startPage = "";  // Used for local REST-based"index.html" PhoneGap app.
-//var startPage = "apex/BasicVFPage"; //used for Visualforce-based apps
+//var startPage = "";  // Used for local REST-based"index.html" PhoneGap app.
+var startPage = "apex/BasicVFPage"; //used for Visualforce-based apps
 
 
 // Whether the container app should automatically refresh our oauth session on app foreground:
@@ -27,6 +26,9 @@ var startPage = "";  // Used for local REST-based"index.html" PhoneGap app.
 var autoRefreshOnForeground = true; 
     
 
+// When debugMode is true, logToConsole() messages will be written to a
+// "debug console" section of the page.
+var debugMode = false;
     
 //-----------------------------------------------------------------
 // End configuration block
