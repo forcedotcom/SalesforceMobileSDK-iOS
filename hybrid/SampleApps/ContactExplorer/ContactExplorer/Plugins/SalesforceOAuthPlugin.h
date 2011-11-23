@@ -117,9 +117,5 @@
  */
 - (BOOL)resetAppState;
 
-/**
- 
- */
-- (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
 @end
