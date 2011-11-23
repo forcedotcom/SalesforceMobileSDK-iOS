@@ -70,13 +70,6 @@
 		7D7D1F6C147C57D2005CDD2C /* NXJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EE9147C57D2005CDD2C /* NXJsonParser.h */; };
 		7D7D1F6D147C57D2005CDD2C /* NXJsonSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EEA147C57D2005CDD2C /* NXJsonSerializer.h */; };
 		7D7D1F6E147C57D2005CDD2C /* NXSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EEB147C57D2005CDD2C /* NXSerializable.h */; };
-		7D7D1F6F147C57D2005CDD2C /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EED147C57D2005CDD2C /* JSON.h */; };
-		7D7D1F70147C57D2005CDD2C /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EEE147C57D2005CDD2C /* NSObject+SBJSON.h */; };
-		7D7D1F71147C57D2005CDD2C /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EEF147C57D2005CDD2C /* NSString+SBJSON.h */; };
-		7D7D1F72147C57D2005CDD2C /* RKJSONParserSBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF0147C57D2005CDD2C /* RKJSONParserSBJSON.h */; };
-		7D7D1F73147C57D2005CDD2C /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF1147C57D2005CDD2C /* SBJsonBase.h */; };
-		7D7D1F74147C57D2005CDD2C /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF2147C57D2005CDD2C /* SBJsonParser.h */; };
-		7D7D1F75147C57D2005CDD2C /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF3147C57D2005CDD2C /* SBJsonWriter.h */; };
 		7D7D1F76147C57D2005CDD2C /* GHNSBundle+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF5147C57D2005CDD2C /* GHNSBundle+Utils.h */; };
 		7D7D1F77147C57D2005CDD2C /* GTMBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF6147C57D2005CDD2C /* GTMBase64.h */; };
 		7D7D1F78147C57D2005CDD2C /* NSBundle+YAJL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1EF7147C57D2005CDD2C /* NSBundle+YAJL.h */; };
@@ -113,32 +106,8 @@
 		7D7D1F97147C57D2005CDD2C /* RKSearchEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F17147C57D2005CDD2C /* RKSearchEngine.h */; };
 		7D7D1F98147C57D2005CDD2C /* Support.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F18147C57D2005CDD2C /* Support.h */; };
 		7D7D1F99147C57D2005CDD2C /* RKXMLParserLibXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F1B147C57D2005CDD2C /* RKXMLParserLibXML.h */; };
-		7D7D1F9A147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
-		7D7D1F9B147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
-		7D7D1F9C147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
-		7D7D1F9D147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
-		7D7D1F9E147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
-		7D7D1F9F147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
-		7D7D1FA0147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
-		7D7D1FA1147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
-		7D7D1FA2147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
-		7D7D1FA3147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
-		7D7D1FA4147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
-		7D7D1FA5147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
-		7D7D1FA6147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
-		7D7D1FA7147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
-		7D7D1FA8147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
-		7D7D1FA9147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
-		7D7D1FAA147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
-		7D7D1FAB147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
-		7D7D1FAC147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
-		7D7D1FAD147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
 		7D7D1FAE147C57D2005CDD2C /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F24147C57D2005CDD2C /* SFOAuthCoordinator.h */; };
 		7D7D1FAF147C57D2005CDD2C /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F25147C57D2005CDD2C /* SFOAuthCredentials.h */; };
-		7D7D1FB0147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
-		7D7D1FB1147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
-		7D7D1FB2147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
-		7D7D1FB3147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
 		7D7D1FB4147C57D2005CDD2C /* NSObject+SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2A147C57D2005CDD2C /* NSObject+SBJson.h */; };
 		7D7D1FB5147C57D2005CDD2C /* SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2B147C57D2005CDD2C /* SBJson.h */; };
 		7D7D1FB6147C57D2005CDD2C /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2C147C57D2005CDD2C /* SBJsonParser.h */; };
@@ -148,10 +117,27 @@
 		7D7D1FBA147C57D2005CDD2C /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F30147C57D2005CDD2C /* SBJsonStreamWriter.h */; };
 		7D7D1FBB147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F31147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h */; };
 		7D7D1FBC147C57D2005CDD2C /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F32147C57D2005CDD2C /* SBJsonWriter.h */; };
-		7D7D1FBD147C57D2005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
-		7D7D1FBE147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
-		7D7D1FBF147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
-		7D7D1FC0147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
+		7D7D1FC6147C6FC6005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
+		7D7D1FC7147C6FC6005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
+		7D7D1FC8147C6FC6005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
+		7D7D1FC9147C6FC6005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
+		7D7D1FCA147C6FC7005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
+		7D7D1FCB147C6FC7005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
+		7D7D1FCC147C6FC7005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
+		7D7D1FCD147C6FC7005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
+		7D7D1FCE147C6FC7005CDD2C /* libRestKitCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1C147C57D2005CDD2C /* libRestKitCoreData.a */; };
+		7D7D1FCF147C6FC7005CDD2C /* libRestKitNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1D147C57D2005CDD2C /* libRestKitNetwork.a */; };
+		7D7D1FD0147C6FC7005CDD2C /* libRestKitObjectMapping.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1E147C57D2005CDD2C /* libRestKitObjectMapping.a */; };
+		7D7D1FD1147C6FC7005CDD2C /* libRestKitSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F1F147C57D2005CDD2C /* libRestKitSupport.a */; };
+		7D7D1FD2147C6FCE005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
+		7D7D1FD3147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
+		7D7D1FD4147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
+		7D7D1FD5147C6FCE005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
+		7D7D1FD6147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
+		7D7D1FD7147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
+		7D7D1FD8147C6FCF005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F20147C57D2005CDD2C /* libRestKitXMLParserLibxml.a */; };
+		7D7D1FD9147C6FCF005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
+		7D7D1FDA147C6FCF005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
 		7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */; };
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
@@ -302,13 +288,6 @@
 		7D7D1EE9147C57D2005CDD2C /* NXJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXJsonParser.h; sourceTree = "<group>"; };
 		7D7D1EEA147C57D2005CDD2C /* NXJsonSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXJsonSerializer.h; sourceTree = "<group>"; };
 		7D7D1EEB147C57D2005CDD2C /* NXSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXSerializable.h; sourceTree = "<group>"; };
-		7D7D1EED147C57D2005CDD2C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		7D7D1EEE147C57D2005CDD2C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		7D7D1EEF147C57D2005CDD2C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		7D7D1EF0147C57D2005CDD2C /* RKJSONParserSBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKJSONParserSBJSON.h; sourceTree = "<group>"; };
-		7D7D1EF1147C57D2005CDD2C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		7D7D1EF2147C57D2005CDD2C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		7D7D1EF3147C57D2005CDD2C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		7D7D1EF5147C57D2005CDD2C /* GHNSBundle+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GHNSBundle+Utils.h"; sourceTree = "<group>"; };
 		7D7D1EF6147C57D2005CDD2C /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		7D7D1EF7147C57D2005CDD2C /* NSBundle+YAJL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+YAJL.h"; sourceTree = "<group>"; };
@@ -424,13 +403,13 @@
 				7DFF13E0143B8CF90063EF87 /* Security.framework in Frameworks */,
 				7DFF138F143B8A930063EF87 /* UIKit.framework in Frameworks */,
 				7DFF1390143B8A930063EF87 /* Foundation.framework in Frameworks */,
-				7D7D1F9C147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */,
-				7D7D1FA0147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */,
-				7D7D1FA4147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
-				7D7D1FA8147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */,
-				7D7D1FAC147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
-				7D7D1FB2147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7D7D1FBF147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */,
+				7D7D1FCA147C6FC7005CDD2C /* libRestKitCoreData.a in Frameworks */,
+				7D7D1FCB147C6FC7005CDD2C /* libRestKitNetwork.a in Frameworks */,
+				7D7D1FCC147C6FC7005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
+				7D7D1FCD147C6FC7005CDD2C /* libRestKitSupport.a in Frameworks */,
+				7D7D1FD5147C6FCE005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
+				7D7D1FD6147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */,
+				7D7D1FD7147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,13 +426,13 @@
 				7DFF13AE143B8A930063EF87 /* Foundation.framework in Frameworks */,
 				7DFF13AC143B8A930063EF87 /* SenTestingKit.framework in Frameworks */,
 				7DFF13EF143B99B00063EF87 /* libSalesforceSDK.a in Frameworks */,
-				7D7D1F9D147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */,
-				7D7D1FA1147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */,
-				7D7D1FA5147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
-				7D7D1FA9147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */,
-				7D7D1FAD147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
-				7D7D1FB3147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7D7D1FC0147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */,
+				7D7D1FCE147C6FC7005CDD2C /* libRestKitCoreData.a in Frameworks */,
+				7D7D1FCF147C6FC7005CDD2C /* libRestKitNetwork.a in Frameworks */,
+				7D7D1FD0147C6FC7005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
+				7D7D1FD1147C6FC7005CDD2C /* libRestKitSupport.a in Frameworks */,
+				7D7D1FD8147C6FCF005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
+				7D7D1FD9147C6FCF005CDD2C /* libSalesforceOAuth.a in Frameworks */,
+				7D7D1FDA147C6FCF005CDD2C /* libsbjson-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,13 +441,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */,
-				7D7D1F9A147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */,
-				7D7D1F9E147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */,
-				7D7D1FA2147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
-				7D7D1FA6147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */,
-				7D7D1FAA147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
-				7D7D1FB0147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7D7D1FBD147C57D2005CDD2C /* libsbjson-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,13 +458,13 @@
 				C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */,
 				C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */,
 				C26713C913D6B845001FE0B8 /* CoreGraphics.framework in Frameworks */,
-				7D7D1F9B147C57D2005CDD2C /* libRestKitCoreData.a in Frameworks */,
-				7D7D1F9F147C57D2005CDD2C /* libRestKitNetwork.a in Frameworks */,
-				7D7D1FA3147C57D2005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
-				7D7D1FA7147C57D2005CDD2C /* libRestKitSupport.a in Frameworks */,
-				7D7D1FAB147C57D2005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
-				7D7D1FB1147C57D2005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7D7D1FBE147C57D3005CDD2C /* libsbjson-ios.a in Frameworks */,
+				7D7D1FC6147C6FC6005CDD2C /* libRestKitCoreData.a in Frameworks */,
+				7D7D1FC7147C6FC6005CDD2C /* libRestKitNetwork.a in Frameworks */,
+				7D7D1FC8147C6FC6005CDD2C /* libRestKitObjectMapping.a in Frameworks */,
+				7D7D1FC9147C6FC6005CDD2C /* libRestKitSupport.a in Frameworks */,
+				7D7D1FD2147C6FCE005CDD2C /* libRestKitXMLParserLibxml.a in Frameworks */,
+				7D7D1FD3147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */,
+				7D7D1FD4147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +617,6 @@
 			children = (
 				7D7D1EE3147C57D2005CDD2C /* JSONKit */,
 				7D7D1EE6147C57D2005CDD2C /* NXJSON */,
-				7D7D1EEC147C57D2005CDD2C /* SBJSON */,
 				7D7D1EF4147C57D2005CDD2C /* YAJL */,
 			);
 			path = JSON;
@@ -670,20 +641,6 @@
 				7D7D1EEB147C57D2005CDD2C /* NXSerializable.h */,
 			);
 			path = NXJSON;
-			sourceTree = "<group>";
-		};
-		7D7D1EEC147C57D2005CDD2C /* SBJSON */ = {
-			isa = PBXGroup;
-			children = (
-				7D7D1EED147C57D2005CDD2C /* JSON.h */,
-				7D7D1EEE147C57D2005CDD2C /* NSObject+SBJSON.h */,
-				7D7D1EEF147C57D2005CDD2C /* NSString+SBJSON.h */,
-				7D7D1EF0147C57D2005CDD2C /* RKJSONParserSBJSON.h */,
-				7D7D1EF1147C57D2005CDD2C /* SBJsonBase.h */,
-				7D7D1EF2147C57D2005CDD2C /* SBJsonParser.h */,
-				7D7D1EF3147C57D2005CDD2C /* SBJsonWriter.h */,
-			);
-			path = SBJSON;
 			sourceTree = "<group>";
 		};
 		7D7D1EF4147C57D2005CDD2C /* YAJL */ = {
@@ -1038,13 +995,6 @@
 				7D7D1F6C147C57D2005CDD2C /* NXJsonParser.h in Headers */,
 				7D7D1F6D147C57D2005CDD2C /* NXJsonSerializer.h in Headers */,
 				7D7D1F6E147C57D2005CDD2C /* NXSerializable.h in Headers */,
-				7D7D1F6F147C57D2005CDD2C /* JSON.h in Headers */,
-				7D7D1F70147C57D2005CDD2C /* NSObject+SBJSON.h in Headers */,
-				7D7D1F71147C57D2005CDD2C /* NSString+SBJSON.h in Headers */,
-				7D7D1F72147C57D2005CDD2C /* RKJSONParserSBJSON.h in Headers */,
-				7D7D1F73147C57D2005CDD2C /* SBJsonBase.h in Headers */,
-				7D7D1F74147C57D2005CDD2C /* SBJsonParser.h in Headers */,
-				7D7D1F75147C57D2005CDD2C /* SBJsonWriter.h in Headers */,
 				7D7D1F76147C57D2005CDD2C /* GHNSBundle+Utils.h in Headers */,
 				7D7D1F77147C57D2005CDD2C /* GTMBase64.h in Headers */,
 				7D7D1F78147C57D2005CDD2C /* NSBundle+YAJL.h in Headers */,
