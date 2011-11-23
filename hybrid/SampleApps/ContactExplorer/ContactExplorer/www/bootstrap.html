@@ -16,9 +16,7 @@
         
         <script type="text/javascript">
             
-        // When debugMode is true, logToConsole() messages will be written to a
-        // "debug console" section of the page.
-        var debugMode = true;
+
         var appStartTime = new Date();  // Used for debug timing measurements.
          
         
@@ -68,31 +66,12 @@
          * loaded.
          */
         function onDeviceReady() {
-            logToConsole("onDeviceReady called: PhoneGap is ready.");
-            SalesforceOAuthPlugin.getLoginHost(receivedLoginHost, getLoginHostError);
-        }
-            
-        /**
-         * Sucess callback for the SalesforceOAuthPlugin.getLoginHost() method.  Continues
-         * the authentication process.
-         */
-        function receivedLoginHost(loginHost) {
-            logToConsole("Retrieved login host from settings: " + loginHost);
+            logToConsole("onDeviceReady called: PhoneGap is ready.");            
             var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, 
                                                       oauthRedirectURI, 
-                                                      loginHost, 
                                                       oauthScopes, 
-                                                      userAccountIdentifier, 
                                                       autoRefreshOnForeground);
             SalesforceOAuthPlugin.authenticate(loginSuccess, loginFailure, oauthProperties);
-        }
-        
-        /**
-         * Error callback for the SalesforceOAuthPlugin.getLoginHost() method, in the event
-         * that the login host could not be retrieved.
-         */
-        function getLoginHostError(error) {
-            logError("Error retrieving login host: " + error);
         }
             
         /**

@@ -37,7 +37,6 @@
     NSString *_remoteAccessConsumerKey;
     NSString *_oauthRedirectURI;
     NSString *_oauthLoginDomain;
-    NSString *_userAccountIdentifier;
     NSSet *_oauthScopes;
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
@@ -67,11 +66,6 @@
  The set of oauth scopes that should be requested for this app.
  */
 @property (nonatomic, retain) NSSet *oauthScopes;
-
-/**
- An account identifier such as most recently used username.
- */
-@property (nonatomic, copy) NSString *userAccountIdentifier;
 
 
 /**
@@ -122,5 +116,6 @@
  Used to reset the application to its initial state, with a cleared authentication state.
  */
 - (BOOL)resetAppState;
+
 
 @end
