@@ -59,27 +59,24 @@
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
         logToConsole("onDeviceReady: PhoneGap ready");
-        SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
+		//Call getAuthCredentials to get the initial session credentials
+        SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
+
+        //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
+        document.addEventListener("salesforceSessionRefresh",salesforceSessionRefreshed,false);
+
         //enable buttons
         regLinkClickHandlers();
     }
         
-    // When this function is called, the app has been foregrounded
-    function onAppResume() {
-        logToConsole("onAppResume:");
-        SalesforceOAuthPlugin.getAuthCredentials(receivedAuthCredentials, getAuthCredentialsError);
-    }
 
-    function receivedAuthCredentials(creds) {
-        logToConsole("receivedAuthCredentials" );
-        //make sure we know when the app re-foregrounds so we can refresh if necessary
-        document.addEventListener("resume", onAppResume,false);
-
+    function salesforceSessionRefreshed(creds) {
+        logToConsole("salesforceSessionRefreshed");
+		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, creds.apiVersion, creds.instanceUrl);
         forcetkClient.setRefreshToken(creds.refreshToken);
         forcetkClient.setUserAgentString(creds.userAgent);
-
     }
 
 
@@ -89,6 +86,7 @@
         
     </script>
         
+	<!-- load our app-specific code -->
     <script src="inline.js"></script>       
 
   </head>
