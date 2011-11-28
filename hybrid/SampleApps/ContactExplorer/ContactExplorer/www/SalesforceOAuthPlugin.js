@@ -40,6 +40,18 @@ var SalesforceOAuthPlugin = {
         PhoneGap.exec(success, fail, "com.salesforce.oauth", "authenticate", [JSON.stringify(oauthProperties)]);
     },
 
+
+    /**
+    * Logout the current authenticated user. This removes any current valid session token
+    * as well as any OAuth refresh token.  The user is forced to login again.
+    * This method does not call back with a success or failure callback, as 
+    * (1) this method must not fail and (2) in the success case, the current user
+    * will be logged out and asked to re-authenticate.
+    */
+    logout: function() {
+        PhoneGap.exec(null, null, "com.salesforce.oauth","logoutCurrentUser",[]);
+    },
+    
     /**
      * Creates the full app URL, based on the user's start page and the instance where
      * the user is authenticated.

@@ -27,6 +27,11 @@ function regLinkClickHandlers() {
                            $("#div_sfdc_account_list").html("")
                            $("#console").html("")
                            });
+                           
+    $('#link_logout').click(function() {
+             logToConsole("link_logout clicked");
+             SalesforceOAuthPlugin.logout();
+             });
 }
 
 function onSuccessDevice(contacts) {

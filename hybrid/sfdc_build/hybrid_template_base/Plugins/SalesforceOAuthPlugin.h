@@ -97,6 +97,14 @@
 
 
 /**
+ Used to reset the application to its initial state, with a cleared authentication state.
+ */
+- (BOOL)resetAppState;
+
+
+#pragma mark - Plugin exported to javascript
+
+/**
  PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
  */
 - (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
@@ -107,9 +115,13 @@
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
- Used to reset the application to its initial state, with a cleared authentication state.
+ Clear the current user's authentication credentials 
+ @param arguments Standard PhoneGap plugin arguments
+ @param options ignored
+ 
  */
-- (BOOL)resetAppState;
+- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
 
 
 @end

@@ -215,6 +215,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self login];
 }
 
+- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+{
+    NSLog(@"logoutCurrentUser");
+    [self logout];
+}
+
+
 #pragma  mark - Plugin utilities
 
 - (NSDictionary*)credentialsAsDictionary {
