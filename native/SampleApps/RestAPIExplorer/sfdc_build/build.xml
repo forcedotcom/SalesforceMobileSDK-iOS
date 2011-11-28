@@ -24,8 +24,8 @@
         depends="initArtifacts,ensureDependencies" />
 
     <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
+        <mkdir dir="${dependency.dir}" />
     </target>
 
     <target name="all" depends="build" description="do it all"/>
