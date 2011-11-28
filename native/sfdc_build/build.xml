@@ -22,6 +22,7 @@
 
     <target name="initArtifacts">
         <mkdir dir="${artifacts.dir}"/>
+        <mkdir dir="${dependency.dir}"/>
     </target>
 
 	<target name="ensureDependencies"
