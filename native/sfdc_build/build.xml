@@ -1,0 +1,73 @@
+<project name="NativeSDK" default="install">
+    <import file="../../shared/build.xml"/>
+
+    <property environment="env"/>
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" value=".."/>
+    <property name="artifacts.dir" location="artifacts"/>
+    <property name="dependency.dir" value="../dependencies"/>
+
+	<property name="xcodetemplate.fullname" value="Native Force.com REST App.xctemplate"/>
+    <property name="xcodetemplate.base.dir" value="native_template_base"/>
+    <property name="xcodetemplate.dir" value="${project.dir}/${xcodetemplate.fullname}"/>
+    <property name="xcodetemplate.install.dir" value="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/${xcodetemplate.fullname}"/>
+    <property name="xcodetemplate.dependency.dir" value="${xcodetemplate.dir}/dependencies"/>
+  
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <!-- main -->
+    <target name="pre"  
+	depends="initArtifacts, ensureDependencies"/>
+
+    <target name="initArtifacts">
+        <mkdir dir="${artifacts.dir}"/>
+        <mkdir dir="${dependency.dir}"/>
+    </target>
+
+	<target name="ensureDependencies"
+		description="Build all of the libraries a native SDK app could possibly depend upon"
+		depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk"
+		/>
+		
+	<target name="cleanDependencies"
+		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean"
+		>
+	</target>
+		
+   <target name="install" depends="pre" description="create fresh install artifacts" >
+		<antcall target="xcodetemplate.install" />
+   </target>
+
+    <target name="xcodetemplate.create" depends="ensureDependencies" >
+        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        <copy todir="${xcodetemplate.dir}">
+            <fileset dir="${xcodetemplate.base.dir}"/>
+        </copy>
+        <copy todir="${xcodetemplate.dependency.dir}">
+            <fileset dir="${dependency.dir}"/>
+        </copy>
+    </target>
+
+    <target name="xcodetemplate.install" depends="xcodetemplate.create">
+        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+        <copy todir="${xcodetemplate.install.dir}">
+            <fileset dir="${xcodetemplate.dir}"/>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="${artifacts.dir}" failonerror="false" />
+        <delete dir="${xcodetemplate.dir}" failonerror="false"/>
+        <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
+        <delete dir="${dependency.dir}" failonerror="false"/>
+		<!-- remove the native template from the 0.9 version of the sdk -->
+		<delete dir="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Force.com-based Application.xctemplate"
+			failonerror="false" />
+    </target>
+	
+    <target name="clean.full"
+        depends="clean, cleanDependencies">
+    </target>
+
+</project>

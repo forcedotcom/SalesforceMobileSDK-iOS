@@ -1,6 +1,7 @@
 <project name="iOSShared">
     <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
     <dirname property="iOSCommon.basedir" file="${ant.file.iOSShared}/../common/build/tools" />
+    <property name="iOSShared.distdir" location="${iOSShared.basedir}/../dist"/>
     
     <!--[target] compress: 
      Compress the given contents in a way that plays nice with Apple's iTunesConnect.
@@ -107,7 +108,11 @@
     </target>
 
     <target name="dependency.sdk" depends="dependency.sdk.check" unless="dependency.sdk.present">
-        <property name="dependency.sdk.zip" value="${subproject.sdk.dir}/sfdc_build/artifacts/SalesforceSDK-Debug.zip"/>
+        <!-- <property name="dependency.sdk.zip" value="${subproject.sdk.dir}/sfdc_build/artifacts/SalesforceSDK-Debug.zip"/> -->
+
+       <property name="dependency.sdk.zip" 
+			value="${iOSShared.distdir}/SalesforceSDK/SalesforceSDK-Debug.zip" />
+
 
         <available file="${dependency.sdk.zip}" property="dependency.sdk.zip.present"/>
         <antcall target="dependency.sdk.compile"/>
@@ -136,8 +141,9 @@
     </target>
 
     <target name="dependency.oauth" depends="dependency.oauth.check" unless="dependency.oauth.present">
-        <property name="dependency.oauth.zip" value="${subproject.oauth.dir}/sfdc_build/artifacts/SalesforceOAuth-Debug.zip"/>
-
+        <property name="dependency.oauth.zip" 
+			value="${iOSShared.distdir}/SalesforceOAuth/SalesforceOAuth-Debug.zip" />
+			
         <available file="${dependency.oauth.zip}" property="dependency.oauth.zip.present"/>
         <antcall target="dependency.oauth.compile"/>
 
@@ -189,7 +195,7 @@
 
     <target name="dependency.sbjson.check">
         <condition property="dependency.sbjson.present">
-            <available file="${dependency.dir}/SBJSON" type="dir"/>
+            <available file="${dependency.dir}/SBJson" type="dir"/>
         </condition>
     </target>
 
@@ -210,7 +216,7 @@
 
     <target name="dependency.sbjson.clean">
         <ant dir="${subproject.sbjson.dir}/sfdc_build" target="clean" inheritAll="false"/>
-        <delete dir="${dependency.dir}/SBJSON"/>
+        <delete dir="${dependency.dir}/SBJson"/>
     </target>
     
     
@@ -225,7 +231,6 @@
     <target name="dependency.callback-ios" depends="dependency.callback-ios.check" unless="dependency.callback-ios.present">
         <property name="dependency.callback-ios.zip" value="${subproject.callback-ios.dir}/sfdc_build/artifacts/callback-ios-Release.zip"/>
 
-	<echo>dependency.callback-ios.zip = '${dependency.callback-ios.zip}' </echo>
         <available file="${dependency.callback-ios.zip}" property="dependency.callback-ios.zip.present"/>
         <antcall target="dependency.callback-ios.compile"/>
 

@@ -1,7 +1,8 @@
 //
-// Prefix header for all source files of the 'VFConnector' target in the 'VFConnector' project
+// Prefix header for all source files of the 'HybridContainer' target in the 'HybridContainer' project
 //
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
 #endif

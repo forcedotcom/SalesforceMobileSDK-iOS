@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"0.9";
+static NSString * const kSFMobileSDKVersion = @"1.0";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -125,12 +125,11 @@ static dispatch_once_t _sharedInstanceGuard;
     if (![coordinator isEqual:_coordinator]) {
         [_coordinator release];
         _coordinator = [coordinator retain];
+        self.rkClient = nil; //clear restkit since auth may have changed
+        
         if (nil != _coordinator) {
             [self rkClient]; //touch to instantiate if needed
-        } else {
-            //can't send requests without a coordinator's credentials
-            self.rkClient = nil; 
-        }
+        } 
     }
 }
 

@@ -1,0 +1,44 @@
+// SECTION: Root //
+"GROUP_TITLE_ACCOUNT"=" 帐户";
+/* group label for Account settings */
+"LOGOUT_SELECTOR_TITLE"="现在注销";
+/* allows user to log out of account*/
+"GROUP_TITLE_DEBUG"="调试";
+/* a section title for debug settings (SEND_LOGS_SELECTOR_TITLE) */
+"SEND_LOGS_SELECTOR_TITLE"="发送日志";
+/* if true, app will send debug logs to Salesforce Support */
+"GROUP_TITLE_CONNECTION"="连接";
+/* Settings label for network connection */
+"LOGIN_HOST_TITLE"="登录主机";
+/* Settings label for login host */
+"PRODUCTION_LOGIN_HOST_TITLE"="生产";
+/* Settings label for production login host */
+"SANDBOX_LOGIN_HOST_TITLE"="沙盒";
+/* Settings label for sandbox login host */
+"CUSTOM_LOGIN_HOST_TITLE"="自定义主机";
+/* Settings label for Custom Host login host */
+"DEFAULT_CUSTOM_LOGIN_HOST_TITLE"="用于测试";
+/* default value for the custom host setting */
+"PROTOCOL_SELECTOR_TITLE"="协议";
+/* Settings label for protocol (test only) */
+"MAX_PREVIOUS_RETRIEVE"="检索";
+/* Settings label for how many items to retrieve in a page of items (eg feed items) */
+"RETRIEVE_5"="5 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_10"="10 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_20"="20 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_25"="25 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_50"="50 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_100"="100 个项目";
+/* Label for: retrieve this many items */
+"RETRIEVE_500"="500 个项目";
+/* Label for: retrieve this many items */
+"GROUP_TITLE_APPLICATION_INFO"="应用程序信息";
+"VERSION_TITLE"="版本";
+// ENDSECTION //
+
+

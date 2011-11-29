@@ -16,12 +16,6 @@
 	<true/>
 	<key>ShowSplashScreenSpinner</key>
 	<true/>
-	<key>MediaPlaybackRequiresUserAction</key>
-	<false/>
-	<key>AllowInlineMediaPlayback</key>
-	<false/>
-	<key>OpenAllWhitelistURLsInWebView</key>
-	<true/>
 	<key>ExternalHosts</key>
 	<array>
 		<string>*.force.com</string>
@@ -29,6 +23,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>com.salesforce.oauth</key>
+		<string>SalesforceOAuthPlugin</string>
 		<key>com.phonegap.accelerometer</key>
 		<string>PGAccelerometer</string>
 		<key>com.phonegap.camera</key>
@@ -54,5 +50,7 @@
 		<key>com.phonegap.splashscreen</key>
 		<string>PGSplashScreen</string>
 	</dict>
+	<key>OpenAllWhitelistURLsInWebView</key>
+	<true/>
 </dict>
 </plist>
