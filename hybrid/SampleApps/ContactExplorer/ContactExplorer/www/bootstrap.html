@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VisualForce Bootstrap Page with OAuth Plugin</title>
+        
+        <style type="text/css">
+            .logWindow { display:none; width:700px; }
+            .logWindow > p { padding:0px; margin:0px; word-wrap:break-word; }
+        </style>
+        
+        <script type="text/javascript" src="phonegap-1.2.0.js"></script>
+        <script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+        
+        <script type="text/javascript" src="bootconfig.js"></script>
+        
+        <script type="text/javascript">
+            
+        var appStartTime = new Date();  // Used for debug timing measurements.
+         
+        
+        /**
+         * Logs debug messages to a "debug console" section of the page.  Only
+         * shows when debugMode (above) is set to true.
+         *   txt - The text (html) to log to the console.
+         */
+        function logToConsole(txt) {
+            if (debugMode) {
+                $("#console").css("display", "block");
+                var now = new Date();
+                var fullTxt = "<i><b>* At " + (now.getTime() - appStartTime.getTime()) + "ms:</b></i> " + txt;
+                log("#console", fullTxt);
+            }
+        }
+        
+        /**
+         * Use to log error messages to an "error console" section of the page.
+         *   txt - The text (html) to log to the console.
+         */
+        function logError(txt) {
+            $("#errors").css("display", "block");
+            log("#errors", txt);
+        }
+        
+        /**
+         * Logs text to a given section of the page.
+         *   section - HTML section (CSS-identified) to log to.
+         *   txt - The text (html) to log.
+         */
+        function log(section, txt) {
+            $(section).append("<p>" + txt + "</p>");
+            console.log("jslog:" + txt);
+        }
+        
+        /**
+         * JQuery's "ready" function.  This will execute once JQuery is successfully loaded.
+         */
+        $(function() {
+            logToConsole("jQuery is ready");
+            document.addEventListener("deviceready", onDeviceReady,false);
+            logToConsole("Added onDeviceReady event listener.");
+        });
+        
+        /**
+         * Handler for PhoneGap's "deviceready" event, signifying that PhoneGap is successfully
+         * loaded.
+         */
+        function onDeviceReady() {
+            logToConsole("onDeviceReady called: PhoneGap is ready.");
+            
+            // Authenticate via the Salesforce OAuth plugin.
+            var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, 
+                                                      oauthRedirectURI, 
+                                                      oauthScopes, 
+                                                      autoRefreshOnForeground);
+            SalesforceOAuthPlugin.authenticate(loginSuccess, loginFailure, oauthProperties);
+        }
+            
+        /**
+         * Success callback for the SalesforceOAuthPlugin.authenticate() method.
+         */
+        function loginSuccess(oauthCredentials) {
+            logToConsole("loginSuccess");
+            var fullAppUrl;
+            if (startPage == "") {
+                fullAppUrl =  SalesforceOAuthPlugin.buildDefaultLocalUrl();
+            } else {
+                fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
+            }
+            logToConsole("fullAppUrl: " + fullAppUrl);
+            SalesforceOAuthPlugin.loadUrl(fullAppUrl);
+        }
+            
+        /**
+         * Error callback for the SalesforceOAuthPlugin.authenticate() method.
+         * TODO: Is there more that we'd want to do here?
+         */
+        function loginFailure(result) {
+            logError("loginFailure: " + result);
+        }
+            
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Loading...</h1>
+            <fieldset id="errors" class="logWindow">
+                <legend>Errors</legend>
+            </fieldset>
+            <fieldset id="console" class="logWindow">
+                <legend>Debug Console</legend>
+            </fieldset>
+        </div>
+    </body>
+</html>

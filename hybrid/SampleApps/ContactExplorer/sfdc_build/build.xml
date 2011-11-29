@@ -4,7 +4,7 @@
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" value=".."/>
     <property name="artifacts.dir" location="artifacts"/>
-    <property name="dependency.dir" value="../dependencies"/>
+    <property name="dependency.dir" value="../${target.name}/dependencies"/>
     
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
@@ -16,11 +16,16 @@
     <property id="configuration.release" name="configuration.release" value="Release"/>
 
     <!-- main -->
-    <target name="pre" depends="initArtifacts,iOSShared.dependency.oauth, iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios"/>
 
+	<target name="ensureDependencies" description="ensure dependencies exist"
+		depends="iOSShared.dependency.oauth, iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios" 
+		/>
+		
+    <target name="pre" depends="initArtifacts,ensureDependencies"/>
+		
     <target name="initArtifacts">
-        <delete dir="${artifacts.dir}"/>
         <mkdir dir="${artifacts.dir}"/>
+        <mkdir dir="${dependency.dir}" />
     </target>
 
     <target name="all" depends="build" description="do it all"/>
