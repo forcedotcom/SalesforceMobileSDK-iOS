@@ -30,7 +30,7 @@
 
 
 
-static NSString * const kSFMobileSDKVersion = @"0.9";
+static NSString * const kSFMobileSDKVersion = @"1.0";
 
 
 // Key for storing the user's configured login host.

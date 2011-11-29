@@ -30,7 +30,7 @@
 
 
 
-static NSString * const kSFMobileSDKVersion = @"0.9";
+static NSString * const kSFMobileSDKVersion = @"1.0";
 static NSString * const kRestAPIVersion = @"v23.0";
 
 
