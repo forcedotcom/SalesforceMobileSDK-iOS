@@ -54,9 +54,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Force.com Sample App";
+    self.title = @"Mobile SDK Sample App";
     
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"select Name from Account"];    
+    //Here we use a query that should work on either Force.com or Database.com
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name FROM User LIMIT 10"];    
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
@@ -107,7 +108,7 @@
 
     }
 	//if you want to add an image to your cell, here's how
-	UIImage *image = [UIImage imageNamed:@"dbdotcomlogo.png"];
+	UIImage *image = [UIImage imageNamed:@"icon.png"];
 	cell.imageView.image = image;
 
 	// Configure the cell to show the data.
