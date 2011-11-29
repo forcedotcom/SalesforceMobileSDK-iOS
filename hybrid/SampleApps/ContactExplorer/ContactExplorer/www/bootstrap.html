@@ -49,6 +49,7 @@
          */
         function log(section, txt) {
             $(section).append("<p>" + txt + "</p>");
+            console.log("jslog:" + txt);
         }
         
         /**
@@ -82,12 +83,12 @@
             logToConsole("loginSuccess");
             var fullAppUrl;
             if (startPage == "") {
-                fullAppUrl = "index.html";
+                fullAppUrl =  SalesforceOAuthPlugin.buildDefaultLocalUrl();
             } else {
                 fullAppUrl = SalesforceOAuthPlugin.buildAppUrl(startPage, oauthCredentials);
             }
             logToConsole("fullAppUrl: " + fullAppUrl);
-            location.href = fullAppUrl;
+            SalesforceOAuthPlugin.loadUrl(fullAppUrl);
         }
             
         /**

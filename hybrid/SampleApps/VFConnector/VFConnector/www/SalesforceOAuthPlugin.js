@@ -75,6 +75,32 @@ var SalesforceOAuthPlugin = {
             trimmedPageLocation = "/" + trimmedPageLocation;
 
         return instanceUrl + trimmedPageLocation;
+    },
+
+    /**
+     * Creates the default local URL to load when no start page is specified.
+     * 
+     */
+    buildDefaultLocalUrl: function() {
+		if (navigator.device.platform == "Android") {
+			return "file:///android_asset/www/index.html";
+		}
+		else {
+			return "index.html"; 
+		}
+    },
+    
+    /**
+     * Load the URL using phonegap on Android and directly on other platforms
+     *   fullAppUrl       - the full url to load
+     */
+    loadUrl: function(fullAppUrl) {
+		if (navigator.device.platform == "Android") {
+			navigator.app.loadUrl(fullAppUrl , {clearHistory:true});
+		}
+		else {
+			location.href = fullAppUrl;
+		}
     }
 };
 
