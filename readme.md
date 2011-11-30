@@ -1,10 +1,9 @@
 # Salesforce.com Mobile SDK for iOS
-Installation
+Installation (do this first - really)
 ==
 After cloning the SalesforceMobileSDK-iOS project from github, run the install script from the Terminal command line:
 
 `./install.sh`
-
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
 See the setup.md file for additional instructions. 
 
@@ -12,19 +11,26 @@ See the setup.md file for additional instructions.
 Introduction
 ==
 __Version 1.0__
-This is the first full-fledged general release of Salesforce Mobile SDK for iOS. The public APIs may change in their implementation details going forward, but are less likely to change in classes, method signatures, and so forth.
+This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
+Check out [http://developer.force.com/mobilesdk] for additional articles and tutorials
 
-__Native Mobile Libraries__
-The Salesforce Mobile SDK provides essential libraries for quickly building native or hybrid mobile apps that seamlessly integrate with the Salesforce cloud architecture.  Out of the box, we provide an implementation of OAuth2, abstracting away the complexity of securely storing refresh tokens or fetching a new session ID when a session expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve, store, and manipulate data.
 
-__Salesforce Mobile Container__
-HTML5 is quickly emerging as dominant technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript, some limitations remain, specifically: session management, access to the camera and address book, and the inability to distribute apps inside public App Stores. The Salesforce Mobile Container makes possible to combine the ease of web app development with power of the iOS platform by wrapping a web app inside a thin native container, producing a hybrid application.
+__Native Applications__
+The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session id when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
 
-__Hybrid App Template__
-The SDK provides an Xcode template for creating a new hybrid app (native+HTML5) that either accesses the Salesforce REST API or accesses a Visualforce page that you have previously set up in your org.  The hybrid app template also includes the SalesforceOAuthPlugin for PhoneGap, which provides access to OAuth directly from javascript in your hybrid apps.  In addition, the hybrid app template provides a Settings bundle that allows the user to initiate logout or switch between Production and Sandbox orgs from the system Settings app.
+__Hybrid Applications__
+HTML5 is quickly emerging as a powerful technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript alone, some vital limitations remain, specifically: session management, access to native device functionality like the camera, calendar and address book. The Salesforce Mobile Container (based on the industry leading PhoneGap implementation) makes it possible to embed HTML5 apps stored on the device or delivered via Visualforce inside a thin native container, producing a hybrid application.
+
+Application Templates
+==
+The Mobile SDK provides Xcode templates for quickly constructing the foundation of native and hybrid applications with configurable Settings bundles for allowing the user to log-out of the app or switch between production and Sandbox orgs.
+
 
 __Native App Template__
-The SDK provides an Xcode template for creating a new native iOS app that accesses the Salesforce REST API.  This template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. In addition, the native app template provides a Settings bundle that allows the user to initiate logout or switch between Production and Sandbox orgs from the system Settings app.
+For native apps that need to accesses the Salesforce REST API, use the native template that includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
+
+__Hybrid App Template__
+To create hybrid apps that use the Salesforce REST API or access Visualforce pages, start with the hybrid app template. By providing a SalesforceOAuthPlugin for the container based on PhoneGap, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.
 
 
 Using the Native REST SDK (in a _new_ project)
@@ -119,4 +125,4 @@ Documentation
 Discussion
 ==
 
-If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you.  Post any feedback you have to the [Mobile Community Discussion Board](http://boards.developerforce.com/t5/Mobile/bd-p/mobile) on developerforce.com.
+If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have to the [Mobile Community Discussion Board](http://boards.developerforce.com/t5/Mobile/bd-p/mobile) on developerforce.com.
