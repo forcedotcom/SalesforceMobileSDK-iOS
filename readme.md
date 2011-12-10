@@ -72,7 +72,7 @@ You can also use the SDK in an existing project:
 
 5. Build the project to verify that the installation is successful.
 
-6. Refer to the [SFRestAPI documentation](http://forcedotcom.github.com/MobileContainer-iOS/Documentation/SalesforceSDK/Classes/SFRestAPI.html) for some sample code to login into a salesforce instance and issue a REST API call.
+6. Refer to the [SFRestAPI documentation](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/Classes/SFRestAPI.html) for some sample code to login into a salesforce instance and issue a REST API call.
 
 
 Using the Hybrid app  SDK (in a _new_ project)
