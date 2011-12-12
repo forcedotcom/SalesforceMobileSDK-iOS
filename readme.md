@@ -13,7 +13,7 @@ Introduction
 ==
 __Version 1.0__
 This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
-Check out [http://developer.force.com/mobilesdk] for additional articles and tutorials
+Check out [Developer Force](http://developer.force.com/mobilesdk) for additional articles and tutorials.
 
 
 __Native Applications__
