@@ -36,6 +36,15 @@
 - (void)beginTokenRefreshFlow;
 - (void)handleRefreshResponse;
 
+/**
+ Notify our delegate that we could not log in, and clear authenticating flag
+ */
+- (void)notifyDelegateOfFailure:(NSError*)error;
+/**
+ Notify our delegate that login succeeded, and clear authenticating flag
+ */
+- (void)notifyDelegateOfSuccess;
+
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
