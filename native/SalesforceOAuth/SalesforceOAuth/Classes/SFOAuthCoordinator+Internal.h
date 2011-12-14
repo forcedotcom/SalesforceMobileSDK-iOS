@@ -26,7 +26,7 @@
 
 @interface SFOAuthCoordinator ()
 
-@property (nonatomic, assign) BOOL authenticating;
+@property (assign) BOOL authenticating;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
