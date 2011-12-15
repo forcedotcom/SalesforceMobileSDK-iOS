@@ -514,8 +514,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    //TODO eliminate direct access to main vc's subviews here
-    [_appDelegate.viewController.view addSubview:view];
+    [_appDelegate addOAuthViewToMainView:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
