@@ -27,11 +27,11 @@
 #import "SFOAuthCoordinator.h"
 
 @class SFAuthorizingViewController;
-@class AppDelegate;
+@class SFContainerAppDelegate;
 
 @interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
-    AppDelegate *_appDelegate;
+    SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;
     NSString *_oauthRedirectURI;
