@@ -144,6 +144,8 @@
 }
 
 - (IBAction)authClicked:(id)sender {
+    //close keyboard
+    [self.fieldDomain resignFirstResponder];
     SFOAuthCredentials *creds = self.oauthCoordinator.credentials;
     creds.domain = self.fieldDomain.text;
     
@@ -162,7 +164,9 @@
 }
 
 - (IBAction)resetClicked:(id)sender {
-    
+    //close keyboard
+    [self.fieldDomain resignFirstResponder];
+
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
                                                        delegate:self
                                               cancelButtonTitle:@"Clear Access Token"

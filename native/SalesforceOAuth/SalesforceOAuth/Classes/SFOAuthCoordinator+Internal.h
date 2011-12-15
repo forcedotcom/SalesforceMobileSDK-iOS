@@ -26,7 +26,7 @@
 
 @interface SFOAuthCoordinator ()
 
-@property (nonatomic, assign) BOOL authenticating;
+@property (assign) BOOL authenticating;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
@@ -35,6 +35,15 @@
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;
 - (void)handleRefreshResponse;
+
+/**
+ Notify our delegate that we could not log in, and clear authenticating flag
+ */
+- (void)notifyDelegateOfFailure:(NSError*)error;
+/**
+ Notify our delegate that login succeeded, and clear authenticating flag
+ */
+- (void)notifyDelegateOfSuccess;
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;

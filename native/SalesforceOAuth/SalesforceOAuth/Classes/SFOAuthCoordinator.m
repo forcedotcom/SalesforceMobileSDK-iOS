@@ -177,6 +177,16 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 #pragma mark - Private Methods
 
+- (void)notifyDelegateOfFailure:(NSError*)error {
+    self.authenticating = NO;
+    [self.delegate oauthCoordinator:self didFailWithError:error];
+}
+
+- (void)notifyDelegateOfSuccess {
+    self.authenticating = NO;
+    [self.delegate oauthCoordinatorDidAuthenticate:self];                    
+}
+
 - (void)beginUserAgentFlow {
     
     if (nil == _view) {
@@ -343,7 +353,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSDictionary *dict = (NSDictionary *)json;
         if (nil != [dict objectForKey:kSFOAuthError]) {
             NSError *error = [[self class] errorWithType:[dict objectForKey:kSFOAuthError] description:[dict objectForKey:kSFOAuthErrorDescription]];
-            [self.delegate oauthCoordinator:self didFailWithError:error];
+            [self notifyDelegateOfFailure:error];
         } else {
             if ([dict objectForKey:kSFOAuthRefreshToken]) {
                 // Refresh token is available. This happens when the IP bypass flow is used.
@@ -355,8 +365,8 @@ static NSString * const kHttpPostContentType                    = @"application/
             self.credentials.accessToken    = [dict objectForKey:kSFOAuthAccessToken];
             self.credentials.instanceUrl    = [NSURL URLWithString:[dict objectForKey:kSFOAuthInstanceUrl]];
             self.credentials.issuedAt       = [[self class] timestampStringToDate:[dict objectForKey:kSFOAuthIssuedAt]];
-                        
-            [self.delegate oauthCoordinatorDidAuthenticate:self];
+
+            [self notifyDelegateOfSuccess];
         }
     } else {
         // failed to parse JSON
@@ -370,10 +380,9 @@ static NSString * const kHttpPostContentType                    = @"application/
             [errorDict setObject:error forKey:NSUnderlyingErrorKey];
         }
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
-        [self.delegate oauthCoordinator:self didFailWithError:finalError];
+        [self notifyDelegateOfFailure:finalError];
     }
     [responseString release];
-    self.authenticating = NO;
 }
 
 #pragma mark - UIWebViewDelegate (User-Agent Token Flow)
@@ -404,7 +413,7 @@ static NSString * const kHttpPostContentType                    = @"application/
             NSLog(@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: Error: response has no payload: %@", requestUrlString);
             
             NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
-            [self.delegate oauthCoordinator:self didFailWithError:error];
+            [self notifyDelegateOfFailure:error];
             response = nil;
         }
         
@@ -424,7 +433,7 @@ static NSString * const kHttpPostContentType                    = @"application/
                     [self beginTokenRefreshFlow];
                 } else {
                     // Otherwise, we are done with the authentication.
-                    [self.delegate oauthCoordinatorDidAuthenticate:self];                    
+                    [self notifyDelegateOfSuccess];
                 }
             } else {
                 NSError *finalError;
@@ -440,10 +449,9 @@ static NSString * const kHttpPostContentType                    = @"application/
                 } else {
                     finalError = error;
                 }
-                [self.delegate oauthCoordinator:self didFailWithError:finalError];
+                [self notifyDelegateOfFailure:finalError];
             }
         }
-        self.authenticating = NO;
 	}
     
     return result;
@@ -493,8 +501,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         NSLog(@"SFOAuthCoordinator:didFailLoadWithError %@ on URL: %@", error, webView.request.URL);
-        [self.delegate oauthCoordinator:self didFailWithError:error];
-        self.authenticating = NO;
+        [self notifyDelegateOfFailure:error];
     }
 }
 
@@ -502,9 +509,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
-    
-    [self.delegate oauthCoordinator:self didFailWithError:error];
-    self.authenticating = NO;
+    [self notifyDelegateOfFailure:error];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection 
