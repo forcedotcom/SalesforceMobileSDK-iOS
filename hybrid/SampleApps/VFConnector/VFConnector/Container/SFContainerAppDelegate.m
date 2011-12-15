@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
+#import "SFContainerAppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
 #import "SalesforceOAuthPlugin.h"
 
@@ -199,6 +199,17 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
                              ];
     
     return myUserAgent;
+}
+
+
+- (void)addOAuthViewToMainView:(UIView*)oauthView {
+    UIView *containerView = self.viewController.view;
+    [oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    
+    //ensure that oauthView fills the whole view
+    [oauthView setFrame:containerView.bounds];
+    [containerView addSubview:oauthView];
+
 }
 
 @end
