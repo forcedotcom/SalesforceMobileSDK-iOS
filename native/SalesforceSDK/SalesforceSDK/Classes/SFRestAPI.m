@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.0";
+static NSString * const kSFMobileSDKVersion = @"1.0.1";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -43,7 +43,7 @@ static dispatch_once_t _sharedInstanceGuard;
 
 @interface SFRestAPI (private)
 - (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-- (NSString *)getUserAgentString;
+- (NSString *)userAgentString;
 @end
 
 @implementation SFRestAPI
@@ -112,7 +112,7 @@ static dispatch_once_t _sharedInstanceGuard;
             _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
             
-            [_rkClient setValue:[self getUserAgentString] forHTTPHeaderField:@"User-Agent"];
+            [_rkClient setValue:[self userAgentString] forHTTPHeaderField:@"User-Agent"];
 
             //Authorization header (access token) is now set the moment before we actually send the request
         }
@@ -133,23 +133,30 @@ static dispatch_once_t _sharedInstanceGuard;
     }
 }
 
-- (NSString *)getUserAgentString {
-    //set a user agent string based on the mobile sdk version
-    //We are building a user agent of the form:
-    //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
-    
+
+/**
+ Set a user agent string based on the mobile SDK version.
+ We are building a user agent of the form:
+ SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion
+ */
+- (NSString *)userAgentString {
     UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+    
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@)",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
-                             [curDevice model]
+                             [curDevice model],
+                             appName,
+                             appVersion
                              ];
-    
     
     return myUserAgent;
 }
+
 
 #pragma mark - ajax methods
 

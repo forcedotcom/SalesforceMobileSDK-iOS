@@ -37,11 +37,14 @@
 		<delete dir="${dependency.dir}"/>
 	</target>
 	
-    <target name="all" depends="pre,utest" description="do it all">
-        <antcall target="compileDebug"/>
-        <antcall target="compileRelease"/>
-        <delete dir="${project.dir}/build"/>
+    <target name="all" depends="pre,utest,buildDist" description="do it all">
    </target>
+
+	<target name="buildDist" depends="pre" description="build debug and release zips">
+		<antcall target="compileDebug" />
+		<antcall target="compileRelease" />
+		<delete dir="${project.dir}/build"/>
+	</target>
 
    <target name="install" depends="pre" description="create fresh install artifacts" >
       <antcall target="compileDebug" />
