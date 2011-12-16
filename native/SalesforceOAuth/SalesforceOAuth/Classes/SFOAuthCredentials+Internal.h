@@ -27,8 +27,6 @@
 
 @interface SFOAuthCredentials ()
 
-@property (nonatomic, readonly) NSMutableDictionary *tokenQuery;
-
 - (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup;
 - (NSString *)tokenForKey:(NSString *)key;
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
