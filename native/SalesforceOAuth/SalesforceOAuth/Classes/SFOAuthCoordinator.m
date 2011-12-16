@@ -228,10 +228,9 @@ static NSString * const kHttpPostContentType                    = @"application/
         [approvalUrl appendString:@"&scope="];
         NSMutableString *scopeStr = [[NSMutableString alloc] initWithFormat:@"refresh_token"];
 
-        //stringByAddingPercentEscapesUsingEncoding
         for (NSString *scope in self.scopes) {
             if (![scope isEqualToString:@"refresh_token"]) {
-                [scopeStr appendFormat:@" %@",scope];
+            	[scopeStr appendFormat:@" %@", scope];
             }
         }
         
@@ -317,7 +316,7 @@ static NSString * const kHttpPostContentType                    = @"application/
  */
 - (void)handleRefreshResponse {
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-    NSError * jsonError = nil;
+    NSError *jsonError = nil;
     id json = nil;
 
     Class NSJSONClass = NSClassFromString(@"NSJSONSerialization");
@@ -370,7 +369,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         // failed to parse JSON
-        NSLog(@"JSON parse error: %@",jsonError);
+        NSLog(@"JSON parse error: %@", jsonError);
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {
