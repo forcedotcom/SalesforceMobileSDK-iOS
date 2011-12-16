@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
+#import "SFContainerAppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
 #import "SalesforceOAuthPlugin.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.0";
+NSString * const kSFMobileSDKVersion = @"1.0.1";
 NSString * const kUserAgentPropKey = @"UserAgent";
 
 // Private constants
@@ -181,19 +181,35 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
-   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
+   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion
  */
 - (NSString *)userAgentString {
     UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+    
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@)",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
-                             [curDevice model]
+                             [curDevice model],
+                             appName,
+                             appVersion
                              ];
     
     return myUserAgent;
+}
+
+
+- (void)addOAuthViewToMainView:(UIView*)oauthView {
+    UIView *containerView = self.viewController.view;
+    [oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    
+    //ensure that oauthView fills the whole view
+    [oauthView setFrame:containerView.bounds];
+    [containerView addSubview:oauthView];
+
 }
 
 @end

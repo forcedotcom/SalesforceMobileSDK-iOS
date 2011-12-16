@@ -26,7 +26,7 @@
 #import <PhoneGap/PhoneGapViewController.h>
 
 #import "SalesforceOAuthPlugin.h"
-#import "AppDelegate.h"
+#import "SFContainerAppDelegate.h"
 #import "NSObject+SBJson.h"
 
 // ------------------------------------------
@@ -129,7 +129,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
-        _appDelegate = (AppDelegate *)[self appDelegate];
+        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         [[self class] ensureAccountDefaultsExist];
     }
     
@@ -514,8 +514,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    
-    [_appDelegate.viewController.view addSubview:view];
+    [_appDelegate addOAuthViewToMainView:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
