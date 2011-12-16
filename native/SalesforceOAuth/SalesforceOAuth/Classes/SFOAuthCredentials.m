@@ -53,10 +53,6 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 @dynamic accessToken;    // stored in keychain
 @dynamic activationCode; // stored in keychain
 
-// private
-
-@synthesize tokenQuery = _tokenQuery;
-
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
@@ -112,12 +108,6 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 
 - (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup {
     NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
-    
-    _tokenQuery = [[NSMutableDictionary alloc] init];
-    [self.tokenQuery setObject:theIdentifier                forKey:(id)kSecAttrAccount];
-    [self.tokenQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
-    [self.tokenQuery setObject:(id)kSecMatchLimitOne        forKey:(id)kSecMatchLimit];
-    [self.tokenQuery setObject:(id)kCFBooleanTrue           forKey:(id)kSecReturnAttributes];
     // TODO: access group for keychain item sharing amongst apps
 }
 
@@ -132,9 +122,16 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     [_identityUrl release];     _identityUrl = nil;
     [_userId release];          _userId = nil;
     
-    [_tokenQuery release];      _tokenQuery = nil;
-    
     [super dealloc];
+}
+
+- (NSMutableDictionary *)tokenQuery {
+    NSMutableDictionary *tokenQuery = [[[NSMutableDictionary alloc] init] autorelease];
+    [tokenQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
+    [tokenQuery setObject:(id)kSecMatchLimitOne        forKey:(id)kSecMatchLimit];
+    [tokenQuery setObject:(id)kCFBooleanTrue           forKey:(id)kSecReturnAttributes];
+    [tokenQuery setObject:self.identifier forKey:(id)kSecAttrAccount];
+    return tokenQuery;
 }
 
 #pragma mark - Public Methods
@@ -167,13 +164,20 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
 }
 
+- (NSString *)identifier {
+    @synchronized(self) {
+        return [[_identifier copy] autorelease];
+    }
+}
+
 - (void)setIdentifier:(NSString *)theIdentifier {
     NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
     
-    if (![theIdentifier isEqualToString:_identifier]) {
-        [_identifier release];
-        _identifier = [theIdentifier copy];
-        [self.tokenQuery setObject:_identifier forKey:(id)kSecAttrAccount];
+    @synchronized(self) {
+        if (![theIdentifier isEqualToString:_identifier]) {
+            [_identifier release];
+            _identifier = [theIdentifier copy];
+        }
     }
 }
 
@@ -279,7 +283,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 
 - (void)revokeRefreshToken {
     if (self.logLevel < kSFOAuthLogLevelWarning) {
-        NSLog(@"%@:revokeAccessToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt", [self class]);
+        NSLog(@"%@:revokeRefreshToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt fields", [self class]);
     }
     self.refreshToken = nil;
     self.instanceUrl  = nil;
@@ -311,16 +315,18 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     NSMutableDictionary *itemDict = nil;
     NSMutableDictionary *outDict = nil;
     
-    [self.tokenQuery setObject:key forKey:(id)kSecAttrService];
-    result = SecItemCopyMatching((CFDictionaryRef)[NSDictionary dictionaryWithDictionary:self.tokenQuery], (CFTypeRef *)&outDict);
+    NSMutableDictionary *theTokenQuery = self.tokenQuery;
+    [theTokenQuery setObject:key forKey:(id)kSecAttrService];
+    
+    result = SecItemCopyMatching((CFDictionaryRef)[NSDictionary dictionaryWithDictionary:theTokenQuery], (CFTypeRef *)&outDict);
     if (noErr == result) {
         itemDict = [self keychainItemWithConvertedTokenForMatchingItem:outDict];
     } else if (errSecItemNotFound == result) {
         if (self.logLevel < kSFOAuthLogLevelInfo) {
-            NSLog(@"%@:tokenForKey: (%ld) no existing \"%@\" item matching \"%@\"", [self class], result, key, self.tokenQuery);
+            NSLog(@"%@:tokenForKey: (%ld) no existing \"%@\" item matching \"%@\"", [self class], result, key, theTokenQuery);
         }
     } else {
-        NSLog(@"%@:tokenForKey: (%ld) error retrieving \"%@\" item matching \"%@\"", [self class], result, key, self.tokenQuery);
+        NSLog(@"%@:tokenForKey: (%ld) error retrieving \"%@\" item matching \"%@\"", [self class], result, key, theTokenQuery);
     }
     [outDict release];
     return [itemDict valueForKey:(id)kSecValueData];
@@ -361,7 +367,8 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     OSStatus result;
     NSDictionary *existingDict = nil;
     
-    [self.tokenQuery setObject:[dictionary objectForKey:(id)kSecAttrService] forKey:(id)kSecAttrService];
+    NSMutableDictionary *theTokenQuery = self.tokenQuery;
+    [theTokenQuery setObject:[dictionary objectForKey:(id)kSecAttrService] forKey:(id)kSecAttrService];
     
     NSMutableDictionary *updateDict = [NSMutableDictionary dictionary];
     NSString *tokenString = [dictionary objectForKey:(id)kSecValueData];
@@ -370,11 +377,11 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         [updateDict setObject:[tokenString dataUsingEncoding:NSUTF8StringEncoding] forKey:(id)kSecValueData];
     }
     
-    result = SecItemCopyMatching((CFDictionaryRef)self.tokenQuery, (CFTypeRef *)&existingDict);
+    result = SecItemCopyMatching((CFDictionaryRef)theTokenQuery, (CFTypeRef *)&existingDict);
     if (noErr == result) {
         // update an existing keychain item
         NSMutableDictionary *updateQuery = [NSMutableDictionary dictionaryWithDictionary:existingDict];
-        [updateQuery setObject:[self.tokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
+        [updateQuery setObject:[theTokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
         result = SecItemUpdate((CFDictionaryRef)updateQuery, (CFDictionaryRef)updateDict);
         if (noErr != result) {
             NSLog(@"%@:writeToKeychain: (%ld) %@ Updating item: %@", 
@@ -382,7 +389,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         }
     } else if (errSecItemNotFound == result) {
         // add a new keychain item
-        [updateDict setObject:[self.tokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
+        [updateDict setObject:[theTokenQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
         [updateDict setObject:self.identifier forKey:(id)kSecAttrAccount];
         [updateDict setObject:[dictionary objectForKey:(id)kSecAttrService] forKey:(id)kSecAttrService];
         // TODO: [updateDict setObject:self.accessGroup forKey:(id)kSecAttrAccessGroup];
