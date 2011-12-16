@@ -65,7 +65,10 @@ extern NSString * const kUserAgentPropKey;
  */
 + (BOOL) isIPad;
 
-
+/**
+ @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
+ */
+- (void)addOAuthViewToMainView:(UIView*)oauthView;
 
 @end
 
