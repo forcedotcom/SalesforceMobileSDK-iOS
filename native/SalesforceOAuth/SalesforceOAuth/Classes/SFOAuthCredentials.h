@@ -59,9 +59,9 @@ typedef enum {
  */
 @interface SFOAuthCredentials : NSObject <NSCoding>
 
-/** HTTP protocol scheme.
+/** Protocol scheme for authenticating this account.
  */
-@property (nonatomic, readonly) NSString *protocol;
+@property (nonatomic, readonly, retain) NSString *protocol;
 
 /** Logon host domain name.
  
