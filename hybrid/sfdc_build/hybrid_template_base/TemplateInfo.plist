@@ -575,22 +575,29 @@
 <array>
     <dict>
         <key>Summary</key>
-        <array>
-            <dict>
-                <key>iOSApplicationTarget</key>
-                <dict>
-                    <key>Devices</key>
-                    <string>Universal</string>
-                </dict>
-            </dict>
-        </array>
+	        <array>
+	            <dict>
+	                <key>iOSApplicationTarget</key>
+	                <dict>
+	                    <key>Devices</key>
+	                    <string>Universal</string>
+	                </dict>
+	            </dict>
+	        </array>
         <key>BuildPhases</key>
-        <array>
-            <dict>
-                <key>Class</key>
-                <string>Sources</string> <!-- Add Build Phase Compile Source -->
-            </dict>
-    </array>
+	        <array>
+	            <dict>
+	                <key>Class</key>
+	                <string>Sources</string> <!-- Add Build Phase Compile Source -->
+	            </dict>
+	    	</array>
+	 	<key>BuildSettings</key>
+	        <array>
+	          <dict>
+	            <key>Objective-CAutomaticReferenceCounting</key>
+	            <string>NO</string>
+	          </dict>
+	        </array>
     <key>Frameworks</key>
     <array>
 		<string>Foundation</string>
