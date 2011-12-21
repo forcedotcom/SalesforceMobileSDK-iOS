@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials+Internal.h"
 #import <Security/Security.h>
+#import "SFOAuthCredentials+Internal.h"
 
 static NSString * const kSFOAuthArchiveVersion      = @"1.0"; // internal version included when archiving via encodeWithCoder
 
@@ -35,6 +35,8 @@ static NSString * const kSFOAuthServiceRefresh      = @"com.salesforce.oauth.ref
 static NSString * const kSFOAuthServiceActivation   = @"com.salesforce.oauth.activation";
 
 static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
+
+static NSException * kSFOAuthExceptionNilIdentifier;
 
 @implementation SFOAuthCredentials
 
@@ -53,6 +55,14 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 @dynamic accessToken;    // stored in keychain
 @dynamic activationCode; // stored in keychain
 
++ (void)initialize {
+    if (self == [SFOAuthCredentials class]) {
+        kSFOAuthExceptionNilIdentifier = [[NSException alloc] initWithName:NSInternalInconsistencyException 
+                                                                    reason:@"identifier cannot be nil or empty"
+                                                                  userInfo:nil];
+    }
+}
+
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
@@ -64,8 +74,6 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         self.identityUrl    = [coder decodeObjectForKey:@"SFOAuthIdentityUrl"];
         self.instanceUrl    = [coder decodeObjectForKey:@"SFOAuthInstanceUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
-        
-        [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
 }
@@ -83,65 +91,45 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (id)init {
-    self = [super init];
-    if (!self) return nil;
-    [self release];
-    [super doesNotRecognizeSelector:_cmd];
-    return nil;
+    return [self initWithIdentifier:nil clientId:nil];
 }
 
 - (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId {
-    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
-    NSAssert([theClientId length] > 0,  @"clientId cannot be nil or empty");
-    
     self = [super init];
     if (self) {
         self.identifier     = theIdentifier;
         self.clientId       = theClientId;
         self.domain         = kSFOAuthDefaultDomain;
         self.logLevel       = kSFOAuthLogLevelInfo;
-        
-        [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
 }
 
-- (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup {
-    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
-    // TODO: access group for keychain item sharing amongst apps
-}
-
 - (void)dealloc {
+    [_clientId release];        _clientId = nil;
     [_domain release];          _domain = nil;
     [_identifier release];      _identifier = nil;
-    [_clientId release];        _clientId = nil;
-    [_redirectUri release];     _redirectUri = nil;
+    [_identityUrl release];     _identityUrl = nil;
     [_instanceUrl release];     _instanceUrl = nil;
     [_issuedAt release];        _issuedAt = nil;
     [_organizationId release];  _organizationId = nil;
-    [_identityUrl release];     _identityUrl = nil;
+    [_redirectUri release];     _redirectUri = nil;
     [_userId release];          _userId = nil;
     
     [super dealloc];
 }
 
-- (NSMutableDictionary *)tokenQuery {
-    NSMutableDictionary *tokenQuery = [[[NSMutableDictionary alloc] init] autorelease];
-    [tokenQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
-    [tokenQuery setObject:(id)kSecMatchLimitOne        forKey:(id)kSecMatchLimit];
-    [tokenQuery setObject:(id)kCFBooleanTrue           forKey:(id)kSecReturnAttributes];
-    [tokenQuery setObject:self.identifier forKey:(id)kSecAttrAccount];
-    return tokenQuery;
-}
-
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     return [self tokenForKey:kSFOAuthServiceAccess];
 }
 
-// This setter is exposed publically for unit tests. Other external client code should use the revoke methods.
+// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
 - (void)setAccessToken:(NSString *)token {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    
     OSStatus result;
     NSMutableDictionary * dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceAccess];
     if ([token length] > 0) {
@@ -155,12 +143,18 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
 }
 
+- (NSString *)clientId {
+    @synchronized(self) {
+        return [[_clientId copy] autorelease];
+    }
+}
+
 - (void)setClientId:(NSString *)theClientId {
-    NSAssert([theClientId length] > 0,  @"clientId cannot be nil or empty");
-    
-    if (![theClientId isEqualToString:_clientId]) {
-        [_clientId release];
-        _clientId = [theClientId copy];
+    @synchronized(self) {
+        if (![theClientId isEqualToString:_clientId]) {
+            [_clientId release];
+            _clientId = [theClientId copy];
+        }
     }
 }
 
@@ -171,8 +165,6 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (void)setIdentifier:(NSString *)theIdentifier {
-    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
-    
     @synchronized(self) {
         if (![theIdentifier isEqualToString:_identifier]) {
             [_identifier release];
@@ -181,7 +173,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
 }
 
-// This setter is exposed publically for unit tests.
+// This setter is exposed publicly for unit tests.
 - (void)setIdentityUrl:(NSURL *)identityUrl {
     if (![identityUrl isEqual:_identityUrl]) {
         [_identityUrl release];
@@ -207,11 +199,14 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (NSString *)refreshToken {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     return [self tokenForKey:kSFOAuthServiceRefresh];
 }
 
-// This setter is exposed publically for unit tests. Other external client code should use the revoke methods.
+// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
 - (void)setRefreshToken:(NSString *)token {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    
     OSStatus result;
     NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceRefresh];
     if ([token length] > 0) {
@@ -229,11 +224,14 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
     
 - (NSString *)activationCode {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     return [self tokenForKey:kSFOAuthServiceActivation];
 }
     
-// This setter is exposed publically for unit tests. Other external client code should use the revoke methods.
+// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
 - (void)setActivationCode:(NSString *)token {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    
     OSStatus result;
     NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceActivation];
     if ([token length] > 0) {
@@ -250,7 +248,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
 }
 
-// This setter is exposed publically for unit tests.
+// This setter is exposed publicly for unit tests.
 - (void)setUserId:(NSString *)userId {
     //ensure we only use the first 15 chars of any user ID,
     //since some sources might set 15 char, some might set 18 char
@@ -275,6 +273,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (void)revokeAccessToken {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     if (self.logLevel < kSFOAuthLogLevelWarning) {
         NSLog(@"%@:revokeAccessToken: access token revoked", [self class]);
     }
@@ -282,6 +281,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (void)revokeRefreshToken {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     if (self.logLevel < kSFOAuthLogLevelWarning) {
         NSLog(@"%@:revokeRefreshToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt fields", [self class]);
     }
@@ -292,15 +292,16 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 }
 
 - (void)revokeActivationCode {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     self.activationCode = nil;
 }
 
 #pragma mark - Private Keychain Methods
 
-// TODO: reuse dictionaries
-
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key {
     NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh || key == kSFOAuthServiceActivation, @"invalid key \"%@\"", key);
+    NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
+    
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:5];
     [dict setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
     [dict setObject:self.identifier forKey:(id)kSecAttrAccount];
@@ -310,6 +311,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 
 - (NSString *)tokenForKey:(NSString*)key {
     NSAssert(key == kSFOAuthServiceAccess || key == kSFOAuthServiceRefresh || key == kSFOAuthServiceActivation, @"invalid key \"%@\"", key);
+    NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
     
     OSStatus result;
     NSMutableDictionary *itemDict = nil;
@@ -330,6 +332,18 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
     [outDict release];
     return [itemDict valueForKey:(id)kSecValueData];
+}
+
+- (NSMutableDictionary *)tokenQuery {
+    NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
+    
+    NSMutableDictionary *tokenQuery = [[[NSMutableDictionary alloc] init] autorelease];
+    [tokenQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
+    [tokenQuery setObject:(id)kSecMatchLimitOne        forKey:(id)kSecMatchLimit];
+    [tokenQuery setObject:(id)kCFBooleanTrue           forKey:(id)kSecReturnAttributes];
+    [tokenQuery setObject:self.identifier              forKey:(id)kSecAttrAccount];
+    // TODO: kSecAttrAccessGroup for keychain item sharing amongst apps
+    return tokenQuery;
 }
 
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict {
@@ -363,6 +377,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 
 - (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary {
     NSAssert(dictionary, @"dictionary cannot be nil");
+    NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
     
     OSStatus result;
     NSDictionary *existingDict = nil;
