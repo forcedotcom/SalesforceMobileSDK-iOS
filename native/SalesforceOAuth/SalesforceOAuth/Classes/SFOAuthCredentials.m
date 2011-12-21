@@ -25,7 +25,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import <Security/Security.h>
 
-static NSString * const kSFOAuthArchiveVersion      = @"1.0"; // internal version included when archiving via encodeWithCoder
+static NSString * const kSFOAuthArchiveVersion      = @"1.0.2"; // internal version included when archiving via encodeWithCoder
 
 static NSString * const kSFOAuthAccessGroup         = @"com.salesforce.oauth";
 static NSString * const kSFOAuthProtocolHttps       = @"https";
@@ -35,6 +35,14 @@ static NSString * const kSFOAuthServiceRefresh      = @"com.salesforce.oauth.ref
 static NSString * const kSFOAuthServiceActivation   = @"com.salesforce.oauth.activation";
 
 static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
+
+
+@interface SFOAuthCredentials () 
+
+//This property is intentionally readonly in the public header files.
+@property (nonatomic, readwrite, retain) NSString *protocol;
+    
+@end
 
 @implementation SFOAuthCredentials
 
@@ -48,6 +56,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
 @synthesize instanceUrl     = _instanceUrl;
 @synthesize issuedAt        = _issuedAt;
 @synthesize logLevel        = _logLevel;
+@synthesize protocol        = _protocol;
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
@@ -64,7 +73,12 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         self.identityUrl    = [coder decodeObjectForKey:@"SFOAuthIdentityUrl"];
         self.instanceUrl    = [coder decodeObjectForKey:@"SFOAuthInstanceUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
-        
+        NSString *protocolVal = [coder decodeObjectForKey:@"SFOAuthProtocol"];
+        if (nil != protocolVal)
+            self.protocol = protocolVal;
+        else
+            self.protocol = kSFOAuthProtocolHttps;
+
         [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
@@ -79,6 +93,8 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
     [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
+    [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
+
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
 }
 
@@ -100,7 +116,8 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
         self.clientId       = theClientId;
         self.domain         = kSFOAuthDefaultDomain;
         self.logLevel       = kSFOAuthLogLevelInfo;
-        
+        self.protocol       = kSFOAuthProtocolHttps;
+
         [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
     }
     return self;
@@ -121,6 +138,7 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     [_organizationId release];  _organizationId = nil;
     [_identityUrl release];     _identityUrl = nil;
     [_userId release];          _userId = nil;
+    [_protocol release];        _protocol = nil;
     
     [super dealloc];
 }
@@ -202,9 +220,6 @@ static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
     }
 }
 
-- (NSString *)protocol {
-    return kSFOAuthProtocolHttps;
-}
 
 - (NSString *)refreshToken {
     return [self tokenForKey:kSFOAuthServiceRefresh];
