@@ -4,10 +4,6 @@
  * b) the jQuery libraries.
  */
 
-// When debugMode is true, logToConsole() messages will be written to a
-// "debug console" section of the page.
-var debugMode = true;
-
 var appStartTime = new Date();  // Used for debug timing measurements.
 
 /**
@@ -16,7 +12,7 @@ var appStartTime = new Date();  // Used for debug timing measurements.
  *   txt - The text (html) to log to the console.
  */
 function logToConsole(txt) {
-    if (debugMode) {
+    if ((typeof debugMode !== "undefined") && (debugMode === true)) {
         $("#console").css("display", "block");
         var now = new Date();
         var fullTxt = "<i><b>* At " + (now.getTime() - appStartTime.getTime()) + "ms:</b></i> " + txt;
