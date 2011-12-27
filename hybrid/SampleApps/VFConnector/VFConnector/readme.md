@@ -3,7 +3,7 @@
 
 # About this Visualforce sample app
 
-This app was generated from the Salesforce Mobile SDK "Hybrid Force.com app" xcode template. This template provides some things that you may find useful for Force.com Hybrid apps:
+This app was generated from the Salesforce Mobile SDK Hybrid Force.com app template. This template provides some things that you may find useful for Force.com Hybrid apps:
 
 - A bootconfig.js file that allows you to configure the app login/logout behavior (see below).
 - A Settings screen that allows the user to pick an instance (ie Production or Sandbox) or force a logout the next time the app reopens.
