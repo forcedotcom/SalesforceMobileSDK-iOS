@@ -55,7 +55,7 @@
 }
 
 -(NSString *)description {
-    NSString *methodName = @"Unset ";
+    NSString *methodName;
     switch (_method) {
         case SFRestMethodGET: methodName = @"GET"; break;
         case SFRestMethodPOST: methodName = @"POST"; break;
@@ -63,7 +63,9 @@
         case SFRestMethodDELETE: methodName = @"DELETE"; break;
         case SFRestMethodHEAD: methodName = @"HEAD"; break;
         case SFRestMethodPATCH: methodName = @"PATCH"; break;
+        default:
+            methodName = @"Unset";break;
     }
-    return [NSString stringWithFormat:@"[<SFRestRequest> method: %@, path: %@, queryParams: %@]", methodName, _path, [_queryParams JSONRepresentation]];
+    return [NSString stringWithFormat:@"[<SFRestRequest: 0x%x> method: %@, path: %@, queryParams: %@]",self, methodName, _path, [_queryParams JSONRepresentation]];
 }
 @end
