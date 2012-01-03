@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5ECED60D14B3BA3700A19357 /* SFVRestAsync.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED60A14B3BA3700A19357 /* SFVRestAsync.h */; };
+		5ECED60E14B3BA3700A19357 /* SFVRestAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED60B14B3BA3700A19357 /* SFVRestAsync.m */; };
+		5ECED60F14B3BA3700A19357 /* SynthesizeSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED60C14B3BA3700A19357 /* SynthesizeSingleton.h */; };
 		7D055BE81431006700B571E6 /* (null) in Headers */ = {isa = PBXBuildFile; };
 		7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */; };
 		7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D47D3142CEB04000F950D /* TestSetupUtils.m */; };
@@ -225,6 +228,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5ECED60A14B3BA3700A19357 /* SFVRestAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFVRestAsync.h; sourceTree = "<group>"; };
+		5ECED60B14B3BA3700A19357 /* SFVRestAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFVRestAsync.m; sourceTree = "<group>"; };
+		5ECED60C14B3BA3700A19357 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
 		7D6D47D2142CEB04000F950D /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
 		7D6D47D3142CEB04000F950D /* TestSetupUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSetupUtils.m; sourceTree = "<group>"; };
@@ -905,6 +911,9 @@
 				7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */,
 				7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */,
 				7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */,
+				5ECED60A14B3BA3700A19357 /* SFVRestAsync.h */,
+				5ECED60B14B3BA3700A19357 /* SFVRestAsync.m */,
+				5ECED60C14B3BA3700A19357 /* SynthesizeSingleton.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1042,6 +1051,8 @@
 				7D7D1FBA147C57D2005CDD2C /* SBJsonStreamWriter.h in Headers */,
 				7D7D1FBB147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h in Headers */,
 				7D7D1FBC147C57D2005CDD2C /* SBJsonWriter.h in Headers */,
+				5ECED60D14B3BA3700A19357 /* SFVRestAsync.h in Headers */,
+				5ECED60F14B3BA3700A19357 /* SynthesizeSingleton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,6 +1267,7 @@
 				C2C92E3713D9EBC7008833A4 /* RKRequestDelegateWrapper.m in Sources */,
 				C2C92E6813DE10A0008833A4 /* SFRestRequest.m in Sources */,
 				7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */,
+				5ECED60E14B3BA3700A19357 /* SFVRestAsync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
