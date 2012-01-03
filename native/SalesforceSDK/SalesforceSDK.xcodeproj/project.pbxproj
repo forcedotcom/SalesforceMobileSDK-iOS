@@ -1130,6 +1130,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Salesforce.com;
 			};
 			buildConfigurationList = C26713B113D6B845001FE0B8 /* Build configuration list for PBXProject "SalesforceSDK" */;
 			compatibilityVersion = "Xcode 3.2";
