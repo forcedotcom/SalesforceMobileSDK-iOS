@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
 #pragma mark - error handling
 
 + (NSError *)errorWithDescription:(NSString *)description {    
-    NSArray *objArray = [NSArray arrayWithObjects:description, nil, nil, nil];
+    NSArray *objArray = [NSArray arrayWithObjects:description, @"", @"", nil];
     NSArray *keyArray = [NSArray arrayWithObjects:NSLocalizedDescriptionKey, NSUnderlyingErrorKey, NSFilePathErrorKey, nil];
     
     NSDictionary *eDict = [NSDictionary dictionaryWithObjects:objArray
@@ -209,7 +209,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
     NSArray *req = [self requestArrayForRequest:request];
     
     // Fail
-    if( ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
+    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
         ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])(error);
     
     [self removeRequest:request];
@@ -219,7 +219,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
     NSArray *req = [self requestArrayForRequest:request];
     
     // Fail
-    if( ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
+    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
         ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])( [[self class] errorWithDescription:@"Cancelled Load."] );
     
     [self removeRequest:request];
@@ -229,7 +229,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
     NSArray *req = [self requestArrayForRequest:request];
     
     // Fail
-    if( ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
+    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
         ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])( [[self class] errorWithDescription:@"Timed out."] );
     
     [self removeRequest:request];
@@ -239,7 +239,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
     NSArray *req = [self requestArrayForRequest:request];
     
     // Success
-    if( ![[req objectAtIndex:CachedCompleteBlock] isKindOfClass:[NSNumber class]] )
+    if( req && ![[req objectAtIndex:CachedCompleteBlock] isKindOfClass:[NSNumber class]] )
         ((SFVRestJSONDictionaryResponseBlock)[req objectAtIndex:CachedCompleteBlock])(jsonResponse);
     
     [self removeRequest:request];
