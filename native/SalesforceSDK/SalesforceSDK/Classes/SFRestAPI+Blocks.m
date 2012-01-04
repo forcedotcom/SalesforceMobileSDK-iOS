@@ -1,20 +1,93 @@
-//
-//  SFRestAPI+Blocks.m
-//  SalesforceSDK
-//
-//  Created by Jonathan Hersh on 1/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/* 
+ * Copyright (c) 2011, salesforce.com, inc.
+ * Author: Jonathan Hersh jhersh@salesforce.com
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided 
+ * that the following conditions are met:
+ * 
+ *    Redistributions of source code must retain the above copyright notice, this list of conditions and the 
+ *    following disclaimer.
+ *  
+ *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and 
+ *    the following disclaimer in the documentation and/or other materials provided with the distribution. 
+ *    
+ *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or 
+ *    promote products derived from this software without specific prior written permission.
+ *  
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED 
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR 
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
-#import "SFRestAPI+Blocks.h"
-#import <objc/runtime.h>
+#import "SFVRestAsync.h"
 
-// Pattern demonstrated in the Apple documentation. We use a static key
-// whose address will be used by the objc_setAssociatedObject (no need to have a value).
-static char FailBlockKey;
-static char CompleteBlockKey;
+@implementation SFVRestAsync
 
-@implementation SFRestAPI (Blocks)
+SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
+
+#pragma mark - caching requests
+
+- (void)emptyCaches {
+    [activeRequests removeAllObjects];
+    activeRequests = nil;
+}
+
+- (void)cacheRequest:(SFRestRequest *)request failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+    if( !activeRequests )
+        activeRequests = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *newReq = [NSMutableArray arrayWithCapacity:CachedNumThingsToCache];
+    
+    for( int i = 0; i < CachedNumThingsToCache; i++ ) {
+        switch( i ) {
+            case CachedRequest:
+                [newReq addObject:request];
+                break;
+            case CachedFailBlock:
+                [newReq addObject:( failBlock ? [failBlock copy] : [NSNumber numberWithInt:0] )];
+                break;
+            case CachedCompleteBlock:
+                [newReq addObject:( completeBlock ? [completeBlock copy] : [NSNumber numberWithInt:0] )];
+                break;
+            default: break;
+        }
+    }
+    
+    [activeRequests addObject:newReq];
+}
+
+- (NSArray *)requestArrayForRequest:(SFRestRequest *)request {
+    if( !activeRequests )
+        return nil;
+    
+    for( NSArray *req in activeRequests )
+        if( [[req objectAtIndex:CachedRequest] isEqual:request] )
+            return req;
+    
+    return nil;
+}
+
+- (void)removeRequest:(SFRestRequest *)request {
+    if( !activeRequests )
+        return;
+    
+    int toRemove = -1;
+    
+    for( int i = 0; i < [activeRequests count]; i++ )
+        if( [[[activeRequests objectAtIndex:i] objectAtIndex:CachedRequest] isEqual:request] ) {
+            toRemove = i;
+            break;
+        }
+    
+    if( toRemove != -1 )
+        [activeRequests removeObjectAtIndex:toRemove];
+}
 
 #pragma mark - error handling
 
@@ -34,11 +107,8 @@ static char CompleteBlockKey;
 
 #pragma mark - sending requests
 
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {    
-    // Copy blocks into the request instance
-    objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
-    objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
-    
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+    [self cacheRequest:request failBlock:failBlock completeBlock:completeBlock];
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
@@ -136,21 +206,17 @@ static char CompleteBlockKey;
 #pragma mark - response delegate
 
 - (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object {
-    if( success ) {
-        SFVRestJSONDictionaryResponseBlock block = (SFVRestJSONDictionaryResponseBlock)objc_getAssociatedObject(request, &CompleteBlockKey);
-        
-        if (block)
-            block(object);
-    } else if( !success ) {
-        SFVRestFailBlock block = (SFVRestFailBlock)objc_getAssociatedObject(request, &FailBlockKey);
-        
-        if (block)
-            block(object);
-    }
+    NSArray *req = [self requestArrayForRequest:request];
     
-    // Remove both blocks from the request
-    objc_setAssociatedObject( request, &FailBlockKey, nil, OBJC_ASSOCIATION_ASSIGN);
-    objc_setAssociatedObject( request, &CompleteBlockKey, nil, OBJC_ASSOCIATION_ASSIGN);
+    if( !req ) 
+        return;
+    
+    if( success && ![[req objectAtIndex:CachedCompleteBlock] isKindOfClass:[NSNumber class]] )
+        ((SFVRestJSONDictionaryResponseBlock)[req objectAtIndex:CachedCompleteBlock])(object);
+    else if( !success && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
+        ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])(object);
+    
+    [self removeRequest:request];
 }
 
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error {        
