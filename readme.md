@@ -7,6 +7,8 @@ After cloning the SalesforceMobileSDK-iOS project from github, run the install s
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
 See the setup.md file for additional instructions. 
 
+**Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting checkbox is NOT selected.** 
+
 If you have problems building any of the projects, take a look at the online [FAQ](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/wiki/FAQ) for troubleshooting tips.
 
 Introduction
