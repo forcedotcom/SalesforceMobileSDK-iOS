@@ -27,47 +27,20 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
-#import "SynthesizeSingleton.h"
 
-@interface SFVRestAsync : NSObject <SFRestDelegate> {
-    NSMutableArray *activeRequests;
-}
-
-+ (SFVRestAsync *) sharedSFVRestAsync;
-- (void) emptyCaches;
+@interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
 typedef void (^SFVRestFailBlock) (NSError *e);
 typedef void (^SFVRestJSONDictionaryResponseBlock) (NSDictionary *dict);
-
-// Caching requests
-typedef enum SFVCachedRESTRequest {
-    CachedRequest = 0,
-    CachedFailBlock,
-    CachedCompleteBlock,
-    CachedNumThingsToCache
-} SFVCachedRESTRequest;
-
-// Cache requests so our delegate knows which blocks to use
-- (void) cacheRequest:(SFRestRequest *)request failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
-- (NSArray *) requestArrayForRequest:(SFRestRequest *)request;
-- (void) removeRequest:(SFRestRequest *)request;
-
-// Generating error responses
-+ (NSError *) errorWithDescription:(NSString *)description;
 
 // Sending requests
 - (void) sendRESTRequest:(SFRestRequest *)request 
                failBlock:(SFVRestFailBlock)failBlock 
            completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-/** Various request types. For example:
-*** Requesting versions
- [[SFVRestAsync sharedSFVRestAsync] performRequestForVersionsWithFailBlock:nil
-                                                             completeBlock:^(NSDictionary *results) {
-                                                                 NSLog(@"VERSIONS %@", results);
-                                 }];
-**/
+
+// Various request types.
 
 - (void) performSOQLQuery:(NSString *)query 
                 failBlock:(SFVRestFailBlock)failBlock 
