@@ -68,6 +68,8 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
 - (SFRestRequest *) performSOSLQuery:(NSString *)query failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
