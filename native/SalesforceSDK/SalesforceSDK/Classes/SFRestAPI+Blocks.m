@@ -73,7 +73,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:query];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:search];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
