@@ -246,7 +246,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 
-- (NSString *)getUserAgentString {
+- (NSString *)userAgentString {
     //set a user agent string based on the mobile sdk version
     //We are building a user agent of the form:
     //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
