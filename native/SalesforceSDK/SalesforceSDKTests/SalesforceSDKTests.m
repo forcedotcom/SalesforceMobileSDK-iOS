@@ -35,6 +35,7 @@
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
 #import "TestSetupUtils.h"
+#import "SFRestAPI+Blocks.h"
 
 
 @interface SalesforceSDKTests (Private)
@@ -614,6 +615,123 @@
         [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
         [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = validRefreshToken;     
     }
+}
+
+
+#pragma mark - testing block functions
+
+// These block functions are just a category on SFRestAPI, so we verify here
+// only that the proper blocks were called for each
+
+- (void) testBlocks {
+    // A fail block that we expected to fail
+    SFVRestFailBlock *failWithExpectedFail = ^(NSError *e) {
+        STAssertNotNil( e, @"Failure block didn't include an error." );
+    };
+    
+    // A fail block that should not have failed
+    SFVRestFailBlock *failWithUnexpectedFail = ^(NSError *e) {
+        STAssertNil( e, @"Failure block errored but should not have.");
+    };
+    
+    // A success block that we expected to succeed
+    SFVRestJSONDictionaryResponseBlock *successBlock = ^(NSDictionary *d) {
+        STAssertNotNil( d, @"Success block did not include a valid response.");
+    };
+    
+    // A success block that should not have succeeded
+    SFVRestJSONDictionaryResponseBlock *successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        STAssertNil( d, @"Success block succeeded but should not have.");
+    }
+    
+    // Block functions that should always fail
+    [[SFRestAPI sharedInstance] performCreateWithObjectType:nil fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performDeleteWithObjectType:nil objectId:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performDescribeWithObjectType:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performMetadataWithObjectType:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performRetrieveWithObjectType:nil objectId:nil fieldList:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performUpdateWithObjectType:nil objectId:nil fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performUpsertWithObjectType:nil externalIdField:nil externalId:nil
+                                                     fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performSOQLQuery:nil 
+                                       failBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    [[SFRestAPI sharedInstance] performSOSLSearch:nil
+                                        failBlock:failWithExpectedFail
+                                    completeBlock:successWithUnexpectedSuccessBlock];
+    
+    // Block functions that should always succeed
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithUnexpectedFail
+                                                          completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performRequestForVersionsWithFailBlock:failWithUnexpectedFail
+                                                         completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performDescribeGlobalWithFailBlock:failWithUnexpectedFail
+                                                     completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performSOQLQuery:@"select id from user limit 10"
+                                       failBlock:failWithUnexpectedFail
+                                   completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performSOSLSearch:@"find {batman}"
+                                        failBlock:failWithUnexpectedFail
+                                    completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performDescribeWithObjectType:@"Contact"
+                                                    failBlock:failWithUnexpectedFail
+                                                completeBlock:successBlock];
+    [[SFRestAPI sharedInstance] performMetadataWithObjectType:@"Contact"
+                                                    failBlock:failWithUnexpectedFail
+                                                completeBlock:successBlock];
+    
+    NSString *lastName = [NSString stringWithFormat:@"Doe-%@", [NSDate date]];
+    NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
+    NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            @"John", @"FirstName", 
+                            lastName, @"LastName", 
+                            nil];
+    
+    [[SFRestAPI sharedInstance] performCreateWithObjectType:@"Contact"
+                                                     fields:fields
+                                                  failBlock:failWithUnexpectedFail
+                                              completeBlock:^(NSDictionary *d) {
+                                                  NSString *recordId = [[d objectForKey:@"id"] retain];
+                                                  
+                                                  [fields setObject:updatedLastName forKey:@"LastName"];
+                                              
+                                                  [[SFRestAPI sharedInstance] performRetrieveWithObjectType:@"Contact"
+                                                                                                   objectId:recordId
+                                                                                                  fieldList:[NSArray arrayWithObject:@"id"]
+                                                                                                  failBlock:failWithUnexpectedFail
+                                                                                              completeBlock:successBlock];
+                                                  
+                                                  [[SFRestAPI sharedInstance] performUpdateWithObjectType:@"Contact"
+                                                                                                 objectId:recordId
+                                                                                                   fields:fields
+                                                                                                failBlock:failWithUnexpectedFail
+                                                                                            completeBlock:successBlock];
+                                                  
+                                                  [fields setObject:lastName forKey:@"LastName"];
+                                                  
+                                                  [[SFRestAPI sharedInstance] performDeleteWithObjectType:@"Contact"
+                                                                                                 objectId:recordId
+                                                                                                failBlock:failWithUnexpectedFail
+                                                                                            completeBlock:successBlock];
+                                                  
+                                                  
+                                                  [recordId release];
+                                              }];
+    
 }
 
 @end
