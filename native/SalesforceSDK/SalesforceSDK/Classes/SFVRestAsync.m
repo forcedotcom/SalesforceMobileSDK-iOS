@@ -205,44 +205,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SFVRestAsync);
 
 #pragma mark - response delegate
 
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error {    
+- (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object {
     NSArray *req = [self requestArrayForRequest:request];
     
-    // Fail
-    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
-        ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])(error);
+    if( !req ) 
+        return;
+    
+    if( success && ![[req objectAtIndex:CachedCompleteBlock] isKindOfClass:[NSNumber class]] )
+        ((SFVRestJSONDictionaryResponseBlock)[req objectAtIndex:CachedCompleteBlock])(object);
+    else if( !success && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
+        ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])(object);
     
     [self removeRequest:request];
+}
+
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error {        
+    [self sendActionForRequest:request success:NO withObject:error];
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {    
-    NSArray *req = [self requestArrayForRequest:request];
-    
-    // Fail
-    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
-        ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])( [[self class] errorWithDescription:@"Cancelled Load."] );
-    
-    [self removeRequest:request];
+    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Cancelled Load."]];
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {    
-    NSArray *req = [self requestArrayForRequest:request];
-    
-    // Fail
-    if( req && ![[req objectAtIndex:CachedFailBlock] isKindOfClass:[NSNumber class]] )
-        ((SFVRestFailBlock)[req objectAtIndex:CachedFailBlock])( [[self class] errorWithDescription:@"Timed out."] );
-    
-    [self removeRequest:request];
+    [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Timed out."]];
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {    
-    NSArray *req = [self requestArrayForRequest:request];
-    
-    // Success
-    if( req && ![[req objectAtIndex:CachedCompleteBlock] isKindOfClass:[NSNumber class]] )
-        ((SFVRestJSONDictionaryResponseBlock)[req objectAtIndex:CachedCompleteBlock])(jsonResponse);
-    
-    [self removeRequest:request];
+    [self sendActionForRequest:request success:YES withObject:jsonResponse];
 }
 
 @end
