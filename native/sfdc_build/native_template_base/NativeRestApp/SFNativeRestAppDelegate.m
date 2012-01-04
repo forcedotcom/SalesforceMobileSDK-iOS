@@ -30,7 +30,8 @@
 
 
 
-static NSString * const kSFMobileSDKVersion = @"1.0";
+static NSString * const kSFMobileSDKVersion = @"1.0.1";
+static NSString * const kUserAgentPropKey = @"UserAgent";
 
 
 // Key for storing the user's configured login host.
@@ -56,7 +57,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 @interface SFNativeRestAppDelegate (private)
 
-- (NSString *)getUserAgentString;
 
 /**
  Initializes the app settings, in the event that the user has not configured
@@ -104,10 +104,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self = [super init];
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *uaString = [self getUserAgentString];
-        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, @"UserAgent", nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
-        [appUserAgent release];
+        NSString *uaString = [self userAgentString];
+        [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
         
         [[self class] ensureAccountDefaultsExist];
     }
@@ -248,7 +246,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 
-- (NSString *)getUserAgentString {
+- (NSString *)userAgentString {
     //set a user agent string based on the mobile sdk version
     //We are building a user agent of the form:
     //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)

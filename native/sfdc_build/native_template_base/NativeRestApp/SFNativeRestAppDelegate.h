@@ -63,6 +63,11 @@
 
 
 /**
+ The User-Agent string presented by this application
+ */
+@property (nonatomic, readonly) NSString *userAgentString;
+
+/**
  Override this method to change the scopes that should be used,
  default value is:
  [NSSet setWithObjects:@"api",nil]

@@ -49,9 +49,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *uaString = [self userAgentString];
-        NSDictionary *appUserAgent = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:appUserAgent];
-        [appUserAgent release];
+        [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
     }
     return self;
 }
