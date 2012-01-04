@@ -625,22 +625,22 @@
 
 - (void) testBlocks {
     // A fail block that we expected to fail
-    SFVRestFailBlock *failWithExpectedFail = ^(NSError *e) {
+    SFRestFailBlock *failWithExpectedFail = ^(NSError *e) {
         STAssertNotNil( e, @"Failure block didn't include an error." );
     };
     
     // A fail block that should not have failed
-    SFVRestFailBlock *failWithUnexpectedFail = ^(NSError *e) {
+    SFRestFailBlock *failWithUnexpectedFail = ^(NSError *e) {
         STAssertNil( e, @"Failure block errored but should not have.");
     };
     
     // A success block that we expected to succeed
-    SFVRestJSONDictionaryResponseBlock *successBlock = ^(NSDictionary *d) {
+    SFRestDictionaryResponseBlock *successBlock = ^(NSDictionary *d) {
         STAssertNotNil( d, @"Success block did not include a valid response.");
     };
     
     // A success block that should not have succeeded
-    SFVRestJSONDictionaryResponseBlock *successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+    SFRestDictionaryResponseBlock *successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         STAssertNil( d, @"Success block succeeded but should not have.");
     }
     
