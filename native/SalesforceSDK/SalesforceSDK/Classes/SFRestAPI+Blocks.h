@@ -42,58 +42,58 @@ typedef void (^SFVRestJSONDictionaryResponseBlock) (NSDictionary *dict);
 
 // Various request types.
 
-- (void) performSOQLQuery:(NSString *)query 
+- (SFRestRequest *) performSOQLQuery:(NSString *)query 
                 failBlock:(SFVRestFailBlock)failBlock 
             completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performSOSLQuery:(NSString *)query 
+- (SFRestRequest *) performSOSLQuery:(NSString *)query 
                 failBlock:(SFVRestFailBlock)failBlock 
             completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performDescribeGlobalWithFailBlock:(SFVRestFailBlock)failBlock 
+- (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFVRestFailBlock)failBlock 
                               completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performDescribeWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType 
                              failBlock:(SFVRestFailBlock)failBlock 
                          completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performMetadataWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
                              failBlock:(SFVRestFailBlock)failBlock 
                          completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performRetrieveWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType 
                               objectId:(NSString *)objectId 
                              fieldList:(NSArray *)fieldList 
                              failBlock:(SFVRestFailBlock)failBlock 
                          completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performUpdateWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType 
                             objectId:(NSString *)objectId 
                               fields:(NSDictionary *)fields 
                            failBlock:(SFVRestFailBlock)failBlock 
                        completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performUpsertWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType 
                      externalIdField:(NSString *)externalIdField 
                           externalId:(NSString *)externalId 
                               fields:(NSDictionary *)fields 
                            failBlock:(SFVRestFailBlock)failBlock 
                        completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performDeleteWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType 
                             objectId:(NSString *)objectId 
                            failBlock:(SFVRestFailBlock)failBlock 
                        completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performCreateWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
                               fields:(NSDictionary *)fields 
                            failBlock:(SFVRestFailBlock)failBlock 
                        completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performRequestForResourcesWithFailBlock:(SFVRestFailBlock)failBlock 
+- (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFVRestFailBlock)failBlock 
                                    completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
-- (void) performRequestForVersionsWithFailBlock:(SFVRestFailBlock)failBlock 
+- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFVRestFailBlock)failBlock 
                                   completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock;
 
 @end

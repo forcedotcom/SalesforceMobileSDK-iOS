@@ -63,35 +63,41 @@ static char CompleteBlockKey;
 
 #pragma mark - various request types
 
-- (void)performSOQLQuery:(NSString *)query failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performSOQLQuery:(NSString *)query failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
 }
 
-- (void)performSOSLQuery:(NSString *)query failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performSOSLQuery:(NSString *)query failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:query];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performDescribeGlobalWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performUpdateWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performUpsertWithObjectType:(NSString *)objectType externalIdField:(NSString *)externalIdField externalId:(NSString *)externalId fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType externalIdField:(NSString *)externalIdField externalId:(NSString *)externalId fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType
                                                                         externalIdField:externalIdField
                                                                              externalId:externalId
@@ -99,57 +105,73 @@ static char CompleteBlockKey;
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performCreateWithObjectType:(NSString *)objectType fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType fields:(NSDictionary *)fields failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performDeleteWithObjectType:(NSString *)objectType objectId:(NSString *)objectId failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType objectId:(NSString *)objectId failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performDescribeWithObjectType:(NSString *)objectType failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performMetadataWithObjectType:(NSString *)objectType failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:objectType];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(NSArray *)fieldList failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(NSArray *)fieldList failBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:objectType 
                                                                                  objectId:objectId 
                                                                                 fieldList:[[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","]];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performRequestForResourcesWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
-- (void)performRequestForVersionsWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFVRestFailBlock)failBlock completeBlock:(SFVRestJSONDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForVersions];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
+    
+    return request;
 }
 
 #pragma mark - response delegate
