@@ -44,8 +44,8 @@ static char CompleteBlockKey;
     NSDictionary *eDict = [NSDictionary dictionaryWithObjects:objArray
                                                       forKeys:keyArray];
     
-    NSError *err = [[NSError alloc] initWithDomain:@"SFVError"
-                                              code:42
+    NSError *err = [[NSError alloc] initWithDomain:@"API Error"
+                                              code:42 // life, the universe, and everything
                                           userInfo:eDict];
     
     return [err autorelease];
@@ -53,6 +53,12 @@ static char CompleteBlockKey;
 
 #pragma mark - sending requests
 
+/**
+ * Internal function for sending REST requests.
+ * @param request the SFRestRequest to be sent
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ */
 - (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {    
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);

@@ -34,17 +34,6 @@
 typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 
-/**
- * Internal function for sending REST requests.
- * @param request the SFRestRequest to be sent
- * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
- * @param completeBlock the block to be executed when the request successfully completes
- */
-- (void) sendRESTRequest:(SFRestRequest *)request 
-               failBlock:(SFRestFailBlock)failBlock 
-           completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
-
-
 // Various request types.
 
 /**
@@ -52,6 +41,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param query the SOQL query to be executed
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performSOQLQuery:(NSString *)query 
                            failBlock:(SFRestFailBlock)failBlock 
@@ -62,6 +52,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param query the SOQL query to be executed
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performSOSLSearch:(NSString *)search 
                             failBlock:(SFRestFailBlock)failBlock 
@@ -71,6 +62,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * Executes a global describe.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock 
                               completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
@@ -80,6 +72,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param objectType the API name of the object to describe.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType 
                              failBlock:(SFRestFailBlock)failBlock 
@@ -90,6 +83,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param objectType the API name of the object to describe.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
                              failBlock:(SFRestFailBlock)failBlock 
@@ -102,6 +96,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param fieldList an array of fields on this record to retrieve
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType 
                               objectId:(NSString *)objectId 
@@ -116,6 +111,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param fields a dictionary of fields to update.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType 
                             objectId:(NSString *)objectId 
@@ -131,6 +127,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param fields a dictionary of fields to include in the upsert
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType 
                      externalIdField:(NSString *)externalIdField 
@@ -145,6 +142,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param objectId the actual Id of the record to delete
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType 
                             objectId:(NSString *)objectId 
@@ -157,6 +155,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @param fields a dictionary of fields to use in the insert.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
                               fields:(NSDictionary *)fields 
@@ -167,6 +166,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * Executes a request to list REST API resources
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock 
                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
@@ -175,6 +175,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * Executes a request to list REST API versions
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
                                   completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
