@@ -651,7 +651,7 @@
     
     // An array success block that should not have succeeded
     SFRestArrayResponseBlock arrayUnexpectedSuccessBlock = ^(NSArray *arr) {
-        STAssertNil( d, @"Success block succeeded but should not have.");
+        STAssertNil( arr, @"Success block succeeded but should not have.");
     };
     
     // Block functions that should always fail
@@ -704,7 +704,7 @@
                                                     failBlock:failWithUnexpectedFail
                                                 completeBlock:successBlock];
     
-    NSString *lastName = [NSString stringWithFormat:@"Doe-%@", [NSDate date]];
+    NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
     NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"John", @"FirstName", 
@@ -732,6 +732,13 @@
                                                                                             completeBlock:successBlock];
                                                   
                                                   [fields setObject:lastName forKey:@"LastName"];
+                                                  
+                                                  [[SFRestAPI sharedInstance] performUpsertWithObjectType:@"Contact"
+                                                                                          externalIdField:@"Id"
+                                                                                               externalId:recordId
+                                                                                                   fields:fields
+                                                                                                failBlock:failWithUnexpectedFail
+                                                                                            completeBlock:successBlock];
                                                   
                                                   [[SFRestAPI sharedInstance] performDeleteWithObjectType:@"Contact"
                                                                                                  objectId:recordId
