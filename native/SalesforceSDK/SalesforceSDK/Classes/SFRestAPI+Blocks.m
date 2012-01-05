@@ -59,7 +59,7 @@ static char CompleteBlockKey;
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {    
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {    
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
@@ -78,7 +78,7 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+- (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:search];
     [self sendRESTRequest:request
                 failBlock:failBlock

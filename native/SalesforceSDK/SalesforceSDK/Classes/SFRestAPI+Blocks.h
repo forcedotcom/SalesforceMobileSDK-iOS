@@ -33,6 +33,7 @@
 // Block types
 typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
+typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 
 // Various request types.
 
@@ -56,7 +57,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  */
 - (SFRestRequest *) performSOSLSearch:(NSString *)search 
                             failBlock:(SFRestFailBlock)failBlock 
-                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                        completeBlock:(SFRestArrayResponseBlock)completeBlock;
 
 /**
  * Executes a global describe.

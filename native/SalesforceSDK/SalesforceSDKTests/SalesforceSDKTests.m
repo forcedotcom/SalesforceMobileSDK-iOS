@@ -644,11 +644,21 @@
         STAssertNil( d, @"Success block succeeded but should not have.");
     };
     
+    // An array success block that we expected to succeed
+    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr) {
+        STAssertNotNil( arr, @"Success block did not include a valid response.");
+    };
+    
+    // An array success block that should not have succeeded
+    SFRestArrayResponseBlock arrayUnexpectedSuccessBlock = ^(NSArray *arr) {
+        STAssertNil( d, @"Success block succeeded but should not have.");
+    };
+    
     // Block functions that should always fail
-    [[SFRestAPI sharedInstance] performCreateWithObjectType:nil fields:nil
+    [[SFRestAPI sharedInstance] performDeleteWithObjectType:nil objectId:nil
                                                   failBlock:failWithExpectedFail
                                               completeBlock:successWithUnexpectedSuccessBlock];
-    [[SFRestAPI sharedInstance] performDeleteWithObjectType:nil objectId:nil
+    [[SFRestAPI sharedInstance] performCreateWithObjectType:nil fields:nil
                                                   failBlock:failWithExpectedFail
                                               completeBlock:successWithUnexpectedSuccessBlock];
     [[SFRestAPI sharedInstance] performDescribeWithObjectType:nil
@@ -672,7 +682,7 @@
                                    completeBlock:successWithUnexpectedSuccessBlock];
     [[SFRestAPI sharedInstance] performSOSLSearch:nil
                                         failBlock:failWithExpectedFail
-                                    completeBlock:successWithUnexpectedSuccessBlock];
+                                    completeBlock:arrayUnexpectedSuccessBlock];
     
     // Block functions that should always succeed
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithUnexpectedFail
@@ -686,7 +696,7 @@
                                    completeBlock:successBlock];
     [[SFRestAPI sharedInstance] performSOSLSearch:@"find {batman}"
                                         failBlock:failWithUnexpectedFail
-                                    completeBlock:successBlock];
+                                    completeBlock:arraySuccessBlock];
     [[SFRestAPI sharedInstance] performDescribeWithObjectType:@"Contact"
                                                     failBlock:failWithUnexpectedFail
                                                 completeBlock:successBlock];
