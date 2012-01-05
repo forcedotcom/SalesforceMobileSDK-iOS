@@ -160,7 +160,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"callbackId: %@", callbackId);
     
     NSDictionary *authDict = [self credentialsAsDictionary];
-
+    
     if (nil != self.lastRefreshCompleted) {
         //we've refreshed during the lifetime of this (singleton) plugin:
         //check for timeout
@@ -168,7 +168,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         NSDate *curDate = [NSDate date];
         NSTimeInterval delta = [curDate timeIntervalSinceDate:self.lastRefreshCompleted];
         NSLog(@"lastRefreshCompleted %0.2f seconds ago",delta);
-
+        
         if (delta < 120.0f) { //seconds            
             PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
@@ -187,14 +187,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
             [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
         }
     }
- 
+    
 }
 
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSLog(@"authenticate:withDict:");
     NSString *callbackId = [arguments pop];
-
+    
     //Verify that we're not already authenticating
     if (nil != _authCallbackId) {
         NSString *errorMessage = @"Authentication is already in progress.";
@@ -204,7 +204,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
     
     _authCallbackId = [callbackId copy];
-
+    
     NSString *argsString = [arguments pop];
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {
@@ -234,18 +234,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         NSString *uaString = [_appDelegate userAgentString];
         
         credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    creds.accessToken, @"accessToken",
-                                    creds.refreshToken,@"refreshToken",
-                                    creds.clientId, @"clientId",
-                                    creds.userId, @"userId",
-                                    creds.organizationId, @"orgId",
-                                    loginUrl, @"loginUrl",
-                                    instanceUrl, @"instanceUrl",
-                                    uaString, @"userAgentString",
-                                    nil];
-            
+                           creds.accessToken, @"accessToken",
+                           creds.refreshToken,@"refreshToken",
+                           creds.clientId, @"clientId",
+                           creds.userId, @"userId",
+                           creds.organizationId, @"orgId",
+                           loginUrl, @"loginUrl",
+                           instanceUrl, @"instanceUrl",
+                           uaString, @"userAgentString",
+                           nil];
+        
     }
-
+    
     
     return credentialsDict;
 }
@@ -331,12 +331,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)loggedIn
 {
-    NSURL *instanceUrl = self.coordinator.credentials.instanceUrl;
-    NSString *domain = [instanceUrl host]; 
-    
     // addSidCookieForDomain can be called before the web view exists.
-    [self addSidCookieForDomain:domain];
-    [self addSidCookieForDomain:@".force.com"];
     [self addSidCookieForDomain:@".salesforce.com"];
     
     self.lastRefreshCompleted = [NSDate date];
@@ -358,36 +353,37 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)addSidCookieForDomain:(NSString*)domain
 {
+    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
     NSLog(@"addSidCookieForDomain: %@", domain);
     
     // Set the session ID cookie to be used by the web view.
-    NSURL *hostURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", domain]];
+    NSURL *hostURL = self.coordinator.credentials.instanceUrl;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSMutableArray *newCookies = [NSMutableArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
+    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
     // Remove any stale sid cookies with the same domain.
-    for (NSHTTPCookie *cookie in newCookies) {
-        if ([cookie.domain isEqualToString:domain] && [cookie.name isEqualToString:@"sid"]  ) {
-            [newCookies removeObject:cookie];
-            break;
+    NSArray *cookiesToRemove = [NSArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
+    for (NSHTTPCookie *cookieToRemove in cookiesToRemove) {
+        if ([cookieToRemove.domain hasSuffix:domain] && [cookieToRemove.name isEqualToString:@"sid"]  ) {
+            [cookieStorage deleteCookie:cookieToRemove];
         }
     }
     
-    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                   domain, NSHTTPCookieDomain,
-                                                                   @"/", NSHTTPCookiePath,
-                                                                   self.coordinator.credentials.accessToken, NSHTTPCookieValue,
-                                                                   @"sid", NSHTTPCookieName,
-                                                                   @"TRUE", NSHTTPCookieDiscard,
-                                                                   @"TRUE", NSHTTPCookieSecure,
-                                                                   nil]];
+    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                   domain, NSHTTPCookieDomain,
+                                                   @"/", NSHTTPCookiePath,
+                                                   self.coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   @"sid", NSHTTPCookieName,
+                                                   @"TRUE", NSHTTPCookieDiscard,
+                                                   nil];
+    if ([self.coordinator.credentials.protocol isEqualToString:@"https"]) {
+        [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+    }
     
-    
-    [newCookies addObject:sidCookie0];
-    
-    [cookieStorage setCookies:newCookies forURL:hostURL mainDocumentURL:nil];
+    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
+    [cookieStorage setCookie:sidCookie0];
 }
-                        
+
 - (void)populateOAuthProperties:(NSString *)propsJsonString
 {
     NSDictionary *propsDict = [propsJsonString JSONValue];
