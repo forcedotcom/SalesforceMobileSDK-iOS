@@ -189,12 +189,12 @@ static char CompleteBlockKey;
         SFRestDictionaryResponseBlock block = (SFRestDictionaryResponseBlock)objc_getAssociatedObject(request, &CompleteBlockKey);
         
         if( block )
-            block(object);
+            block( object );
     } else {
         SFRestFailBlock block = (SFRestFailBlock)objc_getAssociatedObject(request, &FailBlockKey);
         
         if( block )
-            block(object);
+            block( object );
     }
     
     // Remove both blocks from the request

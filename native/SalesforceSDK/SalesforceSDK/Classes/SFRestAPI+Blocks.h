@@ -49,7 +49,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 
 /**
  * Executes a SOSL search.
- * @param query the SOQL query to be executed
+ * @param search the SOSL search to be executed
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
@@ -65,7 +65,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock 
-                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a describe on a single sObject.
@@ -75,8 +75,8 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType 
-                             failBlock:(SFRestFailBlock)failBlock 
-                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                        failBlock:(SFRestFailBlock)failBlock 
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a metadata describe on a single sObject.
@@ -86,8 +86,8 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
-                             failBlock:(SFRestFailBlock)failBlock 
-                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                        failBlock:(SFRestFailBlock)failBlock 
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a retrieve for a single record.
@@ -99,10 +99,10 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType 
-                              objectId:(NSString *)objectId 
-                             fieldList:(NSArray *)fieldList 
-                             failBlock:(SFRestFailBlock)failBlock 
-                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                         objectId:(NSString *)objectId 
+                                        fieldList:(NSArray *)fieldList 
+                                        failBlock:(SFRestFailBlock)failBlock 
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a DML update for a single record.
@@ -114,10 +114,10 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType 
-                            objectId:(NSString *)objectId 
-                              fields:(NSDictionary *)fields 
-                           failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                       objectId:(NSString *)objectId 
+                                         fields:(NSDictionary *)fields 
+                                      failBlock:(SFRestFailBlock)failBlock 
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a DML upsert for a single record.
@@ -130,11 +130,11 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType 
-                     externalIdField:(NSString *)externalIdField 
-                          externalId:(NSString *)externalId 
-                              fields:(NSDictionary *)fields 
-                           failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                externalIdField:(NSString *)externalIdField 
+                                     externalId:(NSString *)externalId 
+                                         fields:(NSDictionary *)fields 
+                                      failBlock:(SFRestFailBlock)failBlock 
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a DML delete on a single record
@@ -145,9 +145,9 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType 
-                            objectId:(NSString *)objectId 
-                           failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                       objectId:(NSString *)objectId 
+                                      failBlock:(SFRestFailBlock)failBlock 
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a DML insert.
@@ -158,9 +158,9 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
-                              fields:(NSDictionary *)fields 
-                           failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                         fields:(NSDictionary *)fields 
+                                      failBlock:(SFRestFailBlock)failBlock 
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a request to list REST API resources
@@ -169,7 +169,7 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock 
-                                   completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a request to list REST API versions
@@ -178,6 +178,6 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                             completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 @end
