@@ -625,24 +625,24 @@
 
 - (void) testBlocks {
     // A fail block that we expected to fail
-    SFRestFailBlock *failWithExpectedFail = ^(NSError *e) {
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
         STAssertNotNil( e, @"Failure block didn't include an error." );
     };
     
     // A fail block that should not have failed
-    SFRestFailBlock *failWithUnexpectedFail = ^(NSError *e) {
+    SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
         STAssertNil( e, @"Failure block errored but should not have.");
     };
     
     // A success block that we expected to succeed
-    SFRestDictionaryResponseBlock *successBlock = ^(NSDictionary *d) {
+    SFRestDictionaryResponseBlock successBlock = ^(NSDictionary *d) {
         STAssertNotNil( d, @"Success block did not include a valid response.");
     };
     
     // A success block that should not have succeeded
-    SFRestDictionaryResponseBlock *successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         STAssertNil( d, @"Success block succeeded but should not have.");
-    }
+    };
     
     // Block functions that should always fail
     [[SFRestAPI sharedInstance] performCreateWithObjectType:nil fields:nil
