@@ -1,0 +1,630 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7D13804B14B50BAC00A21EE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13804A14B50BAC00A21EE2 /* Foundation.framework */; };
+		7D13804D14B50BAC00A21EE2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13804C14B50BAC00A21EE2 /* UIKit.framework */; };
+		7D13804F14B50BAC00A21EE2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13804E14B50BAC00A21EE2 /* CFNetwork.framework */; };
+		7D13805114B50BAC00A21EE2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805014B50BAC00A21EE2 /* CoreGraphics.framework */; };
+		7D13805314B50BAC00A21EE2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805214B50BAC00A21EE2 /* CoreLocation.framework */; };
+		7D13805514B50BAC00A21EE2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805414B50BAC00A21EE2 /* CoreMedia.framework */; };
+		7D13805714B50BAC00A21EE2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805614B50BAC00A21EE2 /* QuartzCore.framework */; };
+		7D13805914B50BAC00A21EE2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805814B50BAC00A21EE2 /* Security.framework */; };
+		7D13805B14B50BAC00A21EE2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805A14B50BAC00A21EE2 /* MobileCoreServices.framework */; };
+		7D13805D14B50BAC00A21EE2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805C14B50BAC00A21EE2 /* AddressBook.framework */; };
+		7D13805F14B50BAC00A21EE2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13805E14B50BAC00A21EE2 /* AddressBookUI.framework */; };
+		7D13806114B50BAC00A21EE2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13806014B50BAC00A21EE2 /* AudioToolbox.framework */; };
+		7D13806314B50BAC00A21EE2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13806214B50BAC00A21EE2 /* AVFoundation.framework */; };
+		7D13806514B50BAC00A21EE2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13806414B50BAC00A21EE2 /* MediaPlayer.framework */; };
+		7D13806714B50BAC00A21EE2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13806614B50BAC00A21EE2 /* SystemConfiguration.framework */; };
+		7D13806D14B50BAC00A21EE2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D13806B14B50BAC00A21EE2 /* InfoPlist.strings */; };
+		7D13806F14B50BAC00A21EE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D13806E14B50BAC00A21EE2 /* main.m */; };
+		7D13807114B50BAC00A21EE2 /* SmartStorez-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7D13807014B50BAC00A21EE2 /* SmartStorez-Prefix.pch */; };
+		7D13808C14B50BAD00A21EE2 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13808B14B50BAD00A21EE2 /* PhoneGap.framework */; };
+		7D13809414B50BAD00A21EE2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13809314B50BAD00A21EE2 /* libSalesforceOAuth.a */; };
+		7D1380A214B50BAD00A21EE2 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1380A114B50BAD00A21EE2 /* libsbjson-ios.a */; };
+		7D1380A614B50BAD00A21EE2 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380A514B50BAD00A21EE2 /* icon-72.png */; };
+		7D1380A814B50BAD00A21EE2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380A714B50BAD00A21EE2 /* icon.png */; };
+		7D1380AA14B50BAD00A21EE2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380A914B50BAD00A21EE2 /* icon@2x.png */; };
+		7D1380AD14B50BAD00A21EE2 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380AC14B50BAD00A21EE2 /* Default-Landscape~ipad.png */; };
+		7D1380AF14B50BAD00A21EE2 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380AE14B50BAD00A21EE2 /* Default-Portrait~ipad.png */; };
+		7D1380B114B50BAD00A21EE2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380B014B50BAD00A21EE2 /* Default.png */; };
+		7D1380B314B50BAD00A21EE2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380B214B50BAD00A21EE2 /* Default@2x.png */; };
+		7D1380B514B50BAD00A21EE2 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380B414B50BAD00A21EE2 /* Default~iPad.png */; };
+		7D1380B714B50BAD00A21EE2 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380B614B50BAD00A21EE2 /* readme.md */; };
+		7D1380BB14B50BAD00A21EE2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380BA14B50BAD00A21EE2 /* AppDelegate.m */; };
+		7D1380BF14B50BAD00A21EE2 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380BE14B50BAD00A21EE2 /* SFContainerAppDelegate.m */; };
+		7D1380C214B50BAD00A21EE2 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380C114B50BAD00A21EE2 /* README */; };
+		7D1380C414B50BAD00A21EE2 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380C314B50BAD00A21EE2 /* SalesforceOAuthPlugin.m */; };
+		7D1380C714B50BAD00A21EE2 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */; };
+		7D1380C914B50BAD00A21EE2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380C814B50BAD00A21EE2 /* Settings.bundle */; };
+		7D1380CB14B50BAD00A21EE2 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */; };
+		7D1380E714B50CD100A21EE2 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380D514B50CD100A21EE2 /* SFSmartStore.m */; };
+		7D1380E814B50CD100A21EE2 /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380D714B50CD100A21EE2 /* SFSoup.m */; };
+		7D1380E914B50CD100A21EE2 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380D914B50CD100A21EE2 /* SFSoupCursor.m */; };
+		7D1380EA14B50CD100A21EE2 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380DB14B50CD100A21EE2 /* SFSoupIndex.m */; };
+		7D1380EB14B50CD100A21EE2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380DE14B50CD100A21EE2 /* FMDatabase.m */; };
+		7D1380EC14B50CD100A21EE2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380E014B50CD100A21EE2 /* FMDatabaseAdditions.m */; };
+		7D1380ED14B50CD100A21EE2 /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380E214B50CD100A21EE2 /* FMDbException.m */; };
+		7D1380EE14B50CD100A21EE2 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380E414B50CD100A21EE2 /* FMResultSet.m */; };
+		7D1380EF14B50CD100A21EE2 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380E514B50CD100A21EE2 /* SqliteAdditions.c */; };
+		7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */; };
+		7D1380FE14B5192E00A21EE2 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380FD14B5192E00A21EE2 /* www */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7D13804614B50BAC00A21EE2 /* SmartStorez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStorez.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D13804A14B50BAC00A21EE2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7D13804C14B50BAC00A21EE2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7D13804E14B50BAC00A21EE2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		7D13805014B50BAC00A21EE2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7D13805214B50BAC00A21EE2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7D13805414B50BAC00A21EE2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7D13805614B50BAC00A21EE2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7D13805814B50BAC00A21EE2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7D13805A14B50BAC00A21EE2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		7D13805C14B50BAC00A21EE2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		7D13805E14B50BAC00A21EE2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		7D13806014B50BAC00A21EE2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7D13806214B50BAC00A21EE2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7D13806414B50BAC00A21EE2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		7D13806614B50BAC00A21EE2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7D13806A14B50BAC00A21EE2 /* SmartStorez-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SmartStorez-Info.plist"; sourceTree = "<group>"; };
+		7D13806C14B50BAC00A21EE2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7D13806E14B50BAC00A21EE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7D13807014B50BAC00A21EE2 /* SmartStorez-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartStorez-Prefix.pch"; sourceTree = "<group>"; };
+		7D13808B14B50BAD00A21EE2 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = dependencies/PhoneGap.framework; sourceTree = "<group>"; };
+		7D13809114B50BAD00A21EE2 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
+		7D13809214B50BAD00A21EE2 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
+		7D13809314B50BAD00A21EE2 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/libSalesforceOAuth.a; sourceTree = "<group>"; };
+		7D13809814B50BAD00A21EE2 /* NSObject+SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "dependencies/SBJson/include/SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
+		7D13809914B50BAD00A21EE2 /* SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = dependencies/SBJson/include/SBJson/SBJson.h; sourceTree = "<group>"; };
+		7D13809A14B50BAD00A21EE2 /* SBJsonParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = dependencies/SBJson/include/SBJson/SBJsonParser.h; sourceTree = "<group>"; };
+		7D13809B14B50BAD00A21EE2 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParser.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParser.h; sourceTree = "<group>"; };
+		7D13809C14B50BAD00A21EE2 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		7D13809D14B50BAD00A21EE2 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAdapter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		7D13809E14B50BAD00A21EE2 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		7D13809F14B50BAD00A21EE2 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		7D1380A014B50BAD00A21EE2 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
+		7D1380A114B50BAD00A21EE2 /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsbjson-ios.a"; path = "dependencies/SBJson/libsbjson-ios.a"; sourceTree = "<group>"; };
+		7D1380A514B50BAD00A21EE2 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		7D1380A714B50BAD00A21EE2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		7D1380A914B50BAD00A21EE2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		7D1380AC14B50BAD00A21EE2 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		7D1380AE14B50BAD00A21EE2 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		7D1380B014B50BAD00A21EE2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		7D1380B214B50BAD00A21EE2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		7D1380B414B50BAD00A21EE2 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
+		7D1380B614B50BAD00A21EE2 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		7D1380B914B50BAD00A21EE2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		7D1380BA14B50BAD00A21EE2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		7D1380BD14B50BAD00A21EE2 /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFContainerAppDelegate.h; path = Container/SFContainerAppDelegate.h; sourceTree = "<group>"; };
+		7D1380BE14B50BAD00A21EE2 /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFContainerAppDelegate.m; path = Container/SFContainerAppDelegate.m; sourceTree = "<group>"; };
+		7D1380C114B50BAD00A21EE2 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		7D1380C314B50BAD00A21EE2 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
+		7D1380C514B50BAD00A21EE2 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
+		7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
+		7D1380C814B50BAD00A21EE2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
+		7D1380D414B50CD100A21EE2 /* SFSmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStore.h; sourceTree = "<group>"; };
+		7D1380D514B50CD100A21EE2 /* SFSmartStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStore.m; sourceTree = "<group>"; };
+		7D1380D614B50CD100A21EE2 /* SFSoup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoup.h; sourceTree = "<group>"; };
+		7D1380D714B50CD100A21EE2 /* SFSoup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoup.m; sourceTree = "<group>"; };
+		7D1380D814B50CD100A21EE2 /* SFSoupCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupCursor.h; sourceTree = "<group>"; };
+		7D1380D914B50CD100A21EE2 /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupCursor.m; sourceTree = "<group>"; };
+		7D1380DA14B50CD100A21EE2 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
+		7D1380DB14B50CD100A21EE2 /* SFSoupIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupIndex.m; sourceTree = "<group>"; };
+		7D1380DD14B50CD100A21EE2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		7D1380DE14B50CD100A21EE2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		7D1380DF14B50CD100A21EE2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		7D1380E014B50CD100A21EE2 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		7D1380E114B50CD100A21EE2 /* FMDbException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDbException.h; sourceTree = "<group>"; };
+		7D1380E214B50CD100A21EE2 /* FMDbException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDbException.m; sourceTree = "<group>"; };
+		7D1380E314B50CD100A21EE2 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		7D1380E414B50CD100A21EE2 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		7D1380E514B50CD100A21EE2 /* SqliteAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SqliteAdditions.c; sourceTree = "<group>"; };
+		7D1380E614B50CD100A21EE2 /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
+		7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		7D1380FD14B5192E00A21EE2 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7D13804214B50BAC00A21EE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */,
+				7D13804B14B50BAC00A21EE2 /* Foundation.framework in Frameworks */,
+				7D13804D14B50BAC00A21EE2 /* UIKit.framework in Frameworks */,
+				7D13804F14B50BAC00A21EE2 /* CFNetwork.framework in Frameworks */,
+				7D13805114B50BAC00A21EE2 /* CoreGraphics.framework in Frameworks */,
+				7D13805314B50BAC00A21EE2 /* CoreLocation.framework in Frameworks */,
+				7D13805514B50BAC00A21EE2 /* CoreMedia.framework in Frameworks */,
+				7D13805714B50BAC00A21EE2 /* QuartzCore.framework in Frameworks */,
+				7D13805914B50BAC00A21EE2 /* Security.framework in Frameworks */,
+				7D13805B14B50BAC00A21EE2 /* MobileCoreServices.framework in Frameworks */,
+				7D13805D14B50BAC00A21EE2 /* AddressBook.framework in Frameworks */,
+				7D13805F14B50BAC00A21EE2 /* AddressBookUI.framework in Frameworks */,
+				7D13806114B50BAC00A21EE2 /* AudioToolbox.framework in Frameworks */,
+				7D13806314B50BAC00A21EE2 /* AVFoundation.framework in Frameworks */,
+				7D13806514B50BAC00A21EE2 /* MediaPlayer.framework in Frameworks */,
+				7D13806714B50BAC00A21EE2 /* SystemConfiguration.framework in Frameworks */,
+				7D13808C14B50BAD00A21EE2 /* PhoneGap.framework in Frameworks */,
+				7D13809414B50BAD00A21EE2 /* libSalesforceOAuth.a in Frameworks */,
+				7D1380A214B50BAD00A21EE2 /* libsbjson-ios.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7D13803A14B50BAC00A21EE2 = {
+			isa = PBXGroup;
+			children = (
+				7D13806814B50BAC00A21EE2 /* SmartStorez */,
+				7D13804914B50BAC00A21EE2 /* Frameworks */,
+				7D13804714B50BAC00A21EE2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7D13804714B50BAC00A21EE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D13804614B50BAC00A21EE2 /* SmartStorez.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7D13804914B50BAC00A21EE2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */,
+				7D13804A14B50BAC00A21EE2 /* Foundation.framework */,
+				7D13804C14B50BAC00A21EE2 /* UIKit.framework */,
+				7D13804E14B50BAC00A21EE2 /* CFNetwork.framework */,
+				7D13805014B50BAC00A21EE2 /* CoreGraphics.framework */,
+				7D13805214B50BAC00A21EE2 /* CoreLocation.framework */,
+				7D13805414B50BAC00A21EE2 /* CoreMedia.framework */,
+				7D13805614B50BAC00A21EE2 /* QuartzCore.framework */,
+				7D13805814B50BAC00A21EE2 /* Security.framework */,
+				7D13805A14B50BAC00A21EE2 /* MobileCoreServices.framework */,
+				7D13805C14B50BAC00A21EE2 /* AddressBook.framework */,
+				7D13805E14B50BAC00A21EE2 /* AddressBookUI.framework */,
+				7D13806014B50BAC00A21EE2 /* AudioToolbox.framework */,
+				7D13806214B50BAC00A21EE2 /* AVFoundation.framework */,
+				7D13806414B50BAC00A21EE2 /* MediaPlayer.framework */,
+				7D13806614B50BAC00A21EE2 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7D13806814B50BAC00A21EE2 /* SmartStorez */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380FD14B5192E00A21EE2 /* www */,
+				7D13808B14B50BAD00A21EE2 /* PhoneGap.framework */,
+				7D1380B614B50BAD00A21EE2 /* readme.md */,
+				7D1380C814B50BAD00A21EE2 /* Settings.bundle */,
+				7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */,
+				7D13808D14B50BAD00A21EE2 /* dependencies */,
+				7D1380A314B50BAD00A21EE2 /* Resources */,
+				7D1380B814B50BAD00A21EE2 /* Classes */,
+				7D1380BC14B50BAD00A21EE2 /* Container */,
+				7D1380C014B50BAD00A21EE2 /* Plugins */,
+				7D13806914B50BAC00A21EE2 /* Supporting Files */,
+			);
+			path = SmartStorez;
+			sourceTree = "<group>";
+		};
+		7D13806914B50BAC00A21EE2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D13806A14B50BAC00A21EE2 /* SmartStorez-Info.plist */,
+				7D13806B14B50BAC00A21EE2 /* InfoPlist.strings */,
+				7D13806E14B50BAC00A21EE2 /* main.m */,
+				7D13807014B50BAC00A21EE2 /* SmartStorez-Prefix.pch */,
+				7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7D13808D14B50BAD00A21EE2 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				7D13808E14B50BAD00A21EE2 /* SalesforceOAuth */,
+				7D13809514B50BAD00A21EE2 /* SBJson */,
+			);
+			name = dependencies;
+			sourceTree = "<group>";
+		};
+		7D13808E14B50BAD00A21EE2 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D13809314B50BAD00A21EE2 /* libSalesforceOAuth.a */,
+				7D13808F14B50BAD00A21EE2 /* include */,
+			);
+			name = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D13808F14B50BAD00A21EE2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7D13809014B50BAD00A21EE2 /* SalesforceOAuth */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		7D13809014B50BAD00A21EE2 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D13809114B50BAD00A21EE2 /* SFOAuthCoordinator.h */,
+				7D13809214B50BAD00A21EE2 /* SFOAuthCredentials.h */,
+			);
+			name = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D13809514B50BAD00A21EE2 /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380A114B50BAD00A21EE2 /* libsbjson-ios.a */,
+				7D13809614B50BAD00A21EE2 /* include */,
+			);
+			name = SBJson;
+			sourceTree = "<group>";
+		};
+		7D13809614B50BAD00A21EE2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7D13809714B50BAD00A21EE2 /* SBJson */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		7D13809714B50BAD00A21EE2 /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				7D13809814B50BAD00A21EE2 /* NSObject+SBJson.h */,
+				7D13809914B50BAD00A21EE2 /* SBJson.h */,
+				7D13809A14B50BAD00A21EE2 /* SBJsonParser.h */,
+				7D13809B14B50BAD00A21EE2 /* SBJsonStreamParser.h */,
+				7D13809C14B50BAD00A21EE2 /* SBJsonStreamParserAccumulator.h */,
+				7D13809D14B50BAD00A21EE2 /* SBJsonStreamParserAdapter.h */,
+				7D13809E14B50BAD00A21EE2 /* SBJsonStreamWriter.h */,
+				7D13809F14B50BAD00A21EE2 /* SBJsonStreamWriterAccumulator.h */,
+				7D1380A014B50BAD00A21EE2 /* SBJsonWriter.h */,
+			);
+			name = SBJson;
+			sourceTree = "<group>";
+		};
+		7D1380A314B50BAD00A21EE2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380A414B50BAD00A21EE2 /* icons */,
+				7D1380AB14B50BAD00A21EE2 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7D1380A414B50BAD00A21EE2 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380A514B50BAD00A21EE2 /* icon-72.png */,
+				7D1380A714B50BAD00A21EE2 /* icon.png */,
+				7D1380A914B50BAD00A21EE2 /* icon@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		7D1380AB14B50BAD00A21EE2 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380AC14B50BAD00A21EE2 /* Default-Landscape~ipad.png */,
+				7D1380AE14B50BAD00A21EE2 /* Default-Portrait~ipad.png */,
+				7D1380B014B50BAD00A21EE2 /* Default.png */,
+				7D1380B214B50BAD00A21EE2 /* Default@2x.png */,
+				7D1380B414B50BAD00A21EE2 /* Default~iPad.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		7D1380B814B50BAD00A21EE2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380B914B50BAD00A21EE2 /* AppDelegate.h */,
+				7D1380BA14B50BAD00A21EE2 /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		7D1380BC14B50BAD00A21EE2 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380BD14B50BAD00A21EE2 /* SFContainerAppDelegate.h */,
+				7D1380BE14B50BAD00A21EE2 /* SFContainerAppDelegate.m */,
+			);
+			name = Container;
+			sourceTree = "<group>";
+		};
+		7D1380C014B50BAD00A21EE2 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380D314B50CD100A21EE2 /* SmartStore */,
+				7D1380C114B50BAD00A21EE2 /* README */,
+				7D1380C314B50BAD00A21EE2 /* SalesforceOAuthPlugin.m */,
+				7D1380C514B50BAD00A21EE2 /* SalesforceOAuthPlugin.h */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		7D1380D314B50CD100A21EE2 /* SmartStore */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380D414B50CD100A21EE2 /* SFSmartStore.h */,
+				7D1380D514B50CD100A21EE2 /* SFSmartStore.m */,
+				7D1380D614B50CD100A21EE2 /* SFSoup.h */,
+				7D1380D714B50CD100A21EE2 /* SFSoup.m */,
+				7D1380D814B50CD100A21EE2 /* SFSoupCursor.h */,
+				7D1380D914B50CD100A21EE2 /* SFSoupCursor.m */,
+				7D1380DA14B50CD100A21EE2 /* SFSoupIndex.h */,
+				7D1380DB14B50CD100A21EE2 /* SFSoupIndex.m */,
+				7D1380DC14B50CD100A21EE2 /* sqlite */,
+			);
+			name = SmartStore;
+			path = Plugins/SmartStore;
+			sourceTree = "<group>";
+		};
+		7D1380DC14B50CD100A21EE2 /* sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				7D1380DD14B50CD100A21EE2 /* FMDatabase.h */,
+				7D1380DE14B50CD100A21EE2 /* FMDatabase.m */,
+				7D1380DF14B50CD100A21EE2 /* FMDatabaseAdditions.h */,
+				7D1380E014B50CD100A21EE2 /* FMDatabaseAdditions.m */,
+				7D1380E114B50CD100A21EE2 /* FMDbException.h */,
+				7D1380E214B50CD100A21EE2 /* FMDbException.m */,
+				7D1380E314B50CD100A21EE2 /* FMResultSet.h */,
+				7D1380E414B50CD100A21EE2 /* FMResultSet.m */,
+				7D1380E514B50CD100A21EE2 /* SqliteAdditions.c */,
+				7D1380E614B50CD100A21EE2 /* SqliteAdditions.h */,
+			);
+			path = sqlite;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7D13804514B50BAC00A21EE2 /* SmartStorez */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D1380CE14B50BAD00A21EE2 /* Build configuration list for PBXNativeTarget "SmartStorez" */;
+			buildPhases = (
+				7D13804114B50BAC00A21EE2 /* Sources */,
+				7D13804214B50BAC00A21EE2 /* Frameworks */,
+				7D13804314B50BAC00A21EE2 /* Resources */,
+				7D13804414B50BAC00A21EE2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartStorez;
+			productName = SmartStorez;
+			productReference = 7D13804614B50BAC00A21EE2 /* SmartStorez.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7D13803C14B50BAC00A21EE2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Salesforce.com;
+			};
+			buildConfigurationList = 7D13803F14B50BAC00A21EE2 /* Build configuration list for PBXProject "SmartStorez" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7D13803A14B50BAC00A21EE2;
+			productRefGroup = 7D13804714B50BAC00A21EE2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7D13804514B50BAC00A21EE2 /* SmartStorez */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7D13804314B50BAC00A21EE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D13806D14B50BAC00A21EE2 /* InfoPlist.strings in Resources */,
+				7D13807114B50BAC00A21EE2 /* SmartStorez-Prefix.pch in Resources */,
+				7D1380A614B50BAD00A21EE2 /* icon-72.png in Resources */,
+				7D1380A814B50BAD00A21EE2 /* icon.png in Resources */,
+				7D1380AA14B50BAD00A21EE2 /* icon@2x.png in Resources */,
+				7D1380AD14B50BAD00A21EE2 /* Default-Landscape~ipad.png in Resources */,
+				7D1380AF14B50BAD00A21EE2 /* Default-Portrait~ipad.png in Resources */,
+				7D1380B114B50BAD00A21EE2 /* Default.png in Resources */,
+				7D1380B314B50BAD00A21EE2 /* Default@2x.png in Resources */,
+				7D1380B514B50BAD00A21EE2 /* Default~iPad.png in Resources */,
+				7D1380B714B50BAD00A21EE2 /* readme.md in Resources */,
+				7D1380C214B50BAD00A21EE2 /* README in Resources */,
+				7D1380C714B50BAD00A21EE2 /* PhoneGap.plist in Resources */,
+				7D1380C914B50BAD00A21EE2 /* Settings.bundle in Resources */,
+				7D1380CB14B50BAD00A21EE2 /* PhoneGapResources.bundle in Resources */,
+				7D1380FE14B5192E00A21EE2 /* www in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7D13804114B50BAC00A21EE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D13806F14B50BAC00A21EE2 /* main.m in Sources */,
+				7D1380BB14B50BAD00A21EE2 /* AppDelegate.m in Sources */,
+				7D1380BF14B50BAD00A21EE2 /* SFContainerAppDelegate.m in Sources */,
+				7D1380C414B50BAD00A21EE2 /* SalesforceOAuthPlugin.m in Sources */,
+				7D1380E714B50CD100A21EE2 /* SFSmartStore.m in Sources */,
+				7D1380E814B50CD100A21EE2 /* SFSoup.m in Sources */,
+				7D1380E914B50CD100A21EE2 /* SFSoupCursor.m in Sources */,
+				7D1380EA14B50CD100A21EE2 /* SFSoupIndex.m in Sources */,
+				7D1380EB14B50CD100A21EE2 /* FMDatabase.m in Sources */,
+				7D1380EC14B50CD100A21EE2 /* FMDatabaseAdditions.m in Sources */,
+				7D1380ED14B50CD100A21EE2 /* FMDbException.m in Sources */,
+				7D1380EE14B50CD100A21EE2 /* FMResultSet.m in Sources */,
+				7D1380EF14B50CD100A21EE2 /* SqliteAdditions.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D13804414B50BAC00A21EE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7D13806B14B50BAC00A21EE2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7D13806C14B50BAC00A21EE2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7D1380CC14B50BAD00A21EE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7D1380CD14B50BAD00A21EE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7D1380CF14B50BAD00A21EE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStorez/dependencies\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
+				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7D1380D014B50BAD00A21EE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStorez/dependencies\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
+				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7D13803F14B50BAC00A21EE2 /* Build configuration list for PBXProject "SmartStorez" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D1380CC14B50BAD00A21EE2 /* Debug */,
+				7D1380CD14B50BAD00A21EE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7D1380CE14B50BAD00A21EE2 /* Build configuration list for PBXNativeTarget "SmartStorez" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D1380CF14B50BAD00A21EE2 /* Debug */,
+				7D1380D014B50BAD00A21EE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7D13803C14B50BAC00A21EE2 /* Project object */;
+}
