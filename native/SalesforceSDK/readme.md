@@ -36,7 +36,7 @@ For information on how to setup a Remote Access object for your org, see:
 
 ## Running unit tests from XCode
 
-To run tests in a simulator from xcode, simply select the SalesforceSDK target, select Simulator, and Product -> Test (cmd-U). Test failures will be reported by xcode.
+To run tests in a simulator from xcode, simply select the SalesforceSDK target, select Simulator, and Product -> Test (cmd-U). Test failures will be reported by xcode. Note that this will not generate code coverage reports-- you will need to use the command line tools for that.
 
 To run tests on a tethered device, select the AppTest target, select "iOS Device", and and Product -> Test (cmd-U).  Test failures will be reported by xcode. 
 
@@ -45,10 +45,16 @@ To run tests on a tethered device, select the AppTest target, select "iOS Device
 Currently only running unit tests in the simulator is supported from the command line.
 If you cd to /native/SalesforceSDK/sfdc_build and run the command "ant all", the ant unit testing target will be run as part of the full build.  Unit test failures will be reported in the console output. 
 
-Unit tests run from the command line will generate a code coverage report at:
-/native/SalesforceSDK/sfdc_build/artifacts/coverage.xml
+Unit tests run from the command line will generate a simple code coverage report at:
+/native/SalesforceSDK/sfdc_build/artifacts/coverage.txt
 
-This details which code was covered by the tests executed.
+(The Cobertura XML machine-readable report is here:
+/native/SalesforceSDK/sfdc_build/artifacts/coverage.xml
+)
+
+The reports detail which code was covered by the tests executed.  You can use the coverage reports to narrow down which code isn't being covered by your tests.
+
+In general we'd like the test coverage to trend upwards rather than downwards.  If you submit a pull request with significant native SDK additions or modifications, we may ask you to submit your coverage report as well. 
  
 
 ## Discussion
