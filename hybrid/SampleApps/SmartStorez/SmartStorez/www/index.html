@@ -9,18 +9,20 @@
     <script src="jquery/jquery-1.6.2.min.js"></script>
     <script src="jquery/jquery.mobile-1.0b2.min.js"></script>
         
+    <!-- include local utility functionality -->
+    <link rel="stylesheet" type="text/css" href="SFUtility.css" />
+    <script type="text/javascript" src="SFUtility.js"></script>
+
     <!-- include phonegap / callback -->
 	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+        
+
     <!-- required for oauth plugin support -->    
     <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
 
     <!-- include forcetk for REST transaction support -->
-    <script src="forcetk.js"></script>
+    <script type="text/javascript" src="forcetk.js"></script>
     
-    <!-- include local utility functionality -->
-    <link rel="stylesheet" type="text/css" href="SFUtility.css" />
-    <script type="text/javascript" charset="utf-8" src="SFUtility.js"></script>
-
     <script type="text/javascript" charset="utf-8">
 
     
@@ -53,18 +55,17 @@
         //Add event listeners and so forth here
         logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
-
     });
 
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
         logToConsole("onDeviceReady: PhoneGap ready");
-		//Call getAuthCredentials to get the initial session credentials
+        //Call getAuthCredentials to get the initial session credentials
         SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
-
+        
         //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
         document.addEventListener("salesforceSessionRefresh",salesforceSessionRefreshed,false);
-
+        
         //enable buttons
         regLinkClickHandlers();
     }
@@ -87,7 +88,9 @@
     </script>
         
 	<!-- load our app-specific code -->
-    <script src="inline.js"></script>       
+    <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
+    <script type="text/javascript" src="inline.js"></script>     
+
 
   </head>
   <body>
@@ -101,6 +104,21 @@
               <p><a href="#" id="link_fetch_device_contacts" data-role="button" data-inline="true">Fetch Device contacts</a></p>
               <p><a href="#" id="link_fetch_sfdc_contacts" data-role="button" data-inline="true">Fetch SFDC contacts</a></p>
               <p><a href="#" id="link_fetch_sfdc_accounts" data-role="button" data-inline="true">Fetch SFDC Accounts</a></p>
+              
+              <p><a href="#" id="link_reg_soup" data-role="button" data-inline="true">Reg soup</a></p>
+              <p><a href="#" id="link_remove_soup" data-role="button" data-inline="true">Remove soup</a></p>
+              
+              
+              <p><a href="#" id="link_stuff_soup" data-role="button" data-inline="true">Stuff soup</a></p>
+              
+              <p><a href="#" id="link_query_soup" data-role="button" data-inline="true">Query soup</a><input id="input_query_soup" data-role="input" value="Robot" /></p>
+              
+              <p>
+              
+              <a href="#" id="link_cursor_page_next" data-role="button" data-inline="true">Cursor++</a><a href="#" id="link_cursor_page_prev" data-role="button" data-inline="true">Cursor--</a>
+              <a href="#" id="link_cursor_page_zero" data-role="button" data-inline="true">Cursor[0]</a>
+              </p>
+
               <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
 
               <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
@@ -108,6 +126,7 @@
               <div id="div_device_contact_list"></div>
               <div id="div_sfdc_contact_list"></div>
               <div id="div_sfdc_account_list"></div>
+              <div id="div_sfdc_soup_entry_list"></div>
 
               <h3>console:</h3>
               <p id="console" class="logWindow">

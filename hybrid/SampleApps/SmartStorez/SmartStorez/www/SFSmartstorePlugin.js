@@ -25,10 +25,10 @@
  */
 
 
-logToConsole("in SmartstorePlugin.js...");
 
 if (!PhoneGap.hasResource("smartstore")) {
-    PhoneGap.addResource("smartstore");
+
+PhoneGap.addResource("smartstore");
 
 /**
  *  SmartStoreError.
@@ -182,8 +182,9 @@ SmartStore.prototype.moveCursorToPreviousPage = function (cursor,successCB,error
 //======Plugin creation / installation ======
     
 
+    
 PhoneGap.addConstructor(function () {
-        logToConsole("SmartStore.install");
+        logToConsole("SmartStore pre-install");
          if (typeof navigator.smartstore === 'undefined') {
              logToConsole("SmartStore.install");
              navigator.smartstore = new SmartStore();

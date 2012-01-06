@@ -45,7 +45,6 @@ static NSString *const kSoupsDirectory = @"soups";
 
 - (SFSoup*)soupByName:(NSString *)soupName;
 
-- (BOOL)isDataProtectionActive;
 
 @end
 
@@ -59,36 +58,11 @@ static NSString *const kSoupsDirectory = @"soups";
 
 #pragma mark - Utility methods
 
-- (BOOL)isDataProtectionActive {
-    BOOL result = [_appDelegate isDataProtectionAvailable];
-    return result;
+- (BOOL)isFileDataProtectionActive {
+    return [_appDelegate isFileDataProtectionAvailable];
 }
 
-/*
-- (BOOL)isDataProtectionActive {
-    NSString *testFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 
-//    NSString *tmpDirectoryPath = 
-//    [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
-//    NSString *testFilePath = 
-//    [tmpDirectoryPath stringByAppendingPathComponent:@"testFile.txt"];
-    
-    [@"Plain Text" writeToFile:testFilePath 
-          atomically:YES
-            encoding:NSUTF8StringEncoding
-               error:NULL]; // obviously, do better error handling
-    NSDictionary *testFileAttributes = 
-    [[NSFileManager defaultManager] attributesOfItemAtPath:testFilePath
-                                                     error:NULL];
-    
-    
-    
-    NSString *protectionVal = (NSString*)[testFileAttributes objectForKey:NSFileProtectionKey];
-    BOOL fileProtectionEnabled = [NSFileProtectionNone isEqualToString:protectionVal];
-    
-    return fileProtectionEnabled;
-}
-*/
 
 #pragma mark - Soup maniupulation methods
 
@@ -134,8 +108,12 @@ static NSString *const kSoupsDirectory = @"soups";
     if (nil == result) {
         
         //check whether data protection is active:
-        BOOL dataProtectionActive = [self isDataProtectionActive];
-        NSLog(@"dataProtectionActive: %d",dataProtectionActive);
+        BOOL dataProtectionActive = [self isFileDataProtectionActive];
+        if (!dataProtectionActive) {
+            //TODO something more aggressive? prevent soup creation?
+            //note that data protection is NEVER active on simulator
+            NSLog(@"WARNING: File data protection inactive!");
+        }
         
         //we don't have this soup cached in memory, but it might already be persisted
         NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
