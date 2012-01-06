@@ -67,6 +67,7 @@ PhoneGap.available = DeviceInfo.uuid != undefined;
  * @param {Function} func The function callback you want run once PhoneGap is initialized
  */
 PhoneGap.addConstructor = function(func) {
+    
     var state = document.readyState;
     if ( ( state == 'loaded' || state == 'complete' ) && DeviceInfo.uuid != null )
     {
@@ -88,6 +89,11 @@ PhoneGap.addConstructor = function(func) {
         if ( ( state == 'loaded' || state == 'complete' ) && DeviceInfo.uuid != null )
         {
             clearInterval(timer); // stop looking
+                            
+                            
+            var nConstructors = PhoneGap._constructors.length;
+                            
+                            
             // run our constructors list
             while (PhoneGap._constructors.length > 0) 
             {
@@ -112,6 +118,11 @@ PhoneGap.addConstructor = function(func) {
             var e = document.createEvent('Events'); 
             e.initEvent('deviceready');
             document.dispatchEvent(e);
+                            
+            if (typeof(console['log']) == 'function')
+            {
+                console.log("nConstructors processed: " + nConstructors);
+            }
         }
     }, 1);
 })();
