@@ -1,9 +1,12 @@
 //Sample code for Hybrid REST Explorer
 
 var lastSoupCursor = null;
+var testSuite_SmartStore = null;
+
 
 function regLinkClickHandlers() {
     logToConsole("regLinkClickHandlers");
+
     
     $('#link_fetch_device_contacts').click(function() {
                                            var options = new ContactFindOptions();
@@ -32,7 +35,13 @@ function regLinkClickHandlers() {
                            $("#div_sfdc_soup_entry_list").html("");
                            $("#console").html("");
     });
-                           
+                  
+   $('#link_start_tests').click(function() {
+                           logToConsole("link_start_tests clicked");
+						testSuite_SmartStore = new SmartStoreTestSuite();
+						testSuite_SmartStore.startTests();
+					});
+         
     $('#link_logout').click(function() {
              logToConsole("link_logout clicked");
              SalesforceOAuthPlugin.logout();
@@ -82,30 +91,13 @@ function regLinkClickHandlers() {
                                      onErrorRemoveSoup);
     });
     
-    $('#link_query_soup').click(function() {
-        var inputStr = $('#input_query_soup').val();
-        if (inputStr.length === 0) {
-            inputStr = null;
-        }
-        
-        logToConsole("link_query_soup clicked: " + inputStr);
 
-//        var querySpec = new SoupQuerySpec("Name",inputStr);
-//        querySpec.pageSize = 25;
-                                
-        var querySpec = {
-            indexPath:"Name",
-            matchKey:inputStr,
-            pageSize:25
-        };
-            
-        
-        navigator.smartstore.querySoup("myPeopleSoup",querySpec,
-                                           onSuccessQuerySoup, 
-                                           onErrorQuerySoup
-                                                    );
-    });
     
+
+    $('#link_query_soup').click(function() {
+        runQuerySoup();
+    });
+
     
      $('#link_cursor_page_zero').click(function() {
         logToConsole("link_cursor_page_zero clicked");
@@ -125,10 +117,31 @@ function regLinkClickHandlers() {
 }
 
 
+
+
+function runQuerySoup() {
+    var inputStr = $('#input_query_soup').val();
+    if (inputStr.length === 0) {
+        inputStr = null;
+    }
+    
+    logToConsole("testSmartStoreQuerySoup: " + inputStr);
+
+
+    var querySpec = new SoupQuerySpec("Name",inputStr);
+    querySpec.pageSize = 25;
+                            
+        
+    
+    navigator.smartstore.querySoup("myPeopleSoup",querySpec,
+                                       onSuccessQuerySoup, 
+                                       onErrorQuerySoup
+                                                );
+}
+    
 function onSuccessRegSoup(param) {
     logToConsole("onSuccessRegSoup: " + param);
 }
-
 
 function onErrorRegSoup(param) {
     logToConsole("onErrorRegSoup: " + param);
@@ -143,6 +156,8 @@ function onErrorUpsert(param) {
     logToConsole("onErrorUpsert: " + param);
 }
 
+
+    
 function onSuccessQuerySoup(cursor) {
 
     logToConsole("onSuccessQuerySoup totalPages: " + cursor.totalPages);

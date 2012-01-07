@@ -89,8 +89,16 @@
         
 	<!-- load our app-specific code -->
     <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
-    <script type="text/javascript" src="inline.js"></script>     
 
+	<!-- load qunit -->
+    <link rel="stylesheet" type="text/css" href="qunit-git.css" />
+    <script type="text/javascript" src="qunit-git.js"></script>
+
+	<!-- load all our test suites -->
+    <script type="text/javascript" src="smartStoreTestSuite.js"></script>
+
+	<!-- Bind js to index.html -->
+    <script type="text/javascript" src="inline.js"></script>     
 
   </head>
   <body>
@@ -99,6 +107,12 @@
               <h1>Hybrid REST Explorer (SalesforceMobileSDK + PhoneGap + JQM)</h1> 
           </div> 
 
+		  <h1 id="qunit-header">QUnit example</h1>
+		 <h2 id="qunit-banner"></h2>
+		 <div id="qunit-testrunner-toolbar"></div>
+		 <h2 id="qunit-userAgent"></h2>
+		 <ol id="qunit-tests"></ol>
+		 <div id="qunit-fixture">test markup, will be hidden</div>
           <div id="#content" data-role="content"> 
 
               <p><a href="#" id="link_fetch_device_contacts" data-role="button" data-inline="true">Fetch Device contacts</a></p>
@@ -118,6 +132,8 @@
               <a href="#" id="link_cursor_page_next" data-role="button" data-inline="true">Cursor++</a><a href="#" id="link_cursor_page_prev" data-role="button" data-inline="true">Cursor--</a>
               <a href="#" id="link_cursor_page_zero" data-role="button" data-inline="true">Cursor[0]</a>
               </p>
+
+              <p><a href="#" id="link_start_tests" data-role="button" data-inline="true">Tests</a></p>
 
               <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
 
