@@ -654,6 +654,12 @@
         STAssertNil( arr, @"Success block succeeded but should not have.");
     };
     
+    // Class helper function that creates an error.
+    NSString *errorStr = @"Sample error.";
+    
+    STAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]], 
+                 @"Generated error should match description." );
+
     // Block functions that should always fail
     [[SFRestAPI sharedInstance] performDeleteWithObjectType:nil objectId:nil
                                                   failBlock:failWithExpectedFail

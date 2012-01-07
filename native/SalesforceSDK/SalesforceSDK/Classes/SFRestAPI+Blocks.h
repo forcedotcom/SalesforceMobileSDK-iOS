@@ -35,6 +35,8 @@ typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 
++ (NSError *)errorWithDescription:(NSString *)description;
+
 // Various request types.
 
 /**
