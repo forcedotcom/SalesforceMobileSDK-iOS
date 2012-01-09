@@ -193,8 +193,6 @@ static NSString * const kColNameRawJson = @"_raw_json";
 
 - (SFSoupCursor*)query:(NSDictionary*)querySpec {
     NSMutableArray *resultEntries = [NSMutableArray array];
-
-    //TODO use "projection"
     
     id indexPath = [querySpec valueForKey:@"indexPath"];
     id matchKey = [querySpec valueForKey:@"matchKey"];
