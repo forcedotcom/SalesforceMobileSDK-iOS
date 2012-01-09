@@ -45,7 +45,7 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
 + (NSString*)soupIndexNameForKeyPath:(NSString*)path
 {
     //TODO ensure that safeKeypath works for compound paths eg parentAccount.owner.name
-    NSString *safeKeypath = path; 
+    NSString *safeKeypath = [path lowercaseString];
     NSString *result = [NSString stringWithFormat:@"%@%@",kSoupIndexNamePrefix,safeKeypath];
     return result;
 }
@@ -53,7 +53,7 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
 + (NSString*)indexColumnNameForKeyPath:(NSString*)path
 {
     //TODO ensure that safeKeypath works for compound paths eg parentAccount.owner.name
-    NSString *safeKeypath = path; 
+    NSString *safeKeypath = [path lowercaseString]; 
     NSString *result = [NSString stringWithFormat:@"%@%@",kSoupIndexColumnNamePrefix,safeKeypath];
     return result;
 }

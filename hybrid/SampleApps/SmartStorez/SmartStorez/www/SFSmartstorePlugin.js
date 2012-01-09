@@ -73,8 +73,7 @@ var SoupQuerySpec = function (path,matchKey) {
 
     //"ascending" or "descending" : optional
     this.order = "ascending";
-    //optional list of field paths from the entry to be returned by the query
-    this.projection = null;
+
     //the number of entries to copy from native to javascript per each cursor page
     this.pageSize = 10;
 };

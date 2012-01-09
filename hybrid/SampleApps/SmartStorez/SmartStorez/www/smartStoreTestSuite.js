@@ -45,6 +45,16 @@ SmartStoreTestSuite.prototype.startTests = function() {
 	QUnit.init();
 	QUnit.stop();//don't start running tests til they're all queued
 	
+	
+	QUnit.module("SmartStore", {
+	  setup: function() {
+	    QUnit.ok(true, "once extra assert before each test");
+	  },
+	  teardown: function() {
+		QUnit.ok(true, "and one extra assert after each test");
+	  }
+	});
+	
 	this.allTests.forEach(function(methName){
 		logToConsole("Queueing: " + methName);
 		QUnit.asyncTest(methName, function() {
@@ -80,11 +90,11 @@ SmartStoreTestSuite.prototype.registerDefaultSoup = function(cb) {
 		function(soup) { 
 			logToConsole("onSuccessRegSoup: " + soup);
 			self.currentSoup = soup; 
-			cb(soup);
+			if (cb !== null) cb(soup);
 		}, 
 		function(param) { 
 			logToConsole("onErrorRegSoup: " + param);
-			cb(null);
+			if (cb !== null) cb(null);
 		}
       );
 };
@@ -110,6 +120,26 @@ SmartStoreTestSuite.prototype.stuffTestSoup = function(cb) {
 };
 
 
+SmartStoreTestSuite.prototype.addEntriesToTestSoup = function(nEntries, cb) {
+	logToConsole("addEntriesToTestSoup " + nEntries);
+ 
+	var entries = new Array();
+	for (var i = 0; i < nEntries; i++) {
+		var myEntry = { Name: "Todd Stellanova" + i, Id: "00300" + i,  attributes:{type:"Contact"} };
+		entries.push(myEntry);
+	}
+    navigator.smartstore.upsertSoupEntries(this.defaultSoupName,entries,
+		function(param) {
+		    logToConsole("onSuccessUpsert: " + param);
+			cb(param);
+		},
+		function(param) {
+		    logToConsole("onErrorUpsert: " + param);
+			cb(null);
+		}
+	);
+};
+
 SmartStoreTestSuite.prototype.testRegisterSoup = function() {
 	var self = this;
 	this.registerDefaultSoup(function(soup) {
@@ -123,25 +153,25 @@ SmartStoreTestSuite.prototype.testRegisterSoup = function() {
 };
 
 
-SmartStoreTestSuite.prototype.testSmartStoreQuerySoup = function()  {
+SmartStoreTestSuite.prototype.testQuerySoup = function()  {
 	var self = this;
 	this.stuffTestSoup(function(status) {
-		self.continueSmartStoreQuerySoup(status);
+		self.continueQuerySoup(status);
 	});
 };
 
 
-SmartStoreTestSuite.prototype.continueSmartStoreQuerySoup = function(status) {
+SmartStoreTestSuite.prototype.continueQuerySoup = function(status) {
 	var self = this;
-	QUnit.ok(status =="OK","stuffTestSoup failed");
+	QUnit.equal(status,"OK","stuffTestSoup OK");
 	
     var querySpec = new SoupQuerySpec("Name","Robot");
     querySpec.pageSize = 25;
     navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
 		function(cursor) {
-			QUnit.ok(cursor.totalPages === 1,"wrong num pages returned");
+			QUnit.equal(cursor.totalPages,1,"totalPages correct");
 			var nEntries = cursor.currentPageOrderedEntries.length;
-			QUnit.ok(nEntries === 1,"wrong num entries returned");
+			QUnit.equal(nEntries,1,"currentPageOrderedEntries correct");
 			self.setTestSuccessByName("testSmartStoreQuerySoup");
 		},
 		function(param) { 
@@ -165,5 +195,48 @@ SmartStoreTestSuite.prototype.testRemoveSoup = function() {
       );
 };
 
-
+SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
+		var self = this;
+		navigator.smartstore.removeSoup(this.defaultSoupName);
+		this.registerDefaultSoup(null);
+		this.addEntriesToTestSoup(100,function(status) {
+			self.continueManipulateCursor(status);
+		});
+	};
 }
+
+
+SmartStoreTestSuite.prototype.continueManipulateCursor = function(status) {
+	var self = this;
+	QUnit.equal(status,"OK","addEntriesToTestSoup OK");
+		
+    var querySpec = new SoupQuerySpec("Name",null);
+
+    navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
+		function(cursor) {
+			QUnit.equal(cursor.currentPageIndex, 0,"currentPageIndex correct");
+			QUnit.equal(cursor.pageSize,10,"pageSize correct");
+			
+			var nEntries = cursor.currentPageOrderedEntries.length;
+			QUnit.equal(nEntries,cursor.pageSize,"nEntries matches pageSize");
+			
+			navigator.smartstore.moveCursorToNextPage(cursor,
+				function(nextCursor) {
+					QUnit.equal(nextCursor.currentPageIndex,1,"next currentPageIndex correct");
+					self.setTestSuccessByName("testManipulateCursor");
+				},
+				function(param) {
+					logToConsole("onErrorNextPage: " + param);
+					self.setTestFailedByName("testManipulateCursor",param);
+				}
+			);
+		},
+		function(param) { 
+			logToConsole("onErrorQuerySoup: " + param);
+			self.setTestFailedByName("testManipulateCursor",param);
+		}
+	);
+
+};
+
+
