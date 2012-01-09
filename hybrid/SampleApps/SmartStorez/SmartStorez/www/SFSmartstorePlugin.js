@@ -148,6 +148,16 @@ SmartStore.prototype.upsertSoupEntries = function (soupName,entries,successCB,er
                   );
 };
 
+SmartStore.prototype.removeFromSoup = function (soupName,entryIds,successCB,errorCB) {
+    logToConsole("SmartStore.removeFromSoup: '" + soupName + "' entryIds: " + entryIds.length);
+
+    PhoneGap.exec(successCB, errorCB, 
+                  "com.salesforce.smartstore",
+                  "pgRemoveFromSoup",
+                  [{"soupName":soupName,"entryIds":entryIds}]
+                  );
+};
+
 //====== Cursor manipulation ======
     
 SmartStore.prototype.moveCursorToPageIndex = function (cursor,newPageIndex,successCB,errorCB) {
