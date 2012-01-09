@@ -128,9 +128,12 @@ static NSString *const kSoupsDirectory = @"soups";
                 result = [[SFSoup alloc] initWithName:soupName indexes:indexSpecs atPath:soupDir];
             }
         } else {
+            NSLog(@"Soup %@ exists",soupName);
             result = [[SFSoup alloc] initWithName:soupName fromPath:soupDir];
         }
+        
         if (nil == result) {
+            NSLog(@"Unable to mount soup: %@",soupName);
             //ensure that the entire directory is blown away if we weren't able to load the soup
             [[NSFileManager defaultManager] removeItemAtPath:soupDir error:nil];
         } else {
@@ -144,12 +147,17 @@ static NSString *const kSoupsDirectory = @"soups";
 - (void)removeSoup:(NSString*)soupName {
 
     NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-    NSLog(@"Removing soupDir '%@'",soupDir);
-
-    NSError *removeErr = nil;
-    [[NSFileManager defaultManager] removeItemAtPath:soupDir error:&removeErr];
-    if (nil != removeErr) {
-        NSLog(@"Error removing soupDir %@ : %@",soupDir,removeErr);
+    NSFileManager *fileMgr = [NSFileManager defaultManager] ;
+    BOOL isDir = YES;
+    if ([fileMgr fileExistsAtPath:soupDir isDirectory:&isDir] ) {
+        NSError *removeErr = nil;
+        NSLog(@"Removing soupDir '%@'",soupDir);
+        [[NSFileManager defaultManager] removeItemAtPath:soupDir error:&removeErr];
+        if (nil != removeErr) {
+            NSLog(@"Error removing %@ : %@",soupDir,removeErr);
+        }
+    } else {
+        NSLog(@"Ignoring removeSoup for unregistered soup: %@",soupName);
     }
     
     [_soupCache removeObjectForKey:soupName];
@@ -291,7 +299,6 @@ static NSString *const kSoupsDirectory = @"soups";
     SFSoupCursor *cursor = [self upsertEntries:entries toSoup:soupName];
     PluginResult *result;
     if (nil != cursor) {
-        // [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];    
         result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
         [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     } else {

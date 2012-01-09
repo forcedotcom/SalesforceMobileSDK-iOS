@@ -83,7 +83,7 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
 
     NSString *meatStr = [sql substringFromIndex:[kIndexCreationPrefix length]];
     NSArray *sqlTokens = [meatStr componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSLog(@"tokens: %@",sqlTokens);
+    //NSLog(@"tokens: %@",sqlTokens);
     
     for(NSString *tok in sqlTokens) {
         if ([tok hasPrefix:kSoupIndexNamePrefix]) {

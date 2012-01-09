@@ -1,7 +1,7 @@
 //Sample code for Hybrid REST Explorer
 
 var lastSoupCursor = null;
-var testSuite_SmartStore = null;
+var gTestSuiteSmartStore = null;
 
 
 function regLinkClickHandlers() {
@@ -38,8 +38,7 @@ function regLinkClickHandlers() {
                   
    $('#link_start_tests').click(function() {
                            logToConsole("link_start_tests clicked");
-						testSuite_SmartStore = new SmartStoreTestSuite();
-						testSuite_SmartStore.startTests();
+                           kickStartTests();
 					});
          
     $('#link_logout').click(function() {
@@ -116,8 +115,13 @@ function regLinkClickHandlers() {
     });
 }
 
-
-
+/*
+Can be used from native side to start the tests
+*/
+function kickStartTests() {
+    gTestSuiteSmartStore = new SmartStoreTestSuite();
+    gTestSuiteSmartStore.startTests();
+}
 
 function runQuerySoup() {
     var inputStr = $('#input_query_soup').val();
@@ -127,12 +131,9 @@ function runQuerySoup() {
     
     logToConsole("testSmartStoreQuerySoup: " + inputStr);
 
-
     var querySpec = new SoupQuerySpec("Name",inputStr);
     querySpec.pageSize = 25;
-                            
-        
-    
+                                
     navigator.smartstore.querySoup("myPeopleSoup",querySpec,
                                        onSuccessQuerySoup, 
                                        onErrorQuerySoup
