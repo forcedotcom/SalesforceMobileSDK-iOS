@@ -21,6 +21,7 @@ var SmartStoreTestSuite = function () {
 	this.RUNNING_TEST_STATE = 'running';
 	this.FAIL_TEST_STATE = 'fail';
 	this.SUCCESS_TEST_STATE = 'success';
+	this.NUM_CURSOR_MANIPULATION_ENTRIES = 103;
 };
 
 
@@ -42,18 +43,22 @@ SmartStoreTestSuite.prototype.startTests = function() {
 		}
 	}
 	
+	
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+	
 	QUnit.init();
 	QUnit.stop();//don't start running tests til they're all queued
 	
+	QUnit.module("SmartStore");
 	
-	QUnit.module("SmartStore", {
-	  setup: function() {
-	    QUnit.ok(true, "once extra assert before each test");
-	  },
-	  teardown: function() {
-		QUnit.ok(true, "and one extra assert after each test");
-	  }
-	});
+	// QUnit.module("SmartStore", {
+	//   setup: function() {
+	//     QUnit.ok(true, "once extra assert before each test");
+	//   },
+	//   teardown: function() {
+	// 	QUnit.ok(true, "and one extra assert after each test");
+	//   }
+	// });
 	
 	this.allTests.forEach(function(methName){
 		logToConsole("Queueing: " + methName);
@@ -199,7 +204,7 @@ SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
 		var self = this;
 		navigator.smartstore.removeSoup(this.defaultSoupName);
 		this.registerDefaultSoup(null);
-		this.addEntriesToTestSoup(100,function(status) {
+		this.addEntriesToTestSoup(self.NUM_CURSOR_MANIPULATION_ENTRIES,function(status) {
 			self.continueManipulateCursor(status);
 		});
 	};
@@ -219,17 +224,8 @@ SmartStoreTestSuite.prototype.continueManipulateCursor = function(status) {
 			
 			var nEntries = cursor.currentPageOrderedEntries.length;
 			QUnit.equal(nEntries,cursor.pageSize,"nEntries matches pageSize");
-			
-			navigator.smartstore.moveCursorToNextPage(cursor,
-				function(nextCursor) {
-					QUnit.equal(nextCursor.currentPageIndex,1,"next currentPageIndex correct");
-					self.setTestSuccessByName("testManipulateCursor");
-				},
-				function(param) {
-					logToConsole("onErrorNextPage: " + param);
-					self.setTestFailedByName("testManipulateCursor",param);
-				}
-			);
+						
+			self.forwardCursorToEnd(cursor);
 		},
 		function(param) { 
 			logToConsole("onErrorQuerySoup: " + param);
@@ -237,6 +233,40 @@ SmartStoreTestSuite.prototype.continueManipulateCursor = function(status) {
 		}
 	);
 
+};
+
+SmartStoreTestSuite.prototype.forwardCursorToEnd = function(cursor) {
+	var self = this;
+	
+	navigator.smartstore.moveCursorToNextPage(cursor,
+		function(nextCursor) {
+			var pageCount = nextCursor.currentPageIndex + 1;
+			var nEntries = nextCursor.currentPageOrderedEntries.length;
+			
+			if (pageCount < nextCursor.totalPages) {
+				logToConsole("pageCount:" + pageCount + " of " + nextCursor.totalPages);
+				QUnit.equal(nEntries,nextCursor.pageSize,"nEntries matches pageSize [" + nextCursor.currentPageIndex + "]" );
+				
+				self.forwardCursorToEnd(nextCursor);
+			} else {
+				var expectedCurEntries = nextCursor.pageSize;
+				var remainder = self.NUM_CURSOR_MANIPULATION_ENTRIES % nextCursor.pageSize;
+				if (remainder > 0) {
+					expectedCurEntries = remainder;
+					logToConsole("remainder: " + remainder);
+				}
+				
+				QUnit.equal(nextCursor.currentPageIndex,nextCursor.totalPages-1,"final pageIndex correct");
+				QUnit.equal(nEntries,expectedCurEntries,"last page nEntries matches");
+				
+				self.setTestSuccessByName("testManipulateCursor");
+			}
+		},
+		function(param) {
+			logToConsole("onErrorNextPage: " + param);
+			self.setTestFailedByName("testManipulateCursor",param);
+		}
+	);
 };
 
 
