@@ -8,7 +8,7 @@ if (typeof SmartStoreTestSuite === 'undefined') {
 
 
 var SmartStoreTestSuite = function () {
-	this.allTests = new Array();
+	this.allTests = [];
 	this.stateOfTestByName = {};
 	this.defaultSoupName = "myPeopleSoup";
 	this.defaultSoupIndexes = [
@@ -28,10 +28,9 @@ var SmartStoreTestSuite = function () {
 
 SmartStoreTestSuite.prototype.startTests = function() {
 	//collect a list of test methods by introspection
-	var self = this;
+	var key, self = this;
 	
-	
-	for (var key in self) {
+	for ( key in self) {
 		//we specifically don't check hasOwnProperty here, to grab proto methods
 		var val = self[key];
 		if (typeof val === 'function') {
@@ -95,11 +94,15 @@ SmartStoreTestSuite.prototype.registerDefaultSoup = function(cb) {
 		function(soup) { 
 			logToConsole("onSuccessRegSoup: " + soup);
 			self.currentSoup = soup; 
-			if (cb !== null) cb(soup);
+			if (cb !== null) {
+				 cb(soup);
+			}
 		}, 
 		function(param) { 
 			logToConsole("onErrorRegSoup: " + param);
-			if (cb !== null) cb(null);
+			if (cb !== null)  {
+				cb(null);
+			}
 		}
       );
 };
@@ -128,7 +131,7 @@ SmartStoreTestSuite.prototype.stuffTestSoup = function(cb) {
 SmartStoreTestSuite.prototype.addEntriesToTestSoup = function(nEntries, cb) {
 	logToConsole("addEntriesToTestSoup " + nEntries);
  
-	var entries = new Array();
+	var entries = [];
 	for (var i = 0; i < nEntries; i++) {
 		var myEntry = { Name: "Todd Stellanova" + i, Id: "00300" + i,  attributes:{type:"Contact"} };
 		entries.push(myEntry);
@@ -201,14 +204,13 @@ SmartStoreTestSuite.prototype.testRemoveSoup = function() {
 };
 
 SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
-		var self = this;
-		navigator.smartstore.removeSoup(this.defaultSoupName);
-		this.registerDefaultSoup(null);
-		this.addEntriesToTestSoup(self.NUM_CURSOR_MANIPULATION_ENTRIES,function(status) {
-			self.continueManipulateCursor(status);
-		});
-	};
-}
+	var self = this;
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+	this.registerDefaultSoup(null);
+	this.addEntriesToTestSoup(self.NUM_CURSOR_MANIPULATION_ENTRIES,function(status) {
+		self.continueManipulateCursor(status);
+	});
+};
 
 
 SmartStoreTestSuite.prototype.continueManipulateCursor = function(status) {
@@ -269,4 +271,30 @@ SmartStoreTestSuite.prototype.forwardCursorToEnd = function(cursor) {
 	);
 };
 
+SmartStoreTestSuite.prototype.testRemoveFromSoup = function()  {
+	var self = this;
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+	this.registerDefaultSoup(null);
+	this.stuffTestSoup(function(status) {
+		self.continueRemoveSoupEntries(status);
+	});
+};
+
+SmartStoreTestSuite.prototype.continueRemoveSoupEntries = function(status) {
+	var self = this;
+	QUnit.equal(status,"OK","addEntriesToTestSoup OK");
+	//remove but one from stuffTestSoup
+	var entryIds = ["00300A","00300C"];
+	navigator.smartstore.removeFromSoup(this.defaultSoupName, entryIds,
+		function(param) { 
+			//TODO validate the number of remaining entries
+			self.setTestSuccessByName("testRemoveFromSoup");
+		}, 
+		function(param) { 
+			self.setTestFailedByName("testRemoveFromSoup",param);
+		}
+	);
+};
+
+}
 

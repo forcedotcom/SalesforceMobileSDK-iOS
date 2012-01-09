@@ -315,7 +315,6 @@ static NSString *const kSoupsDirectory = @"soups";
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
 
-    NSAssert(false,@"TODO implement");
     NSString *soupName = [options objectForKey:@"soupName"];
     NSArray *entryIds = [options objectForKey:@"entryIds"];
 
