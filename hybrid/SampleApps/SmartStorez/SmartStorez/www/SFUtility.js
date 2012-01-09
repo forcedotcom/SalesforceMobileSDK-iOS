@@ -14,9 +14,7 @@ var appStartTime = new Date();  // Used for debug timing measurements.
 function logToConsole(txt) {
     if ((typeof debugMode !== "undefined") && (debugMode === true)) {
         $("#console").css("display", "block");
-        var now = new Date();
-        var fullTxt = "<i><b>* At " + (now.getTime() - appStartTime.getTime()) + "ms:</b></i> " + txt;
-        log("#console", fullTxt);
+        log("#console", txt);
     }
 }
         
@@ -35,6 +33,8 @@ function logError(txt) {
  *   txt - The text (html) to log.
  */
 function log(section, txt) {
-    $(section).append("<p>" + txt + "</p>");
     console.log("jslog:" + txt);
+    var now = new Date();
+    var fullTxt = "<p><i><b>* At " + (now.getTime() - appStartTime.getTime()) + "ms:</b></i> " + txt + "</p>";
+    $(section).append(fullTxt);
 }
