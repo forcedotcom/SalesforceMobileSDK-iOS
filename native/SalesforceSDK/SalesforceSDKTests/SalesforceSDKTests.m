@@ -888,6 +888,7 @@ STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have includ
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
                                                           completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount = 1;
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:nil];
     STAssertTrue(found , @"Could not find request to force a timeout");
