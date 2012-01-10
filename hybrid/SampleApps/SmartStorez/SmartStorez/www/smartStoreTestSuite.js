@@ -113,8 +113,14 @@ SmartStoreTestSuite.prototype.stuffTestSoup = function(cb) {
 	var myEntry1 = { Name: "Todd Stellanova", Id: "00300A",  attributes:{type:"Contact"} };
     var myEntry2 = { Name: "Pro Bono Bonobo",  Id: "00300B", attributes:{type:"Contact"}  };
     var myEntry3 = { Name: "Robot", Id: "00300C", attributes:{type:"Contact"}  };
-
     var entries = [myEntry1,myEntry2,myEntry3];
+
+	this.addEntriesToTestSoup(entries,cb);
+};
+
+
+SmartStoreTestSuite.prototype.addEntriesToTestSoup = function(entries,cb) {
+
     navigator.smartstore.upsertSoupEntries(this.defaultSoupName,entries,
 		function(param) {
 		    logToConsole("onSuccessUpsert: " + param);
@@ -127,25 +133,17 @@ SmartStoreTestSuite.prototype.stuffTestSoup = function(cb) {
 	);
 };
 
-
-SmartStoreTestSuite.prototype.addEntriesToTestSoup = function(nEntries, cb) {
-	logToConsole("addEntriesToTestSoup " + nEntries);
+SmartStoreTestSuite.prototype.addGeneratedEntriesToTestSoup = function(nEntries, cb) {
+	logToConsole("addGeneratedEntriesToTestSoup " + nEntries);
  
 	var entries = [];
 	for (var i = 0; i < nEntries; i++) {
 		var myEntry = { Name: "Todd Stellanova" + i, Id: "00300" + i,  attributes:{type:"Contact"} };
 		entries.push(myEntry);
 	}
-    navigator.smartstore.upsertSoupEntries(this.defaultSoupName,entries,
-		function(param) {
-		    logToConsole("onSuccessUpsert: " + param);
-			cb(param);
-		},
-		function(param) {
-		    logToConsole("onErrorUpsert: " + param);
-			cb(null);
-		}
-	);
+	
+	this.addEntriesToTestSoup(entries,cb);
+	
 };
 
 SmartStoreTestSuite.prototype.testRegisterSoup = function() {
@@ -207,7 +205,7 @@ SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
 	var self = this;
 	navigator.smartstore.removeSoup(this.defaultSoupName);
 	this.registerDefaultSoup(null);
-	this.addEntriesToTestSoup(self.NUM_CURSOR_MANIPULATION_ENTRIES,function(status) {
+	this.addGeneratedEntriesToTestSoup(self.NUM_CURSOR_MANIPULATION_ENTRIES,function(status) {
 		self.continueManipulateCursor(status);
 	});
 };
@@ -215,7 +213,7 @@ SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
 
 SmartStoreTestSuite.prototype.continueManipulateCursor = function(status) {
 	var self = this;
-	QUnit.equal(status,"OK","addEntriesToTestSoup OK");
+	QUnit.equal(status,"OK","addGeneratedEntriesToTestSoup OK");
 		
     var querySpec = new SoupQuerySpec("Name",null);
 
@@ -272,25 +270,58 @@ SmartStoreTestSuite.prototype.forwardCursorToEnd = function(cursor) {
 };
 
 SmartStoreTestSuite.prototype.testRemoveFromSoup = function()  {
-	var self = this;
+	var self = this, querySpec = new SoupQuerySpec("Name",null);
+    
 	navigator.smartstore.removeSoup(this.defaultSoupName);
 	this.registerDefaultSoup(null);
-	this.stuffTestSoup(function(status) {
-		self.continueRemoveSoupEntries(status);
-	});
+	this.stuffTestSoup(null);
+	
+	//query for the remaining entry
+    navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
+		function(cursor) {
+			var nEntries = cursor.currentPageOrderedEntries.length;
+			QUnit.equal(nEntries,3,"currentPageOrderedEntries correct");
+			self.continueRemoveSoupEntries(cursor);
+		},
+		function(param) { 
+			logToConsole("onErrorQuerySoup: " + param);
+			self.setTestFailedByName("testRemoveFromSoup",param);
+		}
+	);
+	
+
 };
 
-SmartStoreTestSuite.prototype.continueRemoveSoupEntries = function(status) {
-	var self = this;
-	QUnit.equal(status,"OK","addEntriesToTestSoup OK");
-	//remove but one from stuffTestSoup
-	var entryIds = ["00300A","00300C"];
-	navigator.smartstore.removeFromSoup(this.defaultSoupName, entryIds,
+SmartStoreTestSuite.prototype.continueRemoveSoupEntries = function(cursor) {
+	var self = this,  soupEntryIds = [];
+
+	for (var i = cursor.currentPageOrderedEntries.length - 1; i >= 0; i--) {
+		var entry = cursor.currentPageOrderedEntries[i];
+		soupEntryIds.push(entry._soupEntryId);
+	}
+	
+	navigator.smartstore.removeFromSoup(this.defaultSoupName, soupEntryIds,
 		function(param) { 
-			//TODO validate the number of remaining entries
-			self.setTestSuccessByName("testRemoveFromSoup");
+			self.continueRemoveSoupEntries2(param);
 		}, 
 		function(param) { 
+			self.setTestFailedByName("testRemoveFromSoup",param);
+		}
+	);
+};
+
+SmartStoreTestSuite.prototype.continueRemoveSoupEntries2 = function(status) {
+	var self = this,  querySpec = new SoupQuerySpec("Name",null);
+	QUnit.equal(status,"OK","removeFromSoup OK");
+
+	navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
+		function(cursor) {
+			var nEntries = cursor.currentPageOrderedEntries.length;
+			QUnit.equal(nEntries,0,"currentPageOrderedEntries correct");
+			self.setTestSuccessByName("testRemoveFromSoup");
+		},
+		function(param) { 
+			logToConsole("onErrorQuerySoup: " + param);
 			self.setTestFailedByName("testRemoveFromSoup",param);
 		}
 	);
