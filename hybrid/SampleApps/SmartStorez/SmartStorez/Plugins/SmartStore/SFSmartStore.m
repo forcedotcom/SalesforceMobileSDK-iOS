@@ -177,7 +177,7 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
-- (NSDictionary*)retrieveSoupEntry:(NSString*)soupName withSoupEntryId:(NSString*)soupEntryId
+- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName
 {
     SFSoup *theSoup = [self soupByName:soupName];
     NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
@@ -305,7 +305,7 @@ static NSString *const kSoupsDirectory = @"soups";
     NSString *soupName = [options objectForKey:@"soupName"];
     NSString *entryId = [options objectForKey:@"soupEntryId"];
     
-    NSDictionary *entry = [self retrieveSoupEntry:soupName withSoupEntryId:entryId]; //TODO other error handling?
+    NSDictionary *entry = [self retrieveEntry:entryId fromSoup:soupName]; //TODO other error handling?
     [self writeSuccessDictToJsRealm:entry callbackId:callbackId];
     
     NSLog(@"pgRetrieveSoupEntry in %f", [startTime timeIntervalSinceNow]);

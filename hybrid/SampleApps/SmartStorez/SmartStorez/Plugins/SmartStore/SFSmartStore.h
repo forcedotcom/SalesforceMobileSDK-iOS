@@ -84,7 +84,7 @@
  
  @return A single entry or nil
  */
-- (NSDictionary*)retrieveSoupEntry:(NSString*)soupName withSoupEntryId:(NSString*)soupEntryId;
+- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName;
 
 
 /*
@@ -159,7 +159,8 @@
  
  @param options:  dictionary containing "soupName" and "soupEntryId"  
  
- @see retrieveSoupEntry
+ @see retrieveSoupEntry:fromSoup:
+
  */
 - (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options;
 
