@@ -1521,11 +1521,11 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-					"\"$(SRCROOT)/../dependencies/RestKit\"",
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
 			name = Debug;
@@ -1541,10 +1541,10 @@
 				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
-					"\"$(SRCROOT)/../dependencies/RestKit\"",
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
