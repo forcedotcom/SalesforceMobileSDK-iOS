@@ -176,6 +176,15 @@ static NSString *const kSoupsDirectory = @"soups";
     return result;
 }
 
+
+- (NSDictionary*)retrieveSoupEntry:(NSString*)soupName withSoupEntryId:(NSString*)soupEntryId
+{
+    SFSoup *theSoup = [self soupByName:soupName];
+    NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
+    return result;
+}
+
+
 - (SFSoupCursor*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
     SFSoupCursor *result = nil;
@@ -284,9 +293,23 @@ static NSString *const kSoupsDirectory = @"soups";
     NSDictionary *querySpec = [options objectForKey:@"querySpec"];
     
     SFSoupCursor *cursor =  [self querySoup:soupName withQuerySpec:querySpec];    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];
+    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
      
     NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
+}
+
+- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options
+{
+    NSDate *startTime = [NSDate date];
+	NSString* callbackId = [arguments objectAtIndex:0];
+    NSString *soupName = [options objectForKey:@"soupName"];
+    NSString *entryId = [options objectForKey:@"soupEntryId"];
+    
+    NSDictionary *entry = [self retrieveSoupEntry:soupName withSoupEntryId:entryId]; //TODO other error handling?
+    [self writeSuccessDictToJsRealm:entry callbackId:callbackId];
+    
+    NSLog(@"pgRetrieveSoupEntry in %f", [startTime timeIntervalSinceNow]);
+
 }
 
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
@@ -300,7 +323,8 @@ static NSString *const kSoupsDirectory = @"soups";
     PluginResult *result;
     if (nil != cursor) {
         result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];
+        //[self writeSuccessResultToJsRealm:result callbackId:callbackId];
     } else {
         result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];

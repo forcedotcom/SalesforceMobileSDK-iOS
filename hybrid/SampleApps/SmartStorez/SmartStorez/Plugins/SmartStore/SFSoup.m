@@ -230,6 +230,26 @@ static NSString * const kColNameRawJson = @"_raw_json";
     return [result autorelease];
 }
 
+- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId
+{
+    NSDictionary *entry = nil;
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    NSString *querySql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@='%@\'",kMasterSoupTableName,kColNameEntryId, soupEntryId];
+
+    NSLog(@"querySql:\n %@",querySql);
+    
+    FMResultSet *frs = [self.soupDb executeQuery:querySql];
+    while([frs next]) {
+        NSString *rawJson = [frs stringForColumn:kColNameRawJson];
+        entry = [parser objectWithString:rawJson];
+    }
+    [frs close];
+    
+    return entry;
+
+}
+
+
 - (SFSoupCursor*)upsertEntries:(NSArray*)entries {
 
     NSDate *startTime = [NSDate date];
@@ -350,7 +370,23 @@ static NSString * const kColNameRawJson = @"_raw_json";
 
 - (void)removeEntries:(NSArray*)entryIds
 {
-    NSLog(@"TODO implement removeEntries: %@",entryIds);
+    NSDate *startTime = [NSDate date];
+    
+    if (![self.soupDb beginTransaction])
+        return;
+    
+    for (NSString *entryId in entryIds) {
+        NSString *deleteRowSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=%@", kMasterSoupTableName, kColNameEntryId, entryId];
+        BOOL ok = [self.soupDb executeUpdate:deleteRowSql withParams:nil];
+        if (!ok) {
+            NSLog(@"Could not delete: %@",entryId); //TODO hand back error?
+        }
+    }
+
+    [self.soupDb endTransaction:YES];
+    NSTimeInterval elapsed = [startTime timeIntervalSinceNow];
+    NSLog(@"removing %d took %f",[entryIds count],elapsed);
+
 }
 
 

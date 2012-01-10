@@ -138,6 +138,16 @@ SmartStore.prototype.querySoup = function (soupName,querySpec,successCB,errorCB)
                   );
 };
 
+SmartStore.prototype.retrieveSoupEntry = function (soupName,soupEntryId,successCB,errorCB) {
+    logToConsole("SmartStore.retrieveSoupEntry: '" + soupName + "' soupEntryId: " + soupEntryId);
+    
+    PhoneGap.exec(successCB, errorCB, 
+                  "com.salesforce.smartstore",
+                  "pgRetrieveSoupEntry",
+                  [{"soupName":soupName,"soupEntryId":soupEntryId}]
+                  );
+};
+
 SmartStore.prototype.upsertSoupEntries = function (soupName,entries,successCB,errorCB) {
     logToConsole("SmartStore.upsertSoupEntries: '" + soupName + "' entries: " + entries.length);
 

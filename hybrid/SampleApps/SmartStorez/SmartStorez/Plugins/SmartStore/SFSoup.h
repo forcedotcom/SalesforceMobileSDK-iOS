@@ -57,6 +57,12 @@
 - (SFSoupCursor*)query:(NSDictionary*)querySpec;
 
 /**
+ @param soupEntryId Entry to retrieve
+ @return a soup entry whose _soupEntryId exactly matches
+ */
+- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId;
+
+/**
  @param entries array of soup entries to be updated or inserted
  */
 - (SFSoupCursor*)upsertEntries:(NSArray*)entries;
