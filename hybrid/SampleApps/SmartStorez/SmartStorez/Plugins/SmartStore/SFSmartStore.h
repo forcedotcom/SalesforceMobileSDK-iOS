@@ -66,9 +66,6 @@
 - (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
 
 
-
-
-
 /*
  Search soup for entries matching the querySpec
 
@@ -78,6 +75,16 @@
  @return A set of entries
  */
 - (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
+
+/*
+ Search soup for an entry with a soup entry ID that exactly matches
+ 
+ @param soupName The name of the soup to query
+ @param soupEntryId An opaque soup entry ID
+ 
+ @return A single entry or nil
+ */
+- (NSDictionary*)retrieveSoupEntry:(NSString*)soupName withSoupEntryId:(NSString*)soupEntryId;
 
 
 /*
@@ -143,6 +150,19 @@
  @see querySoup
  */
 - (void)pgQuerySoup:(NSArray*)arguments withDict:(NSDictionary*)options;
+
+
+/**
+ @param arguments Standard phonegap arguments array, containing:
+ 1: successCB - this is the javascript function that will be called on success
+ 2: errorCB - optional javascript function to be called in the event of an error with an error code.
+ 
+ @param options:  dictionary containing "soupName" and "soupEntryId"  
+ 
+ @see retrieveSoupEntry
+ */
+- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options;
+
 
 /**   
  @param arguments Standard phonegap arguments array, containing:

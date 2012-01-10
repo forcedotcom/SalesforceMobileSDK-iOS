@@ -21,28 +21,14 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>SmartStorez/www/SFSmartStorePlugin.js</key>
+		<key>SmartStorez/www/SFSmartstorePlugin.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>48</integer>
 				<key>line</key>
-				<integer>130</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>110</integer>
-		</dict>
-		<key>SmartStorez/www/inline.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>41</integer>
+				<integer>156</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
@@ -53,16 +39,60 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
-				<key>line</key>
 				<integer>41</integer>
+				<key>line</key>
+				<integer>156</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>37</integer>
+				<integer>48</integer>
 				<key>line</key>
-				<integer>41</integer>
+				<integer>156</integer>
+			</dict>
+		</dict>
+		<key>SmartStorez/www/index.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>5</integer>
+				<key>line</key>
+				<integer>122</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>104</integer>
+		</dict>
+		<key>SmartStorez/www/inline.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>49</integer>
+				<key>line</key>
+				<integer>113</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>93</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>113</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>49</integer>
+				<key>line</key>
+				<integer>113</integer>
 			</dict>
 		</dict>
 		<key>SmartStorez/www/phonegap-1.2.0.js</key>
@@ -130,27 +160,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>148</integer>
+				<integer>289</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>18</integer>
+			<integer>273</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>SmartStorez/www/inline.js</string>
+		<string>SmartStorez/www/SFSmartstorePlugin.js</string>
 		<string>SmartStorez/www/smartStoreTestSuite.js</string>
+		<string>SmartStorez/www/index.html</string>
 		<string>SmartStorez/www/qunit-git.js</string>
 		<string>SmartStorez/www/phonegap-1.2.0.js</string>
-		<string>SmartStorez/www/SFSmartStorePlugin.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
-	<true/>
+	<false/>
 	<key>windowFrame</key>
-	<string>{{161, 231}, {863, 830}}</string>
+	<string>{{884, 326}, {1002, 785}}</string>
 </dict>
 </plist>
