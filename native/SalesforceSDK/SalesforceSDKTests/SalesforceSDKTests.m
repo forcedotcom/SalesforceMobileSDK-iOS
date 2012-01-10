@@ -665,9 +665,9 @@ STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have includ
         STAssertNil( e, @"Failure block errored but should not have.");
     };
     
-    __block NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
-    __block NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
-    __block NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
+    NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
+    NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            @"John", @"FirstName", 
                                            lastName, @"LastName", 
                                            nil];
