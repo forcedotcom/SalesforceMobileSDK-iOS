@@ -1,8 +1,33 @@
+/*
+ * Copyright (c) 2012, salesforce.com, inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided
+ * that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ * following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 /*
 A test suite for SmartStore
-
-This file assumes that QUnit has been previously loaded, as well as SFUtility
+This file assumes that qunit.js has been previously loaded, as well as SFUtility.js.
+To display results you'll need to load qunit.css and SFUtility.css as well.
 */
 if (typeof SmartStoreTestSuite === 'undefined') { 
 
@@ -52,14 +77,6 @@ SmartStoreTestSuite.prototype.startTests = function() {
 	
 	QUnit.module("SmartStore");
 	
-	// QUnit.module("SmartStore", {
-	//   setup: function() {
-	//     QUnit.ok(true, "once extra assert before each test");
-	//   },
-	//   teardown: function() {
-	// 	QUnit.ok(true, "and one extra assert after each test");
-	//   }
-	// });
 	
 	this.allTests.forEach(function(methName){
 		logToConsole("Queueing: " + methName);
@@ -150,6 +167,10 @@ SmartStoreTestSuite.prototype.addGeneratedEntriesToTestSoup = function(nEntries,
 	
 };
 
+
+/*
+TEST registerSoup
+*/
 SmartStoreTestSuite.prototype.testRegisterSoup = function() {
 	var self = this;
 	this.registerDefaultSoup(function(soup) {
@@ -162,14 +183,146 @@ SmartStoreTestSuite.prototype.testRegisterSoup = function() {
 	});
 };
 
+/* 
+TEST removeSoup
+*/
+SmartStoreTestSuite.prototype.testRemoveSoup = function() {
+	var self = this;
+	navigator.smartstore.removeSoup(this.defaultSoupName,
+		function(param) { 
+			self.setTestSuccessByName("testRemoveSoup");
+		}, 
+		function(param) { 
+			self.setTestFailedByName("testRemoveSoup",param);
+		}
+      );
+};
 
+
+/* 
+TEST upsertSoupEntries
+*/
+SmartStoreTestSuite.prototype.testUpsertSoupEntries = function()  {
+	var self = this;
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+    this.registerDefaultSoup(null);
+	this.addGeneratedEntriesToTestSoup(7,function(cursor) {
+			self.continueUpsertSoupEntries(cursor);
+		});
+};
+
+SmartStoreTestSuite.prototype.continueUpsertSoupEntries = function(cursor) {
+	var self = this;	
+	QUnit.equal(cursor.totalPages,1,"totalPages correct");
+	QUnit.equal(cursor.currentPageOrderedEntries.length, 7);
+	//upsert another batch
+	this.addGeneratedEntriesToTestSoup(12,function(nextCursor) {
+			self.continueUpsertSoupEntries2(nextCursor);
+		});
+};
+ 
+SmartStoreTestSuite.prototype.continueUpsertSoupEntries2 = function(cursor)  {
+	QUnit.equal(cursor.totalPages,2,"totalPages correct");
+	QUnit.equal(cursor.currentPageOrderedEntries.length, cursor.pageSize);
+	
+	this.setTestSuccessByName("testUpsertSoupEntries");
+}; 
+
+/*
+TEST retrieveSoupEntry
+*/
+SmartStoreTestSuite.prototype.testRetrieveSoupEntry = function()  {
+	var self = this; 
+    
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+	this.registerDefaultSoup(null);
+	this.stuffTestSoup(function(cursor) {
+		self.continueRetrieveSoupEntry(cursor);
+	});	
+};
+
+SmartStoreTestSuite.prototype.continueRetrieveSoupEntry = function(cursor)  {
+	var self = this; 
+	var originalEntry = cursor.currentPageOrderedEntries[0];
+	var soupEntryId = originalEntry._soupEntryId;
+	
+	navigator.smartstore.retrieveSoupEntry(this.defaultSoupName,soupEntryId,
+		function(entry) {
+			QUnit.equal(soupEntryId,entry._soupEntryId,"soupEntryIds match");
+			self.setTestSuccessByName("testRetrieveSoupEntry");
+		},
+		function(param) { 
+			logToConsole("onErrorRetrieveEntry: " + param);
+			self.setTestFailedByName("testRetrieveSoupEntry",param);
+		}
+	);
+};
+
+
+
+
+/*
+TEST removeFromSoup
+*/
+SmartStoreTestSuite.prototype.testRemoveFromSoup = function()  {
+	var self = this; 
+    
+	navigator.smartstore.removeSoup(this.defaultSoupName);
+	this.registerDefaultSoup(null);
+	this.stuffTestSoup(function(cursor) {
+		self.continueRemoveFromSoup(cursor);
+	});
+
+};
+
+SmartStoreTestSuite.prototype.continueRemoveFromSoup = function(cursor) {
+	var self = this,  soupEntryIds = [];
+
+	var nEntries = cursor.currentPageOrderedEntries.length;
+	QUnit.equal(nEntries,3,"currentPageOrderedEntries correct");
+
+	for (var i = cursor.currentPageOrderedEntries.length - 1; i >= 0; i--) {
+		var entry = cursor.currentPageOrderedEntries[i];
+		soupEntryIds.push(entry._soupEntryId);
+	}
+	
+	navigator.smartstore.removeFromSoup(this.defaultSoupName, soupEntryIds,
+		function(param) { 
+			self.continueRemoveFromSoup2(param);
+		}, 
+		function(param) { 
+			self.setTestFailedByName("testRemoveFromSoup",param);
+		}
+	);
+};
+
+SmartStoreTestSuite.prototype.continueRemoveFromSoup2 = function(status) {
+	var self = this,  querySpec = new SoupQuerySpec("Name",null);
+	QUnit.equal(status,"OK","removeFromSoup OK");
+
+	navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
+		function(cursor) {
+			var nEntries = cursor.currentPageOrderedEntries.length;
+			QUnit.equal(nEntries,0,"currentPageOrderedEntries correct");
+			self.setTestSuccessByName("testRemoveFromSoup");
+		},
+		function(param) { 
+			logToConsole("onErrorQuerySoup: " + param);
+			self.setTestFailedByName("testRemoveFromSoup",param);
+		}
+	);
+};
+
+
+/* 
+TEST querySoup
+*/
 SmartStoreTestSuite.prototype.testQuerySoup = function()  {
 	var self = this;
 	this.stuffTestSoup(function(cursor) {
 		self.continueQuerySoup(cursor);
 	});
 };
-
 
 SmartStoreTestSuite.prototype.continueQuerySoup = function(cursor) {
 	var self = this;
@@ -193,18 +346,11 @@ SmartStoreTestSuite.prototype.continueQuerySoup = function(cursor) {
 };
 
 
-SmartStoreTestSuite.prototype.testRemoveSoup = function() {
-	var self = this;
-	navigator.smartstore.removeSoup(this.defaultSoupName,
-		function(param) { 
-			self.setTestSuccessByName("testRemoveSoup");
-		}, 
-		function(param) { 
-			self.setTestFailedByName("testRemoveSoup",param);
-		}
-      );
-};
 
+
+/*
+TEST moveCursorToNextPage
+*/
 SmartStoreTestSuite.prototype.testManipulateCursor = function()  {
 	var self = this;
 	navigator.smartstore.removeSoup(this.defaultSoupName);
@@ -239,6 +385,10 @@ SmartStoreTestSuite.prototype.continueManipulateCursor = function(cursor) {
 
 };
 
+/*
+Page through the cursor til we reach the end.
+Used by testManipulateCursor
+*/
 SmartStoreTestSuite.prototype.forwardCursorToEnd = function(cursor) {
 	var self = this;
 	
@@ -273,81 +423,10 @@ SmartStoreTestSuite.prototype.forwardCursorToEnd = function(cursor) {
 	);
 };
 
-SmartStoreTestSuite.prototype.testRemoveFromSoup = function()  {
-	var self = this; 
-    
-	navigator.smartstore.removeSoup(this.defaultSoupName);
-	this.registerDefaultSoup(null);
-	this.stuffTestSoup(function(cursor) {
-		self.continueRemoveSoupEntries(cursor);
-	});
 
-};
 
-SmartStoreTestSuite.prototype.continueRemoveSoupEntries = function(cursor) {
-	var self = this,  soupEntryIds = [];
 
-	var nEntries = cursor.currentPageOrderedEntries.length;
-	QUnit.equal(nEntries,3,"currentPageOrderedEntries correct");
 
-	for (var i = cursor.currentPageOrderedEntries.length - 1; i >= 0; i--) {
-		var entry = cursor.currentPageOrderedEntries[i];
-		soupEntryIds.push(entry._soupEntryId);
-	}
-	
-	navigator.smartstore.removeFromSoup(this.defaultSoupName, soupEntryIds,
-		function(param) { 
-			self.continueRemoveSoupEntries2(param);
-		}, 
-		function(param) { 
-			self.setTestFailedByName("testRemoveFromSoup",param);
-		}
-	);
-};
-
-SmartStoreTestSuite.prototype.continueRemoveSoupEntries2 = function(status) {
-	var self = this,  querySpec = new SoupQuerySpec("Name",null);
-	QUnit.equal(status,"OK","removeFromSoup OK");
-
-	navigator.smartstore.querySoup(this.defaultSoupName,querySpec,
-		function(cursor) {
-			var nEntries = cursor.currentPageOrderedEntries.length;
-			QUnit.equal(nEntries,0,"currentPageOrderedEntries correct");
-			self.setTestSuccessByName("testRemoveFromSoup");
-		},
-		function(param) { 
-			logToConsole("onErrorQuerySoup: " + param);
-			self.setTestFailedByName("testRemoveFromSoup",param);
-		}
-	);
-};
-
-SmartStoreTestSuite.prototype.testRetrieveSoupEntry = function()  {
-	var self = this; 
-    
-	navigator.smartstore.removeSoup(this.defaultSoupName);
-	this.registerDefaultSoup(null);
-	this.stuffTestSoup(function(cursor) {
-		self.continueRetrieveSoupEntry(cursor);
-	});	
-};
-
-SmartStoreTestSuite.prototype.continueRetrieveSoupEntry = function(cursor)  {
-	var self = this; 
-	var originalEntry = cursor.currentPageOrderedEntries[0];
-	var soupEntryId = originalEntry._soupEntryId;
-	
-	navigator.smartstore.retrieveSoupEntry(this.defaultSoupName,soupEntryId,
-		function(entry) {
-			QUnit.equal(soupEntryId,entry._soupEntryId,"soupEntryIds match");
-			self.setTestSuccessByName("testRetrieveSoupEntry");
-		},
-		function(param) { 
-			logToConsole("onErrorRetrieveEntry: " + param);
-			self.setTestFailedByName("testRetrieveSoupEntry",param);
-		}
-	);
-};
 
 }
 
