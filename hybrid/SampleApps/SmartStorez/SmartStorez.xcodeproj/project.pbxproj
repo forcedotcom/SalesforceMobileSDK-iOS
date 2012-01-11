@@ -55,7 +55,7 @@
 		7D1380EF14B50CD100A21EE2 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D1380E514B50CD100A21EE2 /* SqliteAdditions.c */; };
 		7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */; };
 		7D1380FE14B5192E00A21EE2 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380FD14B5192E00A21EE2 /* www */; };
-		7DCBF57314B67D2E007C6625 /* smartStoreTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 7DCBF57214B67D2E007C6625 /* smartStoreTestSuite.js */; };
+		7D39711914BD1B1200848152 /* SFSmartStoreTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 7D39711814BD1B1200848152 /* SFSmartStoreTestSuite.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,7 +132,7 @@
 		7D1380E614B50CD100A21EE2 /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
 		7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D1380FD14B5192E00A21EE2 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		7DCBF57214B67D2E007C6625 /* smartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = smartStoreTestSuite.js; path = SmartStorez/www/smartStoreTestSuite.js; sourceTree = "<group>"; };
+		7D39711814BD1B1200848152 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStoreTestSuite.js; path = ../../../../external/shared/PhoneGap/SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +168,6 @@
 		7D13803A14B50BAC00A21EE2 = {
 			isa = PBXGroup;
 			children = (
-				7DCBF57214B67D2E007C6625 /* smartStoreTestSuite.js */,
 				7D13806814B50BAC00A21EE2 /* SmartStorez */,
 				7D13804914B50BAC00A21EE2 /* Frameworks */,
 				7D13804714B50BAC00A21EE2 /* Products */,
@@ -209,6 +208,7 @@
 		7D13806814B50BAC00A21EE2 /* SmartStorez */ = {
 			isa = PBXGroup;
 			children = (
+				7D39711814BD1B1200848152 /* SFSmartStoreTestSuite.js */,
 				7D1380FD14B5192E00A21EE2 /* www */,
 				7D13808B14B50BAD00A21EE2 /* PhoneGap.framework */,
 				7D1380B614B50BAD00A21EE2 /* readme.md */,
@@ -489,7 +489,7 @@
 				7D1380ED14B50CD100A21EE2 /* FMDbException.m in Sources */,
 				7D1380EE14B50CD100A21EE2 /* FMResultSet.m in Sources */,
 				7D1380EF14B50CD100A21EE2 /* SqliteAdditions.c in Sources */,
-				7DCBF57314B67D2E007C6625 /* smartStoreTestSuite.js in Sources */,
+				7D39711914BD1B1200848152 /* SFSmartStoreTestSuite.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

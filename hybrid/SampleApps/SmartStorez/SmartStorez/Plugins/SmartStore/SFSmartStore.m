@@ -121,10 +121,12 @@ static NSString *const kSoupsDirectory = @"soups";
         if (![[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
             if ([indexSpecs count] > 0) {
                 //this soup has not yet been created: create it
-                
-                
+                NSError *createErr = nil;
                 [[NSFileManager defaultManager] createDirectoryAtPath:soupDir 
-                                          withIntermediateDirectories:YES attributes:nil error:nil];
+                                          withIntermediateDirectories:YES attributes:nil error:&createErr];
+                if (nil != createErr) {
+                    NSLog(@"createDirectoryAtPath err: %@",createErr);
+                }
                 result = [[SFSoup alloc] initWithName:soupName indexes:indexSpecs atPath:soupDir];
             }
         } else {
