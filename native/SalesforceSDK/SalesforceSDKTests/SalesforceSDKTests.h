@@ -31,6 +31,8 @@
 @interface SalesforceSDKTests : SenTestCase  {
     /// The main request listener used when we only have one outstanding request
     TestRequestListener *_requestListener;
+    /// The number of blocks awaiting completion
+    NSInteger _blocksUncompletedCount;
 }
 
 

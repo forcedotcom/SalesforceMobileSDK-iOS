@@ -103,6 +103,27 @@ static dispatch_once_t _sharedInstanceGuard;
     [self.activeRequests removeObject:request]; //this will typically release the request
 }
 
+- (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
+    BOOL found = NO;
+    RKRequestDelegateWrapper *toCancel = nil;
+    if (nil != req) {
+        for (RKRequestDelegateWrapper *wrap in self.activeRequests) {
+            if ([wrap.request isEqual:req]) {
+                toCancel = wrap;
+                break;
+            }
+        }
+    } else {
+        toCancel = [self.activeRequests anyObject];
+    }
+    
+    if (nil != toCancel) {
+        found = YES;
+        [toCancel requestDidTimeout:nil];
+    }
+
+    return found;
+}
 
 #pragma mark - Properties
 
