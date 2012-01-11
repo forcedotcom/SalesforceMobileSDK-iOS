@@ -35,10 +35,12 @@
 #import "SFRestRequest.h"
 #import "TestRequestListener.h"
 #import "TestSetupUtils.h"
+#import "SFRestAPI+Blocks.h"
 
 
 @interface SalesforceSDKTests (Private)
 - (NSString *)sendSyncRequest:(SFRestRequest *)request;
+- (BOOL)waitForAllBlockCompletions;
 @end
 
 
@@ -150,9 +152,9 @@
     _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     
-    RKRequestDelegateWrapper *activeRequest =  [[[SFRestAPI sharedInstance] activeRequests] anyObject];
-    STAssertNotNil(activeRequest, @"should have activeRequest");
-    [activeRequest requestDidTimeout:nil];
+    BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
+    STAssertTrue(found , @"Could not find request to force a timeout");
+    
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
  
@@ -614,6 +616,288 @@
         [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
         [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = validRefreshToken;     
     }
+}
+
+
+#pragma mark - testing block functions
+
+#define DICT_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
+_blocksUncompletedCount--; \
+STAssertNotNil( d, [NSString stringWithFormat:@"%@ success block did not include a valid response.",testName]); \
+}
+
+#define EMPTY_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
+_blocksUncompletedCount--; \
+STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have included nil response.",testName]); \
+}
+
+
+- (BOOL)waitForAllBlockCompletions {
+    NSDate *startTime = [NSDate date] ;
+    BOOL completionTimedOut = NO;
+    while (_blocksUncompletedCount > 0) {
+        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
+        if (elapsed > 30.0) {
+            NSLog(@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount);
+            completionTimedOut = YES;
+            break;
+        }
+        
+        NSLog(@"## sleeping...%d",_blocksUncompletedCount);
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+    
+    return completionTimedOut;
+}
+
+
+
+// These block functions are just a category on SFRestAPI, so we verify here
+// only that the proper blocks were called for each
+
+
+- (void)testBlockUpdate {
+    _blocksUncompletedCount = 0;
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    // A fail block that should not have failed
+    SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
+        _blocksUncompletedCount--;
+        STAssertNil( e, @"Failure block errored but should not have.");
+    };
+    
+    NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
+    NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
+    NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           @"John", @"FirstName", 
+                                           lastName, @"LastName", 
+                                           nil];
+    
+    [api performCreateWithObjectType:@"Contact"
+                              fields:fields
+                           failBlock:failWithUnexpectedFail
+                       completeBlock:^(NSDictionary *d) {
+                           _blocksUncompletedCount--;
+                           NSString *recordId = [[d objectForKey:@"id"] retain];
+                           
+                           [fields setObject:updatedLastName forKey:@"LastName"];
+                           
+                           [api performRetrieveWithObjectType:@"Contact"
+                                                     objectId:recordId
+                                                    fieldList:[NSArray arrayWithObject:@"id"]
+                                                    failBlock:failWithUnexpectedFail
+                                                completeBlock:DICT_SUCCESS_BLOCK(@"performRetrieveWithObjectType")
+                            ];
+                           _blocksUncompletedCount++;
+                           
+                           [api performUpdateWithObjectType:@"Contact"
+                                                   objectId:recordId
+                                                     fields:fields
+                                                  failBlock:failWithUnexpectedFail
+                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpdateWithObjectType")
+                            ];
+                           _blocksUncompletedCount++;
+                           
+                           [fields setObject:lastName forKey:@"LastName"];
+                           
+                           [api performUpsertWithObjectType:@"Contact"
+                                            externalIdField:@"Id"
+                                                 externalId:recordId
+                                                     fields:fields
+                                                  failBlock:failWithUnexpectedFail
+                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpsertWithObjectType")
+                            ];
+                           _blocksUncompletedCount++;
+                           
+                           [api performDeleteWithObjectType:@"Contact"
+                                                   objectId:recordId
+                                                  failBlock:failWithUnexpectedFail
+                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performDeleteWithObjectType")
+                            ];
+                           _blocksUncompletedCount++;
+                           
+                           [recordId release];
+                       }];
+    
+    _blocksUncompletedCount++;
+
+    
+    BOOL completionTimedOut = [self waitForAllBlockCompletions];
+    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+
+}
+
+- (void) testBlocks {
+    _blocksUncompletedCount = 0;
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    
+    // A fail block that we expected to fail
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        _blocksUncompletedCount--;
+        STAssertNotNil( e, @"Failure block didn't include an error." );
+    };
+    
+    // A fail block that should not have failed
+    SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
+        _blocksUncompletedCount--;
+        STAssertNil( e, @"Failure block errored but should not have.");
+    };
+    
+    // A success block that should not have succeeded
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        _blocksUncompletedCount--;
+        STAssertNil( d, @"Success block succeeded but should not have.");
+    };
+    
+    // An array success block that we expected to succeed
+    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr) {
+        _blocksUncompletedCount--;
+        STAssertNotNil( arr, @"Success block did not include a valid response.");
+    };
+    
+    // An array success block that should not have succeeded
+    SFRestArrayResponseBlock arrayUnexpectedSuccessBlock = ^(NSArray *arr) {
+        _blocksUncompletedCount--;
+        STAssertNil( arr, @"Success block succeeded but should not have.");
+    };
+    
+    // Class helper function that creates an error.
+    NSString *errorStr = @"Sample error.";
+    
+    STAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]], 
+                 @"Generated error should match description." );
+
+    
+    // Block functions that should always fail
+    [api performDeleteWithObjectType:nil objectId:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performCreateWithObjectType:nil fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performDescribeWithObjectType:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performMetadataWithObjectType:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
+                                                    failBlock:failWithExpectedFail
+                                                completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performUpdateWithObjectType:nil objectId:nil fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
+                                                     fields:nil
+                                                  failBlock:failWithExpectedFail
+                                              completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performSOQLQuery:nil 
+                                       failBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    [api performSOSLSearch:nil
+                                        failBlock:failWithExpectedFail
+                                    completeBlock:arrayUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
+    
+    // Block functions that should always succeed
+    [api performRequestForResourcesWithFailBlock:failWithUnexpectedFail
+                                                          completeBlock:DICT_SUCCESS_BLOCK(@"performRequestForResourcesWithFailBlock")
+     ];
+    _blocksUncompletedCount++;
+    [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
+                                                         completeBlock:DICT_SUCCESS_BLOCK(@"performRequestForVersionsWithFailBlock")
+     ];
+    _blocksUncompletedCount++;
+    [api performDescribeGlobalWithFailBlock:failWithUnexpectedFail
+                                                     completeBlock:DICT_SUCCESS_BLOCK(@"performDescribeGlobalWithFailBlock")
+     ];
+    _blocksUncompletedCount++;
+    [api performSOQLQuery:@"select id from user limit 10"
+                                       failBlock:failWithUnexpectedFail
+                                   completeBlock:DICT_SUCCESS_BLOCK(@"performSOQLQuery")
+     ];
+    _blocksUncompletedCount++;
+    [api performSOSLSearch:@"find {batman}"
+                                        failBlock:failWithUnexpectedFail
+                                    completeBlock:arraySuccessBlock];
+    _blocksUncompletedCount++;
+    [api performDescribeWithObjectType:@"Contact"
+                                                    failBlock:failWithUnexpectedFail
+                                                completeBlock:DICT_SUCCESS_BLOCK(@"performDescribeWithObjectType")
+     ];
+    _blocksUncompletedCount++;
+    [api performMetadataWithObjectType:@"Contact"
+                                                    failBlock:failWithUnexpectedFail
+                                                completeBlock:DICT_SUCCESS_BLOCK(@"performMetadataWithObjectType")
+     ];
+    _blocksUncompletedCount++;
+    
+    
+    
+    BOOL completionTimedOut = [self waitForAllBlockCompletions];
+    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+
+        
+    
+}
+
+
+- (void)testBlocksCancel {
+    // A fail block that we expected to fail
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        _blocksUncompletedCount--;
+        STAssertNotNil( e, @"Failure block didn't include an error." );
+    };
+    
+    // A success block that should not have succeeded
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        _blocksUncompletedCount--;
+        STAssertNil( d, @"Success block succeeded but should not have.");
+    };
+    
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                                          completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount  = 1;
+
+    [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
+    
+    BOOL completionTimedOut = [self waitForAllBlockCompletions];
+    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+
+}
+
+- (void)testBlocksTimeout {
+    // A fail block that we expected to fail
+    SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
+        _blocksUncompletedCount--;
+        STAssertNotNil( e, @"Failure block didn't include an error." );
+    };
+    
+    // A success block that should not have succeeded
+    SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
+        _blocksUncompletedCount--;
+        STAssertNil( d, @"Success block succeeded but should not have.");
+    };
+    
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                                          completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount = 1;
+    
+    BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:nil];
+    STAssertTrue(found , @"Could not find request to force a timeout");
+
+    BOOL completionTimedOut = [self waitForAllBlockCompletions];
+    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    
+    //this cleans up the singleton RKClient
+    [[[RKClient sharedClient] requestQueue] cancelAllRequests];
 }
 
 @end

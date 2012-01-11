@@ -51,5 +51,14 @@
  */
 + (void)clearSharedInstance;
 
+/**
+ Force a request to timeout: for testing only!
+ 
+ @param request The request to force a timeout on, or nil to grab any active request and force it to timeout
+ @return YES if we were able to find and timeout the request, NO if the request could not be found
+ */
+- (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
+
+
 @end
 
