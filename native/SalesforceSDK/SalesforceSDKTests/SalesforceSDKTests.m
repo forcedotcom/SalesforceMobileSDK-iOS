@@ -703,6 +703,8 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                             ];
                            _blocksUncompletedCount++;
                            
+                           //Note: this performUpsertWithObjectType test requires that your test user credentials
+                           //have proper permissions, otherwise you will get "insufficient access rights on cross-reference id"
                            NSLog(@"Reverting LastName for recordId: %@",recordId);
                            [fields setObject:lastName forKey:@"LastName"];
                            [api performUpsertWithObjectType:@"Contact"
