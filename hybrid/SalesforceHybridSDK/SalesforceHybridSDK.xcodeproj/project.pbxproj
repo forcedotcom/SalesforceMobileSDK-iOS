@@ -482,6 +482,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "${SRCROOT}/scripts/move-framework.sh";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -708,6 +709,7 @@
 				7D45E31014BFB259002C4A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7D45E31114BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -716,6 +718,7 @@
 				7D45E31314BFB259002C4A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
