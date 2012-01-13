@@ -24,8 +24,9 @@
 
 #import "AppDelegate.h"
 
-#import "SalesforceOAuthPlugin.h"
-#import "SBJson.h"
+#import "SalesforceHybridSDK/SalesforceOAuthPlugin.h"
+#import "SalesforceHybridSDK/SFJsonUtils.h"
+
 
 // Private constants
 static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
@@ -42,9 +43,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     NSAssert(nil != tokenPath,@"Test config file not found!");
     
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    id jsonResponse = [parser objectWithData:tokenJson];
-    [parser release];
+    id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     
     NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
     NSString *accessToken = [dictResponse objectForKey:@"access_token"];
