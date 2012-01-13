@@ -1,0 +1,723 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
+		7D45E2FB14BFB259002C4A27 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
+		7D45E2FD14BFB259002C4A27 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
+		7D45E2FF14BFB259002C4A27 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
+		7D45E30214BFB259002C4A27 /* SalesforceHybridSDK.framework in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */; };
+		7D45E30814BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E30614BFB259002C4A27 /* InfoPlist.strings */; };
+		7D45E30B14BFB259002C4A27 /* SalesforceHybridSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E30A14BFB259002C4A27 /* SalesforceHybridSDKTests.m */; };
+		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
+		7D45E33B14BFB394002C4A27 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31F14BFB394002C4A27 /* SFJsonUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E33C14BFB394002C4A27 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32014BFB394002C4A27 /* SFJsonUtils.m */; };
+		7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
+		7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32514BFB394002C4A27 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
+		7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32714BFB394002C4A27 /* SFSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32814BFB394002C4A27 /* SFSoup.m */; };
+		7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32914BFB394002C4A27 /* SFSoupCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
+		7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E34614BFB394002C4A27 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */; };
+		7D45E34714BFB394002C4A27 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32E14BFB394002C4A27 /* FMDatabase.h */; };
+		7D45E34814BFB394002C4A27 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32F14BFB394002C4A27 /* FMDatabase.m */; };
+		7D45E34914BFB394002C4A27 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E33014BFB394002C4A27 /* FMDatabaseAdditions.h */; };
+		7D45E34A14BFB394002C4A27 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E33114BFB394002C4A27 /* FMDatabaseAdditions.m */; };
+		7D45E34B14BFB394002C4A27 /* FMDbException.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E33214BFB394002C4A27 /* FMDbException.h */; };
+		7D45E34C14BFB394002C4A27 /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E33314BFB394002C4A27 /* FMDbException.m */; };
+		7D45E34D14BFB394002C4A27 /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E33414BFB394002C4A27 /* FMLicense.txt */; };
+		7D45E34E14BFB394002C4A27 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E33514BFB394002C4A27 /* FMResultSet.h */; };
+		7D45E34F14BFB394002C4A27 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E33614BFB394002C4A27 /* FMResultSet.m */; };
+		7D45E35014BFB394002C4A27 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E33714BFB394002C4A27 /* SqliteAdditions.c */; };
+		7D45E35114BFB394002C4A27 /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E33814BFB394002C4A27 /* SqliteAdditions.h */; };
+		7D45E36914BFB3FD002C4A27 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
+		7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7D45E30014BFB259002C4A27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D45E2DE14BFB259002C4A27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7D45E2E914BFB259002C4A27;
+			remoteInfo = SalesforceHybridSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
+		7D45E2F014BFB259002C4A27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7D45E2F214BFB259002C4A27 /* SalesforceHybridSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDK-Prefix.pch"; sourceTree = "<group>"; };
+		7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7D45E2FC14BFB259002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		7D45E2FE14BFB259002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		7D45E30514BFB259002C4A27 /* SalesforceHybridSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDKTests-Info.plist"; sourceTree = "<group>"; };
+		7D45E30714BFB259002C4A27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7D45E30914BFB259002C4A27 /* SalesforceHybridSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDKTests.h; sourceTree = "<group>"; };
+		7D45E30A14BFB259002C4A27 /* SalesforceHybridSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceHybridSDKTests.m; sourceTree = "<group>"; };
+		7D45E31514BFB30E002C4A27 /* construct-framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "construct-framework.sh"; sourceTree = "<group>"; };
+		7D45E31614BFB30E002C4A27 /* move-framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "move-framework.sh"; sourceTree = "<group>"; };
+		7D45E31714BFB30E002C4A27 /* prep-framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "prep-framework.sh"; sourceTree = "<group>"; };
+		7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFContainerAppDelegate.h; sourceTree = "<group>"; };
+		7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContainerAppDelegate.m; sourceTree = "<group>"; };
+		7D45E31F14BFB394002C4A27 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
+		7D45E32014BFB394002C4A27 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
+		7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
+		7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
+		7D45E32514BFB394002C4A27 /* SFSmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStore.h; sourceTree = "<group>"; };
+		7D45E32614BFB394002C4A27 /* SFSmartStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStore.m; sourceTree = "<group>"; };
+		7D45E32714BFB394002C4A27 /* SFSoup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoup.h; sourceTree = "<group>"; };
+		7D45E32814BFB394002C4A27 /* SFSoup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoup.m; sourceTree = "<group>"; };
+		7D45E32914BFB394002C4A27 /* SFSoupCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupCursor.h; sourceTree = "<group>"; };
+		7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupCursor.m; sourceTree = "<group>"; };
+		7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
+		7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupIndex.m; sourceTree = "<group>"; };
+		7D45E32E14BFB394002C4A27 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		7D45E32F14BFB394002C4A27 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		7D45E33014BFB394002C4A27 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		7D45E33114BFB394002C4A27 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		7D45E33214BFB394002C4A27 /* FMDbException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDbException.h; sourceTree = "<group>"; };
+		7D45E33314BFB394002C4A27 /* FMDbException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDbException.m; sourceTree = "<group>"; };
+		7D45E33414BFB394002C4A27 /* FMLicense.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FMLicense.txt; sourceTree = "<group>"; };
+		7D45E33514BFB394002C4A27 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		7D45E33614BFB394002C4A27 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		7D45E33714BFB394002C4A27 /* SqliteAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SqliteAdditions.c; sourceTree = "<group>"; };
+		7D45E33814BFB394002C4A27 /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
+		7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
+		7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
+		7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
+		7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = "<group>"; };
+		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7D45E2E514BFB259002C4A27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E36914BFB3FD002C4A27 /* PhoneGap.framework in Frameworks */,
+				7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D45E2F414BFB259002C4A27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E2FB14BFB259002C4A27 /* SenTestingKit.framework in Frameworks */,
+				7D45E2FD14BFB259002C4A27 /* UIKit.framework in Frameworks */,
+				7D45E2FF14BFB259002C4A27 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7D45E2DC14BFB259002C4A27 = {
+			isa = PBXGroup;
+			children = (
+				7D45E39014BFB8BA002C4A27 /* UIKit.framework */,
+				7D45E38E14BFB8AC002C4A27 /* Foundation.framework */,
+				7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */,
+				7D45E31414BFB30E002C4A27 /* scripts */,
+				7D45E2EC14BFB259002C4A27 /* SalesforceHybridSDK */,
+				7D45E30314BFB259002C4A27 /* SalesforceHybridSDKTests */,
+				7D45E2F914BFB259002C4A27 /* Frameworks */,
+				7D45E2EB14BFB259002C4A27 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7D45E2EB14BFB259002C4A27 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */,
+				7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7D45E2EC14BFB259002C4A27 /* SalesforceHybridSDK */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E35314BFB3FD002C4A27 /* dependencies */,
+				7D45E31B14BFB394002C4A27 /* Container */,
+				7D45E31E14BFB394002C4A27 /* Plugins */,
+				7D45E2ED14BFB259002C4A27 /* Supporting Files */,
+			);
+			path = SalesforceHybridSDK;
+			sourceTree = "<group>";
+		};
+		7D45E2ED14BFB259002C4A27 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */,
+				7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */,
+				7D45E2F214BFB259002C4A27 /* SalesforceHybridSDK-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7D45E2F914BFB259002C4A27 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */,
+				7D45E2FC14BFB259002C4A27 /* UIKit.framework */,
+				7D45E2FE14BFB259002C4A27 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7D45E30314BFB259002C4A27 /* SalesforceHybridSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E30914BFB259002C4A27 /* SalesforceHybridSDKTests.h */,
+				7D45E30A14BFB259002C4A27 /* SalesforceHybridSDKTests.m */,
+				7D45E30414BFB259002C4A27 /* Supporting Files */,
+			);
+			path = SalesforceHybridSDKTests;
+			sourceTree = "<group>";
+		};
+		7D45E30414BFB259002C4A27 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E30514BFB259002C4A27 /* SalesforceHybridSDKTests-Info.plist */,
+				7D45E30614BFB259002C4A27 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7D45E31414BFB30E002C4A27 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E31514BFB30E002C4A27 /* construct-framework.sh */,
+				7D45E31614BFB30E002C4A27 /* move-framework.sh */,
+				7D45E31714BFB30E002C4A27 /* prep-framework.sh */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		7D45E31B14BFB394002C4A27 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */,
+				7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
+		7D45E31E14BFB394002C4A27 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E31F14BFB394002C4A27 /* SFJsonUtils.h */,
+				7D45E32014BFB394002C4A27 /* SFJsonUtils.m */,
+				7D45E32114BFB394002C4A27 /* SFOAuthPlugin */,
+				7D45E32414BFB394002C4A27 /* SFSmartStore */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
+		7D45E32114BFB394002C4A27 /* SFOAuthPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */,
+				7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */,
+			);
+			path = SFOAuthPlugin;
+			sourceTree = "<group>";
+		};
+		7D45E32414BFB394002C4A27 /* SFSmartStore */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E32514BFB394002C4A27 /* SFSmartStore.h */,
+				7D45E32614BFB394002C4A27 /* SFSmartStore.m */,
+				7D45E32714BFB394002C4A27 /* SFSoup.h */,
+				7D45E32814BFB394002C4A27 /* SFSoup.m */,
+				7D45E32914BFB394002C4A27 /* SFSoupCursor.h */,
+				7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */,
+				7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */,
+				7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */,
+				7D45E32D14BFB394002C4A27 /* sqlite */,
+			);
+			path = SFSmartStore;
+			sourceTree = "<group>";
+		};
+		7D45E32D14BFB394002C4A27 /* sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E32E14BFB394002C4A27 /* FMDatabase.h */,
+				7D45E32F14BFB394002C4A27 /* FMDatabase.m */,
+				7D45E33014BFB394002C4A27 /* FMDatabaseAdditions.h */,
+				7D45E33114BFB394002C4A27 /* FMDatabaseAdditions.m */,
+				7D45E33214BFB394002C4A27 /* FMDbException.h */,
+				7D45E33314BFB394002C4A27 /* FMDbException.m */,
+				7D45E33414BFB394002C4A27 /* FMLicense.txt */,
+				7D45E33514BFB394002C4A27 /* FMResultSet.h */,
+				7D45E33614BFB394002C4A27 /* FMResultSet.m */,
+				7D45E33714BFB394002C4A27 /* SqliteAdditions.c */,
+				7D45E33814BFB394002C4A27 /* SqliteAdditions.h */,
+			);
+			path = sqlite;
+			sourceTree = "<group>";
+		};
+		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */,
+				7D45E35614BFB3FD002C4A27 /* SalesforceOAuth */,
+			);
+			name = dependencies;
+			path = ../../dependencies;
+			sourceTree = "<group>";
+		};
+		7D45E35614BFB3FD002C4A27 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E35714BFB3FD002C4A27 /* include */,
+				7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D45E35714BFB3FD002C4A27 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E35814BFB3FD002C4A27 /* SalesforceOAuth */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7D45E35814BFB3FD002C4A27 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */,
+				7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7D45E2E614BFB259002C4A27 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */,
+				7D45E33B14BFB394002C4A27 /* SFJsonUtils.h in Headers */,
+				7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */,
+				7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */,
+				7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */,
+				7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */,
+				7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */,
+				7D45E34714BFB394002C4A27 /* FMDatabase.h in Headers */,
+				7D45E34914BFB394002C4A27 /* FMDatabaseAdditions.h in Headers */,
+				7D45E34B14BFB394002C4A27 /* FMDbException.h in Headers */,
+				7D45E34E14BFB394002C4A27 /* FMResultSet.h in Headers */,
+				7D45E35114BFB394002C4A27 /* SqliteAdditions.h in Headers */,
+				7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */,
+				7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D45E30E14BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */;
+			buildPhases = (
+				7D45E2E314BFB259002C4A27 /* Prep Framework */,
+				7D45E2E414BFB259002C4A27 /* Sources */,
+				7D45E2E514BFB259002C4A27 /* Frameworks */,
+				7D45E2E614BFB259002C4A27 /* Headers */,
+				7D45E2E714BFB259002C4A27 /* Resources */,
+				7D45E2E814BFB259002C4A27 /* Construct Framework */,
+				7D45E35214BFB3B6002C4A27 /* Move Framework to Dependencies */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceHybridSDK;
+			productName = SalesforceHybridSDK;
+			productReference = 7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */;
+			productType = "com.apple.product-type.bundle";
+		};
+		7D45E2F714BFB259002C4A27 /* SalesforceHybridSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D45E31114BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */;
+			buildPhases = (
+				7D45E2F314BFB259002C4A27 /* Sources */,
+				7D45E2F414BFB259002C4A27 /* Frameworks */,
+				7D45E2F514BFB259002C4A27 /* Resources */,
+				7D45E2F614BFB259002C4A27 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7D45E30114BFB259002C4A27 /* PBXTargetDependency */,
+			);
+			name = SalesforceHybridSDKTests;
+			productName = SalesforceHybridSDKTests;
+			productReference = 7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7D45E2DE14BFB259002C4A27 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Salesforce.com;
+			};
+			buildConfigurationList = 7D45E2E114BFB259002C4A27 /* Build configuration list for PBXProject "SalesforceHybridSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7D45E2DC14BFB259002C4A27;
+			productRefGroup = 7D45E2EB14BFB259002C4A27 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */,
+				7D45E2F714BFB259002C4A27 /* SalesforceHybridSDKTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7D45E2E714BFB259002C4A27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */,
+				7D45E34D14BFB394002C4A27 /* FMLicense.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D45E2F514BFB259002C4A27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E30214BFB259002C4A27 /* SalesforceHybridSDK.framework in Resources */,
+				7D45E30814BFB259002C4A27 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7D45E2E314BFB259002C4A27 /* Prep Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Prep Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/scripts/prep-framework.sh";
+			showEnvVarsInLog = 0;
+		};
+		7D45E2E814BFB259002C4A27 /* Construct Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Construct Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/scripts/construct-framework.sh";
+			showEnvVarsInLog = 0;
+		};
+		7D45E2F614BFB259002C4A27 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		7D45E35214BFB3B6002C4A27 /* Move Framework to Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Move Framework to Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "${SRCROOT}/scripts/move-framework.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7D45E2E414BFB259002C4A27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */,
+				7D45E33C14BFB394002C4A27 /* SFJsonUtils.m in Sources */,
+				7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */,
+				7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */,
+				7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */,
+				7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */,
+				7D45E34614BFB394002C4A27 /* SFSoupIndex.m in Sources */,
+				7D45E34814BFB394002C4A27 /* FMDatabase.m in Sources */,
+				7D45E34A14BFB394002C4A27 /* FMDatabaseAdditions.m in Sources */,
+				7D45E34C14BFB394002C4A27 /* FMDbException.m in Sources */,
+				7D45E34F14BFB394002C4A27 /* FMResultSet.m in Sources */,
+				7D45E35014BFB394002C4A27 /* SqliteAdditions.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D45E2F314BFB259002C4A27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D45E30B14BFB259002C4A27 /* SalesforceHybridSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7D45E30114BFB259002C4A27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */;
+			targetProxy = 7D45E30014BFB259002C4A27 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7D45E2F014BFB259002C4A27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7D45E30614BFB259002C4A27 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7D45E30714BFB259002C4A27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7D45E30C14BFB259002C4A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		7D45E30D14BFB259002C4A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7D45E30F14BFB259002C4A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDK/SalesforceHybridSDK-Info.plist";
+				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/../dependencies/SBJson\"",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		7D45E31014BFB259002C4A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDK/SalesforceHybridSDK-Info.plist";
+				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/../dependencies/SBJson\"",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		7D45E31214BFB259002C4A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					.fake_fw_testing,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7D45E31314BFB259002C4A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					.fake_fw_testing,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7D45E2E114BFB259002C4A27 /* Build configuration list for PBXProject "SalesforceHybridSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D45E30C14BFB259002C4A27 /* Debug */,
+				7D45E30D14BFB259002C4A27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7D45E30E14BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D45E30F14BFB259002C4A27 /* Debug */,
+				7D45E31014BFB259002C4A27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7D45E31114BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D45E31214BFB259002C4A27 /* Debug */,
+				7D45E31314BFB259002C4A27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7D45E2DE14BFB259002C4A27 /* Project object */;
+}
