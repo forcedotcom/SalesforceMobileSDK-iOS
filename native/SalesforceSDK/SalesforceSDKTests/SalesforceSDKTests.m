@@ -621,16 +621,23 @@
 
 #pragma mark - testing block functions
 
+// A success block that expects a non-nil response
 #define DICT_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
 _blocksUncompletedCount--; \
 STAssertNotNil( d, [NSString stringWithFormat:@"%@ success block did not include a valid response.",testName]); \
 }
 
+// A success block that expects a nil response
 #define EMPTY_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
 _blocksUncompletedCount--; \
 STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have included nil response.",testName]); \
 }
 
+// A fail block that should not have failed
+#define UNEXPECTED_ERROR_BLOCK(testName) ^(NSError *e) { \
+_blocksUncompletedCount--; \
+STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Error: %@",testName,e]); \
+}
 
 - (BOOL)waitForAllBlockCompletions {
     NSDate *startTime = [NSDate date] ;
@@ -659,11 +666,6 @@ STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have includ
 - (void)testBlockUpdate {
     _blocksUncompletedCount = 0;
     SFRestAPI *api = [SFRestAPI sharedInstance];
-    // A fail block that should not have failed
-    SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        _blocksUncompletedCount--;
-        STAssertNil( e, @"Failure block errored but should not have.");
-    };
     
     NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
@@ -674,43 +676,52 @@ STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have includ
     
     [api performCreateWithObjectType:@"Contact"
                               fields:fields
-                           failBlock:failWithUnexpectedFail
+                           failBlock:UNEXPECTED_ERROR_BLOCK(@"performCreateWithObjectType")
                        completeBlock:^(NSDictionary *d) {
                            _blocksUncompletedCount--;
                            NSString *recordId = [[d objectForKey:@"id"] retain];
                            
-                           [fields setObject:updatedLastName forKey:@"LastName"];
-                           
+                           NSLog(@"Retrieving Contact: %@",recordId);
                            [api performRetrieveWithObjectType:@"Contact"
                                                      objectId:recordId
-                                                    fieldList:[NSArray arrayWithObject:@"id"]
-                                                    failBlock:failWithUnexpectedFail
+                                                    fieldList:[NSArray arrayWithObject:@"LastName"]
+                                                    failBlock:UNEXPECTED_ERROR_BLOCK(@"performRetrieveWithObjectType")
                                                 completeBlock:DICT_SUCCESS_BLOCK(@"performRetrieveWithObjectType")
                             ];
                            _blocksUncompletedCount++;
                            
+
+
+                           NSLog(@"Updating LastName for recordId: %@",recordId);
+                           [fields setObject:updatedLastName forKey:@"LastName"];
+
                            [api performUpdateWithObjectType:@"Contact"
                                                    objectId:recordId
                                                      fields:fields
-                                                  failBlock:failWithUnexpectedFail
+                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performUpdateWithObjectType")
                                               completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpdateWithObjectType")
                             ];
                            _blocksUncompletedCount++;
                            
+                           NSLog(@"Reverting LastName for recordId: %@",recordId);
                            [fields setObject:lastName forKey:@"LastName"];
-                           
                            [api performUpsertWithObjectType:@"Contact"
                                             externalIdField:@"Id"
                                                  externalId:recordId
                                                      fields:fields
-                                                  failBlock:failWithUnexpectedFail
+                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performUpsertWithObjectType")
                                               completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpsertWithObjectType")
                             ];
                            _blocksUncompletedCount++;
                            
+                           //need to wait until all updates of record complete before deleting record,
+                           //since these operations sometimes complete out-of-order (flapper)
+                           BOOL updatesTimedOut = [self waitForAllBlockCompletions];
+                           STAssertTrue(!updatesTimedOut, @"Timed out waiting for blocks completion");
+
                            [api performDeleteWithObjectType:@"Contact"
                                                    objectId:recordId
-                                                  failBlock:failWithUnexpectedFail
+                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performDeleteWithObjectType")
                                               completeBlock:EMPTY_SUCCESS_BLOCK(@"performDeleteWithObjectType")
                             ];
                            _blocksUncompletedCount++;
