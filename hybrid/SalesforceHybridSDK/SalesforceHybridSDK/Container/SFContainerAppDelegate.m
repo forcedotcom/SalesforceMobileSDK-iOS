@@ -239,4 +239,10 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
 }
 
++ (SFContainerAppDelegate*)sharedInstance 
+{
+    return (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
+
 @end

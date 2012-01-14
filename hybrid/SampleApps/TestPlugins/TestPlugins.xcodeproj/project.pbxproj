@@ -38,38 +38,39 @@
 		7D3FF22B14BE4610004D3FF6 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF22A14BE4610004D3FF6 /* PhoneGap.plist */; };
 		7D3FF22D14BE4610004D3FF6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF22C14BE4610004D3FF6 /* Settings.bundle */; };
 		7D3FF22F14BE4610004D3FF6 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF22E14BE4610004D3FF6 /* PhoneGapResources.bundle */; };
-		7D3FF24914BE4683004D3FF6 /* SFUtility.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23814BE466A004D3FF6 /* SFUtility.js */; };
-		7D3FF24A14BE4683004D3FF6 /* SFUtility.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23914BE466A004D3FF6 /* SFUtility.css */; };
-		7D3FF24B14BE4683004D3FF6 /* SFSmartStoreTestSuite.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23A14BE466A004D3FF6 /* SFSmartStoreTestSuite.js */; };
-		7D3FF24C14BE4683004D3FF6 /* SalesforceOAuthPlugin.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23B14BE466A004D3FF6 /* SalesforceOAuthPlugin.js */; };
-		7D3FF24D14BE4683004D3FF6 /* qunit.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23C14BE466A004D3FF6 /* qunit.js */; };
-		7D3FF24E14BE4683004D3FF6 /* qunit.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23D14BE466A004D3FF6 /* qunit.css */; };
-		7D3FF25014BE4683004D3FF6 /* SFSmartStorePlugin.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23F14BE466A004D3FF6 /* SFSmartStorePlugin.js */; };
-		7D3FF25114BE4683004D3FF6 /* phonegap-1.2.0.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF23614BE464B004D3FF6 /* phonegap-1.2.0.js */; };
+		7D3FF24914BE4683004D3FF6 /* SFUtility.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23814BE466A004D3FF6 /* SFUtility.js */; };
+		7D3FF24A14BE4683004D3FF6 /* SFUtility.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23914BE466A004D3FF6 /* SFUtility.css */; };
+		7D3FF24B14BE4683004D3FF6 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23A14BE466A004D3FF6 /* SFSmartStoreTestSuite.js */; };
+		7D3FF24C14BE4683004D3FF6 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23B14BE466A004D3FF6 /* SalesforceOAuthPlugin.js */; };
+		7D3FF24D14BE4683004D3FF6 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23C14BE466A004D3FF6 /* qunit.js */; };
+		7D3FF24E14BE4683004D3FF6 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23D14BE466A004D3FF6 /* qunit.css */; };
+		7D3FF25014BE4683004D3FF6 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23F14BE466A004D3FF6 /* SFSmartStorePlugin.js */; };
+		7D3FF25114BE4683004D3FF6 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF23614BE464B004D3FF6 /* phonegap-1.2.0.js */; };
 		7D3FF25314BE473B004D3FF6 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF25214BE473B004D3FF6 /* www */; };
 		7D3FF25514BE4DA4004D3FF6 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF25414BE4DA4004D3FF6 /* test_credentials.json */; };
-		7D3FF25C14BE50A2004D3FF6 /* bootstrap.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D3FF25A14BE5095004D3FF6 /* bootstrap.html */; };
+		7D3FF25C14BE50A2004D3FF6 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF25A14BE5095004D3FF6 /* bootstrap.html */; };
 		7D45E38314BFB72B002C4A27 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38214BFB72B002C4A27 /* SalesforceHybridSDK.framework */; };
 		7D45E39314BFB90C002C4A27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3FF27C14BE51D7004D3FF6 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7D3FF24814BE4677004D3FF6 /* CopyFiles */ = {
+		7D3FF24814BE4677004D3FF6 /* Copy shared-www files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				7D3FF25C14BE50A2004D3FF6 /* bootstrap.html in CopyFiles */,
-				7D3FF24914BE4683004D3FF6 /* SFUtility.js in CopyFiles */,
-				7D3FF24A14BE4683004D3FF6 /* SFUtility.css in CopyFiles */,
-				7D3FF24B14BE4683004D3FF6 /* SFSmartStoreTestSuite.js in CopyFiles */,
-				7D3FF24C14BE4683004D3FF6 /* SalesforceOAuthPlugin.js in CopyFiles */,
-				7D3FF24D14BE4683004D3FF6 /* qunit.js in CopyFiles */,
-				7D3FF24E14BE4683004D3FF6 /* qunit.css in CopyFiles */,
-				7D3FF25014BE4683004D3FF6 /* SFSmartStorePlugin.js in CopyFiles */,
-				7D3FF25114BE4683004D3FF6 /* phonegap-1.2.0.js in CopyFiles */,
+				7D3FF25C14BE50A2004D3FF6 /* bootstrap.html in Copy shared-www files */,
+				7D3FF24914BE4683004D3FF6 /* SFUtility.js in Copy shared-www files */,
+				7D3FF24A14BE4683004D3FF6 /* SFUtility.css in Copy shared-www files */,
+				7D3FF24B14BE4683004D3FF6 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
+				7D3FF24C14BE4683004D3FF6 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
+				7D3FF24D14BE4683004D3FF6 /* qunit.js in Copy shared-www files */,
+				7D3FF24E14BE4683004D3FF6 /* qunit.css in Copy shared-www files */,
+				7D3FF25014BE4683004D3FF6 /* SFSmartStorePlugin.js in Copy shared-www files */,
+				7D3FF25114BE4683004D3FF6 /* phonegap-1.2.0.js in Copy shared-www files */,
 			);
+			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -296,7 +297,7 @@
 				7D3FF1A214BE460E004D3FF6 /* Frameworks */,
 				7D3FF1A314BE460E004D3FF6 /* Resources */,
 				7D3FF1A414BE460E004D3FF6 /* Sources */,
-				7D3FF24814BE4677004D3FF6 /* CopyFiles */,
+				7D3FF24814BE4677004D3FF6 /* Copy shared-www files */,
 			);
 			buildRules = (
 			);
