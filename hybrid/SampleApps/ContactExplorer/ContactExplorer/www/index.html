@@ -18,8 +18,8 @@
     <script src="forcetk.js"></script>
     
     <!-- include local utility functionality -->
-    <link rel="stylesheet" type="text/css" href="SFUtility.css" />
-    <script type="text/javascript" charset="utf-8" src="SFUtility.js"></script>
+    <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
+    <script type="text/javascript" charset="utf-8" src="SFHybridApp.js"></script>
 
     <script type="text/javascript" charset="utf-8">
 
@@ -51,14 +51,14 @@
 
     $(function() {
         //Add event listeners and so forth here
-        logToConsole("onLoad: jquery ready");
+        SFHybridApp.logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
 
     });
 
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
-        logToConsole("onDeviceReady: PhoneGap ready");
+        SFHybridApp.logToConsole("onDeviceReady: PhoneGap ready");
 		//Call getAuthCredentials to get the initial session credentials
         SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
 
@@ -71,7 +71,7 @@
         
 
     function salesforceSessionRefreshed(creds) {
-        logToConsole("salesforceSessionRefreshed");
+        SFHybridApp.logToConsole("salesforceSessionRefreshed");
 		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
@@ -81,7 +81,7 @@
 
 
     function getAuthCredentialsError(error) {
-        logToConsole("getAuthCredentialsError: " + error);
+        SFHybridApp.logToConsole("getAuthCredentialsError: " + error);
     }
         
     </script>
