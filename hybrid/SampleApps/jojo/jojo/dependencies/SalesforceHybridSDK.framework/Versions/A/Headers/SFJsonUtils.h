@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -23,66 +23,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
+#import <Foundation/Foundation.h>
 
-
-#import "SFOAuthCoordinator.h"
-
-@class SalesforceOAuthPlugin;
 
 /**
- 
- Base class for hybrid Salesforce Mobile SDK applications.
- 
+ This class helps decouple framework code from the underlying JSON implementation.
  */
-
-extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kUserAgentPropKey;
-
-@interface SFContainerAppDelegate : PhoneGapDelegate {
-    
-	NSString* invokeString;
-    SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
-}
+@interface SFJsonUtils : NSObject
 
 
 /**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
-/**
- The User-Agent string presented by this application
+ @parameter object The object to JSON-ify
+ @return a JSON string representation of a Objective-C object
  */
-@property (nonatomic, readonly) NSString *userAgentString;
-
-
-/**
- @return YES if this device is an iPad
- */
-+ (BOOL) isIPad;
++ (NSString*)JSONRepresentation:(id)object;
 
 /**
- @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
+ @parameter jsonString A JSON string
+ @return An Objective-C object such as an NSDictionary or NSArray
  */
-- (void)addOAuthViewToMainView:(UIView*)oauthView;
++ (id)objectFromJSONString:(NSString *)jsonString;
 
 /**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
+ @parameter jsonData JSON data in an NSData wrapper (UTF8 encoding assumed)
+ @return An Objective-C object such as an NSDictionary or NSArray
  */
-- (BOOL)isFileDataProtectionAvailable;
-
-/**
- The currently running app delegate
- */
-+ (SFContainerAppDelegate*)sharedInstance;
++ (id)objectFromJSONData:(NSData *)jsonData;
 
 @end
-

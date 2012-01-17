@@ -23,66 +23,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
 
 
-#import "SFOAuthCoordinator.h"
+#import "SalesforceHybridSDK/SFContainerAppDelegate.h"
 
-@class SalesforceOAuthPlugin;
+@interface AppDelegate : SFContainerAppDelegate  {
 
-/**
- 
- Base class for hybrid Salesforce Mobile SDK applications.
- 
- */
-
-extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kUserAgentPropKey;
-
-@interface SFContainerAppDelegate : PhoneGapDelegate {
-    
-	NSString* invokeString;
-    SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
 }
 
-
-/**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
-/**
- The User-Agent string presented by this application
- */
-@property (nonatomic, readonly) NSString *userAgentString;
-
-
-/**
- @return YES if this device is an iPad
- */
-+ (BOOL) isIPad;
-
-/**
- @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
- */
-- (void)addOAuthViewToMainView:(UIView*)oauthView;
-
-/**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
- */
-- (BOOL)isFileDataProtectionAvailable;
-
-/**
- The currently running app delegate
- */
-+ (SFContainerAppDelegate*)sharedInstance;
 
 @end
 

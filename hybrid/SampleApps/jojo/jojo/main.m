@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,65 +23,11 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
 
-
-#import "SFOAuthCoordinator.h"
-
-@class SalesforceOAuthPlugin;
-
-/**
- 
- Base class for hybrid Salesforce Mobile SDK applications.
- 
- */
-
-extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kUserAgentPropKey;
-
-@interface SFContainerAppDelegate : PhoneGapDelegate {
+int main(int argc, char *argv[]) {
     
-	NSString* invokeString;
-    SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    int retVal = UIApplicationMain(argc, argv, nil, @"AppDelegate");
+    [pool release];
+    return retVal;
 }
-
-
-/**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
-/**
- The User-Agent string presented by this application
- */
-@property (nonatomic, readonly) NSString *userAgentString;
-
-
-/**
- @return YES if this device is an iPad
- */
-+ (BOOL) isIPad;
-
-/**
- @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
- */
-- (void)addOAuthViewToMainView:(UIView*)oauthView;
-
-/**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
- */
-- (BOOL)isFileDataProtectionAvailable;
-
-/**
- The currently running app delegate
- */
-+ (SFContainerAppDelegate*)sharedInstance;
-
-@end
-

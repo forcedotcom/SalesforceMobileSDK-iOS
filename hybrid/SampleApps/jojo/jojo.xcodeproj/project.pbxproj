@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7D13626F14C6384A00DC325E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13626E14C6384A00DC325E /* Foundation.framework */; };
+		7D13627114C6384A00DC325E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627014C6384A00DC325E /* UIKit.framework */; };
+		7D13627314C6384A00DC325E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627214C6384A00DC325E /* CFNetwork.framework */; };
+		7D13627514C6384A00DC325E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627414C6384A00DC325E /* CoreGraphics.framework */; };
+		7D13627714C6384A00DC325E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627614C6384A00DC325E /* CoreLocation.framework */; };
+		7D13627914C6384A00DC325E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627814C6384A00DC325E /* CoreMedia.framework */; };
+		7D13627B14C6384A00DC325E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627A14C6384A00DC325E /* QuartzCore.framework */; };
+		7D13627D14C6384A00DC325E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627C14C6384A00DC325E /* Security.framework */; };
+		7D13627F14C6384A00DC325E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13627E14C6384A00DC325E /* MobileCoreServices.framework */; };
+		7D13628114C6384B00DC325E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628014C6384A00DC325E /* AddressBook.framework */; };
+		7D13628314C6384B00DC325E /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628214C6384B00DC325E /* AddressBookUI.framework */; };
+		7D13628514C6384B00DC325E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628414C6384B00DC325E /* AudioToolbox.framework */; };
+		7D13628714C6384B00DC325E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628614C6384B00DC325E /* AVFoundation.framework */; };
+		7D13628914C6384B00DC325E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628814C6384B00DC325E /* MediaPlayer.framework */; };
+		7D13628B14C6384B00DC325E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D13628A14C6384B00DC325E /* SystemConfiguration.framework */; };
+		7D13629114C6384B00DC325E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D13628F14C6384B00DC325E /* InfoPlist.strings */; };
+		7D13629314C6384B00DC325E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D13629214C6384B00DC325E /* main.m */; };
+		7D13629514C6384B00DC325E /* jojo-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7D13629414C6384B00DC325E /* jojo-Prefix.pch */; };
+		7D1362B114C6384B00DC325E /* SFSmartStorePlugin.js in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362B014C6384B00DC325E /* SFSmartStorePlugin.js */; };
+		7D1362B314C6384C00DC325E /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1362B214C6384C00DC325E /* SalesforceHybridSDK.framework */; };
+		7D1362B514C6384C00DC325E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1362B414C6384C00DC325E /* libsqlite3.dylib */; };
+		7D1362B914C6384C00DC325E /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362B814C6384C00DC325E /* icon-72.png */; };
+		7D1362BB14C6384C00DC325E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362BA14C6384C00DC325E /* icon.png */; };
+		7D1362BD14C6384C00DC325E /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362BC14C6384C00DC325E /* icon@2x.png */; };
+		7D1362C014C6384C00DC325E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362BF14C6384C00DC325E /* Default-Landscape~ipad.png */; };
+		7D1362C214C6384C00DC325E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362C114C6384C00DC325E /* Default-Portrait~ipad.png */; };
+		7D1362C414C6384C00DC325E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362C314C6384C00DC325E /* Default.png */; };
+		7D1362C614C6384C00DC325E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362C514C6384C00DC325E /* Default@2x.png */; };
+		7D1362C814C6384C00DC325E /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362C714C6384C00DC325E /* Default~iPad.png */; };
+		7D1362CA14C6384C00DC325E /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362C914C6384C00DC325E /* readme.md */; };
+		7D1362CE14C6384C00DC325E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1362CD14C6384C00DC325E /* AppDelegate.m */; };
+		7D1362D114C6384C00DC325E /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362D014C6384C00DC325E /* README */; };
+		7D1362D314C6384C00DC325E /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362D214C6384C00DC325E /* PhoneGap.plist */; };
+		7D1362D514C6384C00DC325E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362D414C6384C00DC325E /* Settings.bundle */; };
+		7D1362D714C6384C00DC325E /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1362D614C6384C00DC325E /* PhoneGapResources.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7D13626814C6384A00DC325E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7D13626A14C6384A00DC325E /* jojo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jojo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D13626E14C6384A00DC325E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7D13627014C6384A00DC325E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7D13627214C6384A00DC325E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		7D13627414C6384A00DC325E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7D13627614C6384A00DC325E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7D13627814C6384A00DC325E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7D13627A14C6384A00DC325E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7D13627C14C6384A00DC325E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7D13627E14C6384A00DC325E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		7D13628014C6384A00DC325E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		7D13628214C6384B00DC325E /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		7D13628414C6384B00DC325E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7D13628614C6384B00DC325E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7D13628814C6384B00DC325E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		7D13628A14C6384B00DC325E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7D13628E14C6384B00DC325E /* jojo-Info.plist */ = {isa = PBXFileReference; path = "jojo-Info.plist"; sourceTree = "<group>"; };
+		7D13629014C6384B00DC325E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7D13629214C6384B00DC325E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7D13629414C6384B00DC325E /* jojo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jojo-Prefix.pch"; sourceTree = "<group>"; };
+		7D13629714C6384B00DC325E /* bootconfig.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = bootconfig.js; sourceTree = "<group>"; };
+		7D13629814C6384B00DC325E /* bootstrap.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bootstrap.html; sourceTree = "<group>"; };
+		7D13629914C6384B00DC325E /* forcetk.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
+		7D13629A14C6384B00DC325E /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		7D13629B14C6384B00DC325E /* inline.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = inline.js; sourceTree = "<group>"; };
+		7D13629E14C6384B00DC325E /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
+		7D13629F14C6384B00DC325E /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
+		7D1362A014C6384B00DC325E /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		7D1362A114C6384B00DC325E /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		7D1362A214C6384B00DC325E /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		7D1362A314C6384B00DC325E /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		7D1362A414C6384B00DC325E /* jquery-1.6.2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
+		7D1362A514C6384B00DC325E /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
+		7D1362A614C6384B00DC325E /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
+		7D1362A714C6384B00DC325E /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
+		7D1362A814C6384B00DC325E /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
+		7D1362A914C6384B00DC325E /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
+		7D1362AA14C6384B00DC325E /* phonegap-1.2.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "phonegap-1.2.0.js"; sourceTree = "<group>"; };
+		7D1362AB14C6384B00DC325E /* qunit.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
+		7D1362AC14C6384B00DC325E /* qunit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
+		7D1362AD14C6384B00DC325E /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		7D1362AE14C6384B00DC325E /* SFHybridApp.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = SFHybridApp.css; sourceTree = "<group>"; };
+		7D1362AF14C6384B00DC325E /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
+		7D1362B014C6384B00DC325E /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		7D1362B214C6384C00DC325E /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = dependencies/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		7D1362B414C6384C00DC325E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		7D1362B814C6384C00DC325E /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		7D1362BA14C6384C00DC325E /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		7D1362BC14C6384C00DC325E /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		7D1362BF14C6384C00DC325E /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		7D1362C114C6384C00DC325E /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		7D1362C314C6384C00DC325E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		7D1362C514C6384C00DC325E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		7D1362C714C6384C00DC325E /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
+		7D1362C914C6384C00DC325E /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		7D1362CC14C6384C00DC325E /* AppDelegate.h */ = {isa = PBXFileReference; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		7D1362CD14C6384C00DC325E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		7D1362D014C6384C00DC325E /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		7D1362D214C6384C00DC325E /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
+		7D1362D414C6384C00DC325E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7D1362D614C6384C00DC325E /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7D13626514C6384A00DC325E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D13626F14C6384A00DC325E /* Foundation.framework in Frameworks */,
+				7D13627114C6384A00DC325E /* UIKit.framework in Frameworks */,
+				7D13627314C6384A00DC325E /* CFNetwork.framework in Frameworks */,
+				7D13627514C6384A00DC325E /* CoreGraphics.framework in Frameworks */,
+				7D13627714C6384A00DC325E /* CoreLocation.framework in Frameworks */,
+				7D13627914C6384A00DC325E /* CoreMedia.framework in Frameworks */,
+				7D13627B14C6384A00DC325E /* QuartzCore.framework in Frameworks */,
+				7D13627D14C6384A00DC325E /* Security.framework in Frameworks */,
+				7D13627F14C6384A00DC325E /* MobileCoreServices.framework in Frameworks */,
+				7D13628114C6384B00DC325E /* AddressBook.framework in Frameworks */,
+				7D13628314C6384B00DC325E /* AddressBookUI.framework in Frameworks */,
+				7D13628514C6384B00DC325E /* AudioToolbox.framework in Frameworks */,
+				7D13628714C6384B00DC325E /* AVFoundation.framework in Frameworks */,
+				7D13628914C6384B00DC325E /* MediaPlayer.framework in Frameworks */,
+				7D13628B14C6384B00DC325E /* SystemConfiguration.framework in Frameworks */,
+				7D1362B314C6384C00DC325E /* SalesforceHybridSDK.framework in Frameworks */,
+				7D1362B514C6384C00DC325E /* libsqlite3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7D13625D14C6384A00DC325E = {
+			isa = PBXGroup;
+			children = (
+				7D13628C14C6384B00DC325E /* jojo */,
+				7D13626D14C6384A00DC325E /* Frameworks */,
+				7D13626B14C6384A00DC325E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7D13626B14C6384A00DC325E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D13626A14C6384A00DC325E /* jojo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7D13626D14C6384A00DC325E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D13626E14C6384A00DC325E /* Foundation.framework */,
+				7D13627014C6384A00DC325E /* UIKit.framework */,
+				7D13627214C6384A00DC325E /* CFNetwork.framework */,
+				7D13627414C6384A00DC325E /* CoreGraphics.framework */,
+				7D13627614C6384A00DC325E /* CoreLocation.framework */,
+				7D13627814C6384A00DC325E /* CoreMedia.framework */,
+				7D13627A14C6384A00DC325E /* QuartzCore.framework */,
+				7D13627C14C6384A00DC325E /* Security.framework */,
+				7D13627E14C6384A00DC325E /* MobileCoreServices.framework */,
+				7D13628014C6384A00DC325E /* AddressBook.framework */,
+				7D13628214C6384B00DC325E /* AddressBookUI.framework */,
+				7D13628414C6384B00DC325E /* AudioToolbox.framework */,
+				7D13628614C6384B00DC325E /* AVFoundation.framework */,
+				7D13628814C6384B00DC325E /* MediaPlayer.framework */,
+				7D13628A14C6384B00DC325E /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7D13628C14C6384B00DC325E /* jojo */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362B214C6384C00DC325E /* SalesforceHybridSDK.framework */,
+				7D1362B414C6384C00DC325E /* libsqlite3.dylib */,
+				7D1362C914C6384C00DC325E /* readme.md */,
+				7D1362D414C6384C00DC325E /* Settings.bundle */,
+				7D1362D614C6384C00DC325E /* PhoneGapResources.bundle */,
+				7D13629614C6384B00DC325E /* www */,
+				7D1362B614C6384C00DC325E /* Resources */,
+				7D1362CB14C6384C00DC325E /* Classes */,
+				7D1362CF14C6384C00DC325E /* Plugins */,
+				7D13628D14C6384B00DC325E /* Supporting Files */,
+			);
+			path = jojo;
+			sourceTree = "<group>";
+		};
+		7D13628D14C6384B00DC325E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D13628E14C6384B00DC325E /* jojo-Info.plist */,
+				7D13628F14C6384B00DC325E /* InfoPlist.strings */,
+				7D13629214C6384B00DC325E /* main.m */,
+				7D13629414C6384B00DC325E /* jojo-Prefix.pch */,
+				7D1362D214C6384C00DC325E /* PhoneGap.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7D13629614C6384B00DC325E /* www */ = {
+			isa = PBXGroup;
+			children = (
+				7D13629714C6384B00DC325E /* bootconfig.js */,
+				7D13629814C6384B00DC325E /* bootstrap.html */,
+				7D13629914C6384B00DC325E /* forcetk.js */,
+				7D13629A14C6384B00DC325E /* index.html */,
+				7D13629B14C6384B00DC325E /* inline.js */,
+				7D13629C14C6384B00DC325E /* jquery */,
+				7D1362AA14C6384B00DC325E /* phonegap-1.2.0.js */,
+				7D1362AB14C6384B00DC325E /* qunit.css */,
+				7D1362AC14C6384B00DC325E /* qunit.js */,
+				7D1362AD14C6384B00DC325E /* SalesforceOAuthPlugin.js */,
+				7D1362AE14C6384B00DC325E /* SFHybridApp.css */,
+				7D1362AF14C6384B00DC325E /* SFHybridApp.js */,
+				7D1362B014C6384B00DC325E /* SFSmartStorePlugin.js */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
+		7D13629C14C6384B00DC325E /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				7D13629D14C6384B00DC325E /* images */,
+				7D1362A414C6384B00DC325E /* jquery-1.6.2.js */,
+				7D1362A514C6384B00DC325E /* jquery-1.6.2.min.js */,
+				7D1362A614C6384B00DC325E /* jquery.mobile-1.0b2.css */,
+				7D1362A714C6384B00DC325E /* jquery.mobile-1.0b2.js */,
+				7D1362A814C6384B00DC325E /* jquery.mobile-1.0b2.min.css */,
+				7D1362A914C6384B00DC325E /* jquery.mobile-1.0b2.min.js */,
+			);
+			path = jquery;
+			sourceTree = "<group>";
+		};
+		7D13629D14C6384B00DC325E /* images */ = {
+			isa = PBXGroup;
+			children = (
+				7D13629E14C6384B00DC325E /* ajax-loader.png */,
+				7D13629F14C6384B00DC325E /* icon-search-black.png */,
+				7D1362A014C6384B00DC325E /* icons-18-black.png */,
+				7D1362A114C6384B00DC325E /* icons-18-white.png */,
+				7D1362A214C6384B00DC325E /* icons-36-black.png */,
+				7D1362A314C6384B00DC325E /* icons-36-white.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		7D1362B614C6384C00DC325E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362B714C6384C00DC325E /* icons */,
+				7D1362BE14C6384C00DC325E /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7D1362B714C6384C00DC325E /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362B814C6384C00DC325E /* icon-72.png */,
+				7D1362BA14C6384C00DC325E /* icon.png */,
+				7D1362BC14C6384C00DC325E /* icon@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		7D1362BE14C6384C00DC325E /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362BF14C6384C00DC325E /* Default-Landscape~ipad.png */,
+				7D1362C114C6384C00DC325E /* Default-Portrait~ipad.png */,
+				7D1362C314C6384C00DC325E /* Default.png */,
+				7D1362C514C6384C00DC325E /* Default@2x.png */,
+				7D1362C714C6384C00DC325E /* Default~iPad.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		7D1362CB14C6384C00DC325E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362CC14C6384C00DC325E /* AppDelegate.h */,
+				7D1362CD14C6384C00DC325E /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		7D1362CF14C6384C00DC325E /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				7D1362D014C6384C00DC325E /* README */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7D13626914C6384A00DC325E /* jojo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D1362DA14C6384C00DC325E /* Build configuration list for PBXNativeTarget "jojo" */;
+			buildPhases = (
+				7D13626414C6384A00DC325E /* Sources */,
+				7D13626514C6384A00DC325E /* Frameworks */,
+				7D13626614C6384A00DC325E /* Resources */,
+				7D13626714C6384A00DC325E /* Sources */,
+				7D13626814C6384A00DC325E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = jojo;
+			productName = jojo;
+			productReference = 7D13626A14C6384A00DC325E /* jojo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7D13625F14C6384A00DC325E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Salesforce.com;
+			};
+			buildConfigurationList = 7D13626214C6384A00DC325E /* Build configuration list for PBXProject "jojo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7D13625D14C6384A00DC325E;
+			productRefGroup = 7D13626B14C6384A00DC325E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7D13626914C6384A00DC325E /* jojo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7D13626614C6384A00DC325E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D13629114C6384B00DC325E /* InfoPlist.strings in Resources */,
+				7D13629514C6384B00DC325E /* jojo-Prefix.pch in Resources */,
+				7D1362B114C6384B00DC325E /* SFSmartStorePlugin.js in Resources */,
+				7D1362B914C6384C00DC325E /* icon-72.png in Resources */,
+				7D1362BB14C6384C00DC325E /* icon.png in Resources */,
+				7D1362BD14C6384C00DC325E /* icon@2x.png in Resources */,
+				7D1362C014C6384C00DC325E /* Default-Landscape~ipad.png in Resources */,
+				7D1362C214C6384C00DC325E /* Default-Portrait~ipad.png in Resources */,
+				7D1362C414C6384C00DC325E /* Default.png in Resources */,
+				7D1362C614C6384C00DC325E /* Default@2x.png in Resources */,
+				7D1362C814C6384C00DC325E /* Default~iPad.png in Resources */,
+				7D1362CA14C6384C00DC325E /* readme.md in Resources */,
+				7D1362D114C6384C00DC325E /* README in Resources */,
+				7D1362D314C6384C00DC325E /* PhoneGap.plist in Resources */,
+				7D1362D514C6384C00DC325E /* Settings.bundle in Resources */,
+				7D1362D714C6384C00DC325E /* PhoneGapResources.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7D13626414C6384A00DC325E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D13629314C6384B00DC325E /* main.m in Sources */,
+				7D1362CE14C6384C00DC325E /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D13626714C6384A00DC325E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7D13628F14C6384B00DC325E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7D13629014C6384B00DC325E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7D1362D814C6384C00DC325E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7D1362D914C6384C00DC325E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7D1362DB14C6384C00DC325E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/jojo/dependencies\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "jojo/jojo-Prefix.pch";
+				INFOPLIST_FILE = "jojo/jojo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7D1362DC14C6384C00DC325E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/jojo/dependencies\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "jojo/jojo-Prefix.pch";
+				INFOPLIST_FILE = "jojo/jojo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7D13626214C6384A00DC325E /* Build configuration list for PBXProject "jojo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D1362D814C6384C00DC325E /* Debug */,
+				7D1362D914C6384C00DC325E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7D1362DA14C6384C00DC325E /* Build configuration list for PBXNativeTarget "jojo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D1362DB14C6384C00DC325E /* Debug */,
+				7D1362DC14C6384C00DC325E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7D13625F14C6384A00DC325E /* Project object */;
+}

@@ -1,0 +1,44 @@
+// SECTION: Root //
+"GROUP_TITLE_ACCOUNT"="Account";
+/* group label for Account settings */
+"LOGOUT_SELECTOR_TITLE"="Esci adesso";
+/* allows user to log out of account*/
+"GROUP_TITLE_DEBUG"="Esegui debug";
+/* a section title for debug settings (SEND_LOGS_SELECTOR_TITLE) */
+"SEND_LOGS_SELECTOR_TITLE"="Invia registri";
+/* if true, app will send debug logs to Salesforce Support */
+"GROUP_TITLE_CONNECTION"="Connessione";
+/* Settings label for network connection */
+"LOGIN_HOST_TITLE"="Host di accesso";
+/* Settings label for login host */
+"PRODUCTION_LOGIN_HOST_TITLE"="Produzione";
+/* Settings label for production login host */
+"SANDBOX_LOGIN_HOST_TITLE"="Sandbox";
+/* Settings label for sandbox login host */
+"CUSTOM_LOGIN_HOST_TITLE"="Host personalizzato";
+/* Settings label for Custom Host login host */
+"DEFAULT_CUSTOM_LOGIN_HOST_TITLE"="per verifica";
+/* default value for the custom host setting */
+"PROTOCOL_SELECTOR_TITLE"="Protocollo";
+/* Settings label for protocol (test only) */
+"MAX_PREVIOUS_RETRIEVE"="Recupera";
+/* Settings label for how many items to retrieve in a page of items (eg feed items) */
+"RETRIEVE_5"="5 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_10"="10 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_20"="20 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_25"="25 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_50"="50 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_100"="100 elementi";
+/* Label for: retrieve this many items */
+"RETRIEVE_500"="500 elementi";
+/* Label for: retrieve this many items */
+"GROUP_TITLE_APPLICATION_INFO"="Informazioni sull'applicazione";
+"VERSION_TITLE"="Versione";
+// ENDSECTION //
+
+

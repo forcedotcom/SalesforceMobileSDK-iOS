@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -23,66 +23,41 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
+#import <Foundation/Foundation.h>
 
 
-#import "SFOAuthCoordinator.h"
+extern NSString * const kSoupIndexTypeString;
+extern NSString * const kSoupIndexTypeDate;
 
-@class SalesforceOAuthPlugin;
+
+@interface SFSoupIndex : NSObject
+
+@property (nonatomic, retain) NSString *keyPath;
+@property (nonatomic, retain) NSString *indexType;
+@property (nonatomic, retain) NSString *indexedColumnName;
+@property (nonatomic, retain) NSString *indexName;
+
 
 /**
- 
- Base class for hybrid Salesforce Mobile SDK applications.
- 
+ @param indexSpec the indexSpec to use
+ @return initialized index object
  */
-
-extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kUserAgentPropKey;
-
-@interface SFContainerAppDelegate : PhoneGapDelegate {
-    
-	NSString* invokeString;
-    SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
-}
-
+- (id)initWithIndexSpec:(NSDictionary*)indexSpec;
 
 /**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
-/**
- The User-Agent string presented by this application
+ @param sql The sql that was used to create the index in the db
+ @see createSqlWithTableName
+ @return initialized index object
  */
-@property (nonatomic, readonly) NSString *userAgentString;
-
-
-/**
- @return YES if this device is an iPad
- */
-+ (BOOL) isIPad;
+- (id)initWithSql:(NSString *)sql;
 
 /**
- @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
+ @return SQL string that can be used to create the index on the provided table
+ @param tableName the table on which the index would be created
  */
-- (void)addOAuthViewToMainView:(UIView*)oauthView;
+- (NSString*)createSqlWithTableName:(NSString*)tableName;
 
-/**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
- */
-- (BOOL)isFileDataProtectionAvailable;
-
-/**
- The currently running app delegate
- */
-+ (SFContainerAppDelegate*)sharedInstance;
++ (NSString*)indexColumnNameForKeyPath:(NSString*)path;
++ (NSString*)soupIndexNameForKeyPath:(NSString*)path;
 
 @end
-

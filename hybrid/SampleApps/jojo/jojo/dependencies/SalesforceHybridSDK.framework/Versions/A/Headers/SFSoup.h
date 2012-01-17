@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -23,66 +23,51 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
+#import <Foundation/Foundation.h>
+
+@class SFSoupCursor;
 
 
-#import "SFOAuthCoordinator.h"
-
-@class SalesforceOAuthPlugin;
-
-/**
- 
- Base class for hybrid Salesforce Mobile SDK applications.
- 
- */
-
-extern NSString * const kSFMobileSDKVersion;
-extern NSString * const kUserAgentPropKey;
-
-@interface SFContainerAppDelegate : PhoneGapDelegate {
-    
-	NSString* invokeString;
-    SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
+@interface SFSoup : NSObject {
+    NSString *_name;
+    NSString *_soupPath;
+    NSString *_indexTablePath;
+    NSMutableDictionary *_cursorCache;
 }
 
+@property (nonatomic, readonly) NSString *name;
 
 /**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
-/**
- The User-Agent string presented by this application
+ Create a fresh soup with the given specs and persist it
  */
-@property (nonatomic, readonly) NSString *userAgentString;
+- (id)initWithName:(NSString *)name indexes:(NSArray*)indexSpecs atPath:(NSString*)path;
+
+/**
+ Load an existing soup from the given path
+ */
+- (id)initWithName:(NSString*)name fromPath:(NSString*)path;
+
 
 
 /**
- @return YES if this device is an iPad
+ 
+ @param querySpec 
+ 
+ @return a cursor to the query results
  */
-+ (BOOL) isIPad;
+- (SFSoupCursor*)query:(NSDictionary*)querySpec;
 
 /**
- @parm oauthView  OAuth coordinator view to be added to main viewController's view during login. 
+ @param soupEntryId Entry to retrieve
+ @return a soup entry whose _soupEntryId exactly matches
  */
-- (void)addOAuthViewToMainView:(UIView*)oauthView;
+- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId;
 
 /**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
+ @param entries array of soup entries to be updated or inserted
  */
-- (BOOL)isFileDataProtectionAvailable;
+- (SFSoupCursor*)upsertEntries:(NSArray*)entries;
 
-/**
- The currently running app delegate
- */
-+ (SFContainerAppDelegate*)sharedInstance;
+- (void)removeEntries:(NSArray*)entryIds;
 
 @end
-
