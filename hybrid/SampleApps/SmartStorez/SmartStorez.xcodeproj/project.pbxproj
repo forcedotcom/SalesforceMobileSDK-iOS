@@ -199,7 +199,6 @@
 				7D1380B614B50BAD00A21EE2 /* readme.md */,
 				7D1380C814B50BAD00A21EE2 /* Settings.bundle */,
 				7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */,
-				7D13808D14B50BAD00A21EE2 /* dependencies */,
 				7D1380A314B50BAD00A21EE2 /* Resources */,
 				7D1380B814B50BAD00A21EE2 /* Classes */,
 				7D13806914B50BAC00A21EE2 /* Supporting Files */,
@@ -217,13 +216,6 @@
 				7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7D13808D14B50BAD00A21EE2 /* dependencies */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = dependencies;
 			sourceTree = "<group>";
 		};
 		7D1380A314B50BAD00A21EE2 /* Resources */ = {
