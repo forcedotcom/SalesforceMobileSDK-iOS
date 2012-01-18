@@ -199,7 +199,6 @@
 				7D1380B614B50BAD00A21EE2 /* readme.md */,
 				7D1380C814B50BAD00A21EE2 /* Settings.bundle */,
 				7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */,
-				7D13808D14B50BAD00A21EE2 /* dependencies */,
 				7D1380A314B50BAD00A21EE2 /* Resources */,
 				7D1380B814B50BAD00A21EE2 /* Classes */,
 				7D13806914B50BAC00A21EE2 /* Supporting Files */,
@@ -217,13 +216,6 @@
 				7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7D13808D14B50BAD00A21EE2 /* dependencies */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = dependencies;
 			sourceTree = "<group>";
 		};
 		7D1380A314B50BAD00A21EE2 /* Resources */ = {
@@ -444,18 +436,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
+					SmartStorez/dependencies,
 					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies\"",
-					"\"$(SRCROOT)/../../dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
 				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -465,18 +452,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
+					SmartStorez/dependencies,
 					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies\"",
-					"\"$(SRCROOT)/../../dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
 				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

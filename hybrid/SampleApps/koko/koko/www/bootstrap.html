@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VisualForce Bootstrap Page with OAuth Plugin</title>
+        
+        <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
+        
+        <script type="text/javascript" src="phonegap-1.2.0.js"></script>
+        <script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+        <script type="text/javascript" src="SFHybridApp.js"></script>
+        
+        <script type="text/javascript" src="bootconfig.js"></script>
+        
+        <script type="text/javascript">
+        
+        /**
+         * JQuery's "ready" function.  This will execute once JQuery is successfully loaded.
+         */
+        $(function() {
+            SFHybridApp.logToConsole("jQuery is ready");
+            document.addEventListener("deviceready", onDeviceReady,false);
+            SFHybridApp.logToConsole("Added onDeviceReady event listener.");
+        });
+        
+        /**
+         * Handler for PhoneGap's "deviceready" event, signifying that PhoneGap is successfully
+         * loaded.
+         */
+        function onDeviceReady() {
+            SFHybridApp.logToConsole("onDeviceReady called: PhoneGap is ready.");
+            
+            // Validate the start data configuration.
+            if (!isValidStartData(startData)) {
+                return;
+            }
+            
+            if (startData.shouldAuthenticate) {
+                // Authenticate via the Salesforce OAuth plugin.
+                var oauthProperties = new OAuthProperties(remoteAccessConsumerKey, 
+                                                          oauthRedirectURI, 
+                                                          oauthScopes, 
+                                                          autoRefreshOnForeground);
+                SalesforceOAuthPlugin.authenticate(loginSuccess, loginFailure, oauthProperties);
+            } else {
+                if (startData instanceof SFHybridApp.LocalAppStartData) {
+                    SFHybridApp.loadUrl(SFHybridApp.buildLocalUrl(startData.appStartUrl));
+                } else {
+                    SFHybridApp.loadUrl(startData.appStartUrl);
+                }
+            }
+        }
+            
+        /**
+         * Validates that the start data conforms to the business rules.
+         */
+        function isValidStartData(startData) {
+            if (!(startData instanceof SFHybridApp.LocalAppStartData || startData instanceof SFHybridApp.RemoteAppStartData)) {
+                SFHybridApp.logError("startData is not a valid object type.  Expecting SFHybridApp.LocalAppStartData or SFHybridApp.RemoteAppStartData.");
+                return false;
+            }
+            
+            if ((startData instanceof SFHybridApp.RemoteAppStartData)
+                && startData.isAbsoluteUrl === false
+                && startData.shouldAuthenticate === false) {
+                SFHybridApp.logError("startData.isAbsoluteUrl and startData.shouldAuthenticate cannot both be false for a remote app.  "
+                         + "The instance URL determined from authentication is used to build the absolute URL.");
+                return false;
+            }
+            
+            return true;
+        }
+            
+        /**
+         * Success callback for the SalesforceOAuthPlugin.authenticate() method.
+         */
+        function loginSuccess(oauthCredentials) {
+            SFHybridApp.logToConsole("loginSuccess");
+            var fullAppUrl;
+            if (startData instanceof SFHybridApp.LocalAppStartData) {
+                fullAppUrl =  SFHybridApp.buildLocalUrl(startData.appStartUrl);
+            } else if (startData instanceof SFHybridApp.RemoteAppStartData) {
+                if (startData.isAbsoluteUrl) {
+                    fullAppUrl = startData.appStartUrl;
+                } else {
+                    fullAppUrl = SFHybridApp.buildAppUrl(oauthCredentials.instanceUrl, startData.appStartUrl);
+                }
+            }
+            SFHybridApp.logToConsole("fullAppUrl: " + fullAppUrl);
+            SFHybridApp.loadUrl(fullAppUrl);
+        }
+            
+        /**
+         * Error callback for the SalesforceOAuthPlugin.authenticate() method.
+         * TODO: Is there more that we'd want to do here?
+         */
+        function loginFailure(result) {
+            SFHybridApp.logError("loginFailure: " + result);
+        }
+            
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Loading...</h1>
+            <fieldset id="errors" class="logWindow">
+                <legend>Errors</legend>
+            </fieldset>
+            <fieldset id="console" class="logWindow">
+                <legend>Debug Console</legend>
+            </fieldset>
+        </div>
+    </body>
+</html>

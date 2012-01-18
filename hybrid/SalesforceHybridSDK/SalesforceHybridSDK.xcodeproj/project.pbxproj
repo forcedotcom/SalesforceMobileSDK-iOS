@@ -83,6 +83,10 @@
 		7DBB14F414C0F6D700CCDBE0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F314C0F6D700CCDBE0 /* Security.framework */; };
 		7DBB14F614C0F6E500CCDBE0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F514C0F6E500CCDBE0 /* SystemConfiguration.framework */; };
 		7DBB14F814C0F70000CCDBE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */; };
+		7DF93E8514C646DB00D0C211 /* PGPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6A14C646DB00D0C211 /* PGPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E7014C646DB00D0C211 /* PluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +212,10 @@
 		7DBB14F314C0F6D700CCDBE0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DBB14F514C0F6E500CCDBE0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7DF93E6A14C646DB00D0C211 /* PGPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPlugin.h; sourceTree = "<group>"; };
+		7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapDelegate.h; sourceTree = "<group>"; };
+		7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapViewController.h; sourceTree = "<group>"; };
+		7DF93E7014C646DB00D0C211 /* PluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +410,7 @@
 		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DF93E5714C646DB00D0C211 /* Headers */,
 				7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */,
 				7D45E35614BFB3FD002C4A27 /* SalesforceOAuth */,
 			);
@@ -534,6 +543,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7DF93E5714C646DB00D0C211 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				7DF93E6A14C646DB00D0C211 /* PGPlugin.h */,
+				7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */,
+				7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */,
+				7DF93E7014C646DB00D0C211 /* PluginResult.h */,
+			);
+			name = Headers;
+			path = PhoneGap.framework/Headers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -555,6 +576,10 @@
 				7D45E35114BFB394002C4A27 /* SqliteAdditions.h in Headers */,
 				7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */,
 				7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */,
+				7DF93E8514C646DB00D0C211 /* PGPlugin.h in Headers */,
+				7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */,
+				7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */,
+				7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,7 +958,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -965,7 +989,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;

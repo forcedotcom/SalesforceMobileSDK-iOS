@@ -82,16 +82,37 @@
         <copy todir="${xcodetemplate.dir}">
             <fileset dir="${xcodetemplate.base.dir}"/>
         </copy>
-        <copy file="${xcodetemplate.shared.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}" />
+
+        <!-- <copy file="${xcodetemplate.pgplugin.base.dir}/bootconfig.js" todir="${xcodetemplate.www.dir}"  />
+          <copy file="${xcodetemplate.pgplugin.base.dir}/bootstrap.html" todir="${xcodetemplate.www.dir}"  />
+          <copy file="${xcodetemplate.pgplugin.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}"  /> -->
+  
         <copy todir="${xcodetemplate.www.dir}">
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}" >
+			  <not>
+			    <filename name="**/*TestSuite.js"/>
+			  </not>
+			</fileset>
+		</copy>
+		
+        <!-- <copy todir="${xcodetemplate.www.dir}">
             <fileset dir="${xcodetemplate.pgplugin.base.dir}" />
-        </copy>
+        </copy> -->
+
+        <copy file="${xcodetemplate.shared.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}"  />
+        <copy file="${dependency.dir}/PhoneGap.framework/www/phonegap-1.2.0.js" todir="${xcodetemplate.www.dir}" />
+
         <copy todir="${xcodetemplate.jquery.dir}">
             <fileset dir="${xcodetemplate.jquery.base.dir}" />
         </copy>
+
+        <!-- <copy todir="${xcodetemplate.dependency.dir}">
+            <fileset dir="${dependency.dir}/SalesforceHybridSDK.framework"/>
+        </copy> -->
+
         <copy todir="${xcodetemplate.dependency.dir}">
-            <fileset dir="${dependency.dir}"/>
-        </copy>
+              <fileset dir="${dependency.dir}"/>
+          </copy>
     </target>
 
     <target name="xcodetemplate.install" depends="xcodetemplate.create">
