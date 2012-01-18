@@ -436,18 +436,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
+					SmartStorez/dependencies,
 					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies\"",
-					"\"$(SRCROOT)/../../dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
 				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,18 +452,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
+					SmartStorez/dependencies,
 					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies\"",
-					"\"$(SRCROOT)/../../dependencies\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
 				INFOPLIST_FILE = "SmartStorez/SmartStorez-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/SmartStorez/dependencies/SBJson\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
