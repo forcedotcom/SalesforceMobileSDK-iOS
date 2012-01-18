@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <PhoneGap/PGPlugin.h>
+#import "PGPlugin.h"
 #import "SFOAuthCoordinator.h"
 
 @class SFAuthorizingViewController;

@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 // From PhoneGap.framework
-#import <PhoneGap/PGPlugin.h>
+#import "PGPlugin.h"
 
 @class SFContainerAppDelegate;
 @class SFSoupCursor;
