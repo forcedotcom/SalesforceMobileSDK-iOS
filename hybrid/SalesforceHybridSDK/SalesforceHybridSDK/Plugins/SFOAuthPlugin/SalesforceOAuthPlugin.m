@@ -27,7 +27,7 @@
 
 #import "SalesforceOAuthPlugin.h"
 #import "SFContainerAppDelegate.h"
-//#import "NSObject+SBJson.h"
+#import "SFJsonUtils.h"
 
 // ------------------------------------------
 // Private constants
@@ -404,7 +404,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds
 {
-    NSString *credsStr = [creds JSONString];
+    
+    NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
     NSString *eventStr = [[NSString alloc] initWithFormat:@"PhoneGap.fireDocumentEvent('salesforceSessionRefresh',%@);",
                           credsStr];
     [super writeJavascript:eventStr];
