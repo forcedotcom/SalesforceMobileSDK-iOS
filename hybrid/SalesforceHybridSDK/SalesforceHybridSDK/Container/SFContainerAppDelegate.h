@@ -24,7 +24,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <PhoneGap/PhoneGapDelegate.h>
+#import "PhoneGapDelegate.h"
 
 
 #import "SFOAuthCoordinator.h"
