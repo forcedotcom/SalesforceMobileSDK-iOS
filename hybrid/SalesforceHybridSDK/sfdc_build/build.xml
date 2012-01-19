@@ -38,8 +38,8 @@
    </target>
 
 	<target name="buildDist" depends="pre" description="build debug and release zips">
-		<antcall target="compileDebug" />
 		<antcall target="compileRelease" />
+		<antcall target="compileDebug" />
 		<delete dir="${project.dir}/build"/>
 	</target>
 
@@ -144,34 +144,23 @@
     </target>
     
     <target name="compileDebug" depends="pre">
-        <antcall target="iOSShared.compile">
-            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+        <antcall target="iOSShared.compile_no_install">
             <param name="configuration" value="${configuration.debug}"/>
-            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="sdk" refid="sdk.iphoneos"/>
             <param name="target" value="SalesforceHybridSDK"/>
-            <param name="action" value="install"/>
         </antcall>
-
-        <!-- <antcall target="iOSShared.compile">
-            <param name="install_path" value="${artifacts.dir}/Simulator"/>
-            <param name="configuration" value="${configuration.debug}"/>
-            <param name="sdk" refid="platform.iphonesimulator"/>
-            <param name="target" value="SalesforceHybridSDK"/>
-            <param name="action" value="install"/>
-        </antcall> -->
-
 
 		<!-- copy the build products somewhere that compress can pick it up -->
 		<copy todir="${artifacts.dir}/Debug-iphoneos" >
-			<fileset dir="${project.dir}/build/Debug-iphoneos"/>
+				<fileset dir="${project.dir}/build/Debug-iphoneos"/>
 		</copy>        
     	<delete dir="${project.dir}/build/Debug-iphoneos" failonerror="false" />
 					
         <antcall target="iOSShared.compress">
-               <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
-               <param name="basedir" value="${artifacts.dir}/Debug-iphoneos"/>
-           </antcall>
-
+              <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
+              <param name="basedir" value="${artifacts.dir}/Debug-iphoneos"/>
+        </antcall>
+	
 		<!-- Copy the zip product to the distribution dir -->
 		<copy todir="${dist.dir}/${target.name}"
 		    file="${artifacts.dir}/${target.name}-Debug.zip" />
@@ -179,14 +168,11 @@
     </target>
 
     <target name="compileRelease" depends="pre" >
-        <antcall target="iOSShared.compile">
-            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+	    <antcall target="iOSShared.compile_no_install">
             <param name="configuration" value="${configuration.release}"/>
-            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="sdk" refid="sdk.iphoneos"/>
             <param name="target" value="SalesforceHybridSDK"/>
-            <param name="action" value="install"/>
         </antcall>
-		
 
 		<!-- copy the build products somewhere that compress can pick it up -->
 		<copy todir="${artifacts.dir}/Release-iphoneos" >
@@ -195,9 +181,9 @@
     	<delete dir="${project.dir}/build/Release-iphoneos" failonerror="false" />
 					
         <antcall target="iOSShared.compress">
-               <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
-               <param name="basedir" value="${artifacts.dir}/Release-iphoneos"/>
-           </antcall>
+            <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>
+            <param name="basedir" value="${artifacts.dir}/Release-iphoneos"/>
+        </antcall>
 
 		<!-- Copy the zip product to the distribution dir -->
 		<copy todir="${dist.dir}/${target.name}"
@@ -207,8 +193,10 @@
 
  
     <target name="clean">
-        <delete dir="${artifacts.dir}" failonerror="false" />
+		<delete dir="${project.dir}/build" failonerror="false" />
+        <delete dir="${dependency.dir}/${target.name}.framework" failonerror="false" />
         <delete dir="${dist.dir}/${target.name}" failonerror="false" />
+        <delete dir="${artifacts.dir}" failonerror="false" />
     </target>
 
     <target name="clean.full"
