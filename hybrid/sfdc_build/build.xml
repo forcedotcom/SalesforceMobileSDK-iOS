@@ -1,4 +1,4 @@
-<project name="HybridContainer" default="build">
+<project name="HybridProducts" default="build">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -32,11 +32,11 @@
 	depends="initArtifacts, ensureDependencies"/>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios, iOSShared.dependency.oauth"
+		depends="iOSShared.dependency.hybrid_sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean"
+		depends="iOSShared.dependency.hybrid_sdk.clean"
 		/>
 		
     <target name="initArtifacts">
@@ -83,10 +83,7 @@
             <fileset dir="${xcodetemplate.base.dir}"/>
         </copy>
 
-        <!-- <copy file="${xcodetemplate.pgplugin.base.dir}/bootconfig.js" todir="${xcodetemplate.www.dir}"  />
-          <copy file="${xcodetemplate.pgplugin.base.dir}/bootstrap.html" todir="${xcodetemplate.www.dir}"  />
-          <copy file="${xcodetemplate.pgplugin.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}"  /> -->
-  
+ 
         <copy todir="${xcodetemplate.www.dir}">
 			<fileset dir="${xcodetemplate.pgplugin.base.dir}" >
 			  <not>
@@ -94,10 +91,6 @@
 			  </not>
 			</fileset>
 		</copy>
-		
-        <!-- <copy todir="${xcodetemplate.www.dir}">
-            <fileset dir="${xcodetemplate.pgplugin.base.dir}" />
-        </copy> -->
 
         <copy file="${xcodetemplate.shared.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}"  />
         <copy file="${dependency.dir}/PhoneGap.framework/www/phonegap-1.2.0.js" todir="${xcodetemplate.www.dir}" />
@@ -105,10 +98,6 @@
         <copy todir="${xcodetemplate.jquery.dir}">
             <fileset dir="${xcodetemplate.jquery.base.dir}" />
         </copy>
-
-        <!-- <copy todir="${xcodetemplate.dependency.dir}">
-            <fileset dir="${dependency.dir}/SalesforceHybridSDK.framework"/>
-        </copy> -->
 
         <copy todir="${xcodetemplate.dependency.dir}">
               <fileset dir="${dependency.dir}"/>
@@ -122,16 +111,13 @@
         </copy>
     </target>
 
-
     <target name="clean">
         <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
         <delete dir="${dependency.dir}" failonerror="false"/>
     </target>
-	
-
-		
+			
     <target name="clean.full"
         depends="clean, cleanDependencies">
 	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />

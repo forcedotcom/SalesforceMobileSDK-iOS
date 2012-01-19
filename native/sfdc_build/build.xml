@@ -1,4 +1,4 @@
-<project name="NativeSDK" default="install">
+<project name="NativeProducts" default="install">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>

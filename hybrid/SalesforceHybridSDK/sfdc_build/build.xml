@@ -150,15 +150,15 @@
             <param name="target" value="SalesforceHybridSDK"/>
         </antcall>
 
-		<!-- copy the build products somewhere that compress can pick it up -->
-		<copy todir="${artifacts.dir}/Debug-iphoneos" >
-				<fileset dir="${project.dir}/build/Debug-iphoneos"/>
+		<!-- move the build products somewhere that compress can pick it up -->
+		<copy todir="${artifacts.dir}/Debug-iphoneos/${target.name}.framework" >
+				<fileset dir="${project.dir}/build/Debug-iphoneos/${target.name}.framework"/>
 		</copy>        
     	<delete dir="${project.dir}/build/Debug-iphoneos" failonerror="false" />
 					
         <antcall target="iOSShared.compress">
               <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
-              <param name="basedir" value="${artifacts.dir}/Debug-iphoneos"/>
+              <param name="basedir" value="${artifacts.dir}/Debug-iphoneos/${target.name}.framework"/>
         </antcall>
 	
 		<!-- Copy the zip product to the distribution dir -->
@@ -174,9 +174,9 @@
             <param name="target" value="SalesforceHybridSDK"/>
         </antcall>
 
-		<!-- copy the build products somewhere that compress can pick it up -->
-		<copy todir="${artifacts.dir}/Release-iphoneos" >
-			<fileset dir="${project.dir}/build/Release-iphoneos"/>
+		<!-- move the build products somewhere that compress can pick it up -->
+		<copy todir="${artifacts.dir}/Release-iphoneos/${target.name}.framework" >
+				<fileset dir="${project.dir}/build/Release-iphoneos/${target.name}.framework"/>
 		</copy>        
     	<delete dir="${project.dir}/build/Release-iphoneos" failonerror="false" />
 					

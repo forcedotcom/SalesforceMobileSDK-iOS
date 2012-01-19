@@ -124,11 +124,8 @@
     </target>
 
     <target name="dependency.sdk" depends="dependency.sdk.check" unless="dependency.sdk.present">
-        <!-- <property name="dependency.sdk.zip" value="${subproject.sdk.dir}/sfdc_build/artifacts/SalesforceSDK-Debug.zip"/> -->
-
        <property name="dependency.sdk.zip" 
 			value="${iOSShared.distdir}/SalesforceSDK/SalesforceSDK-Debug.zip" />
-
 
         <available file="${dependency.sdk.zip}" property="dependency.sdk.zip.present"/>
         <antcall target="dependency.sdk.compile"/>
@@ -264,4 +261,33 @@
 	<delete dir="${dependency.dir}/PhoneGap.framework" />
     </target>
 
+    <!-- dependency: SalesforceHybridSDK -->
+    <property name="subproject.hybrid_sdk.dir" value="${iOSShared.basedir}/../hybrid/SalesforceHybridSDK"/>
+
+    <target name="dependency.hybrid_sdk.check">
+        <condition property="dependency.hybrid_sdk.present">
+            <available file="${dependency.dir}/SalesforceHybridSDK" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="dependency.hybrid_sdk" depends="dependency.hybrid_sdk.check" unless="dependency.hybrid_sdk.present">
+       <property name="dependency.hybrid_sdk.zip" 
+			value="${iOSShared.distdir}/SalesforceHybridSDK/SalesforceHybridSDK-Debug.zip" />
+
+        <available file="${dependency.hybrid_sdk.zip}" property="dependency.hybrid_sdk.zip.present"/>
+        <antcall target="dependency.hybrid_sdk.compile"/>
+
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.hybrid_sdk.zip}"/>
+        </exec>
+    </target>
+
+    <target name="dependency.hybrid_sdk.compile" unless="dependency.hybrid_sdk.zip.present">
+        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="build" inheritAll="false"/>
+    </target>
+
+    <target name="dependency.hybrid_sdk.clean">
+        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="clean" inheritAll="false"/>
+        <delete dir="${dependency.dir}/SalesforceHybridSDK"/>
+    </target>
 </project>
