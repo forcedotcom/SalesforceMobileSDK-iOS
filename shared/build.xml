@@ -106,6 +106,14 @@
         </exec>
     </target>
 
+    <target name="iOSShared.compile_no_install">
+        <echo>xcodebuild ${target}(${configuration}) from ${target.name}.xcodeproj using SDK '${sdk}'</echo>
+
+        <exec executable="xcodebuild" failonerror="true" logError="true">
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} "/>
+        </exec>
+    </target>
+
     <!-- dependency: SalesforceSDK -->
     <property name="subproject.sdk.dir" value="${iOSShared.basedir}/../native/SalesforceSDK"/>
 
