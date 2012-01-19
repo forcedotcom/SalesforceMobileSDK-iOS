@@ -9,11 +9,7 @@
 
 #include <string.h>
 
-//prototypes
-char *trim_right( char *szSource, char tobeTrimed );
-char *trim_left( char *szSource, char tobeTrimed );
-char *trim( char *szSource, char tobeTrimed );
-void concat_free(void* result);
+
 
 
 char *trim_right( char *szSource, char tobeTrimed ) {
