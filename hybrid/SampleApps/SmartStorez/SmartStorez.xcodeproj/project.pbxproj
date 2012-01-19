@@ -49,7 +49,7 @@
 		7D1DB1F814C5F1C6003830CD /* SFSmartStorePlugin.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1DB1E814C5F1B4003830CD /* SFSmartStorePlugin.js */; };
 		7D1DB1F914C5F1C6003830CD /* SFSmartStoreTestSuite.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1DB1E914C5F1B4003830CD /* SFSmartStoreTestSuite.js */; };
 		7D1DB20014C5F704003830CD /* phonegap-1.2.0.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */; };
-		7D45E39A14BFBA39002C4A27 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39914BFBA39002C4A27 /* SalesforceHybridSDK.framework */; };
+		7DFBB74414C89BA300D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -119,7 +119,7 @@
 		7D1DB1E814C5F1B4003830CD /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		7D1DB1E914C5F1B4003830CD /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
-		7D45E39914BFBA39002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +143,7 @@
 				7D13806314B50BAC00A21EE2 /* AVFoundation.framework in Frameworks */,
 				7D13806514B50BAC00A21EE2 /* MediaPlayer.framework in Frameworks */,
 				7D13806714B50BAC00A21EE2 /* SystemConfiguration.framework in Frameworks */,
-				7D45E39A14BFBA39002C4A27 /* SalesforceHybridSDK.framework in Frameworks */,
+				7DFBB74414C89BA300D373E2 /* SalesforceHybridSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +193,7 @@
 		7D13806814B50BAC00A21EE2 /* SmartStorez */ = {
 			isa = PBXGroup;
 			children = (
-				7D45E39914BFBA39002C4A27 /* SalesforceHybridSDK.framework */,
+				7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */,
 				7D1380FD14B5192E00A21EE2 /* www */,
 				7D3FEF9314BE1E58004D3FF6 /* sfdc-www */,
 				7D1380B614B50BAD00A21EE2 /* readme.md */,
@@ -438,6 +438,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					SmartStorez/dependencies,
 					"$(inherited)",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";
@@ -454,6 +455,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					SmartStorez/dependencies,
 					"$(inherited)",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStorez/SmartStorez-Prefix.pch";

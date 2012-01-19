@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <PhoneGap/PhoneGapViewController.h>
+#import <PhoneGap/NSMutableArray+QueueAdditions.h>
 
 #import "SalesforceOAuthPlugin.h"
 #import "SFContainerAppDelegate.h"

@@ -4,7 +4,7 @@
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" value=".."/>
     <property name="artifacts.dir" location="artifacts"/>
-    <property name="dependency.dir" value="../${target.name}/dependencies"/>
+    <property name="dependency.dir" value="../../../dependencies"/>
     
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
