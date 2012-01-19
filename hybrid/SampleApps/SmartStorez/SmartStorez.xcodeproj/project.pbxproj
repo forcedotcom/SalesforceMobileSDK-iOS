@@ -50,6 +50,8 @@
 		7D1DB1F914C5F1C6003830CD /* SFSmartStoreTestSuite.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1DB1E914C5F1B4003830CD /* SFSmartStoreTestSuite.js */; };
 		7D1DB20014C5F704003830CD /* phonegap-1.2.0.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */; };
 		7DFBB74414C89BA300D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */; };
+		7DFBB74A14C8A7CA00D373E2 /* forcetk.js in Sources */ = {isa = PBXBuildFile; fileRef = 7DFBB74914C8A7CA00D373E2 /* forcetk.js */; };
+		7DFBB74B14C8A7D600D373E2 /* forcetk.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7DFBB74914C8A7CA00D373E2 /* forcetk.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +65,7 @@
 				7D1DB1F214C5F1C6003830CD /* bootstrap.html in CopyFiles */,
 				7D1DB1F314C5F1C6003830CD /* qunit.css in CopyFiles */,
 				7D1DB1F414C5F1C6003830CD /* qunit.js in CopyFiles */,
+				7DFBB74B14C8A7D600D373E2 /* forcetk.js in CopyFiles */,
 				7D1DB1F514C5F1C6003830CD /* SalesforceOAuthPlugin.js in CopyFiles */,
 				7D1DB1F614C5F1C6003830CD /* SFHybridApp.css in CopyFiles */,
 				7D1DB1F714C5F1C6003830CD /* SFHybridApp.js in CopyFiles */,
@@ -120,6 +123,7 @@
 		7D1DB1E914C5F1B4003830CD /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		7DFBB74914C8A7CA00D373E2 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../forcetk.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +265,7 @@
 		7D3FEF9314BE1E58004D3FF6 /* sfdc-www */ = {
 			isa = PBXGroup;
 			children = (
+				7DFBB74914C8A7CA00D373E2 /* forcetk.js */,
 				7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */,
 				7D1DB1E214C5F1B4003830CD /* bootstrap.html */,
 				7D1DB1E314C5F1B4003830CD /* qunit.css */,
@@ -355,6 +360,7 @@
 			files = (
 				7D13806F14B50BAC00A21EE2 /* main.m in Sources */,
 				7D1380BB14B50BAD00A21EE2 /* AppDelegate.m in Sources */,
+				7DFBB74A14C8A7CA00D373E2 /* forcetk.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

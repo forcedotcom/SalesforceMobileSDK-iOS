@@ -69,6 +69,9 @@
         
         //enable buttons
         regLinkClickHandlers();
+        
+        $("#div_soup_status_line").html("Soup name: " + SAMPLE_SOUP_NAME);
+
     }
 
     function salesforceSessionRefreshed(creds) {
@@ -90,12 +93,6 @@
 	<!-- load our app-specific code -->
     <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
 
-	<!-- load qunit -->
-    <link rel="stylesheet" type="text/css" href="qunit.css" />
-    <script type="text/javascript" src="qunit.js"></script>
-
-	<!-- load all our test suites -->
-    <script type="text/javascript" src="SFSmartStoreTestSuite.js"></script>
 
 	<!-- Bind js to index.html -->
     <script type="text/javascript" src="inline.js"></script>     
@@ -104,41 +101,41 @@
   <body>
       <div data-role="page" data-theme="b" id="jqm-home"> 
           <div  data-role="header"> 
-              <h1>Hybrid REST Explorer (SalesforceMobileSDK + PhoneGap + JQM)</h1> 
+              <h1>SmartStore Sample</h1> 
           </div> 
 
-		  <h1 id="qunit-header">QUnit example</h1>
-		 <h2 id="qunit-banner"></h2>
-		 <div id="qunit-testrunner-toolbar"></div>
-		 <h2 id="qunit-userAgent"></h2>
-		 <ol id="qunit-tests"></ol>
-		 <div id="qunit-fixture">test markup, will be hidden</div>
-          <div id="#content" data-role="content"> 
+	         <div id="#content" data-role="content"> 
+                 <div id="div_soup_status_line"></div>
 
-              <p><a href="#" id="link_start_tests" data-role="button" data-inline="true">Tests</a></p>
-              <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
               <p>
 				<a href="#" id="link_reg_soup" data-role="button" data-inline="true">Reg soup</a>
 				<a href="#" id="link_remove_soup" data-role="button" data-inline="true">Remove soup</a>
 			  </p>              
-              <p><a href="#" id="link_stuff_soup" data-role="button" data-inline="true">Stuff soup</a></p>
-              <p><a href="#" id="link_query_soup" data-role="button" data-inline="true">Query soup</a><input id="input_query_soup" data-role="input" value="" /></p>
+              <p><a href="#" id="link_stuff_soup" data-role="button" data-inline="true">Stuff soup</a>
+                 <input id="input_stuff_soup_count" data-role="input" value="36" type="number" min="1" max="2048" size="6"/>
+                 </p>
+                 
+                 <hr/>
+              <p><a href="#" id="link_query_soup" data-role="button" data-inline="true">Query soup</a></p>
+            <p>
+                 <label for="input_query_soup">Match name</label><input id="input_query_soup" data-role="input" value="" />
+                 </p>
+            <p>
+                 <label for="input_query_soup_pagesize">Page size</label><input id="input_query_soup_pagesize" data-role="input" value="12" type="number" min="1" max="300" size="6"/>
+            </p>
               <p>
               <a href="#" id="link_cursor_page_next" data-role="button" data-inline="true">Cursor++</a><a href="#" id="link_cursor_page_prev" data-role="button" data-inline="true">Cursor--</a>
               <a href="#" id="link_cursor_page_zero" data-role="button" data-inline="true">Cursor[0]</a>
               </p>
+                 <hr/>
 
-              <p><a href="#" id="link_fetch_device_contacts" data-role="button" data-inline="true">Fetch Device contacts</a></p>
-              <p><a href="#" id="link_fetch_sfdc_contacts" data-role="button" data-inline="true">Fetch SFDC contacts</a></p>
-              <p><a href="#" id="link_fetch_sfdc_accounts" data-role="button" data-inline="true">Fetch SFDC Accounts</a></p>
-              
+                 <a href="#" id="link_fetch_sfdc_contacts" data-role="button" data-inline="true">Fetch SFDC contacts</a></p>
 
 
-
-              <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
+            <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
+            <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
 
               <div id="div_sfdc_soup_entry_list"></div>
-              <div id="div_device_contact_list"></div>
               <div id="div_sfdc_contact_list"></div>
               <div id="div_sfdc_account_list"></div>
 

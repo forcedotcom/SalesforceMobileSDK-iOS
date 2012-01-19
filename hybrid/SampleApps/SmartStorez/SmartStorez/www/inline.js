@@ -1,33 +1,23 @@
-//Sample code for Hybrid REST Explorer
+//Sample code for SmartStore
 
 // This file assumes that all of the javascript and css files required
 // as well as the required DOM objects are specified in the index.html file.
 
+var SAMPLE_SOUP_NAME = "myPeopleSoup";
 var lastSoupCursor = null;
-var gTestSuiteSmartStore = null;
 
 
 function regLinkClickHandlers() {
     SFHybridApp.logToConsole("regLinkClickHandlers");
 
-    $('#link_fetch_device_contacts').click(function() {
-                                           var options = new ContactFindOptions();
-                                           var fields = ["name"];
-                                           SFHybridApp.logToConsole("link_fetch_device_contacts clicked");
-                                           options.filter = ""; // empty search string returns all contacts
-                                           options.multiple = true;
-                                           navigator.contacts.find(fields, onSuccessDevice, onErrorDevice, options);
-                                           });
+
     
     $('#link_fetch_sfdc_contacts').click(function() {
                                          SFHybridApp.logToConsole("link_fetch_sfdc_contacts clicked");
                                          forcetkClient.query("SELECT Name,Id FROM Contact", onSuccessSfdcContacts, onErrorSfdc); 
                                          });
     
-    $('#link_fetch_sfdc_accounts').click(function() {
-         SFHybridApp.logToConsole("link_fetch_sfdc_accounts clicked");
-         forcetkClient.query("SELECT Name FROM Account", onSuccessSfdcAccounts, onErrorSfdc); 
-     });
+
     
     $('#link_reset').click(function() {
                            SFHybridApp.logToConsole("link_reset clicked");
@@ -38,10 +28,6 @@ function regLinkClickHandlers() {
                            $("#console").html("");
     });
                   
-   $('#link_start_tests').click(function() {
-                           SFHybridApp.logToConsole("link_start_tests clicked");
-                           kickStartTests();
-					});
          
     $('#link_logout').click(function() {
              SFHybridApp.logToConsole("link_logout clicked");
@@ -52,7 +38,7 @@ function regLinkClickHandlers() {
       SFHybridApp.logToConsole("link_reg_soup clicked");
       
     if (!PhoneGap.hasResource("smartstore")) {
-        SFHybridApp.logToConsole("no resource smartstore ???");
+        SFHybridApp.logToConsole("no SmartStore plugin loaded ???");
     }
 
       var indexes = [
@@ -60,39 +46,29 @@ function regLinkClickHandlers() {
                      {path:"Id",type:"string"}
                      ];
         
-      navigator.smartstore.registerSoup("myPeopleSoup",
+      navigator.smartstore.registerSoup(SAMPLE_SOUP_NAME,
                                         indexes,                                  
                                         onSuccessRegSoup, 
                                         onErrorRegSoup
         );
       
     });
-    
                               
                               
     
     $('#link_stuff_soup').click(function() {
         SFHybridApp.logToConsole("link_stuff_soup clicked");
-
-        var myEntry1 = { Name: "Todd Stellanova", Id: "00300A",  attributes:{type:"Contact"} };
-        var myEntry2 = { Name: "Pro Bono Bonobo",  Id: "00300B", attributes:{type:"Contact"}  };
-        var myEntry3 = { Name: "Robot", Id: "00300C", attributes:{type:"Contact"}  };
-
-        var entries = [myEntry1,myEntry2,myEntry3];
-        navigator.smartstore.upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
-        
+        runStuffSoup();
     });
                             
     
 
-
     $('#link_remove_soup').click(function() {
-        navigator.smartstore.removeSoup("myPeopleSoup",
+        navigator.smartstore.removeSoup(SAMPLE_SOUP_NAME,
                                      onSuccessRemoveSoup, 
                                      onErrorRemoveSoup);
     });
     
-
     
 
     $('#link_query_soup').click(function() {
@@ -117,12 +93,53 @@ function regLinkClickHandlers() {
     });
 }
 
-/*
-Can be used from native side to start the tests
-*/
-function kickStartTests() {
-    gTestSuiteSmartStore = new SmartStoreTestSuite();
-    gTestSuiteSmartStore.startTests();
+
+function addEntriesToTestSoup(entries,cb) {
+    
+    navigator.smartstore.upsertSoupEntries(SAMPLE_SOUP_NAME,entries,
+                                           function(items) {
+                                           SFHybridApp.logToConsole("onSuccessUpsert: " + items.length);
+                                           $("#div_soup_status_line").html("Soup upsert OK");
+                                           if (typeof cb !== undefined) {
+                                            cb(items);
+                                           }
+                                           },
+                                           function(err) {
+                                           SFHybridApp.logToConsole("onErrorUpsert: " + err);
+                                           $("#div_soup_status_line").html("Soup upsert ERROR");
+                                           if (typeof cb !== undefined) {
+                                            cb(null);
+                                           }                                           
+                                           }
+                                           );
+}
+
+
+function addGeneratedEntriesToTestSoup(nEntries, cb) {
+	SFHybridApp.logToConsole("addGeneratedEntriesToTestSoup " + nEntries);
+    
+	var entries = [];
+	for (var i = 0; i < nEntries; i++) {
+		var myEntry = { Name: "Todd Stellanova" + i, Id: "00300" + i,  attributes:{type:"Contact"} };
+		entries.push(myEntry);
+	}
+	
+	addEntriesToTestSoup(entries,cb);
+	
+}
+
+function runStuffSoup() {
+    var inputStr = $('#input_stuff_soup_count').val();
+    if (inputStr.length === 0) {
+        inputStr = null;
+    }
+    var inputVal = 1;
+    if (inputStr !== null) {
+        inputVal = parseInt(inputStr);
+    }
+    
+    addGeneratedEntriesToTestSoup(inputVal);
+    
 }
 
 function runQuerySoup() {
@@ -131,12 +148,22 @@ function runQuerySoup() {
         inputStr = null;
     }
     
-    SFHybridApp.logToConsole("testSmartStoreQuerySoup: " + inputStr);
+    var pageSizeStr = $('#input_query_soup_pagesize').val();
+    if (pageSizeStr.length === 0) {
+        pageSizeStr = null;
+    }
+    var pageSizeVal = 25;
+    if (pageSizeStr !== null) {
+        pageSizeVal = parseInt(pageSizeStr);
+    }
+    
+    
+    SFHybridApp.logToConsole("querySoup: " + inputStr + '[' + pageSizeVal + ']');
 
     var querySpec = new SoupQuerySpec("Name",inputStr);
-    querySpec.pageSize = 25;
+    querySpec.pageSize = pageSizeVal;
                                 
-    navigator.smartstore.querySoup("myPeopleSoup",querySpec,
+    navigator.smartstore.querySoup(SAMPLE_SOUP_NAME,querySpec,
                                        onSuccessQuerySoup, 
                                        onErrorQuerySoup
                                                 );
@@ -144,19 +171,24 @@ function runQuerySoup() {
     
 function onSuccessRegSoup(param) {
     SFHybridApp.logToConsole("onSuccessRegSoup: " + param);
+    $("#div_soup_status_line").html("Soup registered: " + SAMPLE_SOUP_NAME);
 }
 
 function onErrorRegSoup(param) {
     SFHybridApp.logToConsole("onErrorRegSoup: " + param);
+    $("#div_soup_status_line").html("registerSoup ERROR");
 }
+
+                         
 
 function onSuccessUpsert(param) {
     SFHybridApp.logToConsole("onSuccessUpsert: " + param);
+    $("#div_soup_status_line").html("Soup upsert OK");
 }
-
 
 function onErrorUpsert(param) {
     SFHybridApp.logToConsole("onErrorUpsert: " + param);
+    $("#div_soup_status_line").html("Soup upsert ERROR");
 }
 
 
@@ -166,8 +198,11 @@ function onSuccessQuerySoup(cursor) {
     SFHybridApp.logToConsole("onSuccessQuerySoup totalPages: " + cursor.totalPages);
     lastSoupCursor = cursor;
 
-    $("#div_sfdc_soup_entry_list").html("")
-    var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
+    $("#div_sfdc_soup_entry_list").html("");
+    var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a">Page ' + 
+               (cursor.currentPageIndex+1) + '/' + cursor.totalPages + 
+               ' Entries: ' + cursor.currentPageOrderedEntries.length + 
+               ' </ul>');
     $("#div_sfdc_soup_entry_list").append(ul);
     
     var curPageEntries = cursor.currentPageOrderedEntries;
@@ -197,77 +232,52 @@ function onErrorQuerySoup(param) {
 
 function onSuccessRemoveSoup(param) {
     SFHybridApp.logToConsole("onSuccessRemoveSoup: " + param);
+    $("#div_soup_status_line").html("Soup removed: " + SAMPLE_SOUP_NAME);
 }
 function onErrorRemoveSoup(param) {
     SFHybridApp.logToConsole("onErrorRemoveSoup: " + param);
+    $("#div_soup_status_line").html("removeSoup ERROR");
 }
 
 
 
-function onSuccessDevice(contacts) {
-    SFHybridApp.logToConsole("onSuccessDevice: received " + contacts.length + " contacts");
-    $("#div_device_contact_list").html("")
-    var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
-    $("#div_device_contact_list").append(ul);
-    
-    ul.append($('<li data-role="list-divider">Device Contacts: ' + contacts.length + '</li>'));
-    $.each(contacts, function(i, contact) {
-           var formattedName = contact.name.formatted;
-           if (formattedName) {
-           var newLi = $("<li><a href='#'>" + (i+1) + " - " + formattedName + "</a></li>");
-           ul.append(newLi);
-           }
-           });
-    
-    $("#div_device_contact_list").trigger( "create" );
-    
 
-}
-
-function onErrorDevice(error) {
-    SFHybridApp.logToConsole("onErrorDevice: " + JSON.stringify(error) );
-    alert('Error getting device contacts!');
-}
 
 function onSuccessSfdcContacts(response) {
     SFHybridApp.logToConsole("onSuccessSfdcContacts: received " + response.totalSize + " contacts");
     
-    var entries = new Array();
+	var entries = [];
     
-    $("#div_sfdc_contact_list").html("")
+    $("#div_sfdc_contact_list").html("");
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
     $("#div_sfdc_contact_list").append(ul);
     
     ul.append($('<li data-role="list-divider">Salesforce Contacts: ' + response.totalSize + '</li>'));
     $.each(response.records, function(i, contact) {
-            entries.push(contact);
+           entries.push(contact);
            var newLi = $("<li><a href='#'>" + (i+1) + " - " + contact.Name + "</a></li>");
            ul.append(newLi);
            });
     
-    $("#div_sfdc_contact_list").trigger( "create" );
-    
     if (entries.length > 0) {
-        navigator.smartstore.upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
+        navigator.smartstore.upsertSoupEntries(SAMPLE_SOUP_NAME,
+                                               entries,
+                                               
+                                               function(items) {
+                                                   var statusTxt = "upserted: " + items.length + " contacts";
+                                                   SFHybridApp.logToConsole(statusTxt);
+                                                   $("#div_soup_status_line").html(statusTxt);
+                                                    $("#div_sfdc_contact_list").trigger( "create" );
+                                               },
+                                               
+                                               onErrorUpsert);
     }
+    
+    
+
     
 }
 
-function onSuccessSfdcAccounts(response) {
-    SFHybridApp.logToConsole("onSuccessSfdcAccounts: received " + response.totalSize + " accounts");
-    
-    $("#div_sfdc_account_list").html("")
-    var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
-    $("#div_sfdc_account_list").append(ul);
-    
-    ul.append($('<li data-role="list-divider">Salesforce Accounts: ' + response.totalSize + '</li>'));
-    $.each(response.records, function(i, record) {
-           var newLi = $("<li><a href='#'>" + (i+1) + " - " + record.Name + "</a></li>");
-           ul.append(newLi);
-           });
-    
-    $("#div_sfdc_account_list").trigger( "create" )
-}
 
 function onErrorSfdc(error) {
     SFHybridApp.logToConsole("onErrorSfdc: " + JSON.stringify(error));
