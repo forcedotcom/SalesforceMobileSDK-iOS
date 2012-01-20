@@ -196,11 +196,15 @@
 // - search new object (requestForSearch) and make sure we don't get anything
 - (void)testCreateQuerySearchDelete {
     // create object
-    NSString *lastName = [NSString stringWithFormat:@"Doe-%@", [NSDate date]];
-    NSString *soslLastName = [[[lastName stringByReplacingOccurrencesOfString:@"-" withString:@"\\-"] 
-                               stringByReplacingOccurrencesOfString:@":" withString:@"\\:"]
-                              stringByReplacingOccurrencesOfString:@"+" withString:@"\\+"];
-
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    //use a SOSL-safe format here to avoid problems with escaping characters for SOSL
+    NSString *lastName = [NSString stringWithFormat:@"Doe%f", timecode];
+//    NSString *soslLastName = [[[lastName stringByReplacingOccurrencesOfString:@"-" withString:@"\\-"] 
+//                               stringByReplacingOccurrencesOfString:@":" withString:@"\\:"]
+//                              stringByReplacingOccurrencesOfString:@"+" withString:@"\\+"];
+    NSString *soslLastName = lastName;
+    
+    
     NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"John", @"FirstName", 
                              lastName, @"LastName", 
