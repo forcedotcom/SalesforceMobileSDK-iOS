@@ -7,3 +7,6 @@
 [submodule "external/shared"]
 	path = external/shared
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-Shared.git
+[submodule "external/RestKit/RestKit"]
+	path = external/RestKit/RestKit
+	url = https://github.com/forcedotcom/RestKit.git
