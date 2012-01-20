@@ -75,17 +75,14 @@
             
         <property name="destinationDir" value="${artifacts.dir}/${target.name}" />
 
-
 		<antcall target="iOSShared.lipo_full">
 		    <param name="libname" value="libRestKit.a"/>
 		</antcall>
-
 
         <!-- Copy includes along with libs -->
 		<copy todir="${destinationDir}/include">
 			<fileset dir="${deviceLibDir}/include"/>
 		</copy>
-        <!-- <move file="${buildProductsDir}/include" toFile="${artifacts.dir}/${target.name}/include" /> -->
         
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-${configuration}.zip"/>
@@ -136,12 +133,10 @@
 		    <param name="libname" value="libRestKit.a"/>
 		</antcall>
 
-
         <!-- Copy includes along with libs -->
 		<copy todir="${destinationDir}/include">
 			<fileset dir="${deviceLibDir}/include"/>
 		</copy>
-        <!-- <move file="${buildProductsDir}/include" toFile="${artifacts.dir}/${target.name}/include" /> -->
         
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-${configuration}.zip"/>

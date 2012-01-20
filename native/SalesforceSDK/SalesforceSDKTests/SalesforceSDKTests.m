@@ -199,9 +199,7 @@
     NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
     //use a SOSL-safe format here to avoid problems with escaping characters for SOSL
     NSString *lastName = [NSString stringWithFormat:@"Doe%f", timecode];
-//    NSString *soslLastName = [[[lastName stringByReplacingOccurrencesOfString:@"-" withString:@"\\-"] 
-//                               stringByReplacingOccurrencesOfString:@":" withString:@"\\:"]
-//                              stringByReplacingOccurrencesOfString:@"+" withString:@"\\+"];
+    //We updated lastName so that it's already SOSL-safe: if you change lastName, you may need to escape SOSL-unsafe characters!
     NSString *soslLastName = lastName;
     
     
