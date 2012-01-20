@@ -203,6 +203,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         creds.redirectUri = [self oauthRedirectURI];
         
         SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+        [creds release];
         coord.scopes = [[self class] oauthScopes]; 
         
         coord.delegate = self;
