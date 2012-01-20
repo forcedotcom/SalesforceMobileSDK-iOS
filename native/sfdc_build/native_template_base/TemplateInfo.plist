@@ -244,7 +244,7 @@
 	-->
 	<!-- begin generated dependencies section -->
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/CoreData.h</key>
+	<key>dependencies/RestKit/include/RestKit/CoreData.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -252,13 +252,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/CoreData.h</string>
+		<string>dependencies/RestKit/include/RestKit/CoreData.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/NSManagedObject+ActiveRecord.h</key>
+	<key>dependencies/RestKit/include/RestKit/Errors.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -266,13 +265,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/NSManagedObject+ActiveRecord.h</string>
+		<string>dependencies/RestKit/include/RestKit/Errors.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectCache.h</key>
+	<key>dependencies/RestKit/include/RestKit/FileMD5Hash.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -280,13 +278,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectCache.h</string>
+		<string>dependencies/RestKit/include/RestKit/FileMD5Hash.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectLoader.h</key>
+	<key>dependencies/RestKit/include/RestKit/GCOAuth.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -294,13 +291,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectLoader.h</string>
+		<string>dependencies/RestKit/include/RestKit/GCOAuth.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMapping.h</key>
+	<key>dependencies/RestKit/include/RestKit/JSONKit.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -308,13 +304,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMapping.h</string>
+		<string>dependencies/RestKit/include/RestKit/JSONKit.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMappingOperation.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -322,13 +317,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMappingOperation.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectSeeder.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_components.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -336,13 +330,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectSeeder.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_components.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectStore.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_components.template.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -350,13 +343,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectStore.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_components.template.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectThreadSafeInvocation.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_extensions.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -364,13 +356,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectThreadSafeInvocation.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_extensions.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/CoreData/RKObjectPropertyInspector+CoreData.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_extensions.template.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -378,13 +369,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>CoreData</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/CoreData/RKObjectPropertyInspector+CoreData.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_extensions.template.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/Network.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_logger.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -392,13 +382,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/Network.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_logger.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/NSData+MD5.h</key>
+	<key>dependencies/RestKit/include/RestKit/lcl_config_logger.template.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -406,13 +395,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/NSData+MD5.h</string>
+		<string>dependencies/RestKit/include/RestKit/lcl_config_logger.template.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/NSDictionary+RKRequestSerialization.h</key>
+	<key>dependencies/RestKit/include/RestKit/LCLNSLog.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -420,13 +408,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/NSDictionary+RKRequestSerialization.h</string>
+		<string>dependencies/RestKit/include/RestKit/LCLNSLog.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/NSString+MD5.h</key>
+	<key>dependencies/RestKit/include/RestKit/Network.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -434,13 +421,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/NSString+MD5.h</string>
+		<string>dependencies/RestKit/include/RestKit/Network.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKClient.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSData+Base64.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -448,13 +434,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKClient.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSData+Base64.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKNotifications.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSData+MD5.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -462,13 +447,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKNotifications.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSData+MD5.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKOAuthClient.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSDictionary+RKAdditions.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -476,13 +460,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKOAuthClient.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSDictionary+RKAdditions.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKParams.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSDictionary+RKRequestSerialization.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -490,13 +473,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKParams.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSDictionary+RKRequestSerialization.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKParamsAttachment.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSManagedObject+ActiveRecord.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -504,13 +486,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKParamsAttachment.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSManagedObject+ActiveRecord.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKReachabilityObserver.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSString+MD5.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -518,13 +499,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKReachabilityObserver.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSString+MD5.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequest.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSString+RestKit.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -532,13 +512,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequest.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSString+RestKit.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequest_Internals.h</key>
+	<key>dependencies/RestKit/include/RestKit/NSURL+RestKit.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -546,13 +525,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequest_Internals.h</string>
+		<string>dependencies/RestKit/include/RestKit/NSURL+RestKit.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequestCache.h</key>
+	<key>dependencies/RestKit/include/RestKit/ObjectMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -560,388 +538,9 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Network</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequestCache.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequestQueue.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequestQueue.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequestSerializable.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequestSerializable.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/RKRequestSerialization.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKRequestSerialization.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/RKResponse.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKResponse.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/RKURL.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/RKURL.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/Network/TDOAuth.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>Network</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Network/TDOAuth.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/ObjectMapping.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/ObjectMapping.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKDynamicObjectMapping.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKDynamicObjectMapping.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKErrorMessage.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKErrorMessage.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKMappingOperationQueue.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKMappingOperationQueue.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectAttributeMapping.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectAttributeMapping.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectLoader.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectLoader.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectManager.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectManager.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper_Private.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper_Private.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapperError.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapperError.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapping.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapping.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingDefinition.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingDefinition.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingOperation.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingOperation.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingProvider.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingProvider.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingResult.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingResult.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectPropertyInspector.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectPropertyInspector.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRelationshipMapping.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRelationshipMapping.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRouter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRouter.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectSerializer.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectSerializer.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKParserRegistry.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKParserRegistry.h</string>
-	</dict>
-
-	<key>dependencies/RestKit/include/RestKit/ObjectMapping/RKRouter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-			<string>include</string>
-			<string>RestKit</string>
-			<string>ObjectMapping</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKRouter.h</string>
+		<string>dependencies/RestKit/include/RestKit/ObjectMapping.h</string>
 	</dict>
 
 	<key>dependencies/RestKit/include/RestKit/RestKit.h</key>
@@ -957,7 +556,7 @@
 		<string>dependencies/RestKit/include/RestKit/RestKit.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/Errors.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKAlert.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -965,13 +564,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/Errors.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKAlert.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/JSONKit.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKClient.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -979,15 +577,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>JSONKit</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/JSONKit.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKClient.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/RKJSONParserJSONKit.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKDirectory.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -995,15 +590,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>JSONKit</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/RKJSONParserJSONKit.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKDirectory.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NSError+Extensions.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKDotNetDateFormatter.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1011,15 +603,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>NXJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NSError+Extensions.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKDotNetDateFormatter.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXDebug.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKDynamicObjectMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1027,15 +616,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>NXJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXDebug.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKDynamicObjectMapping.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonParser.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKErrorMessage.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1043,15 +629,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>NXJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonParser.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKErrorMessage.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonSerializer.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKFixCategoryBug.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1059,15 +642,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>NXJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonSerializer.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKFixCategoryBug.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXSerializable.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKJSONParserJSONKit.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1075,15 +655,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>NXJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXSerializable.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKJSONParserJSONKit.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/JSON.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKLog.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1091,15 +668,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/JSON.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKLog.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSObject+SBJSON.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectCache.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1107,15 +681,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSObject+SBJSON.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectCache.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSString+SBJSON.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectLoader.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1123,15 +694,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSString+SBJSON.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectLoader.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/RKJSONParserSBJSON.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1139,15 +707,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/RKJSONParserSBJSON.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectMapping.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonBase.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectMappingOperation.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1155,15 +720,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonBase.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectMappingOperation.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonParser.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectSeeder.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1171,15 +733,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonParser.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectSeeder.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonWriter.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectStore.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1187,15 +746,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>SBJSON</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonWriter.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectStore.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GHNSBundle+Utils.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKManagedObjectThreadSafeInvocation.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1203,15 +759,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GHNSBundle+Utils.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKManagedObjectThreadSafeInvocation.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GTMBase64.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKMappingOperationQueue.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1219,15 +772,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GTMBase64.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKMappingOperationQueue.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSBundle+YAJL.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKMIMETypes.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1235,15 +785,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSBundle+YAJL.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKMIMETypes.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSObject+YAJL.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKNotifications.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1251,15 +798,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSObject+YAJL.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKNotifications.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/RKJSONParserYAJL.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKOAuthClient.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1267,15 +811,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/RKJSONParserYAJL.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKOAuthClient.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJL.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectAttributeMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1283,15 +824,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJL.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectAttributeMapping.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_alloc.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectLoader.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1299,15 +837,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_alloc.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectLoader.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_buf.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectLoader_Internals.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1315,15 +850,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_buf.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectLoader_Internals.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_bytestack.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectManager.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1331,15 +863,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_bytestack.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectManager.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_common.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMapper.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1347,15 +876,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_common.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMapper.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_encode.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMapper_Private.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1363,15 +889,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_encode.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMapper_Private.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_gen.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMapperError.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1379,15 +902,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_gen.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMapperError.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_lex.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1395,15 +915,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_lex.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMapping.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parse.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMappingDefinition.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1411,15 +928,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parse.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMappingDefinition.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parser.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMappingOperation.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1427,15 +941,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parser.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMappingOperation.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLDocument.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMappingProvider.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1443,15 +954,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLDocument.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMappingProvider.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLGen.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectMappingResult.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1459,15 +967,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLGen.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectMappingResult.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLIOS.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector+CoreData.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1475,15 +980,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLIOS.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector+CoreData.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLParser.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1491,15 +993,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>JSON</string>
-			<string>YAJL</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLParser.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/lcl.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectRelationshipMapping.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1507,13 +1006,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/lcl.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectRelationshipMapping.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/lcl_config_components.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectRouter.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1521,13 +1019,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/lcl_config_components.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectRouter.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/lcl_config_extensions.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKObjectSerializer.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1535,13 +1032,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/lcl_config_extensions.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKObjectSerializer.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/lcl_config_logger.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKParams.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1549,13 +1045,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/lcl_config_logger.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKParams.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/LCLNSLog.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKParamsAttachment.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1563,13 +1058,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/LCLNSLog.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKParamsAttachment.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/NSDictionary+RKAdditions.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKParser.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1577,13 +1071,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/NSDictionary+RKAdditions.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKParser.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/NSString+RestKit.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKParserRegistry.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1591,13 +1084,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/NSString+RestKit.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKParserRegistry.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/Private/RKFixCategoryBug.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKPathMatcher.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1605,14 +1097,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>Private</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/Private/RKFixCategoryBug.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKPathMatcher.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKAlert.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKReachabilityObserver.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1620,13 +1110,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKAlert.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKReachabilityObserver.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKDotNetDateFormatter.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequest.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1634,13 +1123,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKDotNetDateFormatter.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequest.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKLog.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequest_Internals.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1648,13 +1136,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKLog.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequest_Internals.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKMIMETypes.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequestCache.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1662,13 +1149,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKMIMETypes.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequestCache.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKParser.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequestQueue.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1676,13 +1162,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKParser.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequestQueue.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKPathMatcher.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequestSerializable.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1690,13 +1175,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKPathMatcher.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequestSerializable.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/RKSearchEngine.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRequestSerialization.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1704,13 +1188,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/RKSearchEngine.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRequestSerialization.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/Support.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKResponse.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1718,13 +1201,12 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/Support.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKResponse.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/include/RestKit/Support/XML/LibXML/RKXMLParserLibXML.h</key>
+	<key>dependencies/RestKit/include/RestKit/RKRouter.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1732,15 +1214,77 @@
 			<string>RestKit</string>
 			<string>include</string>
 			<string>RestKit</string>
-			<string>Support</string>
-			<string>XML</string>
-			<string>LibXML</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/include/RestKit/Support/XML/LibXML/RKXMLParserLibXML.h</string>
+		<string>dependencies/RestKit/include/RestKit/RKRouter.h</string>
 	</dict>
 
-	<key>dependencies/RestKit/libRestKitCoreData.a</key>
+	<key>dependencies/RestKit/include/RestKit/RKSearchEngine.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>RestKit</string>
+			<string>include</string>
+			<string>RestKit</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/RestKit/include/RestKit/RKSearchEngine.h</string>
+	</dict>
+
+	<key>dependencies/RestKit/include/RestKit/RKURL.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>RestKit</string>
+			<string>include</string>
+			<string>RestKit</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/RestKit/include/RestKit/RKURL.h</string>
+	</dict>
+
+	<key>dependencies/RestKit/include/RestKit/RKXMLParserLibXML.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>RestKit</string>
+			<string>include</string>
+			<string>RestKit</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/RestKit/include/RestKit/RKXMLParserLibXML.h</string>
+	</dict>
+
+	<key>dependencies/RestKit/include/RestKit/SOCKit.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>RestKit</string>
+			<string>include</string>
+			<string>RestKit</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/RestKit/include/RestKit/SOCKit.h</string>
+	</dict>
+
+	<key>dependencies/RestKit/include/RestKit/Support.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>RestKit</string>
+			<string>include</string>
+			<string>RestKit</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/RestKit/include/RestKit/Support.h</string>
+	</dict>
+
+	<key>dependencies/RestKit/libRestKit.a</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1748,52 +1292,9 @@
 			<string>RestKit</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/RestKit/libRestKitCoreData.a</string>
+		<string>dependencies/RestKit/libRestKit.a</string>
 	</dict>
 
-	<key>dependencies/RestKit/libRestKitNetwork.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/libRestKitNetwork.a</string>
-	</dict>
-
-	<key>dependencies/RestKit/libRestKitObjectMapping.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/libRestKitObjectMapping.a</string>
-	</dict>
-
-	<key>dependencies/RestKit/libRestKitSupport.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/libRestKitSupport.a</string>
-	</dict>
-
-	<key>dependencies/RestKit/libRestKitXMLParserLibxml.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>RestKit</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/RestKit/libRestKitXMLParserLibxml.a</string>
-	</dict>
 
 	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</key>
 	<dict>
@@ -2101,119 +1602,96 @@
 	https://github.com/MrGando/Xcode-4-Template-Generator/
 	-->
 	<!-- begin generated dependencies -->
-	<string>dependencies/RestKit/include/RestKit/CoreData/CoreData.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/NSManagedObject+ActiveRecord.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectCache.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectLoader.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectMappingOperation.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectSeeder.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectStore.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKManagedObjectThreadSafeInvocation.h</string>
-	<string>dependencies/RestKit/include/RestKit/CoreData/RKObjectPropertyInspector+CoreData.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/Network.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/NSData+MD5.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/NSDictionary+RKRequestSerialization.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/NSString+MD5.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKClient.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKNotifications.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKOAuthClient.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKParams.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKParamsAttachment.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKReachabilityObserver.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequest.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequest_Internals.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequestCache.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequestQueue.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequestSerializable.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKRequestSerialization.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKResponse.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/RKURL.h</string>
-	<string>dependencies/RestKit/include/RestKit/Network/TDOAuth.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/ObjectMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKDynamicObjectMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKErrorMessage.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKMappingOperationQueue.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectAttributeMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectLoader.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectManager.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapper_Private.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapperError.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingDefinition.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingOperation.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingProvider.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectMappingResult.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectPropertyInspector.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRelationshipMapping.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectRouter.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKObjectSerializer.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKParserRegistry.h</string>
-	<string>dependencies/RestKit/include/RestKit/ObjectMapping/RKRouter.h</string>
+
+	<string>dependencies/RestKit/include/RestKit/CoreData.h</string>
+	<string>dependencies/RestKit/include/RestKit/Errors.h</string>
+	<string>dependencies/RestKit/include/RestKit/FileMD5Hash.h</string>
+	<string>dependencies/RestKit/include/RestKit/GCOAuth.h</string>
+	<string>dependencies/RestKit/include/RestKit/JSONKit.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_components.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_components.template.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_extensions.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_extensions.template.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_logger.h</string>
+	<string>dependencies/RestKit/include/RestKit/lcl_config_logger.template.h</string>
+	<string>dependencies/RestKit/include/RestKit/LCLNSLog.h</string>
+	<string>dependencies/RestKit/include/RestKit/Network.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSData+Base64.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSData+MD5.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSDictionary+RKAdditions.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSDictionary+RKRequestSerialization.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSManagedObject+ActiveRecord.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSString+MD5.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSString+RestKit.h</string>
+	<string>dependencies/RestKit/include/RestKit/NSURL+RestKit.h</string>
+	<string>dependencies/RestKit/include/RestKit/ObjectMapping.h</string>
 	<string>dependencies/RestKit/include/RestKit/RestKit.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/Errors.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/JSONKit.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/JSONKit/RKJSONParserJSONKit.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NSError+Extensions.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXDebug.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonParser.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXJsonSerializer.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/NXJSON/NXSerializable.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/JSON.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSObject+SBJSON.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/NSString+SBJSON.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/RKJSONParserSBJSON.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonBase.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonParser.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/SBJSON/SBJsonWriter.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GHNSBundle+Utils.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/GTMBase64.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSBundle+YAJL.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/NSObject+YAJL.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/RKJSONParserYAJL.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJL.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_alloc.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_buf.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_bytestack.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_common.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_encode.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_gen.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_lex.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parse.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/yajl_parser.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLDocument.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLGen.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLIOS.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/JSON/YAJL/YAJLParser.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/lcl.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/lcl_config_components.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/lcl_config_extensions.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/lcl_config_logger.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/LCLNSLog.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/NSDictionary+RKAdditions.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/NSString+RestKit.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/Private/RKFixCategoryBug.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKAlert.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKDotNetDateFormatter.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKLog.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKMIMETypes.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKParser.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKPathMatcher.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/RKSearchEngine.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/Support.h</string>
-	<string>dependencies/RestKit/include/RestKit/Support/XML/LibXML/RKXMLParserLibXML.h</string>
-	<string>dependencies/RestKit/libRestKitCoreData.a</string>
-	<string>dependencies/RestKit/libRestKitNetwork.a</string>
-	<string>dependencies/RestKit/libRestKitObjectMapping.a</string>
-	<string>dependencies/RestKit/libRestKitSupport.a</string>
-	<string>dependencies/RestKit/libRestKitXMLParserLibxml.a</string>
+	<string>dependencies/RestKit/include/RestKit/RKAlert.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKClient.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKDirectory.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKDotNetDateFormatter.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKDynamicObjectMapping.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKErrorMessage.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKFixCategoryBug.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKJSONParserJSONKit.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKLog.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectCache.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectLoader.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectMapping.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectMappingOperation.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectSeeder.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectStore.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKManagedObjectThreadSafeInvocation.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKMappingOperationQueue.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKMIMETypes.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKNotifications.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKOAuthClient.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectAttributeMapping.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectLoader.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectLoader_Internals.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectManager.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMapper.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMapper_Private.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMapperError.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMapping.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMappingDefinition.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMappingOperation.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMappingProvider.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectMappingResult.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector+CoreData.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectPropertyInspector.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectRelationshipMapping.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectRouter.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKObjectSerializer.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKParams.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKParamsAttachment.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKParser.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKParserRegistry.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKPathMatcher.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKReachabilityObserver.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequest.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequest_Internals.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequestCache.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequestQueue.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequestSerializable.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRequestSerialization.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKResponse.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKRouter.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKSearchEngine.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKURL.h</string>
+	<string>dependencies/RestKit/include/RestKit/RKXMLParserLibXML.h</string>
+	<string>dependencies/RestKit/include/RestKit/SOCKit.h</string>
+	<string>dependencies/RestKit/include/RestKit/Support.h</string>
+	<string>dependencies/RestKit/libRestKit.a</string>
+
 	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
 	<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
+	
 	<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
 	<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
 	<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
