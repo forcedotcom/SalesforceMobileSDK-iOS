@@ -2,6 +2,16 @@
 # Running this script will install all dependencies needed for all of the projects, 
 # as well as generating the latest .h and template files.
 
+# Xcode 4 is a requirement to build.
+xcodebuild_version=`xcodebuild -version`
+xcode4_installed=`echo "$xcodebuild_version" | grep -E 'Xcode 4(\.\d+)?'`
+if [ "$xcode4_installed" = "" ]
+then
+    echo "Xcode 4 is a prerequisite to build the iOS SDK."
+    echo "Current installed version: $xcodebuild_version"
+    exit 1
+fi
+
 # ensure that we have the correct version of all submodules
 git submodule init
 git submodule sync

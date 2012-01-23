@@ -5,7 +5,8 @@ After cloning the SalesforceMobileSDK-iOS project from github, run the install s
 
 `./install.sh`
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
-See the setup.md file for additional instructions. 
+See the setup.md file for additional instructions. Xcode 4 is a prerequisite for building the iOS SDK.  install.sh will check for this, and exit if the installed version of
+Xcode is incorrect. 
 
 **Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting checkbox is NOT selected.** 
 
