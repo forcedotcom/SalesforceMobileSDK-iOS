@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */; };
+		5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ECED62F14B4C93400A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
 		5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
 		7D055BE81431006700B571E6 /* (null) in Headers */ = {isa = PBXBuildFile; };
