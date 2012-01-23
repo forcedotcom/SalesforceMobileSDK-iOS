@@ -130,9 +130,8 @@ static dispatch_once_t _sharedInstanceGuard;
 - (RKClient *)rkClient {    
     if (nil == _rkClient) {
         if (nil != _coordinator) {
-            _rkClient = [[RKClient alloc] initWithBaseURL:[_coordinator.credentials.instanceUrl absoluteString]];
+            _rkClient = [[RKClient alloc] initWithBaseURL:_coordinator.credentials.instanceUrl];
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            
             [_rkClient setValue:[self userAgentString] forHTTPHeaderField:@"User-Agent"];
 
             //Authorization header (access token) is now set the moment before we actually send the request
