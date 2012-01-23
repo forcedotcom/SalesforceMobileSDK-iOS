@@ -83,7 +83,7 @@
          forHTTPHeaderField:@"Authorization"];
     
     if (_request.method == SFRestMethodGET) {
-        [rkClient get:url queryParams:_request.queryParams delegate:self];
+        [rkClient get:url queryParameters:_request.queryParams delegate:self];
     }
     else if (_request.method == SFRestMethodDELETE) {
         [rkClient delete:url delegate:self];
