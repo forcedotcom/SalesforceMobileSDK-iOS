@@ -1,0 +1,795 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>SFSmartStore Class Reference</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFSmartStore Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/cursorByCursorId:">&nbsp;&nbsp;&nbsp;&nbsp;- cursorByCursorId:</option>
+	
+	<option value="//api/name/pgQuerySoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgQuerySoup:withDict:</option>
+	
+	<option value="//api/name/pgRegisterSoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRegisterSoup:withDict:</option>
+	
+	<option value="//api/name/pgRemoveFromSoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRemoveFromSoup:withDict:</option>
+	
+	<option value="//api/name/pgRemoveSoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRemoveSoup:withDict:</option>
+	
+	<option value="//api/name/pgRetrieveSoupEntry:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRetrieveSoupEntry:withDict:</option>
+	
+	<option value="//api/name/pgUpsertSoupEntries:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgUpsertSoupEntries:withDict:</option>
+	
+	<option value="//api/name/registerSoup:withIndexSpecs:">&nbsp;&nbsp;&nbsp;&nbsp;- registerSoup:withIndexSpecs:</option>
+	
+	<option value="//api/name/removeSoup:">&nbsp;&nbsp;&nbsp;&nbsp;- removeSoup:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cursorByCursorId:">cursorByCursorId:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgQuerySoup:withDict:">pgQuerySoup:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRegisterSoup:withDict:">pgRegisterSoup:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRemoveFromSoup:withDict:">pgRemoveFromSoup:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRemoveSoup:withDict:">pgRemoveSoup:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRetrieveSoupEntry:withDict:">pgRetrieveSoupEntry:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgUpsertSoupEntries:withDict:">pgUpsertSoupEntries:withDict:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/registerSoup:withIndexSpecs:">registerSoup:withIndexSpecs:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeSoup:">removeSoup:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFSmartStore Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFSmartStore Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">PGPlugin : NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFSmartStore.h</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/registerSoup:withIndexSpecs:">&ndash;&nbsp;registerSoup:withIndexSpecs:</a></code>
+		<span class="tooltip"><p>Ensure that a soup with the given name exists.
+Either creates a new soup or returns an existing soup.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeSoup:">&ndash;&nbsp;removeSoup:</a></code>
+		<span class="tooltip"><p>Remove soup completely from the store.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cursorByCursorId:">&ndash;&nbsp;cursorByCursorId:</a></code>
+		<span class="tooltip"><p>The unique ID of the cursor</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgRegisterSoup:withDict:">&ndash;&nbsp;pgRegisterSoup:withDict:</a></code>
+		<span class="tooltip"><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgRemoveSoup:withDict:">&ndash;&nbsp;pgRemoveSoup:withDict:</a></code>
+		<span class="tooltip"><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgQuerySoup:withDict:">&ndash;&nbsp;pgQuerySoup:withDict:</a></code>
+		<span class="tooltip"><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgRetrieveSoupEntry:withDict:">&ndash;&nbsp;pgRetrieveSoupEntry:withDict:</a></code>
+		<span class="tooltip"><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgUpsertSoupEntries:withDict:">&ndash;&nbsp;pgUpsertSoupEntries:withDict:</a></code>
+		<span class="tooltip"></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgRemoveFromSoup:withDict:">&ndash;&nbsp;pgRemoveFromSoup:withDict:</a></code>
+		<span class="tooltip"></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/cursorByCursorId:" title="cursorByCursorId:"></a>
+	<h3 class="subsubtitle method-title">cursorByCursorId:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The unique ID of the cursor</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (SFSoupCursor *)cursorByCursorId:(NSString *)<em>cursorId</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>cursorId</em></dt>
+			<dd><p>The unique ID of the cursor</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>SFSoupCursor the cached cursor with the given ID or nil</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgQuerySoup:withDict:" title="pgQuerySoup:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgQuerySoup:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgQuerySoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;querySpec&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgRegisterSoup:withDict:" title="pgRegisterSoup:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgRegisterSoup:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgRegisterSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;indexSpecs&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgRemoveFromSoup:withDict:" title="pgRemoveFromSoup:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgRemoveFromSoup:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgRemoveFromSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgRemoveSoup:withDict:" title="pgRemoveSoup:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgRemoveSoup:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgRemoveSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgRetrieveSoupEntry:withDict:" title="pgRetrieveSoupEntry:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgRetrieveSoupEntry:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgRetrieveSoupEntry:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryId&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgUpsertSoupEntries:withDict:" title="pgUpsertSoupEntries:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgUpsertSoupEntries:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgUpsertSoupEntries:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success
+2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;entries&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/registerSoup:withIndexSpecs:" title="registerSoup:withIndexSpecs:"></a>
+	<h3 class="subsubtitle method-title">registerSoup:withIndexSpecs:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Ensure that a soup with the given name exists.
+Either creates a new soup or returns an existing soup.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (SFSoup *)registerSoup:(NSString *)<em>soupName</em> withIndexSpecs:(NSArray *)<em>indexSpecs</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupName</em></dt>
+			<dd><p>The name of the soup to register</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>indexSpecs</em></dt>
+			<dd><p>Array of one ore more IndexSpec objects as dictionaries</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new or existing soup with the given name</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Ensure that a soup with the given name exists.
+Either creates a new soup or returns an existing soup.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeSoup:" title="removeSoup:"></a>
+	<h3 class="subsubtitle method-title">removeSoup:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Remove soup completely from the store.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)removeSoup:(NSString *)<em>soupName</em></code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Remove soup completely from the store.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-01-24)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+		</script>
+	</body>
+</html>
