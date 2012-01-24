@@ -193,12 +193,12 @@
 	</dict>
 	
 	
-	<key>dependencies/SalesforceHybridSDK.framework</key>
+	<key>SalesforceHybridSDK.framework</key>
 	<dict>
 		<key>PathType</key>
 		<string>Group</string>
 		<key>Path</key>
-		<string>dependencies/SalesforceHybridSDK.framework</string>
+		<string>dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework</string>
 		<key>FileType</key>
 		<string>wrapper.framework</string>
 	</dict>
@@ -326,7 +326,7 @@
 	-->
 	<!-- begin generated dependencies -->
 
-	<string>dependencies/SalesforceHybridSDK.framework</string>
+	<string>SalesforceHybridSDK.framework</string>
 	<string>libsqlite3.dylib</string>
 		
 	
