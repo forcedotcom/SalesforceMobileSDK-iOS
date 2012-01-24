@@ -7,6 +7,8 @@
     <property name="artifacts.dir" location="artifacts"/>
     <property name="dependency.dir" value="../dependencies"/>
 
+	<property name="hybrid_sdk.zip" value="${iOSShared.distdir}/SalesforceHybridSDK/SalesforceHybridSDK-Debug.zip" />
+	
 	<property name="hybridsdk_headers.dir" value="${dependency.dir}/SalesforceHybridSDK/SalesforceHybridSDK.framework/Headers" />
     <property name="xcodetemplate.fullname" value="Hybrid Force.com App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="hybrid_template_base"/>
@@ -83,8 +85,12 @@
         <copy todir="${xcodetemplate.dir}">
             <fileset dir="${xcodetemplate.base.dir}"/>
         </copy>
-
  
+		<!-- unzip the hybrid framework  -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg line="-d '${xcodetemplate.dependency.dir}' ${hybrid_sdk.zip}"/>
+        </exec>
+
         <copy todir="${xcodetemplate.www.dir}">
 			<fileset dir="${xcodetemplate.pgplugin.base.dir}" >
 			  <not>
@@ -100,16 +106,13 @@
             <fileset dir="${xcodetemplate.jquery.base.dir}" />
         </copy>
 
-        <copy todir="${xcodetemplate.dependency.dir}">
-              <fileset dir="${dependency.dir}"/>
-          </copy>
     </target>
 
     <target name="xcodetemplate.install" depends="xcodetemplate.create">
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
-        <copy todir="${xcodetemplate.install.dir}">
+        <move todir="${xcodetemplate.install.dir}">
             <fileset dir="${xcodetemplate.dir}"/>
-        </copy>
+        </move>
     </target>
 
     <target name="clean" depends="cleanDependencies">
