@@ -170,6 +170,9 @@
 		<copy todir="${artifacts.dir}/Debug-iphoneos/${target.name}/shared-www"
 		    file="${project.dir}/../../external/shared/forcetk.js" />
 		
+		<delete file="${artifacts.dir}/${target.name}-Debug.zip" failonerror="false" />
+		<delete file="${dist.dir}/${target.name}-Debug.zip" failonerror="false" />
+		
 		<!-- compress the whole enchilada -->
         <antcall target="iOSShared.compress">
               <param name="destfile" value="${artifacts.dir}/${target.name}-Debug.zip"/>
@@ -194,6 +197,20 @@
 				<fileset dir="${project.dir}/build/Release-iphoneos/${target.name}.framework"/>
 		</copy>        
     	<delete dir="${project.dir}/build/Release-iphoneos" failonerror="false" />
+					
+		<!-- copy over www resources as well -->
+		<copy todir="${artifacts.dir}/Release-iphoneos/${target.name}/shared-www" >
+			<fileset dir="${project.dir}/../../external/shared/PhoneGap">
+				<not>
+				<filename name="**/*TestSuite*"/>
+				</not>
+			</fileset>
+		</copy>
+		<copy todir="${artifacts.dir}/Release-iphoneos/${target.name}/shared-www"
+		    file="${project.dir}/../../external/shared/forcetk.js" />
+		
+		<delete file="${artifacts.dir}/${target.name}-Release.zip" failonerror="false" />
+		<delete file="${dist.dir}/${target.name}-Release.zip" failonerror="false" />
 					
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>

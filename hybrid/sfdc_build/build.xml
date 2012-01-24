@@ -1,4 +1,4 @@
-<project name="HybridProducts" default="build">
+<project name="HybridContainer" default="build">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -7,6 +7,7 @@
     <property name="artifacts.dir" location="artifacts"/>
     <property name="dependency.dir" value="../dependencies"/>
 
+	<property name="hybridsdk_headers.dir" value="${dependency.dir}/SalesforceHybridSDK/SalesforceHybridSDK.framework/Headers" />
     <property name="xcodetemplate.fullname" value="Hybrid Force.com App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="hybrid_template_base"/>
     <property name="xcodetemplate.dir" value="${project.dir}/${xcodetemplate.fullname}"/>
@@ -32,11 +33,11 @@
 	depends="initArtifacts, ensureDependencies"/>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.hybrid_sdk"
+		depends="iOSShared.dependency.callback-ios,iOSShared.dependency.hybrid_sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.hybrid_sdk.clean"
+		depends="iOSShared.dependency.callback-ios.clean,iOSShared.dependency.hybrid_sdk.clean"
 		/>
 		
     <target name="initArtifacts">
@@ -63,13 +64,13 @@
 	
     <target name="documentation.generate">
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
+            <param name="source" value="${hybridsdk_headers.dir}"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
 
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
+            <param name="source" value="${hybridsdk_headers.dir}"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
         </antcall>
