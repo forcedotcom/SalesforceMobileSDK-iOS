@@ -33,11 +33,11 @@
 	depends="initArtifacts, ensureDependencies"/>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.callback-ios,iOSShared.dependency.hybrid_sdk"
+		depends="iOSShared.dependency.hybrid_sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.callback-ios.clean,iOSShared.dependency.hybrid_sdk.clean"
+		depends="iOSShared.dependency.hybrid_sdk.clean"
 		/>
 		
     <target name="initArtifacts">
@@ -45,8 +45,8 @@
         <mkdir dir="${dependency.dir}" />
     </target>
 
-   <target name="install" depends="build" description="create fresh install artifacts" >
-		<antcall target="documentation.archive" />
+   <target name="install" depends="cleanDependencies,build" description="create fresh install artifacts" >
+		<!-- <antcall target="documentation.archive" /> -->
    </target>
 
 	<target name="build" depends="pre" description="regenerate main build artifacts" >

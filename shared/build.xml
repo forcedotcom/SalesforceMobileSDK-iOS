@@ -283,7 +283,7 @@
     </target>
 
     <target name="dependency.hybrid_sdk.compile" unless="dependency.hybrid_sdk.zip.present">
-        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="build" inheritAll="false"/>
+        <ant dir="${subproject.hybrid_sdk.dir}/sfdc_build" target="buildDist" inheritAll="false"/>
     </target>
 
     <target name="dependency.hybrid_sdk.clean">
