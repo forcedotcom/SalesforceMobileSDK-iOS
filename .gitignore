@@ -32,3 +32,4 @@ native/dependencies/SalesforceOAuth/
 native/dependencies/SalesforceSDK/
 native/dependencies/SBJson/
 hybrid/SalesforceHybridSDK/build/
+hybrid/dependencies/
