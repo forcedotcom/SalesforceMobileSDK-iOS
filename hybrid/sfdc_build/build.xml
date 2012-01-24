@@ -112,7 +112,7 @@
         </copy>
     </target>
 
-    <target name="clean">
+    <target name="clean" depends="cleanDependencies">
         <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
@@ -120,7 +120,7 @@
     </target>
 			
     <target name="clean.full"
-        depends="clean, cleanDependencies">
+        depends="clean">
 	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
     </target>
 
