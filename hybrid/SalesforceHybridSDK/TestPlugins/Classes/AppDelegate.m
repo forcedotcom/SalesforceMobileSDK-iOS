@@ -79,6 +79,23 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 }
 
 
+- (BOOL) isRunningOctest
+{
+    BOOL result = NO;
+    NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
+    NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
+    NSLog(@"XCInjectBundle: %@", injectBundle);
+
+    if (nil != injectBundle) {
+        NSRange found = [injectBundle rangeOfString:@".octest"];
+        if (NSNotFound != found.location) {
+            result = YES;
+        }
+    }
+    
+    return result;
+}
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
@@ -92,7 +109,11 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     
     [super applicationDidBecomeActive:application];
     
-    [self performSelectorOnMainThread:@selector(kickOffAllTests) withObject:nil waitUntilDone:NO];
+    if ([self isRunningOctest]) {
+        NSTimeInterval delay = 10.0f;
+        NSLog(@"starting octests in %f",delay);
+        [self performSelector:@selector(kickOffAllTests)  withObject:nil afterDelay:delay];
+    }
 }
 
 
@@ -125,7 +146,12 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     return completionTimedOut;
 }
 
+
 - (void)kickOffAllTests {
+    NSLog(@"kickOffAllTests...");
+    
+    [self evalJS:@"kickStartTests();"];
+    
     BOOL timedOut = [self waitForAllTestCompletions];
     if (timedOut) 
         NSLog(@"timedOut ? : %d",timedOut);
