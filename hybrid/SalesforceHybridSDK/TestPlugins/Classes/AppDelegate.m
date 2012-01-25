@@ -31,6 +31,21 @@
 // Private constants
 static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
+@interface AppDelegate (Private)
+
+/// Was the app started in Test mode? 
+- (BOOL) isRunningOctest;
+
+/// Evaluate the given javascript inside our embedded web view and return the string result.
+- (NSString *)evalJS:(NSString*)js;
+
+/// Have all qunit tests finished running?
+- (BOOL)areTestsFinishedRunning;
+
+/// Spin waiting for all qunit tests to complete
+- (BOOL)waitForAllTestCompletions;
+
+@end
 
 @implementation AppDelegate
 
