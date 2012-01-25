@@ -48,7 +48,7 @@
 		7D3FF25514BE4DA4004D3FF6 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3FF25414BE4DA4004D3FF6 /* test_credentials.json */; };
 		7D3FF25C14BE50A2004D3FF6 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D3FF25A14BE5095004D3FF6 /* bootstrap.html */; };
 		7D45E39314BFB90C002C4A27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3FF27C14BE51D7004D3FF6 /* libsqlite3.dylib */; };
-		7DFBB72B14C8978200D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB72A14C8978200D373E2 /* SalesforceHybridSDK.framework */; };
+		7DD5A12614CF965C00D308B1 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD5A12514CF965C00D308B1 /* SalesforceHybridSDK.framework */; };
 		7DFBB73014C897C500D373E2 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DFBB72C14C897A700D373E2 /* SFHybridApp.js */; };
 		7DFBB73114C897C500D373E2 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DFBB72D14C897A700D373E2 /* SFHybridApp.css */; };
 /* End PBXBuildFile section */
@@ -120,7 +120,7 @@
 		7D3FF25414BE4DA4004D3FF6 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7D3FF25A14BE5095004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		7D3FF27C14BE51D7004D3FF6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		7DFBB72A14C8978200D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		7DD5A12514CF965C00D308B1 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7DFBB72C14C897A700D373E2 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = ../../../../external/shared/PhoneGap/SFHybridApp.js; sourceTree = "<group>"; };
 		7DFBB72D14C897A700D373E2 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = ../../../../external/shared/PhoneGap/SFHybridApp.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DD5A12614CF965C00D308B1 /* SalesforceHybridSDK.framework in Frameworks */,
 				7D45E39314BFB90C002C4A27 /* libsqlite3.dylib in Frameworks */,
 				7D3FF1AB14BE460E004D3FF6 /* Foundation.framework in Frameworks */,
 				7D3FF1AD14BE460E004D3FF6 /* UIKit.framework in Frameworks */,
@@ -146,7 +147,6 @@
 				7D3FF1C314BE460E004D3FF6 /* AVFoundation.framework in Frameworks */,
 				7D3FF1C514BE460E004D3FF6 /* MediaPlayer.framework in Frameworks */,
 				7D3FF1C714BE460E004D3FF6 /* SystemConfiguration.framework in Frameworks */,
-				7DFBB72B14C8978200D373E2 /* SalesforceHybridSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +156,7 @@
 		7D3FF19A14BE460D004D3FF6 = {
 			isa = PBXGroup;
 			children = (
+				7DD5A12514CF965C00D308B1 /* SalesforceHybridSDK.framework */,
 				7D3FF1C814BE460E004D3FF6 /* TestPlugins */,
 				7D3FF1A914BE460E004D3FF6 /* Frameworks */,
 				7D3FF1A714BE460E004D3FF6 /* Products */,
@@ -196,7 +197,6 @@
 		7D3FF1C814BE460E004D3FF6 /* TestPlugins */ = {
 			isa = PBXGroup;
 			children = (
-				7DFBB72A14C8978200D373E2 /* SalesforceHybridSDK.framework */,
 				7D3FF25214BE473B004D3FF6 /* www */,
 				7D3FF23514BE462D004D3FF6 /* shared-www */,
 				7D3FF21A14BE4610004D3FF6 /* readme.md */,
