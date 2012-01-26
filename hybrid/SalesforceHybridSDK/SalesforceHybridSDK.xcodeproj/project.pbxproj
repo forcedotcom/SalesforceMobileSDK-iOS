@@ -78,9 +78,11 @@
 		7DBB14F414C0F6D700CCDBE0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F314C0F6D700CCDBE0 /* Security.framework */; };
 		7DBB14F614C0F6E500CCDBE0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F514C0F6E500CCDBE0 /* SystemConfiguration.framework */; };
 		7DBB14F814C0F70000CCDBE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */; };
+		7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
+		7DCEF50014D0944200BB3F3E /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */; };
+		7DCEF50114D0944200BB3F3E /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */; };
 		7DD5A11E14CF94BE00D308B1 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */; };
 		7DD5A11F14CF94BE00D308B1 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */; };
-		7DD5A13414CF9F9C00D308B1 /* forcetk.js in Sources */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7DF93E8514C646DB00D0C211 /* PGPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6A14C646DB00D0C211 /* PGPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -120,6 +122,8 @@
 				7DBB14D714C0F49800CCDBE0 /* qunit.js in Copy shared-www files */,
 				7DBB14D814C0F49800CCDBE0 /* qunit.css in Copy shared-www files */,
 				7DBB14D914C0F49800CCDBE0 /* SFSmartStorePlugin.js in Copy shared-www files */,
+				7DCEF50014D0944200BB3F3E /* SFTestRunnerPlugin.js in Copy shared-www files */,
+				7DCEF50114D0944200BB3F3E /* SFTestSuite.js in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
 				7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */,
 			);
@@ -210,6 +214,10 @@
 		7DBB14F314C0F6D700CCDBE0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7DBB14F514C0F6E500CCDBE0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7DCEF4F914D0812700BB3F3E /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTestRunnerPlugin.h; path = Plugins/SFTestRunnerPlugin.h; sourceTree = "<group>"; };
+		7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFTestRunnerPlugin.m; path = Plugins/SFTestRunnerPlugin.m; sourceTree = "<group>"; };
+		7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
+		7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SFHybridApp.css; sourceTree = "<group>"; };
 		7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
 		7DD5A13314CF9F9C00D308B1 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../forcetk.js; sourceTree = "<group>"; };
@@ -448,6 +456,7 @@
 		7DBB147A14C0ECF700CCDBE0 /* TestPlugins */ = {
 			isa = PBXGroup;
 			children = (
+				7DCEF4F714D0810200BB3F3E /* Plugins */,
 				7DBB14E414C0F5F600CCDBE0 /* Frameworks */,
 				7DBB14DF14C0F55600CCDBE0 /* dependencies */,
 				7DBB14CD14C0F13A00CCDBE0 /* www */,
@@ -504,6 +513,8 @@
 		7DBB14B614C0F09E00CCDBE0 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */,
+				7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
 				7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */,
 				7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */,
@@ -543,6 +554,15 @@
 				7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7DCEF4F714D0810200BB3F3E /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				7DCEF4F914D0812700BB3F3E /* SFTestRunnerPlugin.h */,
+				7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */,
+			);
+			name = Plugins;
 			sourceTree = "<group>";
 		};
 		7DF93E5714C646DB00D0C211 /* Headers */ = {
@@ -826,7 +846,6 @@
 				7D45E34C14BFB394002C4A27 /* FMDbException.m in Sources */,
 				7D45E34F14BFB394002C4A27 /* FMResultSet.m in Sources */,
 				7D45E35014BFB394002C4A27 /* SqliteAdditions.c in Sources */,
-				7DD5A13414CF9F9C00D308B1 /* forcetk.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +862,7 @@
 			files = (
 				7DBB148114C0ECF700CCDBE0 /* main.m in Sources */,
 				7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */,
+				7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,21 +10,38 @@
 
 #import "TestPluginsTests.h"
 
-#import "SFContainerAppDelegate.h"
+#import "AppDelegate.h"
+#import "SFTestRunnerPlugin.h"
+
+
+@interface TestPluginsTests (Private)
+
+- (BOOL)waitForTestRunnerReady;
+
+@end
 
 @implementation TestPluginsTests
+
+@synthesize jsTestName = _jsTestName;
 
 - (void)setUp
 {
     [super setUp];
     
-    // Set-up code here.
+    _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+
+    // Block until the javascript has notified the container that it's ready
+    BOOL timedOut = [self waitForTestRunnerReady];
+    if (timedOut) {
+        NSLog(@"failed to start test runner...");
+        exit(1);
+    } 
+    
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
-    
     [super tearDown];
 }
 
@@ -38,32 +55,100 @@
     return result;
 }
 
-- (BOOL)waitForAllTestCompletions {
+- (BOOL)isTestResultAvailable {
+    return [_testRunnerPlugin testResultAvailable];
+}
+
+- (BOOL)isTestRunnerReady {
+    return [_testRunnerPlugin readyToStartTests];
+}
+
+
+- (BOOL)waitForTestRunnerReady {
     NSDate *startTime = [NSDate date] ;
     BOOL completionTimedOut = NO;
-    while (![self areTestsFinishedRunning]) {
+    
+    while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
-            NSLog(@"request took too long (%f) to complete",elapsed);
+        if (elapsed > 5.0) {
+            NSLog(@"test took too long (%f) to complete",elapsed);
             completionTimedOut = YES;
             break;
         }
         
-        NSLog(@"## sleeping...");
+        NSLog(@"## waiting to start tests... ");
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
     }
     
     return completionTimedOut;
 }
 
-- (void)testExample
+
+- (BOOL)waitForOneCompletion {
+    NSDate *startTime = [NSDate date] ;
+    BOOL completionTimedOut = NO;
+    
+    while (![self isTestResultAvailable]) {
+        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
+        if (elapsed > 30.0) {
+            NSLog(@"test took too long (%f) to complete",elapsed);
+            completionTimedOut = YES;
+            break;
+        }
+        
+        NSLog(@"## sleeping on %@...",self.jsTestName);
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+    }
+    
+    return completionTimedOut;
+}
+
+
+
+- (void)runTest:(NSString*)testName
 {
     
+    //TODO start named test
+    self.jsTestName = testName;
+        
+    NSString *testCmd = [NSString stringWithFormat:@"gTestSuiteSmartStore.startTest('%@');",testName];
+    AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
+    NSString *cmdResult = [app evalJS:testCmd];
+    NSLog(@"cmdResult: %@",cmdResult);
     
-    BOOL timedOut = [self waitForAllTestCompletions];
+    BOOL timedOut = [self waitForOneCompletion];
+    STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
-    STAssertFalse(timedOut,@"Timed out waiting for tests to complete");
-    
+    if (!timedOut) {
+        SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+        SFTestResult *testResult = [[[plugin testResults] objectAtIndex:0] retain];
+        [[plugin testResults] removeObjectAtIndex:0];
+        
+        STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
+        STAssertTrue(testResult.success, @"%@ %d",testResult.testName,testResult.success);
+    }
+}
+
+
+
+- (void)testRemoveFromSoup {
+    [self runTest:@"testRemoveFromSoup"];
+}
+
+- (void)testUpsertSoupEntries {
+    [self runTest:@"testUpsertSoupEntries"];
+}
+
+//- (void)testRetrieveSoupEntries {
+//    [self runTest:@"testRetrieveSoupEntries"];
+//}
+
+- (void)testQuerySoup {
+    [self runTest:@"testQuerySoup"];
+}
+
+- (void)testManipulateCursor {
+    [self runTest:@"testManipulateCursor"];
 }
 
 @end

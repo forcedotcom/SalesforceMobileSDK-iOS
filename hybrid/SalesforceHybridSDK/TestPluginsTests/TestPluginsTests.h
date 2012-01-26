@@ -8,6 +8,13 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface TestPluginsTests : SenTestCase
+@class SFTestRunnerPlugin;
+
+@interface TestPluginsTests : SenTestCase {
+    NSString *_jsTestName;
+    SFTestRunnerPlugin *_testRunnerPlugin;
+}
+
+@property (nonatomic, strong) NSString *jsTestName;
 
 @end

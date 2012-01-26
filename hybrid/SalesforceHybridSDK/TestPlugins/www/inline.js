@@ -120,7 +120,6 @@ Can be used from native side to start the tests
 */
 function kickStartTests() {
     gTestsFinishedRunning = false;
-    gTestSuiteSmartStore = new SmartStoreTestSuite();
     gTestSuiteSmartStore.startTests();
 }
 
