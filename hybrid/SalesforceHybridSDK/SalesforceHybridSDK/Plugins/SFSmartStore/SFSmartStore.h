@@ -96,7 +96,7 @@
  
  @return A set of entries
  */
-- (SFSoupCursor*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName;
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName;
 
 
 /**

@@ -43,6 +43,7 @@ static NSString *const kSoupsDirectory = @"soups";
 - (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
+- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
 
 - (SFSoup*)soupByName:(NSString *)soupName;
 
@@ -189,9 +190,9 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
-- (SFSoupCursor*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
-    SFSoupCursor *result = nil;
+    NSArray *result = nil;
     if ([entries count] > 0) {
         SFSoup *theSoup = [self soupByName:soupName];
         result = [theSoup upsertEntries:entries];
@@ -234,6 +235,13 @@ static NSString *const kSoupsDirectory = @"soups";
 
 
 #pragma mark - PhoneGap plugin support
+
+- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
+{
+    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsArray:array];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
 {
@@ -323,10 +331,11 @@ static NSString *const kSoupsDirectory = @"soups";
     NSString *soupName = [options objectForKey:@"soupName"];
     NSArray *entries = [options objectForKey:@"entries"];
     
-    SFSoupCursor *cursor = [self upsertEntries:entries toSoup:soupName];
+    NSArray *resultEntries = [self upsertEntries:entries toSoup:soupName];
     PluginResult *result;
-    if (nil != cursor) {
-        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];
+    if (nil != resultEntries) {
+        //resultEntries
+        [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
     } else {
         result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];

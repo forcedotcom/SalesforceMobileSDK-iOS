@@ -258,7 +258,7 @@ static NSString * const kColNameRawJson = @"_raw_json";
 }
 
 
-- (SFSoupCursor*)upsertEntries:(NSArray*)entries {
+- (NSArray*)upsertEntries:(NSArray*)entries {
 
     NSDate *startTime = [NSDate date];
     NSNumber *lastModTime = [NSNumber numberWithDouble:[startTime timeIntervalSinceReferenceDate]];
@@ -276,7 +276,7 @@ static NSString * const kColNameRawJson = @"_raw_json";
         
         NSString *existSoupId = [entry objectForKey:kColNameEntryId];
 
-        
+        // A soup entry row looks something like this:
         //_soupEntryId text primary key, 
         //_soupLastModifiedDate ,
         // [idx_foo values],
@@ -303,7 +303,9 @@ static NSString * const kColNameRawJson = @"_raw_json";
         }
         
         NSString *rawJson = nil;
-        //NOTE we do NOT insert the raw json on an Insert
+        //NOTE we do NOT insert the raw_json on an initial Insert..we wait until we
+        //have the lastInsertRowId and then add it as _soupEntryId along with the raw_json
+        //in a followup REPLACE / update
         
         if (nil != existSoupId) {
             //set the existing entry ID so that any field changes will replace the existing entry
@@ -371,11 +373,10 @@ static NSString * const kColNameRawJson = @"_raw_json";
     [self.soupDb endTransaction:YES];
 
     
-    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:self.name querySpec:nil entries:resultEntries];
     NSTimeInterval elapsed = [startTime timeIntervalSinceNow];
     NSLog(@"upserting %d took %f",[resultEntries count],elapsed);
 
-    return [result autorelease];
+    return resultEntries ;
 
 }
 

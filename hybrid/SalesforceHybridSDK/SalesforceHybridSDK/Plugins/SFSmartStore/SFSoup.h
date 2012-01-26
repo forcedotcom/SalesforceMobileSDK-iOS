@@ -66,7 +66,7 @@
 /**
  @param entries array of soup entries to be updated or inserted
  */
-- (SFSoupCursor*)upsertEntries:(NSArray*)entries;
+- (NSArray*)upsertEntries:(NSArray*)entries;
 
 - (void)removeEntries:(NSArray*)entryIds;
 
