@@ -31,5 +31,8 @@
 }
 
 
+/// Evaluate the given javascript inside our embedded web view and return the string result.
+- (NSString *)evalJS:(NSString*)js;
+
 @end
 

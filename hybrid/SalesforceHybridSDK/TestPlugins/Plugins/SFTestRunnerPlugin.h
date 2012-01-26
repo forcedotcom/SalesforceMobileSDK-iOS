@@ -8,6 +8,42 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFTestRunnerPlugin : NSObject
+// From PhoneGap.framework
+#import "PGPlugin.h"
+
+
+extern NSString * const kSFTestRunnerPluginName;
+
+
+@interface SFTestResult : NSObject {
+    NSString *_testName;
+    NSString *_message;
+    BOOL    _success;
+}
+
+@property (nonatomic, readonly, strong) NSString *testName;
+@property (nonatomic, readonly, assign) BOOL success;
+@property (nonatomic, readonly, strong) NSString *message;
+
+- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message;
+
+@end
+
+
+
+@interface SFTestRunnerPlugin : PGPlugin {
+    
+    NSMutableArray *_testResults;
+}
+
+/// array of SFTestResult
+@property (atomic, readonly, strong) NSMutableArray *testResults;
+@property (atomic, readonly) BOOL testResultAvailable;
+@property (atomic, assign) BOOL readyToStartTests;
+
+#pragma mark - Plugin methods called from js
+
+- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 @end

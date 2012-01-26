@@ -13,16 +13,30 @@
     <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
     <script type="text/javascript" src="SFHybridApp.js"></script>
 
+    <!-- include forcetk for REST transaction support -->
+    <script type="text/javascript" src="forcetk.js"></script>
+        
     <!-- include phonegap / callback -->
 	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
         
-
     <!-- required for oauth plugin support -->    
     <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
 
-    <!-- include forcetk for REST transaction support -->
-    <script type="text/javascript" src="forcetk.js"></script>
+    <!-- load SmartStore plugin -->
+    <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
+        
+    <!-- required for testrunner plugin support -->    
+    <script type="text/javascript" src="SFTestRunnerPlugin.js"></script>
     
+    <!-- load qunit -->
+    <link rel="stylesheet" type="text/css" href="qunit.css" />
+    <script type="text/javascript" src="qunit.js"></script>
+    
+    <!-- load tests -->
+    <script type="text/javascript" src="SFTestSuite.js"></script>
+    <script type="text/javascript" src="SFSmartStoreTestSuite.js"></script>
+
+
     <script type="text/javascript" charset="utf-8">
 
     
@@ -69,7 +83,8 @@
         //enable buttons
         regLinkClickHandlers();
         
-        //kickStartTests();
+        gTestSuiteSmartStore = new SmartStoreTestSuite();
+        navigator.testrunner.onReadyForTests();
     }
         
 
@@ -89,15 +104,6 @@
         
     </script>
         
-	<!-- load our app-specific code -->
-    <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
-
-	<!-- load qunit -->
-    <link rel="stylesheet" type="text/css" href="qunit.css" />
-    <script type="text/javascript" src="qunit.js"></script>
-
-	<!-- load all our test suites -->
-    <script type="text/javascript" src="SFSmartStoreTestSuite.js"></script>
 
 	<!-- Bind js to index.html -->
     <script type="text/javascript" src="inline.js"></script>     

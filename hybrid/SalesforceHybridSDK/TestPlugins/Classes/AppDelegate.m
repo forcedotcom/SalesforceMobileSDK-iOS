@@ -27,6 +27,7 @@
 #import "SalesforceHybridSDK/SalesforceOAuthPlugin.h"
 #import "SalesforceHybridSDK/SFJsonUtils.h"
 
+#import "SFTestRunnerPlugin.h"
 
 // Private constants
 static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
@@ -36,14 +37,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 /// Was the app started in Test mode? 
 - (BOOL) isRunningOctest;
 
-/// Evaluate the given javascript inside our embedded web view and return the string result.
-- (NSString *)evalJS:(NSString*)js;
 
-/// Have all qunit tests finished running?
-- (BOOL)areTestsFinishedRunning;
-
-/// Spin waiting for all qunit tests to complete
-- (BOOL)waitForAllTestCompletions;
 
 @end
 
@@ -122,13 +116,12 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     
     [_oauthPlugin.coordinator setCredentials:creds];
     
+
     [super applicationDidBecomeActive:application];
     
-    if ([self isRunningOctest]) {
-        NSTimeInterval delay = 10.0f;
-        NSLog(@"starting octests in %f",delay);
-        [self performSelector:@selector(kickOffAllTests)  withObject:nil afterDelay:delay];
-    }
+    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+    NSLog(@"runner: %@",runner);
+    
 }
 
 
@@ -138,50 +131,9 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     return jsResult;
 }
 
-- (BOOL)areTestsFinishedRunning {    
-    NSString *jsResult = [self evalJS:@"gTestsFinishedRunning === true"];
-    return [jsResult isEqualToString:@"true"];
-}
-
-- (BOOL)waitForAllTestCompletions {
-    NSDate *startTime = [NSDate date] ;
-    BOOL completionTimedOut = NO;
-    while (![self areTestsFinishedRunning]) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
-            NSLog(@"request took too long (%f) to complete",elapsed);
-            completionTimedOut = YES;
-            break;
-        }
-        
-        NSLog(@"## sleeping...");
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
-    }
-    
-    return completionTimedOut;
-}
 
 
-- (void)kickOffAllTests {
-    NSLog(@"kickOffAllTests...");
-    
-    [self evalJS:@"kickStartTests();"];
-    
-    BOOL timedOut = [self waitForAllTestCompletions];
-    if (timedOut) 
-        NSLog(@"timedOut ? : %d",timedOut);
-    
 
-    NSLog(@"Total Tests: %@  Passed: %@ Failed: %@",
-          [self evalJS:@"gTestSuiteSmartStore.numTestsFinished"],
-          [self evalJS:@"gTestSuiteSmartStore.numPassedTests"],
-          [self evalJS:@"gTestSuiteSmartStore.this.numFailedTests"]
-          );
-          
-    NSString *jsonify = [self evalJS:@"gTestSuiteSmartStore"];
-    NSLog(@"json val: %@",jsonify);
-    
-    exit(0);
-}
+
 
 @end

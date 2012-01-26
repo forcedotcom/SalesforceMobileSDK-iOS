@@ -23,6 +23,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>com.salesforce.testrunner</key>
+		<string>SFTestRunnerPlugin</string>
 		<key>com.phonegap.accelerometer</key>
 		<string>PGAccelerometer</string>
 		<key>com.salesforce.oauth</key>
