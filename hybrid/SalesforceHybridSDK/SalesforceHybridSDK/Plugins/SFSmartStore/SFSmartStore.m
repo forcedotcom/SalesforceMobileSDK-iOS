@@ -42,6 +42,7 @@ static NSString *const kSoupsDirectory = @"soups";
 - (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
 - (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
 
+- (void)writeSuccessArrayToJsRealm:(NSArray*)ary callbackId:(NSString*)callbackId;
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
 
 - (SFSoup*)soupByName:(NSString *)soupName;
@@ -181,11 +182,15 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
-- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName
+- (NSArray *)retrieveEntries:(NSSet *)soupEntryIds fromSoup:(NSString*)soupName
 {
+    NSMutableArray *results = [NSMutableArray array];
     SFSoup *theSoup = [self soupByName:soupName];
-    NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
-    return result;
+    for (NSString *soupEntryId in soupEntryIds) {
+        NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
+        [results addObject:result];
+    }
+    return results;
 }
 
 
@@ -234,6 +239,12 @@ static NSString *const kSoupsDirectory = @"soups";
 
 
 #pragma mark - PhoneGap plugin support
+
+- (void)writeSuccessArrayToJsRealm:(NSArray*)ary callbackId:(NSString*)callbackId
+{
+    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsArray:ary];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
 {
@@ -302,15 +313,15 @@ static NSString *const kSoupsDirectory = @"soups";
     NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options objectForKey:@"soupName"];
-    NSString *entryId = [options objectForKey:@"soupEntryId"];
+    NSSet *entryIds = [NSSet setWithArray:[options objectForKey:@"soupEntryIds"]];
     
-    NSDictionary *entry = [self retrieveEntry:entryId fromSoup:soupName]; //TODO other error handling?
-    [self writeSuccessDictToJsRealm:entry callbackId:callbackId];
+    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName]; //TODO other error handling?
+    [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
     
     NSLog(@"pgRetrieveSoupEntry in %f", [startTime timeIntervalSinceNow]);
 

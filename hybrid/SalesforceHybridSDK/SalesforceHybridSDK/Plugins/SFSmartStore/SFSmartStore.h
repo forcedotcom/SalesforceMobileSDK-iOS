@@ -78,14 +78,14 @@
 - (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
 
 /*
- Search soup for an entry with a soup entry ID that exactly matches
+ Search soup for entries exactly matching the soup entry IDs
  
  @param soupName The name of the soup to query
- @param soupEntryId An opaque soup entry ID
+ @param soupEntryIds A set of opaque soup entry IDs
  
- @return A single entry or nil
+ @return An array of entries matching the input IDs, or nil
  */
-- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName;
+- (NSArray*)retrieveEntries:(NSSet*)soupEntryIds fromSoup:(NSString*)soupName;
 
 
 /*
@@ -158,12 +158,12 @@
  1: successCB - this is the javascript function that will be called on success
  2: errorCB - optional javascript function to be called in the event of an error with an error code.
  
- @param options:  dictionary containing "soupName" and "soupEntryId"  
+ @param options:  dictionary containing "soupName" and "soupEntryIds"  
  
- @see retrieveSoupEntry:fromSoup:
+ @see retrieveSoupEntries:fromSoup:
 
  */
-- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**   
