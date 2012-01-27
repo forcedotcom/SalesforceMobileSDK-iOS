@@ -36,7 +36,11 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
+	<option value="//api/name/closeCursorWithId:">&nbsp;&nbsp;&nbsp;&nbsp;- closeCursorWithId:</option>
+	
 	<option value="//api/name/cursorByCursorId:">&nbsp;&nbsp;&nbsp;&nbsp;- cursorByCursorId:</option>
+	
+	<option value="//api/name/pgCloseCursor:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgCloseCursor:withDict:</option>
 	
 	<option value="//api/name/pgQuerySoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgQuerySoup:withDict:</option>
 	
@@ -46,7 +50,7 @@
 	
 	<option value="//api/name/pgRemoveSoup:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRemoveSoup:withDict:</option>
 	
-	<option value="//api/name/pgRetrieveSoupEntry:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRetrieveSoupEntry:withDict:</option>
+	<option value="//api/name/pgRetrieveSoupEntries:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgRetrieveSoupEntries:withDict:</option>
 	
 	<option value="//api/name/pgUpsertSoupEntries:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- pgUpsertSoupEntries:withDict:</option>
 	
@@ -80,7 +84,11 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/closeCursorWithId:">closeCursorWithId:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cursorByCursorId:">cursorByCursorId:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgCloseCursor:withDict:">pgCloseCursor:withDict:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgQuerySoup:withDict:">pgQuerySoup:withDict:</a></span></li>
 	
@@ -90,7 +98,7 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRemoveSoup:withDict:">pgRemoveSoup:withDict:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRetrieveSoupEntry:withDict:">pgRetrieveSoupEntry:withDict:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgRetrieveSoupEntries:withDict:">pgRetrieveSoupEntries:withDict:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pgUpsertSoupEntries:withDict:">pgUpsertSoupEntries:withDict:</a></span></li>
 	
@@ -167,6 +175,13 @@ Either creates a new soup or returns an existing soup.</p></span>
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/closeCursorWithId:">&ndash;&nbsp;closeCursorWithId:</a></code>
+		<span class="tooltip"><p>The unique ID of the cursor</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/pgRegisterSoup:withDict:">&ndash;&nbsp;pgRegisterSoup:withDict:</a></code>
 		<span class="tooltip"><p>Standard phonegap arguments array, containing:
 1: successCB &ndash; this is the javascript function that will be called on success
@@ -194,7 +209,7 @@ Either creates a new soup or returns an existing soup.</p></span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/pgRetrieveSoupEntry:withDict:">&ndash;&nbsp;pgRetrieveSoupEntry:withDict:</a></code>
+		<code><a href="#//api/name/pgRetrieveSoupEntries:withDict:">&ndash;&nbsp;pgRetrieveSoupEntries:withDict:</a></code>
 		<span class="tooltip"><p>Standard phonegap arguments array, containing:
 1: successCB &ndash; this is the javascript function that will be called on success
 2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></span>
@@ -204,6 +219,13 @@ Either creates a new soup or returns an existing soup.</p></span>
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgUpsertSoupEntries:withDict:">&ndash;&nbsp;pgUpsertSoupEntries:withDict:</a></code>
+		<span class="tooltip"></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pgCloseCursor:withDict:">&ndash;&nbsp;pgCloseCursor:withDict:</a></code>
 		<span class="tooltip"></span>
 	</span>
 	
@@ -231,6 +253,48 @@ Either creates a new soup or returns an existing soup.</p></span>
 					<div class="section section-methods">
 						<a title="Instance Methods" name="instance_methods"></a>
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/closeCursorWithId:" title="closeCursorWithId:"></a>
+	<h3 class="subsubtitle method-title">closeCursorWithId:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The unique ID of the cursor</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)closeCursorWithId:(NSString *)<em>cursorId</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>cursorId</em></dt>
+			<dd><p>The unique ID of the cursor</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
 						
 						<div class="section-method">
 	<a name="//api/name/cursorByCursorId:" title="cursorByCursorId:"></a>
@@ -268,6 +332,68 @@ Either creates a new soup or returns an existing soup.</p></span>
 	
 	
 	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pgCloseCursor:withDict:" title="pgCloseCursor:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgCloseCursor:withDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pgCloseCursor:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>arguments</em></dt>
+			<dd><p>Standard phonegap arguments array, containing:
+1: successCB &ndash; this is the javascript function that will be called on success</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options:</em></dt>
+			<dd><p>dictionary containing &ldquo;cursorId&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/closeCursorWithId:">&ndash; closeCursorWithId:</a></p></code></li>
+			
+		</ul>
+	</div>
 	
 	
 	
@@ -487,8 +613,8 @@ Either creates a new soup or returns an existing soup.</p></span>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/pgRetrieveSoupEntry:withDict:" title="pgRetrieveSoupEntry:withDict:"></a>
-	<h3 class="subsubtitle method-title">pgRetrieveSoupEntry:withDict:</h3>
+	<a name="//api/name/pgRetrieveSoupEntries:withDict:" title="pgRetrieveSoupEntries:withDict:"></a>
+	<h3 class="subsubtitle method-title">pgRetrieveSoupEntries:withDict:</h3>
 	
 	
 	
@@ -499,7 +625,7 @@ Either creates a new soup or returns an existing soup.</p></span>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (void)pgRetrieveSoupEntry:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)pgRetrieveSoupEntries:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
 	
 	
 	<div class="method-subsection arguments-section parameters">
@@ -514,7 +640,7 @@ Either creates a new soup or returns an existing soup.</p></span>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryId&rdquo;</p></dd>
+			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;</p></dd>
 		</dl>
 		
 	</div>
@@ -700,7 +826,7 @@ Either creates a new soup or returns an existing soup.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-01-24)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-01-26)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
