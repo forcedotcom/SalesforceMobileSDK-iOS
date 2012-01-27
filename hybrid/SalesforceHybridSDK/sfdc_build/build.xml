@@ -59,14 +59,11 @@
         
         <antcall target="runTestTarget">
             <param name="sdkPath" value="${latestSimSDKPath}" />
-            <!-- TODO Test outputs an xml file into its temp dir that we can read -->
-            <!-- param name="testFilename" value="TESTS-${testPackage}.xml" /> -->
         </antcall>
     </target>
     
     <target name="runTestTarget" description="build and run test target" >
         <echo message="sdkPath is: ${sdkPath}" />
-        <echo message="appTestExecutable is: ${appTestExecutable}" />
         
         <exec executable="mktemp" outputproperty="tmp_home">
             <arg value="-d"/> <!-- create a temp _d_irectory -->
@@ -92,35 +89,28 @@
             <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
        
-	<delete dir="${artifacts.dir}/BuildProducts" />
-	<mkdir dir="${artifacts.dir}/BuildProducts/coverage" />
+		<delete dir="${artifacts.dir}/BuildProducts" />
+		<mkdir dir="${artifacts.dir}/BuildProducts/coverage" />
  
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPlugins -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration Debug  -sdk iphonesimulator build" />
         </exec>
        		
 	<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
-	<antcall target="iOSShared.covreport_text">
-		<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
-		<param name="outputPath" value="${artifacts.dir}" />
-		<param name="rootPath" value="${artifacts.dir}/../.." />
-		<param name="excludePattern" value="'.*/SalesforceHybridSDKTests/'" />
-	</antcall> 
-        <antcall target="iOSShared.covreport">
-                <param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
-                <param name="outputPath" value="${artifacts.dir}" />
-                <param name="rootPath" value="${artifacts.dir}/../.." />
-                <param name="excludePattern" value="'.*/SalesforceHybridSDKTests/'" />
-        </antcall>
+		<antcall target="iOSShared.covreport_text">
+			<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
+			<param name="outputPath" value="${artifacts.dir}" />
+			<param name="rootPath" value="${artifacts.dir}/../.." />
+			<param name="excludePattern" value="'.*/TestPluginsTests/'" />
+		</antcall> 
+		<antcall target="iOSShared.covreport">
+			<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
+			<param name="outputPath" value="${artifacts.dir}" />
+			<param name="rootPath" value="${artifacts.dir}/../.." />
+			<param name="excludePattern" value="'.*/TestPluginsTests/'" />
+		</antcall>
 
-
-        <!--
-         TODO copy the test output file to a report dir
-        <copy file="${tmp_home}/Documents/test-reports/junit.xml" tofile="${testReportDir}/${testFilename}" failonerror="false"/>
-        <delete dir="${tmp_home}"/>
-        -->
-        
         <echo message="Stopping securityd ..."/>
         <exec failonerror="true" executable="launchctl">
             <arg line="remove RunIPhoneLaunchDaemons"/>

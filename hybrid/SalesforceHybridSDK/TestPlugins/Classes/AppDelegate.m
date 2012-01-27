@@ -122,6 +122,9 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
     NSLog(@"runner: %@",runner);
     
+    BOOL runningOctest = [self isRunningOctest];
+    NSLog(@"octest running: %d",runningOctest);
+    
 }
 
 

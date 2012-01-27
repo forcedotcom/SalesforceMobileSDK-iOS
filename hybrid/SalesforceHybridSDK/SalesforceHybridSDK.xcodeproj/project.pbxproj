@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D38A6FD14D36E4800F51851 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D38A6FC14D36E4800F51851 /* www */; };
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
 		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
@@ -52,7 +53,6 @@
 		7DBB14B214C0EFFA00CCDBE0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */; };
 		7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */; };
 		7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
-		7DBB14CE14C0F13A00CCDBE0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14CD14C0F13A00CCDBE0 /* www */; };
 		7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
 		7DBB14D514C0F49800CCDBE0 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */; };
 		7DBB14D614C0F49800CCDBE0 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */; };
@@ -122,6 +122,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7D16ABF314D324D500EA8059 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		7D38A6FC14D36E4800F51851 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = TestPlugins/www; sourceTree = SOURCE_ROOT; };
 		7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
 		7D45E2F014BFB259002C4A27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -164,6 +166,18 @@
 		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7D7626CA14D33BBE0064B5B2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		7D7626CD14D33BBE0064B5B2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7D7626CF14D33BBE0064B5B2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7D7626D114D33BBE0064B5B2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7D7626D314D33BBE0064B5B2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7D7626D514D33BBE0064B5B2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		7D7626D714D33BBE0064B5B2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		7D7626D914D33BBE0064B5B2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		7D7626DB14D33BBE0064B5B2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7D7626DD14D33BBE0064B5B2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7D7626DF14D33BBE0064B5B2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		7D7626E114D33BBE0064B5B2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7DBB147414C0ECF700CCDBE0 /* TestPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7DBB147C14C0ECF700CCDBE0 /* TestPlugins-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestPlugins-Info.plist"; sourceTree = "<group>"; };
@@ -187,7 +201,6 @@
 		7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
 		7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
-		7DBB14CD14C0F13A00CCDBE0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7DBB14DD14C0F54700CCDBE0 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../dependencies/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -265,6 +278,7 @@
 		7D45E2DC14BFB259002C4A27 = {
 			isa = PBXGroup;
 			children = (
+				7D16ABF314D324D500EA8059 /* SalesforceHybridSDK.framework */,
 				7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */,
 				7D45E39014BFB8BA002C4A27 /* UIKit.framework */,
 				7D45E38E14BFB8AC002C4A27 /* Foundation.framework */,
@@ -316,6 +330,18 @@
 				7D45E2FC14BFB259002C4A27 /* UIKit.framework */,
 				7D45E2FE14BFB259002C4A27 /* Foundation.framework */,
 				7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */,
+				7D7626CA14D33BBE0064B5B2 /* CFNetwork.framework */,
+				7D7626CD14D33BBE0064B5B2 /* CoreLocation.framework */,
+				7D7626CF14D33BBE0064B5B2 /* CoreMedia.framework */,
+				7D7626D114D33BBE0064B5B2 /* QuartzCore.framework */,
+				7D7626D314D33BBE0064B5B2 /* Security.framework */,
+				7D7626D514D33BBE0064B5B2 /* MobileCoreServices.framework */,
+				7D7626D714D33BBE0064B5B2 /* AddressBook.framework */,
+				7D7626D914D33BBE0064B5B2 /* AddressBookUI.framework */,
+				7D7626DB14D33BBE0064B5B2 /* AudioToolbox.framework */,
+				7D7626DD14D33BBE0064B5B2 /* AVFoundation.framework */,
+				7D7626DF14D33BBE0064B5B2 /* MediaPlayer.framework */,
+				7D7626E114D33BBE0064B5B2 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -434,10 +460,9 @@
 			isa = PBXGroup;
 			children = (
 				7DCEF4F714D0810200BB3F3E /* Plugins */,
+				7DBB14B614C0F09E00CCDBE0 /* shared-www */,
 				7DBB14E414C0F5F600CCDBE0 /* Frameworks */,
 				7DBB14DF14C0F55600CCDBE0 /* dependencies */,
-				7DBB14CD14C0F13A00CCDBE0 /* www */,
-				7DBB14B614C0F09E00CCDBE0 /* shared-www */,
 				7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */,
 				7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */,
 				7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */,
@@ -462,6 +487,7 @@
 		7DBB149A14C0ECF800CCDBE0 /* TestPluginsTests */ = {
 			isa = PBXGroup;
 			children = (
+				7D38A6FC14D36E4800F51851 /* www */,
 				7DBB14A014C0ECF800CCDBE0 /* TestPluginsTests.h */,
 				7DBB14A114C0ECF800CCDBE0 /* TestPluginsTests.m */,
 				7DBB149B14C0ECF800CCDBE0 /* Supporting Files */,
@@ -690,7 +716,7 @@
 				7DBB14B214C0EFFA00CCDBE0 /* PhoneGapResources.bundle in Resources */,
 				7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */,
 				7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */,
-				7DBB14CE14C0F13A00CCDBE0 /* www in Resources */,
+				7D38A6FD14D36E4800F51851 /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,6 +788,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -957,6 +984,7 @@
 				INFOPLIST_FILE = "TestPlugins/TestPlugins-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -976,6 +1004,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -992,6 +1021,7 @@
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
 				INFOPLIST_FILE = "TestPluginsTests/TestPluginsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1009,6 +1039,7 @@
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
 				INFOPLIST_FILE = "TestPluginsTests/TestPluginsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};

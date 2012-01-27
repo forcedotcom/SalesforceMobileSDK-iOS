@@ -77,7 +77,7 @@
         }
         
         NSLog(@"## waiting to start tests... ");
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     }
     
     return completionTimedOut;
