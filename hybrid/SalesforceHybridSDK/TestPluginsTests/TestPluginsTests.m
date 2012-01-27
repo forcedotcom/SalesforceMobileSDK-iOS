@@ -34,7 +34,7 @@
     BOOL timedOut = [self waitForTestRunnerReady];
     if (timedOut) {
         NSLog(@"failed to start test runner...");
-        exit(1);
+       // exit(1);
     } 
     
 }
@@ -70,14 +70,14 @@
     
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 5.0) {
-            NSLog(@"test took too long (%f) to complete",elapsed);
+        if (elapsed > 2.0) {
+            NSLog(@"testRunner took too long (%f) to startup",elapsed);
             completionTimedOut = YES;
             break;
         }
         
         NSLog(@"## waiting to start tests... ");
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
     }
     
     return completionTimedOut;
@@ -107,8 +107,11 @@
 
 - (void)runTest:(NSString*)testName
 {
+    if (![self isTestRunnerReady]) {
+        STAssertTrue([self isTestRunnerReady], @"Test runner not ready");
+        return;
+    }
     
-    //TODO start named test
     self.jsTestName = testName;
         
     NSString *testCmd = [NSString stringWithFormat:@"gTestSuiteSmartStore.startTest('%@');",testName];
