@@ -33,8 +33,7 @@
 		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean"
 		/>
 	
-	<!-- TODO Add utest target to this -->
-	<target name="all" depends="pre,buildDist" description="do it all">
+	<target name="all" depends="pre,utest,buildDist" description="do it all">
    </target>
 
 	<target name="buildDist" depends="pre" description="build debug and release zips">
