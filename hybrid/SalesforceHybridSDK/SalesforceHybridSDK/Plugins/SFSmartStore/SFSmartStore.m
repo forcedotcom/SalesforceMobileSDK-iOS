@@ -215,6 +215,15 @@ static NSString *const kSoupsDirectory = @"soups";
     }
 }
 
+- (void)closeCursorWithId:(NSString *)cursorId
+{
+    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
+    if (nil != theCursor) {
+        [self.cursorCache removeObjectForKey:cursorId];
+    }
+    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
+}
+
 
 
 - (SFSoup*)soupByName:(NSString *)soupName
@@ -365,16 +374,12 @@ static NSString *const kSoupsDirectory = @"soups";
 
 }
 
-- (void)pgReleaseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
 {
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *cursorId = [options objectForKey:@"cursorId"];
 
-    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
-    if (nil != theCursor) {
-        [self.cursorCache removeObjectForKey:cursorId];
-    }
-    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
+    [self closeCursorWithId:cursorId];
     
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];

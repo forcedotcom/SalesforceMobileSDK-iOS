@@ -113,6 +113,11 @@
  */
 - (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId;
 
+/**
+ @param cursorId  The unique ID of the cursor
+ */
+- (void)closeCursorWithId:(NSString*)cursorId;
+
 
 #pragma mark - PhoneGap Plugin methods called from js
 
@@ -176,6 +181,16 @@
  @see upsertSoupEntries
  */
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
+
+/**   
+ @param arguments Standard phonegap arguments array, containing:
+ 1: successCB - this is the javascript function that will be called on success
+ 
+ @param options:  dictionary containing "cursorId"
+ 
+ @see closeCursorWithId:
+ */
+- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**   
