@@ -78,14 +78,14 @@
 - (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
 
 /*
- Search soup for an entry with a soup entry ID that exactly matches
+ Search soup for entries exactly matching the soup entry IDs
  
  @param soupName The name of the soup to query
- @param soupEntryId An opaque soup entry ID
+ @param soupEntryIds A set of opaque soup entry IDs
  
- @return A single entry or nil
+ @return An array of entries matching the input IDs, or nil
  */
-- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName;
+- (NSArray*)retrieveEntries:(NSSet*)soupEntryIds fromSoup:(NSString*)soupName;
 
 
 /*
@@ -112,6 +112,11 @@
  @return SFSoupCursor the cached cursor with the given ID or nil
  */
 - (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId;
+
+/**
+ @param cursorId  The unique ID of the cursor
+ */
+- (void)closeCursorWithId:(NSString*)cursorId;
 
 
 #pragma mark - PhoneGap Plugin methods called from js
@@ -158,12 +163,12 @@
  1: successCB - this is the javascript function that will be called on success
  2: errorCB - optional javascript function to be called in the event of an error with an error code.
  
- @param options:  dictionary containing "soupName" and "soupEntryId"  
+ @param options:  dictionary containing "soupName" and "soupEntryIds"  
  
- @see retrieveSoupEntry:fromSoup:
+ @see retrieveSoupEntries:fromSoup:
 
  */
-- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**   
@@ -176,6 +181,16 @@
  @see upsertSoupEntries
  */
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
+
+/**   
+ @param arguments Standard phonegap arguments array, containing:
+ 1: successCB - this is the javascript function that will be called on success
+ 
+ @param options:  dictionary containing "cursorId"
+ 
+ @see closeCursorWithId:
+ */
+- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**   

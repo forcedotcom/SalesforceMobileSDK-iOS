@@ -182,11 +182,15 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
-- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId fromSoup:(NSString*)soupName
+- (NSArray *)retrieveEntries:(NSSet *)soupEntryIds fromSoup:(NSString*)soupName
 {
+    NSMutableArray *results = [NSMutableArray array];
     SFSoup *theSoup = [self soupByName:soupName];
-    NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
-    return result;
+    for (NSString *soupEntryId in soupEntryIds) {
+        NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
+        [results addObject:result];
+    }
+    return results;
 }
 
 
@@ -209,6 +213,15 @@ static NSString *const kSoupsDirectory = @"soups";
         [theSoup removeEntries:entryIds];
         //TODO any need to update other cursors pointing at this soup?
     }
+}
+
+- (void)closeCursorWithId:(NSString *)cursorId
+{
+    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
+    if (nil != theCursor) {
+        [self.cursorCache removeObjectForKey:cursorId];
+    }
+    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
 }
 
 
@@ -310,17 +323,17 @@ static NSString *const kSoupsDirectory = @"soups";
     NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRetrieveSoupEntry:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options objectForKey:@"soupName"];
-    NSString *entryId = [options objectForKey:@"soupEntryId"];
+    NSSet *entryIds = [NSSet setWithArray:[options objectForKey:@"entryIds"]];
     
-    NSDictionary *entry = [self retrieveEntry:entryId fromSoup:soupName]; //TODO other error handling?
-    [self writeSuccessDictToJsRealm:entry callbackId:callbackId];
+    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName]; //TODO other error handling?
+    [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
     
-    NSLog(@"pgRetrieveSoupEntry in %f", [startTime timeIntervalSinceNow]);
+    NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
 
 }
 
@@ -361,16 +374,12 @@ static NSString *const kSoupsDirectory = @"soups";
 
 }
 
-- (void)pgReleaseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
 {
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *cursorId = [options objectForKey:@"cursorId"];
 
-    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
-    if (nil != theCursor) {
-        [self.cursorCache removeObjectForKey:cursorId];
-    }
-    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
+    [self closeCursorWithId:cursorId];
     
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];

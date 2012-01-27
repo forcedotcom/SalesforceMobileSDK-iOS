@@ -139,9 +139,9 @@
     [self runTest:@"testUpsertSoupEntries"];
 }
 
-//- (void)testRetrieveSoupEntries {
-//    [self runTest:@"testRetrieveSoupEntries"];
-//}
+- (void)testRetrieveSoupEntries {
+    [self runTest:@"testRetrieveSoupEntries"];
+}
 
 - (void)testQuerySoup {
     [self runTest:@"testQuerySoup"];
