@@ -328,12 +328,12 @@ static NSString *const kSoupsDirectory = @"soups";
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options objectForKey:@"soupName"];
-    NSSet *entryIds = [NSSet setWithArray:[options objectForKey:@"soupEntryIds"]];
+    NSSet *entryIds = [NSSet setWithArray:[options objectForKey:@"entryIds"]];
     
     NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName]; //TODO other error handling?
     [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
     
-    NSLog(@"pgRetrieveSoupEntry in %f", [startTime timeIntervalSinceNow]);
+    NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
 
 }
 
