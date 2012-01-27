@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
-		7D45E2FB14BFB259002C4A27 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
-		7D45E2FD14BFB259002C4A27 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
-		7D45E2FF14BFB259002C4A27 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
-		7D45E30214BFB259002C4A27 /* SalesforceHybridSDK.framework in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */; };
 		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7D45E33B14BFB394002C4A27 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31F14BFB394002C4A27 /* SFJsonUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -91,13 +87,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7D45E30014BFB259002C4A27 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D45E2DE14BFB259002C4A27 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7D45E2E914BFB259002C4A27;
-			remoteInfo = SalesforceHybridSDK;
-		};
 		7DBB149814C0ECF800CCDBE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7D45E2DE14BFB259002C4A27 /* Project object */;
@@ -137,7 +126,6 @@
 		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
 		7D45E2F014BFB259002C4A27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7D45E2F214BFB259002C4A27 /* SalesforceHybridSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDK-Prefix.pch"; sourceTree = "<group>"; };
-		7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7D45E2FC14BFB259002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		7D45E2FE14BFB259002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -237,16 +225,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7D45E2F414BFB259002C4A27 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7D45E2FB14BFB259002C4A27 /* SenTestingKit.framework in Frameworks */,
-				7D45E2FD14BFB259002C4A27 /* UIKit.framework in Frameworks */,
-				7D45E2FF14BFB259002C4A27 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7DBB147114C0ECF700CCDBE0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -304,7 +282,6 @@
 			isa = PBXGroup;
 			children = (
 				7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */,
-				7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */,
 				7DBB147414C0ECF700CCDBE0 /* TestPlugins.app */,
 				7DBB149414C0ECF800CCDBE0 /* TestPluginsTests.octest */,
 			);
@@ -629,25 +606,6 @@
 			productReference = 7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */;
 			productType = "com.apple.product-type.bundle";
 		};
-		7D45E2F714BFB259002C4A27 /* SalesforceHybridSDKTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7D45E31114BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */;
-			buildPhases = (
-				7D45E2F314BFB259002C4A27 /* Sources */,
-				7D45E2F414BFB259002C4A27 /* Frameworks */,
-				7D45E2F514BFB259002C4A27 /* Resources */,
-				7D45E2F614BFB259002C4A27 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7D45E30114BFB259002C4A27 /* PBXTargetDependency */,
-			);
-			name = SalesforceHybridSDKTests;
-			productName = SalesforceHybridSDKTests;
-			productReference = 7D45E2F814BFB259002C4A27 /* SalesforceHybridSDKTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 		7DBB147314C0ECF700CCDBE0 /* TestPlugins */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DBB14A314C0ECF800CCDBE0 /* Build configuration list for PBXNativeTarget "TestPlugins" */;
@@ -707,7 +665,6 @@
 			projectRoot = "";
 			targets = (
 				7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */,
-				7D45E2F714BFB259002C4A27 /* SalesforceHybridSDKTests */,
 				7DBB147314C0ECF700CCDBE0 /* TestPlugins */,
 				7DBB149314C0ECF800CCDBE0 /* TestPluginsTests */,
 			);
@@ -721,14 +678,6 @@
 			files = (
 				7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */,
 				7D45E34D14BFB394002C4A27 /* FMLicense.txt in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7D45E2F514BFB259002C4A27 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7D45E30214BFB259002C4A27 /* SalesforceHybridSDK.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,19 +735,6 @@
 			shellScript = "${SRCROOT}/scripts/construct-framework.sh";
 			showEnvVarsInLog = 0;
 		};
-		7D45E2F614BFB259002C4A27 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 		7D45E35214BFB3B6002C4A27 /* Move Framework to Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -849,13 +785,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7D45E2F314BFB259002C4A27 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7DBB147014C0ECF700CCDBE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -877,11 +806,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7D45E30114BFB259002C4A27 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */;
-			targetProxy = 7D45E30014BFB259002C4A27 /* PBXContainerItemProxy */;
-		};
 		7DBB149914C0ECF800CCDBE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7DBB147314C0ECF700CCDBE0 /* TestPlugins */;
@@ -1019,48 +943,6 @@
 			};
 			name = Release;
 		};
-		7D45E31214BFB259002C4A27 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					.fake_fw_testing,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		7D45E31314BFB259002C4A27 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					.fake_fw_testing,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 		7DBB14A414C0ECF800CCDBE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1149,15 +1031,6 @@
 			buildConfigurations = (
 				7D45E30F14BFB259002C4A27 /* Debug */,
 				7D45E31014BFB259002C4A27 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7D45E31114BFB259002C4A27 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7D45E31214BFB259002C4A27 /* Debug */,
-				7D45E31314BFB259002C4A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
