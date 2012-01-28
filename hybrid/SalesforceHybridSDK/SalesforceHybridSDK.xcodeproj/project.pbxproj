@@ -87,6 +87,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7D38A70114D37B0800F51851 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D45E2DE14BFB259002C4A27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7D45E2E914BFB259002C4A27;
+			remoteInfo = SalesforceHybridSDK;
+		};
 		7DBB149814C0ECF800CCDBE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7D45E2DE14BFB259002C4A27 /* Project object */;
@@ -642,6 +649,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7D38A70214D37B0800F51851 /* PBXTargetDependency */,
 			);
 			name = TestPlugins;
 			productName = TestPlugins;
@@ -831,6 +839,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7D38A70214D37B0800F51851 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7D45E2E914BFB259002C4A27 /* SalesforceHybridSDK */;
+			targetProxy = 7D38A70114D37B0800F51851 /* PBXContainerItemProxy */;
+		};
 		7DBB149914C0ECF800CCDBE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7DBB147314C0ECF700CCDBE0 /* TestPlugins */;
