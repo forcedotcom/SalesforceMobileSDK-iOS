@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Note: we cloned this from the default scripts included with xcode. This avoids
 # having to modify the dev's xcode install 
 ##
@@ -36,7 +36,7 @@
 Message() {
 # usage: Message line type message
 # Echo the message to stdout as the given type of message and continue
-    echo "${DEVELOPER_DIR}/Tools/RunUnitTests:${1}: ${2}: ${3}"
+    echo "${DEVELOPER_DIR}/Tools/SFRunAppUnitTests:${1}: ${2}: ${3}"
 }
 
 Note() {
@@ -67,7 +67,7 @@ Fail() {
 ### Don't run if TEST_AFTER_BUILD is NO
 
 if [ "${TEST_AFTER_BUILD}" = "NO" ]; then
-    Note ${LINENO} "RunUnitTests exited without running tests because TEST_AFTER_BUILD was set to NO."
+    Note ${LINENO} "SFRunAppUnitTests exited without running tests because TEST_AFTER_BUILD was set to NO."
     exit 0
 fi
 
@@ -91,11 +91,11 @@ if [ "${PLATFORM_DEVELOPER_TOOLS_DIR}" = "" ]; then
     fi
 fi
 
-### Find and invoke platform-specific RunUnitTests
+### Find and invoke platform-specific SFRunAppUnitTests
 
-runPlatformUnitTests="${PLATFORM_DEVELOPER_TOOLS_DIR}/SFRunPlatformUnitTests"
+runPlatformUnitTests="`dirname $0`/SFRunPlatformUnitTests"
 if [ -x "${runPlatformUnitTests}" ]; then
-    # Invoke the platform-specific RunUnitTests
+    # Invoke the platform-specific SFRunAppUnitTests
     exec "${runPlatformUnitTests}" "$@"
 else
     if [ -f "${runPlatformUnitTests}" ]; then
