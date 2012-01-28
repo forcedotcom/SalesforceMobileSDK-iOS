@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7D38A6FD14D36E4800F51851 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D38A6FC14D36E4800F51851 /* www */; };
+		7D38A6FF14D3774400F51851 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */; };
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
 		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
@@ -61,7 +62,6 @@
 		7DBB14D914C0F49800CCDBE0 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */; };
 		7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7DBB14DC14C0F50500CCDBE0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */; };
-		7DBB14DE14C0F54700CCDBE0 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14DD14C0F54700CCDBE0 /* SalesforceHybridSDK.framework */; };
 		7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */; };
 		7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */; };
 		7DBB14E614C0F61D00CCDBE0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E514C0F61D00CCDBE0 /* CFNetwork.framework */; };
@@ -122,8 +122,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7D16ABF314D324D500EA8059 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7D38A6FC14D36E4800F51851 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = TestPlugins/www; sourceTree = SOURCE_ROOT; };
+		7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
 		7D45E2F014BFB259002C4A27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -202,7 +202,6 @@
 		7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
-		7DBB14DD14C0F54700CCDBE0 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../dependencies/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		7DBB14E514C0F61D00CCDBE0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -242,6 +241,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D38A6FF14D3774400F51851 /* SalesforceHybridSDK.framework in Frameworks */,
 				7DBB14F814C0F70000CCDBE0 /* AudioToolbox.framework in Frameworks */,
 				7DBB14F614C0F6E500CCDBE0 /* SystemConfiguration.framework in Frameworks */,
 				7DBB14F414C0F6D700CCDBE0 /* Security.framework in Frameworks */,
@@ -255,7 +255,6 @@
 				7DBB14E614C0F61D00CCDBE0 /* CFNetwork.framework in Frameworks */,
 				7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */,
 				7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */,
-				7DBB14DE14C0F54700CCDBE0 /* SalesforceHybridSDK.framework in Frameworks */,
 				7DBB14DC14C0F50500CCDBE0 /* libsqlite3.dylib in Frameworks */,
 				7DBB147614C0ECF700CCDBE0 /* UIKit.framework in Frameworks */,
 				7DBB147714C0ECF700CCDBE0 /* Foundation.framework in Frameworks */,
@@ -278,7 +277,7 @@
 		7D45E2DC14BFB259002C4A27 = {
 			isa = PBXGroup;
 			children = (
-				7D16ABF314D324D500EA8059 /* SalesforceHybridSDK.framework */,
+				7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */,
 				7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */,
 				7D45E39014BFB8BA002C4A27 /* UIKit.framework */,
 				7D45E38E14BFB8AC002C4A27 /* Foundation.framework */,
@@ -536,7 +535,6 @@
 		7DBB14DF14C0F55600CCDBE0 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				7DBB14DD14C0F54700CCDBE0 /* SalesforceHybridSDK.framework */,
 			);
 			name = dependencies;
 			sourceTree = "<group>";
@@ -978,6 +976,7 @@
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
@@ -997,6 +996,7 @@
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
@@ -1014,8 +1014,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestPlugins.app/TestPlugins";
 				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../dependencies\"",
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
@@ -1032,8 +1034,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestPlugins.app/TestPlugins";
 				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../dependencies\"",
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
