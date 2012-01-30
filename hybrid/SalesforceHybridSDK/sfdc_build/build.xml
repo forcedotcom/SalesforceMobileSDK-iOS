@@ -110,14 +110,6 @@
 		<!-- gcda files are temporary stored in ${cov_output_dir} -->
 		<property name="abs_cov_output_dir" location="${cov_output_dir}"/>
 		<echo message="gcda files are stored in: ${abs_cov_output_dir} " />
-		
-		<!-- <echo message="moving '${cov_output_dir}' to '${final_cov_output_dir}' ..." /> -->
-		
-
-		
-		<!-- <move todir="${final_cov_output_dir}">
-			<fileset dir="${cov_output_dir}"/>
-		</move> -->
 	
 	
 	<!-- gcda coverage files are now output to ${final_cov_output_dir} -->
@@ -125,13 +117,13 @@
 			<param name="inputPath" value="${abs_cov_output_dir}" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${project.dir}" />
-			<param name="excludePattern" value="'.*/sqlite/*'" />
+			<param name="excludePattern" value="'.*/sqlite/'" />
 		</antcall> 
 		<antcall target="iOSShared.covreport">
-			<param name="inputPath" value="${final_cov_output_dir}" />
+			<param name="inputPath" value="${abs_cov_output_dir}" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${project.dir}" />
-			<param name="excludePattern" value="'.*/sqlite/*'" />
+			<param name="excludePattern" value="'.*/sqlite/'" />
 		</antcall>
 
         <echo message="Stopping securityd ..."/>
