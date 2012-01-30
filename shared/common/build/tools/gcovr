@@ -776,9 +776,6 @@ if options.filter is None:
 #
 # Get data files
 #
-for x in range(0,len(args)):
-    print "arg[%d]: "%x+args[x]
-
 
 if options.objdir:
 	print "objdir is: "+options.objdir
