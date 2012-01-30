@@ -102,14 +102,29 @@
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
             <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration Debug  -sdk iphonesimulator build" />
         </exec>
-       		
+
+        <echo message="Stopping securityd ..."/>
+        <exec failonerror="true" executable="launchctl">
+            <arg line="remove RunIPhoneLaunchDaemons"/>
+        </exec>
+
+		<!-- verify that the utestResult is zero (no error)
+		We do this AFTER stopping securityd, exiting app -->
+					
+		<fail message="Unit tests failed with error: '${utestResult}'">
+			<condition>
+				<not>
+					<equals arg1="${utestResult}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+		
 		<!-- gcda files are temporary stored in ${cov_output_dir} -->
 		<property name="abs_cov_output_dir" location="${cov_output_dir}"/>
 		<echo message="gcda files are stored in: ${abs_cov_output_dir} " />
 		<property name="abs_source_dir" location="${project.dir}"/>	
 		<echo message="abs_source_dir is: ${abs_source_dir} " />
 		
-	
 	<!-- gcda coverage files are now output to ${abs_cov_output_dir} -->
 		<antcall target="iOSShared.covreport_text">
 			<param name="inputPath" value="${abs_cov_output_dir}" />
@@ -124,21 +139,8 @@
 			<param name="excludePattern" value="SalesforceHybridSDK/Plugins/SFSmartStore/sqlite/.*" />
 		</antcall>
 
-        <echo message="Stopping securityd ..."/>
-        <exec failonerror="true" executable="launchctl">
-            <arg line="remove RunIPhoneLaunchDaemons"/>
-        </exec>
         
-		<!-- verify that the utestResult is zero (no error)
-		We do this AFTER stopping securityd, exiting app -->
-					
-		<fail message="Unit tests failed with error: '${utestResult}'">
-			<condition>
-				<not>
-					<equals arg1="${utestResult}" arg2="0" />
-				</not>
-			</condition>
-		</fail>
+
     </target>
     
 
