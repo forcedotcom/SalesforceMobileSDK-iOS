@@ -28,21 +28,34 @@
 		<property name="outputPath" value="." />
 		<property name="rootPath" value="." />
 		<property name="excludePattern" value="*Tests.m" />
-	        <property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
+		<property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
 		<exec executable="${gcovr_path}">
-		    <arg line="-x -k -p -e ${excludePattern} --root=${rootPath} --object-directory=${inputPath} --output=${outputPath}/coverage.xml" />
+			<arg value="--verbose" />
+			<arg value="-x" />
+			<arg value="-k" />
+			<arg value="-p" />
+			<arg value="--exclude=${excludePattern}" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.xml" />
 		</exec>	
 	</target>	 
-        <target name="covreport_text">
-                <property name="inputPath" value="." />
-                <property name="outputPath" value="." />
-                <property name="rootPath" value="." />
-                <property name="excludePattern" value="*Tests.m" />
-                <property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
-                <exec executable="${gcovr_path}">
-                    <arg line=" -k -p -e ${excludePattern} --root=${rootPath} --object-directory=${inputPath} --output=${outputPath}/coverage.txt" />
-                </exec>
-        </target>
+	<target name="covreport_text">
+		<property name="inputPath" value="." />
+		<property name="outputPath" value="." />
+		<property name="rootPath" value="." />
+		<property name="excludePattern" value="*Tests.m" />
+		<property name="gcovr_path" value="${iOSCommon.basedir}/tools/gcovr" />
+		<exec executable="${gcovr_path}">
+			<arg value="--verbose" />
+			<arg value="-k" />
+			<arg value="-p" />
+			<arg value="--exclude=${excludePattern}" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.txt" />
+		</exec>
+	</target>
 
     <!--[target] appledocDocumentation: 
      Generate Apple-like documentation using the "appledoc" command found here: http://www.gentlebytes.com/home/appledocapp/
