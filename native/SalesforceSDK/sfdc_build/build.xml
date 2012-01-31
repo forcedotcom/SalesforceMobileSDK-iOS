@@ -112,13 +112,13 @@
 			<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${artifacts.dir}/../.." />
-			<param name="excludePattern" value="'.*/SalesforceSDKTests/'" />
+			<param name="excludePattern" value="SalesforceSDKTests/.*" />
 		</antcall> 
 		<antcall target="iOSShared.covreport">
 			<param name="inputPath" value="${artifacts.dir}/BuildProducts/coverage" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${artifacts.dir}/../.." />
-			<param name="excludePattern" value="'.*/SalesforceSDKTests/'" />
+			<param name="excludePattern" value="SalesforceSDKTests/.*" />
 		</antcall>
         
         <echo message="Stopping securityd ..."/>
