@@ -72,9 +72,6 @@
  */
 - (NSDictionary*)asDictionary;
 
-/**
- Provide UTF-8 JSON data representation of this object.
- */
-- (NSData *)asJsonData;
+
 
 @end

@@ -140,21 +140,6 @@
     return result;
 }
 
-- (NSData *)asJsonData;
-{
-    NSError *err = nil;
-    
-    NSDictionary *full = [self asDictionary];
-    
-    //first encode the entries array as json
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:full 
-                                                       options:NSJSONWritingPrettyPrinted  //TODO optimize?
-                                                         error:&err];
-    if (nil != err) {
-        NSLog(@"error serializing: %@",err);
-    } 
-    
-    return jsonData;
-}
+
 
 @end
