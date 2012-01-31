@@ -55,6 +55,11 @@
 #pragma mark - Native Soup manipulation methods
 
 
+/**
+ @return Does a soup with the given name already exist?
+ */
+- (BOOL)soupExists:(NSString*)soupName;
+
 
 /**
  Ensure that a soup with the given name exists.
@@ -121,6 +126,16 @@
 
 #pragma mark - PhoneGap Plugin methods called from js
 
+/**
+ @param arguments Standard phonegap arguments array, containing:
+ 1: successCB - this is the javascript function that will be called on success
+ 2: errorCB - optional javascript function to be called in the event of an error 
+ 
+ @param options:  dictionary containing "soupName"   
+ 
+ @see soupExists
+ */
+- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 /**
  @param arguments Standard phonegap arguments array, containing:
@@ -129,7 +144,7 @@
  
  @param options:  dictionary containing "soupName" and "indexSpecs"  
  
- @see createSoup
+ @see registerSoup
  */
 - (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 

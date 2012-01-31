@@ -102,6 +102,24 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
+- (BOOL)soupExists:(NSString*)soupName 
+{
+    BOOL result = NO;
+    
+    SFSoup *soup = [_soupCache objectForKey:soupName];
+    if (nil != soup) {
+        result = YES;
+    }
+    else {
+        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
+            result = YES;
+        }
+    }
+        
+    return result;
+}
+
 - (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
 {
     NSLog(@"SmartStore registerSoup: %@", soupName);
@@ -275,6 +293,21 @@ static NSString *const kSoupsDirectory = @"soups";
 	if (jsString){
 		[self writeJavascript:jsString];
     }
+}
+
+
+- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
+{
+    NSDate *startTime = [NSDate date];
+    NSString* callbackId = [arguments objectAtIndex:0];
+    NSString *soupName = [options objectForKey:@"soupName"];
+    
+    BOOL exists = [self soupExists:soupName];
+    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsInt:exists];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    
+    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
+  
 }
 
 - (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options

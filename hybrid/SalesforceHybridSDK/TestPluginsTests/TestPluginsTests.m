@@ -133,6 +133,9 @@
 }
 
 
+- (void)testRegisterRemoveSoup {
+    [self runTest:@"testRegisterRemoveSoup"];
+}
 
 - (void)testRemoveFromSoup {
     [self runTest:@"testRemoveFromSoup"];
