@@ -25,6 +25,8 @@
 	<dict>
 		<key>com.salesforce.oauth</key>
 		<string>SalesforceOAuthPlugin</string>
+		<key>com.salesforce.smartstore</key>
+		<string>SFSmartStore</string>
 		<key>com.phonegap.accelerometer</key>
 		<string>PGAccelerometer</string>
 		<key>com.phonegap.camera</key>
