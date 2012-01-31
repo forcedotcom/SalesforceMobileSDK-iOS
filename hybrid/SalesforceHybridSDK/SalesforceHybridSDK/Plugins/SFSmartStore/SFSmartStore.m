@@ -182,26 +182,23 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
-- (NSArray *)retrieveEntries:(NSSet *)soupEntryIds fromSoup:(NSString*)soupName
+- (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    NSMutableArray *results = [NSMutableArray array];
-    SFSoup *theSoup = [self soupByName:soupName];
-    for (NSString *soupEntryId in soupEntryIds) {
-        NSDictionary *result = [theSoup retrieveEntry:soupEntryId];
-        [results addObject:result];
+    NSArray *result = [NSArray array]; //empty result array by default
+    if ([soupEntryIds count] > 0) {
+        SFSoup *theSoup = [self soupByName:soupName];
+        result = [theSoup retrieveEntries:soupEntryIds];
     }
-    return results;
+    return result;
 }
 
 
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
-    NSArray *result = nil;
+    NSArray *result = [NSArray array]; //empty result array by default
     if ([entries count] > 0) {
         SFSoup *theSoup = [self soupByName:soupName];
-        result = [theSoup upsertEntries:entries];
-        //NOTE we do not cache the cursor in this case because it's not a page-able
-        //list of query results. 
+        result = [theSoup upsertEntries:entries]; 
     }
     return result;
 }
@@ -328,13 +325,15 @@ static NSString *const kSoupsDirectory = @"soups";
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options objectForKey:@"soupName"];
-    NSSet *entryIds = [NSSet setWithArray:[options objectForKey:@"entryIds"]];
+    NSArray *rawIds = [options objectForKey:@"entryIds"];
+    //make entry Ids unique
+    NSSet *entryIdSet = [NSSet setWithArray:rawIds];
+    NSArray *entryIds = [entryIdSet allObjects];
     
-    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName]; //TODO other error handling?
+    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName];
     [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
     
     NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
-
 }
 
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options

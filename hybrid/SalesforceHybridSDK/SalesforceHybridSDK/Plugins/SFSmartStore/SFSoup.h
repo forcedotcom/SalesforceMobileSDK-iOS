@@ -64,10 +64,20 @@
 - (NSDictionary*)retrieveEntry:(NSString*)soupEntryId;
 
 /**
+ @param entryIds array of _soupEntryId of entries to retrieve. If an entry can't be found it will be missing from the array. Order is not guaranteed.
+ @return Array with zero or more entries
+ */
+- (NSArray*)retrieveEntries:(NSArray*)entryIds;
+
+/**
  @param entries array of soup entries to be updated or inserted
+ @return Array with zero or more inserted or updated entries.
  */
 - (NSArray*)upsertEntries:(NSArray*)entries;
 
+/**
+ @param entryIds array of _soupEntryId of entries to remove. If an entry can't be found it will be ignored.
+ */
 - (void)removeEntries:(NSArray*)entryIds;
 
 @end

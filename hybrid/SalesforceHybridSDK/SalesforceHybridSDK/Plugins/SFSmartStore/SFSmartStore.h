@@ -81,11 +81,11 @@
  Search soup for entries exactly matching the soup entry IDs
  
  @param soupName The name of the soup to query
- @param soupEntryIds A set of opaque soup entry IDs
+ @param soupEntryIds An array of opaque soup entry IDs
  
- @return An array of entries matching the input IDs, or nil
+ @return An array with zero or more entries matching the input IDs. Order is not guaranteed.
  */
-- (NSArray*)retrieveEntries:(NSSet*)soupEntryIds fromSoup:(NSString*)soupName;
+- (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName;
 
 
 /*

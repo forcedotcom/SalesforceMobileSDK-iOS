@@ -257,6 +257,22 @@ static NSString * const kColNameRawJson = @"_raw_json";
     return entry;
 }
 
+- (NSArray*)retrieveEntries:(NSArray*)entryIds {
+    NSMutableArray *result = [NSMutableArray array];
+
+    for (id soupEntryId in entryIds) {
+        if ([soupEntryId isKindOfClass:[NSNumber class]]) {
+            soupEntryId = [(NSNumber*)soupEntryId stringValue];
+        }
+        NSDictionary *entry = [self retrieveEntry:soupEntryId];
+        if (nil != entry) {
+            [result addObject:entry];
+        }
+    }
+    
+    return result;
+}
+
 
 - (NSArray*)upsertEntries:(NSArray*)entries {
 
