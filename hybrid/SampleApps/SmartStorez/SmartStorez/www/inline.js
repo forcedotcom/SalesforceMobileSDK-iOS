@@ -81,6 +81,11 @@ function regLinkClickHandlers() {
         runQuerySoup();
     });
 
+    $('#link_retrieve_entries').click(function() {
+                                runRetrieveEntries();
+                                });
+    
+    
     
      $('#link_cursor_page_zero').click(function() {
         SFHybridApp.logToConsole("link_cursor_page_zero clicked");
@@ -175,6 +180,22 @@ function runQuerySoup() {
                                        onErrorQuerySoup
                                                 );
 }
+
+function runRetrieveEntries() {
+    var inputStr = $('#input_retrieve_entries').val();
+    if (inputStr.length === 0) {
+        inputStr = null;
+    }
+    
+    SFHybridApp.logToConsole("runRetrieveEntries: " + inputStr );
+    var entryIds = eval(inputStr);
+    
+    navigator.smartstore.retrieveSoupEntries(SAMPLE_SOUP_NAME,
+                                             entryIds,
+                                             onSuccessRetrieveEntries,
+                                             onErrorRetrieveEntries
+                                             );
+}
     
 function onSuccessRegSoup(param) {
     SFHybridApp.logToConsole("onSuccessRegSoup: " + param);
@@ -235,6 +256,38 @@ function onSuccessQuerySoup(cursor) {
 function onErrorQuerySoup(param) {
     SFHybridApp.logToConsole("onErrorQuerySoup: " + param);
 }
+
+
+function onSuccessRetrieveEntries(entries ) {
+    SFHybridApp.logToConsole("onSuccessRetrieveEntries : " + entries.length);
+    
+    $("#div_sfdc_soup_entry_list").html("");
+    var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"> ' + 
+               ' Entries: ' + entries.length + 
+               ' </ul>');
+    $("#div_sfdc_soup_entry_list").append(ul);
+
+    $.each(entries, function(i,entry) {
+           var formattedName = entry.name; 
+           var entryId = entry._soupEntryId;
+           var phatName = entry.Name;
+           if (phatName) {
+           formattedName = phatName;
+           }
+           
+           var newLi = $("<li><a href='#'>" + entryId + " - " + formattedName + "</a></li>");
+           ul.append(newLi);
+           });
+    
+    $("#div_sfdc_soup_entry_list").trigger( "create" );
+
+
+}
+
+function onErrorRetrieveEntries(param) {
+    SFHybridApp.logToConsole("onErrorRetrieveEntries: " + param);
+}
+
 
 
 function onSuccessRemoveSoup(param) {
