@@ -34,7 +34,6 @@
     BOOL timedOut = [self waitForTestRunnerReady];
     if (timedOut) {
         NSLog(@"failed to start test runner...");
-       // exit(1);
     } 
     
 }
@@ -70,7 +69,7 @@
     
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 2.0) {
+        if (elapsed > 4.0) {
             NSLog(@"testRunner took too long (%f) to startup",elapsed);
             completionTimedOut = YES;
             break;
