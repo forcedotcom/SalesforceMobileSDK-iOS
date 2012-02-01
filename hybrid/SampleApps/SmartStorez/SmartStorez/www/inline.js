@@ -70,7 +70,13 @@ function regLinkClickHandlers() {
     });
     
     
-
+    $('#link_soup_exists').click(function() {
+                                 navigator.smartstore.soupExists(SAMPLE_SOUP_NAME,
+                                                                 onSoupExistsDone,
+                                                                 onSoupExistsDone);
+                                 });
+    
+    
     $('#link_query_soup').click(function() {
         runQuerySoup();
     });
@@ -238,6 +244,13 @@ function onSuccessRemoveSoup(param) {
 function onErrorRemoveSoup(param) {
     SFHybridApp.logToConsole("onErrorRemoveSoup: " + param);
     $("#div_soup_status_line").html("removeSoup ERROR");
+}
+
+
+
+function onSoupExistsDone(param) {
+    SFHybridApp.logToConsole("onSoupExistsDone: " + param);
+    $("#div_soup_status_line").html("Soup exists: " + param);
 }
 
 
