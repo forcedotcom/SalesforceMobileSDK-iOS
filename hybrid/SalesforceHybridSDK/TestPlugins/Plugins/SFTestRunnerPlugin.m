@@ -130,6 +130,9 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSString *message = [options valueForKey:@"message"];
 
     NSLog(@"testName: %@ success: %d message: %@",testName,success,message);
+    if (!success) {
+        NSLog(@"### TEST FAILED: %@",testName);
+    }
     SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message];
     [self.testResults addObject:testResult];
     [testResult release];
