@@ -98,18 +98,19 @@ function addEntriesToTestSoup(entries,cb) {
     
     navigator.smartstore.upsertSoupEntries(SAMPLE_SOUP_NAME,entries,
                                            function(items) {
-                                           SFHybridApp.logToConsole("onSuccessUpsert: " + items.length);
-                                           $("#div_soup_status_line").html("Soup upsert OK");
-                                           if (typeof cb !== undefined) {
-                                            cb(items);
-                                           }
+                                               SFHybridApp.logToConsole("added entries: " + items.length);
+                                               $("#div_soup_status_line").html("Soup upsert OK");
+
+                                               if (typeof cb !== "undefined") {
+                                                cb(items);
+                                               }
                                            },
                                            function(err) {
-                                           SFHybridApp.logToConsole("onErrorUpsert: " + err);
-                                           $("#div_soup_status_line").html("Soup upsert ERROR");
-                                           if (typeof cb !== undefined) {
-                                            cb(null);
-                                           }                                           
+                                               SFHybridApp.logToConsole("onErrorUpsert: " + err);
+                                               $("#div_soup_status_line").html("Soup upsert ERROR");
+                                               if (typeof cb !== "undefined") {
+                                                cb(null);
+                                               }                                           
                                            }
                                            );
 }
@@ -255,6 +256,7 @@ function onSuccessSfdcContacts(response) {
     ul.append($('<li data-role="list-divider">Salesforce Contacts: ' + response.totalSize + '</li>'));
     $.each(response.records, function(i, contact) {
            entries.push(contact);
+           SFHybridApp.logToConsole("name: " + contact.Name);
            var newLi = $("<li><a href='#'>" + (i+1) + " - " + contact.Name + "</a></li>");
            ul.append(newLi);
            });
