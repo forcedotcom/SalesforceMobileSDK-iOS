@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7DC1D71A14DB2E46005B819A /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC1D71914DB2E46005B819A /* libSalesforceSDK.a */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
 		7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E21472E238005CE144 /* Security.framework */; };
@@ -19,8 +20,6 @@
 		7DF4D2F51472E238005CE144 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F41472E238005CE144 /* main.m */; };
 		7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */; };
 		7DF4D37E1472E23A005CE144 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D37D1472E23A005CE144 /* libSalesforceOAuth.a */; };
-		7DF4D3851472E23A005CE144 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D3841472E23A005CE144 /* libSalesforceSDK.a */; };
-		7DF4D3931472E23A005CE144 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D3921472E23A005CE144 /* libsbjson-ios.a */; };
 		7DF4D3971472E23A005CE144 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3961472E23A005CE144 /* icon-72.png */; };
 		7DF4D3991472E23A005CE144 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3981472E23A005CE144 /* icon.png */; };
 		7DF4D39B1472E23A005CE144 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D39A1472E23A005CE144 /* icon@2x.png */; };
@@ -40,10 +39,14 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
-		7DFCF63F14C9DD45005D34D1 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFCF63E14C9DD45005D34D1 /* libRestKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7DC1D71514DB2E46005B819A /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
+		7DC1D71614DB2E46005B819A /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
+		7DC1D71714DB2E46005B819A /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
+		7DC1D71814DB2E46005B819A /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
+		7DC1D71914DB2E46005B819A /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDK.a; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -60,19 +63,6 @@
 		7DF4D37B1472E23A005CE144 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
 		7DF4D37C1472E23A005CE144 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
 		7DF4D37D1472E23A005CE144 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/libSalesforceOAuth.a; sourceTree = "<group>"; };
-		7DF4D3821472E23A005CE144 /* SFRestAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFRestAPI.h; path = dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h; sourceTree = "<group>"; };
-		7DF4D3831472E23A005CE144 /* SFRestRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFRestRequest.h; path = dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h; sourceTree = "<group>"; };
-		7DF4D3841472E23A005CE144 /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDK.a; path = dependencies/SalesforceSDK/libSalesforceSDK.a; sourceTree = "<group>"; };
-		7DF4D3891472E23A005CE144 /* NSObject+SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "dependencies/SBJson/include/SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
-		7DF4D38A1472E23A005CE144 /* SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = dependencies/SBJson/include/SBJson/SBJson.h; sourceTree = "<group>"; };
-		7DF4D38B1472E23A005CE144 /* SBJsonParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = dependencies/SBJson/include/SBJson/SBJsonParser.h; sourceTree = "<group>"; };
-		7DF4D38C1472E23A005CE144 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParser.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParser.h; sourceTree = "<group>"; };
-		7DF4D38D1472E23A005CE144 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		7DF4D38E1472E23A005CE144 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAdapter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		7DF4D38F1472E23A005CE144 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h; sourceTree = "<group>"; };
-		7DF4D3901472E23A005CE144 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		7DF4D3911472E23A005CE144 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
-		7DF4D3921472E23A005CE144 /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsbjson-ios.a"; path = "dependencies/SBJson/libsbjson-ios.a"; sourceTree = "<group>"; };
 		7DF4D3961472E23A005CE144 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		7DF4D3981472E23A005CE144 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		7DF4D39A1472E23A005CE144 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
@@ -179,7 +169,6 @@
 		7DFBB7B614C8FAC100D373E2 /* RKXMLParserLibXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKXMLParserLibXML.h; sourceTree = "<group>"; };
 		7DFBB7B714C8FAC100D373E2 /* SOCKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCKit.h; sourceTree = "<group>"; };
 		7DFBB7B814C8FAC100D373E2 /* Support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Support.h; sourceTree = "<group>"; };
-		7DFCF63E14C9DD45005D34D1 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRestKit.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,16 +185,43 @@
 				7DF4D2EB1472E238005CE144 /* CFNetwork.framework in Frameworks */,
 				7DF4D2ED1472E238005CE144 /* MobileCoreServices.framework in Frameworks */,
 				7DF4D37E1472E23A005CE144 /* libSalesforceOAuth.a in Frameworks */,
-				7DF4D3851472E23A005CE144 /* libSalesforceSDK.a in Frameworks */,
-				7DF4D3931472E23A005CE144 /* libsbjson-ios.a in Frameworks */,
 				7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */,
-				7DFCF63F14C9DD45005D34D1 /* libRestKit.a in Frameworks */,
+				7DC1D71A14DB2E46005B819A /* libSalesforceSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DC1D71214DB2E46005B819A /* SalesforceSDK */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D71314DB2E46005B819A /* include */,
+				7DC1D71914DB2E46005B819A /* libSalesforceSDK.a */,
+			);
+			name = SalesforceSDK;
+			path = ../../../dependencies/SalesforceSDK;
+			sourceTree = "<group>";
+		};
+		7DC1D71314DB2E46005B819A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D71414DB2E46005B819A /* SalesforceSDK */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7DC1D71414DB2E46005B819A /* SalesforceSDK */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D71514DB2E46005B819A /* SFJsonUtils.h */,
+				7DC1D71614DB2E46005B819A /* SFRestAPI+Blocks.h */,
+				7DC1D71714DB2E46005B819A /* SFRestAPI.h */,
+				7DC1D71814DB2E46005B819A /* SFRestRequest.h */,
+			);
+			path = SalesforceSDK;
+			sourceTree = "<group>";
+		};
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
@@ -267,10 +283,9 @@
 		7DF4D2F81472E238005CE144 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7DC1D71214DB2E46005B819A /* SalesforceSDK */,
 				7DFBB76414C8FAC100D373E2 /* RestKit */,
 				7DF4D3781472E23A005CE144 /* SalesforceOAuth */,
-				7DF4D37F1472E23A005CE144 /* SalesforceSDK */,
-				7DF4D3861472E23A005CE144 /* SBJson */,
 			);
 			name = dependencies;
 			sourceTree = "<group>";
@@ -299,65 +314,6 @@
 				7DF4D37C1472E23A005CE144 /* SFOAuthCredentials.h */,
 			);
 			name = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7DF4D37F1472E23A005CE144 /* SalesforceSDK */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3841472E23A005CE144 /* libSalesforceSDK.a */,
-				7DF4D3801472E23A005CE144 /* include */,
-			);
-			name = SalesforceSDK;
-			sourceTree = "<group>";
-		};
-		7DF4D3801472E23A005CE144 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3811472E23A005CE144 /* SalesforceSDK */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7DF4D3811472E23A005CE144 /* SalesforceSDK */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3821472E23A005CE144 /* SFRestAPI.h */,
-				7DF4D3831472E23A005CE144 /* SFRestRequest.h */,
-			);
-			name = SalesforceSDK;
-			sourceTree = "<group>";
-		};
-		7DF4D3861472E23A005CE144 /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3921472E23A005CE144 /* libsbjson-ios.a */,
-				7DF4D3871472E23A005CE144 /* include */,
-			);
-			name = SBJson;
-			sourceTree = "<group>";
-		};
-		7DF4D3871472E23A005CE144 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3881472E23A005CE144 /* SBJson */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7DF4D3881472E23A005CE144 /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3891472E23A005CE144 /* NSObject+SBJson.h */,
-				7DF4D38A1472E23A005CE144 /* SBJson.h */,
-				7DF4D38B1472E23A005CE144 /* SBJsonParser.h */,
-				7DF4D38C1472E23A005CE144 /* SBJsonStreamParser.h */,
-				7DF4D38D1472E23A005CE144 /* SBJsonStreamParserAccumulator.h */,
-				7DF4D38E1472E23A005CE144 /* SBJsonStreamParserAdapter.h */,
-				7DF4D38F1472E23A005CE144 /* SBJsonStreamWriter.h */,
-				7DF4D3901472E23A005CE144 /* SBJsonStreamWriterAccumulator.h */,
-				7DF4D3911472E23A005CE144 /* SBJsonWriter.h */,
-			);
-			name = SBJson;
 			sourceTree = "<group>";
 		};
 		7DF4D3941472E23A005CE144 /* Resources */ = {
@@ -421,7 +377,6 @@
 		7DFBB76414C8FAC100D373E2 /* RestKit */ = {
 			isa = PBXGroup;
 			children = (
-				7DFCF63E14C9DD45005D34D1 /* libRestKit.a */,
 				7DFBB76514C8FAC100D373E2 /* include */,
 			);
 			name = RestKit;
@@ -713,7 +668,6 @@
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/RestKit\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceSDK\"",
-					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SBJson\"",
 					"\"$(SDKROOT)//usr/lib\"",
 					"\"$(SRCROOT)/../../dependencies/RestKit\"",
 				);
@@ -733,9 +687,7 @@
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/RestKit\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceSDK\"",
-					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SBJson\"",
 					"\"$(SDKROOT)//usr/lib\"",
-					"\"$(SRCROOT)/../../dependencies/RestKit\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

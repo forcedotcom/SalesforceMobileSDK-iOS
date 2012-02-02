@@ -26,7 +26,7 @@
 
 #import "AppDelegate.h"
 #import "RestAPIExplorerViewController.h"
-#import "SBJson.h"
+#import "SFJsonUtils.h"
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
@@ -79,7 +79,7 @@ static NSString *const OAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/d
                                 @"__NOT_REQUIRED__",@"access_token",
                                 nil];
     
-    NSString *configJSON = [configDict JSONRepresentation];
+    NSString *configJSON = [SFJsonUtils JSONRepresentation:configDict];
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
     [gpBoard setValue:configJSON forPasteboardType:(NSString*)kUTTypeUTF8PlainText];
     
