@@ -1340,6 +1340,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
 				INFOPLIST_FILE = "TestPlugins/TestPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
@@ -1367,6 +1368,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
 				INFOPLIST_FILE = "TestPlugins/TestPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
@@ -1448,6 +1450,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
@@ -1479,6 +1482,7 @@
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
