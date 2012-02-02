@@ -30,11 +30,11 @@
     </target>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth"
+		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth"
 		/>
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean"
+		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean"
 		>
 		<delete dir="${dependency.dir}"/>
 	</target>
