@@ -104,7 +104,7 @@
         </exec>
 
         <echo message="Stopping securityd ..."/>
-        <exec failonerror="true" executable="launchctl">
+        <exec failonerror="false" executable="launchctl">
             <arg line="remove RunIPhoneLaunchDaemons"/>
         </exec>
 
