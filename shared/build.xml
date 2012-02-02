@@ -216,34 +216,7 @@
         <delete dir="${dependency.dir}/RestKit"/>
     </target>
 
-    <!-- dependency: SBJSON -->
-    <property name="subproject.sbjson.dir" value="${iOSShared.basedir}/../external/json-framework"/>
 
-    <target name="dependency.sbjson.check">
-        <condition property="dependency.sbjson.present">
-            <available file="${dependency.dir}/SBJson" type="dir"/>
-        </condition>
-    </target>
-
-    <target name="dependency.sbjson" depends="dependency.sbjson.check" unless="dependency.sbjson.present">
-        <property name="dependency.sbjson.zip" value="${subproject.sbjson.dir}/sfdc_build/artifacts/SBJSON-Debug.zip"/>
-
-        <available file="${dependency.sbjson.zip}" property="dependency.sbjson.zip.present"/>
-        <antcall target="dependency.sbjson.compile"/>
-
-        <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.sbjson.zip}"/>
-        </exec>
-    </target>
-
-    <target name="dependency.sbjson.compile" unless="dependency.sbjson.zip.present">
-        <ant dir="${subproject.sbjson.dir}/sfdc_build" inheritAll="false"/>
-    </target>
-
-    <target name="dependency.sbjson.clean">
-        <ant dir="${subproject.sbjson.dir}/sfdc_build" target="clean" inheritAll="false"/>
-        <delete dir="${dependency.dir}/SBJson"/>
-    </target>
     
     
     <!-- dependency: callback-ios -->
