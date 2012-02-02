@@ -44,11 +44,6 @@
 }
 
 + (id)objectFromJSONString:(NSString *)jsonString {
-    //    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    //    id obj  = [parser objectWithString:rawJson];
-    //    [parser release];
-    //    return obj;
-    
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     id result = [self objectFromJSONData:jsonData];
     return result;
@@ -56,19 +51,37 @@
 
 + (NSString*)JSONRepresentation:(id)obj {
     NSString *result = nil;
-    NSError *err = nil;
     
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj 
-                                                       options:0 //NSJSONWritingPrettyPrinted 
-                                                         error:&err
-                        ];
-    if (nil != err) {
-        NSLog(@"WARNING error writing json: %@",err);
-    } else {
-        result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSData *jsonData = [self JSONDataRepresentation:obj];
+    if (nil != jsonData) {
+          result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     
     return [result autorelease];
+}
+
++(NSData*)JSONDataRepresentation:(id)obj {
+    NSError *err = nil;
+    NSData *jsonData = nil;
+    
+    if (nil != obj) {
+        jsonData = [NSJSONSerialization dataWithJSONObject:obj 
+                                        options:0 //NSJSONWritingPrettyPrinted 
+                                          error:&err
+         ];
+        
+        if (nil != err) {
+            NSLog(@"WARNING error writing json: %@",err);
+        } 
+        
+        if (nil == jsonData) {
+            NSLog(@"unexpected nil json rep for: %@",obj);
+        }
+        
+    } else {
+        NSLog(@"nil object passed to JSONDataRepresentation???");
+    }
+    return  jsonData;
 }
 
 @end

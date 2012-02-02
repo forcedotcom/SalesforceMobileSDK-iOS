@@ -26,7 +26,7 @@
 
 #import "RKRequestDelegateWrapper.h"
 #import "RestKit.h"
-#import "SBJson.h"
+#import "SFJsonUtils.h"
 #import "SFOAuthCoordinator.h"
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"

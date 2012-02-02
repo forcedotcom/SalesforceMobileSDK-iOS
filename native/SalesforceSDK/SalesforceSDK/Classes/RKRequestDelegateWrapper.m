@@ -25,7 +25,7 @@
 #import "RKRequestDelegateWrapper.h"
 
 #import "RKResponse.h"
-#import "SBJson.h"
+#import "SFJsonUtils.h"
 #import "SFRestRequest.h"
 #import "SFRestAPI+Internal.h"
 #import "SFOAuthCoordinator.h"
@@ -69,7 +69,7 @@
 + (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams {
     if (!([queryParams count] > 0))
         return nil;
-    NSData *data = [[queryParams JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [SFJsonUtils JSONDataRepresentation:queryParams];
     return [RKRequestSerialization serializationWithData:data MIMEType:@"application/json"];
 }
 
@@ -117,9 +117,7 @@
         return;
     }
 
-    //TODO use builtin json framework if available?
-    SBJsonParser *parser = [[[SBJsonParser alloc] init] autorelease];
-    id jsonResponse = [parser objectWithData:response.body];
+    id jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
     if ([jsonResponse isKindOfClass:[NSArray class]]) {
         if ([jsonResponse count] == 1) {
             id potentialError = [jsonResponse objectAtIndex:0];
@@ -133,8 +131,6 @@
                 }
             }
         }
-
-
     }
 
     if ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {

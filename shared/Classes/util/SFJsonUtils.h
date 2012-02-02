@@ -39,6 +39,13 @@
 + (NSString*)JSONRepresentation:(id)object;
 
 /**
+ @parameter object The object to JSON-ify
+ @return A JSON string in NSData format, UTF8 encoded
+ */
++(NSData*)JSONDataRepresentation:(id)obj;
+
+
+/**
  @parameter jsonString A JSON string
  @return An Objective-C object such as an NSDictionary or NSArray
  */

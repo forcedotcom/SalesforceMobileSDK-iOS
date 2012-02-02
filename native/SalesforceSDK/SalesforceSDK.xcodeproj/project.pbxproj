@@ -16,22 +16,15 @@
 		7D6F54DE14311EDB00EF1371 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D47D6142CF078000F950D /* test_credentials.json */; };
 		7D7D1FAE147C57D2005CDD2C /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F24147C57D2005CDD2C /* SFOAuthCoordinator.h */; };
 		7D7D1FAF147C57D2005CDD2C /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F25147C57D2005CDD2C /* SFOAuthCredentials.h */; };
-		7D7D1FB4147C57D2005CDD2C /* NSObject+SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2A147C57D2005CDD2C /* NSObject+SBJson.h */; };
-		7D7D1FB5147C57D2005CDD2C /* SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2B147C57D2005CDD2C /* SBJson.h */; };
-		7D7D1FB6147C57D2005CDD2C /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2C147C57D2005CDD2C /* SBJsonParser.h */; };
-		7D7D1FB7147C57D2005CDD2C /* SBJsonStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2D147C57D2005CDD2C /* SBJsonStreamParser.h */; };
-		7D7D1FB8147C57D2005CDD2C /* SBJsonStreamParserAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2E147C57D2005CDD2C /* SBJsonStreamParserAccumulator.h */; };
-		7D7D1FB9147C57D2005CDD2C /* SBJsonStreamParserAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F2F147C57D2005CDD2C /* SBJsonStreamParserAdapter.h */; };
-		7D7D1FBA147C57D2005CDD2C /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F30147C57D2005CDD2C /* SBJsonStreamWriter.h */; };
-		7D7D1FBB147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F31147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h */; };
-		7D7D1FBC147C57D2005CDD2C /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D7D1F32147C57D2005CDD2C /* SBJsonWriter.h */; };
 		7D7D1FD3147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */; };
-		7D7D1FD4147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */; };
 		7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */; };
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
 		7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9E50D2144F3656003B013F /* libprofile_rt.dylib */; };
+		7DD88EF214DA051F00C0D0A0 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */; };
+		7DD88EF314DA051F00C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
+		7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
 		7DFBB81614C8FBC500D373E2 /* CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C314C8FBC500D373E2 /* CoreData.h */; };
 		7DFBB81714C8FBC500D373E2 /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C414C8FBC500D373E2 /* Errors.h */; };
 		7DFBB81814C8FBC500D373E2 /* FileMD5Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C514C8FBC500D373E2 /* FileMD5Hash.h */; };
@@ -159,21 +152,13 @@
 		7D7D1F24147C57D2005CDD2C /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
 		7D7D1F25147C57D2005CDD2C /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
 		7D7D1F26147C57D2005CDD2C /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = "<group>"; };
-		7D7D1F2A147C57D2005CDD2C /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
-		7D7D1F2B147C57D2005CDD2C /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
-		7D7D1F2C147C57D2005CDD2C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		7D7D1F2D147C57D2005CDD2C /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
-		7D7D1F2E147C57D2005CDD2C /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		7D7D1F2F147C57D2005CDD2C /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		7D7D1F30147C57D2005CDD2C /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
-		7D7D1F31147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		7D7D1F32147C57D2005CDD2C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsbjson-ios.a"; sourceTree = "<group>"; };
 		7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSessionRefresher.h; sourceTree = "<group>"; };
 		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
 		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
 		7D9E50D2144F3656003B013F /* libprofile_rt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprofile_rt.dylib; path = usr/lib/libprofile_rt.dylib; sourceTree = DEVELOPER_DIR; };
+		7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
+		7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
 		7DFBB7C314C8FBC500D373E2 /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
 		7DFBB7C414C8FBC500D373E2 /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
 		7DFBB7C514C8FBC500D373E2 /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
@@ -324,7 +309,6 @@
 				C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */,
 				C26713C913D6B845001FE0B8 /* CoreGraphics.framework in Frameworks */,
 				7D7D1FD3147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7D7D1FD4147C6FCE005CDD2C /* libsbjson-ios.a in Frameworks */,
 				7DFBB86914C8FC0000D373E2 /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,7 +321,6 @@
 			children = (
 				7DFBB7C014C8FBC500D373E2 /* RestKit */,
 				7D7D1F21147C57D2005CDD2C /* SalesforceOAuth */,
-				7D7D1F27147C57D2005CDD2C /* SBJson */,
 			);
 			name = dependencies;
 			path = ../dependencies;
@@ -369,37 +352,14 @@
 			path = SalesforceOAuth;
 			sourceTree = "<group>";
 		};
-		7D7D1F27147C57D2005CDD2C /* SBJson */ = {
+		7DD88EEF14DA051F00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				7D7D1F28147C57D2005CDD2C /* include */,
-				7D7D1F33147C57D2005CDD2C /* libsbjson-ios.a */,
+				7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */,
+				7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */,
 			);
-			path = SBJson;
-			sourceTree = "<group>";
-		};
-		7D7D1F28147C57D2005CDD2C /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7D7D1F29147C57D2005CDD2C /* SBJson */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		7D7D1F29147C57D2005CDD2C /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				7D7D1F2A147C57D2005CDD2C /* NSObject+SBJson.h */,
-				7D7D1F2B147C57D2005CDD2C /* SBJson.h */,
-				7D7D1F2C147C57D2005CDD2C /* SBJsonParser.h */,
-				7D7D1F2D147C57D2005CDD2C /* SBJsonStreamParser.h */,
-				7D7D1F2E147C57D2005CDD2C /* SBJsonStreamParserAccumulator.h */,
-				7D7D1F2F147C57D2005CDD2C /* SBJsonStreamParserAdapter.h */,
-				7D7D1F30147C57D2005CDD2C /* SBJsonStreamWriter.h */,
-				7D7D1F31147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h */,
-				7D7D1F32147C57D2005CDD2C /* SBJsonWriter.h */,
-			);
-			path = SBJson;
+			name = util;
+			path = ../../../shared/Classes/util;
 			sourceTree = "<group>";
 		};
 		7DFBB7C014C8FBC500D373E2 /* RestKit */ = {
@@ -608,6 +568,7 @@
 		C26713BC13D6B845001FE0B8 /* SalesforceSDK */ = {
 			isa = PBXGroup;
 			children = (
+				7DD88EEF14DA051F00C0D0A0 /* util */,
 				C26713EC13D6B8DB001FE0B8 /* Classes */,
 				C26713BD13D6B845001FE0B8 /* Supporting Files */,
 			);
@@ -694,15 +655,6 @@
 				7D055BE81431006700B571E6 /* (null) in Headers */,
 				7D7D1FAE147C57D2005CDD2C /* SFOAuthCoordinator.h in Headers */,
 				7D7D1FAF147C57D2005CDD2C /* SFOAuthCredentials.h in Headers */,
-				7D7D1FB4147C57D2005CDD2C /* NSObject+SBJson.h in Headers */,
-				7D7D1FB5147C57D2005CDD2C /* SBJson.h in Headers */,
-				7D7D1FB6147C57D2005CDD2C /* SBJsonParser.h in Headers */,
-				7D7D1FB7147C57D2005CDD2C /* SBJsonStreamParser.h in Headers */,
-				7D7D1FB8147C57D2005CDD2C /* SBJsonStreamParserAccumulator.h in Headers */,
-				7D7D1FB9147C57D2005CDD2C /* SBJsonStreamParserAdapter.h in Headers */,
-				7D7D1FBA147C57D2005CDD2C /* SBJsonStreamWriter.h in Headers */,
-				7D7D1FBB147C57D2005CDD2C /* SBJsonStreamWriterAccumulator.h in Headers */,
-				7D7D1FBC147C57D2005CDD2C /* SBJsonWriter.h in Headers */,
 				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
 				7DFBB81614C8FBC500D373E2 /* CoreData.h in Headers */,
 				7DFBB81714C8FBC500D373E2 /* Errors.h in Headers */,
@@ -786,6 +738,7 @@
 				7DFBB86514C8FBC500D373E2 /* RKXMLParserLibXML.h in Headers */,
 				7DFBB86614C8FBC500D373E2 /* SOCKit.h in Headers */,
 				7DFBB86714C8FBC500D373E2 /* Support.h in Headers */,
+				7DD88EF214DA051F00C0D0A0 /* SFJsonUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,6 +862,7 @@
 				C2C92E6813DE10A0008833A4 /* SFRestRequest.m in Sources */,
 				7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */,
 				5ECED62F14B4C93400A19357 /* SFRestAPI+Blocks.m in Sources */,
+				7DD88EF314DA051F00C0D0A0 /* SFJsonUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +878,7 @@
 				7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */,
 				7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */,
 				5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */,
+				7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,7 +955,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
 				SDKROOT = iphoneos;
 			};
@@ -1014,7 +969,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
 				SDKROOT = iphoneos;
 			};
@@ -1033,7 +988,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
@@ -1053,7 +1007,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
@@ -1076,13 +1029,9 @@
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/dependencies/RestKit\"",
-					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SBJson\"",
 					"\"$(DEVELOPER_DIR)/usr/lib\"",
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1111,13 +1060,9 @@
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/dependencies/RestKit\"",
-					"\"$(SRCROOT)/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/dependencies/SBJson\"",
 					"\"$(DEVELOPER_DIR)/usr/lib\"",
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/../dependencies/SBJson\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

@@ -24,7 +24,7 @@
 
 #import "SFRestRequest.h"
 
-#import "SBJson.h"
+#import "SFJsonUtils.h"
 
 @implementation SFRestRequest
 
@@ -66,6 +66,7 @@
         default:
             methodName = @"Unset";break;
     }
-    return [NSString stringWithFormat:@"[<SFRestRequest: 0x%x> method: %@, path: %@, queryParams: %@]",self, methodName, _path, [_queryParams JSONRepresentation]];
+    NSString *paramStr = _queryParams ? [SFJsonUtils JSONRepresentation:_queryParams] : @"[]";
+    return [NSString stringWithFormat:@"[<SFRestRequest: 0x%x> method: %@, path: %@, queryParams: %@]",self, methodName, _path, paramStr];
 }
 @end
