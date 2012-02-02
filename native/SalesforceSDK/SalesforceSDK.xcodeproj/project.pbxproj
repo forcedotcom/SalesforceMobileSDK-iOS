@@ -22,92 +22,97 @@
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EE142AADBE00F3FB19 /* TestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */; };
 		7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9E50D2144F3656003B013F /* libprofile_rt.dylib */; };
+		7DC1D67C14DB0AFC005B819A /* CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62514DB0AFC005B819A /* CoreData.h */; };
+		7DC1D67D14DB0AFC005B819A /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62614DB0AFC005B819A /* Errors.h */; };
+		7DC1D67E14DB0AFC005B819A /* FileMD5Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62714DB0AFC005B819A /* FileMD5Hash.h */; };
+		7DC1D67F14DB0AFC005B819A /* FileMD5Hash_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62814DB0AFC005B819A /* FileMD5Hash_Prefix.pch */; };
+		7DC1D68014DB0AFC005B819A /* GCOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62914DB0AFC005B819A /* GCOAuth.h */; };
+		7DC1D68114DB0AFC005B819A /* ISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62A14DB0AFC005B819A /* ISO8601DateFormatter.h */; };
+		7DC1D68214DB0AFC005B819A /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62B14DB0AFC005B819A /* JSONKit.h */; };
+		7DC1D68314DB0AFC005B819A /* lcl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62C14DB0AFC005B819A /* lcl.h */; };
+		7DC1D68414DB0AFC005B819A /* lcl_config_components.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62D14DB0AFC005B819A /* lcl_config_components.h */; };
+		7DC1D68514DB0AFC005B819A /* lcl_config_components.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62E14DB0AFC005B819A /* lcl_config_components.template.h */; };
+		7DC1D68614DB0AFC005B819A /* lcl_config_extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62F14DB0AFC005B819A /* lcl_config_extensions.h */; };
+		7DC1D68714DB0AFC005B819A /* lcl_config_extensions.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63014DB0AFC005B819A /* lcl_config_extensions.template.h */; };
+		7DC1D68814DB0AFC005B819A /* lcl_config_logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63114DB0AFC005B819A /* lcl_config_logger.h */; };
+		7DC1D68914DB0AFC005B819A /* lcl_config_logger.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63214DB0AFC005B819A /* lcl_config_logger.template.h */; };
+		7DC1D68A14DB0AFC005B819A /* LCLNSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63314DB0AFC005B819A /* LCLNSLog.h */; };
+		7DC1D68B14DB0AFC005B819A /* Network.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63414DB0AFC005B819A /* Network.h */; };
+		7DC1D68C14DB0AFC005B819A /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63514DB0AFC005B819A /* NSData+Base64.h */; };
+		7DC1D68D14DB0AFC005B819A /* NSData+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63614DB0AFC005B819A /* NSData+MD5.h */; };
+		7DC1D68E14DB0AFC005B819A /* NSDictionary+RKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63714DB0AFC005B819A /* NSDictionary+RKAdditions.h */; };
+		7DC1D68F14DB0AFC005B819A /* NSDictionary+RKRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63814DB0AFC005B819A /* NSDictionary+RKRequestSerialization.h */; };
+		7DC1D69014DB0AFC005B819A /* NSManagedObject+ActiveRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63914DB0AFC005B819A /* NSManagedObject+ActiveRecord.h */; };
+		7DC1D69114DB0AFC005B819A /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63A14DB0AFC005B819A /* NSString+MD5.h */; };
+		7DC1D69214DB0AFC005B819A /* NSString+RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63B14DB0AFC005B819A /* NSString+RestKit.h */; };
+		7DC1D69314DB0AFC005B819A /* NSURL+RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63C14DB0AFC005B819A /* NSURL+RestKit.h */; };
+		7DC1D69414DB0AFC005B819A /* ObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63D14DB0AFC005B819A /* ObjectMapping.h */; };
+		7DC1D69514DB0AFC005B819A /* RestKit-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63E14DB0AFC005B819A /* RestKit-Prefix.pch */; };
+		7DC1D69614DB0AFC005B819A /* RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D63F14DB0AFC005B819A /* RestKit.h */; };
+		7DC1D69714DB0AFC005B819A /* RKAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64014DB0AFC005B819A /* RKAlert.h */; };
+		7DC1D69814DB0AFC005B819A /* RKClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64114DB0AFC005B819A /* RKClient.h */; };
+		7DC1D69914DB0AFC005B819A /* RKConfigurationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64214DB0AFC005B819A /* RKConfigurationDelegate.h */; };
+		7DC1D69A14DB0AFC005B819A /* RKDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64314DB0AFC005B819A /* RKDirectory.h */; };
+		7DC1D69B14DB0AFC005B819A /* RKDotNetDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64414DB0AFC005B819A /* RKDotNetDateFormatter.h */; };
+		7DC1D69C14DB0AFC005B819A /* RKDynamicObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64514DB0AFC005B819A /* RKDynamicObjectMapping.h */; };
+		7DC1D69D14DB0AFC005B819A /* RKErrorMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64614DB0AFC005B819A /* RKErrorMessage.h */; };
+		7DC1D69E14DB0AFC005B819A /* RKFixCategoryBug.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64714DB0AFC005B819A /* RKFixCategoryBug.h */; };
+		7DC1D69F14DB0AFC005B819A /* RKJSONParserJSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64814DB0AFC005B819A /* RKJSONParserJSONKit.h */; };
+		7DC1D6A014DB0AFC005B819A /* RKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64914DB0AFC005B819A /* RKLog.h */; };
+		7DC1D6A114DB0AFC005B819A /* RKManagedObjectCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64A14DB0AFC005B819A /* RKManagedObjectCache.h */; };
+		7DC1D6A214DB0AFC005B819A /* RKManagedObjectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64B14DB0AFC005B819A /* RKManagedObjectLoader.h */; };
+		7DC1D6A314DB0AFC005B819A /* RKManagedObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64C14DB0AFC005B819A /* RKManagedObjectMapping.h */; };
+		7DC1D6A414DB0AFC005B819A /* RKManagedObjectMappingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64D14DB0AFC005B819A /* RKManagedObjectMappingOperation.h */; };
+		7DC1D6A514DB0AFC005B819A /* RKManagedObjectSeeder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64E14DB0AFC005B819A /* RKManagedObjectSeeder.h */; };
+		7DC1D6A614DB0AFC005B819A /* RKManagedObjectStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D64F14DB0AFC005B819A /* RKManagedObjectStore.h */; };
+		7DC1D6A714DB0AFC005B819A /* RKManagedObjectThreadSafeInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65014DB0AFC005B819A /* RKManagedObjectThreadSafeInvocation.h */; };
+		7DC1D6A814DB0AFC005B819A /* RKMappingOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65114DB0AFC005B819A /* RKMappingOperationQueue.h */; };
+		7DC1D6A914DB0AFC005B819A /* RKMIMETypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65214DB0AFC005B819A /* RKMIMETypes.h */; };
+		7DC1D6AA14DB0AFC005B819A /* RKNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65314DB0AFC005B819A /* RKNotifications.h */; };
+		7DC1D6AB14DB0AFC005B819A /* RKOAuthClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65414DB0AFC005B819A /* RKOAuthClient.h */; };
+		7DC1D6AC14DB0AFC005B819A /* RKObjectAttributeMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65514DB0AFC005B819A /* RKObjectAttributeMapping.h */; };
+		7DC1D6AD14DB0AFC005B819A /* RKObjectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65614DB0AFC005B819A /* RKObjectLoader.h */; };
+		7DC1D6AE14DB0AFC005B819A /* RKObjectLoader_Internals.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65714DB0AFC005B819A /* RKObjectLoader_Internals.h */; };
+		7DC1D6AF14DB0AFC005B819A /* RKObjectManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65814DB0AFC005B819A /* RKObjectManager.h */; };
+		7DC1D6B014DB0AFC005B819A /* RKObjectMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65914DB0AFC005B819A /* RKObjectMapper.h */; };
+		7DC1D6B114DB0AFC005B819A /* RKObjectMapper_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65A14DB0AFC005B819A /* RKObjectMapper_Private.h */; };
+		7DC1D6B214DB0AFC005B819A /* RKObjectMapperError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65B14DB0AFC005B819A /* RKObjectMapperError.h */; };
+		7DC1D6B314DB0AFC005B819A /* RKObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65C14DB0AFC005B819A /* RKObjectMapping.h */; };
+		7DC1D6B414DB0AFC005B819A /* RKObjectMappingDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65D14DB0AFC005B819A /* RKObjectMappingDefinition.h */; };
+		7DC1D6B514DB0AFC005B819A /* RKObjectMappingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65E14DB0AFC005B819A /* RKObjectMappingOperation.h */; };
+		7DC1D6B614DB0AFC005B819A /* RKObjectMappingProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D65F14DB0AFC005B819A /* RKObjectMappingProvider.h */; };
+		7DC1D6B714DB0AFC005B819A /* RKObjectMappingResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66014DB0AFC005B819A /* RKObjectMappingResult.h */; };
+		7DC1D6B814DB0AFC005B819A /* RKObjectPaginator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66114DB0AFC005B819A /* RKObjectPaginator.h */; };
+		7DC1D6B914DB0AFC005B819A /* RKObjectPropertyInspector+CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66214DB0AFC005B819A /* RKObjectPropertyInspector+CoreData.h */; };
+		7DC1D6BA14DB0AFC005B819A /* RKObjectPropertyInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66314DB0AFC005B819A /* RKObjectPropertyInspector.h */; };
+		7DC1D6BB14DB0AFC005B819A /* RKObjectRelationshipMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66414DB0AFC005B819A /* RKObjectRelationshipMapping.h */; };
+		7DC1D6BC14DB0AFC005B819A /* RKObjectRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66514DB0AFC005B819A /* RKObjectRouter.h */; };
+		7DC1D6BD14DB0AFC005B819A /* RKObjectSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66614DB0AFC005B819A /* RKObjectSerializer.h */; };
+		7DC1D6BE14DB0AFC005B819A /* RKOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66714DB0AFC005B819A /* RKOrderedDictionary.h */; };
+		7DC1D6BF14DB0AFC005B819A /* RKParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66814DB0AFC005B819A /* RKParams.h */; };
+		7DC1D6C014DB0AFC005B819A /* RKParamsAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66914DB0AFC005B819A /* RKParamsAttachment.h */; };
+		7DC1D6C114DB0AFC005B819A /* RKParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66A14DB0AFC005B819A /* RKParser.h */; };
+		7DC1D6C214DB0AFC005B819A /* RKParserRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66B14DB0AFC005B819A /* RKParserRegistry.h */; };
+		7DC1D6C314DB0AFC005B819A /* RKPathMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66C14DB0AFC005B819A /* RKPathMatcher.h */; };
+		7DC1D6C414DB0AFC005B819A /* RKReachabilityObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66D14DB0AFC005B819A /* RKReachabilityObserver.h */; };
+		7DC1D6C514DB0AFC005B819A /* RKRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66E14DB0AFC005B819A /* RKRequest.h */; };
+		7DC1D6C614DB0AFC005B819A /* RKRequest_Internals.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D66F14DB0AFC005B819A /* RKRequest_Internals.h */; };
+		7DC1D6C714DB0AFC005B819A /* RKRequestCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67014DB0AFC005B819A /* RKRequestCache.h */; };
+		7DC1D6C814DB0AFC005B819A /* RKRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67114DB0AFC005B819A /* RKRequestQueue.h */; };
+		7DC1D6C914DB0AFC005B819A /* RKRequestSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67214DB0AFC005B819A /* RKRequestSerializable.h */; };
+		7DC1D6CA14DB0AFC005B819A /* RKRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67314DB0AFC005B819A /* RKRequestSerialization.h */; };
+		7DC1D6CB14DB0AFC005B819A /* RKResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67414DB0AFC005B819A /* RKResponse.h */; };
+		7DC1D6CC14DB0AFC005B819A /* RKRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67514DB0AFC005B819A /* RKRouter.h */; };
+		7DC1D6CD14DB0AFC005B819A /* RKSearchEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67614DB0AFC005B819A /* RKSearchEngine.h */; };
+		7DC1D6CE14DB0AFC005B819A /* RKURL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67714DB0AFC005B819A /* RKURL.h */; };
+		7DC1D6CF14DB0AFC005B819A /* RKXMLParserLibXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67814DB0AFC005B819A /* RKXMLParserLibXML.h */; };
+		7DC1D6D014DB0AFC005B819A /* SOCKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67914DB0AFC005B819A /* SOCKit.h */; };
+		7DC1D6D114DB0AFC005B819A /* Support.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D67A14DB0AFC005B819A /* Support.h */; };
+		7DC1D6D214DB0AFC005B819A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC1D67B14DB0AFC005B819A /* libRestKit.a */; };
+		7DC1D6D314DB1281005B819A /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC1D67B14DB0AFC005B819A /* libRestKit.a */; };
 		7DD88EF214DA051F00C0D0A0 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */; };
 		7DD88EF314DA051F00C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
 		7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
-		7DFBB81614C8FBC500D373E2 /* CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C314C8FBC500D373E2 /* CoreData.h */; };
-		7DFBB81714C8FBC500D373E2 /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C414C8FBC500D373E2 /* Errors.h */; };
-		7DFBB81814C8FBC500D373E2 /* FileMD5Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C514C8FBC500D373E2 /* FileMD5Hash.h */; };
-		7DFBB81914C8FBC500D373E2 /* FileMD5Hash_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C614C8FBC500D373E2 /* FileMD5Hash_Prefix.pch */; };
-		7DFBB81A14C8FBC500D373E2 /* GCOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C714C8FBC500D373E2 /* GCOAuth.h */; };
-		7DFBB81B14C8FBC500D373E2 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C814C8FBC500D373E2 /* JSONKit.h */; };
-		7DFBB81C14C8FBC500D373E2 /* lcl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7C914C8FBC500D373E2 /* lcl.h */; };
-		7DFBB81D14C8FBC500D373E2 /* lcl_config_components.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CA14C8FBC500D373E2 /* lcl_config_components.h */; };
-		7DFBB81E14C8FBC500D373E2 /* lcl_config_components.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CB14C8FBC500D373E2 /* lcl_config_components.template.h */; };
-		7DFBB81F14C8FBC500D373E2 /* lcl_config_extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CC14C8FBC500D373E2 /* lcl_config_extensions.h */; };
-		7DFBB82014C8FBC500D373E2 /* lcl_config_extensions.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CD14C8FBC500D373E2 /* lcl_config_extensions.template.h */; };
-		7DFBB82114C8FBC500D373E2 /* lcl_config_logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CE14C8FBC500D373E2 /* lcl_config_logger.h */; };
-		7DFBB82214C8FBC500D373E2 /* lcl_config_logger.template.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7CF14C8FBC500D373E2 /* lcl_config_logger.template.h */; };
-		7DFBB82314C8FBC500D373E2 /* LCLNSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D014C8FBC500D373E2 /* LCLNSLog.h */; };
-		7DFBB82414C8FBC500D373E2 /* Network.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D114C8FBC500D373E2 /* Network.h */; };
-		7DFBB82514C8FBC500D373E2 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D214C8FBC500D373E2 /* NSData+Base64.h */; };
-		7DFBB82614C8FBC500D373E2 /* NSData+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D314C8FBC500D373E2 /* NSData+MD5.h */; };
-		7DFBB82714C8FBC500D373E2 /* NSDictionary+RKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D414C8FBC500D373E2 /* NSDictionary+RKAdditions.h */; };
-		7DFBB82814C8FBC500D373E2 /* NSDictionary+RKRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D514C8FBC500D373E2 /* NSDictionary+RKRequestSerialization.h */; };
-		7DFBB82914C8FBC500D373E2 /* NSManagedObject+ActiveRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D614C8FBC500D373E2 /* NSManagedObject+ActiveRecord.h */; };
-		7DFBB82A14C8FBC500D373E2 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D714C8FBC500D373E2 /* NSString+MD5.h */; };
-		7DFBB82B14C8FBC500D373E2 /* NSString+RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D814C8FBC500D373E2 /* NSString+RestKit.h */; };
-		7DFBB82C14C8FBC500D373E2 /* NSURL+RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7D914C8FBC500D373E2 /* NSURL+RestKit.h */; };
-		7DFBB82D14C8FBC500D373E2 /* ObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DA14C8FBC500D373E2 /* ObjectMapping.h */; };
-		7DFBB82E14C8FBC500D373E2 /* RestKit-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DB14C8FBC500D373E2 /* RestKit-Prefix.pch */; };
-		7DFBB82F14C8FBC500D373E2 /* RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DC14C8FBC500D373E2 /* RestKit.h */; };
-		7DFBB83014C8FBC500D373E2 /* RKAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DD14C8FBC500D373E2 /* RKAlert.h */; };
-		7DFBB83114C8FBC500D373E2 /* RKClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DE14C8FBC500D373E2 /* RKClient.h */; };
-		7DFBB83214C8FBC500D373E2 /* RKDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7DF14C8FBC500D373E2 /* RKDirectory.h */; };
-		7DFBB83314C8FBC500D373E2 /* RKDotNetDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E014C8FBC500D373E2 /* RKDotNetDateFormatter.h */; };
-		7DFBB83414C8FBC500D373E2 /* RKDynamicObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E114C8FBC500D373E2 /* RKDynamicObjectMapping.h */; };
-		7DFBB83514C8FBC500D373E2 /* RKErrorMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E214C8FBC500D373E2 /* RKErrorMessage.h */; };
-		7DFBB83614C8FBC500D373E2 /* RKFixCategoryBug.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E314C8FBC500D373E2 /* RKFixCategoryBug.h */; };
-		7DFBB83714C8FBC500D373E2 /* RKJSONParserJSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E414C8FBC500D373E2 /* RKJSONParserJSONKit.h */; };
-		7DFBB83814C8FBC500D373E2 /* RKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E514C8FBC500D373E2 /* RKLog.h */; };
-		7DFBB83914C8FBC500D373E2 /* RKManagedObjectCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E614C8FBC500D373E2 /* RKManagedObjectCache.h */; };
-		7DFBB83A14C8FBC500D373E2 /* RKManagedObjectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E714C8FBC500D373E2 /* RKManagedObjectLoader.h */; };
-		7DFBB83B14C8FBC500D373E2 /* RKManagedObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E814C8FBC500D373E2 /* RKManagedObjectMapping.h */; };
-		7DFBB83C14C8FBC500D373E2 /* RKManagedObjectMappingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7E914C8FBC500D373E2 /* RKManagedObjectMappingOperation.h */; };
-		7DFBB83D14C8FBC500D373E2 /* RKManagedObjectSeeder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7EA14C8FBC500D373E2 /* RKManagedObjectSeeder.h */; };
-		7DFBB83E14C8FBC500D373E2 /* RKManagedObjectStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7EB14C8FBC500D373E2 /* RKManagedObjectStore.h */; };
-		7DFBB83F14C8FBC500D373E2 /* RKManagedObjectThreadSafeInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7EC14C8FBC500D373E2 /* RKManagedObjectThreadSafeInvocation.h */; };
-		7DFBB84014C8FBC500D373E2 /* RKMappingOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7ED14C8FBC500D373E2 /* RKMappingOperationQueue.h */; };
-		7DFBB84114C8FBC500D373E2 /* RKMIMETypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7EE14C8FBC500D373E2 /* RKMIMETypes.h */; };
-		7DFBB84214C8FBC500D373E2 /* RKNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7EF14C8FBC500D373E2 /* RKNotifications.h */; };
-		7DFBB84314C8FBC500D373E2 /* RKOAuthClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F014C8FBC500D373E2 /* RKOAuthClient.h */; };
-		7DFBB84414C8FBC500D373E2 /* RKObjectAttributeMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F114C8FBC500D373E2 /* RKObjectAttributeMapping.h */; };
-		7DFBB84514C8FBC500D373E2 /* RKObjectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F214C8FBC500D373E2 /* RKObjectLoader.h */; };
-		7DFBB84614C8FBC500D373E2 /* RKObjectLoader_Internals.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F314C8FBC500D373E2 /* RKObjectLoader_Internals.h */; };
-		7DFBB84714C8FBC500D373E2 /* RKObjectManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F414C8FBC500D373E2 /* RKObjectManager.h */; };
-		7DFBB84814C8FBC500D373E2 /* RKObjectMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F514C8FBC500D373E2 /* RKObjectMapper.h */; };
-		7DFBB84914C8FBC500D373E2 /* RKObjectMapper_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F614C8FBC500D373E2 /* RKObjectMapper_Private.h */; };
-		7DFBB84A14C8FBC500D373E2 /* RKObjectMapperError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F714C8FBC500D373E2 /* RKObjectMapperError.h */; };
-		7DFBB84B14C8FBC500D373E2 /* RKObjectMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F814C8FBC500D373E2 /* RKObjectMapping.h */; };
-		7DFBB84C14C8FBC500D373E2 /* RKObjectMappingDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7F914C8FBC500D373E2 /* RKObjectMappingDefinition.h */; };
-		7DFBB84D14C8FBC500D373E2 /* RKObjectMappingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FA14C8FBC500D373E2 /* RKObjectMappingOperation.h */; };
-		7DFBB84E14C8FBC500D373E2 /* RKObjectMappingProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FB14C8FBC500D373E2 /* RKObjectMappingProvider.h */; };
-		7DFBB84F14C8FBC500D373E2 /* RKObjectMappingResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FC14C8FBC500D373E2 /* RKObjectMappingResult.h */; };
-		7DFBB85014C8FBC500D373E2 /* RKObjectPropertyInspector+CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FD14C8FBC500D373E2 /* RKObjectPropertyInspector+CoreData.h */; };
-		7DFBB85114C8FBC500D373E2 /* RKObjectPropertyInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FE14C8FBC500D373E2 /* RKObjectPropertyInspector.h */; };
-		7DFBB85214C8FBC500D373E2 /* RKObjectRelationshipMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB7FF14C8FBC500D373E2 /* RKObjectRelationshipMapping.h */; };
-		7DFBB85314C8FBC500D373E2 /* RKObjectRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80014C8FBC500D373E2 /* RKObjectRouter.h */; };
-		7DFBB85414C8FBC500D373E2 /* RKObjectSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80114C8FBC500D373E2 /* RKObjectSerializer.h */; };
-		7DFBB85514C8FBC500D373E2 /* RKParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80214C8FBC500D373E2 /* RKParams.h */; };
-		7DFBB85614C8FBC500D373E2 /* RKParamsAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80314C8FBC500D373E2 /* RKParamsAttachment.h */; };
-		7DFBB85714C8FBC500D373E2 /* RKParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80414C8FBC500D373E2 /* RKParser.h */; };
-		7DFBB85814C8FBC500D373E2 /* RKParserRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80514C8FBC500D373E2 /* RKParserRegistry.h */; };
-		7DFBB85914C8FBC500D373E2 /* RKPathMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80614C8FBC500D373E2 /* RKPathMatcher.h */; };
-		7DFBB85A14C8FBC500D373E2 /* RKReachabilityObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80714C8FBC500D373E2 /* RKReachabilityObserver.h */; };
-		7DFBB85B14C8FBC500D373E2 /* RKRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80814C8FBC500D373E2 /* RKRequest.h */; };
-		7DFBB85C14C8FBC500D373E2 /* RKRequest_Internals.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80914C8FBC500D373E2 /* RKRequest_Internals.h */; };
-		7DFBB85D14C8FBC500D373E2 /* RKRequestCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80A14C8FBC500D373E2 /* RKRequestCache.h */; };
-		7DFBB85E14C8FBC500D373E2 /* RKRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80B14C8FBC500D373E2 /* RKRequestQueue.h */; };
-		7DFBB85F14C8FBC500D373E2 /* RKRequestSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80C14C8FBC500D373E2 /* RKRequestSerializable.h */; };
-		7DFBB86014C8FBC500D373E2 /* RKRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80D14C8FBC500D373E2 /* RKRequestSerialization.h */; };
-		7DFBB86114C8FBC500D373E2 /* RKResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80E14C8FBC500D373E2 /* RKResponse.h */; };
-		7DFBB86214C8FBC500D373E2 /* RKRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB80F14C8FBC500D373E2 /* RKRouter.h */; };
-		7DFBB86314C8FBC500D373E2 /* RKSearchEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB81014C8FBC500D373E2 /* RKSearchEngine.h */; };
-		7DFBB86414C8FBC500D373E2 /* RKURL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB81114C8FBC500D373E2 /* RKURL.h */; };
-		7DFBB86514C8FBC500D373E2 /* RKXMLParserLibXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB81214C8FBC500D373E2 /* RKXMLParserLibXML.h */; };
-		7DFBB86614C8FBC500D373E2 /* SOCKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB81314C8FBC500D373E2 /* SOCKit.h */; };
-		7DFBB86714C8FBC500D373E2 /* Support.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFBB81414C8FBC500D373E2 /* Support.h */; };
-		7DFBB86914C8FC0000D373E2 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB81514C8FBC500D373E2 /* libRestKit.a */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -157,91 +162,95 @@
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
 		7D8968ED142AADBE00F3FB19 /* TestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRequestListener.m; sourceTree = "<group>"; };
 		7D9E50D2144F3656003B013F /* libprofile_rt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprofile_rt.dylib; path = usr/lib/libprofile_rt.dylib; sourceTree = DEVELOPER_DIR; };
+		7DC1D62514DB0AFC005B819A /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
+		7DC1D62614DB0AFC005B819A /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
+		7DC1D62714DB0AFC005B819A /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
+		7DC1D62814DB0AFC005B819A /* FileMD5Hash_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash_Prefix.pch; sourceTree = "<group>"; };
+		7DC1D62914DB0AFC005B819A /* GCOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCOAuth.h; sourceTree = "<group>"; };
+		7DC1D62A14DB0AFC005B819A /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		7DC1D62B14DB0AFC005B819A /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		7DC1D62C14DB0AFC005B819A /* lcl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl.h; sourceTree = "<group>"; };
+		7DC1D62D14DB0AFC005B819A /* lcl_config_components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_components.h; sourceTree = "<group>"; };
+		7DC1D62E14DB0AFC005B819A /* lcl_config_components.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_components.template.h; sourceTree = "<group>"; };
+		7DC1D62F14DB0AFC005B819A /* lcl_config_extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_extensions.h; sourceTree = "<group>"; };
+		7DC1D63014DB0AFC005B819A /* lcl_config_extensions.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_extensions.template.h; sourceTree = "<group>"; };
+		7DC1D63114DB0AFC005B819A /* lcl_config_logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_logger.h; sourceTree = "<group>"; };
+		7DC1D63214DB0AFC005B819A /* lcl_config_logger.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_logger.template.h; sourceTree = "<group>"; };
+		7DC1D63314DB0AFC005B819A /* LCLNSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCLNSLog.h; sourceTree = "<group>"; };
+		7DC1D63414DB0AFC005B819A /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		7DC1D63514DB0AFC005B819A /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		7DC1D63614DB0AFC005B819A /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		7DC1D63714DB0AFC005B819A /* NSDictionary+RKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RKAdditions.h"; sourceTree = "<group>"; };
+		7DC1D63814DB0AFC005B819A /* NSDictionary+RKRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RKRequestSerialization.h"; sourceTree = "<group>"; };
+		7DC1D63914DB0AFC005B819A /* NSManagedObject+ActiveRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ActiveRecord.h"; sourceTree = "<group>"; };
+		7DC1D63A14DB0AFC005B819A /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		7DC1D63B14DB0AFC005B819A /* NSString+RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RestKit.h"; sourceTree = "<group>"; };
+		7DC1D63C14DB0AFC005B819A /* NSURL+RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RestKit.h"; sourceTree = "<group>"; };
+		7DC1D63D14DB0AFC005B819A /* ObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectMapping.h; sourceTree = "<group>"; };
+		7DC1D63E14DB0AFC005B819A /* RestKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RestKit-Prefix.pch"; sourceTree = "<group>"; };
+		7DC1D63F14DB0AFC005B819A /* RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKit.h; sourceTree = "<group>"; };
+		7DC1D64014DB0AFC005B819A /* RKAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKAlert.h; sourceTree = "<group>"; };
+		7DC1D64114DB0AFC005B819A /* RKClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKClient.h; sourceTree = "<group>"; };
+		7DC1D64214DB0AFC005B819A /* RKConfigurationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKConfigurationDelegate.h; sourceTree = "<group>"; };
+		7DC1D64314DB0AFC005B819A /* RKDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDirectory.h; sourceTree = "<group>"; };
+		7DC1D64414DB0AFC005B819A /* RKDotNetDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDotNetDateFormatter.h; sourceTree = "<group>"; };
+		7DC1D64514DB0AFC005B819A /* RKDynamicObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDynamicObjectMapping.h; sourceTree = "<group>"; };
+		7DC1D64614DB0AFC005B819A /* RKErrorMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKErrorMessage.h; sourceTree = "<group>"; };
+		7DC1D64714DB0AFC005B819A /* RKFixCategoryBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKFixCategoryBug.h; sourceTree = "<group>"; };
+		7DC1D64814DB0AFC005B819A /* RKJSONParserJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKJSONParserJSONKit.h; sourceTree = "<group>"; };
+		7DC1D64914DB0AFC005B819A /* RKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLog.h; sourceTree = "<group>"; };
+		7DC1D64A14DB0AFC005B819A /* RKManagedObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectCache.h; sourceTree = "<group>"; };
+		7DC1D64B14DB0AFC005B819A /* RKManagedObjectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectLoader.h; sourceTree = "<group>"; };
+		7DC1D64C14DB0AFC005B819A /* RKManagedObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectMapping.h; sourceTree = "<group>"; };
+		7DC1D64D14DB0AFC005B819A /* RKManagedObjectMappingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectMappingOperation.h; sourceTree = "<group>"; };
+		7DC1D64E14DB0AFC005B819A /* RKManagedObjectSeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectSeeder.h; sourceTree = "<group>"; };
+		7DC1D64F14DB0AFC005B819A /* RKManagedObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectStore.h; sourceTree = "<group>"; };
+		7DC1D65014DB0AFC005B819A /* RKManagedObjectThreadSafeInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectThreadSafeInvocation.h; sourceTree = "<group>"; };
+		7DC1D65114DB0AFC005B819A /* RKMappingOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKMappingOperationQueue.h; sourceTree = "<group>"; };
+		7DC1D65214DB0AFC005B819A /* RKMIMETypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKMIMETypes.h; sourceTree = "<group>"; };
+		7DC1D65314DB0AFC005B819A /* RKNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKNotifications.h; sourceTree = "<group>"; };
+		7DC1D65414DB0AFC005B819A /* RKOAuthClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKOAuthClient.h; sourceTree = "<group>"; };
+		7DC1D65514DB0AFC005B819A /* RKObjectAttributeMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectAttributeMapping.h; sourceTree = "<group>"; };
+		7DC1D65614DB0AFC005B819A /* RKObjectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectLoader.h; sourceTree = "<group>"; };
+		7DC1D65714DB0AFC005B819A /* RKObjectLoader_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectLoader_Internals.h; sourceTree = "<group>"; };
+		7DC1D65814DB0AFC005B819A /* RKObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectManager.h; sourceTree = "<group>"; };
+		7DC1D65914DB0AFC005B819A /* RKObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapper.h; sourceTree = "<group>"; };
+		7DC1D65A14DB0AFC005B819A /* RKObjectMapper_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapper_Private.h; sourceTree = "<group>"; };
+		7DC1D65B14DB0AFC005B819A /* RKObjectMapperError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapperError.h; sourceTree = "<group>"; };
+		7DC1D65C14DB0AFC005B819A /* RKObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapping.h; sourceTree = "<group>"; };
+		7DC1D65D14DB0AFC005B819A /* RKObjectMappingDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingDefinition.h; sourceTree = "<group>"; };
+		7DC1D65E14DB0AFC005B819A /* RKObjectMappingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingOperation.h; sourceTree = "<group>"; };
+		7DC1D65F14DB0AFC005B819A /* RKObjectMappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingProvider.h; sourceTree = "<group>"; };
+		7DC1D66014DB0AFC005B819A /* RKObjectMappingResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingResult.h; sourceTree = "<group>"; };
+		7DC1D66114DB0AFC005B819A /* RKObjectPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectPaginator.h; sourceTree = "<group>"; };
+		7DC1D66214DB0AFC005B819A /* RKObjectPropertyInspector+CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKObjectPropertyInspector+CoreData.h"; sourceTree = "<group>"; };
+		7DC1D66314DB0AFC005B819A /* RKObjectPropertyInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectPropertyInspector.h; sourceTree = "<group>"; };
+		7DC1D66414DB0AFC005B819A /* RKObjectRelationshipMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectRelationshipMapping.h; sourceTree = "<group>"; };
+		7DC1D66514DB0AFC005B819A /* RKObjectRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectRouter.h; sourceTree = "<group>"; };
+		7DC1D66614DB0AFC005B819A /* RKObjectSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectSerializer.h; sourceTree = "<group>"; };
+		7DC1D66714DB0AFC005B819A /* RKOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKOrderedDictionary.h; sourceTree = "<group>"; };
+		7DC1D66814DB0AFC005B819A /* RKParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParams.h; sourceTree = "<group>"; };
+		7DC1D66914DB0AFC005B819A /* RKParamsAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParamsAttachment.h; sourceTree = "<group>"; };
+		7DC1D66A14DB0AFC005B819A /* RKParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParser.h; sourceTree = "<group>"; };
+		7DC1D66B14DB0AFC005B819A /* RKParserRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParserRegistry.h; sourceTree = "<group>"; };
+		7DC1D66C14DB0AFC005B819A /* RKPathMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKPathMatcher.h; sourceTree = "<group>"; };
+		7DC1D66D14DB0AFC005B819A /* RKReachabilityObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKReachabilityObserver.h; sourceTree = "<group>"; };
+		7DC1D66E14DB0AFC005B819A /* RKRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequest.h; sourceTree = "<group>"; };
+		7DC1D66F14DB0AFC005B819A /* RKRequest_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequest_Internals.h; sourceTree = "<group>"; };
+		7DC1D67014DB0AFC005B819A /* RKRequestCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestCache.h; sourceTree = "<group>"; };
+		7DC1D67114DB0AFC005B819A /* RKRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestQueue.h; sourceTree = "<group>"; };
+		7DC1D67214DB0AFC005B819A /* RKRequestSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestSerializable.h; sourceTree = "<group>"; };
+		7DC1D67314DB0AFC005B819A /* RKRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestSerialization.h; sourceTree = "<group>"; };
+		7DC1D67414DB0AFC005B819A /* RKResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKResponse.h; sourceTree = "<group>"; };
+		7DC1D67514DB0AFC005B819A /* RKRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRouter.h; sourceTree = "<group>"; };
+		7DC1D67614DB0AFC005B819A /* RKSearchEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSearchEngine.h; sourceTree = "<group>"; };
+		7DC1D67714DB0AFC005B819A /* RKURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKURL.h; sourceTree = "<group>"; };
+		7DC1D67814DB0AFC005B819A /* RKXMLParserLibXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKXMLParserLibXML.h; sourceTree = "<group>"; };
+		7DC1D67914DB0AFC005B819A /* SOCKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCKit.h; sourceTree = "<group>"; };
+		7DC1D67A14DB0AFC005B819A /* Support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Support.h; sourceTree = "<group>"; };
+		7DC1D67B14DB0AFC005B819A /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRestKit.a; sourceTree = "<group>"; };
 		7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
 		7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
-		7DFBB7C314C8FBC500D373E2 /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
-		7DFBB7C414C8FBC500D373E2 /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
-		7DFBB7C514C8FBC500D373E2 /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
-		7DFBB7C614C8FBC500D373E2 /* FileMD5Hash_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash_Prefix.pch; sourceTree = "<group>"; };
-		7DFBB7C714C8FBC500D373E2 /* GCOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCOAuth.h; sourceTree = "<group>"; };
-		7DFBB7C814C8FBC500D373E2 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		7DFBB7C914C8FBC500D373E2 /* lcl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl.h; sourceTree = "<group>"; };
-		7DFBB7CA14C8FBC500D373E2 /* lcl_config_components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_components.h; sourceTree = "<group>"; };
-		7DFBB7CB14C8FBC500D373E2 /* lcl_config_components.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_components.template.h; sourceTree = "<group>"; };
-		7DFBB7CC14C8FBC500D373E2 /* lcl_config_extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_extensions.h; sourceTree = "<group>"; };
-		7DFBB7CD14C8FBC500D373E2 /* lcl_config_extensions.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_extensions.template.h; sourceTree = "<group>"; };
-		7DFBB7CE14C8FBC500D373E2 /* lcl_config_logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_logger.h; sourceTree = "<group>"; };
-		7DFBB7CF14C8FBC500D373E2 /* lcl_config_logger.template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcl_config_logger.template.h; sourceTree = "<group>"; };
-		7DFBB7D014C8FBC500D373E2 /* LCLNSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCLNSLog.h; sourceTree = "<group>"; };
-		7DFBB7D114C8FBC500D373E2 /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
-		7DFBB7D214C8FBC500D373E2 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		7DFBB7D314C8FBC500D373E2 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
-		7DFBB7D414C8FBC500D373E2 /* NSDictionary+RKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RKAdditions.h"; sourceTree = "<group>"; };
-		7DFBB7D514C8FBC500D373E2 /* NSDictionary+RKRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RKRequestSerialization.h"; sourceTree = "<group>"; };
-		7DFBB7D614C8FBC500D373E2 /* NSManagedObject+ActiveRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+ActiveRecord.h"; sourceTree = "<group>"; };
-		7DFBB7D714C8FBC500D373E2 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		7DFBB7D814C8FBC500D373E2 /* NSString+RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RestKit.h"; sourceTree = "<group>"; };
-		7DFBB7D914C8FBC500D373E2 /* NSURL+RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RestKit.h"; sourceTree = "<group>"; };
-		7DFBB7DA14C8FBC500D373E2 /* ObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectMapping.h; sourceTree = "<group>"; };
-		7DFBB7DB14C8FBC500D373E2 /* RestKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RestKit-Prefix.pch"; sourceTree = "<group>"; };
-		7DFBB7DC14C8FBC500D373E2 /* RestKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKit.h; sourceTree = "<group>"; };
-		7DFBB7DD14C8FBC500D373E2 /* RKAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKAlert.h; sourceTree = "<group>"; };
-		7DFBB7DE14C8FBC500D373E2 /* RKClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKClient.h; sourceTree = "<group>"; };
-		7DFBB7DF14C8FBC500D373E2 /* RKDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDirectory.h; sourceTree = "<group>"; };
-		7DFBB7E014C8FBC500D373E2 /* RKDotNetDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDotNetDateFormatter.h; sourceTree = "<group>"; };
-		7DFBB7E114C8FBC500D373E2 /* RKDynamicObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDynamicObjectMapping.h; sourceTree = "<group>"; };
-		7DFBB7E214C8FBC500D373E2 /* RKErrorMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKErrorMessage.h; sourceTree = "<group>"; };
-		7DFBB7E314C8FBC500D373E2 /* RKFixCategoryBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKFixCategoryBug.h; sourceTree = "<group>"; };
-		7DFBB7E414C8FBC500D373E2 /* RKJSONParserJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKJSONParserJSONKit.h; sourceTree = "<group>"; };
-		7DFBB7E514C8FBC500D373E2 /* RKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLog.h; sourceTree = "<group>"; };
-		7DFBB7E614C8FBC500D373E2 /* RKManagedObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectCache.h; sourceTree = "<group>"; };
-		7DFBB7E714C8FBC500D373E2 /* RKManagedObjectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectLoader.h; sourceTree = "<group>"; };
-		7DFBB7E814C8FBC500D373E2 /* RKManagedObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectMapping.h; sourceTree = "<group>"; };
-		7DFBB7E914C8FBC500D373E2 /* RKManagedObjectMappingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectMappingOperation.h; sourceTree = "<group>"; };
-		7DFBB7EA14C8FBC500D373E2 /* RKManagedObjectSeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectSeeder.h; sourceTree = "<group>"; };
-		7DFBB7EB14C8FBC500D373E2 /* RKManagedObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectStore.h; sourceTree = "<group>"; };
-		7DFBB7EC14C8FBC500D373E2 /* RKManagedObjectThreadSafeInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKManagedObjectThreadSafeInvocation.h; sourceTree = "<group>"; };
-		7DFBB7ED14C8FBC500D373E2 /* RKMappingOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKMappingOperationQueue.h; sourceTree = "<group>"; };
-		7DFBB7EE14C8FBC500D373E2 /* RKMIMETypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKMIMETypes.h; sourceTree = "<group>"; };
-		7DFBB7EF14C8FBC500D373E2 /* RKNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKNotifications.h; sourceTree = "<group>"; };
-		7DFBB7F014C8FBC500D373E2 /* RKOAuthClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKOAuthClient.h; sourceTree = "<group>"; };
-		7DFBB7F114C8FBC500D373E2 /* RKObjectAttributeMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectAttributeMapping.h; sourceTree = "<group>"; };
-		7DFBB7F214C8FBC500D373E2 /* RKObjectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectLoader.h; sourceTree = "<group>"; };
-		7DFBB7F314C8FBC500D373E2 /* RKObjectLoader_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectLoader_Internals.h; sourceTree = "<group>"; };
-		7DFBB7F414C8FBC500D373E2 /* RKObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectManager.h; sourceTree = "<group>"; };
-		7DFBB7F514C8FBC500D373E2 /* RKObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapper.h; sourceTree = "<group>"; };
-		7DFBB7F614C8FBC500D373E2 /* RKObjectMapper_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapper_Private.h; sourceTree = "<group>"; };
-		7DFBB7F714C8FBC500D373E2 /* RKObjectMapperError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapperError.h; sourceTree = "<group>"; };
-		7DFBB7F814C8FBC500D373E2 /* RKObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMapping.h; sourceTree = "<group>"; };
-		7DFBB7F914C8FBC500D373E2 /* RKObjectMappingDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingDefinition.h; sourceTree = "<group>"; };
-		7DFBB7FA14C8FBC500D373E2 /* RKObjectMappingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingOperation.h; sourceTree = "<group>"; };
-		7DFBB7FB14C8FBC500D373E2 /* RKObjectMappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingProvider.h; sourceTree = "<group>"; };
-		7DFBB7FC14C8FBC500D373E2 /* RKObjectMappingResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectMappingResult.h; sourceTree = "<group>"; };
-		7DFBB7FD14C8FBC500D373E2 /* RKObjectPropertyInspector+CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKObjectPropertyInspector+CoreData.h"; sourceTree = "<group>"; };
-		7DFBB7FE14C8FBC500D373E2 /* RKObjectPropertyInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectPropertyInspector.h; sourceTree = "<group>"; };
-		7DFBB7FF14C8FBC500D373E2 /* RKObjectRelationshipMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectRelationshipMapping.h; sourceTree = "<group>"; };
-		7DFBB80014C8FBC500D373E2 /* RKObjectRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectRouter.h; sourceTree = "<group>"; };
-		7DFBB80114C8FBC500D373E2 /* RKObjectSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKObjectSerializer.h; sourceTree = "<group>"; };
-		7DFBB80214C8FBC500D373E2 /* RKParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParams.h; sourceTree = "<group>"; };
-		7DFBB80314C8FBC500D373E2 /* RKParamsAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParamsAttachment.h; sourceTree = "<group>"; };
-		7DFBB80414C8FBC500D373E2 /* RKParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParser.h; sourceTree = "<group>"; };
-		7DFBB80514C8FBC500D373E2 /* RKParserRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParserRegistry.h; sourceTree = "<group>"; };
-		7DFBB80614C8FBC500D373E2 /* RKPathMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKPathMatcher.h; sourceTree = "<group>"; };
-		7DFBB80714C8FBC500D373E2 /* RKReachabilityObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKReachabilityObserver.h; sourceTree = "<group>"; };
-		7DFBB80814C8FBC500D373E2 /* RKRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequest.h; sourceTree = "<group>"; };
-		7DFBB80914C8FBC500D373E2 /* RKRequest_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequest_Internals.h; sourceTree = "<group>"; };
-		7DFBB80A14C8FBC500D373E2 /* RKRequestCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestCache.h; sourceTree = "<group>"; };
-		7DFBB80B14C8FBC500D373E2 /* RKRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestQueue.h; sourceTree = "<group>"; };
-		7DFBB80C14C8FBC500D373E2 /* RKRequestSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestSerializable.h; sourceTree = "<group>"; };
-		7DFBB80D14C8FBC500D373E2 /* RKRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestSerialization.h; sourceTree = "<group>"; };
-		7DFBB80E14C8FBC500D373E2 /* RKResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKResponse.h; sourceTree = "<group>"; };
-		7DFBB80F14C8FBC500D373E2 /* RKRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRouter.h; sourceTree = "<group>"; };
-		7DFBB81014C8FBC500D373E2 /* RKSearchEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSearchEngine.h; sourceTree = "<group>"; };
-		7DFBB81114C8FBC500D373E2 /* RKURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKURL.h; sourceTree = "<group>"; };
-		7DFBB81214C8FBC500D373E2 /* RKXMLParserLibXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKXMLParserLibXML.h; sourceTree = "<group>"; };
-		7DFBB81314C8FBC500D373E2 /* SOCKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCKit.h; sourceTree = "<group>"; };
-		7DFBB81414C8FBC500D373E2 /* Support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Support.h; sourceTree = "<group>"; };
-		7DFBB81514C8FBC500D373E2 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRestKit.a; sourceTree = "<group>"; };
 		7DFF1365143B8A090063EF87 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7DFF1393143B8A930063EF87 /* AppTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppTest-Info.plist"; sourceTree = "<group>"; };
 		7DFF1395143B8A930063EF87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -291,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */,
+				7DC1D6D214DB0AFC005B819A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +319,7 @@
 				C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */,
 				C26713C913D6B845001FE0B8 /* CoreGraphics.framework in Frameworks */,
 				7D7D1FD3147C6FCE005CDD2C /* libSalesforceOAuth.a in Frameworks */,
-				7DFBB86914C8FC0000D373E2 /* libRestKit.a in Frameworks */,
+				7DC1D6D314DB1281005B819A /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +329,7 @@
 		7D7D1EA6147C57D2005CDD2C /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				7DFBB7C014C8FBC500D373E2 /* RestKit */,
+				7DC1D62214DB0AFC005B819A /* RestKit */,
 				7D7D1F21147C57D2005CDD2C /* SalesforceOAuth */,
 			);
 			name = dependencies;
@@ -352,6 +362,116 @@
 			path = SalesforceOAuth;
 			sourceTree = "<group>";
 		};
+		7DC1D62214DB0AFC005B819A /* RestKit */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D62314DB0AFC005B819A /* include */,
+				7DC1D67B14DB0AFC005B819A /* libRestKit.a */,
+			);
+			path = RestKit;
+			sourceTree = "<group>";
+		};
+		7DC1D62314DB0AFC005B819A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D62414DB0AFC005B819A /* RestKit */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7DC1D62414DB0AFC005B819A /* RestKit */ = {
+			isa = PBXGroup;
+			children = (
+				7DC1D62514DB0AFC005B819A /* CoreData.h */,
+				7DC1D62614DB0AFC005B819A /* Errors.h */,
+				7DC1D62714DB0AFC005B819A /* FileMD5Hash.h */,
+				7DC1D62814DB0AFC005B819A /* FileMD5Hash_Prefix.pch */,
+				7DC1D62914DB0AFC005B819A /* GCOAuth.h */,
+				7DC1D62A14DB0AFC005B819A /* ISO8601DateFormatter.h */,
+				7DC1D62B14DB0AFC005B819A /* JSONKit.h */,
+				7DC1D62C14DB0AFC005B819A /* lcl.h */,
+				7DC1D62D14DB0AFC005B819A /* lcl_config_components.h */,
+				7DC1D62E14DB0AFC005B819A /* lcl_config_components.template.h */,
+				7DC1D62F14DB0AFC005B819A /* lcl_config_extensions.h */,
+				7DC1D63014DB0AFC005B819A /* lcl_config_extensions.template.h */,
+				7DC1D63114DB0AFC005B819A /* lcl_config_logger.h */,
+				7DC1D63214DB0AFC005B819A /* lcl_config_logger.template.h */,
+				7DC1D63314DB0AFC005B819A /* LCLNSLog.h */,
+				7DC1D63414DB0AFC005B819A /* Network.h */,
+				7DC1D63514DB0AFC005B819A /* NSData+Base64.h */,
+				7DC1D63614DB0AFC005B819A /* NSData+MD5.h */,
+				7DC1D63714DB0AFC005B819A /* NSDictionary+RKAdditions.h */,
+				7DC1D63814DB0AFC005B819A /* NSDictionary+RKRequestSerialization.h */,
+				7DC1D63914DB0AFC005B819A /* NSManagedObject+ActiveRecord.h */,
+				7DC1D63A14DB0AFC005B819A /* NSString+MD5.h */,
+				7DC1D63B14DB0AFC005B819A /* NSString+RestKit.h */,
+				7DC1D63C14DB0AFC005B819A /* NSURL+RestKit.h */,
+				7DC1D63D14DB0AFC005B819A /* ObjectMapping.h */,
+				7DC1D63E14DB0AFC005B819A /* RestKit-Prefix.pch */,
+				7DC1D63F14DB0AFC005B819A /* RestKit.h */,
+				7DC1D64014DB0AFC005B819A /* RKAlert.h */,
+				7DC1D64114DB0AFC005B819A /* RKClient.h */,
+				7DC1D64214DB0AFC005B819A /* RKConfigurationDelegate.h */,
+				7DC1D64314DB0AFC005B819A /* RKDirectory.h */,
+				7DC1D64414DB0AFC005B819A /* RKDotNetDateFormatter.h */,
+				7DC1D64514DB0AFC005B819A /* RKDynamicObjectMapping.h */,
+				7DC1D64614DB0AFC005B819A /* RKErrorMessage.h */,
+				7DC1D64714DB0AFC005B819A /* RKFixCategoryBug.h */,
+				7DC1D64814DB0AFC005B819A /* RKJSONParserJSONKit.h */,
+				7DC1D64914DB0AFC005B819A /* RKLog.h */,
+				7DC1D64A14DB0AFC005B819A /* RKManagedObjectCache.h */,
+				7DC1D64B14DB0AFC005B819A /* RKManagedObjectLoader.h */,
+				7DC1D64C14DB0AFC005B819A /* RKManagedObjectMapping.h */,
+				7DC1D64D14DB0AFC005B819A /* RKManagedObjectMappingOperation.h */,
+				7DC1D64E14DB0AFC005B819A /* RKManagedObjectSeeder.h */,
+				7DC1D64F14DB0AFC005B819A /* RKManagedObjectStore.h */,
+				7DC1D65014DB0AFC005B819A /* RKManagedObjectThreadSafeInvocation.h */,
+				7DC1D65114DB0AFC005B819A /* RKMappingOperationQueue.h */,
+				7DC1D65214DB0AFC005B819A /* RKMIMETypes.h */,
+				7DC1D65314DB0AFC005B819A /* RKNotifications.h */,
+				7DC1D65414DB0AFC005B819A /* RKOAuthClient.h */,
+				7DC1D65514DB0AFC005B819A /* RKObjectAttributeMapping.h */,
+				7DC1D65614DB0AFC005B819A /* RKObjectLoader.h */,
+				7DC1D65714DB0AFC005B819A /* RKObjectLoader_Internals.h */,
+				7DC1D65814DB0AFC005B819A /* RKObjectManager.h */,
+				7DC1D65914DB0AFC005B819A /* RKObjectMapper.h */,
+				7DC1D65A14DB0AFC005B819A /* RKObjectMapper_Private.h */,
+				7DC1D65B14DB0AFC005B819A /* RKObjectMapperError.h */,
+				7DC1D65C14DB0AFC005B819A /* RKObjectMapping.h */,
+				7DC1D65D14DB0AFC005B819A /* RKObjectMappingDefinition.h */,
+				7DC1D65E14DB0AFC005B819A /* RKObjectMappingOperation.h */,
+				7DC1D65F14DB0AFC005B819A /* RKObjectMappingProvider.h */,
+				7DC1D66014DB0AFC005B819A /* RKObjectMappingResult.h */,
+				7DC1D66114DB0AFC005B819A /* RKObjectPaginator.h */,
+				7DC1D66214DB0AFC005B819A /* RKObjectPropertyInspector+CoreData.h */,
+				7DC1D66314DB0AFC005B819A /* RKObjectPropertyInspector.h */,
+				7DC1D66414DB0AFC005B819A /* RKObjectRelationshipMapping.h */,
+				7DC1D66514DB0AFC005B819A /* RKObjectRouter.h */,
+				7DC1D66614DB0AFC005B819A /* RKObjectSerializer.h */,
+				7DC1D66714DB0AFC005B819A /* RKOrderedDictionary.h */,
+				7DC1D66814DB0AFC005B819A /* RKParams.h */,
+				7DC1D66914DB0AFC005B819A /* RKParamsAttachment.h */,
+				7DC1D66A14DB0AFC005B819A /* RKParser.h */,
+				7DC1D66B14DB0AFC005B819A /* RKParserRegistry.h */,
+				7DC1D66C14DB0AFC005B819A /* RKPathMatcher.h */,
+				7DC1D66D14DB0AFC005B819A /* RKReachabilityObserver.h */,
+				7DC1D66E14DB0AFC005B819A /* RKRequest.h */,
+				7DC1D66F14DB0AFC005B819A /* RKRequest_Internals.h */,
+				7DC1D67014DB0AFC005B819A /* RKRequestCache.h */,
+				7DC1D67114DB0AFC005B819A /* RKRequestQueue.h */,
+				7DC1D67214DB0AFC005B819A /* RKRequestSerializable.h */,
+				7DC1D67314DB0AFC005B819A /* RKRequestSerialization.h */,
+				7DC1D67414DB0AFC005B819A /* RKResponse.h */,
+				7DC1D67514DB0AFC005B819A /* RKRouter.h */,
+				7DC1D67614DB0AFC005B819A /* RKSearchEngine.h */,
+				7DC1D67714DB0AFC005B819A /* RKURL.h */,
+				7DC1D67814DB0AFC005B819A /* RKXMLParserLibXML.h */,
+				7DC1D67914DB0AFC005B819A /* SOCKit.h */,
+				7DC1D67A14DB0AFC005B819A /* Support.h */,
+			);
+			path = RestKit;
+			sourceTree = "<group>";
+		};
 		7DD88EEF14DA051F00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,112 +480,6 @@
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
-			sourceTree = "<group>";
-		};
-		7DFBB7C014C8FBC500D373E2 /* RestKit */ = {
-			isa = PBXGroup;
-			children = (
-				7DFBB7C114C8FBC500D373E2 /* include */,
-				7DFBB81514C8FBC500D373E2 /* libRestKit.a */,
-			);
-			path = RestKit;
-			sourceTree = "<group>";
-		};
-		7DFBB7C114C8FBC500D373E2 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DFBB7C214C8FBC500D373E2 /* RestKit */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		7DFBB7C214C8FBC500D373E2 /* RestKit */ = {
-			isa = PBXGroup;
-			children = (
-				7DFBB7C314C8FBC500D373E2 /* CoreData.h */,
-				7DFBB7C414C8FBC500D373E2 /* Errors.h */,
-				7DFBB7C514C8FBC500D373E2 /* FileMD5Hash.h */,
-				7DFBB7C614C8FBC500D373E2 /* FileMD5Hash_Prefix.pch */,
-				7DFBB7C714C8FBC500D373E2 /* GCOAuth.h */,
-				7DFBB7C814C8FBC500D373E2 /* JSONKit.h */,
-				7DFBB7C914C8FBC500D373E2 /* lcl.h */,
-				7DFBB7CA14C8FBC500D373E2 /* lcl_config_components.h */,
-				7DFBB7CB14C8FBC500D373E2 /* lcl_config_components.template.h */,
-				7DFBB7CC14C8FBC500D373E2 /* lcl_config_extensions.h */,
-				7DFBB7CD14C8FBC500D373E2 /* lcl_config_extensions.template.h */,
-				7DFBB7CE14C8FBC500D373E2 /* lcl_config_logger.h */,
-				7DFBB7CF14C8FBC500D373E2 /* lcl_config_logger.template.h */,
-				7DFBB7D014C8FBC500D373E2 /* LCLNSLog.h */,
-				7DFBB7D114C8FBC500D373E2 /* Network.h */,
-				7DFBB7D214C8FBC500D373E2 /* NSData+Base64.h */,
-				7DFBB7D314C8FBC500D373E2 /* NSData+MD5.h */,
-				7DFBB7D414C8FBC500D373E2 /* NSDictionary+RKAdditions.h */,
-				7DFBB7D514C8FBC500D373E2 /* NSDictionary+RKRequestSerialization.h */,
-				7DFBB7D614C8FBC500D373E2 /* NSManagedObject+ActiveRecord.h */,
-				7DFBB7D714C8FBC500D373E2 /* NSString+MD5.h */,
-				7DFBB7D814C8FBC500D373E2 /* NSString+RestKit.h */,
-				7DFBB7D914C8FBC500D373E2 /* NSURL+RestKit.h */,
-				7DFBB7DA14C8FBC500D373E2 /* ObjectMapping.h */,
-				7DFBB7DB14C8FBC500D373E2 /* RestKit-Prefix.pch */,
-				7DFBB7DC14C8FBC500D373E2 /* RestKit.h */,
-				7DFBB7DD14C8FBC500D373E2 /* RKAlert.h */,
-				7DFBB7DE14C8FBC500D373E2 /* RKClient.h */,
-				7DFBB7DF14C8FBC500D373E2 /* RKDirectory.h */,
-				7DFBB7E014C8FBC500D373E2 /* RKDotNetDateFormatter.h */,
-				7DFBB7E114C8FBC500D373E2 /* RKDynamicObjectMapping.h */,
-				7DFBB7E214C8FBC500D373E2 /* RKErrorMessage.h */,
-				7DFBB7E314C8FBC500D373E2 /* RKFixCategoryBug.h */,
-				7DFBB7E414C8FBC500D373E2 /* RKJSONParserJSONKit.h */,
-				7DFBB7E514C8FBC500D373E2 /* RKLog.h */,
-				7DFBB7E614C8FBC500D373E2 /* RKManagedObjectCache.h */,
-				7DFBB7E714C8FBC500D373E2 /* RKManagedObjectLoader.h */,
-				7DFBB7E814C8FBC500D373E2 /* RKManagedObjectMapping.h */,
-				7DFBB7E914C8FBC500D373E2 /* RKManagedObjectMappingOperation.h */,
-				7DFBB7EA14C8FBC500D373E2 /* RKManagedObjectSeeder.h */,
-				7DFBB7EB14C8FBC500D373E2 /* RKManagedObjectStore.h */,
-				7DFBB7EC14C8FBC500D373E2 /* RKManagedObjectThreadSafeInvocation.h */,
-				7DFBB7ED14C8FBC500D373E2 /* RKMappingOperationQueue.h */,
-				7DFBB7EE14C8FBC500D373E2 /* RKMIMETypes.h */,
-				7DFBB7EF14C8FBC500D373E2 /* RKNotifications.h */,
-				7DFBB7F014C8FBC500D373E2 /* RKOAuthClient.h */,
-				7DFBB7F114C8FBC500D373E2 /* RKObjectAttributeMapping.h */,
-				7DFBB7F214C8FBC500D373E2 /* RKObjectLoader.h */,
-				7DFBB7F314C8FBC500D373E2 /* RKObjectLoader_Internals.h */,
-				7DFBB7F414C8FBC500D373E2 /* RKObjectManager.h */,
-				7DFBB7F514C8FBC500D373E2 /* RKObjectMapper.h */,
-				7DFBB7F614C8FBC500D373E2 /* RKObjectMapper_Private.h */,
-				7DFBB7F714C8FBC500D373E2 /* RKObjectMapperError.h */,
-				7DFBB7F814C8FBC500D373E2 /* RKObjectMapping.h */,
-				7DFBB7F914C8FBC500D373E2 /* RKObjectMappingDefinition.h */,
-				7DFBB7FA14C8FBC500D373E2 /* RKObjectMappingOperation.h */,
-				7DFBB7FB14C8FBC500D373E2 /* RKObjectMappingProvider.h */,
-				7DFBB7FC14C8FBC500D373E2 /* RKObjectMappingResult.h */,
-				7DFBB7FD14C8FBC500D373E2 /* RKObjectPropertyInspector+CoreData.h */,
-				7DFBB7FE14C8FBC500D373E2 /* RKObjectPropertyInspector.h */,
-				7DFBB7FF14C8FBC500D373E2 /* RKObjectRelationshipMapping.h */,
-				7DFBB80014C8FBC500D373E2 /* RKObjectRouter.h */,
-				7DFBB80114C8FBC500D373E2 /* RKObjectSerializer.h */,
-				7DFBB80214C8FBC500D373E2 /* RKParams.h */,
-				7DFBB80314C8FBC500D373E2 /* RKParamsAttachment.h */,
-				7DFBB80414C8FBC500D373E2 /* RKParser.h */,
-				7DFBB80514C8FBC500D373E2 /* RKParserRegistry.h */,
-				7DFBB80614C8FBC500D373E2 /* RKPathMatcher.h */,
-				7DFBB80714C8FBC500D373E2 /* RKReachabilityObserver.h */,
-				7DFBB80814C8FBC500D373E2 /* RKRequest.h */,
-				7DFBB80914C8FBC500D373E2 /* RKRequest_Internals.h */,
-				7DFBB80A14C8FBC500D373E2 /* RKRequestCache.h */,
-				7DFBB80B14C8FBC500D373E2 /* RKRequestQueue.h */,
-				7DFBB80C14C8FBC500D373E2 /* RKRequestSerializable.h */,
-				7DFBB80D14C8FBC500D373E2 /* RKRequestSerialization.h */,
-				7DFBB80E14C8FBC500D373E2 /* RKResponse.h */,
-				7DFBB80F14C8FBC500D373E2 /* RKRouter.h */,
-				7DFBB81014C8FBC500D373E2 /* RKSearchEngine.h */,
-				7DFBB81114C8FBC500D373E2 /* RKURL.h */,
-				7DFBB81214C8FBC500D373E2 /* RKXMLParserLibXML.h */,
-				7DFBB81314C8FBC500D373E2 /* SOCKit.h */,
-				7DFBB81414C8FBC500D373E2 /* Support.h */,
-			);
-			path = RestKit;
 			sourceTree = "<group>";
 		};
 		7DFF1391143B8A930063EF87 /* AppTest */ = {
@@ -656,89 +670,93 @@
 				7D7D1FAE147C57D2005CDD2C /* SFOAuthCoordinator.h in Headers */,
 				7D7D1FAF147C57D2005CDD2C /* SFOAuthCredentials.h in Headers */,
 				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
-				7DFBB81614C8FBC500D373E2 /* CoreData.h in Headers */,
-				7DFBB81714C8FBC500D373E2 /* Errors.h in Headers */,
-				7DFBB81814C8FBC500D373E2 /* FileMD5Hash.h in Headers */,
-				7DFBB81914C8FBC500D373E2 /* FileMD5Hash_Prefix.pch in Headers */,
-				7DFBB81A14C8FBC500D373E2 /* GCOAuth.h in Headers */,
-				7DFBB81B14C8FBC500D373E2 /* JSONKit.h in Headers */,
-				7DFBB81C14C8FBC500D373E2 /* lcl.h in Headers */,
-				7DFBB81D14C8FBC500D373E2 /* lcl_config_components.h in Headers */,
-				7DFBB81E14C8FBC500D373E2 /* lcl_config_components.template.h in Headers */,
-				7DFBB81F14C8FBC500D373E2 /* lcl_config_extensions.h in Headers */,
-				7DFBB82014C8FBC500D373E2 /* lcl_config_extensions.template.h in Headers */,
-				7DFBB82114C8FBC500D373E2 /* lcl_config_logger.h in Headers */,
-				7DFBB82214C8FBC500D373E2 /* lcl_config_logger.template.h in Headers */,
-				7DFBB82314C8FBC500D373E2 /* LCLNSLog.h in Headers */,
-				7DFBB82414C8FBC500D373E2 /* Network.h in Headers */,
-				7DFBB82514C8FBC500D373E2 /* NSData+Base64.h in Headers */,
-				7DFBB82614C8FBC500D373E2 /* NSData+MD5.h in Headers */,
-				7DFBB82714C8FBC500D373E2 /* NSDictionary+RKAdditions.h in Headers */,
-				7DFBB82814C8FBC500D373E2 /* NSDictionary+RKRequestSerialization.h in Headers */,
-				7DFBB82914C8FBC500D373E2 /* NSManagedObject+ActiveRecord.h in Headers */,
-				7DFBB82A14C8FBC500D373E2 /* NSString+MD5.h in Headers */,
-				7DFBB82B14C8FBC500D373E2 /* NSString+RestKit.h in Headers */,
-				7DFBB82C14C8FBC500D373E2 /* NSURL+RestKit.h in Headers */,
-				7DFBB82D14C8FBC500D373E2 /* ObjectMapping.h in Headers */,
-				7DFBB82E14C8FBC500D373E2 /* RestKit-Prefix.pch in Headers */,
-				7DFBB82F14C8FBC500D373E2 /* RestKit.h in Headers */,
-				7DFBB83014C8FBC500D373E2 /* RKAlert.h in Headers */,
-				7DFBB83114C8FBC500D373E2 /* RKClient.h in Headers */,
-				7DFBB83214C8FBC500D373E2 /* RKDirectory.h in Headers */,
-				7DFBB83314C8FBC500D373E2 /* RKDotNetDateFormatter.h in Headers */,
-				7DFBB83414C8FBC500D373E2 /* RKDynamicObjectMapping.h in Headers */,
-				7DFBB83514C8FBC500D373E2 /* RKErrorMessage.h in Headers */,
-				7DFBB83614C8FBC500D373E2 /* RKFixCategoryBug.h in Headers */,
-				7DFBB83714C8FBC500D373E2 /* RKJSONParserJSONKit.h in Headers */,
-				7DFBB83814C8FBC500D373E2 /* RKLog.h in Headers */,
-				7DFBB83914C8FBC500D373E2 /* RKManagedObjectCache.h in Headers */,
-				7DFBB83A14C8FBC500D373E2 /* RKManagedObjectLoader.h in Headers */,
-				7DFBB83B14C8FBC500D373E2 /* RKManagedObjectMapping.h in Headers */,
-				7DFBB83C14C8FBC500D373E2 /* RKManagedObjectMappingOperation.h in Headers */,
-				7DFBB83D14C8FBC500D373E2 /* RKManagedObjectSeeder.h in Headers */,
-				7DFBB83E14C8FBC500D373E2 /* RKManagedObjectStore.h in Headers */,
-				7DFBB83F14C8FBC500D373E2 /* RKManagedObjectThreadSafeInvocation.h in Headers */,
-				7DFBB84014C8FBC500D373E2 /* RKMappingOperationQueue.h in Headers */,
-				7DFBB84114C8FBC500D373E2 /* RKMIMETypes.h in Headers */,
-				7DFBB84214C8FBC500D373E2 /* RKNotifications.h in Headers */,
-				7DFBB84314C8FBC500D373E2 /* RKOAuthClient.h in Headers */,
-				7DFBB84414C8FBC500D373E2 /* RKObjectAttributeMapping.h in Headers */,
-				7DFBB84514C8FBC500D373E2 /* RKObjectLoader.h in Headers */,
-				7DFBB84614C8FBC500D373E2 /* RKObjectLoader_Internals.h in Headers */,
-				7DFBB84714C8FBC500D373E2 /* RKObjectManager.h in Headers */,
-				7DFBB84814C8FBC500D373E2 /* RKObjectMapper.h in Headers */,
-				7DFBB84914C8FBC500D373E2 /* RKObjectMapper_Private.h in Headers */,
-				7DFBB84A14C8FBC500D373E2 /* RKObjectMapperError.h in Headers */,
-				7DFBB84B14C8FBC500D373E2 /* RKObjectMapping.h in Headers */,
-				7DFBB84C14C8FBC500D373E2 /* RKObjectMappingDefinition.h in Headers */,
-				7DFBB84D14C8FBC500D373E2 /* RKObjectMappingOperation.h in Headers */,
-				7DFBB84E14C8FBC500D373E2 /* RKObjectMappingProvider.h in Headers */,
-				7DFBB84F14C8FBC500D373E2 /* RKObjectMappingResult.h in Headers */,
-				7DFBB85014C8FBC500D373E2 /* RKObjectPropertyInspector+CoreData.h in Headers */,
-				7DFBB85114C8FBC500D373E2 /* RKObjectPropertyInspector.h in Headers */,
-				7DFBB85214C8FBC500D373E2 /* RKObjectRelationshipMapping.h in Headers */,
-				7DFBB85314C8FBC500D373E2 /* RKObjectRouter.h in Headers */,
-				7DFBB85414C8FBC500D373E2 /* RKObjectSerializer.h in Headers */,
-				7DFBB85514C8FBC500D373E2 /* RKParams.h in Headers */,
-				7DFBB85614C8FBC500D373E2 /* RKParamsAttachment.h in Headers */,
-				7DFBB85714C8FBC500D373E2 /* RKParser.h in Headers */,
-				7DFBB85814C8FBC500D373E2 /* RKParserRegistry.h in Headers */,
-				7DFBB85914C8FBC500D373E2 /* RKPathMatcher.h in Headers */,
-				7DFBB85A14C8FBC500D373E2 /* RKReachabilityObserver.h in Headers */,
-				7DFBB85B14C8FBC500D373E2 /* RKRequest.h in Headers */,
-				7DFBB85C14C8FBC500D373E2 /* RKRequest_Internals.h in Headers */,
-				7DFBB85D14C8FBC500D373E2 /* RKRequestCache.h in Headers */,
-				7DFBB85E14C8FBC500D373E2 /* RKRequestQueue.h in Headers */,
-				7DFBB85F14C8FBC500D373E2 /* RKRequestSerializable.h in Headers */,
-				7DFBB86014C8FBC500D373E2 /* RKRequestSerialization.h in Headers */,
-				7DFBB86114C8FBC500D373E2 /* RKResponse.h in Headers */,
-				7DFBB86214C8FBC500D373E2 /* RKRouter.h in Headers */,
-				7DFBB86314C8FBC500D373E2 /* RKSearchEngine.h in Headers */,
-				7DFBB86414C8FBC500D373E2 /* RKURL.h in Headers */,
-				7DFBB86514C8FBC500D373E2 /* RKXMLParserLibXML.h in Headers */,
-				7DFBB86614C8FBC500D373E2 /* SOCKit.h in Headers */,
-				7DFBB86714C8FBC500D373E2 /* Support.h in Headers */,
 				7DD88EF214DA051F00C0D0A0 /* SFJsonUtils.h in Headers */,
+				7DC1D67C14DB0AFC005B819A /* CoreData.h in Headers */,
+				7DC1D67D14DB0AFC005B819A /* Errors.h in Headers */,
+				7DC1D67E14DB0AFC005B819A /* FileMD5Hash.h in Headers */,
+				7DC1D67F14DB0AFC005B819A /* FileMD5Hash_Prefix.pch in Headers */,
+				7DC1D68014DB0AFC005B819A /* GCOAuth.h in Headers */,
+				7DC1D68114DB0AFC005B819A /* ISO8601DateFormatter.h in Headers */,
+				7DC1D68214DB0AFC005B819A /* JSONKit.h in Headers */,
+				7DC1D68314DB0AFC005B819A /* lcl.h in Headers */,
+				7DC1D68414DB0AFC005B819A /* lcl_config_components.h in Headers */,
+				7DC1D68514DB0AFC005B819A /* lcl_config_components.template.h in Headers */,
+				7DC1D68614DB0AFC005B819A /* lcl_config_extensions.h in Headers */,
+				7DC1D68714DB0AFC005B819A /* lcl_config_extensions.template.h in Headers */,
+				7DC1D68814DB0AFC005B819A /* lcl_config_logger.h in Headers */,
+				7DC1D68914DB0AFC005B819A /* lcl_config_logger.template.h in Headers */,
+				7DC1D68A14DB0AFC005B819A /* LCLNSLog.h in Headers */,
+				7DC1D68B14DB0AFC005B819A /* Network.h in Headers */,
+				7DC1D68C14DB0AFC005B819A /* NSData+Base64.h in Headers */,
+				7DC1D68D14DB0AFC005B819A /* NSData+MD5.h in Headers */,
+				7DC1D68E14DB0AFC005B819A /* NSDictionary+RKAdditions.h in Headers */,
+				7DC1D68F14DB0AFC005B819A /* NSDictionary+RKRequestSerialization.h in Headers */,
+				7DC1D69014DB0AFC005B819A /* NSManagedObject+ActiveRecord.h in Headers */,
+				7DC1D69114DB0AFC005B819A /* NSString+MD5.h in Headers */,
+				7DC1D69214DB0AFC005B819A /* NSString+RestKit.h in Headers */,
+				7DC1D69314DB0AFC005B819A /* NSURL+RestKit.h in Headers */,
+				7DC1D69414DB0AFC005B819A /* ObjectMapping.h in Headers */,
+				7DC1D69514DB0AFC005B819A /* RestKit-Prefix.pch in Headers */,
+				7DC1D69614DB0AFC005B819A /* RestKit.h in Headers */,
+				7DC1D69714DB0AFC005B819A /* RKAlert.h in Headers */,
+				7DC1D69814DB0AFC005B819A /* RKClient.h in Headers */,
+				7DC1D69914DB0AFC005B819A /* RKConfigurationDelegate.h in Headers */,
+				7DC1D69A14DB0AFC005B819A /* RKDirectory.h in Headers */,
+				7DC1D69B14DB0AFC005B819A /* RKDotNetDateFormatter.h in Headers */,
+				7DC1D69C14DB0AFC005B819A /* RKDynamicObjectMapping.h in Headers */,
+				7DC1D69D14DB0AFC005B819A /* RKErrorMessage.h in Headers */,
+				7DC1D69E14DB0AFC005B819A /* RKFixCategoryBug.h in Headers */,
+				7DC1D69F14DB0AFC005B819A /* RKJSONParserJSONKit.h in Headers */,
+				7DC1D6A014DB0AFC005B819A /* RKLog.h in Headers */,
+				7DC1D6A114DB0AFC005B819A /* RKManagedObjectCache.h in Headers */,
+				7DC1D6A214DB0AFC005B819A /* RKManagedObjectLoader.h in Headers */,
+				7DC1D6A314DB0AFC005B819A /* RKManagedObjectMapping.h in Headers */,
+				7DC1D6A414DB0AFC005B819A /* RKManagedObjectMappingOperation.h in Headers */,
+				7DC1D6A514DB0AFC005B819A /* RKManagedObjectSeeder.h in Headers */,
+				7DC1D6A614DB0AFC005B819A /* RKManagedObjectStore.h in Headers */,
+				7DC1D6A714DB0AFC005B819A /* RKManagedObjectThreadSafeInvocation.h in Headers */,
+				7DC1D6A814DB0AFC005B819A /* RKMappingOperationQueue.h in Headers */,
+				7DC1D6A914DB0AFC005B819A /* RKMIMETypes.h in Headers */,
+				7DC1D6AA14DB0AFC005B819A /* RKNotifications.h in Headers */,
+				7DC1D6AB14DB0AFC005B819A /* RKOAuthClient.h in Headers */,
+				7DC1D6AC14DB0AFC005B819A /* RKObjectAttributeMapping.h in Headers */,
+				7DC1D6AD14DB0AFC005B819A /* RKObjectLoader.h in Headers */,
+				7DC1D6AE14DB0AFC005B819A /* RKObjectLoader_Internals.h in Headers */,
+				7DC1D6AF14DB0AFC005B819A /* RKObjectManager.h in Headers */,
+				7DC1D6B014DB0AFC005B819A /* RKObjectMapper.h in Headers */,
+				7DC1D6B114DB0AFC005B819A /* RKObjectMapper_Private.h in Headers */,
+				7DC1D6B214DB0AFC005B819A /* RKObjectMapperError.h in Headers */,
+				7DC1D6B314DB0AFC005B819A /* RKObjectMapping.h in Headers */,
+				7DC1D6B414DB0AFC005B819A /* RKObjectMappingDefinition.h in Headers */,
+				7DC1D6B514DB0AFC005B819A /* RKObjectMappingOperation.h in Headers */,
+				7DC1D6B614DB0AFC005B819A /* RKObjectMappingProvider.h in Headers */,
+				7DC1D6B714DB0AFC005B819A /* RKObjectMappingResult.h in Headers */,
+				7DC1D6B814DB0AFC005B819A /* RKObjectPaginator.h in Headers */,
+				7DC1D6B914DB0AFC005B819A /* RKObjectPropertyInspector+CoreData.h in Headers */,
+				7DC1D6BA14DB0AFC005B819A /* RKObjectPropertyInspector.h in Headers */,
+				7DC1D6BB14DB0AFC005B819A /* RKObjectRelationshipMapping.h in Headers */,
+				7DC1D6BC14DB0AFC005B819A /* RKObjectRouter.h in Headers */,
+				7DC1D6BD14DB0AFC005B819A /* RKObjectSerializer.h in Headers */,
+				7DC1D6BE14DB0AFC005B819A /* RKOrderedDictionary.h in Headers */,
+				7DC1D6BF14DB0AFC005B819A /* RKParams.h in Headers */,
+				7DC1D6C014DB0AFC005B819A /* RKParamsAttachment.h in Headers */,
+				7DC1D6C114DB0AFC005B819A /* RKParser.h in Headers */,
+				7DC1D6C214DB0AFC005B819A /* RKParserRegistry.h in Headers */,
+				7DC1D6C314DB0AFC005B819A /* RKPathMatcher.h in Headers */,
+				7DC1D6C414DB0AFC005B819A /* RKReachabilityObserver.h in Headers */,
+				7DC1D6C514DB0AFC005B819A /* RKRequest.h in Headers */,
+				7DC1D6C614DB0AFC005B819A /* RKRequest_Internals.h in Headers */,
+				7DC1D6C714DB0AFC005B819A /* RKRequestCache.h in Headers */,
+				7DC1D6C814DB0AFC005B819A /* RKRequestQueue.h in Headers */,
+				7DC1D6C914DB0AFC005B819A /* RKRequestSerializable.h in Headers */,
+				7DC1D6CA14DB0AFC005B819A /* RKRequestSerialization.h in Headers */,
+				7DC1D6CB14DB0AFC005B819A /* RKResponse.h in Headers */,
+				7DC1D6CC14DB0AFC005B819A /* RKRouter.h in Headers */,
+				7DC1D6CD14DB0AFC005B819A /* RKSearchEngine.h in Headers */,
+				7DC1D6CE14DB0AFC005B819A /* RKURL.h in Headers */,
+				7DC1D6CF14DB0AFC005B819A /* RKXMLParserLibXML.h in Headers */,
+				7DC1D6D014DB0AFC005B819A /* SOCKit.h in Headers */,
+				7DC1D6D114DB0AFC005B819A /* Support.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
