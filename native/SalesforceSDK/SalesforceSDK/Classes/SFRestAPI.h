@@ -113,6 +113,10 @@ extern NSString* const kSFRestDefaultAPIVersion;
 
  - by building the `SFRestRequest` manually
  
+ Note that, if you opt to build an SFRestRequest manually, you should be aware that
+ send:delegate: expects the request path to begin with the standard `/services/data` entry point
+ of the Salesforce REST API, and will add it to the request path if it doesn't find it.
+ 
  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.

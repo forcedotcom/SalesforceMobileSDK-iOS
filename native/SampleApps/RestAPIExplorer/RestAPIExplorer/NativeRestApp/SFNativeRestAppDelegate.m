@@ -30,7 +30,7 @@
 
 
 
-static NSString * const kSFMobileSDKVersion = @"1.0.1";
+static NSString * const kSFMobileSDKVersion = @"1.0.2";
 static NSString * const kUserAgentPropKey = @"UserAgent";
 
 
