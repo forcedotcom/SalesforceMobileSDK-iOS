@@ -27,7 +27,7 @@
 #import "SalesforceOAuthPlugin.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.0.1";
+NSString * const kSFMobileSDKVersion = @"1.0.2";
 NSString * const kUserAgentPropKey = @"UserAgent";
 
 // Private constants

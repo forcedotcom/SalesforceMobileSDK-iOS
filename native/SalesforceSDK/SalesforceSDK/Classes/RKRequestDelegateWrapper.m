@@ -34,6 +34,8 @@
 
 #define KEY_ERROR_CODE @"errorCode"
 
+static NSString * const kSFRestAPIPathPrefix = @"/services/data";
+
 @interface RKRequestDelegateWrapper (private)
 + (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams;
 - (id)initWithRestRequest:(SFRestRequest *)request;
@@ -75,7 +77,11 @@
 
 - (void)send {
     RKClient *rkClient = [SFRestAPI sharedInstance].rkClient;
-    NSString *url = [NSString stringWithFormat:@"/services/data%@", _request.path];
+    NSString *requestPath = [NSString stringWithString:_request.path];
+    if (![requestPath hasPrefix:kSFRestAPIPathPrefix]) {
+        requestPath = [NSString stringWithFormat:@"%@%@", kSFRestAPIPathPrefix, requestPath];
+    }
+    NSString *url = requestPath;
     SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
     
     //make sure we have the latest access token at the moment we send the request
