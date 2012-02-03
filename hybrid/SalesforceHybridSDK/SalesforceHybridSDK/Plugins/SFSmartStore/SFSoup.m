@@ -29,7 +29,6 @@
 #import "SFSoupCursor.h"
 
 #import "FMDatabase.h"
-//#import "SBJson.h"
 #import "SFSoupIndex.h"
 #import "SFJsonUtils.h"
 
@@ -39,9 +38,8 @@
     NSMutableArray *_soupIndices;
 }
 
-@property (nonatomic, retain) FMDatabase *soupDb;
-
-@property (nonatomic, retain) NSMutableArray *soupIndices;
+@property (nonatomic, strong) FMDatabase *soupDb;
+@property (nonatomic, strong) NSMutableArray *soupIndices;
 
 
 @end
@@ -190,7 +188,7 @@ static NSString * const kColNameRawJson = @"_raw_json";
 
 
 - (void)dealloc {
-    [self.soupDb close];
+    //we do not close the soupDb because it's owned by the store
     self.soupDb = nil;
     [_name release]; _name = nil;
     [_soupPath release]; _soupPath = nil;

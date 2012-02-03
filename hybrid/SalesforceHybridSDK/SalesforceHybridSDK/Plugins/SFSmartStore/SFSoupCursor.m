@@ -98,6 +98,11 @@
 }
 
 
+
+- (void)close {
+    NSLog(@"closing cursor id: %@",self.cursorId);
+}
+
 #pragma mark - Properties
 
 - (void)setCurrentPageIndex:(NSNumber *)pageIdx

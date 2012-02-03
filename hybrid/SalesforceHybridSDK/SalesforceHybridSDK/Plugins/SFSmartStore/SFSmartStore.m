@@ -26,24 +26,59 @@
 #import <Foundation/Foundation.h>
 #import <PhoneGap/PluginResult.h>
 
+
+#import "FMDatabase.h"
 #import "SFContainerAppDelegate.h"
 #import "SFSmartStore.h"
 #import "SFSoup.h"
 #import "SFSoupCursor.h"
 
 
+
+
+NSString *const kDefaultSmartStoreName = @"defaultStore";
+
+
 static NSString *const kSoupsDirectory = @"soups";
+static NSString *const kStoresDirectory = @"stores";
 
-@interface SFSmartStore ()
+
+// Table to keep track of soup's index specs
+static NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
+
+// Columns of the soup index map table
+static NSString *const SOUP_NAME_COL = @"soupName";
+static NSString *const PATH_COL = @"path";
+static NSString *const COLUMN_NAME_COL = @"columnName";
+static NSString *const COLUMN_TYPE_COL = @"columnType";
+
+// Columns of a soup table
+static NSString *const ID_COL = @"id";
+static NSString *const CREATED_COL = @"created";
+static NSString *const LAST_MODIFIED_COL = @"lastModified";
+static NSString *const SOUP_COL = @"soup";
+
+// JSON fields added to soup element on insert/update 
+static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
+static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
-@property (nonatomic, retain) NSMutableDictionary *cursorCache; 
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
+@interface SFSmartStore () {
+    FMDatabase *_storeDb;
+}
 
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
-- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
+
+static NSMutableDictionary *_allSharedStores;
+
+
+/**
+ Create soup index map table to keep track of soups' index specs. Called when the database is first created
+ */
+- (void)createMetaTable;
+
+
+- (id) initWithName:(NSString*)name;
 
 - (SFSoup*)soupByName:(NSString *)soupName;
 
@@ -54,8 +89,98 @@ static NSString *const kSoupsDirectory = @"soups";
 @implementation SFSmartStore
 
 
-@synthesize callbackID = _callbackID;
-@synthesize cursorCache = _cursorCache;
+@synthesize storeDb = _storeDb;
+
+
+- (id) initWithName:(NSString*)name {
+    self = [super init];
+    
+    if (nil != self)  {
+        NSLog(@"SFSmartStore initWithStoreName: %@",name);
+        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
+        _soupCache = [[NSMutableDictionary alloc] init];
+        if (![self.class storeExists:name]) {
+            //there is no persistent store with this name -- setup persistent db
+            
+        }
+    }
+    return self;
+}
+
+
+- (void)dealloc {
+    [_soupCache release]; _soupCache = nil;
+    
+    [self.storeDb close] self.storeDb = nil;
+    
+    [super dealloc];
+}
+
+
+
+#pragma mark - Store methods
+
+
++ (BOOL)storeExists:(NSString*)storeName {
+    BOOL result = NO;
+    SFSmartStore *store = [_allSharedStores objectForKey:storeName];
+    if (nil == store) {
+        NSString *storeDir = [self storePathForStoreName:storeName];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
+            result = YES;
+        }
+    }
+    
+    return result;
+}
+
+
++ (id)sharedStoreWithName:(NSString*)storeName {
+    if (nil == _allSharedStores) {
+        _allSharedStores = [NSMutableDictionary dictionary];
+    }
+    
+    id store = [_allSharedStores objectForKey:storeName];
+    if (nil == store) {
+        store = [[[SFSmartStore alloc] initWithName:storeName] autorelease];
+        [_allSharedStores setObject:store forKey:storeName];
+    }
+    
+    return store;
+}
+
++ (NSString *)storePathForStoreName:(NSString *)storeName {
+    //TODO is this the right parent directory from a security & backups standpoint?
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
+    NSString *result = [storesDir stringByAppendingPathComponent:storeName];
+    
+    return result;
+}
+
+- (void)setupStoreDatabase {
+    if (nil == _storeDb) {
+        
+    }
+}
+
+
+
+- (void)createMetaTable {
+    NSString *createMetaTableSql = [NSString stringWithFormat:@"CREATE TABLE %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
+                                SOUP_INDEX_MAP_TABLE,
+                                SOUP_NAME_COL,
+                                PATH_COL,
+                                COLUMN_NAME_COL,
+                                COLUMN_TYPE_COL
+                                ];
+                                
+    NSLog(@"createMetaTableSql: %@",createMetaTableSql);
+                                
+    //TODO insert in FMDatabase
+//    db.execSQL(sb.toString());
+}
 
 
 #pragma mark - Utility methods
@@ -71,27 +196,6 @@ static NSString *const kSoupsDirectory = @"soups";
 
 
 
-
-- (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
-{
-    self = [super initWithWebView:theWebView];
-    
-    if (nil != self)  {
-        NSLog(@"SmartStore initWithWebView");
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
-        _soupCache = [[NSMutableDictionary alloc] init];
-        _cursorCache = [[NSMutableDictionary alloc] init];
-    }
-    return self;
-}
-
-
-- (void)dealloc {
-    [_soupCache release]; _soupCache = nil;
-    [super dealloc];
-}
-
-
 + (NSString *)soupDirectoryFromSoupName:(NSString *)soupName {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -102,10 +206,13 @@ static NSString *const kSoupsDirectory = @"soups";
 }
 
 
+
+
+
 - (BOOL)soupExists:(NSString*)soupName 
 {
+    //TODO check existence of table etc
     BOOL result = NO;
-    
     SFSoup *soup = [_soupCache objectForKey:soupName];
     if (nil != soup) {
         result = YES;
@@ -190,12 +297,7 @@ static NSString *const kSoupsDirectory = @"soups";
 {
     SFSoup *theSoup = [self soupByName:soupName];
     SFSoupCursor *result =  [theSoup query:querySpec];
-    if (nil != result) {
-        //cache this cursor for later paging
-        [_cursorCache setObject:result forKey:result.cursorId];
-    } else {
-        NSLog(@"No cursor for query: %@", querySpec);
-    }
+    
     return result;
 }
 
@@ -230,14 +332,6 @@ static NSString *const kSoupsDirectory = @"soups";
     }
 }
 
-- (void)closeCursorWithId:(NSString *)cursorId
-{
-    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
-    if (nil != theCursor) {
-        [self.cursorCache removeObjectForKey:cursorId];
-    }
-    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
-}
 
 
 
@@ -252,187 +346,6 @@ static NSString *const kSoupsDirectory = @"soups";
     return result;
 }
 
-- (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId
-{
-    SFSoupCursor *theCursor = [_cursorCache objectForKey:cursorId];
-    if (nil == theCursor) {
-        NSLog(@"Could not find cursor for: %@", cursorId);
-    }
-    return theCursor;
-}
-
-
-#pragma mark - PhoneGap plugin support
-
-- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
-{
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsArray:array];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
-{
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:dict];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
-{    
-    NSString *jsString = [result toSuccessCallbackString:callbackId];
-    
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
-}
-
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
-{
-    NSString *jsString = [result toErrorCallbackString:callbackId];
-    
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
-}
-
-
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    
-    BOOL exists = [self soupExists:soupName];
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsInt:exists];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    
-    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
-  
-}
-
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *indexes = [options objectForKey:@"indexes"];
-    
-    SFSoup *theSoup = [self registerSoup:soupName withIndexSpecs:indexes];
-    NSDictionary *returnVals = [NSDictionary dictionaryWithObjectsAndKeys:theSoup.name, @"registeredSoup",nil];
-    
-    [self writeSuccessDictToJsRealm:returnVals callbackId:callbackId];
-
-    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-
-    [self removeSoup:soupName];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-
-    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
-
-}
-
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSMutableDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSDictionary *querySpec = [options objectForKey:@"querySpec"];
-    
-    SFSoupCursor *cursor =  [self querySoup:soupName withQuerySpec:querySpec];    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-     
-    NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *rawIds = [options objectForKey:@"entryIds"];
-    //make entry Ids unique
-    NSSet *entryIdSet = [NSSet setWithArray:rawIds];
-    NSArray *entryIds = [entryIdSet allObjects];
-    
-    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName];
-    [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
-    
-    NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entries = [options objectForKey:@"entries"];
-    
-    NSArray *resultEntries = [self upsertEntries:entries toSoup:soupName];
-    PluginResult *result;
-    if (nil != resultEntries) {
-        //resultEntries
-        [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
-    } else {
-        result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
-        [self writeErrorResultToJsRealm:result callbackId:callbackId];
-    }
-  
-    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entryIds = [options objectForKey:@"entryIds"];
-
-    [self removeEntries:entryIds fromSoup:soupName];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    
-    NSLog(@"pgRemoveFromSoup took: %f", [startTime timeIntervalSinceNow]);
-
-}
-
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *cursorId = [options objectForKey:@"cursorId"];
-
-    [self closeCursorWithId:cursorId];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-- (void)pgMoveCursorToPageIndex:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-
-    NSString *cursorId = [options objectForKey:@"cursorId"];
-    NSNumber *newPageIndex = [options objectForKey:@"index"];
-    NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
-    
-    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
-    [cursor setCurrentPageIndex:newPageIndex];
-    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];    
-
-    NSLog(@"pgMoveCursorToPageIndex took: %f", [startTime timeIntervalSinceNow]);
-}
 
 
 

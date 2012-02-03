@@ -35,6 +35,9 @@
 		7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
+		7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */; };
+		7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
+		7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */; };
 		7DBB147614C0ECF700CCDBE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7DBB147714C0ECF700CCDBE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
@@ -264,6 +267,8 @@
 		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStorePlugin.h; sourceTree = "<group>"; };
+		7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStorePlugin.m; sourceTree = "<group>"; };
 		7D7626CA14D33BBE0064B5B2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		7D7626CD14D33BBE0064B5B2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D7626CF14D33BBE0064B5B2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -545,6 +550,8 @@
 		7D45E32414BFB394002C4A27 /* SFSmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */,
+				7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */,
 				7D45E32514BFB394002C4A27 /* SFSmartStore.h */,
 				7D45E32614BFB394002C4A27 /* SFSmartStore.m */,
 				7D45E32714BFB394002C4A27 /* SFSoup.h */,
@@ -826,6 +833,7 @@
 				7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */,
 				7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */,
 				7DD88EEC14DA044E00C0D0A0 /* SFJsonUtils.h in Headers */,
+				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,6 +1122,7 @@
 				7D45E34F14BFB394002C4A27 /* FMResultSet.m in Sources */,
 				7D45E35014BFB394002C4A27 /* SqliteAdditions.c in Sources */,
 				7DD88EED14DA044E00C0D0A0 /* SFJsonUtils.m in Sources */,
+				7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,6 +1163,7 @@
 				7DBD16B914D85ED700A17E6A /* FMResultSet.m in Sources */,
 				7DBD16BA14D85ED700A17E6A /* SqliteAdditions.c in Sources */,
 				7DD88EEE14DA046200C0D0A0 /* SFJsonUtils.m in Sources */,
+				7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

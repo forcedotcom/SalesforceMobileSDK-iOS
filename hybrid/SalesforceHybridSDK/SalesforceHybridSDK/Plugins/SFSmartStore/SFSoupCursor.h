@@ -73,5 +73,9 @@
 - (NSDictionary*)asDictionary;
 
 
+/**
+ Close this cursor when finished operating on it...
+ */
+- (void)close; 
 
 @end
