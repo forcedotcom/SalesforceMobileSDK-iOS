@@ -51,6 +51,7 @@
     <target name="utest" depends="pre"
 	 description="runs unit tests in simulator">
         
+		
         <!-- get the latest iphonesimulator location -->
         <exec executable="xcodebuild" outputproperty="latestSimSDKPath">
             <arg line="xcodebuild -version -sdk iphonesimulator Path"/>
@@ -62,8 +63,10 @@
     </target>
     
     <target name="runTestTarget" description="build and run test target" >
+		<property name="covConfig" value="Coverage" />
+	
 		<!-- /Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/build/Debug-iphonesimulator -->
-		<property name="config_build_dir" value="${project.dir}/build/SalesforceHybridSDK.build/Debug-iphonesimulator" />
+		<property name="config_build_dir" value="${project.dir}/build/SalesforceHybridSDK.build/${covConfig}-iphonesimulator" />
 		<property name="cov_output_dir" value="${config_build_dir}/SalesforceHybridSDK.build/Objects-normal/i386/" />		
 		
         <echo message="sdkPath is: ${sdkPath}" />
@@ -100,7 +103,7 @@
 		
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration Debug  -sdk iphonesimulator build" />
+            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration ${covConfig}  -sdk iphonesimulator build" />
         </exec>
 
         <echo message="Stopping securityd ..."/>

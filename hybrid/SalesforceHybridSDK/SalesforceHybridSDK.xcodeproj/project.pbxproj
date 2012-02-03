@@ -1221,6 +1221,173 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7D0F1F7414DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Coverage;
+		};
+		7D0F1F7514DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDK/SalesforceHybridSDK-Info.plist";
+				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Coverage;
+		};
+		7D0F1F7614DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
+					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
+				INFOPLIST_FILE = "TestPlugins/TestPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_AFTER_BUILD = NO;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Coverage;
+		};
+		7D0F1F7714DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestPlugins.app/TestPlugins";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../dependencies\"",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestPlugins/TestPlugins-Prefix.pch";
+				INFOPLIST_FILE = "TestPluginsTests/TestPluginsTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Coverage;
+		};
+		7D0F1F7814DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
+					"\"$(SRCROOT)/DebugPlugins\"",
+					"\"$(SRCROOT)/../dependencies\"",
+				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
+				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Coverage;
+		};
+		7D0F1F7914DB5C5B00E20F3D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DebugPlugins.app/DebugPlugins";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../dependencies\"",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
+				INFOPLIST_FILE = "DebugPluginsTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+				);
+				PRODUCT_NAME = DebugPluginsTests;
+				TEST_AFTER_BUILD = NO;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Coverage;
+		};
 		7D45E30C14BFB259002C4A27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1274,8 +1441,8 @@
 					"\"$(SRCROOT)/../dependencies\"",
 				);
 				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDK/SalesforceHybridSDK-Info.plist";
@@ -1556,6 +1723,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D45E30C14BFB259002C4A27 /* Debug */,
+				7D0F1F7414DB5C5B00E20F3D /* Coverage */,
 				7D45E30D14BFB259002C4A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1565,6 +1733,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D45E30F14BFB259002C4A27 /* Debug */,
+				7D0F1F7514DB5C5B00E20F3D /* Coverage */,
 				7D45E31014BFB259002C4A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1574,6 +1743,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBB14A414C0ECF800CCDBE0 /* Debug */,
+				7D0F1F7614DB5C5B00E20F3D /* Coverage */,
 				7DBB14A514C0ECF800CCDBE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1583,6 +1753,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBB14A714C0ECF800CCDBE0 /* Debug */,
+				7D0F1F7714DB5C5B00E20F3D /* Coverage */,
 				7DBB14A814C0ECF800CCDBE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1592,6 +1763,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBD168014D85C3600A17E6A /* Debug */,
+				7D0F1F7814DB5C5B00E20F3D /* Coverage */,
 				7DBD168114D85C3600A17E6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1601,6 +1773,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DBD16C914D85F6300A17E6A /* Debug */,
+				7D0F1F7914DB5C5B00E20F3D /* Coverage */,
 				7DBD16CA14D85F6300A17E6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
