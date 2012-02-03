@@ -65,8 +65,12 @@
     NSData *jsonData = nil;
     
     if (nil != obj) {
+        NSJSONWritingOptions options = 0;
+#ifdef DEBUG
+        options = NSJSONWritingPrettyPrinted;
+#endif
         jsonData = [NSJSONSerialization dataWithJSONObject:obj 
-                                        options:0 //NSJSONWritingPrettyPrinted 
+                                        options:options 
                                           error:&err
          ];
         
