@@ -78,7 +78,7 @@ static NSString * const kSFRestAPIPathPrefix = @"/services/data";
 - (void)send {
     RKClient *rkClient = [SFRestAPI sharedInstance].rkClient;
     NSString *requestPath = [NSString stringWithString:_request.path];
-    if (NO == [requestPath hasPrefix:kSFRestAPIPathPrefix]) {
+    if (![requestPath hasPrefix:kSFRestAPIPathPrefix]) {
         requestPath = [NSString stringWithFormat:@"%@%@", kSFRestAPIPathPrefix, requestPath];
     }
     NSString *url = requestPath;
