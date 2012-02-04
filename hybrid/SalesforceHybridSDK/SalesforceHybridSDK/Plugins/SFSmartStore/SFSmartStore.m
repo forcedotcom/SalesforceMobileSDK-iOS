@@ -28,11 +28,14 @@
 
 
 #import "FMDatabase.h"
-#import "SFContainerAppDelegate.h"
 #import "SFSmartStore.h"
 #import "SFSoup.h"
 #import "SFSoupCursor.h"
+#import "SFSoupIndex.h"
 
+
+
+static NSMutableDictionary *_allSharedStores;
 
 
 
@@ -69,19 +72,28 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-static NSMutableDictionary *_allSharedStores;
-
-
 /**
- Create soup index map table to keep track of soups' index specs. Called when the database is first created
+ @param storeName The name of the store (excluding paths)
+ @return Does this store already exist in persitent storage (ignoring cache) ?
  */
-- (void)createMetaTable;
-
++ (BOOL)persistentStoreExists:(NSString*)storeName;
 
 - (id) initWithName:(NSString*)name;
 
-- (SFSoup*)soupByName:(NSString *)soupName;
+/**
+ Everything needed to setup the store db file when it doesn't yet exist.
+ */
+- (void)firstTimeStoreDatabaseSetup;
 
+/**
+ Simply open the db file.
+ */
+- (void)openStoreDatabase;
+
+/**
+ Create soup index map table to keep track of soups' index specs. 
+ */
+- (void)createMetaTable;
 
 @end
 
@@ -90,19 +102,42 @@ static NSMutableDictionary *_allSharedStores;
 
 
 @synthesize storeDb = _storeDb;
-
+@synthesize storeName = _storeName;
 
 - (id) initWithName:(NSString*)name {
     self = [super init];
     
     if (nil != self)  {
         NSLog(@"SFSmartStore initWithStoreName: %@",name);
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
+        
+        self.storeName = name;
+        //Setup listening for data protection available / unavailable
+        _dataProtectionKnownAvailable = NO;
+        _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
+                                          addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
+                                          object:nil
+                                          queue:nil 
+                                          usingBlock:^(NSNotification *note) {
+                                              _dataProtectionKnownAvailable = YES;
+                                          }];
+        
+        _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter] 
+                                            addObserverForName:UIApplicationProtectedDataWillBecomeUnavailable 
+                                            object:nil
+                                            queue:nil 
+                                            usingBlock:^(NSNotification *note) {
+                                                _dataProtectionKnownAvailable = NO;
+                                            }];
+        
+        
         _soupCache = [[NSMutableDictionary alloc] init];
-        if (![self.class storeExists:name]) {
-            //there is no persistent store with this name -- setup persistent db
-            
+        
+        if (![self.class persistentStoreExists:name]) {
+            [self firstTimeStoreDatabaseSetup];
+        } else {
+            [self openStoreDatabase];
         }
+
     }
     return self;
 }
@@ -111,29 +146,50 @@ static NSMutableDictionary *_allSharedStores;
 - (void)dealloc {
     [_soupCache release]; _soupCache = nil;
     
-    [self.storeDb close] self.storeDb = nil;
+    [self.storeDb close]; self.storeDb = nil;
+    
+    //remove data protection observer
+    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
+    _dataProtectAvailObserverToken = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
+    _dataProtectUnavailObserverToken = nil;
     
     [super dealloc];
 }
 
 
+- (void)firstTimeStoreDatabaseSetup {
+    [self openStoreDatabase];
+    [self createMetaTable];
+}
+
+- (void)openStoreDatabase {
+    NSString *storePath = [self.class storePathForStoreName:self.storeName];
+    FMDatabase *db = [FMDatabase databaseWithPath:storePath ];
+    [db setLogsErrors:YES];
+    [db setCrashOnErrors:YES];
+    [db open];
+    self.storeDb = db;
+}
 
 #pragma mark - Store methods
 
+
++ (BOOL)persistentStoreExists:(NSString*)storeName {
+    NSString *storeDir = [self storePathForStoreName:storeName];
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:storeDir];    
+    return result;
+}
 
 + (BOOL)storeExists:(NSString*)storeName {
     BOOL result = NO;
     SFSmartStore *store = [_allSharedStores objectForKey:storeName];
     if (nil == store) {
-        NSString *storeDir = [self storePathForStoreName:storeName];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
-            result = YES;
-        }
+        result = [self persistentStoreExists:storeName];
     }
     
     return result;
 }
-
 
 + (id)sharedStoreWithName:(NSString*)storeName {
     if (nil == _allSharedStores) {
@@ -159,34 +215,33 @@ static NSMutableDictionary *_allSharedStores;
     return result;
 }
 
-- (void)setupStoreDatabase {
-    if (nil == _storeDb) {
-        
-    }
-}
-
-
 
 - (void)createMetaTable {
-    NSString *createMetaTableSql = [NSString stringWithFormat:@"CREATE TABLE %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
-                                SOUP_INDEX_MAP_TABLE,
-                                SOUP_NAME_COL,
-                                PATH_COL,
-                                COLUMN_NAME_COL,
-                                COLUMN_TYPE_COL
-                                ];
-                                
+    NSString *createMetaTableSql = [NSString stringWithFormat:
+                                    @"CREATE TABLE %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
+                                    SOUP_INDEX_MAP_TABLE,
+                                    SOUP_NAME_COL,
+                                    PATH_COL,
+                                    COLUMN_NAME_COL,
+                                    COLUMN_TYPE_COL
+                                    ];
+    
     NSLog(@"createMetaTableSql: %@",createMetaTableSql);
-                                
-    //TODO insert in FMDatabase
-//    db.execSQL(sb.toString());
+                       
+    BOOL runOk =[self.storeDb  executeUpdate:createMetaTableSql];
+    if (!runOk) {
+        NSLog(@"ERROR creating meta table  %d %@", 
+              [self.storeDb lastErrorCode], 
+              [self.storeDb lastErrorMessage] );
+    }
 }
 
 
 #pragma mark - Utility methods
 
+
 - (BOOL)isFileDataProtectionActive {
-    return [_appDelegate isFileDataProtectionAvailable];
+    return _dataProtectionKnownAvailable;
 }
 
 
@@ -207,27 +262,168 @@ static NSMutableDictionary *_allSharedStores;
 
 
 
-
-
 - (BOOL)soupExists:(NSString*)soupName 
 {
     //TODO check existence of table etc
     BOOL result = NO;
-    SFSoup *soup = [_soupCache objectForKey:soupName];
-    if (nil != soup) {
-        result = YES;
-    }
-    else {
-        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
-            result = YES;
-        }
-    }
+    
+    
+//    SFSoup *soup = [_soupCache objectForKey:soupName];
+//    if (nil != soup) {
+//        result = YES;
+//    }
+//    else {
+//        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
+//            result = YES;
+//        }
+//    }
         
     return result;
 }
 
-- (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
+
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
+{
+    BOOL result = NO;
+    
+    NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
+    NSMutableArray *createIndexStmts = [[NSMutableArray alloc] init ];
+    NSMutableString *createTableStmts = [[NSMutableString alloc] init];
+    [createTableStmt appendFormat:@"CREATE TABLE %@ (",soupName];
+    [createTableStmt appendFormat:@"%@ INTEGER PRIMARY KEY AUTOINCREMENT",ID_COL];
+    [createTableStmt appendFormat:@", %@ TEXT",SOUP_COL]; //this is the column where the raw json is stored
+    [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL]; //TODO make these dates floats (NSTimeInterval) ?
+    [createTableStmt appendFormat:@", %@ INTEGER",LAST_MODIFIED_COL];
+
+    
+    for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
+        NSDictionary *rawIndexSpec = [indexSpecs objectAtIndex:i];
+        SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithIndexSpec:rawIndexSpec];
+        
+        // for creating the soup table itself in the store db
+        NSString *columnName = [NSString stringWithFormat:@"%@_%d",soupName,i];
+        NSString * columnType = [indexSpec columnType];
+        [createTableStmt appendFormat:@", %@ %@ ",columnName,columnType];
+        
+        // for inserting into meta mapping table
+        NSMutableDictionary *values = [[NSMutableDictionary alloc] init ];
+        [values setObject:soupName forKey:SOUP_NAME_COL];
+        [values setObject:indexSpec.path forKey:PATH_COL]; //TODO make path safe?
+        [values setObject:columnName forKey:COLUMN_NAME_COL];
+        [values setObject:indexSpec.type forKey:COLUMN_TYPE_COL];
+        [soupIndexMapInserts addObject:values];
+        [values release];
+        
+        // for creating an index on the soup table
+        NSString *indexName = [NSString stringWithFormat:@"%@_%d_idx",soupName,i];
+        [createIndexStmts addObject:
+         [NSString stringWithFormat:@"CREATE INDEX %@ ON %@ ( %@ )",indexName, soupName, columnName]
+         ];
+         
+    }
+    
+    [createTableStmt appendString:@")"];
+    NSLog(@"createTableStmt: %@",createTableStmt);
+
+    // create the main soup table
+    BOOL runOk = [self.storeDb  executeUpdate:createTableStmt];
+    if (!runOk) {
+        NSLog(@"ERROR creating soup table  %d %@ ", 
+              [self.storeDb lastErrorCode], 
+              [self.storeDb lastErrorMessage],
+              createTableStmt);
+    } else {
+        // create indices for this soup
+        for (NSString *createIndexStmt in createIndexStmts) {
+            runOk = [self.storeDb  executeUpdate:createIndexStmt];
+            if (!runOk) {
+                NSLog(@"ERROR creating soup index  %d %@", 
+                      [self.storeDb lastErrorCode], 
+                      [self.storeDb lastErrorMessage] );
+                NSLog(@"createIndexStmt: %@",createIndexStmt);
+            }
+        }
+        
+        // update the mapping table for this soup's columns
+        
+        if ([self.storeDb beginTransaction]) {
+            
+            for (NSDictionary *values in soupIndexMapInserts) {
+                //TODO map all of the columns and values from soupIndexMapInserts
+                //TODO WRONNNNGGGGG
+                NSString *insertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", SOUP_INDEX_MAP_TABLE, fieldNames, fieldVals];
+                [self.storeDb executeUpdate:insertSql];
+            }
+                 
+//            for (ContentValues values : soupIndexMapInserts) {
+//                db.insert(SOUP_INDEX_MAP_TABLE, values);
+//            }
+            
+            [self.storeDb endTransaction:YES];
+            result = YES;
+        }
+
+        
+    }
+    
+    
+    return  result;
+
+                                    
+//    StringBuilder createTableStmt = new StringBuilder();          // to create new soup table
+//    List<String> createIndexStmts = new ArrayList<String>();      // to create indices on new soup table
+//    List<ContentValues> soupIndexMapInserts = new ArrayList<ContentValues>();  // to be inserted in soup index map table
+//    
+//    createTableStmt.append("CREATE TABLE ").append(soupName).append(" (")
+//    .append(ID_COL).append(" INTEGER PRIMARY KEY AUTOINCREMENT")
+//    .append(", ").append(SOUP_COL).append(" TEXT")
+//    .append(", ").append(CREATED_COL).append(" INTEGER")
+//    .append(", ").append(LAST_MODIFIED_COL).append(" INTEGER");
+//    
+//    int i = 0;
+//    for (IndexSpec indexSpec : indexSpecs) {
+//        // for create table
+//        String columnName = soupName + "_" + i;
+//        String columnType = indexSpec.type.getColumnType();
+//        createTableStmt.append(", ").append(columnName).append(" ").append(columnType);
+//        
+//        // for insert
+//        ContentValues values = new ContentValues();
+//        values.put(SOUP_NAME_COL, soupName);
+//        values.put(PATH_COL, indexSpec.path);
+//        values.put(COLUMN_NAME_COL, columnName);
+//        values.put(COLUMN_TYPE_COL, indexSpec.type.toString());
+//        soupIndexMapInserts.add(values);
+//        
+//        // for create index
+//        String indexName = soupName + "_" + i + "_idx";
+//        createIndexStmts.add(String.format("CREATE INDEX %s on %s ( %s )", indexName, soupName, columnName));;
+//        
+//        i++;
+//    }
+//    createTableStmt.append(")");
+//    
+    
+//    db.execSQL(createTableStmt.toString());
+//    for (String createIndexStmt : createIndexStmts) {
+//        db.execSQL(createIndexStmt.toString());
+//    }
+//    
+//    try {
+//        db.beginTransaction();
+//        for (ContentValues values : soupIndexMapInserts) {
+//            db.insert(SOUP_INDEX_MAP_TABLE, values);
+//        }
+//        db.setTransactionSuccessful();
+//    }
+//    finally {
+//        db.endTransaction();
+//    }
+}
+
+
+- (SFSoup*)oldRegisterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
 {
     NSLog(@"SmartStore registerSoup: %@", soupName);
 

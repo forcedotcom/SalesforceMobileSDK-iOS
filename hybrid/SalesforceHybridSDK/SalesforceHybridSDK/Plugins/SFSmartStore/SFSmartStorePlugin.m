@@ -71,7 +71,6 @@
 - (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
 {
     NSString *jsString = [result toErrorCallbackString:callbackId];
-    
 	if (jsString){
 		[self writeJavascript:jsString];
     }
@@ -95,7 +94,7 @@
 {
     SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
     if (nil != theCursor) {
-        theCursor.close();
+        [theCursor close];
         [self.cursorCache removeObjectForKey:cursorId];
     } else {
         NSLog(@"WARNING could not find cursor with ID %@ for closing",cursorId);
@@ -124,10 +123,14 @@
     NSString *soupName = [options objectForKey:@"soupName"];
     NSArray *indexes = [options objectForKey:@"indexes"];
     
-    SFSoup *theSoup = [self.store registerSoup:soupName withIndexSpecs:indexes];
-    NSDictionary *returnVals = [NSDictionary dictionaryWithObjectsAndKeys:theSoup.name, @"registeredSoup",nil];
-    
-    [self writeSuccessDictToJsRealm:returnVals callbackId:callbackId];
+    BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
+    if (regOk) {
+        NSDictionary *returnVals = [NSDictionary dictionaryWithObjectsAndKeys:soupName, @"registeredSoup",nil];
+        [self writeSuccessDictToJsRealm:returnVals callbackId:callbackId];
+    } else {
+        PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
     
     NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
 }
@@ -154,9 +157,9 @@
     NSDictionary *querySpec = [options objectForKey:@"querySpec"];
     
     SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
-    if (nil != result) {
+    if (nil != cursor) {
         //cache this cursor for later paging
-        [self.cursorCache setObject:result forKey:result.cursorId];
+        [self.cursorCache setObject:cursor forKey:cursor.cursorId];
     } else {
         NSLog(@"No cursor for query: %@", querySpec);
     }

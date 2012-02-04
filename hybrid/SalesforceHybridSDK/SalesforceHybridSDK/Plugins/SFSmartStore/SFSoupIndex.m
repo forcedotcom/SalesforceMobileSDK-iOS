@@ -37,11 +37,11 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
 
 @implementation SFSoupIndex
 
-@synthesize keyPath = _keyPath;
+@synthesize path = _keyPath;
 @synthesize indexType = _indexType;
 @synthesize indexedColumnName = _indexedColumnName;
 @synthesize indexName = _indexName;
-
+@synthesize columnType = _columnType;
 
 + (NSString*)soupIndexNameForKeyPath:(NSString*)path
 {
@@ -64,13 +64,13 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
     self = [super init];
     
     if (nil != self) {
-        self.keyPath = [indexSpec objectForKey:@"path"];
+        self.path = [indexSpec objectForKey:@"path"];
         
         //TODO check that indexType is valid type?
         self.indexType = [indexSpec objectForKey:@"type"];
 
-        self.indexedColumnName = [[self class] indexColumnNameForKeyPath:self.keyPath];
-        self.indexName = [[self class] soupIndexNameForKeyPath:self.keyPath];
+        self.indexedColumnName = [[self class] indexColumnNameForKeyPath:self.path];
+        self.indexName = [[self class] soupIndexNameForKeyPath:self.path];
     }
     return self;
 }
@@ -101,7 +101,7 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
     
     //figure out the keyPath
     NSString *rawKeyPath = [self.indexName substringFromIndex:[kSoupIndexNamePrefix length]];
-    self.keyPath = rawKeyPath; //TODO decode flattened path
+    self.path = rawKeyPath; //TODO decode flattened path
     
     return self;
 

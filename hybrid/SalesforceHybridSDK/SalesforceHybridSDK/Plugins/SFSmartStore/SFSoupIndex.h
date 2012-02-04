@@ -30,9 +30,13 @@ extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeDate;
 
 
-@interface SFSoupIndex : NSObject
+@interface SFSoupIndex : NSObject {
+    NSString *_columnType;
+}
 
-@property (nonatomic, retain) NSString *keyPath;
+@property (nonatomic, retain) NSString *path;
+@property (nonatomic, strong) NSString *columnType;
+
 @property (nonatomic, retain) NSString *indexType;
 @property (nonatomic, retain) NSString *indexedColumnName;
 @property (nonatomic, retain) NSString *indexName;

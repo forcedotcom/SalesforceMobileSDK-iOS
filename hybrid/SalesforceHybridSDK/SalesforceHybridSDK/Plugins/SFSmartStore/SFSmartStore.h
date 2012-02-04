@@ -37,21 +37,24 @@
 extern NSString *const kDefaultSmartStoreName;
 
 @class FMDatabase;
-@class SFContainerAppDelegate;
 @class SFSoupCursor;
-@class SFSoup;
 
 @interface SFSmartStore : NSObject {
 
-    SFContainerAppDelegate *_appDelegate;
-
-    NSString    *_callbackID;  
+    //used for monitoring the status of file data protection
+    BOOL    _dataProtectionKnownAvailable;
+    id      _dataProtectAvailObserverToken;
+    id      _dataProtectUnavailObserverToken;
+    
+    FMDatabase *_storeDb;
+    NSString *_storeName;
     
     //cache of soups by name
     NSMutableDictionary *_soupCache;
     
 }
 
+@property (nonatomic, strong) NSString *storeName;
 @property (nonatomic, strong) FMDatabase *storeDb;
 
 
@@ -76,7 +79,8 @@ extern NSString *const kDefaultSmartStoreName;
 + (BOOL)storeExists:(NSString*)storeName;
 
 
-#pragma mark - Native Soup manipulation methods
+
+#pragma mark - Soup manipulation methods
 
 
 /**
@@ -84,17 +88,15 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (BOOL)soupExists:(NSString*)soupName;
 
-
 /**
  Ensure that a soup with the given name exists.
  Either creates a new soup or returns an existing soup.
  
  @param soupName The name of the soup to register
  @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
- @return A new or existing soup with the given name
+ @return YES if the soup registered OK
  */
-- (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
-
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
 
 /*
  Search soup for entries matching the querySpec
@@ -126,7 +128,6 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName;
 
-
 /*
  Remove soup entries exactly matching the soup entry IDs
  
@@ -143,6 +144,18 @@ extern NSString *const kDefaultSmartStoreName;
  @param soupName The name of the soup to remove from the store.
  */
 - (void)removeSoup:(NSString*)soupName;
+
+
+#pragma mark - Utility methods
+
+/**
+ This is updated based on receiving notifications for
+ UIApplicationProtectedDataDidBecomeAvailable / UIApplicationProtectedDataWillBecomeUnavailable.
+ Note that on the simulator currently, data protection is NEVER active.
+ 
+ @return Are we sure that file data protection (full passcode-based encryption) is available?
+ */
+- (BOOL)isFileDataProtectionActive;
 
 
 
