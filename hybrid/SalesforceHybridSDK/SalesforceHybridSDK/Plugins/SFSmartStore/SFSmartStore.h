@@ -26,9 +26,6 @@
 
 #import <Foundation/Foundation.h>
 
-// From PhoneGap.framework
-#import "PGPlugin.h"
-
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -49,8 +46,6 @@ extern NSString *const kDefaultSmartStoreName;
     FMDatabase *_storeDb;
     NSString *_storeName;
     
-    //cache of soups by name
-    NSMutableDictionary *_soupCache;
     
 }
 
@@ -60,9 +55,11 @@ extern NSString *const kDefaultSmartStoreName;
 
 /**
  @param storeName The name of the store.
- @return The filesystem path for the given store name
+ @return The filesystem diretory containing for the given store name
  */
-+ (NSString *)storePathForStoreName:(NSString *)storeName;
++ (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
+
+
 
 
 /**

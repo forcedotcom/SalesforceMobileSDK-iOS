@@ -199,7 +199,6 @@ static NSString * const kColNameRawJson = @"_raw_json";
 
 
 
-
 - (SFSoupCursor*)query:(NSDictionary*)querySpec {
     NSMutableArray *resultEntries = [NSMutableArray array];
     
@@ -305,9 +304,8 @@ static NSString * const kColNameRawJson = @"_raw_json";
          
         //update all the indexed values (idx_foo)
         for (SFSoupIndex *idx  in self.soupIndices) {
-            NSString *keyPath = idx.keyPath;
+            NSString *keyPath = idx.path;
             NSObject *val = [entry valueForKeyPath:keyPath]; //TODO check compound paths
-            //NSObject *val = [entry objectForKey:keyPath]; //TODO handle compound paths
             //not all indexed paths will have values in every entry
             if (nil != val) {
                 [fieldNames appendFormat:@",%@", idx.indexedColumnName];

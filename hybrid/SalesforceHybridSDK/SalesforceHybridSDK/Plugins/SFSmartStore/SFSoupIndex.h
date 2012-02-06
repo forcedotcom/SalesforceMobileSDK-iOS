@@ -31,13 +31,14 @@ extern NSString * const kSoupIndexTypeDate;
 
 
 @interface SFSoupIndex : NSObject {
-    NSString *_columnType;
+    NSString *_path;
+    NSString *_indexType;
 }
 
 @property (nonatomic, retain) NSString *path;
-@property (nonatomic, strong) NSString *columnType;
+@property (nonatomic, strong) NSString *indexType;
+@property (nonatomic, readonly) NSString *columnType;
 
-@property (nonatomic, retain) NSString *indexType;
 @property (nonatomic, retain) NSString *indexedColumnName;
 @property (nonatomic, retain) NSString *indexName;
 
@@ -48,12 +49,12 @@ extern NSString * const kSoupIndexTypeDate;
  */
 - (id)initWithIndexSpec:(NSDictionary*)indexSpec;
 
-/**
- @param sql The sql that was used to create the index in the db
- @see createSqlWithTableName
- @return initialized index object
- */
-- (id)initWithSql:(NSString *)sql;
+///**
+// @param sql The sql that was used to create the index in the db
+// @see createSqlWithTableName
+// @return initialized index object
+// */
+//- (id)initWithSql:(NSString *)sql;
 
 /**
  @return SQL string that can be used to create the index on the provided table

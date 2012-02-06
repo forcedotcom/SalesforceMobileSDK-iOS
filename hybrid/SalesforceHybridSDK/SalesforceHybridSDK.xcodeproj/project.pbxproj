@@ -15,7 +15,6 @@
 		7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32514BFB394002C4A27 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
 		7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32714BFB394002C4A27 /* SFSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32814BFB394002C4A27 /* SFSoup.m */; };
 		7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32914BFB394002C4A27 /* SFSoupCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
 		7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,7 +120,6 @@
 		7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7DBD16B014D85E6700A17E6A /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
-		7DBD16B114D85E6700A17E6A /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32814BFB394002C4A27 /* SFSoup.m */; };
 		7DBD16B214D85E6700A17E6A /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
 		7DBD16B314D85E6700A17E6A /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */; };
 		7DBD16B414D85E9F00A17E6A /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
@@ -1113,7 +1111,6 @@
 				7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */,
 				7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */,
 				7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */,
-				7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */,
 				7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */,
 				7D45E34614BFB394002C4A27 /* SFSoupIndex.m in Sources */,
 				7D45E34814BFB394002C4A27 /* FMDatabase.m in Sources */,
@@ -1154,7 +1151,6 @@
 				7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */,
 				7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */,
 				7DBD16B014D85E6700A17E6A /* SFSmartStore.m in Sources */,
-				7DBD16B114D85E6700A17E6A /* SFSoup.m in Sources */,
 				7DBD16B214D85E6700A17E6A /* SFSoupCursor.m in Sources */,
 				7DBD16B314D85E6700A17E6A /* SFSoupIndex.m in Sources */,
 				7DBD16B614D85ED700A17E6A /* FMDatabase.m in Sources */,

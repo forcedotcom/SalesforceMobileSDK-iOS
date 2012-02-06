@@ -37,11 +37,12 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
 
 @implementation SFSoupIndex
 
-@synthesize path = _keyPath;
+@synthesize path = _path;
 @synthesize indexType = _indexType;
+
+
 @synthesize indexedColumnName = _indexedColumnName;
 @synthesize indexName = _indexName;
-@synthesize columnType = _columnType;
 
 + (NSString*)soupIndexNameForKeyPath:(NSString*)path
 {
@@ -75,36 +76,50 @@ static NSString * const kIndexCreationPrefix = @"CREATE INDEX ";
     return self;
 }
 
-- (id)initWithSql:(NSString *)sql
-{
-    //eg:
-    //CREATE INDEX ix_name on _soupMaster (idx_name)
-    
-    self = [super init];
+//- (id)initWithSql:(NSString *)sql
+//{
+//    //eg:
+//    //CREATE INDEX ix_name on _soupMaster (idx_name)
+//    
+//    self = [super init];
+//
+//    NSString *meatStr = [sql substringFromIndex:[kIndexCreationPrefix length]];
+//    NSArray *sqlTokens = [meatStr componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    //NSLog(@"tokens: %@",sqlTokens);
+//    
+//    for(NSString *tok in sqlTokens) {
+//        if ([tok hasPrefix:kSoupIndexNamePrefix]) {
+//            self.indexName = tok;
+//        }
+//        else  if ([tok hasPrefix:kCreatedSoupIndexColumnNamePrefix]) {
+//            NSString *sub = [tok substringWithRange:NSMakeRange(1,[tok length] - 2)];
+//            self.indexedColumnName = sub;
+//        }
+//    }
+//    
+//    //TODO glean the index type from the main table's column definition itself?
+//    self.indexType = kSoupIndexTypeString;
+//    
+//    //figure out the keyPath
+//    NSString *rawKeyPath = [self.indexName substringFromIndex:[kSoupIndexNamePrefix length]];
+//    self.path = rawKeyPath; //TODO decode flattened path
+//    
+//    return self;
+//
+//}
 
-    NSString *meatStr = [sql substringFromIndex:[kIndexCreationPrefix length]];
-    NSArray *sqlTokens = [meatStr componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    //NSLog(@"tokens: %@",sqlTokens);
-    
-    for(NSString *tok in sqlTokens) {
-        if ([tok hasPrefix:kSoupIndexNamePrefix]) {
-            self.indexName = tok;
-        }
-        else  if ([tok hasPrefix:kCreatedSoupIndexColumnNamePrefix]) {
-            NSString *sub = [tok substringWithRange:NSMakeRange(1,[tok length] - 2)];
-            self.indexedColumnName = sub;
-        }
+/**
+ Maps the IndexSpec type to the SQL column type
+ */
+- (NSString*)columnType {
+    NSString *result = @"TEXT";
+    if ([self.indexType isEqualToString:kSoupIndexTypeString]) {
+        result = @"TEXT";
+    } else if ([self.indexType isEqualToString:kSoupIndexTypeDate]) {
+        result = @"INTEGER";
     }
     
-    //TODO glean the index type from the main table's column definition itself?
-    self.indexType = kSoupIndexTypeString;
-    
-    //figure out the keyPath
-    NSString *rawKeyPath = [self.indexName substringFromIndex:[kSoupIndexNamePrefix length]];
-    self.path = rawKeyPath; //TODO decode flattened path
-    
-    return self;
-
+    return  result;
 }
 
 - (NSString*)createSqlWithTableName:(NSString*)tableName

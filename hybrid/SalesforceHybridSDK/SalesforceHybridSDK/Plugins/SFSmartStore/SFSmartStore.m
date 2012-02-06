@@ -28,8 +28,8 @@
 
 
 #import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
 #import "SFSmartStore.h"
-#import "SFSoup.h"
 #import "SFSoupCursor.h"
 #import "SFSoupIndex.h"
 
@@ -42,8 +42,8 @@ static NSMutableDictionary *_allSharedStores;
 NSString *const kDefaultSmartStoreName = @"defaultStore";
 
 
-static NSString *const kSoupsDirectory = @"soups";
 static NSString *const kStoresDirectory = @"stores";
+static NSString * const kStoreDbFileName = @"store.sqlite";
 
 
 // Table to keep track of soup's index specs
@@ -51,6 +51,8 @@ static NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
 
 // Columns of the soup index map table
 static NSString *const SOUP_NAME_COL = @"soupName";
+static NSString *const SOUP_NAME_PREDICATE = @"soupName = ?";
+
 static NSString *const PATH_COL = @"path";
 static NSString *const COLUMN_NAME_COL = @"columnName";
 static NSString *const COLUMN_TYPE_COL = @"columnType";
@@ -71,6 +73,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     FMDatabase *_storeDb;
 }
 
+/**
+ @param storeName The name of the store (excluding paths)
+ @return full filesystem path for the store db file
+ */
++ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
 
 /**
  @param storeName The name of the store (excluding paths)
@@ -80,20 +87,38 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (id) initWithName:(NSString*)name;
 
-/**
- Everything needed to setup the store db file when it doesn't yet exist.
- */
-- (void)firstTimeStoreDatabaseSetup;
+
 
 /**
- Simply open the db file.
+ Everything needed to setup the store db file when it doesn't yet exist.
+ 
+ @return Success ?
  */
-- (void)openStoreDatabase;
+- (BOOL)firstTimeStoreDatabaseSetup;
+
+
+/**
+
+ @param soupIndexMapInserts array of NSDictionary of columns and values to be inserted
+ @return Insert a new set of indices into the soupe index map.
+ */
+- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts;
+
+
+    
+/**
+ Simply open the db file.
+ 
+ @return YES if we were able to open the db file
+ */
+- (BOOL)openStoreDatabase;
 
 /**
  Create soup index map table to keep track of soups' index specs. 
+ 
+ @return YES if we were able to create the meta table OK
  */
-- (void)createMetaTable;
+- (BOOL)createMetaTable;
 
 @end
 
@@ -129,13 +154,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                                 _dataProtectionKnownAvailable = NO;
                                             }];
         
-        
-        _soupCache = [[NSMutableDictionary alloc] init];
-        
+                
         if (![self.class persistentStoreExists:name]) {
-            [self firstTimeStoreDatabaseSetup];
+            if (![self firstTimeStoreDatabaseSetup]) {
+                [self release];
+                self = nil;
+            }
         } else {
-            [self openStoreDatabase];
+            if (![self openStoreDatabase]) {
+                [self release];
+                self = nil;
+            }
         }
 
     }
@@ -143,9 +172,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (void)dealloc {
-    [_soupCache release]; _soupCache = nil;
-    
+- (void)dealloc {    
     [self.storeDb close]; self.storeDb = nil;
     
     //remove data protection observer
@@ -158,26 +185,76 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (void)firstTimeStoreDatabaseSetup {
-    [self openStoreDatabase];
-    [self createMetaTable];
+- (BOOL)firstTimeStoreDatabaseSetup {
+    BOOL result = NO;
+    NSError *createErr = nil, *protectErr = nil;
+
+    //ensure that the store directory exists
+    NSString *storeDir = [self.class storeDirectoryForStoreName:self.storeName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
+        //this store has not yet been created: create it
+        [[NSFileManager defaultManager] createDirectoryAtPath:storeDir 
+                                  withIntermediateDirectories:YES attributes:nil error:&createErr];
+        if (nil != createErr) {
+            NSLog(@"Couldn't create store dir at %@ error: %@",storeDir, createErr);
+        }
+    } 
+    
+    if (nil == createErr) {
+        //need to create the db file itself before we can encrypt it
+        if ([self openStoreDatabase]) {
+            if ([self createMetaTable]) {
+                [self.storeDb close]; self.storeDb = nil; //need to close before setting encryption
+                
+                NSString *dbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
+                //setup the sqlite file with encryption        
+                NSDictionary *attr = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
+                if (![[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:&protectErr]) {
+                    NSLog(@"Couldn't protect store: %@",protectErr);
+                } else {
+                    //reopen the storeDb now that it's protected
+                    [self openStoreDatabase];
+                    result = YES;
+                }
+            }
+        }
+    }
+    
+    if (!result) {
+        NSLog(@"Deleting store dir since we can't set it up properly: %@",self.storeName);
+        [[NSFileManager defaultManager] removeItemAtPath:storeDir error:nil];
+    }
+    return result;
 }
 
-- (void)openStoreDatabase {
-    NSString *storePath = [self.class storePathForStoreName:self.storeName];
-    FMDatabase *db = [FMDatabase databaseWithPath:storePath ];
+
++ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName {
+    NSString *storePath = [self storeDirectoryForStoreName:storeName];
+    NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
+    return fullDbFilePath;
+}
+
+- (BOOL)openStoreDatabase {
+    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
+
+    FMDatabase *db = [FMDatabase databaseWithPath:fullDbFilePath ];
     [db setLogsErrors:YES];
     [db setCrashOnErrors:YES];
-    [db open];
-    self.storeDb = db;
+    if ([db open]) {
+        self.storeDb = db;
+    } else {
+        NSLog(@"Couldn't open store db at: %@ error: %@",fullDbFilePath,[db lastErrorMessage] );
+    }
+    
+    return YES;
 }
 
 #pragma mark - Store methods
 
 
 + (BOOL)persistentStoreExists:(NSString*)storeName {
-    NSString *storeDir = [self storePathForStoreName:storeName];
-    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:storeDir];    
+    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];    
     return result;
 }
 
@@ -205,7 +282,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return store;
 }
 
-+ (NSString *)storePathForStoreName:(NSString *)storeName {
++ (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
     //TODO is this the right parent directory from a security & backups standpoint?
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -216,9 +293,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (void)createMetaTable {
+- (BOOL)createMetaTable {
     NSString *createMetaTableSql = [NSString stringWithFormat:
-                                    @"CREATE TABLE %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
+                                    @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
                                     SOUP_INDEX_MAP_TABLE,
                                     SOUP_NAME_COL,
                                     PATH_COL,
@@ -227,13 +304,25 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                     ];
     
     NSLog(@"createMetaTableSql: %@",createMetaTableSql);
-                       
-    BOOL runOk =[self.storeDb  executeUpdate:createMetaTableSql];
-    if (!runOk) {
-        NSLog(@"ERROR creating meta table  %d %@", 
-              [self.storeDb lastErrorCode], 
-              [self.storeDb lastErrorMessage] );
+            
+    BOOL result = NO;
+    
+    @try {
+        result =[self.storeDb  executeUpdate:createMetaTableSql];
     }
+    @catch (NSException *exception) {
+        NSLog(@"Exception creating meta table: %@", exception);
+    }
+    @finally {
+        if (!result) {
+            NSLog(@"ERROR %d creating meta table: '%@'", 
+            [self.storeDb lastErrorCode], 
+            [self.storeDb lastErrorMessage] );
+        }
+    }
+    
+    
+    return result;
 }
 
 
@@ -249,39 +338,56 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 #pragma mark - Soup maniupulation methods
 
 
-
-
-+ (NSString *)soupDirectoryFromSoupName:(NSString *)soupName {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *soupsDir = [documentsDirectory stringByAppendingPathComponent:kSoupsDirectory];
-    NSString *soupDir = [soupsDir stringByAppendingPathComponent:soupName];
-
-    return soupDir;
-}
-
-
-
-- (BOOL)soupExists:(NSString*)soupName 
-{
-    //TODO check existence of table etc
-    BOOL result = NO;
-    
-    
-//    SFSoup *soup = [_soupCache objectForKey:soupName];
-//    if (nil != soup) {
-//        result = YES;
-//    }
-//    else {
-//        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-//        if ([[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
-//            result = YES;
-//        }
-//    }
-        
+- (BOOL)soupExists:(NSString*)soupName {
+    BOOL result = [self.storeDb tableExists:soupName];
     return result;
 }
 
+
+- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts {
+    BOOL result = NO;
+    
+    // update the mapping table for this soup's columns
+    if ([self.storeDb beginTransaction]) {
+        for (NSDictionary *map in soupIndexMapInserts) {
+            // map all of the columns and values from soupIndexMapInserts
+            
+            __block NSMutableString *fieldNames = [[NSMutableString alloc] init];
+            __block NSMutableString *fieldValues = [[NSMutableString alloc] init];
+            __block NSUInteger fieldCount = 0;
+            
+            [map enumerateKeysAndObjectsUsingBlock:
+             ^(id key, id obj, BOOL *stop) {
+                 if (fieldCount > 0) {
+                     [fieldNames appendFormat:@",%@",key];
+                     [fieldValues appendFormat:@",\"%@\"",obj];
+                 } else {
+                     [fieldNames appendString:key];
+                     [fieldValues appendFormat:@"\"%@\"",obj];
+                 }
+                 fieldCount++;
+             }];
+            
+            
+            NSString *soupMapSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", 
+                                    SOUP_INDEX_MAP_TABLE, 
+                                    fieldNames, 
+                                    fieldValues];
+            NSLog(@"soupMapSql: %@",soupMapSql);
+            [fieldNames release]; [fieldValues release];
+            BOOL runOk = [self.storeDb executeUpdate:soupMapSql];
+            if (!runOk) {
+                break;
+            }
+        }
+                
+        [self.storeDb endTransaction:YES];
+        result = YES;
+    }
+    
+    return result;
+    
+}
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
 {
@@ -289,8 +395,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
     NSMutableArray *createIndexStmts = [[NSMutableArray alloc] init ];
-    NSMutableString *createTableStmts = [[NSMutableString alloc] init];
-    [createTableStmt appendFormat:@"CREATE TABLE %@ (",soupName];
+    NSMutableString *createTableStmt = [[NSMutableString alloc] init];
+    [createTableStmt appendFormat:@"CREATE TABLE IF NOT EXISTS %@ (",soupName];
     [createTableStmt appendFormat:@"%@ INTEGER PRIMARY KEY AUTOINCREMENT",ID_COL];
     [createTableStmt appendFormat:@", %@ TEXT",SOUP_COL]; //this is the column where the raw json is stored
     [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL]; //TODO make these dates floats (NSTimeInterval) ?
@@ -311,14 +417,14 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [values setObject:soupName forKey:SOUP_NAME_COL];
         [values setObject:indexSpec.path forKey:PATH_COL]; //TODO make path safe?
         [values setObject:columnName forKey:COLUMN_NAME_COL];
-        [values setObject:indexSpec.type forKey:COLUMN_TYPE_COL];
+        [values setObject:indexSpec.indexType forKey:COLUMN_TYPE_COL];
         [soupIndexMapInserts addObject:values];
         [values release];
         
         // for creating an index on the soup table
         NSString *indexName = [NSString stringWithFormat:@"%@_%d_idx",soupName,i];
         [createIndexStmts addObject:
-         [NSString stringWithFormat:@"CREATE INDEX %@ ON %@ ( %@ )",indexName, soupName, columnName]
+         [NSString stringWithFormat:@"CREATE INDEX IF NOT EXISTS %@ ON %@ ( %@ )",indexName, soupName, columnName]
          ];
          
     }
@@ -329,7 +435,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // create the main soup table
     BOOL runOk = [self.storeDb  executeUpdate:createTableStmt];
     if (!runOk) {
-        NSLog(@"ERROR creating soup table  %d %@ ", 
+        NSLog(@"ERROR creating soup table  %d %@ stmt: %@", 
               [self.storeDb lastErrorCode], 
               [self.storeDb lastErrorMessage],
               createTableStmt);
@@ -346,153 +452,54 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         }
         
         // update the mapping table for this soup's columns
+        result = [self insertIntoSoupIndexMap:soupIndexMapInserts];
         
-        if ([self.storeDb beginTransaction]) {
-            
-            for (NSDictionary *values in soupIndexMapInserts) {
-                //TODO map all of the columns and values from soupIndexMapInserts
-                //TODO WRONNNNGGGGG
-                NSString *insertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", SOUP_INDEX_MAP_TABLE, fieldNames, fieldVals];
-                [self.storeDb executeUpdate:insertSql];
-            }
-                 
-//            for (ContentValues values : soupIndexMapInserts) {
-//                db.insert(SOUP_INDEX_MAP_TABLE, values);
-//            }
-            
-            [self.storeDb endTransaction:YES];
-            result = YES;
-        }
-
         
     }
     
     
     return  result;
 
-                                    
-//    StringBuilder createTableStmt = new StringBuilder();          // to create new soup table
-//    List<String> createIndexStmts = new ArrayList<String>();      // to create indices on new soup table
-//    List<ContentValues> soupIndexMapInserts = new ArrayList<ContentValues>();  // to be inserted in soup index map table
-//    
-//    createTableStmt.append("CREATE TABLE ").append(soupName).append(" (")
-//    .append(ID_COL).append(" INTEGER PRIMARY KEY AUTOINCREMENT")
-//    .append(", ").append(SOUP_COL).append(" TEXT")
-//    .append(", ").append(CREATED_COL).append(" INTEGER")
-//    .append(", ").append(LAST_MODIFIED_COL).append(" INTEGER");
-//    
-//    int i = 0;
-//    for (IndexSpec indexSpec : indexSpecs) {
-//        // for create table
-//        String columnName = soupName + "_" + i;
-//        String columnType = indexSpec.type.getColumnType();
-//        createTableStmt.append(", ").append(columnName).append(" ").append(columnType);
-//        
-//        // for insert
-//        ContentValues values = new ContentValues();
-//        values.put(SOUP_NAME_COL, soupName);
-//        values.put(PATH_COL, indexSpec.path);
-//        values.put(COLUMN_NAME_COL, columnName);
-//        values.put(COLUMN_TYPE_COL, indexSpec.type.toString());
-//        soupIndexMapInserts.add(values);
-//        
-//        // for create index
-//        String indexName = soupName + "_" + i + "_idx";
-//        createIndexStmts.add(String.format("CREATE INDEX %s on %s ( %s )", indexName, soupName, columnName));;
-//        
-//        i++;
-//    }
-//    createTableStmt.append(")");
-//    
-    
-//    db.execSQL(createTableStmt.toString());
-//    for (String createIndexStmt : createIndexStmts) {
-//        db.execSQL(createIndexStmt.toString());
-//    }
-//    
-//    try {
-//        db.beginTransaction();
-//        for (ContentValues values : soupIndexMapInserts) {
-//            db.insert(SOUP_INDEX_MAP_TABLE, values);
-//        }
-//        db.setTransactionSuccessful();
-//    }
-//    finally {
-//        db.endTransaction();
-//    }
+
 }
 
 
-- (SFSoup*)oldRegisterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
-{
-    NSLog(@"SmartStore registerSoup: %@", soupName);
 
-    SFSoup *result = [_soupCache objectForKey:soupName];
-    if (nil == result) {
-        
-        //check whether data protection is active:
-        BOOL dataProtectionActive = [self isFileDataProtectionActive];
-        if (!dataProtectionActive) {
-            //TODO something more aggressive? prevent soup creation?
-            //note that data protection is NEVER active on simulator
-            NSLog(@"WARNING: File data protection inactive!");
-        }
-        
-        //we don't have this soup cached in memory, but it might already be persisted
-        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
-            if ([indexSpecs count] > 0) {
-                //this soup has not yet been created: create it
-                NSError *createErr = nil;
-                [[NSFileManager defaultManager] createDirectoryAtPath:soupDir 
-                                          withIntermediateDirectories:YES attributes:nil error:&createErr];
-                if (nil != createErr) {
-                    NSLog(@"createDirectoryAtPath err: %@",createErr);
-                }
-                result = [[SFSoup alloc] initWithName:soupName indexes:indexSpecs atPath:soupDir];
-            }
-        } else {
-            NSLog(@"Soup %@ exists",soupName);
-            result = [[SFSoup alloc] initWithName:soupName fromPath:soupDir];
-        }
-        
-        if (nil == result) {
-            NSLog(@"Unable to mount soup: %@",soupName);
-            //ensure that the entire directory is blown away if we weren't able to load the soup
-            [[NSFileManager defaultManager] removeItemAtPath:soupDir error:nil];
-        } else {
-            [_soupCache setObject:result forKey:soupName];
-            [result autorelease];
-        }
-    }
-    
-    return result;
-}
 
 - (void)removeSoup:(NSString*)soupName {
-
-    NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-    NSFileManager *fileMgr = [NSFileManager defaultManager] ;
-    BOOL isDir = YES;
-    if ([fileMgr fileExistsAtPath:soupDir isDirectory:&isDir] ) {
-        NSError *removeErr = nil;
-        NSLog(@"Removing soupDir '%@'",soupDir);
-        [[NSFileManager defaultManager] removeItemAtPath:soupDir error:&removeErr];
-        if (nil != removeErr) {
-            NSLog(@"Error removing %@ : %@",soupDir,removeErr);
-        }
-    } else {
-        NSLog(@"Ignoring removeSoup for unregistered soup: %@",soupName);
-    }
     
-    [_soupCache removeObjectForKey:soupName];
+    BOOL removedOk = NO;
+    
+    @try {
+        NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupName];
+        [self.storeDb executeUpdate:dropSql];
+        [self.storeDb beginTransaction];
+        
+        NSString *deleteRowSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
+        removedOk = [self.storeDb executeUpdate:deleteRowSql withParams:nil];
+        if (!removedOk) {
+            NSLog(@"Could not update: %@",deleteRowSql); 
+        } else {
+            [self.storeDb endTransaction:YES];
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"exception removing soup: %@", exception);
+    }
+    @finally {
+        if (!removedOk) 
+            [self.storeDb endTransaction:NO];
+    }
+
 }
 
 - (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec
 {
-    SFSoup *theSoup = [self soupByName:soupName];
-    SFSoupCursor *result =  [theSoup query:querySpec];
+    SFSoupCursor *result = nil;
+    //tODO reimpl
+    
+//    SFSoup *theSoup = [self soupByName:soupName];
+//    SFSoupCursor *result =  [theSoup query:querySpec];
     
     return result;
 }
@@ -501,10 +508,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
     NSArray *result = [NSArray array]; //empty result array by default
-    if ([soupEntryIds count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        result = [theSoup retrieveEntries:soupEntryIds];
-    }
+    //TODO reimpl
+
+//    if ([soupEntryIds count] > 0) {
+//        SFSoup *theSoup = [self soupByName:soupName];
+//        result = [theSoup retrieveEntries:soupEntryIds];
+//    }
     return result;
 }
 
@@ -512,35 +521,40 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
     NSArray *result = [NSArray array]; //empty result array by default
-    if ([entries count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        result = [theSoup upsertEntries:entries]; 
-    }
+    
+    //TODO reimpl
+    
+//    if ([entries count] > 0) {
+//        SFSoup *theSoup = [self soupByName:soupName];
+//        result = [theSoup upsertEntries:entries]; 
+//    }
     return result;
 }
 
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName
 {
-    if ([entryIds count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        [theSoup removeEntries:entryIds];
-        //TODO any need to update other cursors pointing at this soup?
-    }
+    //TODO reimpl
+
+//    if ([entryIds count] > 0) {
+//        SFSoup *theSoup = [self soupByName:soupName];
+//        [theSoup removeEntries:entryIds];
+//        //TODO any need to update other cursors pointing at this soup?
+//    }
 }
 
 
 
-
-- (SFSoup*)soupByName:(NSString *)soupName
-{
-    SFSoup *result =  [_soupCache objectForKey:soupName];
-    if (nil == result) {
-        //attempt to reregister the soup using just the name
-        //this only works if the soup was previously created at the standard directory path
-        result = [self registerSoup:soupName withIndexSpecs:nil];
-    }
-    return result;
-}
+//
+//- (SFSoup*)soupByName:(NSString *)soupName
+//{
+//    SFSoup *result =  [_soupCache objectForKey:soupName];
+//    if (nil == result) {
+//        //attempt to reregister the soup using just the name
+//        //this only works if the soup was previously created at the standard directory path
+//        result = [self registerSoup:soupName withIndexSpecs:nil];
+//    }
+//    return result;
+//}
 
 
 
