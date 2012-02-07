@@ -33,14 +33,26 @@ extern NSString * const kSoupIndexTypeDate;
 @interface SFSoupIndex : NSObject {
     NSString *_path;
     NSString *_indexType;
+    NSString *_columnName;
 }
 
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSString *indexType;
-@property (nonatomic, readonly) NSString *columnType;
 
-@property (nonatomic, retain) NSString *indexedColumnName;
-@property (nonatomic, retain) NSString *indexName;
+@property (nonatomic, readonly) NSString *columnType;
+@property (nonatomic, readonly) NSString *columnName;
+
+
+
+
+/**
+ Designated initializer
+ 
+ @param path The simple or compound path to the index value eg "Id" or "Account.Id"
+ @param type An index type eg kSoupIndexTypeString
+ @param columnName The SQL column name, or nil
+ */
+- (id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(NSString*)columnName;
 
 
 /**
@@ -49,20 +61,8 @@ extern NSString * const kSoupIndexTypeDate;
  */
 - (id)initWithIndexSpec:(NSDictionary*)indexSpec;
 
-///**
-// @param sql The sql that was used to create the index in the db
-// @see createSqlWithTableName
-// @return initialized index object
-// */
-//- (id)initWithSql:(NSString *)sql;
 
-/**
- @return SQL string that can be used to create the index on the provided table
- @param tableName the table on which the index would be created
- */
-- (NSString*)createSqlWithTableName:(NSString*)tableName;
 
-+ (NSString*)indexColumnNameForKeyPath:(NSString*)path;
-+ (NSString*)soupIndexNameForKeyPath:(NSString*)path;
+
 
 @end

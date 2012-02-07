@@ -46,6 +46,7 @@ extern NSString *const kDefaultSmartStoreName;
     FMDatabase *_storeDb;
     NSString *_storeName;
     
+    NSMutableDictionary *_indexSpecsBySoup;
     
 }
 
@@ -79,6 +80,8 @@ extern NSString *const kDefaultSmartStoreName;
 
 #pragma mark - Soup manipulation methods
 
+
+- (NSArray*)indicesForSoup:(NSString*)soupName;
 
 /**
  @return Does a soup with the given name already exist?
