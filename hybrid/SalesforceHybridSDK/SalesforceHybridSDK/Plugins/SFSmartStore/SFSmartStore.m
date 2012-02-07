@@ -641,6 +641,47 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSDictionary *result = nil;
     
+    NSArray *indices = [self indicesForSoup:soupName];
+    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+    NSNumber *nowVal = [NSNumber numberWithDouble:now];
+    
+    NSMutableDictionary *mutableEntry = [entry mutableCopy];
+    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
+
+
+    
+    //build up the set of index column values for this row
+    for (SFSoupIndex *idx in indices) {
+        NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
+        if (nil != indexColVal) {
+            NSString *colName = [idx columnName];
+            //not every entry will have a value for each index column
+            [baseColumns setObject:indexColVal forKey:colName];
+        }
+    }
+    
+    BOOL insertOk =[self upsertIntoTable:soupName values:baseColumns ];
+    if (!insertOk) {
+        return nil;
+    }
+        
+    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+    NSArray *binds = [NSArray arrayWithObjects:
+                      entryId,
+                      nowVal,
+                      rawJson,
+                      nil];
+    NSString *updateSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@,%@,%@) VALUES (?,?,?)", soupName, ID_COL, LAST_MODIFIED_COL, SOUP_COL];
+    BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
+    
+    [mutableEntry autorelease];
+    if (!updateOk) {
+        mutableEntry = nil;
+    }
+    
+    return mutableEntry;
+    
+    
     return result; 
 }
 
