@@ -347,32 +347,36 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     // map all of the columns and values from soupIndexMapInserts
     __block NSMutableString *fieldNames = [[NSMutableString alloc] init];
-    __block NSMutableString *fieldValues = [[NSMutableString alloc] init];
+    __block NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __block NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
     __block NSUInteger fieldCount = 0;
     
     [map enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop) {
          if (fieldCount > 0) {
              [fieldNames appendFormat:@",%@",key];
-             [fieldValues appendFormat:@",\"%@\"",obj];
+             [fieldValueMarkers appendString:@",?"];
          } else {
              [fieldNames appendString:key];
-             [fieldValues appendFormat:@"\"%@\"",obj];
+             [fieldValueMarkers appendString:@"?"];
          }
+         [binds addObject:obj];
          fieldCount++;
      }];
     
     
     NSString *upsertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", 
-                           tableName, fieldNames, fieldValues];
-    NSLog(@"upsertSql: %@",upsertSql);
-    [fieldNames release]; [fieldValues release];
-    result = [self.storeDb executeUpdate:upsertSql];
+                           tableName, fieldNames, fieldValueMarkers];
+    NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+    [fieldNames release]; [fieldValueMarkers release];
+    result = [self.storeDb executeUpdate:upsertSql withParams:binds];
+    [binds release];
+    
+//    result = [self.storeDb executeUpdate:upsertSql];
     
     return result;
     
 }
-
 
 
 /**
@@ -448,7 +452,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if ([self.storeDb beginTransaction]) {
         for (NSDictionary *map in soupIndexMapInserts) {
             BOOL runOk = [self upsertIntoTable:SOUP_INDEX_MAP_TABLE values:map ];
-
             if (!runOk) {
                 break;
             }
@@ -576,11 +579,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
+- (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds {
+    NSString *allIds = [soupEntryIds componentsJoinedByString:@","];
+    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ",ID_COL,allIds];    
+    return pred;
+}
+
+
 - (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    NSArray *result = [NSArray array]; //empty result array by default
-    //TODO reimpl
+    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
+    NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@",
+                          SOUP_COL,soupName,pred];
+    FMResultSet *frs = [self.storeDb executeQuery:querySql];
 
+    while([frs next]) {
+        NSString *rawJson = [frs stringForColumn:SOUP_COL];
+        //TODO this is pretty inefficient...we read json from db then reconvert to NSDictionary, then reconvert again in phonegap
+        NSDictionary *entry = [SFJsonUtils objectFromJSONString:rawJson];
+        [result addObject:entry];          
+    }
+    [frs close];
+    
     return result;
 }
 
@@ -589,20 +610,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoup:(NSString*)soupName
 {
     NSArray *indices = [self indicesForSoup:soupName];
-    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-    NSNumber *nowVal = [NSNumber numberWithDouble:now];
+    NSNumber *nowVal = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
     NSMutableDictionary *baseColumns = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           @"", SOUP_COL,
                                           nowVal, CREATED_COL,
                                           nowVal, LAST_MODIFIED_COL,
                                           nil];
     
-    //build up the set of index column values for this row
+    //build up the set of index column values for this new row
     for (SFSoupIndex *idx in indices) {
         NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
-        if (nil != indexColVal) {
+        if (nil != indexColVal) {//not every entry will have a value for each index column
             NSString *colName = [idx columnName];
-            //not every entry will have a value for each index column
             [baseColumns setObject:indexColVal forKey:colName];
         }
     }
@@ -611,24 +630,23 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (!insertOk) {
         return nil;
     }
-          
-    NSMutableDictionary *mutableEntry = [entry mutableCopy];
+
     //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
-    NSInteger lastInsertedRowId = [self.storeDb lastInsertRowId];
-    NSNumber *newEntryId = [NSNumber numberWithInteger:lastInsertedRowId];
+    NSNumber *newEntryId = [NSNumber numberWithInteger:[self.storeDb lastInsertRowId]];
+    
+    //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
+    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
     [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
              
+    //now update the SOUP_COL (raw json) for the soup entry
     NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
     NSArray *binds = [NSArray arrayWithObjects:
-                      newEntryId,
                       rawJson,
+                      newEntryId,
                       nil];
-    NSString *updateSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@,%@) VALUES (?,?)", soupName, ID_COL, SOUP_COL];
-
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupName, SOUP_COL, ID_COL];
     BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
-    
-    [mutableEntry autorelease];
     if (!updateOk) {
         mutableEntry = nil;
     }
@@ -638,51 +656,35 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (NSDictionary *)updateOneEntry:(NSDictionary*)entry withEntryId:(NSString*)entryId inSoup:(NSString*)soupName
-{
-    NSDictionary *result = nil;
-    
+{    
     NSArray *indices = [self indicesForSoup:soupName];
-    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-    NSNumber *nowVal = [NSNumber numberWithDouble:now];
-    
-    NSMutableDictionary *mutableEntry = [entry mutableCopy];
-    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
-
-
+    NSNumber *nowVal = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSMutableDictionary *colVals = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        nowVal, LAST_MODIFIED_COL,
+                                        nil];
     
     //build up the set of index column values for this row
     for (SFSoupIndex *idx in indices) {
         NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
-        if (nil != indexColVal) {
+        if (nil != indexColVal) { //not every entry will have a value for each index column
             NSString *colName = [idx columnName];
-            //not every entry will have a value for each index column
-            [baseColumns setObject:indexColVal forKey:colName];
+            [colVals setObject:indexColVal forKey:colName];
         }
     }
     
-    BOOL insertOk =[self upsertIntoTable:soupName values:baseColumns ];
+    //clone the entry so that we can modify SOUP_LAST_MODIFIED_DATE
+    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
+    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
+    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+    [colVals setObject:rawJson forKey:SOUP_COL];
+
+    BOOL insertOk =[self upsertIntoTable:soupName values:colVals ];
     if (!insertOk) {
         return nil;
     }
-        
-    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
-    NSArray *binds = [NSArray arrayWithObjects:
-                      entryId,
-                      nowVal,
-                      rawJson,
-                      nil];
-    NSString *updateSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@,%@,%@) VALUES (?,?,?)", soupName, ID_COL, LAST_MODIFIED_COL, SOUP_COL];
-    BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
-    
-    [mutableEntry autorelease];
-    if (!updateOk) {
-        mutableEntry = nil;
-    }
-    
+     
     return mutableEntry;
     
-    
-    return result; 
 }
 
 
