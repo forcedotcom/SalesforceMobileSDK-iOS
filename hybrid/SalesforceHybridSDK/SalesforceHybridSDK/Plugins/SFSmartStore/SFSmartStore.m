@@ -33,6 +33,7 @@
 #import "SFSmartStore.h"
 #import "SFSoupCursor.h"
 #import "SFSoupIndex.h"
+#import "SFSoupQuerySpec.h"
 
 
 
@@ -123,6 +124,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
 - (BOOL)upsertIntoTable:(NSString*)tableName values:(NSDictionary*)map ;
+
+
+- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName;
 
 @end
 
@@ -404,6 +408,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
+- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName {
+    //TODO cache these with soupName:path ? if slow...
+    NSString *result = nil;
+    NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ? AND %@ = ?",
+                        COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE, 
+                        SOUP_NAME_COL,
+                        PATH_COL
+                        ];
+    FMResultSet *frs = [self.storeDb executeQuery:querySql withParams:[NSArray arrayWithObjects:soupName, path, nil]];
+    while ([frs next]) {        
+        result = [frs stringForColumnIndex:0];         
+    }
+    [frs close];
+          
+    return result;
+
+}
+
+
+- (NSString *)keyRangePredicateForColumn:(NSString*)columnName {
+    NSString *result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
+    return result;
+}
 
 
 #pragma mark - Soup maniupulation methods
@@ -569,11 +596,126 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 }
 
-- (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec
-{
-    SFSoupCursor *result = nil;
-    //tODO reimpl
 
+- (FMResultSet *)queryTable:(NSString*)table 
+                 forColumns:(NSArray*)columns 
+                    orderBy:(NSString*)orderBy 
+                      limit:(NSString*)limit 
+                whereClause:(NSString*)whereClause 
+                  whereArgs:(NSArray*)whereArgs 
+{
+
+    NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
+    columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
+    
+    NSString *orderByStr = (nil == orderBy) ? @"" : [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
+    NSString *selectionStr = (nil == whereClause) ? @"" : [NSString stringWithFormat:@"WHERE %@",whereClause ];
+    NSString *limitStr = (nil == limit) ? @"" : [NSString stringWithFormat:@"LIMIT %@",limit ];
+
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", columnsStr, table, selectionStr, orderByStr, limitStr];
+    
+    FMResultSet *frs = [self.storeDb executeQuery:sql withParams:whereArgs];
+    
+    return frs;
+
+//public Cursor query(String table, String[] columns, String orderBy, String limit, String whereClause, String... whereArgs) {
+//    String columnsStr = (columns == null ? "" : TextUtils.join(",", columns));
+//    columnsStr = (columnsStr.equals("") ? "*" : columnsStr);
+//    String orderByStr = (orderBy == null ? "" : "ORDER BY " + orderBy);
+//    String selectionStr = (whereClause == null ? "" : " WHERE " + whereClause);
+//    String limitStr = (limit == null ? "" : "LIMIT " + limit);
+//    String sql = String.format("SELECT %s FROM %s %s %s %s", columnsStr, table, selectionStr, orderByStr, limitStr);
+//    Log.i("Database:query[enc=" + encrypted + "]", sql + getStringForArgs(whereArgs));
+//    if (!encrypted)
+//        return db.query(table, columns, whereClause, whereArgs, null, null, orderBy, limit);
+//    else
+//        return encdb.query(table, columns, whereClause, whereArgs, null, null, orderBy, limit);
+}
+
+- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
+{
+    FMResultSet *frs = nil;
+    NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+    
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
+
+    // Page
+    NSUInteger offsetRows = querySpec.pageSize * pageIndex;
+    NSUInteger numberRows = querySpec.pageSize;
+    NSString *limit = [NSString stringWithFormat:@"%d,%d",offsetRows,numberRows];
+    NSString *orderBy = [NSString stringWithFormat:@"%@ %@",columnName,querySpec.sqlSortOrder];
+    NSArray *fetchCols = [NSArray arrayWithObject:SOUP_COL];
+    
+    if (nil == querySpec.beginKey) {
+        // Get all the rows
+        frs = [self queryTable:soupName 
+                    forColumns:fetchCols 
+                       orderBy:orderBy 
+                         limit:limit 
+                   whereClause:nil 
+                     whereArgs:nil
+               ];
+    } else {
+        NSString *keyRangePredicate = [self keyRangePredicateForColumn:columnName];
+        // Get a range of rows (between beginKey and endKey)
+        frs = [self queryTable:soupName 
+                    forColumns:fetchCols 
+                       orderBy:orderBy 
+                         limit:limit 
+                   whereClause:keyRangePredicate 
+                     whereArgs:[NSArray arrayWithObjects:querySpec.beginKey, querySpec.endKey,nil]
+               ];
+    }
+    
+    while ([frs next]) {
+        NSString *rawJson = [frs stringForColumn:SOUP_COL];
+        //TODO we do not (yet?) support projections 
+        NSDictionary *soupElt = [SFJsonUtils objectFromJSONString:rawJson];
+        if (nil != soupElt) {
+            [result addObject:soupElt];
+        }
+    }
+    [frs close];
+    
+    return result;
+}
+
+
+    
+- (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)spec
+{
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
+    NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
+    
+    NSArray *curPageEntries = [self querySoup:soupName withQuerySpec:querySpec pageIndex:0];
+    if (nil == curPageEntries) {
+        curPageEntries = [NSArray array]; //empty array
+    }
+    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName querySpec:querySpec entries:curPageEntries totalEntries:totalEntries];
+    [querySpec release];
+    
+    return [result autorelease];
+}
+
+
+- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec 
+{
+    NSUInteger result = 0;
+    NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+    NSString *querySql = nil;
+     
+    if (nil == querySpec.beginKey) {
+        querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@",soupName];
+    } else {
+        NSString *keyRangePredicate = [self keyRangePredicateForColumn:columnName];
+        querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ WHERE %@", soupName, keyRangePredicate];
+    }
+    
+    FMResultSet *frs = [self.storeDb executeQuery:querySql];
+    while([frs next]) {
+        result = [frs intForColumnIndex:0];
+    }
+    [frs close];
     
     return result;
 }
@@ -724,10 +866,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName
+- (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    //TODO reimpl
 
+    NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@",
+                          soupName,pred];
+    BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
+    if (!ranOK) {
+        NSLog(@"ERROR %d deleting entries: '%@'", 
+              [self.storeDb lastErrorCode], 
+              [self.storeDb lastErrorMessage] );
+    }
     
 }
 

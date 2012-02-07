@@ -25,12 +25,14 @@
 
 #import "SFSoupCursor.h"
 
+#import "SFSoupQuerySpec.h"
 
 @interface SFSoupCursor ()
 
 @property (nonatomic, readwrite, strong) NSString *cursorId;
+@property (nonatomic, readwrite, strong) NSString *soupName;
 
-@property (nonatomic, readwrite, strong) NSDictionary *querySpec;
+@property (nonatomic, readwrite, strong) SFSoupQuerySpec *querySpec;
 @property (nonatomic, readwrite, strong) NSArray *currentPageOrderedEntries;
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
@@ -52,29 +54,28 @@
 
 
 
-
-- (id)initWithSoupName:(NSString*)soupName querySpec:(NSDictionary*)querySpec entries:(NSArray*)entries
+- (id)initWithSoupName:(NSString*)soupName querySpec:(SFSoupQuerySpec*)querySpec entries:(NSArray*)entries totalEntries:(NSUInteger)totalEntries
 {
     self = [super init];
     
     if (nil != self) {
         [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
+        
         self.soupName = soupName;
         self.querySpec = querySpec;
-        _orderedEntries = [entries copy];
         
         NSInteger myPageSize = 10;
-        NSNumber *querySpecPageSize = [querySpec objectForKey:@"pageSize"];
-        if (nil != querySpecPageSize) {
-            myPageSize = [querySpecPageSize integerValue];
-        } 
-        
+        myPageSize =  [querySpec pageSize];
+
         self.pageSize = [NSNumber numberWithInteger:myPageSize]; 
-
-
-        //(A+B-1)/B   is essentially ceil(A/B)
-        NSInteger pageCount =   ([_orderedEntries count] + myPageSize - 1) / myPageSize;
-        self.totalPages = [NSNumber numberWithInteger:pageCount];
+        
+        NSUInteger totalPages = (totalEntries / querySpec.pageSize) + 1;     
+        if (0 == totalEntries) 
+            totalPages = 0;
+        
+        self.totalPages = [NSNumber numberWithInt:totalPages]; 
+        
+        self.currentPageOrderedEntries = entries;
         
         [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
     }
@@ -92,7 +93,6 @@
     self.pageSize = nil;
     self.totalPages = nil;
     
-    [_orderedEntries release]; _orderedEntries = nil;
     
     [super dealloc];
 }
@@ -107,20 +107,23 @@
 
 - (void)setCurrentPageIndex:(NSNumber *)pageIdx
 {
-    if ((nil != pageIdx) && ![_currentPageIndex isEqualToNumber:pageIdx]) {
-        NSInteger newPageIdx = [pageIdx integerValue];
-        NSInteger totalPages = [self.totalPages integerValue];
-        if (newPageIdx < totalPages) {
-            NSUInteger maxItems = [_orderedEntries count];
-            NSUInteger pageSize = [self.pageSize integerValue];
-            NSUInteger loc = newPageIdx * [self.pageSize integerValue];
-            NSUInteger len = MIN( maxItems - loc, pageSize);
-            NSRange pageRange = NSMakeRange(loc, len);
-            self.currentPageOrderedEntries = [_orderedEntries subarrayWithRange:pageRange];
-        } else {
-            self.currentPageOrderedEntries = [NSArray array];
-        }
-    }
+    
+    //TODO reimpl
+    
+//    if ((nil != pageIdx) && ![_currentPageIndex isEqualToNumber:pageIdx]) {
+//        NSInteger newPageIdx = [pageIdx integerValue];
+//        NSInteger totalPages = [self.totalPages integerValue];
+//        if (newPageIdx < totalPages) {
+//            NSUInteger maxItems = [_orderedEntries count];
+//            NSUInteger pageSize = [self.pageSize integerValue];
+//            NSUInteger loc = newPageIdx * [self.pageSize integerValue];
+//            NSUInteger len = MIN( maxItems - loc, pageSize);
+//            NSRange pageRange = NSMakeRange(loc, len);
+//            self.currentPageOrderedEntries = [_orderedEntries subarrayWithRange:pageRange];
+//        } else {
+//            self.currentPageOrderedEntries = [NSArray array];
+//        }
+//    }
     
     _currentPageIndex = [pageIdx retain];
     
@@ -146,5 +149,10 @@
 }
 
 
+- (NSString*)description {
+    NSString *result = [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n}",
+                        self,self.soupName,self.totalPages,self.currentPageIndex,[self.currentPageOrderedEntries count]];
+    return result;
+}
 
 @end

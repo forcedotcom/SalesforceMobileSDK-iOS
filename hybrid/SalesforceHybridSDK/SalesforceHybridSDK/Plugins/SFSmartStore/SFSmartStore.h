@@ -35,6 +35,7 @@ extern NSString *const kDefaultSmartStoreName;
 
 @class FMDatabase;
 @class SFSoupCursor;
+@class SFSoupQuerySpec;
 
 @interface SFSmartStore : NSObject {
 
@@ -98,15 +99,34 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
 
-/*
+
+
+/**
+ Get the number of entries that would be returned with the given query spec
+ */
+- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec;
+
+/**
  Search soup for entries matching the querySpec
 
  @param soupName The name of the soup to query
  @param querySpec A QuerySpec as a dictionary
 
- @return A set of entries
+ @return A cursor
  */
 - (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
+
+
+/**
+ Search soup for entries matching the querySpec
+ 
+ @param soupName The name of the soup to query
+ @param querySpec A native SFSoupQuerySpec
+ @param pageIndex The page index to start the entries at (this supports paging)
+ 
+ @return A set of entries given the pageSize provided in the querySpec
+ */
+- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
 
 /*
  Search soup for entries exactly matching the soup entry IDs
