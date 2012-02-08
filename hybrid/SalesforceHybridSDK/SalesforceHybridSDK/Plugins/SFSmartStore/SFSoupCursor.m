@@ -55,7 +55,10 @@
 
 
 
-- (id)initWithSoupName:(NSString*)soupName store:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec  totalEntries:(NSUInteger)totalEntries
+- (id)initWithSoupName:(NSString*)soupName 
+                 store:(SFSmartStore*)store 
+             querySpec:(SFSoupQuerySpec*)querySpec  
+          totalEntries:(NSUInteger)totalEntries
 {
     self = [super init];
     
@@ -76,9 +79,7 @@
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
-        
-//        self.currentPageOrderedEntries = entries;
-        
+                
         [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
     }
     return self;
@@ -107,8 +108,7 @@
 
 #pragma mark - Properties
 
-- (void)setCurrentPageIndex:(NSNumber *)pageIdx
-{
+- (void)setCurrentPageIndex:(NSNumber *)pageIdx {
     //TODO check bounds?
     if (![pageIdx isEqual:_currentPageIndex]) {
         _currentPageIndex = [pageIdx retain];
@@ -118,9 +118,7 @@
             NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
             self.currentPageOrderedEntries = newEntries;
         } 
-        
     }
-    
 }
 
 #pragma mark - Converting to JSON
@@ -144,9 +142,8 @@
 
 
 - (NSString*)description {
-    NSString *result = [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n}",
+    return [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n}",
                         self,self.soupName,self.totalPages,self.currentPageIndex,[self.currentPageOrderedEntries count]];
-    return result;
 }
 
 @end

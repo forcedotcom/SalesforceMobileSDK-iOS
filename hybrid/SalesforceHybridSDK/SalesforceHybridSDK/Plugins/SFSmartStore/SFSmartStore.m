@@ -485,7 +485,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *type = [frs stringForColumn:COLUMN_TYPE_COL];
             
             SFSoupIndex *spec = [[SFSoupIndex alloc] initWithPath:path indexType:type columnName:columnName];
-            [result addObject:spec];            
+            [result addObject:spec];   
+            [spec release];
         }
         [frs close];
                               
@@ -551,6 +552,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [values setObject:indexSpec.path forKey:PATH_COL]; //TODO make path safe?
         [values setObject:columnName forKey:COLUMN_NAME_COL];
         [values setObject:indexSpec.indexType forKey:COLUMN_TYPE_COL];
+        [indexSpec release];
         [soupIndexMapInserts addObject:values];
         [values release];
         
@@ -583,16 +585,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             }
         }
         
+        
         // update the mapping table for this soup's columns
-        result = [self insertIntoSoupIndexMap:soupIndexMapInserts];
-        
-        
+        result = [self insertIntoSoupIndexMap:soupIndexMapInserts];        
     }
     
+    [createTableStmt release];
+    [createIndexStmts release];
+    [soupIndexMapInserts release];
     
     return  result;
-
-
 }
 
 
@@ -643,23 +645,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *limitStr = (nil == limit) ? @"" : [NSString stringWithFormat:@"LIMIT %@",limit ];
 
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", columnsStr, table, selectionStr, orderByStr, limitStr];
-    
     FMResultSet *frs = [self.storeDb executeQuery:sql withParams:whereArgs];
-    
     return frs;
-
-//public Cursor query(String table, String[] columns, String orderBy, String limit, String whereClause, String... whereArgs) {
-//    String columnsStr = (columns == null ? "" : TextUtils.join(",", columns));
-//    columnsStr = (columnsStr.equals("") ? "*" : columnsStr);
-//    String orderByStr = (orderBy == null ? "" : "ORDER BY " + orderBy);
-//    String selectionStr = (whereClause == null ? "" : " WHERE " + whereClause);
-//    String limitStr = (limit == null ? "" : "LIMIT " + limit);
-//    String sql = String.format("SELECT %s FROM %s %s %s %s", columnsStr, table, selectionStr, orderByStr, limitStr);
-//    Log.i("Database:query[enc=" + encrypted + "]", sql + getStringForArgs(whereArgs));
-//    if (!encrypted)
-//        return db.query(table, columns, whereClause, whereArgs, null, null, orderBy, limit);
-//    else
-//        return encdb.query(table, columns, whereClause, whereArgs, null, null, orderBy, limit);
 }
 
 - (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex

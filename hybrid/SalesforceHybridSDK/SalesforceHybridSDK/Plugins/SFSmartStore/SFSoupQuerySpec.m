@@ -110,9 +110,8 @@ NSString * const KQuerySpecSortOrderDescending = @"descending";
 
 
 - (NSString*)description {
-    NSString *result = [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n order:%@ \n pageSize: %d}",
+    return [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n order:%@ \n pageSize: %d}",
                         self,self.path,self.beginKey,self.endKey,self.order,self.pageSize];
-    return result;
 }
 
     
