@@ -63,7 +63,7 @@
 @property (nonatomic, readonly, strong) NSNumber *totalPages;
 
 /** 
- the current page index among all the pages available 
+ The current page index among totalPages available:
  writing this value causes currentPageOrderedEntries to be refetched
  */
 @property (nonatomic, readwrite, strong) NSNumber *currentPageIndex;
