@@ -128,6 +128,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName;
 
+- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
+
 @end
 
 
@@ -346,9 +349,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (BOOL)upsertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {
-    BOOL result = NO;
-    
+- (BOOL)upsertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
     // map all of the columns and values from soupIndexMapInserts
     __block NSMutableString *fieldNames = [[NSMutableString alloc] init];
     __block NSMutableArray *binds = [[NSMutableArray alloc] init];
@@ -371,13 +372,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *upsertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", 
                            tableName, fieldNames, fieldValueMarkers];
-    NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+//    NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
     [fieldNames release]; [fieldValueMarkers release];
-    result = [self.storeDb executeUpdate:upsertSql withParams:binds];
+    BOOL result = [self.storeDb executeUpdate:upsertSql withParams:binds];
     [binds release];
-    
-//    result = [self.storeDb executeUpdate:upsertSql];
-    
+        
     return result;
     
 }
@@ -424,6 +423,37 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
           
     return result;
 
+}
+
+- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+{
+    NSString *result = nil;
+    if (nil != querySpec.beginKey) {
+        if (nil != querySpec.endKey) {
+            result = [NSString stringWithFormat:@"WHERE %@ >= ? AND %@ <= ?",columnName,columnName];
+        } else {
+            result = [NSString stringWithFormat:@"WHERE %@ >= ?",columnName];
+        }
+    } else if (nil != querySpec.endKey) {
+        result = [NSString stringWithFormat:@"WHERE %@ <= ?",columnName];
+    } else {
+        result = @"";
+    }
+    
+    return result;
+}
+
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+{
+    NSArray *result = nil;
+    if (nil != querySpec.beginKey) {
+        //if endKey is nil it will terminate the array early
+        result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
+    } else if (nil != querySpec.endKey) {
+        result = [NSArray arrayWithObject:querySpec.endKey];
+    }
+    
+    return result;
 }
 
 
@@ -687,10 +717,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
     NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
     
-//    NSArray *curPageEntries = [self querySoup:soupName withQuerySpec:querySpec pageIndex:0];
-//    if (nil == curPageEntries) {
-//        curPageEntries = [NSArray array]; //empty array
-//    }
     SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName store:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
     
@@ -703,20 +729,19 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSUInteger result = 0;
     NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
     NSString *querySql = nil;
-     
-    if (nil == querySpec.beginKey) {
-        querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@",soupName];
-    } else {
-        NSString *keyRangePredicate = [self keyRangePredicateForColumn:columnName];
-        querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ WHERE %@", soupName, keyRangePredicate];
-    }
+    FMResultSet *frs = nil;
     
-    FMResultSet *frs = [self.storeDb executeQuery:querySql];
+    NSString *whereClause = [self whereClauseForQuerySpec:querySpec columnName:columnName];
+    NSArray *binds = [self bindsForQuerySpec:querySpec columnName:columnName];
+    querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ %@", soupName, whereClause];
+    frs = [self.storeDb executeQuery:querySql withParams:binds];
+    
     while([frs next]) {
         result = [frs intForColumnIndex:0];
     }
     [frs close];
     
+    NSLog(@"countEntriesInSoup %@ result: %d",soupName,result);
     return result;
 }
 

@@ -84,6 +84,30 @@ NSString * const KQuerySpecSortOrderDescending = @"descending";
 }
 
 
+#pragma mark - Converting to JSON
+
+- (NSDictionary*)asDictionary
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                    self.path, @"indexPath",
+                                    self.order, @"order",
+                                    [NSNumber numberWithInteger:self.pageSize],@"pageSize",
+                                    nil];
+    
+    if ([self.beginKey isEqualToString:self.endKey]) {
+        [result setObject:self.beginKey forKey:@"matchKey"];
+    } else {
+        if (nil != self.beginKey) 
+            [result setObject:self.beginKey forKey:@"beginKey"];
+        if (nil != self.endKey)
+            [result setObject:self.beginKey forKey:@"endKey"];
+    }
+    
+    
+    return result;
+}
+
+
 
 - (NSString*)description {
     NSString *result = [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n order:%@ \n pageSize: %d}",

@@ -131,7 +131,7 @@
     [result setObject:self.soupName forKey:@"soupName"];
     [result setObject:self.cursorId forKey:@"cursorId"];
     if (nil != self.querySpec) {
-        [result setObject:self.querySpec forKey:@"querySpec"];
+        [result setObject:[self.querySpec asDictionary] forKey:@"querySpec"];
     }
     //note that we only encode the current page worth of entries
     [result setObject:self.currentPageOrderedEntries forKey:@"currentPageOrderedEntries"];

@@ -53,5 +53,6 @@ extern NSString * const KQuerySpecSortOrderDescending;
 
 
 - (id)initWithDictionary:(NSDictionary*)querySpec;
+- (NSDictionary*)asDictionary;
 
 @end
