@@ -114,6 +114,15 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+// simple: make sure fully-defined paths in the request are honored too.
+- (void)testFullRequestPath {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
+    request.path = [NSString stringWithFormat:@"%@%@", @"/services/data", request.path];
+    NSLog(@"request.path: %@", request.path);
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
