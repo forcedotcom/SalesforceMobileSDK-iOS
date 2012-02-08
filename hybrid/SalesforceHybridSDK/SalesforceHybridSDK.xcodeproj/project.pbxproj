@@ -14,7 +14,6 @@
 		7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32514BFB394002C4A27 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
-		7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32714BFB394002C4A27 /* SFSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32914BFB394002C4A27 /* SFSoupCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
 		7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -244,8 +243,6 @@
 		7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		7D45E32514BFB394002C4A27 /* SFSmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStore.h; sourceTree = "<group>"; };
 		7D45E32614BFB394002C4A27 /* SFSmartStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStore.m; sourceTree = "<group>"; };
-		7D45E32714BFB394002C4A27 /* SFSoup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoup.h; sourceTree = "<group>"; };
-		7D45E32814BFB394002C4A27 /* SFSoup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoup.m; sourceTree = "<group>"; };
 		7D45E32914BFB394002C4A27 /* SFSoupCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupCursor.h; sourceTree = "<group>"; };
 		7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupCursor.m; sourceTree = "<group>"; };
 		7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
@@ -557,8 +554,6 @@
 				7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */,
 				7D45E32514BFB394002C4A27 /* SFSmartStore.h */,
 				7D45E32614BFB394002C4A27 /* SFSmartStore.m */,
-				7D45E32714BFB394002C4A27 /* SFSoup.h */,
-				7D45E32814BFB394002C4A27 /* SFSoup.m */,
 				7D45E32914BFB394002C4A27 /* SFSoupCursor.h */,
 				7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */,
 				7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */,
@@ -823,7 +818,6 @@
 				7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */,
 				7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */,
 				7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */,
-				7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */,
 				7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */,
 				7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */,
 				7D45E34714BFB394002C4A27 /* FMDatabase.h in Headers */,
