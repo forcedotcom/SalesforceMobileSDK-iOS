@@ -23,9 +23,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+//required for UIApplicationProtectedDataDidBecomeAvailable
+#import <UIKit/UIKit.h>
 #import <PhoneGap/PluginResult.h>
-
 
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
