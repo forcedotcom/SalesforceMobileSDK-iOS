@@ -26,9 +26,11 @@
 #import <Foundation/Foundation.h>
 
 
+@class SFSmartStore;
 @class SFSoupQuerySpec;
 
 @interface SFSoupCursor : NSObject {
+    SFSmartStore *_store;
     NSString *_soupName;
     NSString *_cursorId;
     SFSoupQuerySpec *_querySpec;
@@ -70,7 +72,7 @@
 /**
  @param entries a sorted list of entries
  */
-- (id)initWithSoupName:(NSString*)soupName querySpec:(SFSoupQuerySpec*)querySpec entries:(NSArray*)entries totalEntries:(NSUInteger)totalEntries;
+- (id)initWithSoupName:(NSString*)soupName store:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries;
 
 /**
  @return dictionary representation of this object, for translation to json

@@ -25,6 +25,7 @@
 
 #import "SFSoupCursor.h"
 
+#import "SFSmartStore.h"
 #import "SFSoupQuerySpec.h"
 
 @interface SFSoupCursor ()
@@ -54,11 +55,12 @@
 
 
 
-- (id)initWithSoupName:(NSString*)soupName querySpec:(SFSoupQuerySpec*)querySpec entries:(NSArray*)entries totalEntries:(NSUInteger)totalEntries
+- (id)initWithSoupName:(NSString*)soupName store:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec  totalEntries:(NSUInteger)totalEntries
 {
     self = [super init];
     
     if (nil != self) {
+        _store = [store retain];
         [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
         
         self.soupName = soupName;
@@ -75,7 +77,7 @@
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
         
-        self.currentPageOrderedEntries = entries;
+//        self.currentPageOrderedEntries = entries;
         
         [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
     }
@@ -84,6 +86,15 @@
 
                             
 - (void)dealloc {
+    [self close];
+    [super dealloc];
+}
+
+
+- (void)close {
+    NSLog(@"closing cursor id: %@",self.cursorId);
+
+    [_store release]; _store = nil;
     self.soupName = nil;
     self.cursorId = nil;
     self.querySpec = nil;
@@ -92,40 +103,23 @@
     self.currentPageIndex = nil;
     self.pageSize = nil;
     self.totalPages = nil;
-    
-    
-    [super dealloc];
-}
-
-
-
-- (void)close {
-    NSLog(@"closing cursor id: %@",self.cursorId);
 }
 
 #pragma mark - Properties
 
 - (void)setCurrentPageIndex:(NSNumber *)pageIdx
 {
-    
-    //TODO reimpl
-    
-//    if ((nil != pageIdx) && ![_currentPageIndex isEqualToNumber:pageIdx]) {
-//        NSInteger newPageIdx = [pageIdx integerValue];
-//        NSInteger totalPages = [self.totalPages integerValue];
-//        if (newPageIdx < totalPages) {
-//            NSUInteger maxItems = [_orderedEntries count];
-//            NSUInteger pageSize = [self.pageSize integerValue];
-//            NSUInteger loc = newPageIdx * [self.pageSize integerValue];
-//            NSUInteger len = MIN( maxItems - loc, pageSize);
-//            NSRange pageRange = NSMakeRange(loc, len);
-//            self.currentPageOrderedEntries = [_orderedEntries subarrayWithRange:pageRange];
-//        } else {
-//            self.currentPageOrderedEntries = [NSArray array];
-//        }
-//    }
-    
-    _currentPageIndex = [pageIdx retain];
+    //TODO check bounds?
+    if (![pageIdx isEqual:_currentPageIndex]) {
+        _currentPageIndex = [pageIdx retain];
+        
+        if (nil != _currentPageIndex) {
+            NSUInteger pageIdx = [_currentPageIndex integerValue];
+            NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
+            self.currentPageOrderedEntries = newEntries;
+        } 
+        
+    }
     
 }
 

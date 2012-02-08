@@ -687,11 +687,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
     NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
     
-    NSArray *curPageEntries = [self querySoup:soupName withQuerySpec:querySpec pageIndex:0];
-    if (nil == curPageEntries) {
-        curPageEntries = [NSArray array]; //empty array
-    }
-    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName querySpec:querySpec entries:curPageEntries totalEntries:totalEntries];
+//    NSArray *curPageEntries = [self querySoup:soupName withQuerySpec:querySpec pageIndex:0];
+//    if (nil == curPageEntries) {
+//        curPageEntries = [NSArray array]; //empty array
+//    }
+    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName store:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
     
     return [result autorelease];
