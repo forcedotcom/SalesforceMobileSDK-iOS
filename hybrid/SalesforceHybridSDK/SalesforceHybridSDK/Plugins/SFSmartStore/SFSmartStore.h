@@ -51,8 +51,26 @@ extern NSString *const kDefaultSmartStoreName;
     
 }
 
-@property (nonatomic, strong) NSString *storeName;
-@property (nonatomic, strong) FMDatabase *storeDb;
+/**
+ The name of this store. 
+ */
+@property (nonatomic, readonly, strong) NSString *storeName;
+
+/**
+ The db access object for this store.
+ */
+@property (nonatomic, readonly, strong) FMDatabase *storeDb;
+
+
+
+/**
+ Use this method to obtain a shared store instance with a particular name.
+ 
+ @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
+ @return A shared instance of a store with the given name.
+ */
++ (id)sharedStoreWithName:(NSString*)storeName;
+
 
 
 /**
@@ -60,15 +78,6 @@ extern NSString *const kDefaultSmartStoreName;
  @return The filesystem diretory containing for the given store name
  */
 + (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
-
-
-
-
-/**
- @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
- @return A shared instance of a store with the given name.
- */
-+ (id)sharedStoreWithName:(NSString*)storeName;
 
 
 /**
@@ -82,9 +91,15 @@ extern NSString *const kDefaultSmartStoreName;
 #pragma mark - Soup manipulation methods
 
 
+
+/**
+ @param soupName the name of the soup
+ @return NSArray of SFSoupIndex for the given soup
+ */
 - (NSArray*)indicesForSoup:(NSString*)soupName;
 
 /**
+ @param soupName the name of the soup
  @return Does a soup with the given name already exist?
  */
 - (BOOL)soupExists:(NSString*)soupName;
@@ -100,9 +115,11 @@ extern NSString *const kDefaultSmartStoreName;
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
 
 
-
 /**
  Get the number of entries that would be returned with the given query spec
+ 
+ @param soupName the name of the soup
+ @param querySpec a native query spec
  */
 - (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec;
 
@@ -110,7 +127,7 @@ extern NSString *const kDefaultSmartStoreName;
  Search soup for entries matching the querySpec
 
  @param soupName The name of the soup to query
- @param querySpec A QuerySpec as a dictionary
+ @param querySpec A querySpec as a dictionary
 
  @return A cursor
  */

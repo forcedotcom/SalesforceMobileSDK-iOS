@@ -146,7 +146,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != self)  {
         NSLog(@"SFSmartStore initWithStoreName: %@",name);
         
-        self.storeName = name;
+        _storeName = [name retain];
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
@@ -187,7 +187,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (void)dealloc {    
-    [self.storeDb close]; self.storeDb = nil;
+    [self.storeDb close];[_storeDb release]; _storeDb = nil;
     [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
     
     //remove data protection observer
@@ -195,6 +195,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     _dataProtectAvailObserverToken = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
     _dataProtectUnavailObserverToken = nil;
+    
+    [_storeName release]; _storeName = nil;
     
     [super dealloc];
 }
@@ -219,7 +221,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         //need to create the db file itself before we can encrypt it
         if ([self openStoreDatabase]) {
             if ([self createMetaTable]) {
-                [self.storeDb close]; self.storeDb = nil; //need to close before setting encryption
+                [self.storeDb close]; [_storeDb release]; _storeDb = nil; //need to close before setting encryption
                 
                 NSString *dbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
                 //setup the sqlite file with encryption        
@@ -256,7 +258,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [db setLogsErrors:YES];
     [db setCrashOnErrors:YES];
     if ([db open]) {
-        self.storeDb = db;
+        [_storeDb release];
+        _storeDb = [db retain];
     } else {
         NSLog(@"Couldn't open store db at: %@ error: %@",fullDbFilePath,[db lastErrorMessage] );
     }
