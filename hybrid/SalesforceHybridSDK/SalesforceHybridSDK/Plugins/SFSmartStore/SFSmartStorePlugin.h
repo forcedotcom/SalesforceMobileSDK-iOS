@@ -46,7 +46,6 @@
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, retain) NSMutableDictionary *cursorCache; 
-@property (nonatomic, copy) NSString* callbackID;
 
 
 

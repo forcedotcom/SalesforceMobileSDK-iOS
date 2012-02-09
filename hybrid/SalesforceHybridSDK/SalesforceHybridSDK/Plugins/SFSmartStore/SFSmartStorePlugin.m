@@ -45,7 +45,6 @@
 
 @synthesize cursorCache = _cursorCache;
 @synthesize store = _store;
-@synthesize callbackID = _callbackID;
 
 
 - (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
@@ -100,23 +99,17 @@
 
 - (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId
 {
-    SFSoupCursor *theCursor = [_cursorCache objectForKey:cursorId];
-    if (nil == theCursor) {
-        NSLog(@"Could not find cursor for: %@", cursorId);
-    }
-    return theCursor;
+    return [_cursorCache objectForKey:cursorId];
 }
 
 
 - (void)closeCursorWithId:(NSString *)cursorId
 {
-    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
-    if (nil != theCursor) {
-        [theCursor close];
+    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
+    if (nil != cursor) {
+        [cursor close];
         [self.cursorCache removeObjectForKey:cursorId];
-    } else {
-        NSLog(@"WARNING could not find cursor with ID %@ for closing",cursorId);
-    }
+    } 
 }
 
 #pragma mark - SmartStore plugin methods
@@ -178,13 +171,13 @@
     if (nil != cursor) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
+        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
+        NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
     } else {
         NSLog(@"No cursor for query: %@", querySpec);
+        PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
-    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-    
-    NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
 }
 
 - (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
