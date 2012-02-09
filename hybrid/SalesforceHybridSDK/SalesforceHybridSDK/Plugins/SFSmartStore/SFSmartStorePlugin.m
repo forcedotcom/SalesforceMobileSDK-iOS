@@ -141,8 +141,8 @@
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
-        NSDictionary *returnVals = [NSDictionary dictionaryWithObjectsAndKeys:soupName, @"registeredSoup",nil];
-        [self writeSuccessDictToJsRealm:returnVals callbackId:callbackId];
+        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:soupName];
+        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     } else {
         PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
@@ -243,9 +243,7 @@
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *cursorId = [options objectForKey:@"cursorId"];
     
-    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
-    [cursor close];
-    //[self.store closeCursorWithId:cursorId];
+    [self.store closeCursorWithId:cursorId];
     
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
