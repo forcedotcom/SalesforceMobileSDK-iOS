@@ -282,7 +282,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (id)sharedStoreWithName:(NSString*)storeName {
     if (nil == _allSharedStores) {
-        _allSharedStores = [NSMutableDictionary dictionary];
+        _allSharedStores = [[NSMutableDictionary alloc] init];
     }
     
     id store = [_allSharedStores objectForKey:storeName];
@@ -296,7 +296,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (void)removeSharedStoreWithName:(NSString*)storeName {
     
-    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath]) {    
         [_allSharedStores removeObjectForKey:storeName];
         [[NSFileManager defaultManager] removeItemAtPath:fullDbFilePath error:nil];
@@ -730,6 +730,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
         if (nil == columnName) {
             //asking for a query on an index that doesn't exist
+            [querySpec release];
             return nil;
         }
     }

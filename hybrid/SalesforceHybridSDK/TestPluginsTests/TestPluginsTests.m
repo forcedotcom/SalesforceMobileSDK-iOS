@@ -29,10 +29,7 @@
 {
     [super setUp];
     
-    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-    [SFSmartStorePlugin resetSharedStore];
     
-
     _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
 
     // Block until the javascript has notified the container that it's ready
@@ -47,6 +44,9 @@
 {
     // Tear-down code here.
     [super tearDown];
+    
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    [SFSmartStorePlugin resetSharedStore];
 }
 
 - (BOOL)areTestsFinishedRunning {
