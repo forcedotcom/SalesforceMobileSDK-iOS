@@ -202,6 +202,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     BOOL result = NO;
     NSError *createErr = nil, *protectErr = nil;
 
+    if (![self isFileDataProtectionActive]) {
+        //This is expected on simulator and when user does not have unlock passcode set 
+        NSLog(@"WARNING file data protection inactive when creating store db.");
+    }
+    
     //ensure that the store directory exists
     NSString *storeDir = [self.class storeDirectoryForStoreName:self.storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
@@ -246,6 +251,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL)openStoreDatabase {
+    BOOL result = NO;
     NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
 
     FMDatabase *db = [FMDatabase databaseWithPath:fullDbFilePath ];
@@ -254,11 +260,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if ([db open]) {
         [_storeDb release];
         _storeDb = [db retain];
+        result = YES;
     } else {
         NSLog(@"Couldn't open store db at: %@ error: %@",fullDbFilePath,[db lastErrorMessage] );
     }
     
-    return YES;
+    return result;
 }
 
 #pragma mark - Store methods

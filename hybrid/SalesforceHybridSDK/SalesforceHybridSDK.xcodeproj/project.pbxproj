@@ -1352,8 +1352,8 @@
 					"\"$(SRCROOT)/DebugPlugins\"",
 					"\"$(SRCROOT)/../dependencies\"",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
@@ -1622,8 +1622,8 @@
 					"\"$(SRCROOT)/DebugPlugins\"",
 					"\"$(SRCROOT)/../dependencies\"",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
@@ -1653,8 +1653,8 @@
 					"\"$(SRCROOT)/DebugPlugins\"",
 					"\"$(SRCROOT)/../dependencies\"",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
