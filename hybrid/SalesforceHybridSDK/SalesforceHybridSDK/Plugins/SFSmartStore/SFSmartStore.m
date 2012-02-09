@@ -80,11 +80,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
  */
 + (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
 
-/**
- @param storeName The name of the store (excluding paths)
- @return Does this store already exist in persitent storage (ignoring cache) ?
- */
-+ (BOOL)persistentStoreExists:(NSString*)storeName;
+
 
 - (id) initWithName:(NSString*)name;
 
@@ -210,9 +206,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *storeDir = [self.class storeDirectoryForStoreName:self.storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
         //this store has not yet been created: create it
-        [[NSFileManager defaultManager] createDirectoryAtPath:storeDir 
-                                  withIntermediateDirectories:YES attributes:nil error:&createErr];
-        if (nil != createErr) {
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:storeDir 
+                                       withIntermediateDirectories:YES attributes:nil error:&createErr]) {
             NSLog(@"Couldn't create store dir at %@ error: %@",storeDir, createErr);
         }
     } 
@@ -230,12 +225,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                     NSLog(@"Couldn't protect store: %@",protectErr);
                 } else {
                     //reopen the storeDb now that it's protected
-                    [self openStoreDatabase];
-                    result = YES;
+                    result = [self openStoreDatabase];
                 }
             }
         }
-    }
+    } 
     
     if (!result) {
         NSLog(@"Deleting store dir since we can't set it up properly: %@",self.storeName);
@@ -276,15 +270,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-+ (BOOL)storeExists:(NSString*)storeName {
-    BOOL result = NO;
-    SFSmartStore *store = [_allSharedStores objectForKey:storeName];
-    if (nil == store) {
-        result = [self persistentStoreExists:storeName];
-    }
-    
-    return result;
-}
 
 + (id)sharedStoreWithName:(NSString*)storeName {
     if (nil == _allSharedStores) {

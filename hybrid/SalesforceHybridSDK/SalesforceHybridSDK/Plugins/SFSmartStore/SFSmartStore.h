@@ -80,13 +80,13 @@ extern NSString *const kDefaultSmartStoreName;
 + (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
 
 
+
+
 /**
- @param storeName The name of the store
- @return Does the named store already exist?
+ @param storeName The name of the store (excluding paths)
+ @return Does this store already exist in persistent storage (ignoring cache) ?
  */
-+ (BOOL)storeExists:(NSString*)storeName;
-
-
++ (BOOL)persistentStoreExists:(NSString*)storeName;
 
 #pragma mark - Soup manipulation methods
 
