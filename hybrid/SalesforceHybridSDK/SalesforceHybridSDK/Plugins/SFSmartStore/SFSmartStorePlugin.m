@@ -161,7 +161,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     
     BOOL exists = [self.store soupExists:soupName];
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsInt:exists];
+    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsBool:exists];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
     NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
