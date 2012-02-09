@@ -36,6 +36,8 @@
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
 
+- (void)closeCursorWithId:(NSString *)cursorId;
+
 @end
 
 @implementation SFSmartStorePlugin
@@ -243,7 +245,7 @@
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *cursorId = [options objectForKey:@"cursorId"];
     
-    [self.store closeCursorWithId:cursorId];
+    [self closeCursorWithId:cursorId];
     
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
