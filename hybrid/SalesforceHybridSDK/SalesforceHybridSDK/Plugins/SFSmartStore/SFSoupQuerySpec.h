@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,59 +25,34 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFSoupCursor;
 
+extern NSString * const kQuerySpecSortOrderAscending;
+extern NSString * const KQuerySpecSortOrderDescending;
 
-@interface SFSoup : NSObject {
-    NSString *_name;
-    NSString *_soupPath;
-    NSString *_indexTablePath;
-    NSMutableDictionary *_cursorCache;
+@interface SFSoupQuerySpec : NSObject {
+    NSString *_path;
+    NSString *_beginKey;
+    NSString *_endKey;
+    NSString *_order;
+    NSUInteger _pageSize;
+    
 }
 
-@property (nonatomic, readonly) NSString *name;
-
-/**
- Create a fresh soup with the given specs and persist it
- */
-- (id)initWithName:(NSString *)name indexes:(NSArray*)indexSpecs atPath:(NSString*)path;
-
-/**
- Load an existing soup from the given path
- */
-- (id)initWithName:(NSString*)name fromPath:(NSString*)path;
-
+@property (nonatomic, strong) NSString *path;
+@property (nonatomic, strong) NSString *beginKey;
+@property (nonatomic, strong) NSString *endKey;
+/// @see kQuerySpecSortOrderAscending, KQuerySpecSortOrderDescending
+@property (nonatomic, strong) NSString *order;
+@property (nonatomic, assign) NSUInteger pageSize;
 
 
 /**
- 
- @param querySpec 
- 
- @return a cursor to the query results
+ ASC or DESC
  */
-- (SFSoupCursor*)query:(NSDictionary*)querySpec;
+@property (nonatomic, readonly) NSString *sqlSortOrder;
 
-/**
- @param soupEntryId Entry to retrieve
- @return a soup entry whose _soupEntryId exactly matches
- */
-- (NSDictionary*)retrieveEntry:(NSString*)soupEntryId;
 
-/**
- @param entryIds array of _soupEntryId of entries to retrieve. If an entry can't be found it will be missing from the array. Order is not guaranteed.
- @return Array with zero or more entries
- */
-- (NSArray*)retrieveEntries:(NSArray*)entryIds;
-
-/**
- @param entries array of soup entries to be updated or inserted
- @return Array with zero or more inserted or updated entries.
- */
-- (NSArray*)upsertEntries:(NSArray*)entries;
-
-/**
- @param entryIds array of _soupEntryId of entries to remove. If an entry can't be found it will be ignored.
- */
-- (void)removeEntries:(NSArray*)entryIds;
+- (id)initWithDictionary:(NSDictionary*)querySpec;
+- (NSDictionary*)asDictionary;
 
 @end

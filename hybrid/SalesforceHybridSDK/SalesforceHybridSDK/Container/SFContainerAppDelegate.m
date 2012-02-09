@@ -51,25 +51,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *uaString = [self userAgentString];
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
-        
-        //Setup listening for data protection available / unavailable
-        _dataProtectionKnownAvailable = NO;
-        _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
-                                        addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
-                                        object:nil
-                                        queue:nil 
-                                        usingBlock:^(NSNotification *note) {
-                                            _dataProtectionKnownAvailable = YES;
-                                        }];
-        
-        _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter] 
-                                          addObserverForName:UIApplicationProtectedDataWillBecomeUnavailable 
-                                          object:nil
-                                          queue:nil 
-                                          usingBlock:^(NSNotification *note) {
-                                              _dataProtectionKnownAvailable = NO;
-                                          }];
-        
     }
     return self;
 }
@@ -78,10 +59,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 {
     [_oauthPlugin release]; _oauthPlugin = nil;
     [invokeString release]; invokeString = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
-    _dataProtectAvailObserverToken = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
-    _dataProtectUnavailObserverToken = nil;
+
     
 	[ super dealloc ];
 }
@@ -155,11 +133,6 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 #endif
 }
 
-- (BOOL)isFileDataProtectionAvailable {
-    //this is updated based on receiving notifications for
-    //UIApplicationProtectedDataDidBecomeAvailable / UIApplicationProtectedDataWillBecomeUnavailable
-    return _dataProtectionKnownAvailable;
-}
 
 #pragma mark - UIWebViewDelegate
 

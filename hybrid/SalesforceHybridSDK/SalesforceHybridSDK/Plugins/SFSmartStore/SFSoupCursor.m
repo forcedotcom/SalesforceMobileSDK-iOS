@@ -25,12 +25,15 @@
 
 #import "SFSoupCursor.h"
 
+#import "SFSmartStore.h"
+#import "SFSoupQuerySpec.h"
 
 @interface SFSoupCursor ()
 
 @property (nonatomic, readwrite, strong) NSString *cursorId;
+@property (nonatomic, readwrite, strong) NSString *soupName;
 
-@property (nonatomic, readwrite, strong) NSDictionary *querySpec;
+@property (nonatomic, readwrite, strong) SFSoupQuerySpec *querySpec;
 @property (nonatomic, readwrite, strong) NSArray *currentPageOrderedEntries;
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
@@ -52,30 +55,31 @@
 
 
 
-
-- (id)initWithSoupName:(NSString*)soupName querySpec:(NSDictionary*)querySpec entries:(NSArray*)entries
+- (id)initWithSoupName:(NSString*)soupName 
+                 store:(SFSmartStore*)store 
+             querySpec:(SFSoupQuerySpec*)querySpec  
+          totalEntries:(NSUInteger)totalEntries
 {
     self = [super init];
     
     if (nil != self) {
+        _store = [store retain];
         [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
+        
         self.soupName = soupName;
         self.querySpec = querySpec;
-        _orderedEntries = [entries copy];
         
         NSInteger myPageSize = 10;
-        NSNumber *querySpecPageSize = [querySpec objectForKey:@"pageSize"];
-        if (nil != querySpecPageSize) {
-            myPageSize = [querySpecPageSize integerValue];
-        } 
-        
+        myPageSize =  [querySpec pageSize];
+
         self.pageSize = [NSNumber numberWithInteger:myPageSize]; 
-
-
-        //(A+B-1)/B   is essentially ceil(A/B)
-        NSInteger pageCount =   ([_orderedEntries count] + myPageSize - 1) / myPageSize;
-        self.totalPages = [NSNumber numberWithInteger:pageCount];
         
+        NSUInteger totalPages = (totalEntries / querySpec.pageSize) + 1;     
+        if (0 == totalEntries) 
+            totalPages = 0;
+        
+        self.totalPages = [NSNumber numberWithInt:totalPages]; 
+                
         [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
     }
     return self;
@@ -83,6 +87,15 @@
 
                             
 - (void)dealloc {
+    [self close];
+    [super dealloc];
+}
+
+
+- (void)close {
+    NSLog(@"closing cursor id: %@",self.cursorId);
+
+    [_store release]; _store = nil;
     self.soupName = nil;
     self.cursorId = nil;
     self.querySpec = nil;
@@ -91,34 +104,21 @@
     self.currentPageIndex = nil;
     self.pageSize = nil;
     self.totalPages = nil;
-    
-    [_orderedEntries release]; _orderedEntries = nil;
-    
-    [super dealloc];
 }
-
 
 #pragma mark - Properties
 
-- (void)setCurrentPageIndex:(NSNumber *)pageIdx
-{
-    if ((nil != pageIdx) && ![_currentPageIndex isEqualToNumber:pageIdx]) {
-        NSInteger newPageIdx = [pageIdx integerValue];
-        NSInteger totalPages = [self.totalPages integerValue];
-        if (newPageIdx < totalPages) {
-            NSUInteger maxItems = [_orderedEntries count];
-            NSUInteger pageSize = [self.pageSize integerValue];
-            NSUInteger loc = newPageIdx * [self.pageSize integerValue];
-            NSUInteger len = MIN( maxItems - loc, pageSize);
-            NSRange pageRange = NSMakeRange(loc, len);
-            self.currentPageOrderedEntries = [_orderedEntries subarrayWithRange:pageRange];
-        } else {
-            self.currentPageOrderedEntries = [NSArray array];
-        }
+- (void)setCurrentPageIndex:(NSNumber *)pageIdx {
+    //TODO check bounds?
+    if (![pageIdx isEqual:_currentPageIndex]) {
+        _currentPageIndex = [pageIdx retain];
+        
+        if (nil != _currentPageIndex) {
+            NSUInteger pageIdx = [_currentPageIndex integerValue];
+            NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
+            self.currentPageOrderedEntries = newEntries;
+        } 
     }
-    
-    _currentPageIndex = [pageIdx retain];
-    
 }
 
 #pragma mark - Converting to JSON
@@ -129,7 +129,7 @@
     [result setObject:self.soupName forKey:@"soupName"];
     [result setObject:self.cursorId forKey:@"cursorId"];
     if (nil != self.querySpec) {
-        [result setObject:self.querySpec forKey:@"querySpec"];
+        [result setObject:[self.querySpec asDictionary] forKey:@"querySpec"];
     }
     //note that we only encode the current page worth of entries
     [result setObject:self.currentPageOrderedEntries forKey:@"currentPageOrderedEntries"];
@@ -141,5 +141,9 @@
 }
 
 
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n}",
+                        self,self.soupName,self.totalPages,self.currentPageIndex,[self.currentPageOrderedEntries count]];
+}
 
 @end

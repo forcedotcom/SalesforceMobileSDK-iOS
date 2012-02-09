@@ -26,40 +26,83 @@
 
 #import <Foundation/Foundation.h>
 
-// From PhoneGap.framework
-#import "PGPlugin.h"
 
-@class SFContainerAppDelegate;
+/**
+ The default store name used by the SFSmartStorePlugin: native code may choose
+ to use separate stores.
+ */
+extern NSString *const kDefaultSmartStoreName;
+
+@class FMDatabase;
 @class SFSoupCursor;
-@class SFSoup;
+@class SFSoupQuerySpec;
 
-@interface SFSmartStore : PGPlugin {
+@interface SFSmartStore : NSObject {
 
-    SFContainerAppDelegate *_appDelegate;
-
-    NSString    *_callbackID;  
+    //used for monitoring the status of file data protection
+    BOOL    _dataProtectionKnownAvailable;
+    id      _dataProtectAvailObserverToken;
+    id      _dataProtectUnavailObserverToken;
     
-    //cache of soups by name
-    NSMutableDictionary *_soupCache;
+    FMDatabase *_storeDb;
+    NSString *_storeName;
     
-    //cache of cursors by cursorID
-    NSMutableDictionary *_cursorCache;
+    NSMutableDictionary *_indexSpecsBySoup;
     
 }
 
-@property (nonatomic, copy) NSString* callbackID;
+/**
+ The name of this store. 
+ */
+@property (nonatomic, readonly, strong) NSString *storeName;
 
+/**
+ The db access object for this store.
+ */
+@property (nonatomic, readonly, strong) FMDatabase *storeDb;
 
-+ (NSString *)soupDirectoryFromSoupName:(NSString *)soupName;
-
-#pragma mark - Native Soup manipulation methods
 
 
 /**
+ Use this method to obtain a shared store instance with a particular name.
+ 
+ @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
+ @return A shared instance of a store with the given name.
+ */
++ (id)sharedStoreWithName:(NSString*)storeName;
+
+
+
+/**
+ @param storeName The name of the store.
+ @return The filesystem diretory containing for the given store name
+ */
++ (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
+
+
+
+
+/**
+ @param storeName The name of the store (excluding paths)
+ @return Does this store already exist in persistent storage (ignoring cache) ?
+ */
++ (BOOL)persistentStoreExists:(NSString*)storeName;
+
+#pragma mark - Soup manipulation methods
+
+
+
+/**
+ @param soupName the name of the soup
+ @return NSArray of SFSoupIndex for the given soup
+ */
+- (NSArray*)indicesForSoup:(NSString*)soupName;
+
+/**
+ @param soupName the name of the soup
  @return Does a soup with the given name already exist?
  */
 - (BOOL)soupExists:(NSString*)soupName;
-
 
 /**
  Ensure that a soup with the given name exists.
@@ -67,20 +110,40 @@
  
  @param soupName The name of the soup to register
  @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
- @return A new or existing soup with the given name
+ @return YES if the soup registered OK
  */
-- (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
 
 
-/*
+/**
+ Get the number of entries that would be returned with the given query spec
+ 
+ @param soupName the name of the soup
+ @param querySpec a native query spec
+ */
+- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec;
+
+/**
  Search soup for entries matching the querySpec
 
  @param soupName The name of the soup to query
- @param querySpec A QuerySpec as a dictionary
+ @param querySpec A querySpec as a dictionary
 
- @return A set of entries
+ @return A cursor
  */
 - (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
+
+
+/**
+ Search soup for entries matching the querySpec
+ 
+ @param soupName The name of the soup to query
+ @param querySpec A native SFSoupQuerySpec
+ @param pageIndex The page index to start the entries at (this supports paging)
+ 
+ @return A set of entries given the pageSize provided in the querySpec
+ */
+- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
 
 /*
  Search soup for entries exactly matching the soup entry IDs
@@ -92,7 +155,6 @@
  */
 - (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName;
 
-
 /*
  Search soup for entries matching the querySpec
  
@@ -103,121 +165,36 @@
  */
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName;
 
+/*
+ Remove soup entries exactly matching the soup entry IDs
+ 
+ @param soupName The name of the soup from which to remove the soup entries
+ @param soupEntryIds An array of opaque soup entry IDs from _soupEntryId
+ 
+ */
+- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;
+
 
 /**
  Remove soup completely from the store.
+ 
+ @param soupName The name of the soup to remove from the store.
  */
 - (void)removeSoup:(NSString*)soupName;
 
 
-#pragma mark - Object bridging helpers
+#pragma mark - Utility methods
 
 /**
- @param cursorId  The unique ID of the cursor
- @return SFSoupCursor the cached cursor with the given ID or nil
+ This is updated based on receiving notifications for
+ UIApplicationProtectedDataDidBecomeAvailable / UIApplicationProtectedDataWillBecomeUnavailable.
+ Note that on the simulator currently, data protection is NEVER active.
+ 
+ @return Are we sure that file data protection (full passcode-based encryption) is available?
  */
-- (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId;
-
-/**
- @param cursorId  The unique ID of the cursor
- */
-- (void)closeCursorWithId:(NSString*)cursorId;
+- (BOOL)isFileDataProtectionActive;
 
 
-#pragma mark - PhoneGap Plugin methods called from js
-
-/**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName"   
- 
- @see soupExists
- */
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-/**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName" and "indexSpecs"  
- 
- @see registerSoup
- */
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-
-/**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName" 
- 
- @see removeSoup
- */
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-
-/**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "querySpec"  
- 
- @see querySoup
- */
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-
-/**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "soupEntryIds"  
- 
- @see retrieveSoupEntries:fromSoup:
-
- */
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "entries"  
- 
- @see upsertSoupEntries
- */
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 
- @param options:  dictionary containing "cursorId"
- 
- @see closeCursorWithId:
- */
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
-
-
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "soupEntryIds"  
- 
- @see removeFromSoup
- */
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 @end

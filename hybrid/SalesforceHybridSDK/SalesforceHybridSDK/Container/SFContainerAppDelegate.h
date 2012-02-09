@@ -44,9 +44,7 @@ extern NSString * const kUserAgentPropKey;
     
 	NSString* invokeString;
     SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL    _dataProtectionKnownAvailable;
-    id      _dataProtectAvailObserverToken;
-    id      _dataProtectUnavailObserverToken;
+
 }
 
 
@@ -74,10 +72,6 @@ extern NSString * const kUserAgentPropKey;
  */
 - (void)addOAuthViewToMainView:(UIView*)oauthView;
 
-/**
- @return Are we sure that file data protection (full passcode-based encryption) is available?
- */
-- (BOOL)isFileDataProtectionAvailable;
 
 /**
  The currently running app delegate

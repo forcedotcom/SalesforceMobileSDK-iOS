@@ -14,8 +14,6 @@
 		7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32514BFB394002C4A27 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
-		7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32714BFB394002C4A27 /* SFSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32814BFB394002C4A27 /* SFSoup.m */; };
 		7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32914BFB394002C4A27 /* SFSoupCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
 		7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -35,7 +33,13 @@
 		7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
+		7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */; };
+		7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
+		7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */; };
+		7D9DA7CA14E1C46D00B9C3EF /* SFSoupQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D9DA7C814E1C46D00B9C3EF /* SFSoupQuerySpec.h */; };
+		7D9DA7CB14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */; };
+		7D9DA7CC14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */; };
 		7DBB147614C0ECF700CCDBE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7DBB147714C0ECF700CCDBE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7DBB147914C0ECF700CCDBE0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */; };
@@ -118,7 +122,6 @@
 		7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7DBD16B014D85E6700A17E6A /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32614BFB394002C4A27 /* SFSmartStore.m */; };
-		7DBD16B114D85E6700A17E6A /* SFSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32814BFB394002C4A27 /* SFSoup.m */; };
 		7DBD16B214D85E6700A17E6A /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */; };
 		7DBD16B314D85E6700A17E6A /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */; };
 		7DBD16B414D85E9F00A17E6A /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
@@ -240,8 +243,6 @@
 		7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		7D45E32514BFB394002C4A27 /* SFSmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStore.h; sourceTree = "<group>"; };
 		7D45E32614BFB394002C4A27 /* SFSmartStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStore.m; sourceTree = "<group>"; };
-		7D45E32714BFB394002C4A27 /* SFSoup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoup.h; sourceTree = "<group>"; };
-		7D45E32814BFB394002C4A27 /* SFSoup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoup.m; sourceTree = "<group>"; };
 		7D45E32914BFB394002C4A27 /* SFSoupCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupCursor.h; sourceTree = "<group>"; };
 		7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupCursor.m; sourceTree = "<group>"; };
 		7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
@@ -264,6 +265,8 @@
 		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStorePlugin.h; sourceTree = "<group>"; };
+		7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStorePlugin.m; sourceTree = "<group>"; };
 		7D7626CA14D33BBE0064B5B2 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		7D7626CD14D33BBE0064B5B2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D7626CF14D33BBE0064B5B2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -276,6 +279,8 @@
 		7D7626DD14D33BBE0064B5B2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7D7626DF14D33BBE0064B5B2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		7D7626E114D33BBE0064B5B2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7D9DA7C814E1C46D00B9C3EF /* SFSoupQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupQuerySpec.h; sourceTree = "<group>"; };
+		7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupQuerySpec.m; sourceTree = "<group>"; };
 		7DBB147414C0ECF700CCDBE0 /* TestPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7DBB147C14C0ECF700CCDBE0 /* TestPlugins-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestPlugins-Info.plist"; sourceTree = "<group>"; };
@@ -545,14 +550,16 @@
 		7D45E32414BFB394002C4A27 /* SFSmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */,
+				7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */,
 				7D45E32514BFB394002C4A27 /* SFSmartStore.h */,
 				7D45E32614BFB394002C4A27 /* SFSmartStore.m */,
-				7D45E32714BFB394002C4A27 /* SFSoup.h */,
-				7D45E32814BFB394002C4A27 /* SFSoup.m */,
 				7D45E32914BFB394002C4A27 /* SFSoupCursor.h */,
 				7D45E32A14BFB394002C4A27 /* SFSoupCursor.m */,
 				7D45E32B14BFB394002C4A27 /* SFSoupIndex.h */,
 				7D45E32C14BFB394002C4A27 /* SFSoupIndex.m */,
+				7D9DA7C814E1C46D00B9C3EF /* SFSoupQuerySpec.h */,
+				7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */,
 				7D45E32D14BFB394002C4A27 /* sqlite */,
 			);
 			path = SFSmartStore;
@@ -811,7 +818,6 @@
 				7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */,
 				7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */,
 				7D45E33F14BFB394002C4A27 /* SFSmartStore.h in Headers */,
-				7D45E34114BFB394002C4A27 /* SFSoup.h in Headers */,
 				7D45E34314BFB394002C4A27 /* SFSoupCursor.h in Headers */,
 				7D45E34514BFB394002C4A27 /* SFSoupIndex.h in Headers */,
 				7D45E34714BFB394002C4A27 /* FMDatabase.h in Headers */,
@@ -826,6 +832,8 @@
 				7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */,
 				7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */,
 				7DD88EEC14DA044E00C0D0A0 /* SFJsonUtils.h in Headers */,
+				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
+				7D9DA7CA14E1C46D00B9C3EF /* SFSoupQuerySpec.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,7 +1113,6 @@
 				7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */,
 				7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */,
 				7D45E34014BFB394002C4A27 /* SFSmartStore.m in Sources */,
-				7D45E34214BFB394002C4A27 /* SFSoup.m in Sources */,
 				7D45E34414BFB394002C4A27 /* SFSoupCursor.m in Sources */,
 				7D45E34614BFB394002C4A27 /* SFSoupIndex.m in Sources */,
 				7D45E34814BFB394002C4A27 /* FMDatabase.m in Sources */,
@@ -1114,6 +1121,8 @@
 				7D45E34F14BFB394002C4A27 /* FMResultSet.m in Sources */,
 				7D45E35014BFB394002C4A27 /* SqliteAdditions.c in Sources */,
 				7DD88EED14DA044E00C0D0A0 /* SFJsonUtils.m in Sources */,
+				7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
+				7D9DA7CB14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1145,7 +1154,6 @@
 				7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */,
 				7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */,
 				7DBD16B014D85E6700A17E6A /* SFSmartStore.m in Sources */,
-				7DBD16B114D85E6700A17E6A /* SFSoup.m in Sources */,
 				7DBD16B214D85E6700A17E6A /* SFSoupCursor.m in Sources */,
 				7DBD16B314D85E6700A17E6A /* SFSoupIndex.m in Sources */,
 				7DBD16B614D85ED700A17E6A /* FMDatabase.m in Sources */,
@@ -1154,6 +1162,8 @@
 				7DBD16B914D85ED700A17E6A /* FMResultSet.m in Sources */,
 				7DBD16BA14D85ED700A17E6A /* SqliteAdditions.c in Sources */,
 				7DD88EEE14DA046200C0D0A0 /* SFJsonUtils.m in Sources */,
+				7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
+				7D9DA7CC14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,30 +23,109 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+//required for UIApplicationProtectedDataDidBecomeAvailable
+#import <UIKit/UIKit.h>
 #import <PhoneGap/PluginResult.h>
 
-#import "SFContainerAppDelegate.h"
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+#import "SFJsonUtils.h"
 #import "SFSmartStore.h"
-#import "SFSoup.h"
 #import "SFSoupCursor.h"
+#import "SFSoupIndex.h"
+#import "SFSoupQuerySpec.h"
 
 
-static NSString *const kSoupsDirectory = @"soups";
 
-@interface SFSmartStore ()
+static NSMutableDictionary *_allSharedStores;
 
 
-@property (nonatomic, retain) NSMutableDictionary *cursorCache; 
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
+NSString *const kDefaultSmartStoreName = @"defaultStore";
 
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
-- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
 
-- (SFSoup*)soupByName:(NSString *)soupName;
+static NSString *const kStoresDirectory = @"stores";
+static NSString * const kStoreDbFileName = @"store.sqlite";
 
+
+// Table to keep track of soup's index specs
+static NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
+
+// Columns of the soup index map table
+static NSString *const SOUP_NAME_COL = @"soupName";
+
+static NSString *const PATH_COL = @"path";
+static NSString *const COLUMN_NAME_COL = @"columnName";
+static NSString *const COLUMN_TYPE_COL = @"columnType";
+
+// Columns of a soup table
+static NSString *const ID_COL = @"id";
+static NSString *const CREATED_COL = @"created";
+static NSString *const LAST_MODIFIED_COL = @"lastModified";
+static NSString *const SOUP_COL = @"soup";
+
+// JSON fields added to soup element on insert/update 
+static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
+static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
+
+
+
+@interface SFSmartStore () {
+    FMDatabase *_storeDb;
+}
+
+/**
+ @param storeName The name of the store (excluding paths)
+ @return full filesystem path for the store db file
+ */
++ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
+
+
+
+- (id) initWithName:(NSString*)name;
+
+
+
+/**
+ Everything needed to setup the store db file when it doesn't yet exist.
+ 
+ @return Success ?
+ */
+- (BOOL)firstTimeStoreDatabaseSetup;
+
+
+/**
+
+ @param soupIndexMapInserts array of NSDictionary of columns and values to be inserted
+ @return Insert a new set of indices into the soupe index map.
+ */
+- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts;
+
+
+    
+/**
+ Simply open the db file.
+ 
+ @return YES if we were able to open the db file
+ */
+- (BOOL)openStoreDatabase;
+
+/**
+ Create soup index map table to keep track of soups' index specs. 
+ 
+ @return YES if we were able to create the meta table OK
+ */
+- (BOOL)createMetaTable;
+
+
+- (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
+- (BOOL)upsertIntoTable:(NSString*)tableName values:(NSDictionary*)map ;
+
+
+- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName;
+
+- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
 
 @end
 
@@ -54,385 +133,756 @@ static NSString *const kSoupsDirectory = @"soups";
 @implementation SFSmartStore
 
 
-@synthesize callbackID = _callbackID;
-@synthesize cursorCache = _cursorCache;
+@synthesize storeDb = _storeDb;
+@synthesize storeName = _storeName;
 
-
-#pragma mark - Utility methods
-
-- (BOOL)isFileDataProtectionActive {
-    return [_appDelegate isFileDataProtectionAvailable];
-}
-
-
-
-#pragma mark - Soup maniupulation methods
-
-
-
-
-
-- (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
-{
-    self = [super initWithWebView:theWebView];
+- (id) initWithName:(NSString*)name {
+    self = [super init];
     
     if (nil != self)  {
-        NSLog(@"SmartStore initWithWebView");
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
-        _soupCache = [[NSMutableDictionary alloc] init];
-        _cursorCache = [[NSMutableDictionary alloc] init];
+        NSLog(@"SFSmartStore initWithStoreName: %@",name);
+        
+        _storeName = [name retain];
+        //Setup listening for data protection available / unavailable
+        _dataProtectionKnownAvailable = NO;
+        _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
+                                          addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
+                                          object:nil
+                                          queue:nil 
+                                          usingBlock:^(NSNotification *note) {
+                                              _dataProtectionKnownAvailable = YES;
+                                          }];
+        
+        _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter] 
+                                            addObserverForName:UIApplicationProtectedDataWillBecomeUnavailable 
+                                            object:nil
+                                            queue:nil 
+                                            usingBlock:^(NSNotification *note) {
+                                                _dataProtectionKnownAvailable = NO;
+                                            }];
+        
+                
+        _indexSpecsBySoup = [[NSMutableDictionary alloc] init];
+
+        if (![self.class persistentStoreExists:name]) {
+            if (![self firstTimeStoreDatabaseSetup]) {
+                [self release];
+                self = nil;
+            }
+        } else {
+            if (![self openStoreDatabase]) {
+                [self release];
+                self = nil;
+            }
+        }
+        
+
     }
     return self;
 }
 
 
-- (void)dealloc {
-    [_soupCache release]; _soupCache = nil;
+- (void)dealloc {    
+    [self.storeDb close];[_storeDb release]; _storeDb = nil;
+    [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
+    
+    //remove data protection observer
+    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
+    _dataProtectAvailObserverToken = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
+    _dataProtectUnavailObserverToken = nil;
+    
+    [_storeName release]; _storeName = nil;
+    
     [super dealloc];
 }
 
 
-+ (NSString *)soupDirectoryFromSoupName:(NSString *)soupName {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *soupsDir = [documentsDirectory stringByAppendingPathComponent:kSoupsDirectory];
-    NSString *soupDir = [soupsDir stringByAppendingPathComponent:soupName];
+- (BOOL)firstTimeStoreDatabaseSetup {
+    BOOL result = NO;
+    NSError *createErr = nil, *protectErr = nil;
 
-    return soupDir;
+    //ensure that the store directory exists
+    NSString *storeDir = [self.class storeDirectoryForStoreName:self.storeName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
+        //this store has not yet been created: create it
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:storeDir 
+                                       withIntermediateDirectories:YES attributes:nil error:&createErr]) {
+            NSLog(@"Couldn't create store dir at %@ error: %@",storeDir, createErr);
+        }
+    } 
+    
+    if (nil == createErr) {
+        //need to create the db file itself before we can encrypt it
+        if ([self openStoreDatabase]) {
+            if ([self createMetaTable]) {
+                [self.storeDb close]; [_storeDb release]; _storeDb = nil; //need to close before setting encryption
+                
+                NSString *dbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
+                //setup the sqlite file with encryption        
+                NSDictionary *attr = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
+                if (![[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:&protectErr]) {
+                    NSLog(@"Couldn't protect store: %@",protectErr);
+                } else {
+                    //reopen the storeDb now that it's protected
+                    result = [self openStoreDatabase];
+                }
+            }
+        }
+    } 
+    
+    if (!result) {
+        NSLog(@"Deleting store dir since we can't set it up properly: %@",self.storeName);
+        [[NSFileManager defaultManager] removeItemAtPath:storeDir error:nil];
+    }
+    return result;
 }
 
 
-- (BOOL)soupExists:(NSString*)soupName 
++ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName {
+    NSString *storePath = [self storeDirectoryForStoreName:storeName];
+    NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
+    return fullDbFilePath;
+}
+
+- (BOOL)openStoreDatabase {
+    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
+
+    FMDatabase *db = [FMDatabase databaseWithPath:fullDbFilePath ];
+    [db setLogsErrors:YES];
+    [db setCrashOnErrors:YES];
+    if ([db open]) {
+        [_storeDb release];
+        _storeDb = [db retain];
+    } else {
+        NSLog(@"Couldn't open store db at: %@ error: %@",fullDbFilePath,[db lastErrorMessage] );
+    }
+    
+    return YES;
+}
+
+#pragma mark - Store methods
+
+
++ (BOOL)persistentStoreExists:(NSString*)storeName {
+    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];    
+    return result;
+}
+
+
++ (id)sharedStoreWithName:(NSString*)storeName {
+    if (nil == _allSharedStores) {
+        _allSharedStores = [NSMutableDictionary dictionary];
+    }
+    
+    id store = [_allSharedStores objectForKey:storeName];
+    if (nil == store) {
+        store = [[[SFSmartStore alloc] initWithName:storeName] autorelease];
+        [_allSharedStores setObject:store forKey:storeName];
+    }
+    
+    return store;
+}
+
++ (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
+    //TODO is this the right parent directory from a security & backups standpoint?
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
+    NSString *result = [storesDir stringByAppendingPathComponent:storeName];
+    
+    return result;
+}
+
+
+- (BOOL)createMetaTable {
+    NSString *createMetaTableSql = [NSString stringWithFormat:
+                                    @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
+                                    SOUP_INDEX_MAP_TABLE,
+                                    SOUP_NAME_COL,
+                                    PATH_COL,
+                                    COLUMN_NAME_COL,
+                                    COLUMN_TYPE_COL
+                                    ];
+    
+    NSLog(@"createMetaTableSql: %@",createMetaTableSql);
+            
+    BOOL result = NO;
+    
+    @try {
+        result =[self.storeDb  executeUpdate:createMetaTableSql];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception creating meta table: %@", exception);
+    }
+    @finally {
+        if (!result) {
+            NSLog(@"ERROR %d creating meta table: '%@'", 
+            [self.storeDb lastErrorCode], 
+            [self.storeDb lastErrorMessage] );
+        }
+    }
+    
+    
+    return result;
+}
+
+
+#pragma mark - Utility methods
+
+
+- (BOOL)isFileDataProtectionActive {
+    return _dataProtectionKnownAvailable;
+}
+
+
+- (BOOL)upsertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
+    // map all of the columns and values from soupIndexMapInserts
+    __block NSMutableString *fieldNames = [[NSMutableString alloc] init];
+    __block NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __block NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
+    __block NSUInteger fieldCount = 0;
+    
+    [map enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop) {
+         if (fieldCount > 0) {
+             [fieldNames appendFormat:@",%@",key];
+             [fieldValueMarkers appendString:@",?"];
+         } else {
+             [fieldNames appendString:key];
+             [fieldValueMarkers appendString:@"?"];
+         }
+         [binds addObject:obj];
+         fieldCount++;
+     }];
+    
+    
+    NSString *upsertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", 
+                           tableName, fieldNames, fieldValueMarkers];
+//    NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+    [fieldNames release]; [fieldValueMarkers release];
+    BOOL result = [self.storeDb executeUpdate:upsertSql withParams:binds];
+    [binds release];
+        
+    return result;
+    
+}
+
+
+/**
+ Reach into JSON object and pull out the value at the path given
+ */
+- (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path {
+    id result = nil;
+    
+    if ((nil != jsonObj) && [path length] > 0) {
+        id o = jsonObj;
+        NSArray *pathElements = [path componentsSeparatedByString:@"."];
+        for (NSString *pathElement in pathElements) {
+            if ([o isKindOfClass:[NSDictionary class]]) {
+                o = [(NSDictionary*)o objectForKey:pathElement];
+            } else  {
+                NSLog(@"unexpected object in compound path (%@): %@",pathElement, o);
+                o = nil;
+                break;
+            }
+        }
+        result = o;
+    }
+    
+    return result;
+}
+
+
+- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName {
+    //TODO cache these with soupName:path ? if slow...
+    NSString *result = nil;
+    NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ? AND %@ = ?",
+                        COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE, 
+                        SOUP_NAME_COL,
+                        PATH_COL
+                        ];
+    FMResultSet *frs = [self.storeDb executeQuery:querySql withParams:[NSArray arrayWithObjects:soupName, path, nil]];
+    while ([frs next]) {        
+        result = [frs stringForColumnIndex:0];         
+    }
+    [frs close];
+          
+    return result;
+
+}
+
+- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+{
+    NSString *result = nil;
+    if (nil != querySpec.beginKey) {
+        if (nil != querySpec.endKey) {
+            result = [NSString stringWithFormat:@"WHERE %@ >= ? AND %@ <= ?",columnName,columnName];
+        } else {
+            result = [NSString stringWithFormat:@"WHERE %@ >= ?",columnName];
+        }
+    } else if (nil != querySpec.endKey) {
+        result = [NSString stringWithFormat:@"WHERE %@ <= ?",columnName];
+    } else {
+        result = @"";
+    }
+    
+    return result;
+}
+
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+{
+    NSArray *result = nil;
+    if (nil != querySpec.beginKey) {
+        //if endKey is nil it will terminate the array early
+        result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
+    } else if (nil != querySpec.endKey) {
+        result = [NSArray arrayWithObject:querySpec.endKey];
+    }
+    
+    return result;
+}
+
+
+- (NSString *)keyRangePredicateForColumn:(NSString*)columnName {
+    NSString *result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
+    return result;
+}
+
+
+#pragma mark - Soup maniupulation methods
+
+
+- (NSArray*)indicesForSoup:(NSString*)soupName
+{
+    //look in the cache first
+    NSMutableArray *result = [_indexSpecsBySoup objectForKey:soupName];
+    if (nil == result) {
+        result = [NSMutableArray array];
+        
+        //no cached indices ...reload from SOUP_INDEX_MAP_TABLE
+        NSString *querySql = [NSString stringWithFormat:@"SELECT %@,%@,%@ FROM %@ WHERE %@=\"%@\"",
+                              PATH_COL, COLUMN_NAME_COL, COLUMN_TYPE_COL,
+                              SOUP_INDEX_MAP_TABLE,
+                              SOUP_NAME_COL, soupName];
+        FMResultSet *frs = [self.storeDb executeQuery:querySql];
+        while([frs next]) {
+            NSString *path = [frs stringForColumn:PATH_COL];
+            NSString *columnName = [frs stringForColumn:COLUMN_NAME_COL];
+            NSString *type = [frs stringForColumn:COLUMN_TYPE_COL];
+            
+            SFSoupIndex *spec = [[SFSoupIndex alloc] initWithPath:path indexType:type columnName:columnName];
+            [result addObject:spec];   
+            [spec release];
+        }
+        [frs close];
+                              
+        //update the cache
+        [_indexSpecsBySoup setObject:result forKey:soupName];
+    }
+    
+    return result;
+}
+
+- (BOOL)soupExists:(NSString*)soupName {
+    BOOL result = [self.storeDb tableExists:soupName];
+    return result;
+}
+
+
+- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts {
+    BOOL result = NO;
+    
+    // update the mapping table for this soup's columns
+    if ([self.storeDb beginTransaction]) {
+        for (NSDictionary *map in soupIndexMapInserts) {
+            BOOL runOk = [self upsertIntoTable:SOUP_INDEX_MAP_TABLE values:map ];
+            if (!runOk) {
+                break;
+            }
+        }
+                
+        [self.storeDb endTransaction:YES];
+        result = YES;
+    }
+    
+    return result;
+    
+}
+
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
 {
     BOOL result = NO;
     
-    SFSoup *soup = [_soupCache objectForKey:soupName];
-    if (nil != soup) {
-        result = YES;
-    }
-    else {
-        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
-            result = YES;
-        }
-    }
-        
-    return result;
-}
+    NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
+    NSMutableArray *createIndexStmts = [[NSMutableArray alloc] init ];
+    NSMutableString *createTableStmt = [[NSMutableString alloc] init];
+    [createTableStmt appendFormat:@"CREATE TABLE IF NOT EXISTS %@ (",soupName];
+    [createTableStmt appendFormat:@"%@ INTEGER PRIMARY KEY AUTOINCREMENT",ID_COL];
+    [createTableStmt appendFormat:@", %@ TEXT",SOUP_COL]; //this is the column where the raw json is stored
+    [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL]; //TODO make these dates floats (NSTimeInterval) ?
+    [createTableStmt appendFormat:@", %@ INTEGER",LAST_MODIFIED_COL];
 
-- (SFSoup*)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
-{
-    NSLog(@"SmartStore registerSoup: %@", soupName);
-
-    SFSoup *result = [_soupCache objectForKey:soupName];
-    if (nil == result) {
+    
+    for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
+        NSDictionary *rawIndexSpec = [indexSpecs objectAtIndex:i];
+        SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithIndexSpec:rawIndexSpec];
         
-        //check whether data protection is active:
-        BOOL dataProtectionActive = [self isFileDataProtectionActive];
-        if (!dataProtectionActive) {
-            //TODO something more aggressive? prevent soup creation?
-            //note that data protection is NEVER active on simulator
-            NSLog(@"WARNING: File data protection inactive!");
-        }
+        // for creating the soup table itself in the store db
+        NSString *columnName = [NSString stringWithFormat:@"%@_%d",soupName,i];
+        NSString * columnType = [indexSpec columnType];
+        [createTableStmt appendFormat:@", %@ %@ ",columnName,columnType];
         
-        //we don't have this soup cached in memory, but it might already be persisted
-        NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
+        // for inserting into meta mapping table
+        NSMutableDictionary *values = [[NSMutableDictionary alloc] init ];
+        [values setObject:soupName forKey:SOUP_NAME_COL];
+        [values setObject:indexSpec.path forKey:PATH_COL]; //TODO make path safe?
+        [values setObject:columnName forKey:COLUMN_NAME_COL];
+        [values setObject:indexSpec.indexType forKey:COLUMN_TYPE_COL];
+        [indexSpec release];
+        [soupIndexMapInserts addObject:values];
+        [values release];
         
-        if (![[NSFileManager defaultManager] fileExistsAtPath:soupDir]) {
-            if ([indexSpecs count] > 0) {
-                //this soup has not yet been created: create it
-                NSError *createErr = nil;
-                [[NSFileManager defaultManager] createDirectoryAtPath:soupDir 
-                                          withIntermediateDirectories:YES attributes:nil error:&createErr];
-                if (nil != createErr) {
-                    NSLog(@"createDirectoryAtPath err: %@",createErr);
-                }
-                result = [[SFSoup alloc] initWithName:soupName indexes:indexSpecs atPath:soupDir];
-            }
-        } else {
-            NSLog(@"Soup %@ exists",soupName);
-            result = [[SFSoup alloc] initWithName:soupName fromPath:soupDir];
-        }
-        
-        if (nil == result) {
-            NSLog(@"Unable to mount soup: %@",soupName);
-            //ensure that the entire directory is blown away if we weren't able to load the soup
-            [[NSFileManager defaultManager] removeItemAtPath:soupDir error:nil];
-        } else {
-            [_soupCache setObject:result forKey:soupName];
-            [result autorelease];
-        }
+        // for creating an index on the soup table
+        NSString *indexName = [NSString stringWithFormat:@"%@_%d_idx",soupName,i];
+        [createIndexStmts addObject:
+         [NSString stringWithFormat:@"CREATE INDEX IF NOT EXISTS %@ ON %@ ( %@ )",indexName, soupName, columnName]
+         ];
     }
     
-    return result;
+    [createTableStmt appendString:@")"];
+    NSLog(@"createTableStmt: %@",createTableStmt);
+
+    // create the main soup table
+    BOOL runOk = [self.storeDb  executeUpdate:createTableStmt];
+    if (!runOk) {
+        NSLog(@"ERROR creating soup table  %d %@ stmt: %@", 
+              [self.storeDb lastErrorCode], 
+              [self.storeDb lastErrorMessage],
+              createTableStmt);
+    } else {
+        // create indices for this soup
+        for (NSString *createIndexStmt in createIndexStmts) {
+            runOk = [self.storeDb  executeUpdate:createIndexStmt];
+            if (!runOk) {
+                NSLog(@"ERROR creating soup index  %d %@", 
+                      [self.storeDb lastErrorCode], 
+                      [self.storeDb lastErrorMessage] );
+                NSLog(@"createIndexStmt: %@",createIndexStmt);
+            }
+        }
+        
+        
+        // update the mapping table for this soup's columns
+        result = [self insertIntoSoupIndexMap:soupIndexMapInserts];        
+    }
+    
+    [createTableStmt release];
+    [createIndexStmts release];
+    [soupIndexMapInserts release];
+    
+    return  result;
 }
+
+
+
 
 - (void)removeSoup:(NSString*)soupName {
-
-    NSString *soupDir = [[self  class] soupDirectoryFromSoupName:soupName];
-    NSFileManager *fileMgr = [NSFileManager defaultManager] ;
-    BOOL isDir = YES;
-    if ([fileMgr fileExistsAtPath:soupDir isDirectory:&isDir] ) {
-        NSError *removeErr = nil;
-        NSLog(@"Removing soupDir '%@'",soupDir);
-        [[NSFileManager defaultManager] removeItemAtPath:soupDir error:&removeErr];
-        if (nil != removeErr) {
-            NSLog(@"Error removing %@ : %@",soupDir,removeErr);
-        }
-    } else {
-        NSLog(@"Ignoring removeSoup for unregistered soup: %@",soupName);
-    }
     
-    [_soupCache removeObjectForKey:soupName];
+    BOOL updatedOK = NO;
+    
+    @try {
+        NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupName];
+        [self.storeDb executeUpdate:dropSql];
+        [self.storeDb beginTransaction];
+        
+        NSString *deleteRowSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
+        updatedOK = [self.storeDb executeUpdate:deleteRowSql withParams:nil];
+        if (!updatedOK) {
+            NSLog(@"Could not update: %@",deleteRowSql); 
+        } else {
+            [self.storeDb endTransaction:YES];
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"exception removing soup: %@", exception);
+    }
+    @finally {
+        if (!updatedOK) {
+            [self.storeDb endTransaction:NO];
+        }
+    }
+
 }
 
-- (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec
+
+- (FMResultSet *)queryTable:(NSString*)table 
+                 forColumns:(NSArray*)columns 
+                    orderBy:(NSString*)orderBy 
+                      limit:(NSString*)limit 
+                whereClause:(NSString*)whereClause 
+                  whereArgs:(NSArray*)whereArgs 
 {
-    SFSoup *theSoup = [self soupByName:soupName];
-    SFSoupCursor *result =  [theSoup query:querySpec];
-    if (nil != result) {
-        //cache this cursor for later paging
-        [_cursorCache setObject:result forKey:result.cursorId];
+
+    NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
+    columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
+    
+    NSString *orderByStr = (nil == orderBy) ? @"" : [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
+    NSString *selectionStr = (nil == whereClause) ? @"" : [NSString stringWithFormat:@"WHERE %@",whereClause ];
+    NSString *limitStr = (nil == limit) ? @"" : [NSString stringWithFormat:@"LIMIT %@",limit ];
+
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", columnsStr, table, selectionStr, orderByStr, limitStr];
+    FMResultSet *frs = [self.storeDb executeQuery:sql withParams:whereArgs];
+    return frs;
+}
+
+- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
+{
+    FMResultSet *frs = nil;
+    NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+    
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
+
+    // Page
+    NSUInteger offsetRows = querySpec.pageSize * pageIndex;
+    NSUInteger numberRows = querySpec.pageSize;
+    NSString *limit = [NSString stringWithFormat:@"%d,%d",offsetRows,numberRows];
+    NSString *orderBy = [NSString stringWithFormat:@"%@ %@",columnName,querySpec.sqlSortOrder];
+    NSArray *fetchCols = [NSArray arrayWithObject:SOUP_COL];
+    
+    if (nil == querySpec.beginKey) {
+        // Get all the rows
+        frs = [self queryTable:soupName 
+                    forColumns:fetchCols 
+                       orderBy:orderBy 
+                         limit:limit 
+                   whereClause:nil 
+                     whereArgs:nil
+               ];
     } else {
-        NSLog(@"No cursor for query: %@", querySpec);
+        NSString *keyRangePredicate = [self keyRangePredicateForColumn:columnName];
+        // Get a range of rows (between beginKey and endKey)
+        frs = [self queryTable:soupName 
+                    forColumns:fetchCols 
+                       orderBy:orderBy 
+                         limit:limit 
+                   whereClause:keyRangePredicate 
+                     whereArgs:[NSArray arrayWithObjects:querySpec.beginKey, querySpec.endKey,nil]
+               ];
     }
+    
+    while ([frs next]) {
+        NSString *rawJson = [frs stringForColumn:SOUP_COL];
+        //TODO we do not (yet?) support projections 
+        NSDictionary *soupElt = [SFJsonUtils objectFromJSONString:rawJson];
+        if (nil != soupElt) {
+            [result addObject:soupElt];
+        }
+    }
+    [frs close];
+    
     return result;
+}
+
+
+    
+- (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)spec
+{
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
+    NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
+    
+    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName store:self querySpec:querySpec totalEntries:totalEntries];
+    [querySpec release];
+    
+    return [result autorelease];
+}
+
+
+- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec 
+{
+    NSUInteger result = 0;
+    NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+    NSString *querySql = nil;
+    FMResultSet *frs = nil;
+    
+    NSString *whereClause = [self whereClauseForQuerySpec:querySpec columnName:columnName];
+    NSArray *binds = [self bindsForQuerySpec:querySpec columnName:columnName];
+    querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ %@", soupName, whereClause];
+    frs = [self.storeDb executeQuery:querySql withParams:binds];
+    
+    while([frs next]) {
+        result = [frs intForColumnIndex:0];
+    }
+    [frs close];
+    
+    NSLog(@"countEntriesInSoup %@ result: %d",soupName,result);
+    return result;
+}
+
+
+- (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds {
+    NSString *allIds = [soupEntryIds componentsJoinedByString:@","];
+    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ",ID_COL,allIds];    
+    return pred;
 }
 
 
 - (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    NSArray *result = [NSArray array]; //empty result array by default
-    if ([soupEntryIds count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        result = [theSoup retrieveEntries:soupEntryIds];
+    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
+    NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@",
+                          SOUP_COL,soupName,pred];
+    FMResultSet *frs = [self.storeDb executeQuery:querySql];
+
+    while([frs next]) {
+        NSString *rawJson = [frs stringForColumn:SOUP_COL];
+        //TODO this is pretty inefficient...we read json from db then reconvert to NSDictionary, then reconvert again in phonegap
+        NSDictionary *entry = [SFJsonUtils objectFromJSONString:rawJson];
+        [result addObject:entry];          
     }
+    [frs close];
+    
     return result;
 }
+
+
+
+- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoup:(NSString*)soupName
+{
+    NSArray *indices = [self indicesForSoup:soupName];
+    NSNumber *nowVal = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSMutableDictionary *baseColumns = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          @"", SOUP_COL,
+                                          nowVal, CREATED_COL,
+                                          nowVal, LAST_MODIFIED_COL,
+                                          nil];
+    
+    //build up the set of index column values for this new row
+    for (SFSoupIndex *idx in indices) {
+        NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
+        if (nil != indexColVal) {//not every entry will have a value for each index column
+            NSString *colName = [idx columnName];
+            [baseColumns setObject:indexColVal forKey:colName];
+        }
+    }
+    
+    BOOL insertOk =[self upsertIntoTable:soupName values:baseColumns ];
+    if (!insertOk) {
+        return nil;
+    }
+
+    //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
+    NSNumber *newEntryId = [NSNumber numberWithInteger:[self.storeDb lastInsertRowId]];
+    
+    //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
+    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
+    [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
+    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
+             
+    //now update the SOUP_COL (raw json) for the soup entry
+    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+    NSArray *binds = [NSArray arrayWithObjects:
+                      rawJson,
+                      newEntryId,
+                      nil];
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupName, SOUP_COL, ID_COL];
+    BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
+    if (!updateOk) {
+        mutableEntry = nil;
+    }
+    
+    return mutableEntry;
+}
+
+
+- (NSDictionary *)updateOneEntry:(NSDictionary*)entry withEntryId:(NSString*)entryId inSoup:(NSString*)soupName
+{    
+    NSArray *indices = [self indicesForSoup:soupName];
+    NSNumber *nowVal = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSMutableDictionary *colVals = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        nowVal, LAST_MODIFIED_COL,
+                                        nil];
+    
+    //build up the set of index column values for this row
+    for (SFSoupIndex *idx in indices) {
+        NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
+        if (nil != indexColVal) { //not every entry will have a value for each index column
+            NSString *colName = [idx columnName];
+            [colVals setObject:indexColVal forKey:colName];
+        }
+    }
+    
+    //clone the entry so that we can modify SOUP_LAST_MODIFIED_DATE
+    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
+    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
+    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+    [colVals setObject:rawJson forKey:SOUP_COL];
+
+    BOOL insertOk =[self upsertIntoTable:soupName values:colVals ];
+    if (!insertOk) {
+        return nil;
+    }
+     
+    return mutableEntry;
+    
+}
+
+
+- (NSDictionary *)upsertOneEntry:(NSDictionary *)entry inSoup:(NSString*)soupName {
+    NSDictionary *result = nil;
+    
+    NSString *soupEntryId = [entry objectForKey:SOUP_ENTRY_ID];
+    if (nil != soupEntryId) {
+        //entry already has an entry id: update
+        result = [self updateOneEntry:entry withEntryId:soupEntryId inSoup:soupName];
+    } else {
+        //no entry id: insert
+        result = [self insertOneEntry:entry inSoup:soupName];
+    }
+    
+    return result;
+}
+
 
 
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
-    NSArray *result = [NSArray array]; //empty result array by default
-    if ([entries count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        result = [theSoup upsertEntries:entries]; 
+    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    
+    [self.storeDb beginTransaction];
+    
+    for (NSDictionary *entry in entries) {
+        NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName];
+        if (nil != upsertedEntry) {
+            [result addObject:upsertedEntry];
+        }
     }
+    
+    [self.storeDb endTransaction:YES];
+    
+
     return result;
 }
 
-- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName
+- (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    if ([entryIds count] > 0) {
-        SFSoup *theSoup = [self soupByName:soupName];
-        [theSoup removeEntries:entryIds];
-        //TODO any need to update other cursors pointing at this soup?
+
+    NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@",
+                          soupName,pred];
+    BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
+    if (!ranOK) {
+        NSLog(@"ERROR %d deleting entries: '%@'", 
+              [self.storeDb lastErrorCode], 
+              [self.storeDb lastErrorMessage] );
     }
-}
-
-- (void)closeCursorWithId:(NSString *)cursorId
-{
-    SFSoupCursor *theCursor = [self cursorByCursorId:cursorId];
-    if (nil != theCursor) {
-        [self.cursorCache removeObjectForKey:cursorId];
-    }
-    //else...could be a cursor passed in response to pgUpsertSoupEntries ?
-}
-
-
-
-- (SFSoup*)soupByName:(NSString *)soupName
-{
-    SFSoup *result =  [_soupCache objectForKey:soupName];
-    if (nil == result) {
-        //attempt to reregister the soup using just the name
-        //this only works if the soup was previously created at the standard directory path
-        result = [self registerSoup:soupName withIndexSpecs:nil];
-    }
-    return result;
-}
-
-- (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId
-{
-    SFSoupCursor *theCursor = [_cursorCache objectForKey:cursorId];
-    if (nil == theCursor) {
-        NSLog(@"Could not find cursor for: %@", cursorId);
-    }
-    return theCursor;
-}
-
-
-#pragma mark - PhoneGap plugin support
-
-- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
-{
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsArray:array];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
-{
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:dict];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
-{    
-    NSString *jsString = [result toSuccessCallbackString:callbackId];
     
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
-}
-
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
-{
-    NSString *jsString = [result toErrorCallbackString:callbackId];
-    
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
 }
 
 
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    
-    BOOL exists = [self soupExists:soupName];
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsInt:exists];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    
-    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
-  
-}
 
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *indexes = [options objectForKey:@"indexes"];
-    
-    SFSoup *theSoup = [self registerSoup:soupName withIndexSpecs:indexes];
-    NSDictionary *returnVals = [NSDictionary dictionaryWithObjectsAndKeys:theSoup.name, @"registeredSoup",nil];
-    
-    [self writeSuccessDictToJsRealm:returnVals callbackId:callbackId];
-
-    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-
-    [self removeSoup:soupName];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-
-    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
-
-}
-
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSMutableDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSDictionary *querySpec = [options objectForKey:@"querySpec"];
-    
-    SFSoupCursor *cursor =  [self querySoup:soupName withQuerySpec:querySpec];    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-     
-    NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *rawIds = [options objectForKey:@"entryIds"];
-    //make entry Ids unique
-    NSSet *entryIdSet = [NSSet setWithArray:rawIds];
-    NSArray *entryIds = [entryIdSet allObjects];
-    
-    NSArray *entries = [self retrieveEntries:entryIds fromSoup:soupName];
-    [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
-    
-    NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entries = [options objectForKey:@"entries"];
-    
-    NSArray *resultEntries = [self upsertEntries:entries toSoup:soupName];
-    PluginResult *result;
-    if (nil != resultEntries) {
-        //resultEntries
-        [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
-    } else {
-        result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
-        [self writeErrorResultToJsRealm:result callbackId:callbackId];
-    }
-  
-    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
-}
-
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entryIds = [options objectForKey:@"entryIds"];
-
-    [self removeEntries:entryIds fromSoup:soupName];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    
-    NSLog(@"pgRemoveFromSoup took: %f", [startTime timeIntervalSinceNow]);
-
-}
-
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *cursorId = [options objectForKey:@"cursorId"];
-
-    [self closeCursorWithId:cursorId];
-    
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-- (void)pgMoveCursorToPageIndex:(NSArray*)arguments withDict:(NSDictionary*)options
-{
-    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-
-    NSString *cursorId = [options objectForKey:@"cursorId"];
-    NSNumber *newPageIndex = [options objectForKey:@"index"];
-    NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
-    
-    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
-    [cursor setCurrentPageIndex:newPageIndex];
-    
-    [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];    
-
-    NSLog(@"pgMoveCursorToPageIndex took: %f", [startTime timeIntervalSinceNow]);
-}
 
 
 

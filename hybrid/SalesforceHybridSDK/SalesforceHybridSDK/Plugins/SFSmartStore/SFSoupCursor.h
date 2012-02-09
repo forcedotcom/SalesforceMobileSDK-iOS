@@ -25,47 +25,54 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class SFSmartStore;
+@class SFSoupQuerySpec;
+
 @interface SFSoupCursor : NSObject {
+    SFSmartStore *_store;
     NSString *_soupName;
     NSString *_cursorId;
-    NSDictionary *_querySpec;
-    //TODO switch to NSMutableOrderedSet when we switch to iOS5
-    NSArray *_orderedEntries;
+    SFSoupQuerySpec *_querySpec;
     
     NSArray *_currentPageOrderedEntries;
     NSNumber *_currentPageIndex;
     NSNumber *_pageSize;
     NSNumber *_totalPages;
     
-
 }
 
-
 /** soup name from which this cursor was generated */
-@property (nonatomic, readwrite, strong) NSString *soupName;
+@property (nonatomic, readonly, strong) NSString *soupName;
 
-/** a unique ID for this cursor, used for paging */
+/** a unique ID for this cursor */
 @property (nonatomic, readonly, strong) NSString *cursorId;
 
 /** the query spec that generated this cursor */
-@property (nonatomic, readonly, strong) NSDictionary *querySpec;
+@property (nonatomic, readonly, strong) SFSoupQuerySpec *querySpec;
 
 /** the list of current page entries, ordered as requested in the querySpec */
 @property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries;
-/** the current page index among all the pages available */
-@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex;
+
+
 /** the maximum number of entries returned per page */
 @property (nonatomic, readonly, strong) NSNumber *pageSize;
-/** the total number of pages of results available */
+/** 
+ The total number of pages of results available 
+ */
 @property (nonatomic, readonly, strong) NSNumber *totalPages;
 
-
+/** 
+ The current page index among totalPages available:
+ writing this value causes currentPageOrderedEntries to be refetched
+ */
+@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex;
 
 
 /**
  @param entries a sorted list of entries
  */
-- (id)initWithSoupName:(NSString*)soupName querySpec:(NSDictionary*)querySpec entries:(NSArray*)entries;
+- (id)initWithSoupName:(NSString*)soupName store:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries;
 
 /**
  @return dictionary representation of this object, for translation to json
@@ -73,5 +80,9 @@
 - (NSDictionary*)asDictionary;
 
 
+/**
+ Close this cursor when finished operating on it...
+ */
+- (void)close; 
 
 @end

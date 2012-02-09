@@ -30,7 +30,7 @@
 		<key>com.salesforce.oauth</key>
 		<string>SalesforceOAuthPlugin</string>
 		<key>com.salesforce.smartstore</key>
-		<string>SFSmartStore</string>
+		<string>SFSmartStorePlugin</string>
 		<key>com.phonegap.camera</key>
 		<string>PGCamera</string>
 		<key>com.phonegap.connection</key>
