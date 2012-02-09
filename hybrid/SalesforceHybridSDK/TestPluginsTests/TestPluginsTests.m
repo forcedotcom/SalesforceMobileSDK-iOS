@@ -156,4 +156,21 @@
     [self runTest:@"testManipulateCursor"];
 }
 
+- (void)testRegisterBogusSoup {
+    [self runTest:@"testRegisterBogusSoup"];
+}
+
+- (void)testRegisterSoupNoIndices {
+    [self runTest:@"testRegisterSoupNoIndices"];
+}
+
+- (void)testUpsertToNonexistentSoup {
+    [self runTest:@"testUpsertToNonexistentSoup"];
+}
+
+- (void)testQuerySoupBadQuerySpec {
+    [self runTest:@"testQuerySoupBadQuerySpec"];
+}
+
+
 @end

@@ -28,6 +28,12 @@
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
 
+
+@interface NSDictionary (NullHandling)
+
+@end
+
+
 @interface SFSmartStorePlugin() 
 
 - (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
@@ -39,6 +45,24 @@
 - (void)closeCursorWithId:(NSString *)cursorId;
 
 @end
+
+
+@implementation NSDictionary (NullHandling)
+
+/**
+ @return nil instead of NSNull if the key doesn't have a non-null value
+ */
+- (id)nonNullObjectForKey:(id)key {
+    id result = [self objectForKey:key];
+    if ([NSNull null] == result) {
+        result = nil;
+    }
+    
+    return result;
+}
+
+@end
+
 
 @implementation SFSmartStorePlugin
 
@@ -118,7 +142,7 @@
 {
     NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     
     BOOL exists = [self.store soupExists:soupName];
     PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsInt:exists];
@@ -131,8 +155,8 @@
 {
     NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *indexes = [options objectForKey:@"indexes"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSArray *indexes = [options nonNullObjectForKey:@"indexes"];
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
@@ -150,7 +174,7 @@
 {
     NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     
     [self.store removeSoup:soupName];
     
@@ -164,10 +188,11 @@
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSDictionary *querySpec = [options objectForKey:@"querySpec"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSDictionary *querySpec = [options nonNullObjectForKey:@"querySpec"];
     
     SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
+
     if (nil != cursor) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
@@ -184,8 +209,8 @@
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *rawIds = [options objectForKey:@"entryIds"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSArray *rawIds = [options nonNullObjectForKey:@"entryIds"];
     //make entry Ids unique
     NSSet *entryIdSet = [NSSet setWithArray:rawIds];
     NSArray *entryIds = [entryIdSet allObjects];
@@ -200,8 +225,8 @@
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entries = [options objectForKey:@"entries"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSArray *entries = [options nonNullObjectForKey:@"entries"];
     
     NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName];
     PluginResult *result;
@@ -221,8 +246,8 @@
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     
-    NSString *soupName = [options objectForKey:@"soupName"];
-    NSArray *entryIds = [options objectForKey:@"entryIds"];
+    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSArray *entryIds = [options nonNullObjectForKey:@"entryIds"];
     
     [self.store removeEntries:entryIds fromSoup:soupName];
     
@@ -236,7 +261,7 @@
 - (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
 {
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *cursorId = [options objectForKey:@"cursorId"];
+    NSString *cursorId = [options nonNullObjectForKey:@"cursorId"];
     
     [self closeCursorWithId:cursorId];
     
@@ -249,8 +274,8 @@
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     
-    NSString *cursorId = [options objectForKey:@"cursorId"];
-    NSNumber *newPageIndex = [options objectForKey:@"index"];
+    NSString *cursorId = [options nonNullObjectForKey:@"cursorId"];
+    NSNumber *newPageIndex = [options nonNullObjectForKey:@"index"];
     NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
     
     SFSoupCursor *cursor = [self cursorByCursorId:cursorId];

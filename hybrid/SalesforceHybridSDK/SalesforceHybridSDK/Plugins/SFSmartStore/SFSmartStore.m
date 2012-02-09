@@ -96,6 +96,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 /**
 
+ Update the SOUP_INDEX_MAP_TABLE with new indexing columns
+
  @param soupIndexMapInserts array of NSDictionary of columns and values to be inserted
  @return Insert a new set of indices into the soupe index map.
  */
@@ -416,6 +418,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     [frs close];
           
+    if (nil == result) {
+        NSLog(@"Unknown index path '%@' in soup '%@' ",path,soupName);
+    }
     return result;
 
 }
@@ -522,6 +527,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     BOOL result = NO;
     
+    //verify soupName
+    if (!([soupName length] > 0)) {
+        NSLog(@"Bogus soupName: '%@'",soupName);
+        return result;
+    }
+    //verify indexSpecs
+    if (!([indexSpecs count] > 0)) {
+        NSLog(@"Bogus indexSpecs: '%@'",indexSpecs);
+        return result;
+    }
+    
     NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
     NSMutableArray *createIndexStmts = [[NSMutableArray alloc] init ];
     NSMutableString *createTableStmt = [[NSMutableString alloc] init];
@@ -577,12 +593,14 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                       [self.storeDb lastErrorCode], 
                       [self.storeDb lastErrorMessage] );
                 NSLog(@"createIndexStmt: %@",createIndexStmt);
+                break;
             }
         }
         
-        
-        // update the mapping table for this soup's columns
-        result = [self insertIntoSoupIndexMap:soupIndexMapInserts];        
+        if (runOk) {
+            // update the mapping table for this soup's columns
+            result = [self insertIntoSoupIndexMap:soupIndexMapInserts]; 
+        }
     }
     
     [createTableStmt release];
@@ -698,6 +716,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
     NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
+    if (0 == totalEntries) {
+        NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+        if (nil == columnName) {
+            //asking for a query on an index that doesn't exist
+            return nil;
+        }
+    }
     
     SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName store:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
@@ -710,6 +735,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSUInteger result = 0;
     NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
+    if ((nil != [querySpec path]) && (nil == columnName)) {
+        //asking for a query on an index that doesn't exist
+        return 0;
+    }
+    
     NSString *querySql = nil;
     FMResultSet *frs = nil;
     
@@ -856,20 +886,22 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
 {
-    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    NSMutableArray *result = nil;
     
-    [self.storeDb beginTransaction];
-    
-    for (NSDictionary *entry in entries) {
-        NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName];
-        if (nil != upsertedEntry) {
-            [result addObject:upsertedEntry];
+    if ([self soupExists:soupName]) {
+        result = [NSMutableArray array]; //empty result array by default
+        [self.storeDb beginTransaction];
+        
+        for (NSDictionary *entry in entries) {
+            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName];
+            if (nil != upsertedEntry) {
+                [result addObject:upsertedEntry];
+            }
         }
+        
+        [self.storeDb endTransaction:YES];
     }
     
-    [self.storeDb endTransaction:YES];
-    
-
     return result;
 }
 
