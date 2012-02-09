@@ -12,7 +12,8 @@
 
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
-
+#import "SFSmartStore.h"
+#import "SFSmartStorePlugin.h"
 
 @interface TestPluginsTests (Private)
 
@@ -28,6 +29,10 @@
 {
     [super setUp];
     
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    [SFSmartStorePlugin resetSharedStore];
+    
+
     _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
 
     // Block until the javascript has notified the container that it's ready

@@ -28,6 +28,12 @@
 // From PhoneGap.framework
 #import "PGPlugin.h"
 
+
+/**
+ String used with PhoneGap to uniquely identify this plugin
+ */
+extern NSString * const kSmartStorePluginIdentifier;
+
 @class SFContainerAppDelegate;
 @class SFSoupCursor;
 @class SFSmartStore;
@@ -48,6 +54,10 @@
 @property (nonatomic, retain) NSMutableDictionary *cursorCache; 
 
 
+/**
+ Used for unit testing purposes only: allows the shared smart store instance to be reset.
+ */
++ (void)resetSharedStore;
 
 #pragma mark - PhoneGap Plugin methods called from js
 

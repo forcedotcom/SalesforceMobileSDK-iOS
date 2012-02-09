@@ -72,6 +72,15 @@ extern NSString *const kDefaultSmartStoreName;
 + (id)sharedStoreWithName:(NSString*)storeName;
 
 
+/**
+ 
+ You may use this method to completely remove a persistent shared store with
+ the given name.
+ 
+ @param storeName The name of the store. 
+ */
++ (void)removeSharedStoreWithName:(NSString*)storeName;
+
 
 /**
  @param storeName The name of the store.

@@ -25,11 +25,20 @@
 
 #import "SFSmartStorePlugin.h"
 
+#import "SFContainerAppDelegate.h"
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
 
+//NOTE: must match value in PhoneGap.plist file
+NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
+
 
 @interface NSDictionary (NullHandling)
+
+/**
+ @return nil or an object value for the given key
+ */
+- (id)nonNullObjectForKey:(id)key;
 
 @end
 
@@ -70,6 +79,13 @@
 @synthesize cursorCache = _cursorCache;
 @synthesize store = _store;
 
+
++ (void)resetSharedStore {
+    SFContainerAppDelegate *myApp = (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
+    SFSmartStorePlugin *myInstance = (SFSmartStorePlugin*)[myApp getCommandInstance:kSmartStorePluginIdentifier];
+    [[myInstance cursorCache] removeAllObjects];
+    myInstance.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+}
 
 - (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
 {

@@ -294,6 +294,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return store;
 }
 
++ (void)removeSharedStoreWithName:(NSString*)storeName {
+    
+    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath]) {    
+        [_allSharedStores removeObjectForKey:storeName];
+        [[NSFileManager defaultManager] removeItemAtPath:fullDbFilePath error:nil];
+    }
+}
+
+
 + (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
     //TODO is this the right parent directory from a security & backups standpoint?
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
