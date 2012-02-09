@@ -55,9 +55,9 @@
 	
 	<option value="//api/name/asDictionary">&nbsp;&nbsp;&nbsp;&nbsp;- asDictionary</option>
 	
-	<option value="//api/name/asJsonData">&nbsp;&nbsp;&nbsp;&nbsp;- asJsonData</option>
+	<option value="//api/name/close">&nbsp;&nbsp;&nbsp;&nbsp;- close</option>
 	
-	<option value="//api/name/initWithSoupName:querySpec:entries:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithSoupName:querySpec:entries:</option>
+	<option value="//api/name/initWithSoupName:store:querySpec:totalEntries:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithSoupName:store:querySpec:totalEntries:</option>
 	
 	
 	
@@ -105,9 +105,9 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/asDictionary">asDictionary</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/asJsonData">asJsonData</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/close">close</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithSoupName:querySpec:entries:">initWithSoupName:querySpec:entries:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithSoupName:store:querySpec:totalEntries:">initWithSoupName:store:querySpec:totalEntries:</a></span></li>
 	
 </ul></li>
 
@@ -164,7 +164,7 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cursorId">&nbsp;&nbsp;cursorId</a></code>
-		<span class="tooltip"><p>a unique ID for this cursor, used for paging</p></span>
+		<span class="tooltip"><p>a unique ID for this cursor</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -184,13 +184,6 @@
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/currentPageIndex">&nbsp;&nbsp;currentPageIndex</a></code>
-		<span class="tooltip"><p>the current page index among all the pages available</p></span>
-	</span>
-	<span class="task-item-suffix">property</span>
-	
-</li><li>
-	<span class="tooltip">
 		<code><a href="#//api/name/pageSize">&nbsp;&nbsp;pageSize</a></code>
 		<span class="tooltip"><p>the maximum number of entries returned per page</p></span>
 	</span>
@@ -199,13 +192,21 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/totalPages">&nbsp;&nbsp;totalPages</a></code>
-		<span class="tooltip"><p>the total number of pages of results available</p></span>
+		<span class="tooltip"><p>The total number of pages of results available</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/initWithSoupName:querySpec:entries:">&ndash;&nbsp;initWithSoupName:querySpec:entries:</a></code>
+		<code><a href="#//api/name/currentPageIndex">&nbsp;&nbsp;currentPageIndex</a></code>
+		<span class="tooltip"><p>The current page index among totalPages available:
+writing this value causes currentPageOrderedEntries to be refetched</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithSoupName:store:querySpec:totalEntries:">&ndash;&nbsp;initWithSoupName:store:querySpec:totalEntries:</a></code>
 		<span class="tooltip"><p>a sorted list of entries</p></span>
 	</span>
 	
@@ -219,8 +220,8 @@
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/asJsonData">&ndash;&nbsp;asJsonData</a></code>
-		<span class="tooltip"><p>Provide UTF-8 JSON data representation of this object.</p></span>
+		<code><a href="#//api/name/close">&ndash;&nbsp;close</a></code>
+		<span class="tooltip"><p>Close this cursor when finished operating on it&hellip;</p></span>
 	</span>
 	
 	
@@ -244,7 +245,8 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>the current page index among all the pages available</p>
+		<p>The current page index among totalPages available:
+writing this value causes currentPageOrderedEntries to be refetched</p>
 	</div>		
 	
 	
@@ -257,7 +259,8 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>the current page index among all the pages available</p>
+		<p>The current page index among totalPages available:
+writing this value causes currentPageOrderedEntries to be refetched</p>
 	</div>
 	
 	
@@ -318,7 +321,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>a unique ID for this cursor, used for paging</p>
+		<p>a unique ID for this cursor</p>
 	</div>		
 	
 	
@@ -331,7 +334,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>a unique ID for this cursor, used for paging</p>
+		<p>a unique ID for this cursor</p>
 	</div>
 	
 	
@@ -396,7 +399,7 @@
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSDictionary *querySpec</code></div>
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) SFSoupQuerySpec *querySpec</code></div>
 	
 	
 	
@@ -433,7 +436,7 @@
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, readwrite, strong) NSString *soupName</code></div>
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *soupName</code></div>
 	
 	
 	
@@ -466,7 +469,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>the total number of pages of results available</p>
+		<p>The total number of pages of results available</p>
 	</div>		
 	
 	
@@ -479,7 +482,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>the total number of pages of results available</p>
+		<p>The total number of pages of results available</p>
 	</div>
 	
 	
@@ -544,17 +547,17 @@
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/asJsonData" title="asJsonData"></a>
-	<h3 class="subsubtitle method-title">asJsonData</h3>
+	<a name="//api/name/close" title="close"></a>
+	<h3 class="subsubtitle method-title">close</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Provide UTF-8 JSON data representation of this object.</p>
+		<p>Close this cursor when finished operating on it&hellip;</p>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (NSData *)asJsonData</code></div>
+	<div class="method-subsection method-declaration"><code>- (void)close</code></div>
 	
 	
 	
@@ -563,7 +566,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Provide UTF-8 JSON data representation of this object.</p>
+		<p>Close this cursor when finished operating on it&hellip;</p>
 	</div>
 	
 	
@@ -581,8 +584,8 @@
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/initWithSoupName:querySpec:entries:" title="initWithSoupName:querySpec:entries:"></a>
-	<h3 class="subsubtitle method-title">initWithSoupName:querySpec:entries:</h3>
+	<a name="//api/name/initWithSoupName:store:querySpec:totalEntries:" title="initWithSoupName:store:querySpec:totalEntries:"></a>
+	<h3 class="subsubtitle method-title">initWithSoupName:store:querySpec:totalEntries:</h3>
 	
 	
 	
@@ -591,7 +594,7 @@
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (id)initWithSoupName:(NSString *)<em>soupName</em> querySpec:(NSDictionary *)<em>querySpec</em> entries:(NSArray *)<em>entries</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (id)initWithSoupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em> querySpec:(SFSoupQuerySpec *)<em>querySpec</em> totalEntries:(NSUInteger)<em>totalEntries</em></code></div>
 	
 	
 	<div class="method-subsection arguments-section parameters">
@@ -635,7 +638,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-01-24)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-02-09)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

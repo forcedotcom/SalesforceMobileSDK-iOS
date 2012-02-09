@@ -36,11 +36,9 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
-	<option value="//api/name/createSqlWithTableName:">&nbsp;&nbsp;&nbsp;&nbsp;- createSqlWithTableName:</option>
-	
 	<option value="//api/name/initWithIndexSpec:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithIndexSpec:</option>
 	
-	<option value="//api/name/initWithSql:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithSql:</option>
+	<option value="//api/name/initWithPath:indexType:columnName:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithPath:indexType:columnName:</option>
 	
 	
 	
@@ -68,11 +66,9 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createSqlWithTableName:">createSqlWithTableName:</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithIndexSpec:">initWithIndexSpec:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithSql:">initWithSql:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithPath:indexType:columnName:">initWithPath:indexType:columnName:</a></span></li>
 	
 </ul></li>
 
@@ -121,22 +117,15 @@
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
+		<code><a href="#//api/name/initWithPath:indexType:columnName:">&ndash;&nbsp;initWithPath:indexType:columnName:</a></code>
+		<span class="tooltip"><p>Designated initializer</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/initWithIndexSpec:">&ndash;&nbsp;initWithIndexSpec:</a></code>
 		<span class="tooltip"><p>the indexSpec to use</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/initWithSql:">&ndash;&nbsp;initWithSql:</a></code>
-		<span class="tooltip"><p>The sql that was used to create the index in the db</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/createSqlWithTableName:">&ndash;&nbsp;createSqlWithTableName:</a></code>
-		<span class="tooltip"><p>SQL string that can be used to create the index on the provided table</p></span>
 	</span>
 	
 	
@@ -156,53 +145,6 @@
 					<div class="section section-methods">
 						<a title="Instance Methods" name="instance_methods"></a>
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
-						
-						<div class="section-method">
-	<a name="//api/name/createSqlWithTableName:" title="createSqlWithTableName:"></a>
-	<h3 class="subsubtitle method-title">createSqlWithTableName:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>SQL string that can be used to create the index on the provided table</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (NSString *)createSqlWithTableName:(NSString *)<em>tableName</em></code></div>
-	
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>tableName</em></dt>
-			<dd><p>the table on which the index would be created</p></dd>
-		</dl>
-		
-	</div>
-	
-	
-	
-	<div class="method-subsection return">
-		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>SQL string that can be used to create the index on the provided table</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFSoupIndex.h</code><br />
-	</div>				
-	
-	
-</div>
 						
 						<div class="section-method">
 	<a name="//api/name/initWithIndexSpec:" title="initWithIndexSpec:"></a>
@@ -252,37 +194,47 @@
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/initWithSql:" title="initWithSql:"></a>
-	<h3 class="subsubtitle method-title">initWithSql:</h3>
+	<a name="//api/name/initWithPath:indexType:columnName:" title="initWithPath:indexType:columnName:"></a>
+	<h3 class="subsubtitle method-title">initWithPath:indexType:columnName:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>The sql that was used to create the index in the db</p>
+		<p>Designated initializer</p>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (id)initWithSql:(NSString *)<em>sql</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (id)initWithPath:(NSString *)<em>path</em> indexType:(NSString *)<em>type</em> columnName:(NSString *)<em>columnName</em></code></div>
 	
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>sql</em></dt>
-			<dd><p>The sql that was used to create the index in the db</p></dd>
+			<dt><em>path</em></dt>
+			<dd><p>The simple or compound path to the index value eg &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>type</em></dt>
+			<dd><p>An index type eg kSoupIndexTypeString</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>columnName</em></dt>
+			<dd><p>The SQL column name, or nil</p></dd>
 		</dl>
 		
 	</div>
 	
 	
 	
-	<div class="method-subsection return">
-		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>initialized index object</p>
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Designated initializer</p>
 	</div>
-	
-	
 	
 	
 	
@@ -311,7 +263,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-01-24)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-02-09)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
