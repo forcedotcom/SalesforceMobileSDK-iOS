@@ -287,8 +287,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     id store = [_allSharedStores objectForKey:storeName];
     if (nil == store) {
-        store = [[[SFSmartStore alloc] initWithName:storeName] autorelease];
+        store = [[SFSmartStore alloc] initWithName:storeName];
         [_allSharedStores setObject:store forKey:storeName];
+        [store release]; //the store is retained by _allSharedStores so we can return it
     }
     
     return store;
