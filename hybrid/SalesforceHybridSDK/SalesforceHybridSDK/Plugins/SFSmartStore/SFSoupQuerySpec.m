@@ -25,6 +25,7 @@
 
 #import "SFSoupQuerySpec.h"
 
+#import "NSDictionary+NullHandling.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const KQuerySpecSortOrderDescending = @"descending";
@@ -52,22 +53,14 @@ NSString * const KQuerySpecSortOrderDescending = @"descending";
         self.pageSize = myPageSize;
         
         //use matchKey in preference to anything else
-        NSString *matchKey = [querySpec objectForKey:@"matchKey"];
-        if ([[NSNull null] isEqual:matchKey]) {
-            matchKey = nil;
-        }
+        NSString *matchKey = [querySpec nonNullObjectForKey:@"matchKey"];
+
         if (nil != matchKey) {
             self.beginKey = matchKey;
             self.endKey = matchKey;
         } else {
-            NSString *beginKey = [querySpec objectForKey:@"beginKey"];
-            if (![[NSNull null] isEqual:beginKey]) {
-                self.beginKey = beginKey;
-            }
-            NSString *endKey = [querySpec objectForKey:@"endKey"];
-            if (![[NSNull null] isEqual:endKey]) {
-                self.endKey = endKey;
-            }
+            self.beginKey = [querySpec nonNullObjectForKey:@"beginKey"];
+            self.endKey = [querySpec nonNullObjectForKey:@"endKey"];
         }
 
     }

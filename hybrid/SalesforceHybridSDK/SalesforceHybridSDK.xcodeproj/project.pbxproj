@@ -33,11 +33,11 @@
 		7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
-		7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */; };
+		7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */; };
-		7D9DA7CA14E1C46D00B9C3EF /* SFSoupQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D9DA7C814E1C46D00B9C3EF /* SFSoupQuerySpec.h */; };
+		7D9DA7CA14E1C46D00B9C3EF /* SFSoupQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D9DA7C814E1C46D00B9C3EF /* SFSoupQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D9DA7CB14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */; };
 		7D9DA7CC14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DA7C914E1C46D00B9C3EF /* SFSoupQuerySpec.m */; };
 		7DBB147614C0ECF700CCDBE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
@@ -145,6 +145,9 @@
 		7DD5A11E14CF94BE00D308B1 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */; };
 		7DD5A11F14CF94BE00D308B1 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */; };
 		7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
+		7DD5B43714E47FDB005C62E1 /* NSDictionary+NullHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DD5B43814E47FDB005C62E1 /* NSDictionary+NullHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */; };
+		7DD5B43914E47FDB005C62E1 /* NSDictionary+NullHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */; };
 		7DD88EEC14DA044E00C0D0A0 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DD88EED14DA044E00C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */; };
 		7DD88EEE14DA046200C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */; };
@@ -344,6 +347,8 @@
 		7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SFHybridApp.css; sourceTree = "<group>"; };
 		7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
 		7DD5A13314CF9F9C00D308B1 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../forcetk.js; sourceTree = "<group>"; };
+		7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullHandling.h"; sourceTree = "<group>"; };
+		7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullHandling.m"; sourceTree = "<group>"; };
 		7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
 		7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
 		7DF93E6A14C646DB00D0C211 /* PGPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPlugin.h; sourceTree = "<group>"; };
@@ -791,6 +796,8 @@
 			children = (
 				7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */,
 				7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */,
+				7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */,
+				7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */,
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
@@ -834,6 +841,7 @@
 				7DD88EEC14DA044E00C0D0A0 /* SFJsonUtils.h in Headers */,
 				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
 				7D9DA7CA14E1C46D00B9C3EF /* SFSoupQuerySpec.h in Headers */,
+				7DD5B43714E47FDB005C62E1 /* NSDictionary+NullHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1131,7 @@
 				7DD88EED14DA044E00C0D0A0 /* SFJsonUtils.m in Sources */,
 				7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
 				7D9DA7CB14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */,
+				7DD5B43814E47FDB005C62E1 /* NSDictionary+NullHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,6 +1173,7 @@
 				7DD88EEE14DA046200C0D0A0 /* SFJsonUtils.m in Sources */,
 				7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */,
 				7D9DA7CC14E1C46D00B9C3EF /* SFSoupQuerySpec.m in Sources */,
+				7DD5B43914E47FDB005C62E1 /* NSDictionary+NullHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

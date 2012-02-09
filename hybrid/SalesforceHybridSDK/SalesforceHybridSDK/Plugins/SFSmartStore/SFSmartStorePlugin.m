@@ -25,6 +25,8 @@
 
 #import "SFSmartStorePlugin.h"
 
+#import "NSDictionary+NullHandling.h"
+
 #import "SFContainerAppDelegate.h"
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
@@ -33,14 +35,7 @@
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 
-@interface NSDictionary (NullHandling)
 
-/**
- @return nil or an object value for the given key
- */
-- (id)nonNullObjectForKey:(id)key;
-
-@end
 
 
 @interface SFSmartStorePlugin() 
@@ -56,21 +51,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 @end
 
 
-@implementation NSDictionary (NullHandling)
 
-/**
- @return nil instead of NSNull if the key doesn't have a non-null value
- */
-- (id)nonNullObjectForKey:(id)key {
-    id result = [self objectForKey:key];
-    if ([NSNull null] == result) {
-        result = nil;
-    }
-    
-    return result;
-}
-
-@end
 
 
 @implementation SFSmartStorePlugin
