@@ -65,6 +65,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     SFContainerAppDelegate *myApp = (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
     SFSmartStorePlugin *myInstance = (SFSmartStorePlugin*)[myApp getCommandInstance:kSmartStorePluginIdentifier];
     [[myInstance cursorCache] removeAllObjects];
+    myInstance.store = nil; 
     myInstance.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
