@@ -190,6 +190,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     NSDictionary *querySpec = [options nonNullObjectForKey:@"querySpec"];
     
     SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
+    NSLog(@"pgQuerySoup returning: %@",cursor);
 
     if (nil != cursor) {
         //cache this cursor for later paging

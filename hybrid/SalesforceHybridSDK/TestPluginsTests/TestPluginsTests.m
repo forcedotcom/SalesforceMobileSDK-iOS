@@ -177,5 +177,12 @@
     [self runTest:@"testQuerySoupBadQuerySpec"];
 }
 
+- (void)testQuerySoupEndKeyNoBeginKey {
+    [self runTest:@"testQuerySoupEndKeyNoBeginKey"];
+}
+
+- (void)testQuerySoupBeginKeyNoEndKey {
+    [self runTest:@"testQuerySoupBeginKeyNoEndKey"];
+}
 
 @end

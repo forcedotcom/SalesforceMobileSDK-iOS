@@ -28,7 +28,7 @@
 #import "NSDictionary+NullHandling.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
-NSString * const KQuerySpecSortOrderDescending = @"descending";
+NSString * const kQuerySpecSortOrderDescending = @"descending";
 
 @implementation SFSoupQuerySpec
 
@@ -69,7 +69,7 @@ NSString * const KQuerySpecSortOrderDescending = @"descending";
 
 - (NSString*)sqlSortOrder {
     NSString *result = @"ASC";
-    if ([self.order isEqualToString:KQuerySpecSortOrderDescending]) {
+    if ([self.order isEqualToString:kQuerySpecSortOrderDescending]) {
         result = @"DESC";
     }
 
@@ -93,7 +93,7 @@ NSString * const KQuerySpecSortOrderDescending = @"descending";
         if (nil != self.beginKey) 
             [result setObject:self.beginKey forKey:@"beginKey"];
         if (nil != self.endKey)
-            [result setObject:self.beginKey forKey:@"endKey"];
+            [result setObject:self.endKey forKey:@"endKey"];
     }
     
     

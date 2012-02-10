@@ -27,7 +27,7 @@
 
 
 extern NSString * const kQuerySpecSortOrderAscending;
-extern NSString * const KQuerySpecSortOrderDescending;
+extern NSString * const kQuerySpecSortOrderDescending;
 
 @interface SFSoupQuerySpec : NSObject {
     NSString *_path;
@@ -41,7 +41,7 @@ extern NSString * const KQuerySpecSortOrderDescending;
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSString *beginKey;
 @property (nonatomic, strong) NSString *endKey;
-/// @see kQuerySpecSortOrderAscending, KQuerySpecSortOrderDescending
+/// @see kQuerySpecSortOrderAscending, kQuerySpecSortOrderDescending
 @property (nonatomic, strong) NSString *order;
 @property (nonatomic, assign) NSUInteger pageSize;
 

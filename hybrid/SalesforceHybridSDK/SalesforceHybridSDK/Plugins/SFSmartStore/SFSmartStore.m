@@ -126,8 +126,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName;
 
-- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
-- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
+- (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName;
+
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec;
 
 @end
 
@@ -436,17 +437,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 }
 
-- (NSString *)whereClauseForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+- (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
 {
     NSString *result = nil;
     if (nil != querySpec.beginKey) {
         if (nil != querySpec.endKey) {
-            result = [NSString stringWithFormat:@"WHERE %@ >= ? AND %@ <= ?",columnName,columnName];
+            result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
         } else {
-            result = [NSString stringWithFormat:@"WHERE %@ >= ?",columnName];
+            result = [NSString stringWithFormat:@"%@ >= ?",columnName];
         }
     } else if (nil != querySpec.endKey) {
-        result = [NSString stringWithFormat:@"WHERE %@ <= ?",columnName];
+        result = [NSString stringWithFormat:@"%@ <= ?",columnName];
     } else {
         result = @"";
     }
@@ -454,7 +455,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
+
+- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec
 {
     NSArray *result = nil;
     if (nil != querySpec.beginKey) {
@@ -468,10 +470,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (NSString *)keyRangePredicateForColumn:(NSString*)columnName {
-    NSString *result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
-    return result;
-}
+
 
 
 #pragma mark - Soup maniupulation methods
@@ -687,7 +686,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *orderBy = [NSString stringWithFormat:@"%@ %@",columnName,querySpec.sqlSortOrder];
     NSArray *fetchCols = [NSArray arrayWithObject:SOUP_COL];
     
-    if (nil == querySpec.beginKey) {
+    if ((nil == querySpec.beginKey) && (nil == querySpec.endKey)) {
         // Get all the rows
         frs = [self queryTable:soupName 
                     forColumns:fetchCols 
@@ -697,14 +696,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                      whereArgs:nil
                ];
     } else {
-        NSString *keyRangePredicate = [self keyRangePredicateForColumn:columnName];
+        NSArray *binds = nil;
+        NSString *keyRangePredicate = [self keyRangePredicateForQuerySpec:querySpec columnName:columnName];
+        if ([keyRangePredicate length] > 0) {
+            binds = [self bindsForQuerySpec:querySpec];
+        }
         // Get a range of rows (between beginKey and endKey)
         frs = [self queryTable:soupName 
                     forColumns:fetchCols 
                        orderBy:orderBy 
                          limit:limit 
                    whereClause:keyRangePredicate 
-                     whereArgs:[NSArray arrayWithObjects:querySpec.beginKey, querySpec.endKey,nil]
+                     whereArgs:binds
                ];
     }
     
@@ -754,9 +757,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *querySql = nil;
     FMResultSet *frs = nil;
-    
-    NSString *whereClause = [self whereClauseForQuerySpec:querySpec columnName:columnName];
-    NSArray *binds = [self bindsForQuerySpec:querySpec columnName:columnName];
+    NSArray *binds = nil;
+    NSString *keyRangePredicate = [self keyRangePredicateForQuerySpec:querySpec columnName:columnName];
+    NSString *whereClause = @"";
+    if ([keyRangePredicate length] > 0) {
+        whereClause = [NSString stringWithFormat:@" WHERE %@ ",keyRangePredicate];
+        binds = [self bindsForQuerySpec:querySpec];
+    }
     querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ %@", soupName, whereClause];
     frs = [self.storeDb executeQuery:querySql withParams:binds];
     
