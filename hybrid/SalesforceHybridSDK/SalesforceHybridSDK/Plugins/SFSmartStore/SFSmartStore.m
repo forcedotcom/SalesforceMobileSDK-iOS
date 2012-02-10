@@ -663,11 +663,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
     columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
     
-    NSString *orderByStr = (nil == orderBy) ? @"" : [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
-    NSString *selectionStr = (nil == whereClause) ? @"" : [NSString stringWithFormat:@"WHERE %@",whereClause ];
-    NSString *limitStr = (nil == limit) ? @"" : [NSString stringWithFormat:@"LIMIT %@",limit ];
+    NSString *orderByStr = (nil == orderBy) ? 
+        @"" : 
+        [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
+    NSString *selectionStr = (nil == whereClause) ? 
+        @"" : 
+        [NSString stringWithFormat:@"WHERE %@",whereClause ];
+    NSString *limitStr = (nil == limit) ? 
+        @"" : 
+        [NSString stringWithFormat:@"LIMIT %@",limit ];
 
-    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", columnsStr, table, selectionStr, orderByStr, limitStr];
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", 
+                     columnsStr, table, selectionStr, orderByStr, limitStr];
     FMResultSet *frs = [self.storeDb executeQuery:sql withParams:whereArgs];
     return frs;
 }
