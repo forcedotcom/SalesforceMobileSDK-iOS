@@ -83,6 +83,11 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 }
 
 
+- (void)dealloc {
+    self.store = nil;
+    [super dealloc];
+}
+
 #pragma mark - PhoneGap plugin support
 
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId

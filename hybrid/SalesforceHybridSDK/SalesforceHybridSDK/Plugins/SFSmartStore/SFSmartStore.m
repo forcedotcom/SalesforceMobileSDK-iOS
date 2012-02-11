@@ -186,15 +186,20 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != self)  {
         NSLog(@"SFSmartStore initWithStoreName: %@",name);
         
+        
+
+        
         _storeName = [name retain];
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
+        //we use this so that addObserverForName doesn't retain us
+        __block SFSmartStore *this = self;
         _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
                                           addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
                                           object:nil
                                           queue:nil 
                                           usingBlock:^(NSNotification *note) {
-                                              _dataProtectionKnownAvailable = YES;
+                                              this->_dataProtectionKnownAvailable = YES;
                                           }];
         
         _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter] 
@@ -202,7 +207,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                             object:nil
                                             queue:nil 
                                             usingBlock:^(NSNotification *note) {
-                                                _dataProtectionKnownAvailable = NO;
+                                                this->_dataProtectionKnownAvailable = NO;
                                             }];
         
                 
@@ -226,7 +231,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
+
+
 - (void)dealloc {    
+    NSLog(@"dealloc store: '%@'",_storeName);
+    
     [self.storeDb close];[_storeDb release]; _storeDb = nil;
     [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
     
@@ -338,11 +347,15 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 + (void)removeSharedStoreWithName:(NSString*)storeName {
-    
+    NSLog(@"removeSharedStoreWithName: %@",storeName);
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath]) {    
-        [_allSharedStores removeObjectForKey:storeName];
+        SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
+        if (nil != existingStore) {
+            [_allSharedStores removeObjectForKey:storeName];
+        }
         [[NSFileManager defaultManager] removeItemAtPath:fullDbFilePath error:nil];
+        NSLog(@"removed: '%@'",fullDbFilePath);
     }
 }
 
@@ -457,7 +470,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *upsertSql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (%@) VALUES (%@)", 
                            tableName, fieldNames, fieldValueMarkers];
-    NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+    //NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
     [fieldNames release]; [fieldValueMarkers release];
     BOOL result = [self.storeDb executeUpdate:upsertSql withParams:binds];
     [binds release];
@@ -1040,7 +1053,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                       newEntryId,
                       nil];
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupTableName, SOUP_COL, ID_COL];
-    NSLog(@"updateSql: \n %@ \n binds: %@",updateSql,binds);
+//    NSLog(@"updateSql: \n %@ \n binds: %@",updateSql,binds);
                 
     BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
     if (!updateOk) {

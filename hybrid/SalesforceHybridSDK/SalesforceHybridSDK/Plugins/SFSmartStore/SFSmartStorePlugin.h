@@ -51,7 +51,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 
 @property (nonatomic, strong) SFSmartStore *store;
-@property (nonatomic, retain) NSMutableDictionary *cursorCache; 
+@property (nonatomic, strong) NSMutableDictionary *cursorCache; 
 
 
 /**

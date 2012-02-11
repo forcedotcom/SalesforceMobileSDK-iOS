@@ -29,8 +29,9 @@
 {
     [super setUp];
     
-    
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
     _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+    [SFSmartStorePlugin resetSharedStore];
 
     // Block until the javascript has notified the container that it's ready
     BOOL timedOut = [self waitForTestRunnerReady];
@@ -44,9 +45,6 @@
 {
     // Tear-down code here.
     [super tearDown];
-    
-    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-    [SFSmartStorePlugin resetSharedStore];
 }
 
 - (BOOL)areTestsFinishedRunning {
