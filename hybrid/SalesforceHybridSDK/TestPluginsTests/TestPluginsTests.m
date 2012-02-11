@@ -185,4 +185,10 @@
     [self runTest:@"testQuerySoupBeginKeyNoEndKey"];
 }
 
+- (void)testArbitrarySoupNames {
+    [self runTest:@"testArbitrarySoupNames"];
+}
+
+
+
 @end
