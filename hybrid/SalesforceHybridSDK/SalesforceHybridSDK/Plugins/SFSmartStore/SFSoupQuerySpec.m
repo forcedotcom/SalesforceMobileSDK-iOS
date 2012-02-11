@@ -43,9 +43,9 @@ NSString * const kQuerySpecSortOrderDescending = @"descending";
 - (id)initWithDictionary:(NSDictionary*)querySpec {
     self = [super init];
     if (nil != self) {
-        self.path = [querySpec objectForKey:@"indexPath"];
-        self.order = [querySpec objectForKey:@"order"];
-        NSNumber *pageSize = [querySpec valueForKey:@"pageSize"];
+        self.path = [querySpec nonNullObjectForKey:@"indexPath"];
+        self.order = [querySpec nonNullObjectForKey:@"order"];
+        NSNumber *pageSize = [querySpec nonNullObjectForKey:@"pageSize"];
         NSUInteger myPageSize = 10;
         if (nil != pageSize) {
             myPageSize = [pageSize integerValue];

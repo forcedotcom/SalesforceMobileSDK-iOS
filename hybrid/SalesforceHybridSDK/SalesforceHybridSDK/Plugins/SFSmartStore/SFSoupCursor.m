@@ -114,9 +114,13 @@
         _currentPageIndex = [pageIdx retain];
         
         if (nil != _currentPageIndex) {
-            NSUInteger pageIdx = [_currentPageIndex integerValue];
-            NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
-            self.currentPageOrderedEntries = newEntries;
+            if ([self.totalPages integerValue] > 0) {
+                NSUInteger pageIdx = [_currentPageIndex integerValue];
+                NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
+                self.currentPageOrderedEntries = newEntries;
+            } else {
+                self.currentPageOrderedEntries = [NSArray array];
+            }
         } 
     }
 }
