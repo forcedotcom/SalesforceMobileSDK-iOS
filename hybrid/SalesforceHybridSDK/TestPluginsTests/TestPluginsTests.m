@@ -188,5 +188,22 @@
 }
 
 
+- (void)testQuerySpecFactories {
+    [self runTest:@"testQuerySpecFactories"];
+}
+
+- (void)testLikeQuerySpecStartsWith {
+    [self runTest:@"testLikeQuerySpecStartsWith"];
+}
+
+- (void)testLikeQuerySpecEndsWith {
+    [self runTest:@"testLikeQuerySpecEndsWith"];
+}
+
+- (void)testLikeQueryInnerText {
+    [self runTest:@"testLikeQueryInnerText"];
+}
+
+
 
 @end

@@ -153,7 +153,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName;
 
 /**
- Generates range predicate from beginKey/endKey
+ Generates range predicate from beginKey/endKey,likeKey etc
  */
 - (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString *)columnName;
 - (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec *)querySpec;
@@ -533,16 +533,24 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
 {
     NSString *result = nil;
-    if (nil != querySpec.beginKey) {
-        if (nil != querySpec.endKey) {
+    
+    if ([querySpec.queryType isEqualToString:kQuerySpecTypeRange]) {
+        if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
             result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
-        } else {
+        else if (nil != querySpec.beginKey)
             result = [NSString stringWithFormat:@"%@ >= ?",columnName];
-        }
-    } else if (nil != querySpec.endKey) {
-        result = [NSString stringWithFormat:@"%@ <= ?",columnName];
-    } else {
-        result = @"";
+        else if (nil != querySpec.endKey)
+            result = [NSString stringWithFormat:@"%@ <= ?",columnName];
+    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
+        if (nil != querySpec.beginKey)
+            result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; //tODO
+        else 
+            result = @"";
+    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeExact]) {
+        if (nil != querySpec.beginKey)
+            result = [NSString stringWithFormat:@"%@ == ?",columnName];
+        else 
+            result = @"";
     }
     
     return result;
@@ -552,11 +560,21 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec
 {
     NSArray *result = nil;
-    if (nil != querySpec.beginKey) {
-        //if endKey is nil it will terminate the array early
-        result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
-    } else if (nil != querySpec.endKey) {
-        result = [NSArray arrayWithObject:querySpec.endKey];
+    
+    if ([querySpec.queryType isEqualToString:kQuerySpecTypeRange]) {
+        
+        if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
+            result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
+        else if (nil != querySpec.beginKey)
+            result = [NSArray arrayWithObject:querySpec.beginKey];
+        else if (nil != querySpec.endKey)
+            result = [NSArray arrayWithObject:querySpec.endKey];
+    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
+        if (nil != querySpec.beginKey)
+            result = [NSArray arrayWithObject:querySpec.beginKey]; 
+    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeExact]) {
+        if (nil != querySpec.beginKey)
+            result = [NSArray arrayWithObject:querySpec.beginKey];
     }
     
     return result;
