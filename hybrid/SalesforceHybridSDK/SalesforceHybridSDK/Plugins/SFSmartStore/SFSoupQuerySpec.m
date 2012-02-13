@@ -30,8 +30,26 @@
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";
 
+NSString * const kQuerySpecTypeExact = @"exact";
+NSString * const kQuerySpecTypeRange = @"range";
+NSString * const kQuerySpecTypeLike = @"like";
+
+
+NSString * const kQuerySpecParamQueryType = @"queryType";
+
+NSString * const kQuerySpecParamIndexPath = @"indexPath";
+NSString * const kQuerySpecParamOrder = @"order";
+NSString * const kQuerySpecParamPageSize = @"pageSize";
+
+NSString * const kQuerySpecParamMatchKey = @"matchKey";
+NSString * const kQuerySpecParamBeginKey = @"beginKey";
+NSString * const kQuerySpecParamEndKey = @"endKey";
+NSString * const kQuerySpecParamLikeKey = @"likeKey";
+
+
 @implementation SFSoupQuerySpec
 
+@synthesize queryType= _queryType;
 @synthesize path = _path;
 @synthesize beginKey = _beginKey;
 @synthesize endKey = _endKey;
@@ -43,28 +61,43 @@ NSString * const kQuerySpecSortOrderDescending = @"descending";
 - (id)initWithDictionary:(NSDictionary*)querySpec {
     self = [super init];
     if (nil != self) {
-        self.path = [querySpec nonNullObjectForKey:@"indexPath"];
-        self.order = [querySpec nonNullObjectForKey:@"order"];
-        NSNumber *pageSize = [querySpec nonNullObjectForKey:@"pageSize"];
+        self.path = [querySpec nonNullObjectForKey:kQuerySpecParamIndexPath];
+        self.order = [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
+        NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
         NSUInteger myPageSize = 10;
         if (nil != pageSize) {
             myPageSize = [pageSize integerValue];
         } 
         self.pageSize = myPageSize;
         
-        //use matchKey in preference to anything else
-        NSString *matchKey = [querySpec nonNullObjectForKey:@"matchKey"];
-
-        if (nil != matchKey) {
-            self.beginKey = matchKey;
-            self.endKey = matchKey;
-        } else {
-            self.beginKey = [querySpec nonNullObjectForKey:@"beginKey"];
-            self.endKey = [querySpec nonNullObjectForKey:@"endKey"];
+        self.queryType = [querySpec nonNullObjectForKey:kQuerySpecParamQueryType];
+        if (nil == self.queryType) {
+            self.queryType = kQuerySpecTypeExact;
         }
+        
+        if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
+            NSString *matchKey = [querySpec nonNullObjectForKey:kQuerySpecParamMatchKey];
+            self.beginKey = matchKey;
+        } else if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
+            self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamBeginKey];
+            self.endKey = [querySpec nonNullObjectForKey:kQuerySpecParamEndKey];
+        } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
+            self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamLikeKey];
+        }
+        
 
     }
     return self;
+}
+
+- (void)dealloc {
+    self.queryType = nil;
+    self.path = nil;
+    self.beginKey = nil;
+    self.endKey = nil;
+    self.order = nil;
+    
+    [super dealloc];
 }
 
 - (NSString*)sqlSortOrder {
@@ -82,20 +115,22 @@ NSString * const kQuerySpecSortOrderDescending = @"descending";
 - (NSDictionary*)asDictionary
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    self.path, @"indexPath",
-                                    self.order, @"order",
-                                    [NSNumber numberWithInteger:self.pageSize],@"pageSize",
+                                    self.path, kQuerySpecParamIndexPath,
+                                    self.order, kQuerySpecParamOrder,
+                                    [NSNumber numberWithInteger:self.pageSize],kQuerySpecParamPageSize,
                                     nil];
     
-    if ([self.beginKey isEqualToString:self.endKey]) {
-        [result setObject:self.beginKey forKey:@"matchKey"];
-    } else {
+    if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
+        if (nil != self.beginKey)
+            [result setObject:self.beginKey forKey:kQuerySpecParamMatchKey];
+    } else if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
         if (nil != self.beginKey) 
-            [result setObject:self.beginKey forKey:@"beginKey"];
+            [result setObject:self.beginKey forKey:kQuerySpecParamBeginKey];
         if (nil != self.endKey)
-            [result setObject:self.endKey forKey:@"endKey"];
+            [result setObject:self.endKey forKey:kQuerySpecParamEndKey];
+    } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
+        [result setObject:self.beginKey forKey:kQuerySpecParamLikeKey];
     }
-    
     
     return result;
 }
@@ -103,8 +138,8 @@ NSString * const kQuerySpecSortOrderDescending = @"descending";
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n order:%@ \n pageSize: %d}",
-                        self,self.path,self.beginKey,self.endKey,self.order,self.pageSize];
+    return [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n  queryType:\"%@\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%@ \n pageSize: %d}",
+                        self,self.queryType, self.path,self.beginKey,self.endKey,self.order,self.pageSize];
 }
 
     
