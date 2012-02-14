@@ -205,5 +205,7 @@
 }
 
 
-
+- (void)testCompoundQueryPath {
+    [self runTest:@"testCompoundQueryPath"];
+}
 @end
