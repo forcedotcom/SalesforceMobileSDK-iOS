@@ -935,7 +935,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
     NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
-    if (0 == totalEntries) {
+    if ((0 == totalEntries) && (nil != querySpec.path)) {
         NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
         if (nil == columnName) {
             //asking for a query on an index that doesn't exist
