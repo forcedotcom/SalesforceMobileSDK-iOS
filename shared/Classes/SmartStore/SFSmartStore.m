@@ -25,7 +25,6 @@
 
 //required for UIApplicationProtectedDataDidBecomeAvailable
 #import <UIKit/UIKit.h>
-#import <PhoneGap/PluginResult.h>
 
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
