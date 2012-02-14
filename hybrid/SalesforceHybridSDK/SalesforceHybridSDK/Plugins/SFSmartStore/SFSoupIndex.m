@@ -27,7 +27,7 @@
 
 
 NSString * const kSoupIndexTypeString = @"string";
-NSString * const kSoupIndexTypeDate = @"date";
+NSString * const kSoupIndexTypeInteger = @"integer";
 
 
 @implementation SFSoupIndex
@@ -44,7 +44,6 @@ NSString * const kSoupIndexTypeDate = @"date";
     if (nil != self) {
         self.path = path;
         
-        //TODO check that indexType is valid type?
         self.indexType = type;
         _columnName = [columnName retain];
     }
@@ -52,7 +51,10 @@ NSString * const kSoupIndexTypeDate = @"date";
 }
 
 - (id)initWithIndexSpec:(NSDictionary*)indexSpec {
-    self = [self initWithPath:[indexSpec objectForKey:@"path"] indexType:[indexSpec objectForKey:@"type"]  columnName:nil];
+    self = [self initWithPath:[indexSpec objectForKey:@"path"] 
+                    indexType:[indexSpec objectForKey:@"type"]  
+                   columnName:nil
+            ];
     return self;
 }
 
@@ -72,7 +74,7 @@ NSString * const kSoupIndexTypeDate = @"date";
     NSString *result = @"TEXT";
     if ([self.indexType isEqualToString:kSoupIndexTypeString]) {
         result = @"TEXT";
-    } else if ([self.indexType isEqualToString:kSoupIndexTypeDate]) {
+    } else if ([self.indexType isEqualToString:kSoupIndexTypeInteger]) {
         result = @"INTEGER";
     }
     
