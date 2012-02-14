@@ -933,6 +933,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
+    if (nil == querySpec) {
+        return nil;
+    }
+    
     NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
     if ((0 == totalEntries) && (nil != querySpec.path)) {
         NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];

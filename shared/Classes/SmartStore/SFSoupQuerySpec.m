@@ -61,22 +61,29 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
 - (id)initWithDictionary:(NSDictionary*)querySpec {
     self = [super init];
     if (nil != self) {
-        self.path = [querySpec nonNullObjectForKey:kQuerySpecParamIndexPath];
-        self.order = [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
-        NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
-        self.pageSize = [pageSize integerValue];
         self.queryType = [querySpec nonNullObjectForKey:kQuerySpecParamQueryType];
-                
+        
         if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
             self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamBeginKey];
             self.endKey = [querySpec nonNullObjectForKey:kQuerySpecParamEndKey];
         } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
             self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamLikeKey];
-        } else { //kQuerySpecTypeExact or other
+        } else if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
             self.queryType = kQuerySpecTypeExact;
             self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamMatchKey];
+        } else {
+            NSLog(@"Invalid queryType: '%@'",self.queryType);
+            [self release];
+            self = nil;
         }
-
+        
+        if (nil != self) {
+            self.path = [querySpec nonNullObjectForKey:kQuerySpecParamIndexPath];
+            self.order = [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
+            NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
+            self.pageSize = [pageSize integerValue];
+        }
+                
     }
     return self;
 }
