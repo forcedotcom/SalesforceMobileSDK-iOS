@@ -216,4 +216,9 @@
     [self runTest:@"testEmptyQuerySpec"];
 }
 
+- (void)testIntegerQuerySpec {
+    [self runTest:@"testIntegerQuerySpec"];
+}
+
+
 @end
