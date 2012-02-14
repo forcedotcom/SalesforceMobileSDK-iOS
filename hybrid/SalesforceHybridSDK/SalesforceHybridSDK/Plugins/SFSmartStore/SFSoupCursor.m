@@ -146,8 +146,14 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n cursorId: %@ \n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n}",
-                        self,self.cursorId, self.soupName,self.totalPages,self.currentPageIndex,[self.currentPageOrderedEntries count]];
+    return [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n cursorId: %@ \n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+            self,self.cursorId, 
+            self.soupName,
+            self.totalPages,
+            self.currentPageIndex,
+            [self.currentPageOrderedEntries count],
+            self.querySpec
+            ];
 }
 
 @end
