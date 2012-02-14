@@ -155,6 +155,10 @@
     [self runTest:@"testQuerySoup"];
 }
 
+- (void)testQuerySoupDescending {
+    [self runTest:@"testQuerySoupDescending"];
+}
+
 - (void)testManipulateCursor {
     [self runTest:@"testManipulateCursor"];
 }
@@ -204,8 +208,12 @@
     [self runTest:@"testLikeQueryInnerText"];
 }
 
-
 - (void)testCompoundQueryPath {
     [self runTest:@"testCompoundQueryPath"];
 }
+
+- (void)testEmptyQuerySpec {
+    [self runTest:@"testEmptyQuerySpec"];
+}
+
 @end
