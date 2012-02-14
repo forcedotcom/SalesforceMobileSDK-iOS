@@ -115,11 +115,17 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
 - (NSDictionary*)asDictionary
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    self.path, kQuerySpecParamIndexPath,
-                                    self.order, kQuerySpecParamOrder,
-                                    [NSNumber numberWithInteger:self.pageSize],kQuerySpecParamPageSize,
-                                    nil];
+                                   [NSNumber numberWithInteger:self.pageSize],kQuerySpecParamPageSize,
+                                   nil];
+    if (nil != self.path) {
+        [result setObject:self.path forKey:kQuerySpecParamIndexPath];
+    }
+        
+    if (nil != self.order) {
+        [result setObject:self.order forKey:kQuerySpecParamOrder];
+    }
     
+     
     if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
         if (nil != self.beginKey)
             [result setObject:self.beginKey forKey:kQuerySpecParamMatchKey];
@@ -130,6 +136,8 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
             [result setObject:self.endKey forKey:kQuerySpecParamEndKey];
     } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
         [result setObject:self.beginKey forKey:kQuerySpecParamLikeKey];
+    } else {
+        NSLog(@"unknown queryType: '%@'",self.queryType);
     }
     
     return result;
