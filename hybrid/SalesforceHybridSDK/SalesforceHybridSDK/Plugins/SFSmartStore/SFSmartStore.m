@@ -543,10 +543,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             result = [NSString stringWithFormat:@"%@ <= ?",columnName];
     } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
         if (nil != querySpec.beginKey)
-            result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; //tODO
+            result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; 
         else 
             result = @"";
-    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeExact]) {
+    } else  { //kQuerySpecTypeExact &c.
         if (nil != querySpec.beginKey)
             result = [NSString stringWithFormat:@"%@ == ?",columnName];
         else 
@@ -572,7 +572,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
         if (nil != querySpec.beginKey)
             result = [NSArray arrayWithObject:querySpec.beginKey]; 
-    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeExact]) {
+    } else { //kQuerySpecTypeExact &c.
         if (nil != querySpec.beginKey)
             result = [NSArray arrayWithObject:querySpec.beginKey];
     }
