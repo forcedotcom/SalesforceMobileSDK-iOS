@@ -64,27 +64,18 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
         self.path = [querySpec nonNullObjectForKey:kQuerySpecParamIndexPath];
         self.order = [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
         NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
-        NSUInteger myPageSize = 10;
-        if (nil != pageSize) {
-            myPageSize = [pageSize integerValue];
-        } 
-        self.pageSize = myPageSize;
-        
+        self.pageSize = [pageSize integerValue];
         self.queryType = [querySpec nonNullObjectForKey:kQuerySpecParamQueryType];
-        if (nil == self.queryType) {
-            self.queryType = kQuerySpecTypeExact;
-        }
-        
-        if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
-            NSString *matchKey = [querySpec nonNullObjectForKey:kQuerySpecParamMatchKey];
-            self.beginKey = matchKey;
-        } else if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
+                
+        if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
             self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamBeginKey];
             self.endKey = [querySpec nonNullObjectForKey:kQuerySpecParamEndKey];
         } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
             self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamLikeKey];
+        } else { //kQuerySpecTypeExact or other
+            self.queryType = kQuerySpecTypeExact;
+            self.beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamMatchKey];
         }
-        
 
     }
     return self;
@@ -126,18 +117,16 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
     }
     
      
-    if ([self.queryType isEqualToString:kQuerySpecTypeExact]) {
-        if (nil != self.beginKey)
-            [result setObject:self.beginKey forKey:kQuerySpecParamMatchKey];
-    } else if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
+    if ([self.queryType isEqualToString:kQuerySpecTypeRange]) {
         if (nil != self.beginKey) 
             [result setObject:self.beginKey forKey:kQuerySpecParamBeginKey];
         if (nil != self.endKey)
             [result setObject:self.endKey forKey:kQuerySpecParamEndKey];
     } else if ([self.queryType isEqualToString:kQuerySpecTypeLike]) {
         [result setObject:self.beginKey forKey:kQuerySpecParamLikeKey];
-    } else {
-        NSLog(@"unknown queryType: '%@'",self.queryType);
+    } else { //kQuerySpecTypeExact or other
+        if (nil != self.beginKey)
+            [result setObject:self.beginKey forKey:kQuerySpecParamMatchKey];
     }
     
     return result;
