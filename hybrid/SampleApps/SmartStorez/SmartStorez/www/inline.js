@@ -155,6 +155,12 @@ function runStuffSoup() {
 }
 
 function runQuerySoup() {
+	
+	var indexPath = $('#input_indexPath').val();
+    if (indexPath.length === 0) {
+        indexPath = null;
+    }
+
     var beginKey = $('#input_querySoup_beginKey').val();
     if (beginKey.length === 0) {
         beginKey = null;
@@ -178,14 +184,17 @@ function runQuerySoup() {
     }
     
     
-    SFHybridApp.logToConsole("querySoup begin: " + beginKey + " end: " + endKey + '[' + pageSizeVal + ']');
+    SFHybridApp.logToConsole("querySoup path: '"+ indexPath + "' begin: '" + beginKey + "' end: '" + endKey + "' [" + pageSizeVal + ']');
     var querySpec;
 	if ("range" == queryType) {
-		querySpec = navigator.smartstore.buildRangeQuerySpec("Name",beginKey,endKey,null,pageSizeVal);
+		querySpec = navigator.smartstore.buildRangeQuerySpec(indexPath,beginKey,endKey,null,pageSizeVal);
 	} else if ("like" == queryType) {
-		querySpec = navigator.smartstore.buildLikeQuerySpec("Name",beginKey,null,pageSizeVal);		
-	} else { //"exact"
-		querySpec = navigator.smartstore.buildExactQuerySpec("Name",beginKey,null,pageSizeVal);
+		querySpec = navigator.smartstore.buildLikeQuerySpec(indexPath,beginKey,null,pageSizeVal);		
+	} else if ("all" == queryType) {
+		querySpec = navigator.smartstore.buildAllQuerySpec(indexPath, null, pageSizeVal) ;
+	}
+	else { //"exact"
+		querySpec = navigator.smartstore.buildExactQuerySpec(indexPath,beginKey,null,pageSizeVal);
 	}
 	
                                 
