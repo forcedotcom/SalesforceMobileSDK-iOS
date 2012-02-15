@@ -118,10 +118,18 @@
                  <hr/>
               <p><a href="#" id="link_query_soup" data-role="button" data-inline="true">Query soup</a></p>
             <p>
-                 <label for="input_query_soup">Match name</label><input id="input_query_soup" data-role="input" value="" />
+				<label for="select_querySoup_type">queryType</label>
+				<select id="select_querySoup_type">
+				  <option value="range">range</option>
+				  <option value="exact">exact</option>
+				  <option value="like">like</option>
+				</select>
+				<br/>
+                 <label for="input_querySoup_beginKey">beginKey</label><input id="input_querySoup_beginKey" data-role="input" value="" /><br/>
+                 <label for="input_querySoup_endKey">endKey</label><input id="input_querySoup_endKey" data-role="input" value="" /><br/>
                  </p>
             <p>
-                 <label for="input_query_soup_pagesize">Page size</label><input id="input_query_soup_pagesize" data-role="input" value="12" type="number" min="1" max="300" size="6"/>
+                 <label for="input_querySoup_pageSize">Page size</label><input id="input_querySoup_pageSize" data-role="input" value="12" type="number" min="1" max="300" size="6"/>
             </p>
               <p>
               <a href="#" id="link_cursor_page_next" data-role="button" data-inline="true">Cursor++</a><a href="#" id="link_cursor_page_prev" data-role="button" data-inline="true">Cursor--</a>

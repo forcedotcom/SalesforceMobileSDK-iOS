@@ -155,12 +155,20 @@ function runStuffSoup() {
 }
 
 function runQuerySoup() {
-    var inputStr = $('#input_query_soup').val();
-    if (inputStr.length === 0) {
-        inputStr = null;
+    var beginKey = $('#input_querySoup_beginKey').val();
+    if (beginKey.length === 0) {
+        beginKey = null;
     }
     
-    var pageSizeStr = $('#input_query_soup_pagesize').val();
+    var endKey = $('#input_querySoup_endKey').val();
+    if (endKey.length === 0) {
+        endKey = null;
+    }
+    
+	var queryType =  $('#select_querySoup_type').val();
+
+
+    var pageSizeStr = $('#input_querySoup_pageSize').val();
     if (pageSizeStr.length === 0) {
         pageSizeStr = null;
     }
@@ -170,10 +178,16 @@ function runQuerySoup() {
     }
     
     
-    SFHybridApp.logToConsole("querySoup: " + inputStr + '[' + pageSizeVal + ']');
-
-    var querySpec = new SoupQuerySpec("Name",inputStr);
-    querySpec.pageSize = pageSizeVal;
+    SFHybridApp.logToConsole("querySoup begin: " + beginKey + " end: " + endKey + '[' + pageSizeVal + ']');
+    var querySpec;
+	if ("range" == queryType) {
+		querySpec = navigator.smartstore.buildRangeQuerySpec("Name",beginKey,endKey,null,pageSizeVal);
+	} else if ("like" == queryType) {
+		querySpec = navigator.smartstore.buildLikeQuerySpec("Name",beginKey,null,pageSizeVal);		
+	} else { //"exact"
+		querySpec = navigator.smartstore.buildExactQuerySpec("Name",beginKey,null,pageSizeVal);
+	}
+	
                                 
     navigator.smartstore.querySoup(SAMPLE_SOUP_NAME,querySpec,
                                        onSuccessQuerySoup, 
