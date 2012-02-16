@@ -53,8 +53,10 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
 + (SFOAuthCredentials*)readCredentialsConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
-    NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
-    NSAssert(nil != tokenPath,@"Test config file not found!");
+    if (nil == tokenPath) {
+        NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
+        NSAssert(nil != tokenPath,@"test_credentials.json config file not found!");
+    }
     
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
