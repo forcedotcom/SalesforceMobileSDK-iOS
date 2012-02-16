@@ -44,14 +44,6 @@
 		7D20FBD614ED7DBD00A86731 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */; };
 		7D20FBD814ED7DBD00A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163614D85C3400A17E6A /* InfoPlist.strings */; };
 		7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
-		7D20FBDA14ED7DBD00A86731 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166014D85C3600A17E6A /* icon-72.png */; };
-		7D20FBDB14ED7DBD00A86731 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166214D85C3600A17E6A /* icon.png */; };
-		7D20FBDC14ED7DBD00A86731 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166414D85C3600A17E6A /* icon@2x.png */; };
-		7D20FBDD14ED7DBD00A86731 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166714D85C3600A17E6A /* Default-Landscape~ipad.png */; };
-		7D20FBDE14ED7DBD00A86731 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166914D85C3600A17E6A /* Default-Portrait~ipad.png */; };
-		7D20FBDF14ED7DBD00A86731 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166B14D85C3600A17E6A /* Default.png */; };
-		7D20FBE014ED7DBD00A86731 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166D14D85C3600A17E6A /* Default@2x.png */; };
-		7D20FBE114ED7DBD00A86731 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166F14D85C3600A17E6A /* Default~iPad.png */; };
 		7D20FBE214ED7DBD00A86731 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
@@ -107,7 +99,6 @@
 		7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
 		7D8ECEA314EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
 		7D8ECEA414EB246B004F241C /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
-		7D8ECEA514EB246B004F241C /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
 		7D8ECEA614EB246B004F241C /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8B14EB246B004F241C /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D8ECEA814EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
@@ -172,14 +163,6 @@
 		7DBD163A14D85C3400A17E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
 		7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
 		7DBD165D14D85C3600A17E6A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */; };
-		7DBD166114D85C3600A17E6A /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166014D85C3600A17E6A /* icon-72.png */; };
-		7DBD166314D85C3600A17E6A /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166214D85C3600A17E6A /* icon.png */; };
-		7DBD166514D85C3600A17E6A /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166414D85C3600A17E6A /* icon@2x.png */; };
-		7DBD166814D85C3600A17E6A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166714D85C3600A17E6A /* Default-Landscape~ipad.png */; };
-		7DBD166A14D85C3600A17E6A /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166914D85C3600A17E6A /* Default-Portrait~ipad.png */; };
-		7DBD166C14D85C3600A17E6A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166B14D85C3600A17E6A /* Default.png */; };
-		7DBD166E14D85C3600A17E6A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166D14D85C3600A17E6A /* Default@2x.png */; };
-		7DBD167014D85C3600A17E6A /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD166F14D85C3600A17E6A /* Default~iPad.png */; };
 		7DBD167B14D85C3600A17E6A /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7DBD167F14D85C3600A17E6A /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
@@ -434,14 +417,6 @@
 		7DBD163914D85C3400A17E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DebugPlugins-Prefix.pch"; sourceTree = "<group>"; };
 		7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
-		7DBD166014D85C3600A17E6A /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
-		7DBD166214D85C3600A17E6A /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		7DBD166414D85C3600A17E6A /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		7DBD166714D85C3600A17E6A /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		7DBD166914D85C3600A17E6A /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		7DBD166B14D85C3600A17E6A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
-		7DBD166D14D85C3600A17E6A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
-		7DBD166F14D85C3600A17E6A /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
 		7DBD167A14D85C3600A17E6A /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		7DBD167C14D85C3600A17E6A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
@@ -893,7 +868,6 @@
 				7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */,
 				7DBD167C14D85C3600A17E6A /* Settings.bundle */,
 				7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */,
-				7DBD165E14D85C3600A17E6A /* Resources */,
 				7DBD163414D85C3400A17E6A /* Supporting Files */,
 			);
 			path = DebugPlugins;
@@ -909,37 +883,6 @@
 				7DBD167A14D85C3600A17E6A /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7DBD165E14D85C3600A17E6A /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD165F14D85C3600A17E6A /* icons */,
-				7DBD166614D85C3600A17E6A /* splash */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		7DBD165F14D85C3600A17E6A /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD166014D85C3600A17E6A /* icon-72.png */,
-				7DBD166214D85C3600A17E6A /* icon.png */,
-				7DBD166414D85C3600A17E6A /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		7DBD166614D85C3600A17E6A /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD166714D85C3600A17E6A /* Default-Landscape~ipad.png */,
-				7DBD166914D85C3600A17E6A /* Default-Portrait~ipad.png */,
-				7DBD166B14D85C3600A17E6A /* Default.png */,
-				7DBD166D14D85C3600A17E6A /* Default@2x.png */,
-				7DBD166F14D85C3600A17E6A /* Default~iPad.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		7DBD16D414D860D300A17E6A /* DebugPluginsTests */ = {
@@ -1188,14 +1131,6 @@
 			files = (
 				7D20FBD814ED7DBD00A86731 /* InfoPlist.strings in Resources */,
 				7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */,
-				7D20FBDA14ED7DBD00A86731 /* icon-72.png in Resources */,
-				7D20FBDB14ED7DBD00A86731 /* icon.png in Resources */,
-				7D20FBDC14ED7DBD00A86731 /* icon@2x.png in Resources */,
-				7D20FBDD14ED7DBD00A86731 /* Default-Landscape~ipad.png in Resources */,
-				7D20FBDE14ED7DBD00A86731 /* Default-Portrait~ipad.png in Resources */,
-				7D20FBDF14ED7DBD00A86731 /* Default.png in Resources */,
-				7D20FBE014ED7DBD00A86731 /* Default@2x.png in Resources */,
-				7D20FBE114ED7DBD00A86731 /* Default~iPad.png in Resources */,
 				7D20FBE214ED7DBD00A86731 /* PhoneGap.plist in Resources */,
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
 				7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */,
@@ -1249,20 +1184,11 @@
 			files = (
 				7DBD163814D85C3400A17E6A /* InfoPlist.strings in Resources */,
 				7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */,
-				7DBD166114D85C3600A17E6A /* icon-72.png in Resources */,
-				7DBD166314D85C3600A17E6A /* icon.png in Resources */,
-				7DBD166514D85C3600A17E6A /* icon@2x.png in Resources */,
-				7DBD166814D85C3600A17E6A /* Default-Landscape~ipad.png in Resources */,
-				7DBD166A14D85C3600A17E6A /* Default-Portrait~ipad.png in Resources */,
-				7DBD166C14D85C3600A17E6A /* Default.png in Resources */,
-				7DBD166E14D85C3600A17E6A /* Default@2x.png in Resources */,
-				7DBD167014D85C3600A17E6A /* Default~iPad.png in Resources */,
 				7DBD167B14D85C3600A17E6A /* PhoneGap.plist in Resources */,
 				7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */,
 				7DBD167F14D85C3600A17E6A /* PhoneGapResources.bundle in Resources */,
 				7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */,
 				7DBD16DA14D8625000A17E6A /* www in Resources */,
-				7D8ECEA514EB246B004F241C /* FMLicense.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
