@@ -136,7 +136,7 @@
     NSString *testCmd = [NSString stringWithFormat:@"gTestSuiteSmartStore.startTest('%@');",testName];
     AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
     NSString *cmdResult = [app evalJS:testCmd];
-    NSLog(@"cmdResult: %@",cmdResult);
+    NSLog(@"cmdResult: '%@'",cmdResult);
     
     BOOL timedOut = [self waitForOneCompletion];
     STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
@@ -158,13 +158,6 @@
     [self runTest:@"testLikeQuerySpecStartsWith"];
 }
 
-- (void)testLikeQuerySpecEndsWith {
-    [self runTest:@"testLikeQuerySpecEndsWith"];
-}
-
-- (void)testLikeQueryInnerText {
-    [self runTest:@"testLikeQueryInnerText"];
-}
 
 
 

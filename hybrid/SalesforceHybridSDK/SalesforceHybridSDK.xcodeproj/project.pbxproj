@@ -56,7 +56,6 @@
 		7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
-		7D20FBE614ED7DBD00A86731 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD16D814D8625000A17E6A /* www */; };
 		7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
 		7D20FBE914ED7DBD00A86731 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */; };
 		7D20FBEA14ED7DBD00A86731 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */; };
@@ -75,6 +74,8 @@
 		7D20FC1514ED815500A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7D20FC1714ED815500A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
 		7D20FC2A14ED83A700A86731 /* StressPluginsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* StressPluginsTests.m */; };
+		7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */; };
+		7D20FC3314ED98F000A86731 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D20FC3214ED98F000A86731 /* www */; };
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
 		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
@@ -271,6 +272,7 @@
 				7D20FBED14ED7DBD00A86731 /* SFHybridApp.js in Copy shared-www files */,
 				7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */,
 				7D20FBEF14ED7DBD00A86731 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
+				7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
 				7D20FBF014ED7DBD00A86731 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
 				7D20FBF114ED7DBD00A86731 /* qunit.js in Copy shared-www files */,
 				7D20FBF214ED7DBD00A86731 /* qunit.css in Copy shared-www files */,
@@ -328,11 +330,13 @@
 
 /* Begin PBXFileReference section */
 		7D20FBF914ED7DBD00A86731 /* StressPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7D20FC0514ED80EE00A86731 /* StressPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "StressPlugins-Info.plist"; sourceTree = "<group>"; };
 		7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
 		7D20FC2814ED83A700A86731 /* StressPluginsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressPluginsTests.h; path = StressPluginsTests/StressPluginsTests.h; sourceTree = "<group>"; };
 		7D20FC2914ED83A700A86731 /* StressPluginsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressPluginsTests.m; path = StressPluginsTests/StressPluginsTests.m; sourceTree = "<group>"; };
+		7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
+		7D20FC3014ED989500A86731 /* StressPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "StressPlugins-Info.plist"; path = "StressPlugins/StressPlugins-Info.plist"; sourceTree = "<group>"; };
+		7D20FC3214ED98F000A86731 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = StressPlugins/www; sourceTree = "<group>"; };
 		7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
@@ -581,7 +585,8 @@
 		7D20FC0414ED80CC00A86731 /* StressPlugins */ = {
 			isa = PBXGroup;
 			children = (
-				7D20FC0514ED80EE00A86731 /* StressPlugins-Info.plist */,
+				7D20FC3214ED98F000A86731 /* www */,
+				7D20FC3014ED989500A86731 /* StressPlugins-Info.plist */,
 			);
 			name = StressPlugins;
 			sourceTree = "<group>";
@@ -846,6 +851,7 @@
 		7DBB14B614C0F09E00CCDBE0 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */,
 				7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */,
 				7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
@@ -1194,8 +1200,8 @@
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
 				7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */,
 				7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */,
-				7D20FBE614ED7DBD00A86731 /* www in Resources */,
 				7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */,
+				7D20FC3314ED98F000A86731 /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1707,7 +1713,7 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
-				INFOPLIST_FILE = "StressPlugins-Info.plist";
+				INFOPLIST_FILE = "StressPlugins/StressPlugins-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1738,7 +1744,7 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
-				INFOPLIST_FILE = "StressPlugins-Info.plist";
+				INFOPLIST_FILE = "StressPlugins/StressPlugins-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1770,7 +1776,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
-				INFOPLIST_FILE = "StressPlugins-Info.plist";
+				INFOPLIST_FILE = "StressPlugins/StressPlugins-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
