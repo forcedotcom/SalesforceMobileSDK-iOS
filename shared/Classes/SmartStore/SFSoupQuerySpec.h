@@ -26,11 +26,13 @@
 #import <Foundation/Foundation.h>
 
 
+//kQuerySpecSortOrderFoo constants are used when translating to SFSoupQuerySortOrder from JS (dictionary) values
 extern NSString * const kQuerySpecSortOrderAscending;
 extern NSString * const kQuerySpecSortOrderDescending;
 
 extern NSString * const kQuerySpecParamQueryType;
 
+//kQuerySpecTypeFoo constants are used when translating to SFSoupQueryType from JS (dictionary) values
 extern NSString * const kQuerySpecTypeExact;
 extern NSString * const kQuerySpecTypeRange;
 extern NSString * const kQuerySpecTypeLike;
@@ -44,23 +46,44 @@ extern NSString * const kQuerySpecParamBeginKey;
 extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
 
+
+typedef enum {
+    kSFSoupQueryTypeExact = 2,
+    kSFSoupQueryTypeRange = 4,
+    kSFSoupQueryTypeLike = 8
+} SFSoupQueryType;
+
+typedef enum {
+    kSFSoupQuerySortOrderAscending,
+    kSFSoupQuerySortOrderDescending
+} SFSoupQuerySortOrder;
+
 @interface SFSoupQuerySpec : NSObject {
-    NSString *_queryType;
+    SFSoupQueryType _queryType;
     NSString *_path;
     NSString *_beginKey;
     NSString *_endKey;
-    NSString *_order;
+    SFSoupQuerySortOrder _order;
     NSUInteger _pageSize;
     
 }
 
-@property (nonatomic, strong) NSString *queryType;
+@property (nonatomic, assign) SFSoupQueryType queryType;
+
+/**
+ The indexPath to use for the query.  Compound paths must be dot-delimited ie parent.child.grandchild.field .
+ */
 @property (nonatomic, strong) NSString *path;
+/**
+ beginKey is used for range, exact, and like queries
+ */
 @property (nonatomic, strong) NSString *beginKey;
+/**
+ endKey is used for range queries
+ */
 @property (nonatomic, strong) NSString *endKey;
 
-/// @see kQuerySpecSortOrderAscending, kQuerySpecSortOrderDescending
-@property (nonatomic, strong) NSString *order;
+@property (nonatomic, assign) SFSoupQuerySortOrder order;
 @property (nonatomic, assign) NSUInteger pageSize;
 
 

@@ -533,23 +533,31 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSString *result = nil;
     
-    if ([querySpec.queryType isEqualToString:kQuerySpecTypeRange]) {
-        if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
-            result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
-        else if (nil != querySpec.beginKey)
-            result = [NSString stringWithFormat:@"%@ >= ?",columnName];
-        else if (nil != querySpec.endKey)
-            result = [NSString stringWithFormat:@"%@ <= ?",columnName];
-    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
-        if (nil != querySpec.beginKey)
-            result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; 
-        else 
-            result = @"";
-    } else  { //kQuerySpecTypeExact &c.
-        if (nil != querySpec.beginKey)
-            result = [NSString stringWithFormat:@"%@ == ?",columnName];
-        else 
-            result = @"";
+    switch (querySpec.queryType) {
+            
+        case kSFSoupQueryTypeRange: 
+            if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
+                result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
+            else if (nil != querySpec.beginKey)
+                result = [NSString stringWithFormat:@"%@ >= ?",columnName];
+            else if (nil != querySpec.endKey)
+                result = [NSString stringWithFormat:@"%@ <= ?",columnName];
+            break;
+            
+        case kSFSoupQueryTypeLike:
+            if (nil != querySpec.beginKey)
+                result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; 
+            else 
+                result = @"";
+            break;
+            
+        case kSFSoupQueryTypeExact:
+        default:
+            if (nil != querySpec.beginKey)
+                result = [NSString stringWithFormat:@"%@ == ?",columnName];
+            else 
+                result = @"";
+            break;
     }
     
     return result;
@@ -560,20 +568,27 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSArray *result = nil;
     
-    if ([querySpec.queryType isEqualToString:kQuerySpecTypeRange]) {
-        
-        if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
-            result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
-        else if (nil != querySpec.beginKey)
-            result = [NSArray arrayWithObject:querySpec.beginKey];
-        else if (nil != querySpec.endKey)
-            result = [NSArray arrayWithObject:querySpec.endKey];
-    } else if ([querySpec.queryType isEqualToString:kQuerySpecTypeLike]) {
-        if (nil != querySpec.beginKey)
-            result = [NSArray arrayWithObject:querySpec.beginKey]; 
-    } else { //kQuerySpecTypeExact &c.
-        if (nil != querySpec.beginKey)
-            result = [NSArray arrayWithObject:querySpec.beginKey];
+    switch (querySpec.queryType) {
+        case kSFSoupQueryTypeRange:
+            if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
+                result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
+            else if (nil != querySpec.beginKey)
+                result = [NSArray arrayWithObject:querySpec.beginKey];
+            else if (nil != querySpec.endKey)
+                result = [NSArray arrayWithObject:querySpec.endKey];
+            break;
+            
+        case kSFSoupQueryTypeLike:
+            if (nil != querySpec.beginKey)
+                result = [NSArray arrayWithObject:querySpec.beginKey]; 
+            break;
+            
+        case kSFSoupQueryTypeExact:
+        default:
+            if (nil != querySpec.beginKey)
+                result = [NSArray arrayWithObject:querySpec.beginKey];
+            break;
+            
     }
     
     return result;
