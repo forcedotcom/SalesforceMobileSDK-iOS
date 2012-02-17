@@ -360,8 +360,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 + (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
-    //TODO is this the right parent directory from a security & backups standpoint?
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //We use NSCachesDirectory here to prevent backup that could be decrypted.
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
     NSString *result = [storesDir stringByAppendingPathComponent:storeName];
