@@ -32,8 +32,8 @@ NSString * const kSFMobileSDKVersion = @"1.0.2";
 NSString * const kUserAgentPropKey = @"UserAgent";
 
 // Private constants
-static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
-
+NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
+NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
 @implementation SFContainerAppDelegate
 
@@ -91,15 +91,20 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
     return [super application:application handleOpenURL:url];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application {    
+    //Ensure that we have an OAuth plugin instance asap
     if (nil == _oauthPlugin)
-        _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
+        _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
     
     // If the app is in a state where it should be reset, re-initialize the app.
     if ([_oauthPlugin resetAppState]) {
         [_oauthPlugin release]; _oauthPlugin = nil;
         [self loadStartPageIntoWebView];
     }
+    
+    //Touch this to ensure that we have a SmartStore plugin instance that
+    //can listen for file data protection notifications.
+    [self getCommandInstance:kSFSmartStorePluginName];
 }
 
 #pragma mark - PhoneGap helpers

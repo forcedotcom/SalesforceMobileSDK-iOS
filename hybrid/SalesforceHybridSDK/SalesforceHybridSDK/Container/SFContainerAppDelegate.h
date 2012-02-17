@@ -40,6 +40,11 @@
 extern NSString * const kSFMobileSDKVersion;
 extern NSString * const kUserAgentPropKey;
 
+/// The string used to uniquely identify the Salesforce OAuth plugin
+extern NSString * const kSFOAuthPluginName;
+/// The string used to uniquely identify the Salesforce SmartStore plugin
+extern NSString * const kSFSmartStorePluginName;
+
 @interface SFContainerAppDelegate : PhoneGapDelegate {
     
 	NSString* invokeString;

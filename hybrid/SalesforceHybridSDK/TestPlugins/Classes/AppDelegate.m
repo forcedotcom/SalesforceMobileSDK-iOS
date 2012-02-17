@@ -33,8 +33,6 @@
 FILE *fopen$UNIX2003(const char *filename, const char *mode);
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
-// Private constants
-static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
 @interface AppDelegate (Private)
 
@@ -114,7 +112,7 @@ static NSString * const kOAuthPluginName = @"com.salesforce.oauth";
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kOAuthPluginName] retain];
+    _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
     SFOAuthCredentials *creds = [[self class] readCredentialsConfigFile];
     
     //need to set this since bootconfig.js hasn't been loaded yet and
