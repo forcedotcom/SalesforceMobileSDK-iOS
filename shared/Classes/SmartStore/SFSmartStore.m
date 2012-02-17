@@ -185,10 +185,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != self)  {
         NSLog(@"SFSmartStore initWithStoreName: %@",name);
         
-        
-
-        
-        _storeName = [name retain];
+         _storeName = [name retain];
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         //we use this so that addObserverForName doesn't retain us
@@ -198,6 +195,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                           object:nil
                                           queue:nil 
                                           usingBlock:^(NSNotification *note) {
+                                              NSLog(@"SFSmartStore UIApplicationProtectedDataDidBecomeAvailable");
                                               this->_dataProtectionKnownAvailable = YES;
                                           }];
         
@@ -206,6 +204,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                             object:nil
                                             queue:nil 
                                             usingBlock:^(NSNotification *note) {
+                                                NSLog(@"SFSmartStore UIApplicationProtectedDataWillBecomeUnavailable");
                                                 this->_dataProtectionKnownAvailable = NO;
                                             }];
         
