@@ -19,13 +19,15 @@ extern NSString * const kSFTestRunnerPluginName;
     NSString *_testName;
     NSString *_message;
     BOOL    _success;
+    NSTimeInterval _duration;
 }
 
 @property (nonatomic, readonly, strong) NSString *testName;
 @property (nonatomic, readonly, assign) BOOL success;
 @property (nonatomic, readonly, strong) NSString *message;
+@property (nonatomic, readonly, assign) NSTimeInterval duration;
 
-- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message;
+- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message status:(NSDictionary*)testStatus;
 
 @end
 

@@ -17,14 +17,17 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 @synthesize testName = _testName;
 @synthesize message = _message;
 @synthesize success = _success;
+@synthesize duration = _duration;
 
-- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message
+- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message status:(NSDictionary*)testStatus
 {
     self = [super init];
     if (nil != self) {
         _testName = [testName copy];
         _success = success;
         _message = [message copy];
+        NSNumber *durationMs = [testStatus objectForKey:@"testDuration"];
+        _duration = [durationMs longValue] / 1000;
     }
     
     return self;
@@ -119,7 +122,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     [self writeCommandOKResultToJsRealm:callbackId];
 
     self.readyToStartTests = YES;
-
 }
 
 - (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options
@@ -128,18 +130,17 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSString *testName = [options objectForKey:@"testName"];
     BOOL success = [(NSNumber *)[options valueForKey:@"success"] boolValue];
     NSString *message = [options valueForKey:@"message"];
-
+    NSDictionary *testStatus = [options valueForKey:@"testStatus"];
+    
     NSLog(@"testName: %@ success: %d message: %@",testName,success,message);
     if (!success) {
         NSLog(@"### TEST FAILED: %@",testName);
     }
-    SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message];
+    SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message status:testStatus];
     [self.testResults addObject:testResult];
     [testResult release];
     
-    [self writeCommandOKResultToJsRealm: callbackId];
-    
-    
+    [self writeCommandOKResultToJsRealm: callbackId];    
 }
 
     
