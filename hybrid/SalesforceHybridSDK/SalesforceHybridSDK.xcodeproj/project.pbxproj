@@ -1731,7 +1731,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "StressPluginsTests-Info.plist";
@@ -1757,7 +1757,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "StressPluginsTests-Info.plist";
@@ -1783,7 +1783,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
 				INFOPLIST_FILE = "StressPluginsTests-Info.plist";
