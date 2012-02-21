@@ -133,13 +133,13 @@
 			<param name="inputPath" value="${abs_cov_output_dir}" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${abs_source_dir}" />
-			<param name="excludePattern" value="SalesforceHybridSDK/Plugins/SFSmartStore/sqlite/.*" />
+			<param name="excludePattern" value=".*/sqlite/.*" />
 		</antcall> 
 		<antcall target="iOSShared.covreport">
 			<param name="inputPath" value="${abs_cov_output_dir}" />
 			<param name="outputPath" value="${artifacts.dir}" />
 			<param name="rootPath" value="${abs_source_dir}" />
-			<param name="excludePattern" value="SalesforceHybridSDK/Plugins/SFSmartStore/sqlite/.*" />
+			<param name="excludePattern" value=".*/sqlite/.*" />
 		</antcall>
 
         
