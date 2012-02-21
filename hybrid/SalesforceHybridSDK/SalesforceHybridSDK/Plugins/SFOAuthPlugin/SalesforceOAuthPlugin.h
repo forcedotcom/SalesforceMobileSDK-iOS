@@ -122,6 +122,11 @@
  */
 - (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
-
+/**
+ Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
+ @param arguments Standard PhoneGap plugin arguments
+ @param options ignored
+ */
+- (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 @end

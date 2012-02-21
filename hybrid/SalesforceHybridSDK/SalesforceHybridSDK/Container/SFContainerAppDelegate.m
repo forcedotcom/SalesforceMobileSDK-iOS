@@ -30,11 +30,11 @@
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.0.2";
 NSString * const kUserAgentPropKey = @"UserAgent";
+NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 
 // Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
-NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 
 @interface SFContainerAppDelegate (Private)
 
