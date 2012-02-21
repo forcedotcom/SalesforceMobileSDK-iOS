@@ -39,6 +39,7 @@
 
 extern NSString * const kSFMobileSDKVersion;
 extern NSString * const kUserAgentPropKey;
+extern NSString * const kAppHomeUrlPropKey;
 
 /// The string used to uniquely identify the Salesforce OAuth plugin
 extern NSString * const kSFOAuthPluginName;
@@ -49,7 +50,7 @@ extern NSString * const kSFSmartStorePluginName;
     
 	NSString* invokeString;
     SalesforceOAuthPlugin *_oauthPlugin;
-
+    BOOL _nextUrlIsHomeUrl;
 }
 
 

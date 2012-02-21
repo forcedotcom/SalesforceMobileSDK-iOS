@@ -30,10 +30,18 @@
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.0.2";
 NSString * const kUserAgentPropKey = @"UserAgent";
+NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 
 // Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
+
+@interface SFContainerAppDelegate (Private)
+
+// The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
++ (NSString *)startPageUrlString;
+
+@end
 
 @implementation SFContainerAppDelegate
 
@@ -51,6 +59,7 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *uaString = [self userAgentString];
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
+        _nextUrlIsHomeUrl = NO;
     }
     return self;
 }
@@ -138,6 +147,15 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 #endif
 }
 
++ (NSString *)startPageUrlString
+{
+    NSString *startPageFilePath = [self pathForResource:[self startPage]];
+    NSURL *startPageFileUrl = [NSURL fileURLWithPath:startPageFilePath];
+    NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
+                                                                                       withString:@"file:///"];
+    return urlString;
+}
+
 
 #pragma mark - UIWebViewDelegate
 
@@ -146,6 +164,20 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
  */
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView 
 {
+    NSLog(@"webViewDidFinishLoad: Loaded %@", theWebView.request.URL.absoluteString);
+    
+    // The URL that's loaded after the bootstrap start page will be considered the "app home URL", which can
+    // be loaded directly in the event that the app is offline.
+    if (_nextUrlIsHomeUrl == YES) {
+        NSLog(@"Setting %@ as the 'home page' URL for this app.", theWebView.request.URL.absoluteString);
+        [[NSUserDefaults standardUserDefaults] setURL:theWebView.request.URL forKey:kAppHomeUrlPropKey];
+        _nextUrlIsHomeUrl = NO;
+    } else {
+        if ([theWebView.request.URL.absoluteString isEqualToString:[[self class] startPageUrlString]]) {
+            _nextUrlIsHomeUrl = YES;
+        }
+    }
+    
 	// only valid if App.plist specifies a protocol to handle
 	if(self.invokeString)
 	{

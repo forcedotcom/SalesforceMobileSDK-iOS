@@ -220,6 +220,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self logout];
 }
 
+- (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+{
+    NSLog(@"getAppHomeUrl:withDict:");
+    NSString *callbackId = [arguments pop];
+    
+    NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
+    NSString *urlString = (url == nil ? @"" : [url absoluteString]);
+    
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:urlString];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+}
+
 
 #pragma  mark - Plugin utilities
 
