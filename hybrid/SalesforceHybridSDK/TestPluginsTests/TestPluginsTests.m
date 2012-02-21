@@ -72,7 +72,7 @@
     
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 4.0) {
+        if (elapsed > 15.0) {
             NSLog(@"testRunner took too long (%f) to startup",elapsed);
             completionTimedOut = YES;
             break;

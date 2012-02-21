@@ -27,7 +27,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         _success = success;
         _message = [message copy];
         NSNumber *durationMs = [testStatus objectForKey:@"testDuration"];
-        _duration = [durationMs longValue] / 1000;
+        _duration = [durationMs doubleValue] / 1000;
     }
     
     return self;

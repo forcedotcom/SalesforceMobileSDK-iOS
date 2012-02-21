@@ -89,7 +89,7 @@
     
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 4.0) {
+        if (elapsed > 15.0) {
             NSLog(@"testRunner took too long (%f) to startup",elapsed);
             completionTimedOut = YES;
             break;
@@ -145,7 +145,7 @@
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
         SFTestResult *testResult = [[[plugin testResults] objectAtIndex:0] retain];
         [[plugin testResults] removeObjectAtIndex:0];
-        
+        NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);
         STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         STAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
         [testResult autorelease];
