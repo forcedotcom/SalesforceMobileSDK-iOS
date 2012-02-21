@@ -154,8 +154,8 @@
 
 
 
-- (void)testLikeQuerySpecStartsWith {
-    [self runTest:@"testLikeQuerySpecStartsWith"];
+- (void)testUpsertManyEntries {
+    [self runTest:@"testUpsertManyEntries"];
 }
 
 
