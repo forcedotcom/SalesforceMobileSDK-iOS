@@ -158,7 +158,13 @@
     [self runTest:@"testUpsertManyEntries"];
 }
 
+- (void)testNumerousFields {
+    [self runTest:@"testNumerousFields"];
+}
 
+- (void)testIncreasingFieldLength {
+    [self runTest:@"testIncreasingFieldLength"];
+}
 
 
 @end
