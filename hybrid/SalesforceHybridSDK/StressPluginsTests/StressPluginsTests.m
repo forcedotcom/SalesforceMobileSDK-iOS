@@ -133,7 +133,7 @@
     
     self.jsTestName = testName;
     
-    NSString *testCmd = [NSString stringWithFormat:@"gTestSuiteSmartStore.startTest('%@');",testName];
+    NSString *testCmd = [NSString stringWithFormat:@"testSuite.startTest('%@');",testName];
     AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
     NSString *cmdResult = [app evalJS:testCmd];
     NSLog(@"cmdResult: '%@'",cmdResult);

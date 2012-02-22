@@ -1,7 +1,7 @@
 //Sample code for Hybrid REST Explorer
 
 var lastSoupCursor = null;
-var gTestSuiteSmartStore = null;
+var testSuite = null;
 var gTestsFinishedRunning = false;
 
 function regLinkClickHandlers() {
@@ -35,7 +35,7 @@ Can be used from native side to start the tests
 */
 function kickStartTests() {
     gTestsFinishedRunning = false;
-    gTestSuiteSmartStore.startTests();
+    testSuite.startTests();
 }
 
 QUnit.done = function(failed, passed, total, runtime) {
