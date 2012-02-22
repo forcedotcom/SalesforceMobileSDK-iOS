@@ -166,5 +166,11 @@
     [self runTest:@"testIncreasingFieldLength"];
 }
 
+- (void)testAddAndRetrieveManyEntries {
+    [self runTest:@"testAddAndRetrieveManyEntries"];
+}
+
+
+
 
 @end
