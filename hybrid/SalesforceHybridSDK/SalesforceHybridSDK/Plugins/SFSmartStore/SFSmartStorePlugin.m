@@ -143,7 +143,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 - (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSDate *startTime = [NSDate date];
+//    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     
@@ -151,12 +151,12 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsBool:exists];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
+//    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
 }
 
 - (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSDate *startTime = [NSDate date];
+//    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     NSArray *indexes = [options nonNullObjectForKey:@"indexes"];
@@ -170,12 +170,12 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
-    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
+//    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
 - (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSDate *startTime = [NSDate date];
+//    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     
@@ -184,7 +184,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
+//    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
 - (void)pgQuerySoup:(NSArray*)arguments withDict:(NSMutableDictionary*)options
@@ -227,7 +227,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSDate *startTime = [NSDate date];
+//    NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
     NSArray *entries = [options nonNullObjectForKey:@"entries"];
@@ -242,12 +242,12 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
-    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
+//    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
 }
 
 - (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSDate *startTime = [NSDate date];
+//    NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     
     NSString *soupName = [options nonNullObjectForKey:@"soupName"];
@@ -258,7 +258,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-    NSLog(@"pgRemoveFromSoup took: %f", [startTime timeIntervalSinceNow]);
+//    NSLog(@"pgRemoveFromSoup took: %f", [startTime timeIntervalSinceNow]);
     
 }
 
