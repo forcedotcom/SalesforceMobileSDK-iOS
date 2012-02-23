@@ -32,126 +32,21 @@
 #import "SFSmartStore.h"
 #import "SFSmartStorePlugin.h"
 
-@interface StressPluginsTests (Private)
 
-- (BOOL)waitForTestRunnerReady;
-
-@end
 
 @implementation StressPluginsTests
 
-@synthesize jsTestName = _jsTestName;
 
 - (void)setUp
 {
     [super setUp];
-    
-    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-    _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
-    [SFSmartStorePlugin resetSharedStore];
-    
-    // Block until the javascript has notified the container that it's ready
-    BOOL timedOut = [self waitForTestRunnerReady];
-    if (timedOut) {
-        NSLog(@"failed to start test runner...");
-    } 
-    
-}
-
-- (void)tearDown
-{
-    // Tear-down code here.
-    [super tearDown];
-}
-
-- (BOOL)areTestsFinishedRunning {
-    BOOL result = NO;
-    // gTestsFinishedRunning
-    
-    SFContainerAppDelegate *myApp = [SFContainerAppDelegate sharedInstance];
-    NSString *jsResult = [(UIWebView*)myApp.webView stringByEvaluatingJavaScriptFromString:@"gTestsFinishedRunning === true"];
-    result = [jsResult isEqualToString:@"true"];
-    return result;
-}
-
-- (BOOL)isTestResultAvailable {
-    return [_testRunnerPlugin testResultAvailable];
-}
-
-- (BOOL)isTestRunnerReady {
-    return [_testRunnerPlugin readyToStartTests];
-}
-
-
-- (BOOL)waitForTestRunnerReady {
-    NSDate *startTime = [NSDate date] ;
-    BOOL completionTimedOut = NO;
-    
-    while (![self isTestRunnerReady]) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 15.0) {
-            NSLog(@"testRunner took too long (%f) to startup",elapsed);
-            completionTimedOut = YES;
-            break;
-        }
-        
-        NSLog(@"## waiting to start tests... ");
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+    self.jsSuiteName = @"SmartStoreLoadTestSuite";
+    if ([self isTestRunnerReady]) {
+        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+        [SFSmartStorePlugin resetSharedStore];
     }
     
-    return completionTimedOut;
 }
-
-
-- (BOOL)waitForOneCompletion {
-    NSDate *startTime = [NSDate date] ;
-    BOOL completionTimedOut = NO;
-    
-    while (![self isTestResultAvailable]) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
-            NSLog(@"test took too long (%f) to complete",elapsed);
-            completionTimedOut = YES;
-            break;
-        }
-        
-        NSLog(@"## sleeping on %@...",self.jsTestName);
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
-    }
-    
-    return completionTimedOut;
-}
-
-
-
-- (void)runTest:(NSString*)testName
-{
-    if (![self isTestRunnerReady]) {
-        STAssertTrue([self isTestRunnerReady], @"Test runner not ready");
-        return;
-    }
-    
-    self.jsTestName = testName;
-    
-    NSString *testCmd = [NSString stringWithFormat:@"testSuite.startTest('%@');",testName];
-    AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
-    NSString *cmdResult = [app evalJS:testCmd];
-    NSLog(@"cmdResult: '%@'",cmdResult);
-    
-    BOOL timedOut = [self waitForOneCompletion];
-    STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
-    
-    if (!timedOut) {
-        SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
-        SFTestResult *testResult = [[[plugin testResults] objectAtIndex:0] retain];
-        [[plugin testResults] removeObjectAtIndex:0];
-        NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);
-        STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
-        STAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
-        [testResult autorelease];
-    }
-}
-
 
 
 - (void)testUpsertManyEntries {

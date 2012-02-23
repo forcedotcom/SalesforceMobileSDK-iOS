@@ -1,8 +1,6 @@
 //Sample code for Hybrid REST Explorer
 
 var lastSoupCursor = null;
-var testSuite = null;
-var gTestsFinishedRunning = false;
 
 function regLinkClickHandlers() {
     SFHybridApp.logToConsole("regLinkClickHandlers");
@@ -119,13 +117,11 @@ function regLinkClickHandlers() {
 Can be used from native side to start the tests
 */
 function kickStartTests() {
-    gTestsFinishedRunning = false;
-    testSuite.startTests();
+    navigator.testrunner.setTestSuite('SmartStoreTestSuite');
+    navigator.testrunner.testSuite.startTests();
 }
 
-QUnit.done = function(failed, passed, total, runtime) {
-    gTestsFinishedRunning = true;
-};
+
 
 function runQuerySoup() {
     var inputStr = $('#input_query_soup').val();

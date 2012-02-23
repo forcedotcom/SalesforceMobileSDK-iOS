@@ -24,12 +24,29 @@
  */
 
 
+#import <SenTestingKit/SenTestingKit.h>
 
-#import "SFPluginTestSuite.h"
 
+@class SFTestRunnerPlugin;
 
-@interface StressPluginsTests : SFPluginTestSuite {
+@interface SFPluginTestSuite : SenTestCase {
+    NSString *_jsTestName;
+    NSString *_jsSuiteName;
+    SFTestRunnerPlugin *_testRunnerPlugin;
 }
 
+@property (nonatomic, strong) NSString *jsTestName;
+@property (nonatomic, strong) NSString *jsSuiteName;
+
+
+
+- (BOOL)waitForTestRunnerReady;
+- (void)runTest:(NSString*)testName inSuite:(NSString*)suiteName;
+- (void)runTest:(NSString*)testName;
+
+
+
+- (BOOL)isTestResultAvailable;
+- (BOOL)isTestRunnerReady;
 
 @end
