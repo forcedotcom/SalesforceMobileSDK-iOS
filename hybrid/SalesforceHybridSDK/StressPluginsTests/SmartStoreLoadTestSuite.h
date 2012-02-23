@@ -24,12 +24,11 @@
  */
 
 
+
 #import "SFPluginTestSuite.h"
 
 
-@interface TestPluginsTests : SFPluginTestSuite {
-
-
+@interface SmartStoreLoadTestSuite : SFPluginTestSuite {
 }
 
 

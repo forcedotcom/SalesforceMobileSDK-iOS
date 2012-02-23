@@ -65,7 +65,7 @@
 		7D20FC1414ED815500A86731 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7D20FC1514ED815500A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7D20FC1714ED815500A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
-		7D20FC2A14ED83A700A86731 /* StressPluginsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* StressPluginsTests.m */; };
+		7D20FC2A14ED83A700A86731 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */; };
 		7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */; };
 		7D20FC3314ED98F000A86731 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D20FC3214ED98F000A86731 /* www */; };
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
@@ -118,7 +118,7 @@
 		7DBB149614C0ECF800CCDBE0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7DBB149714C0ECF800CCDBE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7DBB149F14C0ECF800CCDBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
-		7DBB14A214C0ECF800CCDBE0 /* TestPluginsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* TestPluginsTests.m */; };
+		7DBB14A214C0ECF800CCDBE0 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */; };
 		7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
 		7DBB14B114C0EFFA00CCDBE0 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */; };
 		7DBB14B214C0EFFA00CCDBE0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */; };
@@ -185,7 +185,7 @@
 		7DBD16B414D85E9F00A17E6A /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
 		7DBD16B514D85EB900A17E6A /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
 		7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
-		7DBD16C014D85F6300A17E6A /* TestPluginsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* TestPluginsTests.m */; };
+		7DBD16C014D85F6300A17E6A /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */; };
 		7DBD16C214D85F6300A17E6A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
 		7DBD16C314D85F6300A17E6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7DBD16C414D85F6300A17E6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
@@ -205,7 +205,6 @@
 		7DD88EED14DA044E00C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */; };
 		7DD88EEE14DA046200C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */; };
 		7DE73A4214F6B6E600D489DE /* SFPluginTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DE73A4014F6B6E600D489DE /* SFPluginTestSuite.h */; };
-		7DE73A4314F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4414F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4614F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
@@ -320,8 +319,8 @@
 		7D20FBF914ED7DBD00A86731 /* StressPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
-		7D20FC2814ED83A700A86731 /* StressPluginsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressPluginsTests.h; path = StressPluginsTests/StressPluginsTests.h; sourceTree = "<group>"; };
-		7D20FC2914ED83A700A86731 /* StressPluginsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressPluginsTests.m; path = StressPluginsTests/StressPluginsTests.m; sourceTree = "<group>"; };
+		7D20FC2814ED83A700A86731 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartStoreLoadTestSuite.h; path = StressPluginsTests/SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
+		7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartStoreLoadTestSuite.m; path = StressPluginsTests/SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
 		7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
 		7D20FC3014ED989500A86731 /* StressPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "StressPlugins-Info.plist"; path = "StressPlugins/StressPlugins-Info.plist"; sourceTree = "<group>"; };
 		7D20FC3214ED98F000A86731 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = StressPlugins/www; sourceTree = "<group>"; };
@@ -389,8 +388,8 @@
 		7DBB149414C0ECF800CCDBE0 /* TestPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBB149C14C0ECF800CCDBE0 /* TestPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestPluginsTests-Info.plist"; sourceTree = "<group>"; };
 		7DBB149E14C0ECF800CCDBE0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7DBB14A014C0ECF800CCDBE0 /* TestPluginsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPluginsTests.h; sourceTree = "<group>"; };
-		7DBB14A114C0ECF800CCDBE0 /* TestPluginsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPluginsTests.m; sourceTree = "<group>"; };
+		7DBB14A014C0ECF800CCDBE0 /* SmartStoreTestSuite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartStoreTestSuite.h; sourceTree = "<group>"; };
+		7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
 		7DBB14AA14C0EFE400CCDBE0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
@@ -577,8 +576,8 @@
 			isa = PBXGroup;
 			children = (
 				7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */,
-				7D20FC2814ED83A700A86731 /* StressPluginsTests.h */,
-				7D20FC2914ED83A700A86731 /* StressPluginsTests.m */,
+				7D20FC2814ED83A700A86731 /* SmartStoreLoadTestSuite.h */,
+				7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */,
 			);
 			name = StressPluginsTests;
 			sourceTree = "<group>";
@@ -805,8 +804,8 @@
 		7DBB149A14C0ECF800CCDBE0 /* TestPluginsTests */ = {
 			isa = PBXGroup;
 			children = (
-				7DBB14A014C0ECF800CCDBE0 /* TestPluginsTests.h */,
-				7DBB14A114C0ECF800CCDBE0 /* TestPluginsTests.m */,
+				7DBB14A014C0ECF800CCDBE0 /* SmartStoreTestSuite.h */,
+				7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */,
 				7DBB149B14C0ECF800CCDBE0 /* Supporting Files */,
 				7DE73A4014F6B6E600D489DE /* SFPluginTestSuite.h */,
 				7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */,
@@ -1331,7 +1330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D20FC2A14ED83A700A86731 /* StressPluginsTests.m in Sources */,
+				7D20FC2A14ED83A700A86731 /* SmartStoreLoadTestSuite.m in Sources */,
 				7DE73A4614F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1354,7 +1353,6 @@
 				7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */,
 				7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */,
-				7DE73A4314F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1372,7 +1370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DBB14A214C0ECF800CCDBE0 /* TestPluginsTests.m in Sources */,
+				7DBB14A214C0ECF800CCDBE0 /* SmartStoreTestSuite.m in Sources */,
 				7DE73A4414F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1405,7 +1403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DBD16C014D85F6300A17E6A /* TestPluginsTests.m in Sources */,
+				7DBD16C014D85F6300A17E6A /* SmartStoreTestSuite.m in Sources */,
 				7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

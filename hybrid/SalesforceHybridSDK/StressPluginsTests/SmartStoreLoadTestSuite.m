@@ -23,13 +23,49 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
+
+#import "SmartStoreLoadTestSuite.h"
+
+#import "AppDelegate.h"
+#import "SFTestRunnerPlugin.h"
+#import "SFSmartStore.h"
+#import "SFSmartStorePlugin.h"
 
 
-#import "SFPluginTestSuite.h"
+
+@implementation SmartStoreLoadTestSuite
 
 
-@interface StressPluginsTests : SFPluginTestSuite {
+- (void)setUp
+{
+    [super setUp];
+    self.jsSuiteName = @"SmartStoreLoadTestSuite";
+    if ([self isTestRunnerReady]) {
+        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+        [SFSmartStorePlugin resetSharedStore];
+    }
+    
 }
+
+
+- (void)testUpsertManyEntries {
+    [self runTest:@"testUpsertManyEntries"];
+}
+
+- (void)testNumerousFields {
+    [self runTest:@"testNumerousFields"];
+}
+
+- (void)testIncreasingFieldLength {
+    [self runTest:@"testIncreasingFieldLength"];
+}
+
+- (void)testAddAndRetrieveManyEntries {
+    [self runTest:@"testAddAndRetrieveManyEntries"];
+}
+
+
 
 
 @end

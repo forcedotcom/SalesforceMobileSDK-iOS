@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TestPluginsTests.h"
+#import "SmartStoreTestSuite.h"
 
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
@@ -34,7 +34,7 @@
 
 
 
-@implementation TestPluginsTests
+@implementation SmartStoreTestSuite
 
 
 - (void)setUp

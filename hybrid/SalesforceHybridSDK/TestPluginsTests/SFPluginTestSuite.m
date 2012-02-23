@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "StressPluginsTests.h"
+#import "SFPluginTestSuite.h"
 
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
