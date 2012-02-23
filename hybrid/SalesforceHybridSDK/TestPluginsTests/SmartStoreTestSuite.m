@@ -40,7 +40,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.jsSuiteName = @"SmartStoreLoadTestSuite";
+    self.jsSuiteName = @"SmartStoreTestSuite";
 
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
