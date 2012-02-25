@@ -1564,17 +1564,6 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	
-	<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
-	<string>dependencies/SBJson/libsbjson-ios.a</string>
-	
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon.png</string>
 	<string>Resources/icons/icon@2x.png</string>
