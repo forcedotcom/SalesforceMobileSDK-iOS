@@ -26,12 +26,16 @@
 
 #import "SFJsonUtils.h"
 
+NSString * const kSFDefaultRestEndpoint = @"/services/data";
+
+
 @implementation SFRestRequest
 
 @synthesize queryParams=_queryParams;
 @synthesize path=_path;
 @synthesize method=_method;
 @synthesize delegate=_delegate;
+@synthesize endpoint=_endpoint;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
@@ -39,6 +43,7 @@
         self.method = method;
         self.path = path;
         self.queryParams = queryParams;
+        self.endpoint = kSFDefaultRestEndpoint;
     }
     return self;
 }
@@ -47,6 +52,7 @@
     self.path = nil;
     self.queryParams = nil;
     self.delegate = nil;
+    self.endpoint = nil;
     [super dealloc];
 }
 
@@ -67,6 +73,12 @@
             methodName = @"Unset";break;
     }
     NSString *paramStr = _queryParams ? [SFJsonUtils JSONRepresentation:_queryParams] : @"[]";
-    return [NSString stringWithFormat:@"[<SFRestRequest: 0x%x> method: %@, path: %@, queryParams: %@]",self, methodName, _path, paramStr];
+    return [NSString stringWithFormat:
+            @"<SFRestRequest 0x%x \n"
+            "endpoint: %@ \n"
+            "method: %@ \n"
+            "path: %@ \n"
+            "queryParams: %@ \n"
+            ">",self, _endpoint, methodName, _path, paramStr];
 }
 @end

@@ -38,6 +38,12 @@ typedef enum SFRestMethod {
 } SFRestMethod;
 
 
+/**
+ The default REST endpoint used by requests.
+ */
+extern NSString * const kSFDefaultRestEndpoint;
+
+
 //forward declaration
 @class SFRestRequest;
 
@@ -77,6 +83,7 @@ typedef enum SFRestMethod {
  * @see SFRestAPI
  */
 @interface SFRestRequest : NSObject {
+    NSString *_endpoint;
     SFRestMethod _method;
     NSString *_path;
     NSDictionary *_queryParams;
@@ -110,6 +117,11 @@ typedef enum SFRestMethod {
  */
 @property (nonatomic, assign) id<SFRestDelegate> delegate;
 
+
+/**
+ * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints
+ */
+@property (nonatomic, strong) NSString *endpoint;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

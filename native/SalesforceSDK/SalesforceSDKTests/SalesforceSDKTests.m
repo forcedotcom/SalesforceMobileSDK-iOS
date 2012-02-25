@@ -117,10 +117,18 @@
 // simple: make sure fully-defined paths in the request are honored too.
 - (void)testFullRequestPath {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
-    request.path = [NSString stringWithFormat:@"%@%@", @"/services/data", request.path];
+    request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
     NSLog(@"request.path: %@", request.path);
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: make sure that user-defined endpoints are respected
+- (void)testUserDefinedEndpoint {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
+    [request setEndpoint:@"/my/custom/endpoint"];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
 // simple: just invoke requestForResources

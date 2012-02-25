@@ -181,7 +181,7 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - ajax methods
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    NSLog(@"SFRestAPI::send:delegate: %@", request);
+    NSLog(@"SFRestAPI::send: %@", request);
 
     if (nil != delegate) {
         request.delegate = delegate;
