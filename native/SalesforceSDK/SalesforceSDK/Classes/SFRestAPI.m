@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.0.2";
+static NSString * const kSFMobileSDKVersion = @"1.0.3";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -131,6 +131,7 @@ static dispatch_once_t _sharedInstanceGuard;
     if (nil == _rkClient) {
         if (nil != _coordinator) {
             _rkClient = [[RKClient alloc] initWithBaseURL:_coordinator.credentials.instanceUrl];
+            _rkClient.cachePolicy = RKRequestCachePolicyNone;
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
             [_rkClient setValue:[self userAgentString] forHTTPHeaderField:@"User-Agent"];
 
