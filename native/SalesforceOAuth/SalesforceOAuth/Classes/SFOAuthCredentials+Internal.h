@@ -27,10 +27,10 @@
 
 @interface SFOAuthCredentials ()
 
-- (void)initKeychainWithIdentifier:(NSString *)theIdentifier accessGroup:(NSString *)accessGroup;
-- (NSString *)tokenForKey:(NSString *)key;
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
+- (NSData *)tokenForKey:(NSString *)key;
+- (NSMutableDictionary *)tokenQuery;
 - (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
 
 + (NSString *)stringForKeychainResultCode:(OSStatus)code;
