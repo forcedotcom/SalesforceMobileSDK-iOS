@@ -91,7 +91,7 @@ enum {
 /** Sent when the web will completed to load its content.
  @param coordinator The SFOAuthCoordinator instance processing this message
  @param view        The UIWebView instance that will be used to conduct the authentication workflow
- @param errorOrNil  Contains the error or nil if no error
+ @param errorOrNil  Contains the error or `nil` if no error
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil;
 
@@ -148,6 +148,7 @@ enum {
  
  @warning The behavior of this class is undefined if this property is set after `authenticate` has been called and 
  authentication has started.
+ @warning This property must not be `nil` at the time the `authenticate` method is called or an exception will be raised.
  
  @see SFOAuthCredentials
  */
@@ -161,6 +162,22 @@ enum {
  */
 @property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> delegate;
 
+/** A set of scopes for OAuth.
+ See: 
+ https://help.salesforce.com/apex/HTViewHelpDoc?language=en&id=remoteaccess_oauth_scopes.htm
+ 
+ Generally you need not specify this unless you are using something other than the "api" scope.
+ For instance, if you are accessing Visualforce pages as well as the REST API, you could use:
+ [@"api", @"visualforce"]
+ 
+ (You need not specify the "refresh_token" scope as this is always requested by this library.)
+ 
+ If you do not set this property, the library does not add the "scope" parameter to the initial
+ OAuth request, which implicitly sets the scope to include: "id", "api", and "refresh_token".
+ */
+@property (nonatomic, copy) NSSet *scopes;
+
+
 /** Timeout interval for OAuth requests.
  
  This value controls how long requests will wait before timing out.
@@ -169,36 +186,19 @@ enum {
 
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
- This is only guaranteed to be non-nil after one of the delegate methods returning a web view has been called.
+ This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
  @see SFOAuthCoordinatorDelegate
  */
 @property (nonatomic, readonly) UIWebView *view;
-
-
-/** A set of scopes for OAuth.
- See: 
- https://help.salesforce.com/apex/HTViewHelpDoc?language=en&id=remoteaccess_oauth_scopes.htm
- 
-
- Generally you need not specify this unless you are using something other than "api".
- For instances, if you are accessing Visualforce pages as well as the REST API, you could use:
- [@"api",@"Visualforce"]
- 
- (You need not specify "refresh_token" -- that is always requested by this library.)
-
- If you do not set this property, the library does not add the "scope" parameter to the
- initial OAuth request.
- */
-@property (nonatomic, copy) NSSet *scopes;
-
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
 
-/** Initializes a new OAuth coordinator with the supplied credentials.
+/** Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.
  
- @warning The value of `credentials` must not be nil.
+ @warning Although it is permissible to pass `nil` for the credentials argument, the credentials propery
+ must not be `nil` prior to calling the `authenticate` method or an exception will be raised.
  
  @param credentials An instance of `SFOAuthCredentials` identifying the user to be authenticated.
  @return The initialized authentication coordinator.
@@ -212,8 +212,18 @@ enum {
 ///---------------------------------------------------------------------------------------
 
 /** Begins the authentication process.
+ 
+ @exception NSInternalInconsistencyException If called when the `credentials` property is `nil`.
  */
 - (void)authenticate;
+
+/** Sets the credentials property and begins the authentication process. Simply a convenience method for:
+        coordinator.credentials = theCredentials;
+        [coordinator authenticate];
+ 
+ @exception NSInternalInconsistencyException If called with a `nil` `credentials` argument.
+ */
+- (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials;
 
 /** Returns YES if the coordinator is in the process of authentication; otherwise NO.
  */
