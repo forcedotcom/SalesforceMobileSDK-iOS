@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SenTestCase_additions.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SalesforceOAuthUnitTestsCoordinatorDelegate.h"
@@ -54,13 +53,13 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     NSString * const kUserId15      = @"00530000004cwSi";       // 15 characters
     NSString * const kUserId18      = @"00530000004cwSi123";    // 18 characters
 
-    NSString * identifier   = kIdentifier;
-    NSString * clientId     = kClientId;
-    NSString * accessToken  = kAccessToken;
-    NSString * refreshToken = kRefreshToken;
-    NSString * userId       = kUserId18;
+    NSString * identifier       = kIdentifier;
+    NSString * clientId         = kClientId;
+    NSString * accessToken      = kAccessToken;
+    NSString * refreshToken     = kRefreshToken;
+    NSString * userId           = kUserId18;
     
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
     identifier = nil;
     clientId = nil;
     
@@ -96,6 +95,44 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     [credentials revoke];
     STAssertNil(credentials.accessToken, @"access token should be nil");
     STAssertNil(credentials.accessToken, @"refresh token should be nil");
+    
+    [credentials release]; credentials = nil;
+}
+
+/** Test the case of instantiating the credentials using alloc/init, in which case the identifier and clientId will both be nil.
+ The credentials class requires the identifier to be set for nearly all operations, therefore under these circumstances most 
+ public methods will raise an exception.
+ */
+- (void)testCredentialsDefaultInstantiation {
+    
+    NSString * identifier       = nil;
+    NSString * clientId         = nil;
+    NSString * accessToken      = nil;
+    NSString * refreshToken     = nil;
+    NSString * userId           = nil;
+    NSString * activationCode   = nil;
+    
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] init];
+    
+    STAssertNotNil(credentials, @"credentials object should not be nil");
+    STAssertThrows(accessToken = credentials.accessToken, @"should raise exception if no identifier is set");
+    STAssertThrows(credentials.accessToken = nil, @"should raise exception if no identifier is set");
+    STAssertNoThrow(credentials.clientId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
+    STAssertNoThrow(clientId = credentials.clientId, @"should not raise exception if no identifier is set");
+    STAssertNoThrow(identifier = credentials.identifier, @"should not raise exception if no identifier is set");
+    STAssertNoThrow(credentials.identifier = nil, @"should not raise exception if set to nil");
+    STAssertNoThrow(credentials.identityUrl = nil, @"should not raise exception if set to nil");
+    STAssertThrows(refreshToken = credentials.refreshToken, @"should raise exception if no identifier is set");
+    STAssertThrows(credentials.refreshToken = nil, @"should raise exception if no identifier is set");
+    STAssertThrows(activationCode = credentials.activationCode, @"should raise exception if no identifier is set");
+    STAssertThrows(credentials.activationCode = nil, @"should raise exception if no identifier is set");
+    STAssertNoThrow(userId = credentials.userId, @"should not raise exception if no identifier is set");
+    STAssertNoThrow(credentials.userId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
+    STAssertThrows([credentials revokeAccessToken], @"should raise exception if no identifier is set");
+    STAssertThrows([credentials revokeRefreshToken], @"should raise exception if no identifier is set");
+    STAssertThrows([credentials revokeActivationCode], @"should raise exception if no identifier is set");
+    
+    [credentials release]; credentials = nil;
 }
 
 /** Test the <NSCoding> implementation of <SFOAuthCredentials>
@@ -105,7 +142,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     
-    SFOAuthCredentials *credsIn = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId];
+    SFOAuthCredentials *credsIn = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     credsIn.domain          = @"login.salesforce.com";
     credsIn.redirectUri     = @"sfdc:///axm/detect/oauth/done";
     credsIn.organizationId  = @"org";
@@ -141,15 +178,19 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 /** Test the SFOAuthCoordinator
  */
 - (void)testCoordinator {
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId];
+    
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    STAssertNotNil(creds, @"credentials should not be nil");
     creds.domain = @"localhost";
     creds.redirectUri = @"sfdc://expected/to/fail";
     creds.refreshToken = @"refresh-token";
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    STAssertNotNil(coordinator, @"coordinator should not be nil");
     SalesforceOAuthUnitTestsCoordinatorDelegate *delegate = [[SalesforceOAuthUnitTestsCoordinatorDelegate alloc] init];
+    STAssertNotNil(delegate, @"delegate should not be nil");
     coordinator.delegate = delegate;
-    [coordinator authenticate];
+    STAssertNoThrow([coordinator authenticate], @"authenticate should not raise an exception");
     STAssertTrue([coordinator isAuthenticating], @"authenticating should return true");
     [coordinator stopAuthentication];
     STAssertFalse([coordinator isAuthenticating], @"authenticating should return false");
@@ -158,15 +199,32 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     [delegate release];     delegate = nil;
 }
 
+/**
+ Test the case of instantiating the SFOAuthCoordinator using alloc/init, in which case the credentials property will be nil
+ and therefore calling the authenticate method will raise an exception. Calling authenticateWithCredentials with a nil
+ argument should also raise an exception.
+ */
+- (void)testCoordinatorDefaultInstantiation {
+    
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    STAssertNotNil(coordinator, @"coordinator should not be nil");
+
+    STAssertThrows([coordinator authenticate], @"authenticate with nil credentials should raise an exception");
+    STAssertThrows([coordinator authenticateWithCredentials:nil], @"authenticate with nil credentials should raise an exception");
+    
+    [coordinator release]; coordinator = nil;
+}
+
 /** Test multiple identifiers.
  At this point, the test just ensures that the identifier is different then the client id.
  */
 - (void)testMultipleUsers {
+    
     NSString * const kUserA_Identifier   = @"userA";
     NSString * const kUserB_Identifier   = @"userB";    
 
-    SFOAuthCredentials *ca = [[SFOAuthCredentials alloc] initWithIdentifier:kUserA_Identifier clientId:kClientId];
-    SFOAuthCredentials *cb = [[SFOAuthCredentials alloc] initWithIdentifier:kUserB_Identifier clientId:kClientId];
+    SFOAuthCredentials *ca = [[SFOAuthCredentials alloc] initWithIdentifier:kUserA_Identifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *cb = [[SFOAuthCredentials alloc] initWithIdentifier:kUserB_Identifier clientId:kClientId encrypted:YES];
 
     STAssertFalse([ca.identifier isEqual:ca.clientId], @"identifier and client id for user A must be different");
     STAssertFalse([cb.identifier isEqual:cb.clientId], @"identifier and client id for user B must be different");

@@ -28,18 +28,13 @@
 
 @implementation SalesforceOAuthTestAppDelegate
 
-NSString * const kIdentifier                         = @"com.salesforce.ios.oauth.test";
-
-
-static NSString *const kOAuthLoginDomain =  
-@"test.salesforce.com"; //Sandbox:  use login.salesforce.com if you're sure you want to test with Production
-
-NSString *const kOAuthClientId =
-    @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-
+NSString * const kIdentifier    = @"com.salesforce.ios.oauth.test";
+NSString * const kOAuthClientId = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 
 static NSString * const kOAuthCredentialsArchivePath = @"SFOAuthCredentials";
-static NSString *const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const kOAuthLoginDomain =  @"test.salesforce.com";    // Sandbox: use login.salesforce.com if you're 
+                                                                        // sure you want to test with Production
+static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth/done";
 
 @synthesize window         = _window;
 @synthesize viewController = _viewController;
@@ -103,7 +98,7 @@ static NSString *const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth/
     SFOAuthCredentials *creds = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (nil == creds) {
         // no existing credentials, create a new one
-        creds = [[[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId] autorelease];
+        creds = [[[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId encrypted:YES] autorelease];
         creds.redirectUri = kOAuthRedirectUri;
         creds.domain = kOAuthLoginDomain;
         // domain is set by the view from its UI field value
