@@ -247,9 +247,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
 }
 
-- (NSString *)protocol {
-    return kSFOAuthProtocolHttps;
-}
+
 
 - (NSString *)refreshToken {
     if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
