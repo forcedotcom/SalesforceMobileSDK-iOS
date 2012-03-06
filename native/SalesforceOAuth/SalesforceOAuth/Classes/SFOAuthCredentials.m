@@ -24,11 +24,11 @@
 
 #import <Security/Security.h>
 #import "SFOAuthCredentials+Internal.h"
-#import "SFOAuthCrypto.h"x
+#import "SFOAuthCrypto.h"
 #import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
 
-static NSString * const kSFOAuthArchiveVersion      = @"1.0"; // internal version included when archiving via encodeWithCoder
+static NSString * const kSFOAuthArchiveVersion      = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 
 static NSString * const kSFOAuthAccessGroup         = @"com.salesforce.oauth";
 static NSString * const kSFOAuthProtocolHttps       = @"https";
@@ -92,7 +92,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         else
             self.protocol = kSFOAuthProtocolHttps;
 
-        [self initKeychainWithIdentifier:self.identifier accessGroup:kSFOAuthAccessGroup];
+        _encrypted          = [[coder decodeObjectForKey:@"SFOAuthEncrypted"] boolValue];
     }
     return self;
 }
