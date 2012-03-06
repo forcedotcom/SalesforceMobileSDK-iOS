@@ -65,43 +65,6 @@ extern NSString* const kSFRestDefaultAPIVersion;
  
  After initialization, the singleton SFRestAPI can be accessed using `[SFRestAPI sharedInstance]`.
  
- Here is a full example (in the `ApplicationDelegate` class for instance):
- 
-    // Re-acquire an oauth token when the app becomes active
-    - (void)applicationDidBecomeActive:(UIApplication *)application
-        SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc]
-                                            initWithIdentifier:@"your_oauth_consumer_key"] autorelease];
-        credentials.redirectUri = @"your_oauth_redirect_uri";
- 
-        self.coordinator = [[[SFOAuthCoordinator alloc]
-                             initWithCredentials:credentials] autorelease];
-        self.coordinator.delegate = self;
-        [self.coordinator authenticate];
-    }
-
-    #pragma mark - SFOAuthCoordinatorDelegate
-
-    // Display oauth UIWebView on main UIViewController
-    - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator 
-    didBeginAuthenticationWithView:(UIWebView *)view {
-        [self.window addSubview:view];
-    }
- 
-    // The user is now logged in.
-    // The SFRestAPI can now be initialized
-    - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-        [coordinator.view removeFromSuperview];
-        [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
-        // ...
-    }
- 
-    - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator
-    didFailWithError:(NSError *)error {
-        [coordinator.view removeFromSuperview];
-        NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-        // maybe display an Alert and retry by calling [self.coordinator authenticate];
-    }
-
   
  ## Sending requests
 
