@@ -44,6 +44,8 @@
     </target>
 
     <target name="compileDebug" depends="pre" >
+	    <property name="libname" value="libSalesforceOAuth.a"/>
+    
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration.debug}"/>
@@ -61,7 +63,8 @@
         </antcall>
 
         <antcall target="iOSShared.lipo">
-            <param name="libname" value="libSalesforceOAuth.a"/>
+	        <param name="device" value="${artifacts.dir}/${target.name}/Libraries/${libname}"/>
+	        <param name="simulator" value="${artifacts.dir}/Simulator/Libraries/${libname}"/>
         </antcall>
 
         <delete dir="${artifacts.dir}/Simulator"/>
@@ -111,12 +114,12 @@
 
     <target name="compileRelease.documentation">
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
+            <param name="source" value="${artifacts.dir}/${target.name}/Headers"/>
             <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${artifacts.dir}/${target.name}/include"/>
+            <param name="source" value="${artifacts.dir}/${target.name}/Headers"/>
             <param name="output" value="${artifacts.dir}/${target.name}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
         </antcall>

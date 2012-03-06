@@ -70,63 +70,80 @@ typedef enum {
  */
 @property (nonatomic, copy) NSString *domain;
 
-/** Credential identifier used to uniquely identify this credential in the keychain.
+/** Credential identifier used to uniquely identify this credential in the keychain. 
  
- This must not be modified while authenticating.
+ @warning This property is used by many underlying internal functions of this class and therefore must not be set to a 
+ `nil` or empty value prior to accessing properties or methods identified in the documentation regarding this prohibition.
+ @warning This property must not be modified while authenticating.
  */
-@property (nonatomic, copy) NSString *identifier;
+@property (copy) NSString *identifier;
 
 /** Client consumer key.
  
- Identifies the client for remote authentication.
+ Identifies the client for remote authentication. 
+ 
+ @warning This property must not be `nil` or empty when authentication is initiated or an exception will be raised.
+ @warning This property must not be modified while authenticating.
  */
-@property (nonatomic, copy) NSString *clientId;
+@property (copy) NSString *clientId;
 
 /** Callback URL to load at the end of the authentication process.
  
- This must match the callback URL in the Remote Access object exactly, or approval will fail.
+ This must match the callback URL in the Remote Access object exactly, or authentication will fail.
  */
 @property (nonatomic, copy) NSString *redirectUri;
 
 /** Activation code.
  
  Activation code used in the client IP/IC bypass flow.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
 @property (nonatomic, copy) NSString *activationCode;
 
 /** Token used to refresh the user's session.
  
- This is updated by the `SFOAuthCoordinator` once the session is established.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
  
- The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
+ @exception NSInternalInconsistencyException If this property is accessed when the identifier property is `nil`.
  */
 @property (nonatomic, copy) NSString *refreshToken;
 
 /** The access token for the user's session.
  
- This is updated by the `SFOAuthCoordinator` whenever the session expires.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
  
- The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
+ @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
 @property (nonatomic, copy) NSString *accessToken;
 
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
  
- The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ This property is available after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
 @property (nonatomic, copy) NSString *organizationId;
 
 /** The URL of the server instance for this session.
  
  This is the URL that client requests should be made to after authentication completes.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
  
- The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSURL *instanceUrl;   
 
 /** The timestamp when the session access token was issued.
  
- The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSDate *issuedAt;     
 
@@ -134,14 +151,18 @@ typedef enum {
  The format of the URL is: _https://login.salesforce.com/ID/orgID/userID_ where orgId is the ID of the Salesforce organization 
  that the user belongs to, and userID is the Salesforce user ID.
  
- The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.
  
- The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ This property is available after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSString *userId;
 
@@ -152,34 +173,48 @@ typedef enum {
  */
 @property (nonatomic, assign) SFOAuthLogLevel logLevel;
 
+/**
+ Determines if sensitive data such as the `refreshToken` and `accessToken` are encrypted
+ */
+@property (nonatomic, readonly, getter = isEncrypted) BOOL encrypted;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
 
-/** Initializes an authentication credential object with the given identifier and client ID.
+/** Initializes an authentication credential object with the given identifier and client ID. This is the designated initializer.
  
- The `identifier` and `clientId` arguments may not be `nil` or empty. The identifier uniquely identifies the 
- credentials object within the device's secure keychain. The client ID identifies the client for remote authentication. 
+ The identifier uniquely identifies the credentials object within the device's secure keychain. 
+ The client ID identifies the client for remote authentication. 
 
- @param theIdentifier An identifier for this credential instance. Must not be nil or empty.
- @param theClientId The client ID (also known as consumer key) to be used for the OAuth session. Must not be nil or empty.
- @return The initialized authentication credential object.
+ @param theIdentifier An identifier for this credential instance.
+ @param theClientId The client ID (also known as consumer key) to be used for the OAuth session.
+ @param encrypted Determines if the sensitive data like refreshToken and accessToken should be encrypted
+ @return An initialized authentication credential object.
  */
-- (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId;
+- (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
 
 /** Revoke the OAuth access and refresh tokens.
+ 
+ @warning Calling this method when the identifier property is `nil` will raise an NSInternalInconsistencyException.
  */
 - (void)revoke;
 
 /** Revoke the OAuth access token.
+ 
+ @exception NSInternalInconsistencyException If called when the identifier property is `nil`.
  */
 - (void)revokeAccessToken;
 
 /** Revoke the OAuth refresh token.
+ 
+ @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
  */
 - (void)revokeRefreshToken;
 
 /** Revoke the OAuth activation code.
+ 
+ @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
  */
 - (void)revokeActivationCode;
 

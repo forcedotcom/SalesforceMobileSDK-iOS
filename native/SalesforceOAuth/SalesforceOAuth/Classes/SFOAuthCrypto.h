@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Author: Amol Prabhu
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +23,40 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials.h"
+#import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonCryptor.h>
 
+@interface SFOAuthCrypto : NSObject {
+@private
+    CCCryptorRef _cryptor;
+    size_t _totalLength;
+    size_t _filePtr;
+    char *_dataOut;
+    size_t _dataOutMoved;
+    size_t _dataOutLength;
+}
+/**
+ Designated initializer
+ @param operation Operation to be performed: encrypt/decrypt
+ @param key Key used for encyption/decryption pass `nil` to use the default key
+ */
+- (id)initWithOperation:(CCOperation)operation key:(NSData *)key;
 
-@interface SFOAuthCredentials ()
+/**
+ Encrypt the passed in data
+ @param data input data
+ */
+- (void)encryptData:(NSData *)data;
 
-- (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
-- (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
-- (NSData *)tokenForKey:(NSString *)key;
-- (NSMutableDictionary *)tokenQuery;
-- (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
+/**
+ Decrypt the passed in data. Performs the decryption in the current thread
+ @param data encrypted input data
+ */
+- (NSData *)decryptData:(NSData *)data;
 
-+ (NSString *)stringForKeychainResultCode:(OSStatus)code;
+/**
+ Finalize the the encryption/decryption process
+ */
+- (NSData *)finalizeCipher;
 
 @end
-
-

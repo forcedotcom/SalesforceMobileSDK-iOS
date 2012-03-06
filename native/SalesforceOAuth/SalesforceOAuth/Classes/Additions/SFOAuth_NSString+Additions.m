@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Author: Amol Prabhu
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +23,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials.h"
+#import "SFOAuth_NSString+Additions.h"
+#import <CommonCrypto/CommonDigest.h>
 
+@implementation NSString (Additions)
 
-@interface SFOAuthCredentials ()
++ (NSString *)stringWithHexData:(NSData *)data {
+    if (nil == data) return nil;
+    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
+	const unsigned char *dataBuffer = [data bytes];
+	for (int i = 0; i < [data length]; ++i) {
+		[stringBuffer appendFormat:@"%02x", (unsigned long)dataBuffer[ i ]];
+    }
+    return [NSString stringWithString:stringBuffer];
+}
 
-- (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
-- (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
-- (NSData *)tokenForKey:(NSString *)key;
-- (NSMutableDictionary *)tokenQuery;
-- (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
-
-+ (NSString *)stringForKeychainResultCode:(OSStatus)code;
+- (NSData *)sha256 {
+    unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
+    CC_SHA256([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
+    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+}
 
 @end
-
-

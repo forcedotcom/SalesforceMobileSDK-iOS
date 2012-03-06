@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Author: Amol Prabhu
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +23,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials.h"
 
+#import <Foundation/Foundation.h>
 
-@interface SFOAuthCredentials ()
+@interface NSString (Additions)
 
-- (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
-- (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
-- (NSData *)tokenForKey:(NSString *)key;
-- (NSMutableDictionary *)tokenQuery;
-- (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
+/**
+ Returns a string representation of the supplied hex data. Returns nil if data is nil.
+ */
++ (NSString *)stringWithHexData:(NSData *)data;
 
-+ (NSString *)stringForKeychainResultCode:(OSStatus)code;
+/**
+ Returns an SHA 256 hash of the current string
+ */
+- (NSData *)sha256;
+
 
 @end
-
-
