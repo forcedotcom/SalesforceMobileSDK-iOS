@@ -206,7 +206,7 @@
  
     <target name="clean">
 		<delete dir="${project.dir}/build" failonerror="false" />
-        <delete dir="${dependency.dir}/${target.name}.framework" failonerror="false" />
+        <delete dir="${dependency.dir}/${target.name}/${target.name}.framework" failonerror="false" />
         <delete dir="${dist.dir}/${target.name}" failonerror="false" />
         <delete dir="${artifacts.dir}" failonerror="false" />
     </target>
