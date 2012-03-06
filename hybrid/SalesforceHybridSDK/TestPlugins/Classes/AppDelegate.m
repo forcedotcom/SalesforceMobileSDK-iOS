@@ -81,7 +81,12 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     
     SFOAuthCredentials *credentials =
-    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount" clientId:clientID ];     
+    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount"
+                                          clientId:clientID
+                                         encrypted:YES
+                            
+     ];     
+
     credentials.domain = loginDomain;
     credentials.redirectUri = redirectUri; 
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];

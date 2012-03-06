@@ -24,7 +24,6 @@
 		7D20FBC114ED7DBD00A86731 /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
 		7D20FBC214ED7DBD00A86731 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
-		7D20FBC514ED7DBD00A86731 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
 		7D20FBC614ED7DBD00A86731 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
 		7D20FBC714ED7DBD00A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7D20FBC814ED7DBD00A86731 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
@@ -68,15 +67,15 @@
 		7D20FC2A14ED83A700A86731 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */; };
 		7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */; };
 		7D20FC3314ED98F000A86731 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D20FC3214ED98F000A86731 /* www */; };
+		7D32F3091506871800AD2D64 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */; };
+		7D32F30A1506871800AD2D64 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F3061506871800AD2D64 /* SFOAuthCredentials.h */; };
+		7D32F30B1506871800AD2D64 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D32F3081506871800AD2D64 /* libSalesforceOAuth.a */; };
 		7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D45E2EF14BFB259002C4A27 /* InfoPlist.strings */; };
 		7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33A14BFB394002C4A27 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D45E33E14BFB394002C4A27 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7D45E36914BFB3FD002C4A27 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
-		7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
 		7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D56F40514DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		7D56F40614DC7F200013A60F /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
@@ -183,7 +182,6 @@
 		7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7DBD16B414D85E9F00A17E6A /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
-		7DBD16B514D85EB900A17E6A /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */; };
 		7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7DBD16C014D85F6300A17E6A /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */; };
 		7DBD16C214D85F6300A17E6A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
@@ -324,6 +322,9 @@
 		7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
 		7D20FC3014ED989500A86731 /* StressPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "StressPlugins-Info.plist"; path = "StressPlugins/StressPlugins-Info.plist"; sourceTree = "<group>"; };
 		7D20FC3214ED98F000A86731 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = StressPlugins/www; sourceTree = "<group>"; };
+		7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
+		7D32F3061506871800AD2D64 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
+		7D32F3081506871800AD2D64 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = "<group>"; };
 		7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7D45E2EA14BFB259002C4A27 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D45E2EE14BFB259002C4A27 /* SalesforceHybridSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDK-Info.plist"; sourceTree = "<group>"; };
@@ -340,9 +341,6 @@
 		7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
 		7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
-		7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
-		7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
-		7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = "<group>"; };
 		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -451,7 +449,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D20FBC514ED7DBD00A86731 /* libSalesforceOAuth.a in Frameworks */,
 				7D20FBC614ED7DBD00A86731 /* PhoneGap.framework in Frameworks */,
 				7D20FBC714ED7DBD00A86731 /* Foundation.framework in Frameworks */,
 				7D20FBC814ED7DBD00A86731 /* UIKit.framework in Frameworks */,
@@ -487,7 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D45E36914BFB3FD002C4A27 /* PhoneGap.framework in Frameworks */,
-				7D45E36D14BFB3FE002C4A27 /* libSalesforceOAuth.a in Frameworks */,
+				7D32F30B1506871800AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,7 +526,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DBD16B514D85EB900A17E6A /* libSalesforceOAuth.a in Frameworks */,
 				7DBD16B414D85E9F00A17E6A /* PhoneGap.framework in Frameworks */,
 				7DBD162414D85C3400A17E6A /* Foundation.framework in Frameworks */,
 				7DBD162514D85C3400A17E6A /* UIKit.framework in Frameworks */,
@@ -580,6 +576,40 @@
 				7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */,
 			);
 			name = StressPluginsTests;
+			sourceTree = "<group>";
+		};
+		7D32F3021506871800AD2D64 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F3031506871800AD2D64 /* Headers */,
+				7D32F3071506871800AD2D64 /* Libraries */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D32F3031506871800AD2D64 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F3041506871800AD2D64 /* SalesforceOAuth */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		7D32F3041506871800AD2D64 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */,
+				7D32F3061506871800AD2D64 /* SFOAuthCredentials.h */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D32F3071506871800AD2D64 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F3081506871800AD2D64 /* libSalesforceOAuth.a */,
+			);
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 		7D45E2DC14BFB259002C4A27 = {
@@ -720,38 +750,12 @@
 		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D32F3021506871800AD2D64 /* SalesforceOAuth */,
 				7DF93E5714C646DB00D0C211 /* Headers */,
 				7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */,
-				7D45E35614BFB3FD002C4A27 /* SalesforceOAuth */,
 			);
 			name = dependencies;
 			path = ../../dependencies;
-			sourceTree = "<group>";
-		};
-		7D45E35614BFB3FD002C4A27 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7D45E35714BFB3FD002C4A27 /* include */,
-				7D45E35B14BFB3FD002C4A27 /* libSalesforceOAuth.a */,
-			);
-			path = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7D45E35714BFB3FD002C4A27 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7D45E35814BFB3FD002C4A27 /* SalesforceOAuth */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		7D45E35814BFB3FD002C4A27 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7D45E35914BFB3FD002C4A27 /* SFOAuthCoordinator.h */,
-				7D45E35A14BFB3FD002C4A27 /* SFOAuthCredentials.h */,
-			);
-			path = SalesforceOAuth;
 			sourceTree = "<group>";
 		};
 		7D8ECE8314EB246B004F241C /* sqlite */ = {
@@ -943,8 +947,6 @@
 			files = (
 				7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */,
 				7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */,
-				7D45E36B14BFB3FE002C4A27 /* SFOAuthCoordinator.h in Headers */,
-				7D45E36C14BFB3FE002C4A27 /* SFOAuthCredentials.h in Headers */,
 				7DF93E8514C646DB00D0C211 /* PGPlugin.h in Headers */,
 				7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */,
 				7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */,
@@ -962,6 +964,8 @@
 				7D8ECEAD14EB246B004F241C /* SFSoupCursor.h in Headers */,
 				7D8ECEAE14EB246B004F241C /* SFSmartStore.h in Headers */,
 				7DE73A4214F6B6E600D489DE /* SFPluginTestSuite.h in Headers */,
+				7D32F3091506871800AD2D64 /* SFOAuthCoordinator.h in Headers */,
+				7D32F30A1506871800AD2D64 /* SFOAuthCredentials.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1502,7 +1506,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies\"/**",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
@@ -1514,7 +1518,8 @@
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -1860,7 +1865,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies\"/**",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
@@ -1872,7 +1877,8 @@
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -1893,7 +1899,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies\"",
+					"\"$(SRCROOT)/../dependencies\"/**",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1903,7 +1909,8 @@
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
