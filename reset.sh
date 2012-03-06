@@ -5,8 +5,6 @@
 CURRENT_DIR=`pwd`
 
 # clean external libs
-cd $CURRENT_DIR/external/json-framework/sfdc_build
-ant clean
 cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant clean
 cd $CURRENT_DIR/external/callback-ios/sfdc_build
