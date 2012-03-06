@@ -197,7 +197,7 @@
     </target>
 
     <target name="dependency.restkit" depends="dependency.restkit.check" unless="dependency.restkit.present">
-        <property name="dependency.restkit.zip" value="${subproject.restkit.dir}/sfdc_build/artifacts/RestKit-Debug.zip"/>
+        <property name="dependency.restkit.zip" value="${subproject.restkit.dir}/sfdc_build/artifacts/RestKit-Release.zip"/>
 
         <available file="${dependency.restkit.zip}" property="dependency.restkit.zip.present"/>
         <antcall target="dependency.restkit.compile"/>
