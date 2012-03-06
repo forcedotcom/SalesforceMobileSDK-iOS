@@ -1298,7 +1298,7 @@
 	</dict>
 
 
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</key>
+	<key>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1308,10 +1308,10 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
+		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</key>
+	<key>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1321,10 +1321,10 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
+		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceOAuth/libSalesforceOAuth.a</key>
+	<key>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1332,7 +1332,7 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+		<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 	</dict>
 
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</key>
@@ -1557,9 +1557,9 @@
 	<string>dependencies/RestKit/include/RestKit/Support.h</string>
 	<string>dependencies/RestKit/libRestKit.a</string>
 
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
-	<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
+	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
+	<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
