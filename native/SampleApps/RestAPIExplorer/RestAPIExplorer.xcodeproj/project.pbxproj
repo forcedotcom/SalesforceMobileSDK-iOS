@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7D0F1F4C14DB4FCF00E20F3D /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F1F4B14DB4FCE00E20F3D /* libRestKit.a */; };
 		7D0F1F5514DB502C00E20F3D /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F1F5414DB502C00E20F3D /* libSalesforceSDK.a */; };
+		7D32F3621506991800AD2D64 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D32F3611506991800AD2D64 /* libSalesforceOAuth.a */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
 		7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E21472E238005CE144 /* Security.framework */; };
@@ -20,7 +21,6 @@
 		7DF4D2F31472E238005CE144 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F11472E238005CE144 /* InfoPlist.strings */; };
 		7DF4D2F51472E238005CE144 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F41472E238005CE144 /* main.m */; };
 		7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */; };
-		7DF4D37E1472E23A005CE144 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D37D1472E23A005CE144 /* libSalesforceOAuth.a */; };
 		7DF4D3971472E23A005CE144 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3961472E23A005CE144 /* icon-72.png */; };
 		7DF4D3991472E23A005CE144 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3981472E23A005CE144 /* icon.png */; };
 		7DF4D39B1472E23A005CE144 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D39A1472E23A005CE144 /* icon@2x.png */; };
@@ -135,6 +135,9 @@
 		7D0F1F5214DB502C00E20F3D /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
 		7D0F1F5314DB502C00E20F3D /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
 		7D0F1F5414DB502C00E20F3D /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDK.a; sourceTree = "<group>"; };
+		7D32F35E1506991800AD2D64 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
+		7D32F35F1506991800AD2D64 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
+		7D32F3611506991800AD2D64 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -148,9 +151,6 @@
 		7DF4D2F21472E238005CE144 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DF4D2F41472E238005CE144 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RestAPIExplorer-Prefix.pch"; sourceTree = "<group>"; };
-		7DF4D37B1472E23A005CE144 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
-		7DF4D37C1472E23A005CE144 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
-		7DF4D37D1472E23A005CE144 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/libSalesforceOAuth.a; sourceTree = "<group>"; };
 		7DF4D3961472E23A005CE144 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		7DF4D3981472E23A005CE144 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		7DF4D39A1472E23A005CE144 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
@@ -190,10 +190,10 @@
 				7DF4D2E91472E238005CE144 /* CoreGraphics.framework in Frameworks */,
 				7DF4D2EB1472E238005CE144 /* CFNetwork.framework in Frameworks */,
 				7DF4D2ED1472E238005CE144 /* MobileCoreServices.framework in Frameworks */,
-				7DF4D37E1472E23A005CE144 /* libSalesforceOAuth.a in Frameworks */,
 				7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */,
 				7D0F1F4C14DB4FCF00E20F3D /* libRestKit.a in Frameworks */,
 				7D0F1F5514DB502C00E20F3D /* libSalesforceSDK.a in Frameworks */,
+				7D32F3621506991800AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +340,41 @@
 			path = SalesforceSDK;
 			sourceTree = "<group>";
 		};
+		7D32F35B1506991800AD2D64 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F35C1506991800AD2D64 /* Headers */,
+				7D32F3601506991800AD2D64 /* Libraries */,
+			);
+			name = SalesforceOAuth;
+			path = ../../../dependencies/SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D32F35C1506991800AD2D64 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F35D1506991800AD2D64 /* SalesforceOAuth */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		7D32F35D1506991800AD2D64 /* SalesforceOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F35E1506991800AD2D64 /* SFOAuthCoordinator.h */,
+				7D32F35F1506991800AD2D64 /* SFOAuthCredentials.h */,
+			);
+			path = SalesforceOAuth;
+			sourceTree = "<group>";
+		};
+		7D32F3601506991800AD2D64 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				7D32F3611506991800AD2D64 /* libSalesforceOAuth.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
@@ -401,37 +436,11 @@
 		7DF4D2F81472E238005CE144 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D32F35B1506991800AD2D64 /* SalesforceOAuth */,
 				7D0F1F4D14DB502C00E20F3D /* SalesforceSDK */,
 				7D0F1EF214DB4FCE00E20F3D /* RestKit */,
-				7DF4D3781472E23A005CE144 /* SalesforceOAuth */,
 			);
 			name = dependencies;
-			sourceTree = "<group>";
-		};
-		7DF4D3781472E23A005CE144 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D37D1472E23A005CE144 /* libSalesforceOAuth.a */,
-				7DF4D3791472E23A005CE144 /* include */,
-			);
-			name = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7DF4D3791472E23A005CE144 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D37A1472E23A005CE144 /* SalesforceOAuth */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7DF4D37A1472E23A005CE144 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D37B1472E23A005CE144 /* SFOAuthCoordinator.h */,
-				7DF4D37C1472E23A005CE144 /* SFOAuthCredentials.h */,
-			);
-			name = SalesforceOAuth;
 			sourceTree = "<group>";
 		};
 		7DF4D3941472E23A005CE144 /* Resources */ = {
@@ -681,6 +690,7 @@
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceSDK\"",
 					"\"$(SDKROOT)//usr/lib\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceOAuth/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -699,6 +709,7 @@
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/RestAPIExplorer/dependencies/SalesforceSDK\"",
 					"\"$(SDKROOT)//usr/lib\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceOAuth/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

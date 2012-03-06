@@ -194,7 +194,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
                                      initWithIdentifier:fullKeychainIdentifier  
-                                     clientId: [self remoteAccessConsumerKey] ];
+                                     clientId: [self remoteAccessConsumerKey] 
+                                     encrypted:YES
+                                     ];
         
         
         creds.domain = loginDomain;
