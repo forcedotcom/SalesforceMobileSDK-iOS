@@ -216,8 +216,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 }
 
 - (void)setIdentifier:(NSString *)theIdentifier {
-    NSAssert([theIdentifier length] > 0, @"identifier cannot be nil or empty");
-    
     @synchronized(self) {
         if (![theIdentifier isEqualToString:_identifier]) {
             [_identifier release];
@@ -226,7 +224,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
 }
 
-// This setter is exposed publically for unit tests.
+// This setter is exposed publicly for unit tests.
 - (void)setIdentityUrl:(NSURL *)identityUrl {
     if (![identityUrl isEqual:_identityUrl]) {
         [_identityUrl release];
