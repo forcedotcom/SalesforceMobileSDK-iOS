@@ -215,7 +215,7 @@
     <target name="dependency.restkit.clean">
         <ant dir="${subproject.restkit.dir}/sfdc_build" target="clean" inheritAll="false"/>
         <delete dir="${dependency.dir}/RestKit"/>
-    </target>s
+    </target>
     
     <!-- dependency: callback-ios -->
     <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
