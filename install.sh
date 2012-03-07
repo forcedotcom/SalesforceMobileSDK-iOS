@@ -12,7 +12,7 @@ then
     exit 1
 fi
 
-# ensure that we have the correct version of all submodules
+echo "Ensuring that we have the correct version of all submodules..."
 git submodule init
 git submodule sync
 git submodule update
@@ -22,13 +22,22 @@ CURRENT_DIR=`pwd`
 
 # keep anything existing in /dist
 
-# clean our xcode templates for reinstallation
+echo "Cleaning Native and Hybrid app templates..."
 cd $CURRENT_DIR/hybrid/sfdc_build
 ant clean
 cd $CURRENT_DIR/native/sfdc_build
 ant clean
 
-# clean sample apps
+# build salesforce libraries and install templates
+echo "Building and installing Hybrid app template..."
+cd $CURRENT_DIR/hybrid/sfdc_build
+ant install
+
+echo "Building and installing Native app template..."
+cd $CURRENT_DIR/native/sfdc_build
+ant install
+
+echo "Cleaning sample apps..."
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
@@ -36,15 +45,8 @@ ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
 ant clean
 
-
-# build salesforce libraries and install templates
-cd $CURRENT_DIR/hybrid/sfdc_build
-ant install
-
-cd $CURRENT_DIR/native/sfdc_build
-ant install
-
 # build sample apps with dependencies
+echo "Building sample apps..."
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build

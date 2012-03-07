@@ -1,27 +1,39 @@
 #!/bin/bash
-# The goal here is to reset the mobile SDK to the pre-install state,
-# to the extent possible
+# The goal here is to clean all binaries so that they will be rebuilt
 
 CURRENT_DIR=`pwd`
 
-# clean external libs
+
+echo "Clean OAuth library..."
+cd $CURRENT_DIR/native/SalesforceOAuth/sfdc_build
+ant clean
+
+echo "Clean external libs..."
 cd $CURRENT_DIR/external/RestKit/sfdc_build
 ant clean
 cd $CURRENT_DIR/external/callback-ios/sfdc_build
 ant clean
 
-#preserve dist
-
-# clean xcode templates etc
+echo "Clean Native and Hybrid SDK..."
 cd $CURRENT_DIR/hybrid/sfdc_build
-ant clean
+ant clean.full
 cd $CURRENT_DIR/native/sfdc_build
-ant clean
+ant clean.full
 
-# clean sample apps
+echo "Clean sample apps..."
 cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
 ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
 ant clean
 cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
 ant clean
+
+
+echo "Building and installing Hybrid SDK..."
+cd $CURRENT_DIR/hybrid/sfdc_build
+ant install
+
+echo "Building and installing Native SDK..."
+cd $CURRENT_DIR/native/sfdc_build
+ant install
+
