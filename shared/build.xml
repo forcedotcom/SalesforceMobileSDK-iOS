@@ -197,7 +197,8 @@
     </target>
 
     <target name="dependency.restkit" depends="dependency.restkit.check" unless="dependency.restkit.present">
-        <property name="dependency.restkit.zip" value="${subproject.restkit.dir}/sfdc_build/artifacts/RestKit-Release.zip"/>
+        <property name="dependency.restkit.zip" 
+			value="${iOSShared.distdir}/RestKit/RestKit-Release.zip"/>
 
         <available file="${dependency.restkit.zip}" property="dependency.restkit.zip.present"/>
         <antcall target="dependency.restkit.compile"/>
@@ -214,10 +215,7 @@
     <target name="dependency.restkit.clean">
         <ant dir="${subproject.restkit.dir}/sfdc_build" target="clean" inheritAll="false"/>
         <delete dir="${dependency.dir}/RestKit"/>
-    </target>
-
-
-    
+    </target>s
     
     <!-- dependency: callback-ios -->
     <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
@@ -228,7 +226,8 @@
     </target>
 
     <target name="dependency.callback-ios" depends="dependency.callback-ios.check" unless="dependency.callback-ios.present">
-        <property name="dependency.callback-ios.zip" value="${subproject.callback-ios.dir}/sfdc_build/artifacts/callback-ios-Release.zip"/>
+        <property name="dependency.callback-ios.zip" 
+			value="${iOSShared.distdir}/callback-ios/callback-ios-Release.zip"/>
 
         <available file="${dependency.callback-ios.zip}" property="dependency.callback-ios.zip.present"/>
         <antcall target="dependency.callback-ios.compile"/>
@@ -244,7 +243,7 @@
 
     <target name="dependency.callback-ios.clean">
         <ant dir="${subproject.callback-ios.dir}/sfdc_build" target="clean" inheritAll="false"/>
-	<delete dir="${dependency.dir}/PhoneGap.framework" />
+		<delete dir="${dependency.dir}/PhoneGap.framework" />
     </target>
 
     <!-- dependency: SalesforceHybridSDK -->
