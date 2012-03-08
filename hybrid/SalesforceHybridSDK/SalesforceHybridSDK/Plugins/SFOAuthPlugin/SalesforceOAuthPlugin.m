@@ -227,7 +227,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"getAppHomeUrl:withDict:");
     NSString *callbackId = [arguments pop];
     
-    //clear the home URL since we are no longer authenticated
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     NSLog(@"AppHomeURL: %@",urlString);
