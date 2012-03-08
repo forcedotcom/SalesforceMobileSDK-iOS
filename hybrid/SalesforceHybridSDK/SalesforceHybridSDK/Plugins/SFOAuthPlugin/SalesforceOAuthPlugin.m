@@ -23,6 +23,7 @@
  */
 
 #import <PhoneGap/NSMutableArray+QueueAdditions.h>
+#import <PhoneGap/Connection.h>
 
 #import "SalesforceOAuthPlugin.h"
 #import "SFContainerAppDelegate.h"
@@ -333,8 +334,21 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)login
 {
-    // Kick off authentication.
-    [self.coordinator authenticate];
+    //verify that we have a network connection
+    PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:kSFOAuthPluginName];
+    NSString *connType = connectionPlugin.connectionType;
+    
+    if ((nil != connType) && 
+        ![connType isEqualToString:@"unknown"] && 
+        ![connType isEqualToString:@"none"]) {
+        
+        // Kick off authentication.
+        [self.coordinator authenticate];
+    } else {
+        //TODO some kinda dialog here?
+        NSLog(@"No network connection -- cannot authenticate");
+    }
+
 }
 
 - (void)logout
