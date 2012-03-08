@@ -23,6 +23,7 @@
  */
 
 #import <PhoneGap/NSMutableArray+QueueAdditions.h>
+#import <PhoneGap/Connection.h>
 
 #import "SalesforceOAuthPlugin.h"
 #import "SFContainerAppDelegate.h"
@@ -218,6 +219,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSLog(@"logoutCurrentUser");
     [self logout];
+    [self.coordinator authenticate];
+
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -227,6 +230,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
+    NSLog(@"AppHomeURL: %@",urlString);
     
     PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:urlString];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
@@ -274,11 +278,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         shouldReset = YES;
-        [self.coordinator revokeAuthentication];
-        
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-        [defs setBool:NO forKey:kAccountLogoutUserDefault];
-        [defs synchronize];
+        [self logout];
     } else {
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
@@ -334,14 +334,33 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)login
 {
-    // Kick off authentication.
-    [self.coordinator authenticate];
+    //verify that we have a network connection
+    PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:@"com.phonegap.connection"];
+    NSString *connType = connectionPlugin.connectionType;
+    
+    if ((nil != connType) && 
+        ![connType isEqualToString:@"unknown"] && 
+        ![connType isEqualToString:@"none"]) {
+        
+        // Kick off authentication.
+        [self.coordinator authenticate];
+    } else {
+        //TODO some kinda dialog here?
+        NSLog(@"No network connection -- cannot authenticate");
+    }
+
 }
 
 - (void)logout
 {
     [self.coordinator revokeAuthentication];
-    [self.coordinator authenticate];
+    
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    //clear the home URL since we are no longer authenticated
+    [defs setURL:nil forKey:kAppHomeUrlPropKey];
+    //clear this since we just called revokeAuthentication
+    [defs setBool:NO forKey:kAccountLogoutUserDefault];
+    [defs synchronize];
 }
 
 - (void)loggedIn
@@ -502,7 +521,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
-	return [userDefaults boolForKey:kAccountLogoutUserDefault];
+	BOOL shouldLogout =  [userDefaults boolForKey:kAccountLogoutUserDefault];
+    NSLog(@"shouldLogout: %d",shouldLogout);
+    
+    return shouldLogout;
 }
 
 + (void)ensureAccountDefaultsExist
