@@ -337,6 +337,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     //verify that we have a network connection
     PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:@"com.phonegap.connection"];
     NSString *connType = connectionPlugin.connectionType;
+    NSLog(@"Available connection: '%@' ",connType);
     
     if ((nil != connType) && 
         ![connType isEqualToString:@"unknown"] && 
