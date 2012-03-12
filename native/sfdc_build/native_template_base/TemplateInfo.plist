@@ -198,6 +198,20 @@
 		<string>CurrentSDK</string>
 	</dict>
 	
+	
+	<!-- libsqlite is required by some SmartStore classes currently -->
+	<key>dependencies/libsqlite3.dylib</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+		</array>
+		<key>Path</key>
+		<string>/usr/lib/libsqlite3.0.dylib</string>
+		<key>PathType</key>
+		<string>CurrentSDK</string>
+	</dict>
+	
     <key>en.lproj/InfoPlist.strings</key>
     <dict>
         <key>Group</key>
@@ -1598,6 +1612,8 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
+	<string>dependencies/libsqlite3.0.dylib</string>
+	
 
 
 	<string>Settings.bundle</string>
