@@ -39,6 +39,7 @@
     NSSet *_oauthScopes;
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
+    UIAlertView *_oauthStatusAlert;
 }
 
 /**
@@ -77,6 +78,7 @@
  Whether the app should automatically refresh oauth session when foregrounded
  */
 @property (nonatomic, assign) BOOL autoRefreshOnForeground;
+
 
 /**
  Forces a logout from the current account.
