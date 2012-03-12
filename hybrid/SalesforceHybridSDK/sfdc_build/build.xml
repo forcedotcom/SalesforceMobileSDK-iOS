@@ -160,8 +160,8 @@
 		<delete dir="${artifacts.dir}/${configuration}-iphoneos" failonerror="false" />
     	<mkdir dir="${results.dir}"/>
 		<move todir="${results.dir}/${target.name}.framework" >
-			<fileset dir="${project.dir}/build/${configuration}-iphoneos/${target.name}.framework"/>
-		</move>
+			<fileset dir="${project.dir}/build/${configuration}-iphoneos/${target.name}.embeddedframework/${target.name}.framework"/>
+        </move>
 		
 		<!-- copy over www resources as well -->
 		<copy todir="${results.dir}/shared-www" >
