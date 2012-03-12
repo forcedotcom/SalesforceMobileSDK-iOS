@@ -105,6 +105,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
+/**
+ Cleanup oauth coordinator
+ */
+- (void)cleanupCoordinator;
+
+- (void)showRetryAlertForAuthError:(NSError *)error;
+
 @end
 
 // ------------------------------------------
@@ -138,8 +145,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)dealloc
 {
-    [_coordinator setDelegate:nil];
-    [_coordinator release]; _coordinator = nil;
+    [self cleanupCoordinator];
+
     [_authCallbackId release]; _authCallbackId = nil;
     [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
     [_oauthRedirectURI release]; _oauthRedirectURI = nil;
@@ -283,14 +290,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
             shouldReset = YES;
-            [_coordinator setDelegate:nil];
-            [_coordinator release]; _coordinator = nil;
+            [self cleanupCoordinator];
         }
     }
     
     if (!shouldReset) {
         if (self.autoRefreshOnForeground) {
-            [self login];
+            [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
         }
     }
     
@@ -445,6 +451,24 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [eventStr release];
 }
 
+- (void)cleanupCoordinator {
+    [_coordinator setDelegate:nil];
+    [_coordinator release];
+    _coordinator = nil;
+}
+
+- (void)showRetryAlertForAuthError:(NSError *)error {
+    if (nil == _oauthStatusAlert) {
+        // show alert and allow retry
+        _oauthStatusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+                                                       message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+                                                      delegate:self
+                                             cancelButtonTitle:@"Retry"
+                                             otherButtonTitles: nil];
+        [_oauthStatusAlert show];
+    }
+}
+
 
 #pragma mark - Settings utilities
 
@@ -570,28 +594,30 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
     [coordinator.view removeFromSuperview];
     
+    //clear coordinator before continuing
+    [self cleanupCoordinator];
+    
     if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
         // Restart the login process asynchronously.
         NSLog(@"Logging out because oauth failed with error code: %d", error.code);
         [self performSelector:@selector(logout) withObject:nil afterDelay:0];
     }
     else {
-        // show alert and retry
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
-                                                       delegate:self
-                                              cancelButtonTitle:@"Retry"
-                                              otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+        // show alert and allow retry
+        [self performSelector:@selector(showOAuthStatusAlert:) withObject:error afterDelay:0];
     }
 }
 
 #pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//called after animation is finished
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    [self login];    
+    if (alertView == _oauthStatusAlert) {
+        NSLog(@"clickedButtonAtIndex: %d",buttonIndex);
+        if (buttonIndex == alertView.cancelButtonIndex) {
+            [self login];    
+        }  
+    }
 }
 
 @end
