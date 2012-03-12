@@ -72,9 +72,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 
-@interface SFSmartStore () {
-    FMDatabase *_storeDb;
-}
+@interface SFSmartStore () 
 
 /**
  @param storeName The name of the store (excluding paths)
