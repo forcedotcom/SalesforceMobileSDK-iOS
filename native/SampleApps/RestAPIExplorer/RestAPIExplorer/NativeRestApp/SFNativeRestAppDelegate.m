@@ -30,7 +30,6 @@
 
 
 
-static NSString * const kSFMobileSDKVersion = @"1.0.3";
 static NSString * const kUserAgentPropKey = @"UserAgent";
 
 
@@ -104,7 +103,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self = [super init];
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *uaString = [self userAgentString];
+        NSString *uaString =  [SFRestAPI userAgentString];
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
         
         [[self class] ensureAccountDefaultsExist];
@@ -246,25 +245,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"You must override this method in your subclass");
     [self doesNotRecognizeSelector:@selector(newRootViewController)];
     return nil;
-}
-
-
-- (NSString *)userAgentString {
-    //set a user agent string based on the mobile sdk version
-    //We are building a user agent of the form:
-    //SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad)
-    
-    UIDevice *curDevice = [UIDevice currentDevice];
-    NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@)",
-                             kSFMobileSDKVersion,
-                             [curDevice systemName],
-                             [curDevice systemVersion],
-                             [curDevice model]
-                             ];
-    
-    
-    return myUserAgent;
 }
 
 

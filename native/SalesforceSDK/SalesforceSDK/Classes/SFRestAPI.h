@@ -288,4 +288,15 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 - (SFRestRequest *)requestForSearch:(NSString *)sosl;
 
+
+///---------------------------------------------------------------------------------------
+/// @name Other utility methods
+///---------------------------------------------------------------------------------------
+
+/**
+ * Provides the User-Agent string used by the SDK
+ */
++ (NSString *)userAgentString;
+
+
 @end

@@ -55,10 +55,6 @@
  */
 @property (nonatomic, retain) SFAuthorizingViewController *authViewController;
 
-/**
- The User-Agent string presented by this application
- */
-@property (nonatomic, readonly) NSString *userAgentString;
 
 /**
  @return YES if this device is an iPad

@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.0.3";
+static NSString * const kSFMobileSDKVersion = @"1.0.4";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -43,7 +43,6 @@ static dispatch_once_t _sharedInstanceGuard;
 
 @interface SFRestAPI (private)
 - (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-- (NSString *)userAgentString;
 @end
 
 @implementation SFRestAPI
@@ -133,7 +132,7 @@ static dispatch_once_t _sharedInstanceGuard;
             _rkClient = [[RKClient alloc] initWithBaseURL:_coordinator.credentials.instanceUrl];
             _rkClient.cachePolicy = RKRequestCachePolicyNone;
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            [_rkClient setValue:[self userAgentString] forHTTPHeaderField:@"User-Agent"];
+            [_rkClient setValue:[[self class] userAgentString] forHTTPHeaderField:@"User-Agent"];
 
             //Authorization header (access token) is now set the moment before we actually send the request
         }
@@ -160,7 +159,7 @@ static dispatch_once_t _sharedInstanceGuard;
  We are building a user agent of the form:
  SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion
  */
-- (NSString *)userAgentString {
++ (NSString *)userAgentString {
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
