@@ -110,6 +110,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)cleanupCoordinator;
 
+- (void)cleanupRetryAlert;
+
 - (void)showRetryAlertForAuthError:(NSError *)error;
 
 @end
@@ -146,12 +148,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)dealloc
 {
     [self cleanupCoordinator];
-
+    [self cleanupRetryAlert];
+    
     [_authCallbackId release]; _authCallbackId = nil;
     [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
     [_oauthRedirectURI release]; _oauthRedirectURI = nil;
     [_oauthLoginDomain release]; _oauthLoginDomain = nil;
     [_oauthScopes release]; _oauthScopes = nil;
+
     
     [super dealloc];
 }
@@ -349,6 +353,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         ![connType isEqualToString:@"unknown"] && 
         ![connType isEqualToString:@"none"]) {
         
+        [self cleanupRetryAlert];
+         
         // Kick off authentication.
         [self.coordinator authenticate];
     } else {
@@ -455,6 +461,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [_coordinator setDelegate:nil];
     [_coordinator release];
     _coordinator = nil;
+}
+
+- (void)cleanupRetryAlert {
+    [_oauthStatusAlert dismissWithClickedButtonIndex:-666 animated:NO];
+    [_oauthStatusAlert setDelegate:nil];
+    [_oauthStatusAlert release]; _oauthStatusAlert = nil;
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error {
