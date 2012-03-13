@@ -13,7 +13,7 @@ See the setup.md file for additional instructions. Xcode 4.2 or greater is a pre
 xcode-select: Error: No Xcode folder is set. Run xcode-select -switch <xcode_folder_path> to set the path to the Xcode folder.
 ```
 
-If you run `xcode-select -switch /Applications/Xcode.app` at the command line, you should be able to run the install script without issues.  This assumes you installed Xcode in the Applications folder.
+If you run `sudo xcode-select -switch /Applications/Xcode.app` at the command line, you should be able to run the install script without issues.  This assumes you installed Xcode in the Applications folder.
 
 **Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting checkbox is NOT selected.** 
 
