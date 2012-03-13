@@ -2,8 +2,15 @@
 # Running this script will install all dependencies needed for all of the projects, 
 # as well as generating the latest .h and template files.
 
+xcodebuild_version=`xcodebuild -version 2<&1`
+if [ $? -ne 0 ]
+then
+    echo "The following error occurred while trying to determine your Xcode version:"
+    echo "$xcodebuild_version"
+    exit 2
+fi
+
 # Xcode 4 or greater is a requirement to build.
-xcodebuild_version=`xcodebuild -version`
 xcode_major_version=`echo "$xcodebuild_version" | grep 'Xcode' | sed 's/Xcode \([0-9][0-9]*\).*/\1/'`
 if [ $xcode_major_version -lt 4 ]
 then
