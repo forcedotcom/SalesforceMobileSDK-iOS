@@ -25,7 +25,6 @@
 
 #import "RootViewController.h"
 
-#import "SBJson.h"
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 

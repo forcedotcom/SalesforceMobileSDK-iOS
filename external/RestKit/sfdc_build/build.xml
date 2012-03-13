@@ -28,8 +28,7 @@
 
     <target name="all" depends="pre, build" description="do it all"/>
 
-    <target name="build" description="builds all targets, runs unit tests and generates code coverage report">
-        <antcall target="compileDebug"/>
+    <target name="build" description="builds all targets">
         <antcall target="compileRelease"/>
         <delete dir="${project.dir}/build"/>
     </target>
@@ -143,12 +142,19 @@
             <param name="basedir" value="${destinationDir}"/>
         </antcall>
 
+		<move todir="${iOSShared.distdir}/${target.name}">
+		  <filelist dir="${artifacts.dir}">
+		    <file name="${target.name}-${configuration}.zip"/>
+		  </filelist>
+		</move>
+		
         <delete dir="${artifacts.dir}/${target.name}"/>
         <delete dir="${buildProductsDir}"/>
     </target>
 
     <target name="clean">
-        <delete dir="${artifacts.dir}"/>
         <delete dir="${project.dir}/build"/>
+        <delete dir="${artifacts.dir}"/>
+        <delete dir="${iOSShared.distdir}/${target.name}"/>
     </target>
 </project>

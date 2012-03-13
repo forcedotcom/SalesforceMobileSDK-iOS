@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- include jquery mobile -->
+    <link rel="stylesheet" href="jquery/jquery.mobile-1.0b2.min.css" />
+    <script src="jquery/jquery-1.6.2.min.js"></script>
+    <script src="jquery/jquery.mobile-1.0b2.min.js"></script>
+        
+    <!-- include local utility functionality -->
+    <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
+    <script type="text/javascript" src="SFHybridApp.js"></script>
+
+    <!-- include forcetk for REST transaction support -->
+    <script type="text/javascript" src="forcetk.js"></script>
+        
+    <!-- include phonegap / callback -->
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+        
+    <!-- required for oauth plugin support -->    
+    <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
+
+    <!-- load SmartStore plugin -->
+    <script type="text/javascript" src="SFSmartStorePlugin.js"></script>
+        
+    <!-- required for testrunner plugin support -->    
+    <script type="text/javascript" src="SFTestRunnerPlugin.js"></script>
+    
+    <!-- load qunit -->
+    <link rel="stylesheet" type="text/css" href="qunit.css" />
+    <script type="text/javascript" src="qunit.js"></script>
+    
+    <!-- load tests -->
+    <script type="text/javascript" src="SFTestSuite.js"></script>
+    <script type="text/javascript" src="SFSmartStoreTestSuite.js"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+
+    
+    // The version of the REST API you wish to use in your app.
+    var apiVersion = "v23.0";
+
+	// If you want to prevent dragging, uncomment this section
+	/*
+	function preventBehavior(e) 
+	{ 
+      e.preventDefault(); 
+    };
+	document.addEventListener("touchmove", preventBehavior, false);
+	*/
+	
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	/*
+	function handleOpenURL(url)
+	{
+		// do something with the url passed in.
+	}
+	*/
+	
+    var forcetkClient;
+    var debugMode = true;
+
+    $(function() {
+        //Add event listeners and so forth here
+        SFHybridApp.logToConsole("onLoad: jquery ready");
+		document.addEventListener("deviceready", onDeviceReady,false);
+    });
+
+    // When this function is called, PhoneGap has been initialized and is ready to roll 
+    function onDeviceReady() {
+        SFHybridApp.logToConsole("onDeviceReady: PhoneGap ready");
+        //Call getAuthCredentials to get the initial session credentials
+        SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
+        
+        //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
+        document.addEventListener("salesforceSessionRefresh",salesforceSessionRefreshed,false);
+        
+        //enable buttons
+        regLinkClickHandlers();
+        
+        navigator.testrunner.onReadyForTests();
+    }
+        
+
+    function salesforceSessionRefreshed(creds) {
+        SFHybridApp.logToConsole("salesforceSessionRefreshed");
+		
+        forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
+        forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
+        forcetkClient.setRefreshToken(creds.refreshToken);
+        forcetkClient.setUserAgentString(creds.userAgent);
+    }
+
+
+    function getAuthCredentialsError(error) {
+        SFHybridApp.logToConsole("getAuthCredentialsError: " + error);
+    }
+        
+    </script>
+        
+
+	<!-- Bind js to index.html -->
+    <script type="text/javascript" src="inline.js"></script>     
+
+  </head>
+  <body>
+      <div data-role="page" data-theme="b" id="jqm-home"> 
+          <div  data-role="header"> 
+              <h1>Test Salesforce.com Plugins</h1> 
+          </div> 
+
+		  <h1 id="qunit-header">QUnit example</h1>
+		 <h2 id="qunit-banner"></h2>
+		 <div id="qunit-testrunner-toolbar"></div>
+		 <h2 id="qunit-userAgent"></h2>
+		 <ol id="qunit-tests"></ol>
+		 <div id="qunit-fixture">test markup, will be hidden</div>
+          <div id="#content" data-role="content"> 
+
+              <p><a href="#" id="link_start_tests" data-role="button" data-inline="true">Tests</a></p>
+              <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
+              <p>
+				<a href="#" id="link_reg_soup" data-role="button" data-inline="true">Reg soup</a>
+				<a href="#" id="link_remove_soup" data-role="button" data-inline="true">Remove soup</a>
+			  </p>              
+              <p><a href="#" id="link_stuff_soup" data-role="button" data-inline="true">Stuff soup</a></p>
+              <p><a href="#" id="link_query_soup" data-role="button" data-inline="true">Query soup</a><input id="input_query_soup" data-role="input" value="" /></p>
+              <p>
+              <a href="#" id="link_cursor_page_next" data-role="button" data-inline="true">Cursor++</a><a href="#" id="link_cursor_page_prev" data-role="button" data-inline="true">Cursor--</a>
+              <a href="#" id="link_cursor_page_zero" data-role="button" data-inline="true">Cursor[0]</a>
+              </p>
+
+              <p><a href="#" id="link_fetch_device_contacts" data-role="button" data-inline="true">Fetch Device contacts</a></p>
+              <p><a href="#" id="link_fetch_sfdc_contacts" data-role="button" data-inline="true">Fetch SFDC contacts</a></p>
+              <p><a href="#" id="link_fetch_sfdc_accounts" data-role="button" data-inline="true">Fetch SFDC Accounts</a></p>
+              
+
+
+
+              <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
+
+              <div id="div_sfdc_soup_entry_list"></div>
+              <div id="div_device_contact_list"></div>
+              <div id="div_sfdc_contact_list"></div>
+              <div id="div_sfdc_account_list"></div>
+
+              <h3>console:</h3>
+              <p id="console" class="logWindow">
+              </p>
+          </div> 
+
+      </div> 
+  </body>
+</html>

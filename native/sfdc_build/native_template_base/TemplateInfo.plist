@@ -33,6 +33,8 @@
                 <key>ARCHS</key>
                 <string>$(ARCHS_STANDARD_32_BIT)</string>
                 <key>IPHONEOS_DEPLOYMENT_TARGET</key>
+                <string>5.0</string>
+                <key>SDKROOT</key>
                 <string>latest_iphoneos</string>
 				<key>OTHER_LDFLAGS</key>
 				<string>-ObjC -all_load</string>
@@ -192,6 +194,20 @@
 		</array>
 		<key>Path</key>
 		<string>/usr/lib/libxml2.dylib</string>
+		<key>PathType</key>
+		<string>CurrentSDK</string>
+	</dict>
+	
+	
+	<!-- libsqlite is required by some SmartStore classes currently -->
+	<key>dependencies/libsqlite3.dylib</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+		</array>
+		<key>Path</key>
+		<string>/usr/lib/libsqlite3.0.dylib</string>
 		<key>PathType</key>
 		<string>CurrentSDK</string>
 	</dict>
@@ -1296,7 +1312,7 @@
 	</dict>
 
 
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</key>
+	<key>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1306,10 +1322,10 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
+		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</key>
+	<key>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1319,10 +1335,10 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
+		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceOAuth/libSalesforceOAuth.a</key>
+	<key>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1330,7 +1346,7 @@
 			<string>SalesforceOAuth</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+		<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 	</dict>
 
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</key>
@@ -1369,136 +1385,6 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJson.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonParser.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonWriter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/libsbjson-ios.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/libsbjson-ios.a</string>
-	</dict>
-
-
 
 	<key>Resources/icons/icon-72.png</key>
 	<dict>
@@ -1685,23 +1571,12 @@
 	<string>dependencies/RestKit/include/RestKit/Support.h</string>
 	<string>dependencies/RestKit/libRestKit.a</string>
 
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
-	<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
+	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
+	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
+	<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
-	
-	<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
-	<string>dependencies/SBJson/libsbjson-ios.a</string>
 	
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon.png</string>
@@ -1737,6 +1612,8 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
+	<string>dependencies/libsqlite3.0.dylib</string>
+	
 
 
 	<string>Settings.bundle</string>

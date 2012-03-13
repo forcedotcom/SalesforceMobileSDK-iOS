@@ -24,9 +24,7 @@
 
 #import "TestSetupUtils.h"
 
-//TODO use builtin framework if available
-#import "SBJSON.h"
-#import "SBJsonParser.h"
+#import "SFJsonUtils.h"
 
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
@@ -46,9 +44,7 @@
     NSAssert(nil != tokenPath,@"Test config file not found!");
     
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    id jsonResponse = [parser objectWithData:tokenJson];
-    [parser release];
+    id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     
     NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
     NSString *accessToken = [dictResponse objectForKey:@"access_token"];
@@ -72,7 +68,9 @@
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     
     SFOAuthCredentials *credentials =
-    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount" clientId:clientID ];     
+    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount" 
+                                          clientId:clientID 
+                                         encrypted:YES];     
     credentials.domain = loginDomain;
     credentials.redirectUri = redirectUri; 
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];

@@ -45,7 +45,7 @@
 	
 	<option value="//api/name/isIPad">&nbsp;&nbsp;&nbsp;&nbsp;+ isIPad</option>
 	
-	<option value="//api/name/startPage">&nbsp;&nbsp;&nbsp;&nbsp;+ startPage</option>
+	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
 	
 	
 	
@@ -53,18 +53,6 @@
 	<option value="instance_methods">Instance Methods</option>
 	
 	<option value="//api/name/addOAuthViewToMainView:">&nbsp;&nbsp;&nbsp;&nbsp;- addOAuthViewToMainView:</option>
-	
-	<option value="//api/name/application:didFinishLaunchingWithOptions:">&nbsp;&nbsp;&nbsp;&nbsp;- application:didFinishLaunchingWithOptions:</option>
-	
-	<option value="//api/name/dealloc">&nbsp;&nbsp;&nbsp;&nbsp;- dealloc</option>
-	
-	<option value="//api/name/execute:">&nbsp;&nbsp;&nbsp;&nbsp;- execute:</option>
-	
-	<option value="//api/name/webView:didFailLoadWithError:">&nbsp;&nbsp;&nbsp;&nbsp;- webView:didFailLoadWithError:</option>
-	
-	<option value="//api/name/webView:shouldStartLoadWithRequest:navigationType:">&nbsp;&nbsp;&nbsp;&nbsp;- webView:shouldStartLoadWithRequest:navigationType:</option>
-	
-	<option value="//api/name/webViewDidStartLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- webViewDidStartLoad:</option>
 	
 	
 	
@@ -102,7 +90,7 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isIPad">isIPad</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/startPage">startPage</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
 	
 </ul></li>
 
@@ -111,18 +99,6 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addOAuthViewToMainView:">addOAuthViewToMainView:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/application:didFinishLaunchingWithOptions:">application:didFinishLaunchingWithOptions:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dealloc">dealloc</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/execute:">execute:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webView:didFailLoadWithError:">webView:didFailLoadWithError:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webView:shouldStartLoadWithRequest:navigationType:">webView:shouldStartLoadWithRequest:navigationType:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/webViewDidStartLoad:">webViewDidStartLoad:</a></span></li>
 	
 </ul></li>
 
@@ -148,10 +124,10 @@
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<td class="specification-title">Inherits from</td>
-	<td class="specification-value">PhoneGapDelegate</td>
+	<td class="specification-value"><a href="../Classes/PhoneGapDelegate.html">PhoneGapDelegate</a> : NSObject</td>
 </tr><tr>
 	<td class="specification-title">Declared in</td>
-	<td class="specification-value">SFContainerAppDelegate.h<br />SFContainerAppDelegate.m</td>
+	<td class="specification-value">SFContainerAppDelegate.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -161,7 +137,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Base class for hybrid Salesforce Mobile SDK applications.</p>
+						<p>The string used to uniquely identify the Salesforce SmartStore plugin</p>
 					</div>
 					
 					
@@ -174,7 +150,7 @@
 						
 						
 						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
+						
 
 						<ul class="task-list">
 							<li>
@@ -208,114 +184,10 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 	</span>
 	
 	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
+</li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/dealloc">&ndash;&nbsp;dealloc</a></code>
-		<span class="tooltip"><p>If you need to do any extra app-specific initialization, you can do it here
--jm</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/application:didFinishLaunchingWithOptions:">&ndash;&nbsp;application:didFinishLaunchingWithOptions:</a></code>
-		<span class="tooltip"><p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/startPage">+&nbsp;startPage</a></code>
-		<span class="tooltip"><p>We override startPage to load the bootstrap.html page, which will handle
-the app bootstrapping process from client code.</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/execute:">&ndash;&nbsp;execute:</a></code>
-		<span class="tooltip"><p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
-own app specific protocol to it. -jm</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/webViewDidStartLoad:">&ndash;&nbsp;webViewDidStartLoad:</a></code>
-		<span class="tooltip"><p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/webView:didFailLoadWithError:">&ndash;&nbsp;webView:didFailLoadWithError:</a></code>
-		<span class="tooltip"><p>Fail Loading With Error
-Error &ndash; If the webpage failed to load display an error with the reason.</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/webView:shouldStartLoadWithRequest:navigationType:">&ndash;&nbsp;webView:shouldStartLoadWithRequest:navigationType:</a></code>
-		<span class="tooltip"><p>Start Loading Request
-This is where most of the magic happens&hellip; We take the request(s) and process the response.
-From here we can re direct links and other protocalls to different internal methods.</p></span>
+		<code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
+		<span class="tooltip"><p>The currently running app delegate</p></span>
 	</span>
 	
 	
@@ -458,18 +330,17 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/startPage" title="startPage"></a>
-	<h3 class="subsubtitle method-title">startPage</h3>
+	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
+	<h3 class="subsubtitle method-title">sharedInstance</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>We override startPage to load the bootstrap.html page, which will handle
-the app bootstrapping process from client code.</p>
+		<p>The currently running app delegate</p>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>+ (NSString *)startPage</code></div>
+	<div class="method-subsection method-declaration"><code>+ (SFContainerAppDelegate *)sharedInstance</code></div>
 	
 	
 	
@@ -478,8 +349,7 @@ the app bootstrapping process from client code.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>We override startPage to load the bootstrap.html page, which will handle
-the app bootstrapping process from client code.</p>
+		<p>The currently running app delegate</p>
 	</div>
 	
 	
@@ -490,7 +360,7 @@ the app bootstrapping process from client code.</p>
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
 	</div>				
 	
 	
@@ -541,238 +411,6 @@ the app bootstrapping process from client code.</p>
 	
 </div>
 						
-						<div class="section-method">
-	<a name="//api/name/application:didFinishLaunchingWithOptions:" title="application:didFinishLaunchingWithOptions:"></a>
-	<h3 class="subsubtitle method-title">application:didFinishLaunchingWithOptions:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (BOOL)application:(UIApplication *)<em>application</em> didFinishLaunchingWithOptions:(NSDictionary *)<em>launchOptions</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>This is main kick off after the app inits, the views and Settings are setup here. (preferred &ndash; iOS4 and up)</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/dealloc" title="dealloc"></a>
-	<h3 class="subsubtitle method-title">dealloc</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>If you need to do any extra app-specific initialization, you can do it here
--jm</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (void)dealloc</code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>If you need to do any extra app-specific initialization, you can do it here
--jm</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/execute:" title="execute:"></a>
-	<h3 class="subsubtitle method-title">execute:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
-own app specific protocol to it. -jm</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (BOOL)execute:(InvokedUrlCommand *)<em>command</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
-own app specific protocol to it. -jm</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/webView:didFailLoadWithError:" title="webView:didFailLoadWithError:"></a>
-	<h3 class="subsubtitle method-title">webView:didFailLoadWithError:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Fail Loading With Error
-Error &ndash; If the webpage failed to load display an error with the reason.</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (void)webView:(UIWebView *)<em>theWebView</em> didFailLoadWithError:(NSError *)<em>error</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Fail Loading With Error
-Error &ndash; If the webpage failed to load display an error with the reason.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/webView:shouldStartLoadWithRequest:navigationType:" title="webView:shouldStartLoadWithRequest:navigationType:"></a>
-	<h3 class="subsubtitle method-title">webView:shouldStartLoadWithRequest:navigationType:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Start Loading Request
-This is where most of the magic happens&hellip; We take the request(s) and process the response.
-From here we can re direct links and other protocalls to different internal methods.</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (BOOL)webView:(UIWebView *)<em>theWebView</em> shouldStartLoadWithRequest:(NSURLRequest *)<em>request</em> navigationType:(UIWebViewNavigationType)<em>navigationType</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Start Loading Request
-This is where most of the magic happens&hellip; We take the request(s) and process the response.
-From here we can re direct links and other protocalls to different internal methods.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/webViewDidStartLoad:" title="webViewDidStartLoad:"></a>
-	<h3 class="subsubtitle method-title">webViewDidStartLoad:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (void)webViewDidStartLoad:(UIWebView *)<em>theWebView</em></code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Called when the webview finishes loading.  This stops the activity view and closes the imageview</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFContainerAppDelegate.m</code><br />
-	</div>				
-	
-	
-</div>
-						
 					</div>
 					
 					
@@ -786,7 +424,7 @@ From here we can re direct links and other protocalls to different internal meth
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2011 Salesforce.com. All rights reserved. (Last updated: 2011-12-15)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-03-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

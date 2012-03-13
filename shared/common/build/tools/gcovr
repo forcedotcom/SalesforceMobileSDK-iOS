@@ -29,6 +29,7 @@
 # _________________________________________________________________________
 #
 
+
 import copy
 import glob
 import os
@@ -775,7 +776,12 @@ if options.filter is None:
 #
 # Get data files
 #
-if len(args) == 1:
+
+if options.objdir:
+	print "objdir is: "+options.objdir
+	datafiles_gcda = get_datafiles([options.objdir], options, "gcda") 
+	datafiles_gcno = get_datafiles([options.objdir], options, "gcno")
+elif len(args) == 1:
     datafiles_gcda = get_datafiles(["."], options, "gcda") 
     datafiles_gcno = get_datafiles(["."], options, "gcno") 
 else:

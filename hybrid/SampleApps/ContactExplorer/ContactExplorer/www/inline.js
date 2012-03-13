@@ -2,7 +2,7 @@
 
 function regLinkClickHandlers() {
     $('#link_fetch_device_contacts').click(function() {
-                                           logToConsole("link_fetch_device_contacts clicked");
+                                           SFHybridApp.logToConsole("link_fetch_device_contacts clicked");
                                            var options = new ContactFindOptions();
                                            options.filter = ""; // empty search string returns all contacts
                                            options.multiple = true;
@@ -11,17 +11,17 @@ function regLinkClickHandlers() {
                                            });
     
     $('#link_fetch_sfdc_contacts').click(function() {
-                                         logToConsole("link_fetch_sfdc_contacts clicked");
+                                         SFHybridApp.logToConsole("link_fetch_sfdc_contacts clicked");
                                          forcetkClient.query("SELECT Name FROM Contact", onSuccessSfdcContacts, onErrorSfdc); 
                                          });
     
     $('#link_fetch_sfdc_accounts').click(function() {
-                                         logToConsole("link_fetch_sfdc_accounts clicked");
+                                         SFHybridApp.logToConsole("link_fetch_sfdc_accounts clicked");
                                          forcetkClient.query("SELECT Name FROM Account", onSuccessSfdcAccounts, onErrorSfdc); 
                                          });
     
     $('#link_reset').click(function() {
-                           logToConsole("link_reset clicked");
+                           SFHybridApp.logToConsole("link_reset clicked");
                            $("#div_device_contact_list").html("")
                            $("#div_sfdc_contact_list").html("")
                            $("#div_sfdc_account_list").html("")
@@ -29,13 +29,13 @@ function regLinkClickHandlers() {
                            });
                            
     $('#link_logout').click(function() {
-             logToConsole("link_logout clicked");
+             SFHybridApp.logToConsole("link_logout clicked");
              SalesforceOAuthPlugin.logout();
              });
 }
 
 function onSuccessDevice(contacts) {
-    logToConsole("onSuccessDevice: received " + contacts.length + " contacts");
+    SFHybridApp.logToConsole("onSuccessDevice: received " + contacts.length + " contacts");
     $("#div_device_contact_list").html("")
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
     $("#div_device_contact_list").append(ul);
@@ -53,12 +53,12 @@ function onSuccessDevice(contacts) {
 }
 
 function onErrorDevice(error) {
-    logToConsole("onErrorDevice: " + JSON.stringify(error) );
+    SFHybridApp.logToConsole("onErrorDevice: " + JSON.stringify(error) );
     alert('Error getting device contacts!');
 }
 
 function onSuccessSfdcContacts(response) {
-    logToConsole("onSuccessSfdcContacts: received " + response.totalSize + " contacts");
+    SFHybridApp.logToConsole("onSuccessSfdcContacts: received " + response.totalSize + " contacts");
     
     $("#div_sfdc_contact_list").html("")
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
@@ -74,7 +74,7 @@ function onSuccessSfdcContacts(response) {
 }
 
 function onSuccessSfdcAccounts(response) {
-    logToConsole("onSuccessSfdcAccounts: received " + response.totalSize + " accounts");
+    SFHybridApp.logToConsole("onSuccessSfdcAccounts: received " + response.totalSize + " accounts");
     
     $("#div_sfdc_account_list").html("")
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
@@ -90,6 +90,6 @@ function onSuccessSfdcAccounts(response) {
 }
 
 function onErrorSfdc(error) {
-    logToConsole("onErrorSfdc: " + JSON.stringify(error));
+    SFHybridApp.logToConsole("onErrorSfdc: " + JSON.stringify(error));
     alert('Error getting sfdc contacts!');
 }

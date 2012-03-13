@@ -53,6 +53,7 @@ static NSString * const kSFOAuthRedirectUri                     = @"redirect_uri
 static NSString * const kSFOAuthRefreshToken                    = @"refresh_token";
 static NSString * const kSFOAuthResponseType                    = @"response_type";
 static NSString * const kSFOAuthResponseTypeToken               = @"token";
+static NSString * const kSFOAuthScope                           = @"scope";
 static NSString * const kSFOAuthSignature                       = @"signature";
 
 // Used for the IP bypass flow
@@ -102,31 +103,31 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize approvalCode         = _approvalCode;
 @synthesize scopes               = _scopes;
 
+
 - (id)init {
-    SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc] init] autorelease];
-    return [self initWithCredentials:credentials];
+    return [self initWithCredentials:nil];
 }
 
 - (id)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
     if (self) {
-        NSAssert(credentials != nil, @"credentials cannot be nil");
         self.credentials = credentials;
         self.authenticating = NO;
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
     }
     
-    // response data init'd in didReceiveResponse
+    // response data is initialized in didReceiveResponse
     
     return self;
 }
 
 - (void)dealloc {
-    self.credentials        = nil;
-    self.connection         = nil;
-    self.responseData       = nil;
-    self.approvalCode       = nil;
+    [_approvalCode release];    _approvalCode = nil;
+    [_connection release];      _connection = nil;
+    [_credentials release];     _credentials = nil;
+    [_responseData release];    _responseData = nil;
+    [_scopes release];          _scopes = nil;
     
     _view.delegate = nil;
     [_view release]; _view = nil;
@@ -135,7 +136,11 @@ static NSString * const kHttpPostContentType                    = @"application/
 }
 
 - (void)authenticate {
-    NSAssert(nil != self.delegate, @"authenticate with nil delegate");
+    NSAssert(nil != self.credentials, @"credentials cannot be nil");
+    NSAssert([self.credentials.clientId length] > 0, @"credentials.clientId cannot be nil or empty");
+    NSAssert([self.credentials.identifier length] > 0, @"credentials.identifier cannot be nil or empty");
+    NSAssert(nil != self.delegate, @"cannot authenticate with nil delegate");
+    
     if (self.authenticating) {
         NSLog(@"SFOAuthCoordinator:authenticate: Error: authenticate called while already authenticating. Call stopAuthenticating first.");
         return;
@@ -157,6 +162,11 @@ static NSString * const kHttpPostContentType                    = @"application/
     } else {
         [self beginUserAgentFlow];
     }
+}
+
+- (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
+    self.credentials = credentials;
+    [self authenticate];
 }
 
 - (BOOL)isAuthenticating {
@@ -225,12 +235,12 @@ static NSString * const kHttpPostContentType                    = @"application/
         
     if ([self.scopes count] > 0) {
         //append scopes
-        [approvalUrl appendString:@"&scope="];
-        NSMutableString *scopeStr = [[NSMutableString alloc] initWithFormat:@"refresh_token"];
+        [approvalUrl appendFormat:@"&%@=", kSFOAuthScope];
+        NSMutableString *scopeStr = [[NSMutableString alloc] initWithString:kSFOAuthRefreshToken];
 
         for (NSString *scope in self.scopes) {
-            if (![scope isEqualToString:@"refresh_token"]) {
-            	[scopeStr appendFormat:@" %@", scope];
+            if (![scope isEqualToString:kSFOAuthRefreshToken]) {
+            	[scopeStr appendFormat:@" %@", scope]; // scopes are delimited by a space character
             }
         }
         

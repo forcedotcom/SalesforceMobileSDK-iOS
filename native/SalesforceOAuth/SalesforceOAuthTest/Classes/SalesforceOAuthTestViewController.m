@@ -50,10 +50,10 @@
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
     if ((self = [super initWithNibName:nibName bundle:nibBundle])) {
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId];
+        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId encrypted:YES];
         _oauthCoordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
         //set a default scope: API and Visualforce
-        _oauthCoordinator.scopes = [NSSet setWithObjects:@"api",@"visualforce", nil];
+        _oauthCoordinator.scopes = [NSSet setWithObjects:@"api", @"visualforce", nil];
         _oauthCoordinator.delegate = self;
         [creds release];
     }
@@ -144,8 +144,8 @@
 }
 
 - (IBAction)authClicked:(id)sender {
-    //close keyboard
-    [self.fieldDomain resignFirstResponder];
+    [self.fieldDomain resignFirstResponder]; // close keyboard
+    
     SFOAuthCredentials *creds = self.oauthCoordinator.credentials;
     creds.domain = self.fieldDomain.text;
     
@@ -164,8 +164,7 @@
 }
 
 - (IBAction)resetClicked:(id)sender {
-    //close keyboard
-    [self.fieldDomain resignFirstResponder];
+    [self.fieldDomain resignFirstResponder]; // close keyboard
 
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
                                                        delegate:self
