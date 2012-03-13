@@ -36,6 +36,7 @@ extern NSString* const kSFRestErrorDomain;
  */
 extern NSInteger const kSFRestErrorCode;
 
+
 /*
  * Default API version (currently "v23.0")
  * You can override this by using setApiVersion:
@@ -64,43 +65,6 @@ extern NSString* const kSFRestDefaultAPIVersion;
  
  After initialization, the singleton SFRestAPI can be accessed using `[SFRestAPI sharedInstance]`.
  
- Here is a full example (in the `ApplicationDelegate` class for instance):
- 
-    // Re-acquire an oauth token when the app becomes active
-    - (void)applicationDidBecomeActive:(UIApplication *)application
-        SFOAuthCredentials *credentials = [[[SFOAuthCredentials alloc]
-                                            initWithIdentifier:@"your_oauth_consumer_key"] autorelease];
-        credentials.redirectUri = @"your_oauth_redirect_uri";
- 
-        self.coordinator = [[[SFOAuthCoordinator alloc]
-                             initWithCredentials:credentials] autorelease];
-        self.coordinator.delegate = self;
-        [self.coordinator authenticate];
-    }
-
-    #pragma mark - SFOAuthCoordinatorDelegate
-
-    // Display oauth UIWebView on main UIViewController
-    - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator 
-    didBeginAuthenticationWithView:(UIWebView *)view {
-        [self.window addSubview:view];
-    }
- 
-    // The user is now logged in.
-    // The SFRestAPI can now be initialized
-    - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-        [coordinator.view removeFromSuperview];
-        [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
-        // ...
-    }
- 
-    - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator
-    didFailWithError:(NSError *)error {
-        [coordinator.view removeFromSuperview];
-        NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-        // maybe display an Alert and retry by calling [self.coordinator authenticate];
-    }
-
   
  ## Sending requests
 
@@ -113,9 +77,10 @@ extern NSString* const kSFRestDefaultAPIVersion;
 
  - by building the `SFRestRequest` manually
  
- Note that, if you opt to build an SFRestRequest manually, you should be aware that
- send:delegate: expects the request path to begin with the standard `/services/data` entry point
- of the Salesforce REST API, and will add it to the request path if it doesn't find it.
+ Note: If you opt to build an SFRestRequest manually, you should be aware that
+ send:delegate: expects that if the request.path does not begin with the
+ request.endpoint prefix, it will add the request.endpoint prefix 
+ (kSFDefaultRestEndpoint by default) to the request path.
  
  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
@@ -178,14 +143,14 @@ extern NSString* const kSFRestDefaultAPIVersion;
     NSString *_apiVersion;
 }
 
-@property (nonatomic, retain) SFOAuthCoordinator *coordinator;
-@property (nonatomic, retain) RKClient *rkClient;
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong) RKClient *rkClient;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
  * The default value is `kSFRestDefaultAPIVersion` (currently "v23.0")
  */
-@property (nonatomic, retain) NSString *apiVersion;
+@property (nonatomic, strong) NSString *apiVersion;
 
 /**
  * Returns the singleton instance of `SFRestAPI`
@@ -322,5 +287,16 @@ extern NSString* const kSFRestDefaultAPIVersion;
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search.htm
  */
 - (SFRestRequest *)requestForSearch:(NSString *)sosl;
+
+
+///---------------------------------------------------------------------------------------
+/// @name Other utility methods
+///---------------------------------------------------------------------------------------
+
+/**
+ * Provides the User-Agent string used by the SDK
+ */
++ (NSString *)userAgentString;
+
 
 @end

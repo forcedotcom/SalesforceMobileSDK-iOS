@@ -7,6 +7,9 @@
     <property name="artifacts.dir" location="artifacts"/>
     <property name="dependency.dir" value="../dependencies"/>
 
+	<property name="hybrid_sdk.zip" value="${iOSShared.distdir}/SalesforceHybridSDK/SalesforceHybridSDK-Debug.zip" />
+	
+	<property name="hybridsdk_headers.dir" value="${dependency.dir}/SalesforceHybridSDK/SalesforceHybridSDK.framework/Headers" />
     <property name="xcodetemplate.fullname" value="Hybrid Force.com App.xctemplate"/>
     <property name="xcodetemplate.base.dir" value="hybrid_template_base"/>
     <property name="xcodetemplate.dir" value="${project.dir}/${xcodetemplate.fullname}"/>
@@ -32,11 +35,11 @@
 	depends="initArtifacts, ensureDependencies"/>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios, iOSShared.dependency.oauth"
+		depends="iOSShared.dependency.hybrid_sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean"
+		depends="iOSShared.dependency.hybrid_sdk.clean"
 		/>
 		
     <target name="initArtifacts">
@@ -44,7 +47,7 @@
         <mkdir dir="${dependency.dir}" />
     </target>
 
-   <target name="install" depends="build" description="create fresh install artifacts" >
+   <target name="install" depends="cleanDependencies,build" description="create fresh install artifacts" >
 		<antcall target="documentation.archive" />
    </target>
 
@@ -63,13 +66,13 @@
 	
     <target name="documentation.generate">
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
+            <param name="source" value="${hybridsdk_headers.dir}"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="--docset-feed-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETATOMFILENAME --docset-package-url ${env.JOB_URL}lastSuccessfulBuild/artifact/artifacts/Release/Documentation/publish/%DOCSETPACKAGEFILENAME AppledocSettings-Docset.plist"/>
         </antcall>
 
         <antcall target="iOSShared.appledocDocumentation">
-            <param name="source" value="${xcodetemplate.base.dir}/Container"/>
+            <param name="source" value="${hybridsdk_headers.dir}"/>
             <param name="output" value="${artifacts.dir}/Documentation"/>
             <param name="additionalOptions" value="AppledocSettings-HTML.plist"/>
         </antcall>
@@ -82,37 +85,45 @@
         <copy todir="${xcodetemplate.dir}">
             <fileset dir="${xcodetemplate.base.dir}"/>
         </copy>
-        <copy file="${xcodetemplate.shared.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}" />
+ 
+		<!-- unzip the hybrid framework  -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg line="-d '${xcodetemplate.dependency.dir}' ${hybrid_sdk.zip}"/>
+        </exec>
+
         <copy todir="${xcodetemplate.www.dir}">
-            <fileset dir="${xcodetemplate.pgplugin.base.dir}" />
-        </copy>
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}" >
+			  <not>
+			    <filename name="**/*TestSuite.js"/>
+			  </not>
+			</fileset>
+		</copy>
+
+        <copy file="${xcodetemplate.shared.base.dir}/forcetk.js" todir="${xcodetemplate.www.dir}"  />
+        <copy file="${dependency.dir}/PhoneGap.framework/www/phonegap-1.2.0.js" todir="${xcodetemplate.www.dir}" />
+
         <copy todir="${xcodetemplate.jquery.dir}">
             <fileset dir="${xcodetemplate.jquery.base.dir}" />
         </copy>
-        <copy todir="${xcodetemplate.dependency.dir}">
-            <fileset dir="${dependency.dir}"/>
-        </copy>
+
     </target>
 
     <target name="xcodetemplate.install" depends="xcodetemplate.create">
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
-        <copy todir="${xcodetemplate.install.dir}">
+        <move todir="${xcodetemplate.install.dir}">
             <fileset dir="${xcodetemplate.dir}"/>
-        </copy>
+        </move>
     </target>
 
-
-    <target name="clean">
+    <target name="clean" depends="cleanDependencies">
         <delete dir="${artifacts.dir}" failonerror="false" />
         <delete dir="${xcodetemplate.dir}" failonerror="false"/>
         <delete dir="${xcodetemplate.install.dir}" failonerror="false"/>
         <delete dir="${dependency.dir}" failonerror="false"/>
     </target>
-	
-
-		
+			
     <target name="clean.full"
-        depends="clean, cleanDependencies">
+        depends="clean">
 	    <delete dir="${project.dir}/Documentation/${target.name}" failonerror="false" />
     </target>
 

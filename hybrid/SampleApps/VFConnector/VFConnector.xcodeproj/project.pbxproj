@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D3FF09414BE2B1D004D3FF6 /* bootstrap.html in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */; };
+		7D3FF09514BE2B1D004D3FF6 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */; };
+		7D3FF09614BE2B1D004D3FF6 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */; };
+		7D3FF09F14BE2CB5004D3FF6 /* phonegap-1.2.0.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */; };
+		7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D72611814C74B9700CFD63C /* libsqlite3.dylib */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
 		7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CB149AA8420043A9E0 /* UIKit.framework */; };
 		7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */; };
@@ -25,9 +30,6 @@
 		7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */; };
 		7DBD06EE149AA8420043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD06ED149AA8420043A9E0 /* main.m */; };
 		7DBD06F0149AA8420043A9E0 /* VFConnector-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EF149AA8420043A9E0 /* VFConnector-Prefix.pch */; };
-		7DBD0709149AA8430043A9E0 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0708149AA8430043A9E0 /* PhoneGap.framework */; };
-		7DBD0711149AA8430043A9E0 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0710149AA8430043A9E0 /* libSalesforceOAuth.a */; };
-		7DBD071F149AA8430043A9E0 /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD071E149AA8430043A9E0 /* libsbjson-ios.a */; };
 		7DBD0723149AA8430043A9E0 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0722149AA8430043A9E0 /* icon-72.png */; };
 		7DBD0725149AA8430043A9E0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0724149AA8430043A9E0 /* icon.png */; };
 		7DBD0727149AA8430043A9E0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0726149AA8430043A9E0 /* icon@2x.png */; };
@@ -38,16 +40,41 @@
 		7DBD0732149AA8430043A9E0 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0731149AA8430043A9E0 /* Default~iPad.png */; };
 		7DBD0734149AA8430043A9E0 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0733149AA8430043A9E0 /* readme.md */; };
 		7DBD0738149AA8430043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0737149AA8430043A9E0 /* AppDelegate.m */; };
-		7DBD073C149AA8430043A9E0 /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD073B149AA8430043A9E0 /* SFContainerAppDelegate.m */; };
 		7DBD073F149AA8430043A9E0 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD073E149AA8430043A9E0 /* README */; };
-		7DBD0741149AA8440043A9E0 /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0740149AA8430043A9E0 /* SalesforceOAuthPlugin.m */; };
 		7DBD0744149AA8440043A9E0 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0743149AA8440043A9E0 /* PhoneGap.plist */; };
 		7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0745149AA8440043A9E0 /* Settings.bundle */; };
 		7DBD0748149AA8440043A9E0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */; };
 		7DBD074F149AA8780043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD074E149AA8780043A9E0 /* www */; };
+		7DFBB71914C8955D00D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */; };
+		82B13EAD14C0E95800D45D9C /* SFHybridApp.css in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAB14C0E95800D45D9C /* SFHybridApp.css */; };
+		82B13EAE14C0E95800D45D9C /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAC14C0E95800D45D9C /* SFHybridApp.js */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7D3FF09314BE2B15004D3FF6 /* Copy SFDC Shared WWW */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				7D3FF09F14BE2CB5004D3FF6 /* phonegap-1.2.0.js in Copy SFDC Shared WWW */,
+				7D3FF09414BE2B1D004D3FF6 /* bootstrap.html in Copy SFDC Shared WWW */,
+				7D3FF09514BE2B1D004D3FF6 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */,
+				82B13EAD14C0E95800D45D9C /* SFHybridApp.css in Copy SFDC Shared WWW */,
+				82B13EAE14C0E95800D45D9C /* SFHybridApp.js in Copy SFDC Shared WWW */,
+				7D3FF09614BE2B1D004D3FF6 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */,
+			);
+			name = "Copy SFDC Shared WWW";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
+		7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
+		7D72611814C74B9700CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7DBD06C5149AA8420043A9E0 /* VFConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD06C9149AA8420043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD06CB149AA8420043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -68,20 +95,6 @@
 		7DBD06EB149AA8420043A9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DBD06ED149AA8420043A9E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD06EF149AA8420043A9E0 /* VFConnector-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VFConnector-Prefix.pch"; sourceTree = "<group>"; };
-		7DBD0708149AA8430043A9E0 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = dependencies/PhoneGap.framework; sourceTree = "<group>"; };
-		7DBD070E149AA8430043A9E0 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h; sourceTree = "<group>"; };
-		7DBD070F149AA8430043A9E0 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFOAuthCredentials.h; path = dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h; sourceTree = "<group>"; };
-		7DBD0710149AA8430043A9E0 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = dependencies/SalesforceOAuth/libSalesforceOAuth.a; sourceTree = "<group>"; };
-		7DBD0715149AA8430043A9E0 /* NSObject+SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "dependencies/SBJson/include/SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
-		7DBD0716149AA8430043A9E0 /* SBJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = dependencies/SBJson/include/SBJson/SBJson.h; sourceTree = "<group>"; };
-		7DBD0717149AA8430043A9E0 /* SBJsonParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = dependencies/SBJson/include/SBJson/SBJsonParser.h; sourceTree = "<group>"; };
-		7DBD0718149AA8430043A9E0 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParser.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParser.h; sourceTree = "<group>"; };
-		7DBD0719149AA8430043A9E0 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		7DBD071A149AA8430043A9E0 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAdapter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		7DBD071B149AA8430043A9E0 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h; sourceTree = "<group>"; };
-		7DBD071C149AA8430043A9E0 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterAccumulator.h; path = dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		7DBD071D149AA8430043A9E0 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = dependencies/SBJson/include/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
-		7DBD071E149AA8430043A9E0 /* libsbjson-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsbjson-ios.a"; path = "dependencies/SBJson/libsbjson-ios.a"; sourceTree = "<group>"; };
 		7DBD0722149AA8430043A9E0 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		7DBD0724149AA8430043A9E0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
 		7DBD0726149AA8430043A9E0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
@@ -93,15 +106,14 @@
 		7DBD0733149AA8430043A9E0 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		7DBD0736149AA8430043A9E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DBD0737149AA8430043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
-		7DBD073A149AA8430043A9E0 /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFContainerAppDelegate.h; path = Container/SFContainerAppDelegate.h; sourceTree = "<group>"; };
-		7DBD073B149AA8430043A9E0 /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFContainerAppDelegate.m; path = Container/SFContainerAppDelegate.m; sourceTree = "<group>"; };
 		7DBD073E149AA8430043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
-		7DBD0740149AA8430043A9E0 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthPlugin.m; path = Plugins/SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
-		7DBD0742149AA8440043A9E0 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthPlugin.h; path = Plugins/SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
 		7DBD0743149AA8440043A9E0 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		7DBD0745149AA8440043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		7DBD074E149AA8780043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		82B13EAB14C0E95800D45D9C /* SFHybridApp.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/SFHybridApp.css; sourceTree = "<group>"; };
+		82B13EAC14C0E95800D45D9C /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/SFHybridApp.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
 				7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */,
 				7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */,
@@ -124,15 +137,27 @@
 				7DBD06E2149AA8420043A9E0 /* AVFoundation.framework in Frameworks */,
 				7DBD06E4149AA8420043A9E0 /* MediaPlayer.framework in Frameworks */,
 				7DBD06E6149AA8420043A9E0 /* SystemConfiguration.framework in Frameworks */,
-				7DBD0709149AA8430043A9E0 /* PhoneGap.framework in Frameworks */,
-				7DBD0711149AA8430043A9E0 /* libSalesforceOAuth.a in Frameworks */,
-				7DBD071F149AA8430043A9E0 /* libsbjson-ios.a in Frameworks */,
+				7DFBB71914C8955D00D373E2 /* SalesforceHybridSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D3FF05A14BE2A77004D3FF6 /* sfdc-shared */ = {
+			isa = PBXGroup;
+			children = (
+				7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */,
+				7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */,
+				7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */,
+				82B13EAB14C0E95800D45D9C /* SFHybridApp.css */,
+				82B13EAC14C0E95800D45D9C /* SFHybridApp.js */,
+				7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */,
+			);
+			name = "sfdc-shared";
+			path = ../../../../external/shared;
+			sourceTree = "<group>";
+		};
 		7DBD06B9149AA8420043A9E0 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +178,7 @@
 		7DBD06C8149AA8420043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D72611814C74B9700CFD63C /* libsqlite3.dylib */,
 				7DBD06C9149AA8420043A9E0 /* Foundation.framework */,
 				7DBD06CB149AA8420043A9E0 /* UIKit.framework */,
 				7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */,
@@ -175,15 +201,14 @@
 		7DBD06E7149AA8420043A9E0 /* VFConnector */ = {
 			isa = PBXGroup;
 			children = (
+				7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */,
 				7DBD074E149AA8780043A9E0 /* www */,
-				7DBD0708149AA8430043A9E0 /* PhoneGap.framework */,
+				7DBD0735149AA8430043A9E0 /* Classes */,
+				7D3FF05A14BE2A77004D3FF6 /* sfdc-shared */,
 				7DBD0733149AA8430043A9E0 /* readme.md */,
 				7DBD0745149AA8440043A9E0 /* Settings.bundle */,
 				7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */,
-				7DBD070A149AA8430043A9E0 /* dependencies */,
 				7DBD0720149AA8430043A9E0 /* Resources */,
-				7DBD0735149AA8430043A9E0 /* Classes */,
-				7DBD0739149AA8430043A9E0 /* Container */,
 				7DBD073D149AA8430043A9E0 /* Plugins */,
 				7DBD06E8149AA8420043A9E0 /* Supporting Files */,
 			);
@@ -200,74 +225,6 @@
 				7DBD0743149AA8440043A9E0 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7DBD070A149AA8430043A9E0 /* dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD070B149AA8430043A9E0 /* SalesforceOAuth */,
-				7DBD0712149AA8430043A9E0 /* SBJson */,
-			);
-			name = dependencies;
-			sourceTree = "<group>";
-		};
-		7DBD070B149AA8430043A9E0 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD0710149AA8430043A9E0 /* libSalesforceOAuth.a */,
-				7DBD070C149AA8430043A9E0 /* include */,
-			);
-			name = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7DBD070C149AA8430043A9E0 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD070D149AA8430043A9E0 /* SalesforceOAuth */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7DBD070D149AA8430043A9E0 /* SalesforceOAuth */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD070E149AA8430043A9E0 /* SFOAuthCoordinator.h */,
-				7DBD070F149AA8430043A9E0 /* SFOAuthCredentials.h */,
-			);
-			name = SalesforceOAuth;
-			sourceTree = "<group>";
-		};
-		7DBD0712149AA8430043A9E0 /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD071E149AA8430043A9E0 /* libsbjson-ios.a */,
-				7DBD0713149AA8430043A9E0 /* include */,
-			);
-			name = SBJson;
-			sourceTree = "<group>";
-		};
-		7DBD0713149AA8430043A9E0 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD0714149AA8430043A9E0 /* SBJson */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7DBD0714149AA8430043A9E0 /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD0715149AA8430043A9E0 /* NSObject+SBJson.h */,
-				7DBD0716149AA8430043A9E0 /* SBJson.h */,
-				7DBD0717149AA8430043A9E0 /* SBJsonParser.h */,
-				7DBD0718149AA8430043A9E0 /* SBJsonStreamParser.h */,
-				7DBD0719149AA8430043A9E0 /* SBJsonStreamParserAccumulator.h */,
-				7DBD071A149AA8430043A9E0 /* SBJsonStreamParserAdapter.h */,
-				7DBD071B149AA8430043A9E0 /* SBJsonStreamWriter.h */,
-				7DBD071C149AA8430043A9E0 /* SBJsonStreamWriterAccumulator.h */,
-				7DBD071D149AA8430043A9E0 /* SBJsonWriter.h */,
-			);
-			name = SBJson;
 			sourceTree = "<group>";
 		};
 		7DBD0720149AA8430043A9E0 /* Resources */ = {
@@ -310,21 +267,10 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		7DBD0739149AA8430043A9E0 /* Container */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD073A149AA8430043A9E0 /* SFContainerAppDelegate.h */,
-				7DBD073B149AA8430043A9E0 /* SFContainerAppDelegate.m */,
-			);
-			name = Container;
-			sourceTree = "<group>";
-		};
 		7DBD073D149AA8430043A9E0 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
 				7DBD073E149AA8430043A9E0 /* README */,
-				7DBD0740149AA8430043A9E0 /* SalesforceOAuthPlugin.m */,
-				7DBD0742149AA8440043A9E0 /* SalesforceOAuthPlugin.h */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -340,6 +286,7 @@
 				7DBD06C1149AA8420043A9E0 /* Frameworks */,
 				7DBD06C2149AA8420043A9E0 /* Resources */,
 				7DBD06C3149AA8420043A9E0 /* Sources */,
+				7D3FF09314BE2B15004D3FF6 /* Copy SFDC Shared WWW */,
 			);
 			buildRules = (
 			);
@@ -408,8 +355,6 @@
 			files = (
 				7DBD06EE149AA8420043A9E0 /* main.m in Sources */,
 				7DBD0738149AA8430043A9E0 /* AppDelegate.m in Sources */,
-				7DBD073C149AA8430043A9E0 /* SFContainerAppDelegate.m in Sources */,
-				7DBD0741149AA8440043A9E0 /* SalesforceOAuthPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,16 +437,14 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/VFConnector/dependencies\"",
+					"\"$(SRCROOT)/../../dependencies\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
 				INFOPLIST_FILE = "VFConnector/VFConnector-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/VFConnector/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/VFConnector/dependencies/SBJson\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -512,16 +455,14 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/VFConnector/dependencies\"",
+					"\"$(SRCROOT)/../../dependencies\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
 				INFOPLIST_FILE = "VFConnector/VFConnector-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/VFConnector/dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/VFConnector/dependencies/SBJson\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -546,6 +487,7 @@
 				7DBD074D149AA8440043A9E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

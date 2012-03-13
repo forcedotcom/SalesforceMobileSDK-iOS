@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:

@@ -15,7 +15,11 @@
     <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
 
     <!-- include forcetk for REST transaction support -->
-    <script src="forcetk.js"></script>       
+    <script src="forcetk.js"></script>
+    
+    <!-- include local utility functionality -->
+    <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
+    <script type="text/javascript" charset="utf-8" src="SFHybridApp.js"></script>
 
     <script type="text/javascript" charset="utf-8">
 
@@ -43,25 +47,18 @@
 	*/
 	
     var forcetkClient;
-    var appStartTime = new Date();
-
-    function logToConsole(txt) {
-        var now = new Date();
-        $('#console').append("<br><i> * " + (now.getTime() - appStartTime.getTime()) + "ms:</i> " + txt); 
-        //this utilizes the PhoneGap console object to log
-        console.log("jslog:" + txt);
-    }
+    var debugMode = true;
 
     $(function() {
         //Add event listeners and so forth here
-        logToConsole("onLoad: jquery ready");
+        SFHybridApp.logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
 
     });
 
     // When this function is called, PhoneGap has been initialized and is ready to roll 
     function onDeviceReady() {
-        logToConsole("onDeviceReady: PhoneGap ready");
+        SFHybridApp.logToConsole("onDeviceReady: PhoneGap ready");
 		//Call getAuthCredentials to get the initial session credentials
         SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
 
@@ -74,7 +71,7 @@
         
 
     function salesforceSessionRefreshed(creds) {
-        logToConsole("salesforceSessionRefreshed");
+        SFHybridApp.logToConsole("salesforceSessionRefreshed");
 		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
@@ -84,7 +81,7 @@
 
 
     function getAuthCredentialsError(error) {
-        logError("getAuthCredentialsError: " + error);
+        SFHybridApp.logToConsole("getAuthCredentialsError: " + error);
     }
         
     </script>
@@ -106,17 +103,15 @@
               <p><a href="#" id="link_fetch_sfdc_accounts" data-role="button" data-inline="true">Fetch SFDC Accounts</a></p>
               <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
 
+              <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
+
               <div id="div_device_contact_list"></div>
               <div id="div_sfdc_contact_list"></div>
               <div id="div_sfdc_account_list"></div>
 
-
               <h3>console:</h3>
-              <p id="console">
+              <p id="console" class="logWindow">
               </p>
-
-              <p><a href="#" id="link_logout" data-role="button" data-inline="true">Logout</a></p>
-
           </div> 
 
       </div> 

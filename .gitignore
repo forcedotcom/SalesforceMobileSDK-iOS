@@ -20,6 +20,7 @@ hybrid/Hybrid Salesforce App.xctemplate/
 native/Native Salesforce REST App.xctemplate/
 hybrid/Hybrid Force.com App.xctemplate/
 native/Native Force.com REST App.xctemplate/
+native/SampleApps/RestAPIExplorer/build/
 native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
 hybrid/SampleApps/VFConnector/VFConnector/dependencies/
 hybrid/SampleApps/ContactExplorer/ContactExplorer/dependencies/
@@ -31,3 +32,5 @@ native/dependencies/RestKit/
 native/dependencies/SalesforceOAuth/
 native/dependencies/SalesforceSDK/
 native/dependencies/SBJson/
+hybrid/SalesforceHybridSDK/build/
+hybrid/dependencies/

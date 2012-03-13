@@ -48,14 +48,20 @@
             <param name="target" value="UniversalFramework"/>
             <param name="action" value="install"/>
         </antcall>
-	<antcall target="iOSShared.compress">
+		<antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/callback-ios-${configuration}.zip"/>
             <param name="basedir" value="${project.dir}/build//Release-universal/PhoneGap.framework"/>
         </antcall>
+		<move todir="${iOSShared.distdir}/callback-ios">
+		  <filelist dir="${artifacts.dir}">
+		    <file name="callback-ios-${configuration}.zip"/>
+		  </filelist>
+		</move>
     </target>
 
     <target name="clean">
 		<delete dir="${project.dir}/build" />
         <delete dir="${artifacts.dir}"/>
+        <delete dir="${iOSShared.distdir}/callback-ios"/>
     </target>
 </project>

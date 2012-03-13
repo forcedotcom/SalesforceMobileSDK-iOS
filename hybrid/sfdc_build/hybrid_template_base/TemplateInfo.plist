@@ -34,7 +34,9 @@
                 <string>$(ARCHS_STANDARD_32_BIT)</string>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>YES</string>
-                <key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+                <string>5.0</string>
+				<key>SDKROOT</key>
                 <string>latest_iphoneos</string>
 				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
 				<string>PHONEGAP_FRAMEWORK=YES</string>
@@ -147,22 +149,6 @@
         <string>Classes/AppDelegate.h</string>
     </dict>
 
-	<!-- Container --> 
-    <key>Container/SFContainerAppDelegate.m</key>
-    <dict>
-        <key>Group</key>
-        <string>Container</string>
-        <key>Path</key>
-        <string>Container/SFContainerAppDelegate.m</string>
-    </dict>
-    <key>Container/SFContainerAppDelegate.h</key>
-    <dict>
-        <key>Group</key>
-        <string>Container</string>
-        <key>Path</key>
-        <string>Container/SFContainerAppDelegate.h</string>
-    </dict>
-
 
     <key>readme.md</key>
     <dict>
@@ -177,22 +163,6 @@
         <string>Plugins</string>
         <key>Path</key>
         <string>Plugins/README</string>
-	</dict>
-
-    <key>Plugins/SalesforceOAuthPlugin.m</key>
-	<dict>
-		<key>Group</key>
-        <string>Plugins</string>
-        <key>Path</key>
-        <string>Plugins/SalesforceOAuthPlugin.m</string>
-	</dict>
-	
-	<key>Plugins/SalesforceOAuthPlugin.h</key>
-	<dict>
-		<key>Group</key>
-        <string>Plugins</string>
-        <key>Path</key>
-        <string>Plugins/SalesforceOAuthPlugin.h</string>
 	</dict>
 
 	<key>www</key>
@@ -224,191 +194,36 @@
 		<string>wrapper.plug-in</string>
 	</dict>
 	
-	<key>dependencies/PhoneGap.framework</key>
+	
+	<key>SalesforceHybridSDK.framework</key>
 	<dict>
 		<key>PathType</key>
 		<string>Group</string>
 		<key>Path</key>
-		<string>dependencies/PhoneGap.framework</string>
+		<string>dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework</string>
+		<key>FileType</key>
+		<string>wrapper.framework</string>
+	</dict>
+
+	<key>libsqlite3.dylib</key>
+	<dict>
+		<key>PathType</key>
+		<string>DeveloperDir</string>
+		<key>Path</key>
+		<string>/usr/lib/libsqlite3.dylib</string>
 		<key>FileType</key>
 		<string>wrapper.framework</string>
 	</dict>
 	
-	
 
 	
+	
+
 
 	<!-- generated in part by using template_generator.py 
 	https://github.com/MrGando/Xcode-4-Template-Generator/
 	-->
 	<!-- begin generated dependencies section -->
-
-
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SalesforceOAuth</string>
-			<string>include</string>
-			<string>SalesforceOAuth</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
-	</dict>
-
-	<key>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SalesforceOAuth</string>
-			<string>include</string>
-			<string>SalesforceOAuth</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
-	</dict>
-
-	<key>dependencies/SalesforceOAuth/libSalesforceOAuth.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SalesforceOAuth</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJson.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonParser.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/include/SBJson/SBJsonWriter.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-			<string>include</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
-	</dict>
-
-	<key>dependencies/SBJson/libsbjson-ios.a</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SBJson</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SBJson/libsbjson-ios.a</string>
-	</dict>
-	
 	
 	<key>Resources/icons/icon-72.png</key>
 	<dict>
@@ -513,21 +328,9 @@
 	-->
 	<!-- begin generated dependencies -->
 
-	<string>dependencies/PhoneGap.framework</string>
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCoordinator.h</string>
-	<string>dependencies/SalesforceOAuth/include/SalesforceOAuth/SFOAuthCredentials.h</string>
-	<string>dependencies/SalesforceOAuth/libSalesforceOAuth.a</string>
-	<string>dependencies/SBJson/include/SBJson/NSObject+SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJson.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParser.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamParserAdapter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriter.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonStreamWriterAccumulator.h</string>
-	<string>dependencies/SBJson/include/SBJson/SBJsonWriter.h</string>
-	<string>dependencies/SBJson/libsbjson-ios.a</string>
-	
+	<string>SalesforceHybridSDK.framework</string>
+	<string>libsqlite3.dylib</string>
+		
 	
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon.png</string>
@@ -545,14 +348,9 @@
     <string>Classes/AppDelegate.h</string>
     <string>Classes/AppDelegate.m</string>
 
-	<!-- Container -->
-    <string>Container/SFContainerAppDelegate.h</string>
-    <string>Container/SFContainerAppDelegate.m</string>
 	
 	<!-- Plugins -->
 	<string>Plugins/README</string>
-	<string>Plugins/SalesforceOAuthPlugin.m</string>
-	<string>Plugins/SalesforceOAuthPlugin.h</string>
 	
     <!-- views -->
 
@@ -590,6 +388,17 @@
 	                <key>Class</key>
 	                <string>Sources</string> <!-- Add Build Phase Compile Source -->
 	            </dict>
+				<dict>
+					<!-- Add Build Phase Copy Files 
+					That allows stuffing files into www 
+					-->
+					<key>Class</key>
+					<string>CopyFiles</string> 
+					<key>DstPath</key>
+					<string>www</string>
+					<key>DstSubfolderSpec</key>
+					<string>7</string>
+				</dict>
 	    	</array>
 	 	<key>BuildSettings</key>
 	        <array>

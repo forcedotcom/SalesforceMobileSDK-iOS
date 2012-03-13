@@ -1,4 +1,4 @@
-<project name="NativeSDK" default="install">
+<project name="NativeProducts" default="install">
     <import file="../../shared/build.xml"/>
 
     <property environment="env"/>
@@ -27,11 +27,11 @@
 
 	<target name="ensureDependencies"
 		description="Build all of the libraries a native SDK app could possibly depend upon"
-		depends="iOSShared.dependency.sbjson, iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk"
+		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.sbjson.clean, iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean"
+		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean"
 		>
 	</target>
 		

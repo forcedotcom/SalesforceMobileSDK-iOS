@@ -4,7 +4,7 @@
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" value=".."/>
     <property name="artifacts.dir" location="artifacts"/>
-    <property name="dependency.dir" value="../${target.name}/dependencies"/>
+    <property name="dependency.dir" value="../../../dependencies"/>
     
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
@@ -26,7 +26,7 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
 	<target name="ensureDependencies" description="ensure dependencies exist"
-		depends="iOSShared.dependency.oauth, iOSShared.dependency.sbjson, iOSShared.dependency.callback-ios" 
+		depends="iOSShared.dependency.hybrid_sdk" 
 		/>
 			
     <target name="build"  
@@ -62,6 +62,6 @@
     </target>
 
     <target name="clean.full"
-        depends="clean,  iOSShared.dependency.sbjson.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.callback-ios.clean">
+        depends="clean,  iOSShared.dependency.hybrid_sdk.clean">
     </target>
 </project>

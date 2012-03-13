@@ -5,8 +5,15 @@ After cloning the SalesforceMobileSDK-iOS project from github, run the install s
 
 `./install.sh`
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
-See the setup.md file for additional instructions. Xcode 4 or greater is a prerequisite for building the iOS SDK.  install.sh will check for this, and exit if the installed version of
-Xcode is incorrect. 
+See the setup.md file for additional instructions. Xcode 4.2 or greater is a prerequisite for building the Salesforce Mobile SDK.  install.sh will check for this, and exit if the installed version of Xcode is incorrect. In addition, the Salesforce Mobile SDK requires iOS 5.0 or greater.  Building from the command line has been tested using ant 1.8.  Older versions may work, but we recommend using the latest version of ant.
+
+**Xcode 4.3 Users:** If you have not used the `xcode-select` tool to choose your version of Xcode at the command line, you may encounter the following error when running the install script:
+
+```
+xcode-select: Error: No Xcode folder is set. Run xcode-select -switch <xcode_folder_path> to set the path to the Xcode folder.
+```
+
+If you run `sudo xcode-select -switch /Applications/Xcode.app` at the command line, you should be able to run the install script without issues.  This assumes you installed Xcode in the Applications folder.
 
 **Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting checkbox is NOT selected.** 
 
@@ -115,9 +122,8 @@ If you do not see the PhoneGap framework, or otherwise get compilation errors re
 
 The sample application project should now build and run cleanly.
 
-**Note:** The sample applications currently have SBJson as a dependency.  This is because this version of the SalesforceSDK supports iOS 4.3.
-In the near future we intend to deprecate iOS 4.3 in favor of iOS 5.0, where we can eliminate the SBJson dependency in favor of builtin iOS 5.0
-features. _You may also choose to eliminate the SBJson dependency if your app targets iOS 5.0+._
+**Note:** _The Salesforce Mobile SDK requires iOS version 5.0 or later and has eliminated the direct use of SBJson._  If your app relies on SBJson, you might consider using SFJsonUtils instead or using the NSJSONSerialization class provided in iOS 5.0 directly.  (SFJsonUtils simply provides a convenience API for those who are porting SBJson-based code to iOS 5.0+.)
+
 
 Documentation
 ==

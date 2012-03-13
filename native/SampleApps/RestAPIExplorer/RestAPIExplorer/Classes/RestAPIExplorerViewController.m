@@ -27,7 +27,7 @@
 
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
-#import "SBJson.h"
+#import "SFJsonUtils.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI.h"
@@ -164,7 +164,9 @@
 
     NSDictionary *queryParams = ([params length] == 0
                                  ? nil
-                                 : (NSDictionary *)[params JSONValue]);
+                                 : (NSDictionary *)[SFJsonUtils objectFromJSONString:params]
+                                 );
+                                 
     SFRestMethod method = _segmentMethod.selectedSegmentIndex;
     NSString *path = self.tfPath.text;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
@@ -202,7 +204,7 @@
     NSString *objectType = self.tfObjectType.text;
     NSString *objectId = self.tfObjectId.text;
     NSString *fieldList = self.tfFieldList.text;
-    NSDictionary *fields = [self.tvFields.text JSONValue];
+    NSDictionary *fields = [SFJsonUtils objectFromJSONString:self.tvFields.text]; 
     NSString *search = self.tfSearch.text;
     NSString *query = self.tfQuery.text;
     NSString *externalId = self.tfExternalId.text;
@@ -312,7 +314,7 @@
     //don't attempt to send a nil request
     if (nil != request) {
         self.tfPath.text = request.path;
-        self.tvParams.text = [request.queryParams JSONRepresentation];
+        self.tvParams.text = [SFJsonUtils JSONRepresentation:request.queryParams];
         self.segmentMethod.selectedSegmentIndex = request.method;
 
         [[SFRestAPI sharedInstance] send:request delegate:self];    
