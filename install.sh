@@ -2,7 +2,7 @@
 # Running this script will install all dependencies needed for all of the projects, 
 # as well as generating the latest .h and template files.
 
-xcodebuild_version=`xcodebuild -version 2<&1`
+xcodebuild_version=`xcodebuild -version 2>&1`
 if [ $? -ne 0 ]
 then
     echo "The following error occurred while trying to determine your Xcode version:"
