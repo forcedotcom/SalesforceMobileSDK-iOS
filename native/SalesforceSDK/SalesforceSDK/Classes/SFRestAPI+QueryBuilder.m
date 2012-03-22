@@ -25,9 +25,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFQueryBuilder.h"
+#import "SFRestAPI+QueryBuilder.h"
 
-@implementation SFQueryBuilder
+@implementation SFRestAPI (QueryBuilder)
 
 + (NSString *) sanitizeSOQLQueryFieldList:(NSString *)fieldList {
 	if( !fieldList || [fieldList length] == 0 )

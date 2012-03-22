@@ -31,7 +31,7 @@
  * Example SOQL usage:
  * 
  * NSString *soqlQuery = 
- * [SFQueryBuilder SOQLQueryWithFields:[NSArray arrayWithObjects:@"Id", @"Name", @"Company", @"Status", nil]
+ * [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObjects:@"Id", @"Name", @"Company", @"Status", nil]
  *                             sObject:@"Lead"
  *                               where:nil
  *                               limit:10];
@@ -40,12 +40,15 @@
  * Example SOSL usage:
  * 
  * NSString *soslQuery = 
- * [SFQueryBuilder SOSLSearchWithSearchTerm:@"all of these will be escaped:~{]"
+ * [SFRestAPI SOSLSearchWithSearchTerm:@"all of these will be escaped:~{]"
  *							   fieldScope:nil // searches only name fields
  *							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
  *								 									  forKey:@"User"]];
  *
  */
+
+#import <Foundation/Foundation.h>
+#import "SFRestAPI.h"
 
 // Reserved characters that must be escaped in SOSL search terms
 // backslash goes first!
@@ -55,7 +58,7 @@ static NSString * const kSOSLEscapeCharacter    = @"\\";
 // Maximum number of records returned via SOSL search
 static NSInteger const kMaxSOSLSearchLimit      = 200;
 
-@interface SFQueryBuilder : NSObject {}
+@interface SFRestAPI (QueryBuilder)
 
 /* Sanitizing */
 
