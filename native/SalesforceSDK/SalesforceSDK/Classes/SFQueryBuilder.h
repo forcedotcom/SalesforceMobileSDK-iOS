@@ -49,11 +49,11 @@
 
 // Reserved characters that must be escaped in SOSL search terms
 // backslash goes first!
-#define kSOSLReservedCharacters @"\\?&|!{}[]()^~*:\"'+-"
-#define kSOSLEscapeCharacter    @"\\"
+static NSString * const kSOSLReservedCharacters = @"\\?&|!{}[]()^~*:\"'+-";
+static NSString * const kSOSLEscapeCharacter    = @"\\";
 
 // Maximum number of records returned via SOSL search
-#define kMaxSOSLSearchLimit     200
+static NSInteger const kMaxSOSLSearchLimit      = 200;
 
 @interface SFQueryBuilder : NSObject {}
 
