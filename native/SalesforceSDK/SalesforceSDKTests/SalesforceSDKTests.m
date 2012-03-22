@@ -35,7 +35,7 @@
 #import "TestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFRestAPI+Blocks.h"
-
+#import "SFRestAPI+QueryBuilder.h"
 
 @interface SalesforceSDKTests (Private)
 - (NSString *)sendSyncRequest:(SFRestRequest *)request;
@@ -929,6 +929,51 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     
     //this cleans up the singleton RKClient
     [[[RKClient sharedClient] requestQueue] cancelAllRequests];
+}
+
+#pragma mark - queryBuilder tests
+
+- (void) testSOQL {
+    NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
+    NSString *complexQuery = @"select id,status from Lead where id<>null group by status limit 10";
+    
+    STAssertTrue( [simpleQuery isEqualToString:
+                        [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObject:@"id"]
+                                               sObject:@"Lead"
+                                                 where:@"id<>null"
+                                                 limit:10]],                 
+                 @"Simple SOQL query does not match.");
+    
+    
+    NSString *generatedComplexQuery = [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObjects:@"id", @"status", nil]
+                                                             sObject:@"Lead"
+                                                               where:@"id<>null"
+                                                             groupBy:[NSArray arrayWithObject:@"status"]
+                                                              having:nil
+                                                             orderBy:nil
+                                                               limit:10];
+    
+    STAssertTrue( [complexQuery isEqualToString:generatedComplexQuery],
+                 @"Complex SOQL query does not match.");
+}
+
+- (void) testSOSL {
+    NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
+    NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) limit 200";
+    
+    STAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
+                                                                         fieldScope:nil
+                                                                        objectScope:[NSDictionary dictionaryWithObject:[NSNull null]
+                                                                                                                forKey:@"User"]]],
+                 @"Simple SOSL search does not match.");
+    
+    
+    STAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
+                                                                          fieldScope:nil
+                                                                         objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"
+                                                                                                                 forKey:@"User"]
+                                                                               limit:200]],
+                 @"Complex SOSL search does not match.");
 }
 
 @end
