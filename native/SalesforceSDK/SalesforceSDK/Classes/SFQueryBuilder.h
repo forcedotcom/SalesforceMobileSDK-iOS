@@ -65,11 +65,12 @@
 /* Generating queries */
 
 /**
- * Generate a SOSL query.
+ * Generate a SOSL search.
  * @param term - the search term. This is sanitized for proper characters
- * @param fieldscope - the SOSL scope, e.g. "IN ALL FIELDS". Defaults to "IN NAME FIELDS" if nil
- * @param objectScope - nil to search all objects, or a dictionary where each key is an sObject name
- * and each value is a string with the (optional) fieldlist, where, order by, and limit clause for that object
+ * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
+ * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
+ * and each value is a string with the (optional) fieldlist, where, order by, and limit clause for that object.
+ * Note that each of those clauses is optional
  * or NSNull to not specify any fields/clauses for that object
  */
 + (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
@@ -77,11 +78,12 @@
                             objectScope:(NSDictionary *)objectScope;
 
 /**
- * Generate a SOSL query.
+ * Generate a SOSL search.
  * @param term - the search term. This is sanitized for proper characters
- * @param fieldscope - the SOSL scope, e.g. "IN ALL FIELDS". Defaults to "IN NAME FIELDS" if nil
- * @param objectScope - nil to search all objects, or a dictionary where each key is an sObject name
- * and each value is a string with the (optional) fieldlist, where, order by, and limit clause for that object
+ * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
+ * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
+ * and each value is a string with the fieldlist, where, order by, and limit clause for that object.
+ * Note that each of those clauses is optional
  * or NSNull to not specify any fields/clauses for that object
  * @param limit - overall search limit (max 200)
  */
@@ -94,7 +96,7 @@
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
  * @param object - object to query
- * @param where - where clause
+ * @param where - nil OR where clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
  */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
@@ -106,10 +108,10 @@
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
  * @param object - object to query
- * @param where - where clause
- * @param groupBy - NSArray of strings, each string is an individual group by clause
- * @param having - having clause
- * @param orderBy - NSArray of strings, each string is an individual order by clause
+ * @param where - nil OR where clause
+ * @param groupBy - nil OR NSArray of strings, each string is an individual group by clause
+ * @param having - nil OR having clause
+ * @param orderBy - nil OR NSArray of strings, each string is an individual order by clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
  */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 

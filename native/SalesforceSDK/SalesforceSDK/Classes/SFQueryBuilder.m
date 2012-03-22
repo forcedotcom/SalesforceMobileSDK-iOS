@@ -33,6 +33,9 @@
 	if( !fieldList || [fieldList length] == 0 )
 		return nil;
 
+    // I don't always autogenerate field lists, but when I do, sometimes I mess up and make
+    // something like id, name, account.name, account.recordtype, account., status
+    // and the query will fail. This is meant to catch and replace a few common errors
 	fieldList = [fieldList stringByReplacingOccurrencesOfString:@",," withString:@","];
 	fieldList = [fieldList stringByReplacingOccurrencesOfString:@".," withString:@","];
 	fieldList = [fieldList stringByReplacingOccurrencesOfString:@",." withString:@","];
@@ -63,13 +66,11 @@
 	if( !term || [term length] == 0 )
 		return nil;
 
-	term = [self sanitizeSOSLSearchTerm:term];
-
 	if( !fieldScope || [fieldScope length] == 0 )
 		fieldScope = @"IN NAME FIELDS";
 
 	NSMutableString *query = [NSMutableString stringWithFormat:@"FIND {%@} %@",
-								term,
+								[self sanitizeSOSLSearchTerm:term],
 								fieldScope];
 
 	if( objectScope && [objectScope count] > 0 ) {
