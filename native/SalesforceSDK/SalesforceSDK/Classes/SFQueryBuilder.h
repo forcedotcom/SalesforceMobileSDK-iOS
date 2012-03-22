@@ -27,24 +27,24 @@
  
  
  /** This utility class assists with creating SOQL and SOSL queries. 
- 
- Example SOQL usage:
- 
- NSString *soqlQuery = 
- [SFQueryBuilder SOQLQueryWithFields:[NSArray arrayWithObjects:@"Id", @"Name", @"Company", @"Status", nil]
-							 sObject:@"Lead"
-   							   where:nil
-   							   limit:10];
-   							   
-   							   
- Example SOSL usage:
- 
- NSString *soslQuery = 
- [SFQueryBuilder SOSLSearchWithSearchTerm:@"hersh"
-							   fieldScope:nil // searches only name fields
-							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
-								 									  forKey:@"User"]];
- 
+ * 
+ * Example SOQL usage:
+ * 
+ * NSString *soqlQuery = 
+ * [SFQueryBuilder SOQLQueryWithFields:[NSArray arrayWithObjects:@"Id", @"Name", @"Company", @"Status", nil]
+ *                             sObject:@"Lead"
+ *                               where:nil
+ *                               limit:10];
+ *   							   
+ *   							   
+ * Example SOSL usage:
+ * 
+ * NSString *soslQuery = 
+ * [SFQueryBuilder SOSLSearchWithSearchTerm:@"all of these will be escaped:~{]"
+ *							   fieldScope:nil // searches only name fields
+ *							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
+ *								 									  forKey:@"User"]];
+ *
  */
 
 // Reserved characters that must be escaped in SOSL search terms
