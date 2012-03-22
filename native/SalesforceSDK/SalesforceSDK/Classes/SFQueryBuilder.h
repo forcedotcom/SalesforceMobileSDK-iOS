@@ -69,8 +69,7 @@
  * @param term - the search term. This is sanitized for proper characters
  * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
  * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
- * and each value is a string with the (optional) fieldlist, where, order by, and limit clause for that object.
- * Note that each of those clauses is optional
+ * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
  */
 + (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
@@ -82,8 +81,7 @@
  * @param term - the search term. This is sanitized for proper characters
  * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
  * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
- * and each value is a string with the fieldlist, where, order by, and limit clause for that object.
- * Note that each of those clauses is optional
+ * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
  * @param limit - overall search limit (max 200)
  */
@@ -102,7 +100,7 @@
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
                            sObject:(NSString *)sObject 
                              where:(NSString *)where 
-                             limit:(NSUInteger)limit;
+                             limit:(NSInteger)limit;
 
 /**
  * Generate a SOQL query.
@@ -120,6 +118,6 @@
                            groupBy:(NSArray *)groupBy 
                             having:(NSString *)having
                            orderBy:(NSArray *)orderBy 
-                             limit:(NSUInteger)limit;
+                             limit:(NSInteger)limit;
 
 @end

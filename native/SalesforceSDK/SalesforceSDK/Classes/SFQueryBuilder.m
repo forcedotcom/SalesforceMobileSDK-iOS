@@ -94,7 +94,7 @@
 	return query;
 }
 
-+ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where limit:(NSUInteger)limit {
++ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where limit:(NSInteger)limit {
 	return [self SOQLQueryWithFields:fields
 							 sObject:sObject
 							   where:where
@@ -104,7 +104,7 @@
 							   limit:limit];
 }
 
-+ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where groupBy:(NSArray *)groupBy having:(NSString *)having orderBy:(NSArray *)orderBy limit:(NSUInteger)limit {
++ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where groupBy:(NSArray *)groupBy having:(NSString *)having orderBy:(NSArray *)orderBy limit:(NSInteger)limit {
 	if( !fields || [fields count] == 0 )
 		return nil;
 
