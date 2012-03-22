@@ -42,8 +42,7 @@
  NSString *soslQuery = 
  [SFQueryBuilder SOSLSearchWithSearchTerm:@"hersh"
 							   fieldScope:nil // searches only name fields
-							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true and "
-								 		    "( usertype = 'Standard' or usertype = 'CSNOnly' ) ORDER BY lastname asc limit 5"
+							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
 								 									  forKey:@"User"]];
  
  */
@@ -69,23 +68,25 @@
  * Generate a SOSL query.
  * @param term - the search term. This is sanitized for proper characters
  * @param fieldscope - the SOSL scope, e.g. "IN ALL FIELDS". Defaults to "IN NAME FIELDS" if nil
- * @param objectScope - nil to search all objects, or a dictionary with keys sObjectName and values of field term to search on each object
+ * @param objectScope - nil to search all objects, or a dictionary where each key is an sObject name
+ * and each value is the SOSL search term for that object.
  */
 + (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
-							 fieldScope:(NSString *)fieldScope 
-						    objectScope:(NSDictionary *)objectScope;
+                             fieldScope:(NSString *)fieldScope 
+                            objectScope:(NSDictionary *)objectScope;
 
 /**
 * Generate a SOSL query.
 * @param term - the search term. This is sanitized for proper characters
 * @param fieldscope - the SOSL scope, e.g. "IN ALL FIELDS". Defaults to "IN NAME FIELDS" if nil
-* @param objectScope - nil to search all objects, or a dictionary with keys sObjectName and values of field term to search on each object
+* @param objectScope - nil to search all objects, or a dictionary where each key is an sObject name
+* and each value is the SOSL search term for that object.
 * @param limit - overall search limit (max 200)
 */
 + (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
-							 fieldScope:(NSString *)fieldScope 
-						    objectScope:(NSDictionary *)objectScope 
-							  	  limit:(NSInteger)limit;
+                             fieldScope:(NSString *)fieldScope 
+                            objectScope:(NSDictionary *)objectScope 
+                                  limit:(NSInteger)limit;
 
 /**
  * Generate a SOQL query.
@@ -95,9 +96,9 @@
  * @param limit - limit count, or 0 for no limit (for use with query locators)
  */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
-						   sObject:(NSString *)sObject 
-							 where:(NSString *)where 
-							 limit:(NSUInteger)limit;
+                           sObject:(NSString *)sObject 
+                             where:(NSString *)where 
+                             limit:(NSUInteger)limit;
 
 /**
 * Generate a SOQL query.
@@ -110,11 +111,11 @@
 * @param limit - limit count, or 0 for no limit (for use with query locators)
 */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
-						   sObject:(NSString *)sObject 
-							 where:(NSString *)where 
-						   groupBy:(NSArray *)groupBy 
-							having:(NSString *)having
-						   orderBy:(NSArray *)orderBy 
-							 limit:(NSUInteger)limit;
+                           sObject:(NSString *)sObject 
+                             where:(NSString *)where 
+                           groupBy:(NSArray *)groupBy 
+                            having:(NSString *)having
+                           orderBy:(NSArray *)orderBy 
+                             limit:(NSUInteger)limit;
 
 @end
