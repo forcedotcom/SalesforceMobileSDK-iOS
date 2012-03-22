@@ -75,10 +75,14 @@
 	if( objectScope && [objectScope count] > 0 ) {
 		NSMutableArray *scopes = [NSMutableArray array];
 
-		for( NSString *sObject in [objectScope allKeys] )
-			[scopes addObject:[NSString stringWithFormat:@"%@ (%@)",
-								sObject,
-								[self sanitizeSOQLQueryFieldList:[objectScope objectForKey:sObject]]]];
+		for( NSString *sObject in [objectScope allKeys] ) {
+            NSMutableString *scope = [NSMutableString stringWithString:sObject];
+            
+            if( [[objectScope objectForKey:sObject] isKindOfClass:[NSString class]] )
+                [scope appendString:[objectScope objectForKey:sObject]];
+            
+			[scopes addObject:scope];
+        }
 
 		[query appendString:[NSString stringWithFormat:@" RETURNING %@", [scopes componentsJoinedByString:@","]]];
 	}
