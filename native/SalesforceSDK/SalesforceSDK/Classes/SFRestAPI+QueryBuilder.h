@@ -41,7 +41,6 @@
  * 
  * NSString *soslQuery = 
  * [SFRestAPI SOSLSearchWithSearchTerm:@"all of these will be escaped:~{]"
- *							   fieldScope:nil // searches only name fields
  *							  objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
  *								 									  forKey:@"User"]];
  *
