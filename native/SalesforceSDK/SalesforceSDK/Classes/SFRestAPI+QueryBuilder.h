@@ -70,13 +70,11 @@ static NSInteger const kMaxSOSLSearchLimit      = 200;
 /**
  * Generate a SOSL search.
  * @param term - the search term. This is sanitized for proper characters
- * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
  * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
  * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
  */
 + (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
-                             fieldScope:(NSString *)fieldScope 
                             objectScope:(NSDictionary *)objectScope;
 
 /**

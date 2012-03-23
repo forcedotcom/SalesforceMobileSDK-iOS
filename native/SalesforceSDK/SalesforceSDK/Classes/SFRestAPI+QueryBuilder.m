@@ -55,9 +55,9 @@
 	return searchTerm;
 }
 
-+ (NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(NSString *)fieldScope objectScope:(NSDictionary *)objectScope {
++ (NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(NSDictionary *)objectScope {
 	return [self SOSLSearchWithSearchTerm:term
-							   fieldScope:fieldScope
+							   fieldScope:nil
 							  objectScope:objectScope 
 							   	    limit:0];
 }
