@@ -934,6 +934,13 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
+
+    STAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil where:nil limit:0],
+                @"Invalid query did not result in nil output.");
+    
+    STAssertNil( [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObject:@"Id"] sObject:nil where:nil limit:0],
+                @"Invalid query did not result in nil output.");
+    
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
     NSString *complexQuery = @"select id,status from Lead where id<>null group by status limit 10";
     
@@ -958,11 +965,18 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 }
 
 - (void) testSOSL {
+    
+    STAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
+                 @"Invalid search did not result in nil output.");
+    
+    STAssertTrue( [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
+                   hasSuffix:[NSString stringWithFormat:@"%i", kMaxSOSLSearchLimit]],
+                 @"SOSL search limit was not properly enforced.");
+    
     NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
     NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) limit 200";
     
     STAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
-                                                                         fieldScope:nil
                                                                         objectScope:[NSDictionary dictionaryWithObject:[NSNull null]
                                                                                                                 forKey:@"User"]]],
                  @"Simple SOSL search does not match.");
