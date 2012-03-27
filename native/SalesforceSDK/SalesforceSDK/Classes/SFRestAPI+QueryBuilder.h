@@ -62,7 +62,6 @@ static NSInteger const kMaxSOSLSearchLimit      = 200;
 /* Sanitizing */
 
 + (NSString *) sanitizeSOSLSearchTerm:(NSString *)searchTerm;
-+ (NSString *) sanitizeSOQLQueryFieldList:(NSString *)fieldList;
 
 /* Generating queries */
 

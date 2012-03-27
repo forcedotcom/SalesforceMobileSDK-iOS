@@ -29,20 +29,6 @@
 
 @implementation SFRestAPI (QueryBuilder)
 
-+ (NSString *) sanitizeSOQLQueryFieldList:(NSString *)fieldList {
-	if( !fieldList || [fieldList length] == 0 )
-		return nil;
-
-    // I don't always autogenerate field lists, but when I do, sometimes I mess up and make
-    // something like id, name, account.name, account.recordtype, account., status
-    // and the query will fail. This is meant to catch and replace a few common errors
-	fieldList = [fieldList stringByReplacingOccurrencesOfString:@",," withString:@","];
-	fieldList = [fieldList stringByReplacingOccurrencesOfString:@".," withString:@","];
-	fieldList = [fieldList stringByReplacingOccurrencesOfString:@",." withString:@","];
-
-	return fieldList;
-}
-
 + (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm {
 	// Escape every reserved character in this term
 	for( int i = 0; i < [kSOSLReservedCharacters length]; i++ ) {
@@ -112,7 +98,7 @@
 		return nil;
 
 	NSMutableString *query = [NSMutableString stringWithFormat:@"select %@ from %@",
-							  [self sanitizeSOQLQueryFieldList:[[[NSSet setWithArray:fields] allObjects] componentsJoinedByString:@","]],
+							  [[[NSSet setWithArray:fields] allObjects] componentsJoinedByString:@","],
 							  sObject];
 
 	if( where && [where length] > 0 )
