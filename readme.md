@@ -21,10 +21,20 @@ If you have problems building any of the projects, take a look at the online [FA
 
 Introduction
 ==
+__What’s New in 1.1__ 
+
+**Secure Offline API** 
+Store sensitive business data directly on a device with enterprise-class encryption for offline access. The Salesforce SDK provides a robust API for storing, retrieving, and querying  data without internet connectivity. 
+
+**Flexible OAuth2 authentication flow** 
+For hybrid apps, you now have the flexibility to configure whether or not your app needs to authenticate immediately when the app starts, or whether you'd prefer to defer authentication to a more convenient time in your app's lifecycle. 
+
+**Blocks APIs for iOS** 
+For native iOS developers, the REST API libraries have been updated to support a blocks-based callback interface, to make responding to asynchronous REST calls much easier.
+
 __Version 1.0__
 This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
 Check out [Developer Force](http://developer.force.com/mobilesdk) for additional articles and tutorials.
-
 
 __Native Applications__
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session id when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
