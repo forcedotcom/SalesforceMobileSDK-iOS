@@ -969,8 +969,10 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     STAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
                  @"Invalid search did not result in nil output.");
     
-    STAssertTrue( [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
-                   hasSuffix:[NSString stringWithFormat:@"%i", kMaxSOSLSearchLimit]],
+    BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
+                                hasSuffix:[NSString stringWithFormat:@"%i", kMaxSOSLSearchLimit]];
+    
+    STAssertTrue( searchLimitEnforced,
                  @"SOSL search limit was not properly enforced.");
     
     NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
