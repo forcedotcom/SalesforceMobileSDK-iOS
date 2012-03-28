@@ -42,7 +42,6 @@
 		7D8ECEDA14EB2642004F241C /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEC814EB2642004F241C /* SqliteAdditions.h */; };
 		7D8ECEDD14EB270C004F241C /* NSDictionary+NullHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEDB14EB270C004F241C /* NSDictionary+NullHandling.m */; };
 		7D8ECEDE14EB270C004F241C /* NSDictionary+NullHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEDC14EB270C004F241C /* NSDictionary+NullHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9E50D2144F3656003B013F /* libprofile_rt.dylib */; };
 		7DC1D67C14DB0AFC005B819A /* CoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62514DB0AFC005B819A /* CoreData.h */; };
 		7DC1D67D14DB0AFC005B819A /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62614DB0AFC005B819A /* Errors.h */; };
 		7DC1D67E14DB0AFC005B819A /* FileMD5Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC1D62714DB0AFC005B819A /* FileMD5Hash.h */; };
@@ -203,7 +202,6 @@
 		7D8ECEC814EB2642004F241C /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
 		7D8ECEDB14EB270C004F241C /* NSDictionary+NullHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullHandling.m"; sourceTree = "<group>"; };
 		7D8ECEDC14EB270C004F241C /* NSDictionary+NullHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullHandling.h"; sourceTree = "<group>"; };
-		7D9E50D2144F3656003B013F /* libprofile_rt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libprofile_rt.dylib; path = usr/lib/libprofile_rt.dylib; sourceTree = DEVELOPER_DIR; };
 		7DC1D62514DB0AFC005B819A /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
 		7DC1D62614DB0AFC005B819A /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
 		7DC1D62714DB0AFC005B819A /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
@@ -350,7 +348,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D9E50D3144F3656003B013F /* libprofile_rt.dylib in Frameworks */,
 				C28DCB0513F1EAA20050371C /* Security.framework in Frameworks */,
 				C28DCB0313F1EA940050371C /* CFNetwork.framework in Frameworks */,
 				C28DCB0113F1EA840050371C /* MobileCoreServices.framework in Frameworks */,
@@ -732,7 +729,6 @@
 		C28DCAFB13F1EA4C0050371C /* FramekworksTests */ = {
 			isa = PBXGroup;
 			children = (
-				7D9E50D2144F3656003B013F /* libprofile_rt.dylib */,
 				C28DCAF913F1EA3E0050371C /* libxml2.dylib */,
 				C28DCB0413F1EAA10050371C /* Security.framework */,
 				C28DCAFE13F1EA700050371C /* CoreData.framework */,
