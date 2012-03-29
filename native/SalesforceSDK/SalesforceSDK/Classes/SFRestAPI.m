@@ -145,12 +145,12 @@ static dispatch_once_t _sharedInstanceGuard;
     if (![coordinator isEqual:_coordinator]) {
         [_coordinator release];
         _coordinator = [coordinator retain];
-        self.rkClient = nil; //clear restkit since auth may have changed
-        
-        if (nil != _coordinator) {
-            [self rkClient]; //touch to instantiate if needed
-        } 
     }
+    
+    self.rkClient = nil; //clear restkit since credentials may have changed
+    if (nil != _coordinator) {
+        [self rkClient]; //touch to instantiate if needed
+    } 
 }
 
 
