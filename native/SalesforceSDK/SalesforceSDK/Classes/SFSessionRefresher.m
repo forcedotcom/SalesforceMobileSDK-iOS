@@ -25,6 +25,7 @@
 #import "SFSessionRefresher.h"
 
 #import "RKRequestDelegateWrapper.h"
+#import "SFRestAPI.h"
 
 @interface SFSessionRefresher (Private)
 
@@ -133,6 +134,9 @@
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     NSLog(@"oauthCoordinatorDidAuthenticate");
+    
+    //re-set to ensure we sharing the same coordinator
+    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
     
     // the token exchange worked.
     [self restoreOAuthDelegate];
