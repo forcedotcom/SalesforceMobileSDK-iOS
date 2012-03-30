@@ -53,12 +53,7 @@ static char CompleteBlockKey;
 
 #pragma mark - sending requests
 
-/**
- * Internal function for sending REST requests.
- * @param request the SFRestRequest to be sent
- * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
- * @param completeBlock the block to be executed when the request successfully completes
- */
+
 - (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {    
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
