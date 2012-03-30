@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.1.2";
+static NSString * const kSFMobileSDKVersion = @"1.1.3";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -147,9 +147,10 @@ static dispatch_once_t _sharedInstanceGuard;
         _coordinator = [coordinator retain];
     }
     
-    self.rkClient = nil; //clear restkit since credentials may have changed
     if (nil != _coordinator) {
-        [self rkClient]; //touch to instantiate if needed
+        //touch rkClient to instantiate if needed, AND update the base url
+        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:_coordinator.credentials.instanceUrl];
+        [[self rkClient] setBaseURL:freshBaseUrl]; 
     } 
 }
 
