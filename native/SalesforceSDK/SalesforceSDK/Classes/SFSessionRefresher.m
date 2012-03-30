@@ -135,7 +135,7 @@
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     NSLog(@"oauthCoordinatorDidAuthenticate");
     
-    //re-set to ensure we sharing the same coordinator
+    //re-set to ensure we are sharing the same coordinator (and update credentials)
     [[SFRestAPI sharedInstance] setCoordinator:coordinator];
     
     // the token exchange worked.
