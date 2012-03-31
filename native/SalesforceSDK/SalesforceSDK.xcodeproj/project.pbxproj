@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1012,6 +1013,7 @@
 				7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */,
 				5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */,
 				7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */,
+				5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
