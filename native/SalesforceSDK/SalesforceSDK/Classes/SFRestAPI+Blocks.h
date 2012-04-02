@@ -37,6 +37,15 @@ typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 
 + (NSError *)errorWithDescription:(NSString *)description;
 
+
+/**
+ * Send a request you've already built, using blocks to return status.
+ * @param request the SFRestRequest to be sent
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ */
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;    
+
 // Various request types.
 
 /**
