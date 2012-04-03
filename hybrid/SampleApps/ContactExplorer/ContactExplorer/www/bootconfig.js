@@ -28,9 +28,10 @@ var startData = new SFHybridApp.LocalAppStartData();  // Used for local REST-bas
 
 
 // Whether the container app should automatically refresh our oauth session on app foreground:
-// generally a good idea.
 var autoRefreshOnForeground = true; 
     
+// Whether the container app should automatically refresh our oauth session periodically
+var autoRefreshPeriodically = false; //forcetk-based apps refresh session automatically
 
 //-----------------------------------------------------------------
 // End configuration block

@@ -27,10 +27,11 @@ var oauthScopes = ["visualforce","api"];
 var startData = new SFHybridApp.RemoteAppStartData("/apex/BasicVFPage"); // Used for Visualforce-based apps.
 
 
-// Whether the container app should automatically refresh our oauth session on app foreground:
-// generally a good idea.
+// Whether the container app should automatically refresh our oauth session on app foreground
 var autoRefreshOnForeground = true; 
     
+// Whether the container app should automatically refresh our oauth session periodically
+var autoRefreshPeriodically = true; //VF-based apps should generally ask to refresh periodically in case the user session times out
 
 //-----------------------------------------------------------------
 // End configuration block
