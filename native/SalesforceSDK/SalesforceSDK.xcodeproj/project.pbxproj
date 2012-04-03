@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
+		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; };
+		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ECED62F14B4C93400A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
 		5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
@@ -168,6 +171,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
+		5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+QueryBuilder.m"; sourceTree = "<group>"; };
 		5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
 		5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Blocks.m"; sourceTree = "<group>"; };
 		7D32F6C71506A3BD00AD2D64 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
@@ -717,6 +722,8 @@
 				C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */,
 				5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */,
 				5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */,
+				5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */,
+				5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */,
 				C2C92E3413D9EBC7008833A4 /* RKRequestDelegateWrapper.h */,
 				C2C92E3513D9EBC7008833A4 /* RKRequestDelegateWrapper.m */,
 				C2C92E6513DE109F008833A4 /* SFRestRequest.h */,
@@ -854,6 +861,7 @@
 				7D8ECEDE14EB270C004F241C /* NSDictionary+NullHandling.h in Headers */,
 				7D32F6CB1506A3BD00AD2D64 /* SFOAuthCoordinator.h in Headers */,
 				7D32F6CC1506A3BD00AD2D64 /* SFOAuthCredentials.h in Headers */,
+				5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,6 +996,7 @@
 				7D8ECED814EB2642004F241C /* FMResultSet.m in Sources */,
 				7D8ECED914EB2642004F241C /* SqliteAdditions.c in Sources */,
 				7D8ECEDD14EB270C004F241C /* NSDictionary+NullHandling.m in Sources */,
+				5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1004,6 +1013,7 @@
 				7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */,
 				5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */,
 				7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */,
+				5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
