@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
-		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; };
+		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ECED62F14B4C93400A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
 		5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */; };
-		7D055BE81431006700B571E6 /* (null) in Headers */ = {isa = PBXBuildFile; };
 		7D32F6CB1506A3BD00AD2D64 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F6C71506A3BD00AD2D64 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D32F6CC1506A3BD00AD2D64 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F6C81506A3BD00AD2D64 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D32F6CE1506A3FD00AD2D64 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D32F6CA1506A3BD00AD2D64 /* libSalesforceOAuth.a */; };
@@ -757,11 +756,11 @@
 			files = (
 				C26713EF13D6B8DB001FE0B8 /* SFRestAPI.h in Headers */,
 				C2C92E6713DE10A0008833A4 /* SFRestRequest.h in Headers */,
+				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
 				C2C92E3613D9EBC7008833A4 /* RKRequestDelegateWrapper.h in Headers */,
+				5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */,
 				7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */,
 				7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */,
-				7D055BE81431006700B571E6 /* (null) in Headers */,
-				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
 				7DD88EF214DA051F00C0D0A0 /* SFJsonUtils.h in Headers */,
 				7DC1D67C14DB0AFC005B819A /* CoreData.h in Headers */,
 				7DC1D67D14DB0AFC005B819A /* Errors.h in Headers */,
@@ -861,7 +860,6 @@
 				7D8ECEDE14EB270C004F241C /* NSDictionary+NullHandling.h in Headers */,
 				7D32F6CB1506A3BD00AD2D64 /* SFOAuthCoordinator.h in Headers */,
 				7D32F6CC1506A3BD00AD2D64 /* SFOAuthCredentials.h in Headers */,
-				5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

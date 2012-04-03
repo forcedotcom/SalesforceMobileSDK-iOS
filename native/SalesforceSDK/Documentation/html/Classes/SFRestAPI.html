@@ -43,6 +43,8 @@
 	
 	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
 	
+	<option value="//api/name/userAgentString">&nbsp;&nbsp;&nbsp;&nbsp;+ userAgentString</option>
+	
 	
 	
 	
@@ -98,6 +100,8 @@
 	
 	<option value="//api/name/send:delegate:">&nbsp;&nbsp;&nbsp;&nbsp;- send:delegate:</option>
 	
+	<option value="//api/name/sendRESTRequest:failBlock:completeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- sendRESTRequest:failBlock:completeBlock:</option>
+	
 	
 	
 </select>
@@ -115,6 +119,8 @@
 <li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_SFRestRequest factory methods">SFRestRequest factory methods</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Other utility methods">Other utility methods</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
 	
@@ -135,6 +141,8 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAgentString">userAgentString</a></span></li>
 	
 </ul></li>
 
@@ -191,6 +199,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestForVersions">requestForVersions</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/send:delegate:">send:delegate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">sendRESTRequest:failBlock:completeBlock:</a></span></li>
 	
 </ul></li>
 
@@ -459,11 +469,33 @@ given external ID.</p></span>
 						</ul>
 						
 						
+						<a title="Other utility methods" name="task_Other utility methods"></a>
+						<h3 class="subsubtitle task-title">Other utility methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userAgentString">+&nbsp;userAgentString</a></code>
+		<span class="tooltip"><p>Provides the User-Agent string used by the SDK</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
 						<a title="Blocks Methods" name="task_Blocks Methods"></a>
 						<h3 class="subsubtitle task-title">Blocks Methods</h3>
 
 						<ul class="task-list">
 							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendRESTRequest:failBlock:completeBlock:</a></code>
+		<span class="tooltip"><p>Send a request you&rsquo;ve already built, using blocks to return status.</p></span>
+	</span>
+	
+	
+</li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQuery:failBlock:completeBlock:</a></code>
 		<span class="tooltip"><p>Executes a SOQL query.</p></span>
@@ -632,6 +664,43 @@ should set it as the coordinator property of this instance.</p>
 		<p>Returns the singleton instance of <code>SFRestAPI</code>
 After a successful oauth login with an SFOAuthCoordinator, you
 should set it as the coordinator property of this instance.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userAgentString" title="userAgentString"></a>
+	<h3 class="subsubtitle method-title">userAgentString</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Provides the User-Agent string used by the SDK</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)userAgentString</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Provides the User-Agent string used by the SDK</p>
 	</div>
 	
 	
@@ -2195,6 +2264,63 @@ This overwrites the delegate property of the request.</p></dd>
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/sendRESTRequest:failBlock:completeBlock:" title="sendRESTRequest:failBlock:completeBlock:"></a>
+	<h3 class="subsubtitle method-title">sendRESTRequest:failBlock:completeBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Send a request you&rsquo;ve already built, using blocks to return status.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)sendRESTRequest:(SFRestRequest *)<em>request</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(id)<em>completeBlock</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>request</em></dt>
+			<dd><p>the SFRestRequest to be sent</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>failBlock</em></dt>
+			<dd><p>the block to be executed when the request fails (timeout, cancel, or error)</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>completeBlock</em></dt>
+			<dd><p>the block to be executed when the request successfully completes</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Send a request you&rsquo;ve already built, using blocks to return status.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+Blocks.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
@@ -2208,7 +2334,7 @@ This overwrites the delegate property of the request.</p></dd>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-03-07)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
