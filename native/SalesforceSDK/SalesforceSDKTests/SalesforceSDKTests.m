@@ -976,13 +976,12 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                  @"SOSL search limit was not properly enforced.");
     
     NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
-    NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) limit 200";
+    NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) LIMIT 200";
     
     STAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                         objectScope:[NSDictionary dictionaryWithObject:[NSNull null]
                                                                                                                 forKey:@"User"]]],
-                 @"Simple SOSL search does not match.");
-    
+                 @"Simple SOSL search does not match.");    
     
     STAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                           fieldScope:nil

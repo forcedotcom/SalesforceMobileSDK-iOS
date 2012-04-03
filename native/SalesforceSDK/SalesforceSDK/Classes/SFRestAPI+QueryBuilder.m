@@ -66,7 +66,7 @@
             NSMutableString *scope = [NSMutableString stringWithString:sObject];
             
             if( [[objectScope objectForKey:sObject] isKindOfClass:[NSString class]] )
-                [scope appendString:[objectScope objectForKey:sObject]];
+                [scope appendFormat:@" (%@)", [objectScope objectForKey:sObject]];
             
 			[scopes addObject:scope];
         }
