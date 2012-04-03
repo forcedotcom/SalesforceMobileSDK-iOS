@@ -31,7 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.1.3";
+static NSString * const kSFMobileSDKVersion = @"1.1.4";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
