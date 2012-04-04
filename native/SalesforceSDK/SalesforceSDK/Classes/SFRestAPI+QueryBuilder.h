@@ -26,7 +26,8 @@
  */
  
  
- /** This utility class assists with creating SOQL and SOSL queries. 
+ /** 
+ * This category assists with creating SOQL and SOSL queries. 
  * 
  * Example SOQL usage:
  * 
@@ -50,20 +51,21 @@
 #import "SFRestAPI.h"
 
 // Reserved characters that must be escaped in SOSL search terms
-// backslash goes first!
-static NSString * const kSOSLReservedCharacters = @"\\?&|!{}[]()^~*:\"'+-";
-static NSString * const kSOSLEscapeCharacter    = @"\\";
+extern NSString * const kSOSLReservedCharacters;
+extern NSString * const kSOSLEscapeCharacter;
 
 // Maximum number of records returned via SOSL search
-static NSInteger const kMaxSOSLSearchLimit      = 200;
+extern NSInteger const kMaxSOSLSearchLimit;
 
 @interface SFRestAPI (QueryBuilder)
 
-/* Sanitizing */
-
+/**
+ @param searchTerm The search term to be sanitized.
+ @return SOSL-safe version of search term
+ */
 + (NSString *) sanitizeSOSLSearchTerm:(NSString *)searchTerm;
 
-/* Generating queries */
+#pragma mark - Generating searches
 
 /**
  * Generate a SOSL search.
@@ -78,7 +80,7 @@ static NSInteger const kMaxSOSLSearchLimit      = 200;
 /**
  * Generate a SOSL search.
  * @param term - the search term. This is sanitized for proper characters
- * @param fieldscope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
+ * @param fieldScope - nil OR the SOSL scope, e.g. "IN ALL FIELDS". if nil, defaults to "IN NAME FIELDS"
  * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
  * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
@@ -92,7 +94,7 @@ static NSInteger const kMaxSOSLSearchLimit      = 200;
 /**
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
- * @param object - object to query
+ * @param sObject - object to query
  * @param where - nil OR where clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
  */
@@ -104,7 +106,7 @@ static NSInteger const kMaxSOSLSearchLimit      = 200;
 /**
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
- * @param object - object to query
+ * @param sObject - object to query
  * @param where - nil OR where clause
  * @param groupBy - nil OR NSArray of strings, each string is an individual group by clause
  * @param having - nil OR having clause
