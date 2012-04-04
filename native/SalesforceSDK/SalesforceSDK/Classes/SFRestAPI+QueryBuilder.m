@@ -27,6 +27,15 @@
 
 #import "SFRestAPI+QueryBuilder.h"
 
+
+// Reserved characters that must be escaped in SOSL search terms
+// backslash goes first!
+NSString * const kSOSLReservedCharacters = @"\\?&|!{}[]()^~*:\"'+-";
+NSString * const kSOSLEscapeCharacter    = @"\\";
+
+// Maximum number of records returned via SOSL search
+NSInteger const kMaxSOSLSearchLimit      = 200;
+
 @implementation SFRestAPI (QueryBuilder)
 
 + (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm {

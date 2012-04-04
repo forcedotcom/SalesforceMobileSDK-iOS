@@ -41,6 +41,16 @@
 	
 	<option value="class_methods">Class Methods</option>
 	
+	<option value="//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">&nbsp;&nbsp;&nbsp;&nbsp;+ SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</option>
+	
+	<option value="//api/name/SOQLQueryWithFields:sObject:where:limit:">&nbsp;&nbsp;&nbsp;&nbsp;+ SOQLQueryWithFields:sObject:where:limit:</option>
+	
+	<option value="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">&nbsp;&nbsp;&nbsp;&nbsp;+ SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</option>
+	
+	<option value="//api/name/SOSLSearchWithSearchTerm:objectScope:">&nbsp;&nbsp;&nbsp;&nbsp;+ SOSLSearchWithSearchTerm:objectScope:</option>
+	
+	<option value="//api/name/sanitizeSOSLSearchTerm:">&nbsp;&nbsp;&nbsp;&nbsp;+ sanitizeSOSLSearchTerm:</option>
+	
 	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
 	
 	<option value="//api/name/userAgentString">&nbsp;&nbsp;&nbsp;&nbsp;+ userAgentString</option>
@@ -122,6 +132,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Other utility methods">Other utility methods</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_QueryBuilder Methods">QueryBuilder Methods</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
 	
 </ul></li>
@@ -139,6 +151,16 @@
 
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/SOQLQueryWithFields:sObject:where:limit:">SOQLQueryWithFields:sObject:where:limit:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">SOSLSearchWithSearchTerm:objectScope:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sanitizeSOSLSearchTerm:">sanitizeSOSLSearchTerm:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
 	
@@ -484,6 +506,49 @@ given external ID.</p></span>
 						</ul>
 						
 						
+						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
+						<h3 class="subsubtitle task-title">QueryBuilder Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
+		<span class="tooltip"><p>The search term to be sanitized.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
+		<span class="tooltip"><p>Generate a SOSL search.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOSL search.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOQL query.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOQL query.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
 						<a title="Blocks Methods" name="task_Blocks Methods"></a>
 						<h3 class="subsubtitle task-title">Blocks Methods</h3>
 
@@ -638,6 +703,361 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 					<div class="section section-methods">
 						<a title="Class Methods" name="class_methods"></a>
 						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:" title="SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:"></a>
+	<h3 class="subsubtitle method-title">SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generate a SOQL query.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)SOQLQueryWithFields:(NSArray *)<em>fields</em> sObject:(NSString *)<em>sObject</em> where:(NSString *)<em>where</em> groupBy:(NSArray *)<em>groupBy</em> having:(NSString *)<em>having</em> orderBy:(NSArray *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>fields</em></dt>
+			<dd><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>sObject</em></dt>
+			<dd><ul>
+<li>object to query</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>where</em></dt>
+			<dd><ul>
+<li>nil OR where clause</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>groupBy</em></dt>
+			<dd><ul>
+<li>nil OR NSArray of strings, each string is an individual group by clause</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>having</em></dt>
+			<dd><ul>
+<li>nil OR having clause</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>orderBy</em></dt>
+			<dd><ul>
+<li>nil OR NSArray of strings, each string is an individual order by clause</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>limit</em></dt>
+			<dd><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generate a SOQL query.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:where:limit:" title="SOQLQueryWithFields:sObject:where:limit:"></a>
+	<h3 class="subsubtitle method-title">SOQLQueryWithFields:sObject:where:limit:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generate a SOQL query.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)SOQLQueryWithFields:(NSArray *)<em>fields</em> sObject:(NSString *)<em>sObject</em> where:(NSString *)<em>where</em> limit:(NSInteger)<em>limit</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>fields</em></dt>
+			<dd><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>sObject</em></dt>
+			<dd><ul>
+<li>object to query</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>where</em></dt>
+			<dd><ul>
+<li>nil OR where clause</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>limit</em></dt>
+			<dd><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generate a SOQL query.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:" title="SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:"></a>
+	<h3 class="subsubtitle method-title">SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generate a SOSL search.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(NSString *)<em>fieldScope</em> objectScope:(NSDictionary *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>term</em></dt>
+			<dd><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>fieldScope</em></dt>
+			<dd><ul>
+<li>nil OR the SOSL scope, e.g. &ldquo;IN ALL FIELDS&rdquo;. if nil, defaults to &ldquo;IN NAME FIELDS&rdquo;</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>objectScope</em></dt>
+			<dd><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>limit</em></dt>
+			<dd><ul>
+<li>overall search limit (max 200)</li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generate a SOSL search.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:objectScope:" title="SOSLSearchWithSearchTerm:objectScope:"></a>
+	<h3 class="subsubtitle method-title">SOSLSearchWithSearchTerm:objectScope:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generate a SOSL search.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(NSDictionary *)<em>objectScope</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>term</em></dt>
+			<dd><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>objectScope</em></dt>
+			<dd><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generate a SOSL search.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/sanitizeSOSLSearchTerm:" title="sanitizeSOSLSearchTerm:"></a>
+	<h3 class="subsubtitle method-title">sanitizeSOSLSearchTerm:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The search term to be sanitized.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>searchTerm</em></dt>
+			<dd><p>The search term to be sanitized.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>SOSL-safe version of search term</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code><br />
+	</div>				
+	
+	
+</div>
 						
 						<div class="section-method">
 	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
@@ -2334,7 +2754,7 @@ This overwrites the delegate property of the request.</p></dd>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-03)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-04)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
