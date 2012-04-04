@@ -77,8 +77,10 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
               dictResponse);
     
     //check whether the test config file has never been edited
-    NSAssert(![refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
-             @"You need to obtain credentials for your test org and replace test_credentials.json");
+    if ([refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"]) {
+        NSLog(@"You need to obtain credentials for your test org and replace test_credentials.json");
+        NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
+    }
     
     SFOAuthCredentials *credentials =
     [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount"
