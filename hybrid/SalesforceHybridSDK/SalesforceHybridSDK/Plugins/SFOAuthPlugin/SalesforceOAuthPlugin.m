@@ -52,6 +52,9 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 /// Value to use for login host if user never opens the app settings.
 NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
+
+NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
+
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
@@ -114,6 +117,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)showRetryAlertForAuthError:(NSError *)error;
 
+
+/**
+ Periodic check for auto refresh
+ */
+- (void)startSessionAutoRefreshTimer;
+- (void)clearSessionAutoRefreshTimer;
+
 @end
 
 // ------------------------------------------
@@ -128,6 +138,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize oauthScopes=_oauthScopes;
 @synthesize lastRefreshCompleted = _lastRefreshCompleted;
 @synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
+@synthesize autoRefreshPeriodically = _autoRefreshPeriodically;
 
 #pragma mark - init/dealloc
 
@@ -147,6 +158,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)dealloc
 {
+    [self clearSessionAutoRefreshTimer];
     [self cleanupCoordinator];
     [self cleanupRetryAlert];
     
@@ -276,6 +288,41 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     return credentialsDict;
 }
 
+#pragma mark - Session Auto Refresh handling
+
+- (void)refreshTimerExpired:(NSTimer*)timer
+{
+    NSLog(@"refreshTimerExpired");
+    [self login];
+}
+
+- (void)clearSessionAutoRefreshTimer
+{
+    //clear any existing autorefresh timer
+    [_autoRefreshTimer invalidate]; _autoRefreshTimer = nil;
+}
+
+- (void)startSessionAutoRefreshTimer
+{
+    [self clearSessionAutoRefreshTimer];
+
+    _autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:kSessionAutoRefreshInterval
+                                     target:self
+                                   selector:@selector(refreshTimerExpired:)
+                                   userInfo:nil
+                                    repeats:YES]; //every 15 mins
+}
+
+- (void)setAutoRefreshPeriodically:(BOOL)autoRefreshPeriodically
+{
+    _autoRefreshPeriodically = autoRefreshPeriodically;
+    
+    if (!_autoRefreshPeriodically) {
+        [self clearSessionAutoRefreshTimer]; 
+    }
+    
+}
+
 
 
 #pragma mark - AppDelegate interaction
@@ -286,6 +333,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
     BOOL shouldReset = NO;
     
+    [self clearSessionAutoRefreshTimer];
+
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         shouldReset = YES;
@@ -347,7 +396,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     //verify that we have a network connection
     PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:@"com.phonegap.connection"];
     NSString *connType = connectionPlugin.connectionType;
-    NSLog(@"Available connection: '%@' ",connType);
     
     if ((nil != connType) && 
         ![connType isEqualToString:@"unknown"] && 
@@ -359,7 +407,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self.coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
-        NSLog(@"No network connection -- cannot authenticate");
+        NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
     }
 
 }
@@ -393,6 +441,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     } else {
         //fire a notification that the session has been refreshed
         [self fireSessionRefreshEvent:authDict];
+    }
+    
+    if (self.autoRefreshPeriodically) {
+        [self startSessionAutoRefreshTimer];
     }
 }
 
@@ -433,17 +485,15 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)populateOAuthProperties:(NSString *)propsJsonString
 {
-    NSError *parseError = nil;
-    NSData *jsonData = [propsJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *propsDict = [NSJSONSerialization JSONObjectWithData:jsonData 
-                                                              options:NSJSONReadingMutableContainers 
-                                                                error:&parseError];
+    NSDictionary *propsDict = [SFJsonUtils objectFromJSONString:propsJsonString];
 
-    //NSDictionary *propsDict = [propsJsonString JSONValue];
-    self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
-    self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-    self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
-    self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
+    if (nil != propsDict) {
+        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
+        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
+        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
+        self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
+        self.autoRefreshPeriodically =  [[propsDict objectForKey :@"autoRefreshPeriodically"] boolValue];
+    }
 }
 
 

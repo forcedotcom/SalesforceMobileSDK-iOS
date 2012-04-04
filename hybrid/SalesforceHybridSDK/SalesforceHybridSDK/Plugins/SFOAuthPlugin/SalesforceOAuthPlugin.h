@@ -40,6 +40,8 @@
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
     UIAlertView *_oauthStatusAlert;
+    BOOL _autoRefreshPeriodically;
+    NSTimer *_autoRefreshTimer;
 }
 
 /**
@@ -78,6 +80,13 @@
  Whether the app should automatically refresh oauth session when foregrounded
  */
 @property (nonatomic, assign) BOOL autoRefreshOnForeground;
+
+
+/**
+ Whether the app should automatically refresh oauth session every ~15 minutes
+ while the app is running.
+ */
+@property (nonatomic, assign) BOOL autoRefreshPeriodically;
 
 
 /**
