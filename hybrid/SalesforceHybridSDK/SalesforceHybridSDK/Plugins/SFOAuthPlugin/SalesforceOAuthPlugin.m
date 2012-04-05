@@ -348,7 +348,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
     }
     
     if (!shouldReset) {
-        if (self.autoRefreshOnForeground) {
+        if (self.autoRefreshOnForeground || self.autoRefreshPeriodically) {
             [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
         }
     }
