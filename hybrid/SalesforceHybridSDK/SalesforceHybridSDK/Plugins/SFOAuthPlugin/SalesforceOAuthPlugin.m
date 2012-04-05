@@ -124,6 +124,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 - (void)startSessionAutoRefreshTimer;
 - (void)clearSessionAutoRefreshTimer;
 
+- (void)sendSessionKeepaliveRequest;
+- (void)cleanupSessionKeepaliveRequest;
+
 @end
 
 // ------------------------------------------
@@ -158,6 +161,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 
 - (void)dealloc
 {
+    [self cleanupSessionKeepaliveRequest];
     [self clearSessionAutoRefreshTimer];
     [self cleanupCoordinator];
     [self cleanupRetryAlert];
@@ -293,7 +297,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 - (void)refreshTimerExpired:(NSTimer*)timer
 {
     NSLog(@"refreshTimerExpired");
-    [self login];
+    [self sendSessionKeepaliveRequest];
 }
 
 - (void)clearSessionAutoRefreshTimer
@@ -323,6 +327,67 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
     
 }
 
+
+- (void)cleanupSessionKeepaliveRequest {
+    [_sessionKeepaliveConnection cancel];
+    [_sessionKeepaliveConnection release]; 
+    _sessionKeepaliveConnection = nil;
+}
+
+- (void)sendSessionKeepaliveRequest 
+{
+    [self cleanupSessionKeepaliveRequest];
+    
+    NSLog(@"sendSessionKeepaliveRequest");
+
+    SFOAuthCredentials *creds = self.coordinator.credentials;
+    //retrieve "Versions" -- should remain the same across all API versions
+    NSURL *fullUrl = [[NSURL alloc] initWithScheme:creds.protocol host: creds.instanceUrl.host path:@"/services/data/"];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:fullUrl];
+    [fullUrl release];
+    
+    NSString *authHeader = [[NSString alloc] initWithFormat:@"OAuth %@", creds.accessToken];
+    
+    //[req setHTTPMethod:@"GET"];
+    [req setValue:authHeader forHTTPHeaderField:@"Authorization"];
+    [authHeader release];
+    
+    _sessionKeepaliveConnection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
+    [req release];
+}
+
+
+
+#pragma mark - NSURLConnection delegate
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    if ([connection isEqual:_sessionKeepaliveConnection]) {
+        NSLog(@"keepalive conn failed with error: %@",error);
+
+        //renew the session
+        [self clearSessionAutoRefreshTimer];
+        [self performSelector:@selector(login) withObject:nil afterDelay:0];
+    }
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    if ([connection isEqual:_sessionKeepaliveConnection]) {
+        NSHTTPURLResponse *resp = (NSHTTPURLResponse*)response;
+        if (resp.statusCode == 401) { //unauthorized --- session timeout
+            NSLog(@"keepalive request received session timeout -- renewing session");
+            //renew the session
+            [self clearSessionAutoRefreshTimer];
+            [self performSelector:@selector(login) withObject:nil afterDelay:0];
+        } else {
+            //restart the refresh timer from now, to correct for drift due to network response time
+            [self startSessionAutoRefreshTimer];
+        }
+    }
+}
 
 
 #pragma mark - AppDelegate interaction

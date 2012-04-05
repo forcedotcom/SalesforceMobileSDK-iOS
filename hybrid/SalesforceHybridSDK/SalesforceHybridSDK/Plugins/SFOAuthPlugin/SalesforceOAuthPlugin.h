@@ -42,6 +42,7 @@
     UIAlertView *_oauthStatusAlert;
     BOOL _autoRefreshPeriodically;
     NSTimer *_autoRefreshTimer;
+    NSURLConnection *_sessionKeepaliveConnection;
 }
 
 /**
