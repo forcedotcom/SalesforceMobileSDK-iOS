@@ -21,6 +21,8 @@
 					<select id="jumpTo">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 	
 	
 	
@@ -36,13 +38,26 @@
 	
 	<option value="//api/name/endKey">&nbsp;&nbsp;&nbsp;&nbsp;endKey</option>
 	
+	<option value="//api/name/order">&nbsp;&nbsp;&nbsp;&nbsp;order</option>
+	
+	<option value="//api/name/pageSize">&nbsp;&nbsp;&nbsp;&nbsp;pageSize</option>
+	
 	<option value="//api/name/path">&nbsp;&nbsp;&nbsp;&nbsp;path</option>
+	
+	<option value="//api/name/queryType">&nbsp;&nbsp;&nbsp;&nbsp;queryType</option>
 	
 	<option value="//api/name/sqlSortOrder">&nbsp;&nbsp;&nbsp;&nbsp;sqlSortOrder</option>
 	
 	
 	
 	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/asDictionary">&nbsp;&nbsp;&nbsp;&nbsp;- asDictionary</option>
+	
+	<option value="//api/name/initWithDictionary:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithDictionary:</option>
 	
 	
 	
@@ -53,6 +68,8 @@
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
 
 
 
@@ -70,7 +87,13 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/endKey">endKey</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/order">order</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pageSize">pageSize</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/path">path</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queryType">queryType</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sqlSortOrder">sqlSortOrder</a></span></li>
 	
@@ -79,6 +102,14 @@
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/asDictionary">asDictionary</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithDictionary:">initWithDictionary:</a></span></li>
+	
+</ul></li>
 
 
 			</ul>
@@ -112,6 +143,14 @@
 					
 					
 					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Object containing the query specification for queries against a soup.</p>
+					</div>
+					
+					
+					
 					
 					
 					<div class="section section-tasks">
@@ -125,6 +164,13 @@
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
+		<code><a href="#//api/name/queryType">&nbsp;&nbsp;queryType</a></code>
+		<span class="tooltip"><p>The type of query to run (exact, range, like).</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
 		<span class="tooltip"><p>The indexPath to use for the query.  Compound paths must be dot-delimited ie parent.child.grandchild.field .</p></span>
 	</span>
@@ -133,14 +179,28 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/beginKey">&nbsp;&nbsp;beginKey</a></code>
-		<span class="tooltip"><p>beginKey is used for range, exact, and like queries</p></span>
+		<span class="tooltip"><p>beginKey is used for range, exact, and like queries.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/endKey">&nbsp;&nbsp;endKey</a></code>
-		<span class="tooltip"><p>endKey is used for range queries</p></span>
+		<span class="tooltip"><p>endKey is used for range queries.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/order">&nbsp;&nbsp;order</a></code>
+		<span class="tooltip"><p>A sort order for the query (ascending, descending).</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pageSize">&nbsp;&nbsp;pageSize</a></code>
+		<span class="tooltip"><p>The number of entries per page to return.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -150,6 +210,20 @@
 		<span class="tooltip"><p>ASC or DESC</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithDictionary:">&ndash;&nbsp;initWithDictionary:</a></code>
+		<span class="tooltip"><p>Initializes the object with the given query spec.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/asDictionary">&ndash;&nbsp;asDictionary</a></code>
+		<span class="tooltip"><p>The NSDictionary representation of the query spec.</p></span>
+	</span>
+	
 	
 </li>
 						</ul>
@@ -171,7 +245,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>beginKey is used for range, exact, and like queries</p>
+		<p>beginKey is used for range, exact, and like queries.</p>
 	</div>		
 	
 	
@@ -184,7 +258,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>beginKey is used for range, exact, and like queries</p>
+		<p>beginKey is used for range, exact, and like queries.</p>
 	</div>
 	
 	
@@ -208,7 +282,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>endKey is used for range queries</p>
+		<p>endKey is used for range queries.</p>
 	</div>		
 	
 	
@@ -221,7 +295,81 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>endKey is used for range queries</p>
+		<p>endKey is used for range queries.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupQuerySpec.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/order" title="order"></a>
+	<h3 class="subsubtitle method-title">order</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A sort order for the query (ascending, descending).</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSoupQuerySortOrder order</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>A sort order for the query (ascending, descending).</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupQuerySpec.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pageSize" title="pageSize"></a>
+	<h3 class="subsubtitle method-title">pageSize</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The number of entries per page to return.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUInteger pageSize</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The number of entries per page to return.</p>
 	</div>
 	
 	
@@ -259,6 +407,43 @@
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>The indexPath to use for the query.  Compound paths must be dot-delimited ie parent.child.grandchild.field .</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupQuerySpec.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/queryType" title="queryType"></a>
+	<h3 class="subsubtitle method-title">queryType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The type of query to run (exact, range, like).</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSoupQueryType queryType</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The type of query to run (exact, range, like).</p>
 	</div>
 	
 	
@@ -318,6 +503,101 @@
 					
 					
 					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/asDictionary" title="asDictionary"></a>
+	<h3 class="subsubtitle method-title">asDictionary</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The NSDictionary representation of the query spec.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSDictionary *)asDictionary</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The NSDictionary representation of the query spec.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupQuerySpec.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithDictionary:" title="initWithDictionary:"></a>
+	<h3 class="subsubtitle method-title">initWithDictionary:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Initializes the object with the given query spec.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)initWithDictionary:(NSDictionary *)<em>querySpec</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>querySpec</em></dt>
+			<dd><p>the name/value pairs defining the query spec.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new instance of the object.</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Initializes the object with the given query spec.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupQuerySpec.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
 					
 				</div>
 				<div class="main-navigation navigation-bottom">
@@ -329,7 +609,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-03-07)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

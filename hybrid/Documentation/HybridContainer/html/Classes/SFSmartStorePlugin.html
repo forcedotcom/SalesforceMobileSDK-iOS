@@ -176,73 +176,63 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgSoupExists:withDict:">&ndash;&nbsp;pgSoupExists:withDict:</a></code>
-		<span class="tooltip"><p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p></span>
+		<span class="tooltip"><p>Does the given soup exist in the store?  See see [SFSmartStore soupExists:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgRegisterSoup:withDict:">&ndash;&nbsp;pgRegisterSoup:withDict:</a></code>
-		<span class="tooltip"><p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p></span>
+		<span class="tooltip"><p>Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgRemoveSoup:withDict:">&ndash;&nbsp;pgRemoveSoup:withDict:</a></code>
-		<span class="tooltip"><p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p></span>
+		<span class="tooltip"><p>Removes a soup from the store.  See [SFSmartStore removeSoup:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgQuerySoup:withDict:">&ndash;&nbsp;pgQuerySoup:withDict:</a></code>
-		<span class="tooltip"><p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></span>
+		<span class="tooltip"><p>Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgRetrieveSoupEntries:withDict:">&ndash;&nbsp;pgRetrieveSoupEntries:withDict:</a></code>
-		<span class="tooltip"><p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p></span>
+		<span class="tooltip"><p>Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgUpsertSoupEntries:withDict:">&ndash;&nbsp;pgUpsertSoupEntries:withDict:</a></code>
-		<span class="tooltip"></span>
+		<span class="tooltip"><p>Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgCloseCursor:withDict:">&ndash;&nbsp;pgCloseCursor:withDict:</a></code>
-		<span class="tooltip"></span>
+		<span class="tooltip"><p>Closes a cursor associated with soup data.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/pgRemoveFromSoup:withDict:">&ndash;&nbsp;pgRemoveFromSoup:withDict:</a></code>
-		<span class="tooltip"></span>
+		<span class="tooltip"><p>Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cursorByCursorId:">&ndash;&nbsp;cursorByCursorId:</a></code>
-		<span class="tooltip"><p>The unique ID of the cursor</p></span>
+		<span class="tooltip"><p>Gets a handle to a cursor, from its ID.</p></span>
 	</span>
 	
 	
@@ -313,7 +303,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>The unique ID of the cursor</p>
+		<p>Gets a handle to a cursor, from its ID.</p>
 	</div>		
 	
 	
@@ -325,7 +315,7 @@
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>cursorId</em></dt>
-			<dd><p>The unique ID of the cursor</p></dd>
+			<dd><p>The unique ID of the cursor.</p></dd>
 		</dl>
 		
 	</div>
@@ -334,10 +324,15 @@
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>SFSoupCursor the cached cursor with the given ID or nil</p>
+		<p>The cached SFSoupCursor isntance with the given ID, or nil.</p>
 	</div>
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Gets a handle to a cursor, from its ID.</p>
+	</div>
 	
 	
 	
@@ -360,7 +355,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		
+		<p>Closes a cursor associated with soup data.</p>
 	</div>		
 	
 	
@@ -377,8 +372,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;cursorId&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;cursorId&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -389,7 +384,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		
+		<p>Closes a cursor associated with soup data.</p>
 	</div>
 	
 	
@@ -413,9 +408,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p>
+		<p>Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].</p>
 	</div>		
 	
 	
@@ -433,8 +426,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;querySpec&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo; and &ldquo;querySpec&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -442,6 +435,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].</p>
+	</div>
 	
 	
 	
@@ -464,9 +462,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p>
+		<p>Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].</p>
 	</div>		
 	
 	
@@ -484,8 +480,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;indexSpecs&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo; and &ldquo;indexSpecs&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -493,6 +489,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].</p>
+	</div>
 	
 	
 	
@@ -515,7 +516,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		
+		<p>Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].</p>
 	</div>		
 	
 	
@@ -533,8 +534,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -545,7 +546,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		
+		<p>Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].</p>
 	</div>
 	
 	
@@ -569,9 +570,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p>
+		<p>Removes a soup from the store.  See [SFSmartStore removeSoup:].</p>
 	</div>		
 	
 	
@@ -589,8 +588,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -598,6 +597,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes a soup from the store.  See [SFSmartStore removeSoup:].</p>
+	</div>
 	
 	
 	
@@ -620,9 +624,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error with an error code.</p>
+		<p>Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].</p>
 	</div>		
 	
 	
@@ -640,8 +642,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo; and &ldquo;soupEntryIds&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -649,6 +651,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].</p>
+	</div>
 	
 	
 	
@@ -671,9 +678,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Standard phonegap arguments array, containing:
-1: successCB &ndash; this is the javascript function that will be called on success
-2: errorCB &ndash; optional javascript function to be called in the event of an error</p>
+		<p>Does the given soup exist in the store?  See see [SFSmartStore soupExists:].</p>
 	</div>		
 	
 	
@@ -691,8 +696,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -700,6 +705,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Does the given soup exist in the store?  See see [SFSmartStore soupExists:].</p>
+	</div>
 	
 	
 	
@@ -722,7 +732,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		
+		<p>Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].</p>
 	</div>		
 	
 	
@@ -740,8 +750,8 @@
 		</dl>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>options:</em></dt>
-			<dd><p>dictionary containing &ldquo;soupName&rdquo; and &ldquo;entries&rdquo;</p></dd>
+			<dt><em>options</em></dt>
+			<dd><p>NSDictionary containing &ldquo;soupName&rdquo; and &ldquo;entries&rdquo;.</p></dd>
 		</dl>
 		
 	</div>
@@ -752,7 +762,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		
+		<p>Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].</p>
 	</div>
 	
 	
@@ -782,7 +792,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-02-21)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

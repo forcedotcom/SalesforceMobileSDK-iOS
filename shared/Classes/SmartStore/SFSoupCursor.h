@@ -29,6 +29,9 @@
 @class SFSmartStore;
 @class SFSoupQuerySpec;
 
+/**
+ * Defines a cursor into data stored in a soup.
+ */
 @interface SFSoupCursor : NSObject {
     SFSmartStore *_store;
     NSString *_soupName;
@@ -42,46 +45,60 @@
     
 }
 
-/** soup name from which this cursor was generated */
+/**
+ * Soup name from which this cursor was generated.
+ */
 @property (nonatomic, readonly, strong) NSString *soupName;
 
-/** a unique ID for this cursor */
+/**
+ * A unique ID for this cursor.
+ */
 @property (nonatomic, readonly, strong) NSString *cursorId;
 
-/** the query spec that generated this cursor */
+/**
+ * The query spec that generated this cursor.
+ */
 @property (nonatomic, readonly, strong) SFSoupQuerySpec *querySpec;
 
-/** the list of current page entries, ordered as requested in the querySpec */
+/**
+ * The list of current page entries, ordered as requested in the querySpec.
+ */
 @property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries;
 
-
-/** the maximum number of entries returned per page */
+/**
+ * The maximum number of entries returned per page.
+ */
 @property (nonatomic, readonly, strong) NSNumber *pageSize;
+
 /** 
- The total number of pages of results available 
+ * The total number of pages of results available .
  */
 @property (nonatomic, readonly, strong) NSNumber *totalPages;
 
-/** 
- The current page index among totalPages available:
- writing this value causes currentPageOrderedEntries to be refetched
+/**
+ * The current page index among totalPages available: writing this value
+ * causes currentPageOrderedEntries to be refetched.
  */
 @property (nonatomic, readwrite, strong) NSNumber *currentPageIndex;
 
-
 /**
- @param entries a sorted list of entries
+ * Initializes a new instance of a soup cursor.
+ * @param soupName The name of the soup containing the data.
+ * @param store The store where the soup is contained.
+ * @param querySpec The query used to retrieve the data.
+ * @param totalEntries The total number of entries retrieved from the query.
  */
 - (id)initWithSoupName:(NSString*)soupName store:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries;
 
 /**
- @return dictionary representation of this object, for translation to json
+ * The NSDictionary representation of this object.
+ * @return Dictionary representation of this object, for translation to JSON.
  */
 - (NSDictionary*)asDictionary;
 
 
 /**
- Close this cursor when finished operating on it...
+ Close this cursor when finished operating on it.
  */
 - (void)close; 
 
