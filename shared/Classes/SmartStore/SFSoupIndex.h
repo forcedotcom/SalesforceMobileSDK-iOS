@@ -29,40 +29,53 @@
 extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeDate;
 
-
+/**
+ * Definition of an index on a given soup.
+ */
 @interface SFSoupIndex : NSObject {
     NSString *_path;
     NSString *_indexType;
     NSString *_columnName;
 }
 
+/**
+ * The simple or compound path to the index value, e.g. "Id" or "Account.Id".
+ */
 @property (nonatomic, strong) NSString *path;
+
+/**
+ * The type of index this is (string or date).
+ */
 @property (nonatomic, strong) NSString *indexType;
 
+/**
+ * The type of data that will be indexed (string or integer).
+ */
 @property (nonatomic, readonly) NSString *columnType;
+
+/**
+ * The name of the column that will store the index.
+ */
 @property (nonatomic, readonly) NSString *columnName;
 
 
 
 
 /**
- Designated initializer
- 
- @param path The simple or compound path to the index value eg "Id" or "Account.Id"
- @param type An index type eg kSoupIndexTypeString
- @param columnName The SQL column name, or nil
+ * Designated initializer.
+ *
+ * @param path The simple or compound path to the index value, e.g. "Id" or "Account.Id".
+ * @param type An index type, e.g. kSoupIndexTypeString.
+ * @param columnName The SQL column name, or nil.
  */
 - (id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(NSString*)columnName;
 
 
 /**
- @param indexSpec the indexSpec to use
- @return initialized index object
+ * Creates an SFSoupIndex based on the given NSDictionary index spec.
+ * @param indexSpec the indexSpec to use
+ * @return Initialized SFSoupIndex object.
  */
 - (id)initWithIndexSpec:(NSDictionary*)indexSpec;
-
-
-
-
 
 @end

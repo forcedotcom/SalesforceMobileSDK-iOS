@@ -29,6 +29,9 @@
 @class SFAuthorizingViewController;
 @class SFContainerAppDelegate;
 
+/**
+ * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
+ */
 @interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
     SFContainerAppDelegate *_appDelegate;
@@ -107,27 +110,30 @@
 #pragma mark - Plugin exported to javascript
 
 /**
- PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
+ * PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
+ * @param arguments PhoneGap arguments array, containing the OAuth configuration properties.
+ * @param options Name/value pair options from PhoneGap, not used in this method.
  */
 - (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
- PhoneGap plug-in method to authenticate a user to the application.
+ * PhoneGap plug-in method to authenticate a user to the application.
+ * @param arguments PhoneGap arguments array, containing the OAuth configuration properties.
+ * @param options Name/value pair options from PhoneGap, not used in this method.
  */
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
- Clear the current user's authentication credentials 
- @param arguments Standard PhoneGap plugin arguments
- @param options ignored
- 
+ * Clear the current user's authentication credentials.
+ * @param arguments Standard PhoneGap plugin arguments, not used in this method.
+ * @param options Name/value pair options from PhoneGap, not used in this method.
  */
 - (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
- Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
- @param arguments Standard PhoneGap plugin arguments
- @param options ignored
+ * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
+ * @param arguments Standard PhoneGap plugin arguments, nominally used in this method.
+ * @param options Name/value pair options from PhoneGap, not used in this method.
  */
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 

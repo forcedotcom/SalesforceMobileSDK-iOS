@@ -217,11 +217,12 @@ enum {
  */
 - (void)authenticate;
 
-/** Sets the credentials property and begins the authentication process. Simply a convenience method for:
-        coordinator.credentials = theCredentials;
-        [coordinator authenticate];
- 
- @exception NSInternalInconsistencyException If called with a `nil` `credentials` argument.
+/**
+ * Sets the credentials property and begins the authentication process. Simply a convenience method for:
+ *   `coordinator.credentials = theCredentials;`
+ *   `[coordinator authenticate];`
+ * @param credentials The OAuth credentials used for authentication.
+ * @exception NSInternalInconsistencyException If called with a `nil` `credentials` argument.
  */
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials;
 

@@ -52,8 +52,11 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 @protocol SFRestDelegate <NSObject>
 @optional
+
 /**
  * Sent when a request has finished loading.
+ * @param request The request that was loaded.
+ * @param jsonResponse The JSON data in the response.
  */
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse;
 
@@ -61,17 +64,21 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Sent when a request has failed due to an error.
  * This includes HTTP network errors, as well as Salesforce errors
  * (for example, passing an invalid SOQL string when doing a query).
+ * @param request The attempted request.
+ * @param error The error associated with the failed request.
  */
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
 
 /**
  * Sent to the delegate when a request was cancelled.
+ * @param request The canceled request.
  */
 - (void)requestDidCancelLoad:(SFRestRequest *)request;
 
 /**
  * Sent to the delegate when a request has timed out. This is sent when a
  * backgrounded request expired before completion.
+ * @param request The request that timed out.
  */
 - (void)requestDidTimeout:(SFRestRequest *)request;
 
@@ -92,8 +99,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 
 
 /**
- * The HTTP method of the request
- * @see SFRestMethod
+ * The HTTP method of the request.  See SFRestMethod.
  */
 @property (nonatomic, assign) SFRestMethod method;
 
@@ -128,11 +134,10 @@ extern NSString * const kSFDefaultRestEndpoint;
 ///---------------------------------------------------------------------------------------
 
 /**
- * Creates an `SFRestRequest` object.
+ * Creates an `SFRestRequest` object. See SFRestMethod.
  * @param method the HTTP method
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
- * @see SFRestMethod
  */
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
 
