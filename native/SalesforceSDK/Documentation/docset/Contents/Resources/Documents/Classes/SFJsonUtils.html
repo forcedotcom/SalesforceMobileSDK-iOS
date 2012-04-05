@@ -138,28 +138,28 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/JSONRepresentation:">+&nbsp;JSONRepresentation:</a></code>
-		<span class="tooltip"><p>@parameter object The object to JSON-ify</p></span>
+		<span class="tooltip"><p>Creates the JSON representation of an object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/JSONDataRepresentation:">+&nbsp;JSONDataRepresentation:</a></code>
-		<span class="tooltip"><p>@parameter object The object to JSON-ify</p></span>
+		<span class="tooltip"><p>Creates the JSON-as-NSData representation of an object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/objectFromJSONString:">+&nbsp;objectFromJSONString:</a></code>
-		<span class="tooltip"><p>@parameter jsonString A JSON string</p></span>
+		<span class="tooltip"><p>Creates an object from a string of JSON data.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/objectFromJSONData:">+&nbsp;objectFromJSONData:</a></code>
-		<span class="tooltip"><p>@parameter jsonData JSON data in an NSData wrapper (UTF8 encoding assumed)</p></span>
+		<span class="tooltip"><p>Creates an object from a JSON-as-NSData object.</p></span>
 	</span>
 	
 	
@@ -185,25 +185,35 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>@parameter object The object to JSON-ify</p>
+		<p>Creates the JSON-as-NSData representation of an object.</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>+ (NSData *)JSONDataRepresentation:(id)<em>obj</em></code></div>
 	
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>obj</em></dt>
+			<dd><p>The object to JSON-ify.</p></dd>
+		</dl>
+		
+	</div>
+	
 	
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>A JSON string in NSData format, UTF8 encoded</p>
+		<p>A JSON string in NSData format, UTF8 encoded.</p>
 	</div>
 	
 	
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>@parameter object The object to JSON-ify</p>
+		<p>Creates the JSON-as-NSData representation of an object.</p>
 	</div>
 	
 	
@@ -227,25 +237,35 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>@parameter object The object to JSON-ify</p>
+		<p>Creates the JSON representation of an object.</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>+ (NSString *)JSONRepresentation:(id)<em>object</em></code></div>
 	
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The object to JSON-ify</p></dd>
+		</dl>
+		
+	</div>
+	
 	
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>a JSON string representation of a Objective-C object</p>
+		<p>a JSON string representation of an Objective-C object</p>
 	</div>
 	
 	
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>@parameter object The object to JSON-ify</p>
+		<p>Creates the JSON representation of an object.</p>
 	</div>
 	
 	
@@ -269,25 +289,35 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>@parameter jsonData JSON data in an NSData wrapper (UTF8 encoding assumed)</p>
+		<p>Creates an object from a JSON-as-NSData object.</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>+ (id)objectFromJSONData:(NSData *)<em>jsonData</em></code></div>
 	
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>jsonData</em></dt>
+			<dd><p>JSON data in an NSData wrapper (UTF8 encoding assumed).</p></dd>
+		</dl>
+		
+	</div>
+	
 	
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>An Objective-C object such as an NSDictionary or NSArray</p>
+		<p>An Objective-C object such as an NSDictionary or NSArray.</p>
 	</div>
 	
 	
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>@parameter jsonData JSON data in an NSData wrapper (UTF8 encoding assumed)</p>
+		<p>Creates an object from a JSON-as-NSData object.</p>
 	</div>
 	
 	
@@ -311,25 +341,35 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>@parameter jsonString A JSON string</p>
+		<p>Creates an object from a string of JSON data.</p>
 	</div>		
 	
 	
 	<div class="method-subsection method-declaration"><code>+ (id)objectFromJSONString:(NSString *)<em>jsonString</em></code></div>
 	
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>jsonString</em></dt>
+			<dd><p>A JSON object string.</p></dd>
+		</dl>
+		
+	</div>
+	
 	
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>An Objective-C object such as an NSDictionary or NSArray</p>
+		<p>An Objective-C object such as an NSDictionary or NSArray.</p>
 	</div>
 	
 	
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>@parameter jsonString A JSON string</p>
+		<p>Creates an object from a string of JSON data.</p>
 	</div>
 	
 	
@@ -361,7 +401,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-02-02)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						

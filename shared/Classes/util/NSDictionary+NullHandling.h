@@ -25,8 +25,9 @@
 
 #import <Foundation/Foundation.h>
 
-
-
+/**
+ * NSDictionary category for handling NULL entries in the dictionary.
+ */
 @interface NSDictionary (NullHandling)
 
 

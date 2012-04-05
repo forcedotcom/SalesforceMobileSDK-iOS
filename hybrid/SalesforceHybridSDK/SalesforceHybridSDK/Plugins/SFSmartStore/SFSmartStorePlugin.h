@@ -62,95 +62,93 @@ extern NSString * const kSmartStorePluginIdentifier;
 #pragma mark - PhoneGap Plugin methods called from js
 
 /**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName"   
- 
- @see soupExists
+ * Does the given soup exist in the store?  See see [SFSmartStore soupExists:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error 
+ *
+ * @param options NSDictionary containing "soupName".
+ *
  */
 - (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 /**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName" and "indexSpecs"  
- 
- @see registerSoup
+ * Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error 
+ *
+ * @param options NSDictionary containing "soupName" and "indexSpecs".
+ *
  */
 - (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error 
- 
- @param options:  dictionary containing "soupName" 
- 
- @see removeSoup
+ * Removes a soup from the store.  See [SFSmartStore removeSoup:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error 
+ *
+ * @param options NSDictionary containing "soupName".
+ *
  */
 - (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "querySpec"  
- 
- @see querySoup
+ * Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
+ *
+ * @param options NSDictionary containing "soupName" and "querySpec".
+ *
  */
 - (void)pgQuerySoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "soupEntryIds"  
- 
- @see retrieveSoupEntries:fromSoup:
- 
+ * Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
+ *
+ * @param options NSDictionary containing "soupName" and "soupEntryIds".
+ *
  */
 - (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "entries"  
- 
- @see upsertSoupEntries
+/**
+ * Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
+ *
+ * @param options NSDictionary containing "soupName" and "entries".
+ *
  */
 - (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 
- @param options:  dictionary containing "cursorId"
- 
- @see closeCursorWithId:
+/**
+ * Closes a cursor associated with soup data.
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *
+ * @param options NSDictionary containing "cursorId".
  */
 - (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
-/**   
- @param arguments Standard phonegap arguments array, containing:
- 1: successCB - this is the javascript function that will be called on success
- 2: errorCB - optional javascript function to be called in the event of an error with an error code.
- 
- @param options:  dictionary containing "soupName" and "soupEntryIds"  
- 
- @see removeFromSoup
+/**
+ * Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].
+ * @param arguments Standard phonegap arguments array, containing:
+ *   1: successCB - this is the javascript function that will be called on success
+ *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
+ *
+ * @param options NSDictionary containing "soupName" and "soupEntryIds".
+ *
  */
 - (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
@@ -160,11 +158,10 @@ extern NSString * const kSmartStorePluginIdentifier;
 #pragma mark - Object bridging helpers
 
 /**
- @param cursorId  The unique ID of the cursor
- @return SFSoupCursor the cached cursor with the given ID or nil
+ * Gets a handle to a cursor, from its ID.
+ * @param cursorId The unique ID of the cursor.
+ * @return The cached SFSoupCursor isntance with the given ID, or nil.
  */
 - (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId;
-
-
 
 @end
