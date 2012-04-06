@@ -58,6 +58,9 @@ typedef enum {
     kSFSoupQuerySortOrderDescending
 } SFSoupQuerySortOrder;
 
+/**
+ * Object containing the query specification for queries against a soup.
+ */
 @interface SFSoupQuerySpec : NSObject {
     SFSoupQueryType _queryType;
     NSString *_path;
@@ -68,22 +71,34 @@ typedef enum {
     
 }
 
+/**
+ * The type of query to run (exact, range, like).
+ */
 @property (nonatomic, assign) SFSoupQueryType queryType;
 
 /**
  The indexPath to use for the query.  Compound paths must be dot-delimited ie parent.child.grandchild.field .
  */
 @property (nonatomic, strong) NSString *path;
+
 /**
- beginKey is used for range, exact, and like queries
+ beginKey is used for range, exact, and like queries.
  */
 @property (nonatomic, strong) NSString *beginKey;
+
 /**
- endKey is used for range queries
+ endKey is used for range queries.
  */
 @property (nonatomic, strong) NSString *endKey;
 
+/**
+ * A sort order for the query (ascending, descending).
+ */
 @property (nonatomic, assign) SFSoupQuerySortOrder order;
+
+/**
+ * The number of entries per page to return.
+ */
 @property (nonatomic, assign) NSUInteger pageSize;
 
 
@@ -92,8 +107,16 @@ typedef enum {
  */
 @property (nonatomic, readonly) NSString *sqlSortOrder;
 
-
+/**
+ * Initializes the object with the given query spec.
+ * @param querySpec the name/value pairs defining the query spec.
+ * @return A new instance of the object.
+ */
 - (id)initWithDictionary:(NSDictionary*)querySpec;
+
+/**
+ * The NSDictionary representation of the query spec.
+ */
 - (NSDictionary*)asDictionary;
 
 @end

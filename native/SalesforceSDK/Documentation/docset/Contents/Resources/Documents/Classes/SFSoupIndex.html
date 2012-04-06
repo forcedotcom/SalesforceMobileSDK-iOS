@@ -21,6 +21,8 @@
 					<select id="jumpTo">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 	
 	
 	
@@ -28,6 +30,17 @@
 	
 	
 	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/columnName">&nbsp;&nbsp;&nbsp;&nbsp;columnName</option>
+	
+	<option value="//api/name/columnType">&nbsp;&nbsp;&nbsp;&nbsp;columnType</option>
+	
+	<option value="//api/name/indexType">&nbsp;&nbsp;&nbsp;&nbsp;indexType</option>
+	
+	<option value="//api/name/path">&nbsp;&nbsp;&nbsp;&nbsp;path</option>
 	
 	
 	
@@ -49,6 +62,8 @@
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
 
 
 
@@ -59,6 +74,18 @@
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/columnName">columnName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/columnType">columnType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/indexType">indexType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/path">path</a></span></li>
+	
+</ul></li>
 
 
 
@@ -104,6 +131,14 @@
 					
 					
 					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Definition of an index on a given soup.</p>
+					</div>
+					
+					
+					
 					
 					
 					<div class="section section-tasks">
@@ -117,15 +152,43 @@
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
+		<code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
+		<span class="tooltip"><p>The simple or compound path to the index value, e.g. &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/indexType">&nbsp;&nbsp;indexType</a></code>
+		<span class="tooltip"><p>The type of index this is (string or date).</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/columnType">&nbsp;&nbsp;columnType</a></code>
+		<span class="tooltip"><p>The type of data that will be indexed (string or integer).</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/columnName">&nbsp;&nbsp;columnName</a></code>
+		<span class="tooltip"><p>The name of the column that will store the index.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/initWithPath:indexType:columnName:">&ndash;&nbsp;initWithPath:indexType:columnName:</a></code>
-		<span class="tooltip"><p>Designated initializer</p></span>
+		<span class="tooltip"><p>Designated initializer.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/initWithIndexSpec:">&ndash;&nbsp;initWithIndexSpec:</a></code>
-		<span class="tooltip"><p>the indexSpec to use</p></span>
+		<span class="tooltip"><p>Creates an SFSoupIndex based on the given NSDictionary index spec.</p></span>
 	</span>
 	
 	
@@ -137,6 +200,160 @@
 					
 					
 					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/columnName" title="columnName"></a>
+	<h3 class="subsubtitle method-title">columnName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The name of the column that will store the index.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *columnName</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The name of the column that will store the index.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupIndex.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/columnType" title="columnType"></a>
+	<h3 class="subsubtitle method-title">columnType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The type of data that will be indexed (string or integer).</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *columnType</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The type of data that will be indexed (string or integer).</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupIndex.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/indexType" title="indexType"></a>
+	<h3 class="subsubtitle method-title">indexType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The type of index this is (string or date).</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *indexType</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The type of index this is (string or date).</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupIndex.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/path" title="path"></a>
+	<h3 class="subsubtitle method-title">path</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The simple or compound path to the index value, e.g. &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *path</code></div>
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The simple or compound path to the index value, e.g. &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSoupIndex.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
 					
 					
 					
@@ -153,7 +370,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>the indexSpec to use</p>
+		<p>Creates an SFSoupIndex based on the given NSDictionary index spec.</p>
 	</div>		
 	
 	
@@ -174,10 +391,15 @@
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>initialized index object</p>
+		<p>Initialized SFSoupIndex object.</p>
 	</div>
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Creates an SFSoupIndex based on the given NSDictionary index spec.</p>
+	</div>
 	
 	
 	
@@ -200,7 +422,7 @@
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Designated initializer</p>
+		<p>Designated initializer.</p>
 	</div>		
 	
 	
@@ -212,17 +434,17 @@
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>path</em></dt>
-			<dd><p>The simple or compound path to the index value eg &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;</p></dd>
+			<dd><p>The simple or compound path to the index value, e.g. &ldquo;Id&rdquo; or &ldquo;Account.Id&rdquo;.</p></dd>
 		</dl>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>type</em></dt>
-			<dd><p>An index type eg kSoupIndexTypeString</p></dd>
+			<dd><p>An index type, e.g. kSoupIndexTypeString.</p></dd>
 		</dl>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>columnName</em></dt>
-			<dd><p>The SQL column name, or nil</p></dd>
+			<dd><p>The SQL column name, or nil.</p></dd>
 		</dl>
 		
 	</div>
@@ -233,7 +455,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Designated initializer</p>
+		<p>Designated initializer.</p>
 	</div>
 	
 	
@@ -263,7 +485,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-03-07)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
 						
