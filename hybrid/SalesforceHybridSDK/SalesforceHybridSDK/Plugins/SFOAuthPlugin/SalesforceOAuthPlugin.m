@@ -53,7 +53,7 @@ NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
 NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 
-NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
+NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 // ------------------------------------------
 // Private methods interface
@@ -127,6 +127,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 - (void)sendSessionKeepaliveRequest;
 - (void)cleanupSessionKeepaliveRequest;
 
+- (void)clearPeriodicRefreshState;
+
 @end
 
 // ------------------------------------------
@@ -161,8 +163,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 
 - (void)dealloc
 {
-    [self cleanupSessionKeepaliveRequest];
-    [self clearSessionAutoRefreshTimer];
+    [self clearPeriodicRefreshState];
+    
     [self cleanupCoordinator];
     [self cleanupRetryAlert];
     
@@ -314,7 +316,13 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
                                      target:self
                                    selector:@selector(refreshTimerExpired:)
                                    userInfo:nil
-                                    repeats:YES]; //every 15 mins
+                                    repeats:YES]; 
+}
+
+- (void)clearPeriodicRefreshState
+{
+    [self cleanupSessionKeepaliveRequest];
+    [self clearSessionAutoRefreshTimer];
 }
 
 - (void)setAutoRefreshPeriodically:(BOOL)autoRefreshPeriodically
@@ -322,7 +330,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
     _autoRefreshPeriodically = autoRefreshPeriodically;
     
     if (!_autoRefreshPeriodically) {
-        [self clearSessionAutoRefreshTimer]; 
+        [self clearPeriodicRefreshState];
     }
     
 }
@@ -365,8 +373,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
     if ([connection isEqual:_sessionKeepaliveConnection]) {
         NSLog(@"keepalive conn failed with error: %@",error);
 
+        [self clearPeriodicRefreshState];
+
         //renew the session
-        [self clearSessionAutoRefreshTimer];
         [self performSelector:@selector(login) withObject:nil afterDelay:0];
     }
 }
@@ -376,11 +385,13 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     if ([connection isEqual:_sessionKeepaliveConnection]) {
-        NSHTTPURLResponse *resp = (NSHTTPURLResponse*)response;
-        if (resp.statusCode == 401) { //unauthorized --- session timeout
+        NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
+        
+        [self clearPeriodicRefreshState];
+        
+        if (401 == statusCode) { //unauthorized --- session timeout
             NSLog(@"keepalive request received session timeout -- renewing session");
             //renew the session
-            [self clearSessionAutoRefreshTimer];
             [self performSelector:@selector(login) withObject:nil afterDelay:0];
         } else {
             //restart the refresh timer from now, to correct for drift due to network response time
@@ -398,8 +409,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 14*60.0; // < 15 minutes
     
     BOOL shouldReset = NO;
     
-    [self clearSessionAutoRefreshTimer];
-
+    [self clearPeriodicRefreshState];
+    
+    
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         shouldReset = YES;
