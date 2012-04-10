@@ -206,14 +206,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"authenticate:withDict:");
     NSString *callbackId = [arguments pop];
     
-    //Verify that we're not already authenticating
-    if (nil != _authCallbackId) {
-        NSString *errorMessage = @"Authentication is already in progress.";
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:errorMessage];
-        [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
-        return;
-    }
-    
     _authCallbackId = [callbackId copy];
     
     NSString *argsString = [arguments pop];
@@ -458,6 +450,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 - (void)cleanupCoordinator {
+    if (self.coordinator.view) {
+        [self.coordinator.view removeFromSuperview];
+    }
     [_coordinator setDelegate:nil];
     [_coordinator release];
     _coordinator = nil;
