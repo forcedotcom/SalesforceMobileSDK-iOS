@@ -40,20 +40,20 @@
     SFAuthorizingViewController *_authViewController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UIViewController *viewController;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UIViewController *viewController;
 
 
 
 /**
  The SFOAuthCoordinator used for managing login/logout.
  */
-@property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
+@property (nonatomic, readonly, strong) SFOAuthCoordinator *coordinator;
 
 /**
  View controller that gives the app some view state while authorizing.
  */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
+@property (nonatomic, strong) SFAuthorizingViewController *authViewController;
 
 
 /**
