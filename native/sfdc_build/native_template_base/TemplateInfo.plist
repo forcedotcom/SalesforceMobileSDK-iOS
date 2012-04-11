@@ -42,6 +42,8 @@
 				<string>1,2</string>
 				<key>CODE_SIGN_IDENTITY</key>
 				<string>iPhone Developer</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
             </dict>
         </dict>
 
