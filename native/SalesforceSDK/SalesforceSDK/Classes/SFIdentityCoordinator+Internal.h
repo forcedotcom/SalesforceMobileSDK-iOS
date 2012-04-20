@@ -23,26 +23,62 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFIdentityCoordinator.h"
 
-@class SFOAuthCoordinator;
-
-
-/**
- This class provides utilities useful to all unit tests based on the Salesforce SDK
- */
-@interface TestSetupUtils : NSObject
+@class SFIdentityData;
 
 /**
- Forces a reload of authorization credentials from the configuration file.
- @return SFOAuthCoordinator instance configured from the test credentials file.
+ * Internal interface for the SFIdentityCoordinator.
  */
-+ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile;
-
+@interface SFIdentityCoordinator ()
+{
+    NSDictionary *_typeToCodeDict;
+}
 
 /**
- Clears the SFRestAPI sharedInstance.
- This is handy for unit tests when you want to ensure that the SFRestAPI is reset to a known state.
+ * The data from the service response will be populated here.
  */
-+ (void)clearSFRestAPISingleton;
+@property (nonatomic, retain) NSMutableData *responseData;
+
+/**
+ * Whether or not a request is already in progress.
+ */
+@property (assign) BOOL retrievingData;
+
+/**
+ * The NSURLConnection associated with the ID request.
+ */
+@property (nonatomic, retain) NSURLConnection *connection;
+
+/**
+ * Dictionary mapping error codes to their respective types.
+ */
+@property (nonatomic, readonly) NSDictionary *typeToCodeDict;
+
+/**
+ * Triggers the success notifictation to the delegate.
+ */
+- (void)notifyDelegateOfSuccess;
+
+/**
+ * Triggers the failure notification and error to the delegate.
+ */
+- (void)notifyDelegateOfFailure:(NSError *)error;
+
+/**
+ * Process a completed response from the service, populating the ID data.
+ */
+- (void)processResponse;
+
+/**
+ * Cleans up the in-process properties and vars, once a request is completed.
+ */
+- (void)cleanupData;
+
+/**
+ * Creates an NSError instance based on type and description, for notifying the delegate
+ * of a failure.
+ */
+- (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 
 @end

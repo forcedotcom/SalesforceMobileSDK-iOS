@@ -24,25 +24,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFOAuthCoordinator;
-
-
 /**
- This class provides utilities useful to all unit tests based on the Salesforce SDK
+ * The data structure for the identity data that's retrieved from the Salesforce service.
+ * @see SFIdentityCoordinator
  */
-@interface TestSetupUtils : NSObject
-
-/**
- Forces a reload of authorization credentials from the configuration file.
- @return SFOAuthCoordinator instance configured from the test credentials file.
- */
-+ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile;
-
-
-/**
- Clears the SFRestAPI sharedInstance.
- This is handy for unit tests when you want to ensure that the SFRestAPI is reset to a known state.
- */
-+ (void)clearSFRestAPISingleton;
+@interface SFIdentityData : NSObject
 
 @end

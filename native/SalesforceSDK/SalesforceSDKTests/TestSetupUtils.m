@@ -32,14 +32,7 @@
 
 @implementation TestSetupUtils
 
-
-+ (void)ensureCredentialsLoaded {
-    if (nil == [[SFRestAPI sharedInstance] coordinator]) {
-        [self readCredentialsConfigFile];
-    }
-}
-
-+ (void)readCredentialsConfigFile {
++ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath,@"Test config file not found!");
     
@@ -80,8 +73,7 @@
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
     [credentials release];
     
-    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
-    [coordinator release];
+    return [coordinator autorelease];
 }
 
 + (void)clearSFRestAPISingleton {
