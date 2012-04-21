@@ -87,6 +87,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)addSidCookieForDomain:(NSString*)domain;
 
 /**
+ Removes any Salesforce cookies from the cookie store.  Cookies are reset with
+ new authentication.
+ */
+- (void)removeSalesforceCookies;
+
+/**
  Convert the post-authentication credentials into a Dictionary, to return to
  the calling client code.
  @return Dictionary representation of oauth credentials.
@@ -222,8 +228,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSLog(@"logoutCurrentUser");
     [self logout];
-    [self.coordinator authenticate];
-
+    [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -358,10 +363,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout
 {
+    // Clear any Salesforce-related cookie state.
+    [self removeSalesforceCookies];
+    
+    // Revoke all stored OAuth authentication.
     [self.coordinator revokeAuthentication];
     
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    //clear the home URL since we are no longer authenticated
+    // Clear the home URL since we are no longer authenticated.
     [defs setURL:nil forKey:kAppHomeUrlPropKey];
     //clear this since we just called revokeAuthentication
     [defs setBool:NO forKey:kAccountLogoutUserDefault];
@@ -370,7 +379,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)loggedIn
 {
-    // addSidCookieForDomain can be called before the web view exists.
+    // First, remove any cookies associated with Salesforce domains (.salesforce.com, .force.com).
+    // Salesforce-based cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self removeSalesforceCookies];
     [self addSidCookieForDomain:@".salesforce.com"];
     
     self.lastRefreshCompleted = [NSDate date];
@@ -388,7 +399,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
 }
 
-
+- (void)removeSalesforceCookies
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        if ([[[cookie domain] lowercaseString] hasSuffix:@".salesforce.com"]
+            || [[[cookie domain] lowercaseString] hasSuffix:@".force.com"])
+        {
+            [cookieStorage deleteCookie:cookie];
+        }
+    }
+}
 
 - (void)addSidCookieForDomain:(NSString*)domain
 {
@@ -399,14 +421,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSURL *hostURL = self.coordinator.credentials.instanceUrl;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    // Remove any stale sid cookies with the same domain.
-    NSArray *cookiesToRemove = [NSArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
-    for (NSHTTPCookie *cookieToRemove in cookiesToRemove) {
-        if ([cookieToRemove.domain hasSuffix:domain] && [cookieToRemove.name isEqualToString:@"sid"]  ) {
-            [cookieStorage deleteCookie:cookieToRemove];
-        }
-    }
     
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
