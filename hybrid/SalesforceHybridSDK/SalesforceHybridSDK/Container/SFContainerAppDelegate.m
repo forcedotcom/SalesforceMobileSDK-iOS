@@ -114,6 +114,8 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
     //Touch this to ensure that we have a SmartStore plugin instance that
     //can listen for file data protection notifications.
     [self getCommandInstance:kSFSmartStorePluginName];
+    
+    [super applicationDidBecomeActive:application];
 }
 
 #pragma mark - PhoneGap helpers
