@@ -54,7 +54,7 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
 @synthesize retrievingData = _retrievingData;
 @synthesize connection = _connection;
 
-#pragma mark - init/dealloc
+#pragma mark - init / dealloc
 
 - (id)initWithCredentials:(SFOAuthCredentials *)credentials
 {
@@ -65,7 +65,6 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
         self.credentials = credentials;
         self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
         self.retrievingData = NO;
-        [_typeToCodeDict release]; _typeToCodeDict = nil;
     }
     
     return self;
@@ -77,7 +76,7 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
     self.idData = nil;
     self.responseData = nil;
     self.connection = nil;
-    _typeToCodeDict = nil;
+    [_typeToCodeDict release]; _typeToCodeDict = nil;
     [super dealloc];
 }
 
@@ -109,8 +108,7 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
 - (void)cancelRetrieval
 {
     [self.connection cancel];
-    self.connection = nil;
-    self.retrievingData = NO;
+    [self cleanupData];
 }
 
 #pragma mark - Private methods
@@ -144,21 +142,20 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
     if (self.responseData == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeNoData description:@"No identity data returned in response."];
         [self notifyDelegateOfFailure:error];
+        return;
     }
-    NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"response data as string: %@", responseString);
-    [responseString release];
+    
+    
     NSDictionary *idJsonData = (NSDictionary *)[SFJsonUtils objectFromJSONData:self.responseData];
     if (idJsonData == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeDataMalformed description:@"Unable to parse identity response data."];
         [self notifyDelegateOfFailure:error];
+        return;
     }
     
-    if (self.idData == nil) {
-        self.idData = [[SFIdentityData alloc] init];
-    }
-    
-    // TODO: Populate idData.
+    SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:idJsonData];
+    self.idData = idData;
+    [idData release];
     
     [self notifyDelegateOfSuccess];
 }

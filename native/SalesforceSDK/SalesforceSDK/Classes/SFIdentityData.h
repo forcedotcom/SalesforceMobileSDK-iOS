@@ -30,4 +30,180 @@
  */
 @interface SFIdentityData : NSObject
 
+/**
+ * The JSON representation of this identity data.
+ */
+@property (nonatomic, readonly) NSDictionary *jsonRepresentation;
+
+/**
+ * The ID URL.
+ */
+@property (nonatomic, readonly) NSURL *idUrl;
+
+/**
+ * Whether or not this is the asserted user for this session.
+ */
+@property (readonly) BOOL assertedUser;
+
+/**
+ * The User ID of the associated user.
+ */
+@property (nonatomic, readonly) NSString *userId;
+
+/**
+ * The Organization ID of the associated user.
+ */
+@property (nonatomic, readonly) NSString *orgId;
+
+/**
+ * The username of the associated user.
+ */
+@property (nonatomic, readonly) NSString *username;
+
+/**
+ * The nickname of the associated user.
+ */
+@property (nonatomic, readonly) NSString *nickname;
+
+/**
+ * The display name of the associated user.
+ */
+@property (nonatomic, readonly) NSString *displayName;
+
+/**
+ * The email address of the associated user.
+ */
+@property (nonatomic, readonly) NSString *email;
+
+/**
+ * The first name of the user.
+ */
+@property (nonatomic, readonly) NSString *firstName;
+
+/**
+ * The last name of the user.
+ */
+@property (nonatomic, readonly) NSString *lastName;
+
+/**
+ * The body content of the user's status, if any.
+ */
+@property (nonatomic, readonly) NSString *statusBody;
+
+/**
+ * The creation date of the user's current status, if any.
+ */
+@property (nonatomic, readonly) NSDate *statusCreationDate;
+
+/**
+ * The URL to retrieve the user's picture.
+ */
+@property (nonatomic, readonly) NSURL *pictureUrl;
+
+/**
+ * The URL to retrieve a thumbnail picture for the user.
+ */
+@property (nonatomic, readonly) NSURL *thumbnailUrl;
+
+/**
+ * The enterprise SOAP API URL for this user.
+ */
+@property (nonatomic, readonly) NSURL *enterpriseSoapUrl;
+
+/**
+ * The metadata SOAP API URL for this user.
+ */
+@property (nonatomic, readonly) NSURL *metadataSoapUrl;
+
+/**
+ * The partner SOAP API URL for this user.
+ */
+@property (nonatomic, readonly) NSURL *partnerSoapUrl;
+
+/**
+ * The REST API URL entry point for this user.
+ */
+@property (nonatomic, readonly) NSURL *restUrl;
+
+/**
+ * The REST endpoint for SObjects.
+ */
+@property (nonatomic, readonly) NSURL *restSObjectsUrl;
+
+/**
+ * The REST endpoint for search.
+ */
+@property (nonatomic, readonly) NSURL *restSearchUrl;
+
+/**
+ * The REST endpoint for queries.
+ */
+@property (nonatomic, readonly) NSURL *restQueryUrl;
+
+/**
+ * The REST endpoint for recent activity.
+ */
+@property (nonatomic, readonly) NSURL *restRecentUrl;
+
+/**
+ * The user profile URL.
+ */
+@property (nonatomic, readonly) NSURL *profileUrl;
+
+/**
+ * The URL for Chatter feeds.
+ */
+@property (nonatomic, readonly) NSURL *chatterFeedsUrl;
+
+/**
+ * The URL for Chatter groups.
+ */
+@property (nonatomic, readonly) NSURL *chatterGroupsUrl;
+
+/**
+ * The URL for Chatter users.
+ */
+@property (nonatomic, readonly) NSURL *chatterUsersUrl;
+
+/**
+ * The URL for Chatter feed items.
+ */
+@property (nonatomic, readonly) NSURL *chatterFeedItemsUrl;
+
+/**
+ * Whether or not this user is active.
+ */
+@property (readonly) BOOL isActive;
+
+/**
+ * The user type.
+ */
+@property (nonatomic, readonly) NSString *userType;
+
+/**
+ * The user's configured language.
+ */
+@property (nonatomic, readonly) NSString *language;
+
+/**
+ * The user's configured locale.
+ */
+@property (nonatomic, readonly) NSString *locale;
+
+/**
+ * The UTC offset for this user.
+ */
+@property (readonly) int utcOffset;
+
+/**
+ * The date this record was last modified.
+ */
+@property (nonatomic, readonly) NSDate *lastModifiedDate;
+
+/**
+ * Designated intializer for creating an instance of the SFIdentityData object.
+ * @param jsonDict The JSON dictionary containing the user data.
+ */
+- (id)initWithJsonDict:(NSDictionary *)jsonDict;
+
 @end

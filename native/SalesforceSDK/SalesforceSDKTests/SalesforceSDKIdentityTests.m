@@ -97,6 +97,9 @@
 
 #pragma mark - Tests
 
+/**
+ * Tests that identity data can be successfully retrieved with valid credentials.
+ */
 - (void)testRetrieveIdentitySuccess
 {
     SFIdentityCoordinator *idCoord = [[SFIdentityCoordinator alloc] initWithCredentials:_oauthCoordinator.credentials];
@@ -104,11 +107,18 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
 }
 
+/**
+ * Test that an error state is returned if the identity data is requested with invalid credentials.
+ */
 - (void)testRetrieveIdentityFailure
 {
     SFIdentityCoordinator *idCoord = [[SFIdentityCoordinator alloc] initWithCredentials:_oauthCoordinator.credentials];
+    NSString *origAccessToken = [idCoord.credentials.accessToken copy];
+    idCoord.credentials.accessToken = @"";
     [self sendSyncRequest:idCoord];
-    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should not have succeeded.");
+    idCoord.credentials.accessToken = origAccessToken;
+    [origAccessToken release];
 }
 
 @end
