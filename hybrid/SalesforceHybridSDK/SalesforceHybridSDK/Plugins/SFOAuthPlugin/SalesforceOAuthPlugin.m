@@ -87,10 +87,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)addSidCookieForDomain:(NSString*)domain;
 
 /**
- Removes any Salesforce cookies from the cookie store.  Cookies are reset with
+ Removes any cookies from the cookie store.  All app cookies are reset with
  new authentication.
  */
-- (void)removeSalesforceCookies;
+- (void)removeCookies;
 
 /**
  Convert the post-authentication credentials into a Dictionary, to return to
@@ -363,8 +363,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout
 {
-    // Clear any Salesforce-related cookie state.
-    [self removeSalesforceCookies];
+    // Clear any cookies set by the app.
+    [self removeCookies];
     
     // Revoke all stored OAuth authentication.
     [self.coordinator revokeAuthentication];
@@ -379,9 +379,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)loggedIn
 {
-    // First, remove any cookies associated with Salesforce domains (.salesforce.com, .force.com).
-    // Salesforce-based cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeSalesforceCookies];
+    // First, remove any cookies associated with the app.
+    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self removeCookies];
     [self addSidCookieForDomain:@".salesforce.com"];
     
     self.lastRefreshCompleted = [NSDate date];
@@ -399,16 +399,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
 }
 
-- (void)removeSalesforceCookies
+- (void)removeCookies
 {
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
-        if ([[[cookie domain] lowercaseString] hasSuffix:@".salesforce.com"]
-            || [[[cookie domain] lowercaseString] hasSuffix:@".force.com"])
-        {
-            [cookieStorage deleteCookie:cookie];
-        }
+        [cookieStorage deleteCookie:cookie];
     }
 }
 
