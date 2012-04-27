@@ -40,6 +40,7 @@
 extern NSString * const kSFMobileSDKVersion;
 extern NSString * const kUserAgentPropKey;
 extern NSString * const kAppHomeUrlPropKey;
+extern NSString * const kSFMobileSDKHybridDesignator;
 
 /// The string used to uniquely identify the Salesforce OAuth plugin
 extern NSString * const kSFOAuthPluginName;

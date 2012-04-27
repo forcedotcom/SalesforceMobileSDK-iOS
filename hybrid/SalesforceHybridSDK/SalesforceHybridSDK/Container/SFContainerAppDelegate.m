@@ -31,6 +31,7 @@
 NSString * const kSFMobileSDKVersion = @"1.1.5";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
+NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 
 // Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
@@ -56,9 +57,15 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 	 **/
     self = [super init];
     if (nil != self) {
-        //Replace the app-wide HTTP User-Agent before the first UIWebView is created
+        
+        // Replace the app-wide HTTP User-Agent before the first UIWebView is created.  NOTE: You *must* use the
+        // registerDefaults method to create this value.  Simply adding the key to the existing defaults will
+        // not work.
         NSString *uaString = [self userAgentString];
-        [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
+        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+        [dictionary release];
+        
         _nextUrlIsHomeUrl = NO;
     }
     return self;
@@ -219,23 +226,33 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 #pragma mark - Salesforce.com helpers
 
 /**
- Set a user agent string based on the mobile SDK version.
- We are building a user agent of the form:
-   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion
+ * Append a user agent string to the current one, based on device, application, and SDK
+ * version information.
+ * We are building a user agent of the form:
+ *   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
  */
 - (NSString *)userAgentString {
+    
+    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+    // really doesn't want you to know about its HTTP headers.
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    [webView release];
+    
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
     
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
                              [curDevice model],
                              appName,
-                             appVersion
+                             appVersion,
+                             kSFMobileSDKHybridDesignator,
+                             currentUserAgent
                              ];
     
     return myUserAgent;
