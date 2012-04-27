@@ -37,14 +37,35 @@
  
  */
 
+/*
+ * The current version of the Salesforce Mobile SDK.
+ */
 extern NSString * const kSFMobileSDKVersion;
+
+/*
+ * The property key used to designate the user agent, in the app's default properties.
+ */
 extern NSString * const kUserAgentPropKey;
+
+/*
+ * The property key used to designate the "home" URL of the app, to be used if the app is
+ * offline and supports HTML5 offline caching.
+ */
 extern NSString * const kAppHomeUrlPropKey;
+
+/*
+ * The designator used to signify that the app is a hybrid app.
+ */
 extern NSString * const kSFMobileSDKHybridDesignator;
 
-/// The string used to uniquely identify the Salesforce OAuth plugin
+/*
+ * The string used to uniquely identify the Salesforce OAuth plugin.
+ */
 extern NSString * const kSFOAuthPluginName;
-/// The string used to uniquely identify the Salesforce SmartStore plugin
+
+/*
+ * The string used to uniquely identify the Salesforce SmartStore plugin.
+ */
 extern NSString * const kSFSmartStorePluginName;
 
 @interface SFContainerAppDelegate : PhoneGapDelegate {
