@@ -29,6 +29,17 @@
 
 #pragma mark - NSURL+SFStringUtils tests
 
+- (void)testNoQueryString
+{
+    NSString *inUrlString = @"https://www.myserver.com/path.html";
+    NSURL *url = [NSURL URLWithString:inUrlString];
+    NSString *outUrlString = [url redactedAbsoluteString:nil];
+    STAssertEquals(inUrlString, outUrlString,
+                   @"'%@' and '%@' should be the same, with no querystring.",
+                   inUrlString,
+                   outUrlString);
+}
+
 - (void)testNoParams
 {
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
