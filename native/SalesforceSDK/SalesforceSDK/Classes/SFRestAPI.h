@@ -43,6 +43,11 @@ extern NSInteger const kSFRestErrorCode;
  */
 extern NSString* const kSFRestDefaultAPIVersion;
 
+/*
+ * The designator used to signify that the app is a native app.
+ */
+extern NSString * const kSFMobileSDKNativeDesignator;
+
 
 @class SFOAuthCoordinator;
 @class RKClient;

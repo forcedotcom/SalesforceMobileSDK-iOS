@@ -87,6 +87,17 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)addSidCookieForDomain:(NSString*)domain;
 
 /**
+ Removes any cookies from the cookie store.  All app cookies are reset with
+ new authentication.
+ */
+- (void)removeCookies;
+
+/**
+ Remove any cookies with the given names from the given domains.
+ */
+- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
+
+/**
  Convert the post-authentication credentials into a Dictionary, to return to
  the calling client code.
  @return Dictionary representation of oauth credentials.
@@ -222,8 +233,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSLog(@"logoutCurrentUser");
     [self logout];
-    [self.coordinator authenticate];
-
+    [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -358,10 +368,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout
 {
+    // Clear any cookies set by the app.
+    [self removeCookies];
+    
+    // Revoke all stored OAuth authentication.
     [self.coordinator revokeAuthentication];
     
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    //clear the home URL since we are no longer authenticated
+    // Clear the home URL since we are no longer authenticated.
     [defs setURL:nil forKey:kAppHomeUrlPropKey];
     //clear this since we just called revokeAuthentication
     [defs setBool:NO forKey:kAccountLogoutUserDefault];
@@ -370,7 +384,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)loggedIn
 {
-    // addSidCookieForDomain can be called before the web view exists.
+    // First, remove any session cookies associated with the app.
+    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
     [self addSidCookieForDomain:@".salesforce.com"];
     
     self.lastRefreshCompleted = [NSDate date];
@@ -388,7 +405,35 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
 }
 
+- (void)removeCookies
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        [cookieStorage deleteCookie:cookie];
+    }
+}
 
+- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
+{
+    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
+    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
+    
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        for (NSString *cookieToRemoveName in cookieNames) {
+            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+                for (NSString *domainToRemoveName in domainNames) {
+                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
+                    {
+                        [cookieStorage deleteCookie:cookie];
+                    }
+                }
+            }
+        }
+    }
+}
 
 - (void)addSidCookieForDomain:(NSString*)domain
 {
@@ -396,17 +441,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"addSidCookieForDomain: %@", domain);
     
     // Set the session ID cookie to be used by the web view.
-    NSURL *hostURL = self.coordinator.credentials.instanceUrl;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    // Remove any stale sid cookies with the same domain.
-    NSArray *cookiesToRemove = [NSArray arrayWithArray:[cookieStorage cookiesForURL:hostURL]];
-    for (NSHTTPCookie *cookieToRemove in cookiesToRemove) {
-        if ([cookieToRemove.domain hasSuffix:domain] && [cookieToRemove.name isEqualToString:@"sid"]  ) {
-            [cookieStorage deleteCookie:cookieToRemove];
-        }
-    }
     
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
