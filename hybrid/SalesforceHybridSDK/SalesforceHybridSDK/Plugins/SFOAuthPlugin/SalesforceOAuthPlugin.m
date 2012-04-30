@@ -423,11 +423,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
         for (NSString *cookieToRemoveName in cookieNames) {
-            for (NSString *domainToRemoveName in domainNames) {
-                if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]
-                    && [[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
-                {
-                    [cookieStorage deleteCookie:cookie];
+            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+                for (NSString *domainToRemoveName in domainNames) {
+                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
+                    {
+                        [cookieStorage deleteCookie:cookie];
+                    }
                 }
             }
         }
