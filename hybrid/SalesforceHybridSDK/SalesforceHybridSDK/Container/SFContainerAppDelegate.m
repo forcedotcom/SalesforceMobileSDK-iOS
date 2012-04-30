@@ -26,6 +26,7 @@
 #import "SFContainerAppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
 #import "SalesforceOAuthPlugin.h"
+#import "NSURL+SFStringUtils.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.1.6";
@@ -39,8 +40,18 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
 @interface SFContainerAppDelegate (Private)
 
-// The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
+/**
+ * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
+ */
 + (NSString *)startPageUrlString;
+
+/**
+ * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
+ * in determining the app's ultimate home page.
+ * @param url The URL to test.
+ * @return YES if the value is one of the reserved URLs, NO otherwise.
+ */
++ (BOOL)isReservedUrlValue:(NSURL *)url;
 
 @end
 
@@ -66,7 +77,7 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
         [dictionary release];
         
-        _nextUrlIsHomeUrl = NO;
+        _foundHomeUrl = NO;
     }
     return self;
 }
@@ -165,6 +176,31 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
     return urlString;
 }
 
++ (BOOL)isReservedUrlValue:(NSURL *)url
+{
+    static NSArray *reservedUrlStrings = nil;
+    if (reservedUrlStrings == nil) {
+        reservedUrlStrings = [[NSArray arrayWithObjects:
+                              [[self class] startPageUrlString],
+                              @"/secur/frontdoor.jsp",
+                              @"/secur/contentDoor",
+                              nil] retain];
+    }
+    
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
+        return NO;
+    
+    NSString *inputUrlString = [url absoluteString];
+    for (int i = 0; i < [reservedUrlStrings count]; i++) {
+        NSString *reservedString = [reservedUrlStrings objectAtIndex:i];
+        NSRange range = [[inputUrlString lowercaseString] rangeOfString:[reservedString lowercaseString]];
+        if (range.location != NSNotFound)
+            return YES;
+    }
+    
+    return NO;
+}
+
 
 #pragma mark - UIWebViewDelegate
 
@@ -173,17 +209,20 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
  */
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView 
 {
-    NSLog(@"webViewDidFinishLoad: Loaded %@", theWebView.request.URL.absoluteString);
+    NSURL *requestUrl = theWebView.request.URL;
+    NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
+    NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
+    NSLog(@"webViewDidFinishLoad: Loaded %@", redactedUrl);
     
-    // The URL that's loaded after the bootstrap start page will be considered the "app home URL", which can
+    // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
+    // this app's infrastructure is responsible for) will be considered the "app home URL", which can
     // be loaded directly in the event that the app is offline.
-    if (_nextUrlIsHomeUrl == YES) {
-        NSLog(@"Setting %@ as the 'home page' URL for this app.", theWebView.request.URL.absoluteString);
-        [[NSUserDefaults standardUserDefaults] setURL:theWebView.request.URL forKey:kAppHomeUrlPropKey];
-        _nextUrlIsHomeUrl = NO;
-    } else {
-        if ([theWebView.request.URL.absoluteString isEqualToString:[[self class] startPageUrlString]]) {
-            _nextUrlIsHomeUrl = YES;
+    if (_foundHomeUrl == NO) {
+        NSLog(@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl);
+        if (![[self class] isReservedUrlValue:requestUrl]) {
+            NSLog(@"Setting %@ as the 'home page' URL for this app.", redactedUrl);
+            [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
+            _foundHomeUrl = YES;
         }
     }
     
