@@ -93,6 +93,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)removeCookies;
 
 /**
+ Remove any cookies with the given names from the given domains.
+ */
+- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
+
+/**
  Convert the post-authentication credentials into a Dictionary, to return to
  the calling client code.
  @return Dictionary representation of oauth credentials.
@@ -379,9 +384,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)loggedIn
 {
-    // First, remove any cookies associated with the app.
+    // First, remove any session cookies associated with the app.
     // All cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeCookies];
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
     [self addSidCookieForDomain:@".salesforce.com"];
     
     self.lastRefreshCompleted = [NSDate date];
@@ -408,13 +414,32 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
 }
 
+- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
+{
+    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
+    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
+    
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        for (NSString *cookieToRemoveName in cookieNames) {
+            for (NSString *domainToRemoveName in domainNames) {
+                if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]
+                    && [[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
+                {
+                    [cookieStorage deleteCookie:cookie];
+                }
+            }
+        }
+    }
+}
+
 - (void)addSidCookieForDomain:(NSString*)domain
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
     NSLog(@"addSidCookieForDomain: %@", domain);
     
     // Set the session ID cookie to be used by the web view.
-    NSURL *hostURL = self.coordinator.credentials.instanceUrl;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
