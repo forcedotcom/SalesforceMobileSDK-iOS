@@ -72,7 +72,7 @@ extern NSString * const kSFSmartStorePluginName;
     
 	NSString* invokeString;
     SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL _nextUrlIsHomeUrl;
+    BOOL _foundHomeUrl;
 }
 
 
