@@ -20,7 +20,7 @@ Generally we expect that developers will use this template as a starting point t
 
 # Visualforce Apps
 
-- Ensure that your oauthScopes includes "visualforce"
+- Ensure that your oauthScopes includes "web"
 - Set your startPage to the path of your Visualforce page on the server instance, beginning with "apex/". 
 - Set autoRefreshOnForeground to true.  This will cause the app container to refresh your oauth session each time the app is foregrounded. This helps avoid problems with session timeout. 
 - Setup your Visualforce page on your org instance, ensuring that the instance matches the instance you're trying to access from your mobile app: ie if you are accessing Sandbox, you will need to login to test.salesforce.com, if you are accessing Production, you will need to login to login.salesforce.com
