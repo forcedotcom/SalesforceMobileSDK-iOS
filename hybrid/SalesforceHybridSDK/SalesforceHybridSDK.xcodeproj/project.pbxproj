@@ -212,6 +212,15 @@
 		7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E7014C646DB00D0C211 /* PluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
+		82D99FAF154E0D8000971B4D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
+		82D99FB0154E0D8000971B4D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
+		82D99FB6154E0D8000971B4D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82D99FB4154E0D8000971B4D /* InfoPlist.strings */; };
+		82D99FB9154E0D8000971B4D /* SalesforceHybridSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */; };
+		82D99FBF154E11E000971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82D99FC8154E133500971B4D /* UtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FC7154E133500971B4D /* UtilsTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -444,6 +453,16 @@
 		7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapDelegate.h; sourceTree = "<group>"; };
 		7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapViewController.h; sourceTree = "<group>"; };
 		7DF93E7014C646DB00D0C211 /* PluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
+		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
+		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
+		82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D99FB3154E0D8000971B4D /* SalesforceHybridSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDKTests-Info.plist"; sourceTree = "<group>"; };
+		82D99FB5154E0D8000971B4D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		82D99FB7154E0D8000971B4D /* SalesforceHybridSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDKTests.h; sourceTree = "<group>"; };
+		82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceHybridSDKTests.m; sourceTree = "<group>"; };
+		82D99FBA154E0D8000971B4D /* SalesforceHybridSDKTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDKTests-Prefix.pch"; sourceTree = "<group>"; };
+		82D99FC6154E133500971B4D /* UtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTests.h; sourceTree = "<group>"; };
+		82D99FC7154E133500971B4D /* UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -560,6 +579,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82D99FA9154E0D8000971B4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */,
+				82D99FAF154E0D8000971B4D /* UIKit.framework in Frameworks */,
+				82D99FB0154E0D8000971B4D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -632,6 +661,7 @@
 				7DBD16D414D860D300A17E6A /* DebugPluginsTests */,
 				7D20FC0414ED80CC00A86731 /* StressPlugins */,
 				7D20FC2014ED81A900A86731 /* StressPluginsTests */,
+				82D99FB1154E0D8000971B4D /* SalesforceHybridSDKTests */,
 				7D45E2F914BFB259002C4A27 /* Frameworks */,
 				7D45E2EB14BFB259002C4A27 /* Products */,
 			);
@@ -647,6 +677,7 @@
 				7DBD16CB14D85F6300A17E6A /* DebugPluginsTests.octest */,
 				7D20FBF914ED7DBD00A86731 /* StressPlugins.app */,
 				7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */,
+				82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -921,6 +952,8 @@
 		7DD88EE914DA044E00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */,
+				82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */,
 				7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */,
 				7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */,
 				7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */,
@@ -940,6 +973,28 @@
 			);
 			name = Headers;
 			path = PhoneGap.framework/Headers;
+			sourceTree = "<group>";
+		};
+		82D99FB1154E0D8000971B4D /* SalesforceHybridSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				82D99FB7154E0D8000971B4D /* SalesforceHybridSDKTests.h */,
+				82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */,
+				82D99FB2154E0D8000971B4D /* Supporting Files */,
+				82D99FC6154E133500971B4D /* UtilsTests.h */,
+				82D99FC7154E133500971B4D /* UtilsTests.m */,
+			);
+			path = SalesforceHybridSDKTests;
+			sourceTree = "<group>";
+		};
+		82D99FB2154E0D8000971B4D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				82D99FB3154E0D8000971B4D /* SalesforceHybridSDKTests-Info.plist */,
+				82D99FB4154E0D8000971B4D /* InfoPlist.strings */,
+				82D99FBA154E0D8000971B4D /* SalesforceHybridSDKTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -970,6 +1025,7 @@
 				7DE73A4214F6B6E600D489DE /* SFPluginTestSuite.h in Headers */,
 				7D32F3091506871800AD2D64 /* SFOAuthCoordinator.h in Headers */,
 				7D32F30A1506871800AD2D64 /* SFOAuthCredentials.h in Headers */,
+				82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,6 +1165,24 @@
 			productReference = 7DBD16CB14D85F6300A17E6A /* DebugPluginsTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		82D99FAC154E0D8000971B4D /* SalesforceHybridSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82D99FBB154E0D8000971B4D /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */;
+			buildPhases = (
+				82D99FA8154E0D8000971B4D /* Sources */,
+				82D99FA9154E0D8000971B4D /* Frameworks */,
+				82D99FAA154E0D8000971B4D /* Resources */,
+				82D99FAB154E0D8000971B4D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceHybridSDKTests;
+			productName = SalesforceHybridSDKTests;
+			productReference = 82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1137,6 +1211,7 @@
 				7DBD16BC14D85F6300A17E6A /* DebugPluginsTests */,
 				7D20FBB114ED7DBD00A86731 /* StressPlugins */,
 				7D20FC0D14ED815500A86731 /* StresssPluginsTests */,
+				82D99FAC154E0D8000971B4D /* SalesforceHybridSDKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1214,6 +1289,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DBD16C614D85F6300A17E6A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82D99FAA154E0D8000971B4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D99FB6154E0D8000971B4D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1307,6 +1390,19 @@
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SRCROOT}/tools/SFRunAppUnitTests\"\n";
 			showEnvVarsInLog = 0;
 		};
+		82D99FAB154E0D8000971B4D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1361,6 +1457,7 @@
 				7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */,
 				7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */,
+				82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,6 +1510,16 @@
 			files = (
 				7DBD16C014D85F6300A17E6A /* SmartStoreTestSuite.m in Sources */,
 				7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82D99FA8154E0D8000971B4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D99FB9154E0D8000971B4D /* SalesforceHybridSDKTests.m in Sources */,
+				82D99FBF154E11E000971B4D /* NSURL+SFStringUtils.m in Sources */,
+				82D99FC8154E133500971B4D /* UtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1470,6 +1577,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				7DBD163714D85C3400A17E6A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		82D99FB4154E0D8000971B4D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				82D99FB5154E0D8000971B4D /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2168,6 +2283,51 @@
 			};
 			name = Release;
 		};
+		82D99FBC154E0D8000971B4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		82D99FBD154E0D8000971B4D /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Coverage;
+		};
+		82D99FBE154E0D8000971B4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2250,6 +2410,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		82D99FBB154E0D8000971B4D /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82D99FBC154E0D8000971B4D /* Debug */,
+				82D99FBD154E0D8000971B4D /* Coverage */,
+				82D99FBE154E0D8000971B4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
