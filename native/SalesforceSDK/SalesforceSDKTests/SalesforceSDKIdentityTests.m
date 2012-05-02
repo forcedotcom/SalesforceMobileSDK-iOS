@@ -117,6 +117,9 @@
     idCoord.credentials.accessToken = @"";
     [self sendSyncRequest:idCoord];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should not have succeeded.");
+    NSError *error = _requestListener.lastError;
+    STAssertTrue([error.domain isEqualToString:kSFIdentityErrorDomain], [NSString stringWithFormat:@"Error domain should have been '%@'.  Got '%@'", kSFIdentityErrorDomain, error.domain]);
+    STAssertTrue(error.code == kSFIdentityErrorBadHttpResponse, [NSString stringWithFormat:@"Expected error code %d.  Got %d", kSFIdentityErrorBadHttpResponse, error.code]);
     idCoord.credentials.accessToken = origAccessToken;
     [origAccessToken release];
 }

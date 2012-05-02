@@ -31,9 +31,6 @@
  * Internal interface for the SFIdentityCoordinator.
  */
 @interface SFIdentityCoordinator ()
-{
-    NSDictionary *_typeToCodeDict;
-}
 
 /**
  * The data from the service response will be populated here.
@@ -54,6 +51,11 @@
  * Dictionary mapping error codes to their respective types.
  */
 @property (nonatomic, readonly) NSDictionary *typeToCodeDict;
+
+/**
+ * If there's an error in the HTTP transaction, set it in this property.
+ */
+@property (nonatomic, retain) NSError *httpError;
 
 /**
  * Triggers the success notifictation to the delegate.

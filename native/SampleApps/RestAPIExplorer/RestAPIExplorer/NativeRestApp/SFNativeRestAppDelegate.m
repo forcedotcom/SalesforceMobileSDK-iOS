@@ -253,7 +253,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 + (NSSet *)oauthScopes {
-    return [NSSet setWithObjects:@"visualforce",@"api",nil] ; 
+    return [NSSet setWithObjects:@"web",@"api",nil] ; 
 }
 
 

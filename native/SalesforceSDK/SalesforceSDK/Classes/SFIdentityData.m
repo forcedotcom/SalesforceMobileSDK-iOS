@@ -26,44 +26,47 @@
 
 // Private constants
 
-NSString * const kSFIdentityIdUrlKey               = @"id";
-NSString * const kSFIdentityAssertedUserKey        = @"asserted_user";
-NSString * const kSFIdentityUserIdKey              = @"user_id";
-NSString * const kSFIdentityOrgIdKey               = @"organization_id";
-NSString * const kSFIdentityUsernameKey            = @"username";
-NSString * const kSFIdentityNicknameKey            = @"nick_name";
-NSString * const kSFIdentityDisplayNameKey         = @"display_name";
-NSString * const kSFIdentityEmailKey               = @"email";
-NSString * const kSFIdentityFirstNameKey           = @"first_name";
-NSString * const kSFIdentityLastNameKey            = @"last_name";
-NSString * const kSFIdentityStatusKey              = @"status";
-NSString * const kSFIdentityStatusBodyKey          = @"body";
-NSString * const kSFIdentityStatusCreationDateKey  = @"created_date";
-NSString * const kSFIdentityPhotosKey              = @"photos";
-NSString * const kSFIdentityPictureUrlKey          = @"picture";
-NSString * const kSFIdentityThumbnailUrlKey        = @"thumbnail";
-NSString * const kSFIdentityUrlsKey                = @"urls";
-NSString * const kSFIdentityEnterpriseSoapUrlKey   = @"enterprise";
-NSString * const kSFIdentityMetadataSoapUrlKey     = @"metadata";
-NSString * const kSFIdentityPartnerSoapUrlKey      = @"partner";
-NSString * const kSFIdentityRestUrlKey             = @"rest";
-NSString * const kSFIdentityRestSObjectsUrlKey     = @"sobjects";
-NSString * const kSFIdentityRestSearchUrlKey       = @"search";
-NSString * const kSFIdentityRestQueryUrlKey        = @"query";
-NSString * const kSFIdentityRestRecentUrlKey       = @"recent";
-NSString * const kSFIdentityProfileUrlKey          = @"profile";
-NSString * const kSFIdentityChatterFeedsUrlKey     = @"feeds";
-NSString * const kSFIdentityChatterGroupsUrlKey    = @"groups";
-NSString * const kSFIdentityChatterUsersUrlKey     = @"users";
-NSString * const kSFIdentityChatterFeedItemsUrlKey = @"feed_items";
-NSString * const kSFIdentityIsActiveKey            = @"active";
-NSString * const kSFIdentityUserTypeKey            = @"user_type";
-NSString * const kSFIdentityLanguageKey            = @"language";
-NSString * const kSFIdentityLocaleKey              = @"locale";
-NSString * const kSFIdentityUtcOffsetKey           = @"utcOffset";
-NSString * const kSFIdentityLastModifiedDateKey    = @"last_modified_date";
+NSString * const kSFIdentityIdUrlKey                      = @"id";
+NSString * const kSFIdentityAssertedUserKey               = @"asserted_user";
+NSString * const kSFIdentityUserIdKey                     = @"user_id";
+NSString * const kSFIdentityOrgIdKey                      = @"organization_id";
+NSString * const kSFIdentityUsernameKey                   = @"username";
+NSString * const kSFIdentityNicknameKey                   = @"nick_name";
+NSString * const kSFIdentityDisplayNameKey                = @"display_name";
+NSString * const kSFIdentityEmailKey                      = @"email";
+NSString * const kSFIdentityFirstNameKey                  = @"first_name";
+NSString * const kSFIdentityLastNameKey                   = @"last_name";
+NSString * const kSFIdentityStatusKey                     = @"status";
+NSString * const kSFIdentityStatusBodyKey                 = @"body";
+NSString * const kSFIdentityStatusCreationDateKey         = @"created_date";
+NSString * const kSFIdentityPhotosKey                     = @"photos";
+NSString * const kSFIdentityPictureUrlKey                 = @"picture";
+NSString * const kSFIdentityThumbnailUrlKey               = @"thumbnail";
+NSString * const kSFIdentityUrlsKey                       = @"urls";
+NSString * const kSFIdentityEnterpriseSoapUrlKey          = @"enterprise";
+NSString * const kSFIdentityMetadataSoapUrlKey            = @"metadata";
+NSString * const kSFIdentityPartnerSoapUrlKey             = @"partner";
+NSString * const kSFIdentityRestUrlKey                    = @"rest";
+NSString * const kSFIdentityRestSObjectsUrlKey            = @"sobjects";
+NSString * const kSFIdentityRestSearchUrlKey              = @"search";
+NSString * const kSFIdentityRestQueryUrlKey               = @"query";
+NSString * const kSFIdentityRestRecentUrlKey              = @"recent";
+NSString * const kSFIdentityProfileUrlKey                 = @"profile";
+NSString * const kSFIdentityChatterFeedsUrlKey            = @"feeds";
+NSString * const kSFIdentityChatterGroupsUrlKey           = @"groups";
+NSString * const kSFIdentityChatterUsersUrlKey            = @"users";
+NSString * const kSFIdentityChatterFeedItemsUrlKey        = @"feed_items";
+NSString * const kSFIdentityIsActiveKey                   = @"active";
+NSString * const kSFIdentityUserTypeKey                   = @"user_type";
+NSString * const kSFIdentityLanguageKey                   = @"language";
+NSString * const kSFIdentityLocaleKey                     = @"locale";
+NSString * const kSFIdentityUtcOffsetKey                  = @"utcOffset";
+NSString * const kSFIdentityMobilePolicyKey               = @"mobile_policy";
+NSString * const kSFIdentityMobileAppPinLengthKey         = @"pin_length";
+NSString * const kSFIdentityMobileAppScreenLockTimeoutKey = @"screen_lock";
+NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
 
-NSString * const kSFIdentityDateFormatString       = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
+NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
 
 /**
  * Private interface
@@ -295,6 +298,33 @@ NSString * const kSFIdentityDateFormatString       = @"yyyy-MM-dd'T'HH:mm:ss.SSS
         return [[self.jsonRepresentation objectForKey:kSFIdentityUtcOffsetKey] intValue];
     else
         return -1;
+}
+
+- (BOOL)mobilePoliciesConfigured
+{
+    return ([self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey] != nil);
+}
+
+- (int)mobileAppPinLength
+{
+    NSDictionary *mobilePolicy = [self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey];
+    if (mobilePolicy != nil) {
+        id pinLength = [mobilePolicy objectForKey:kSFIdentityMobileAppPinLengthKey];
+        return (pinLength != nil ? [pinLength intValue] : 0);
+    } else {
+        return 0;
+    }
+}
+
+- (int)mobileAppScreenLockTimeout
+{
+    NSDictionary *mobilePolicy = [self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey];
+    if (mobilePolicy != nil) {
+        id screenLockTimeout = [mobilePolicy objectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
+        return (screenLockTimeout != nil ? [screenLockTimeout intValue] : -1);
+    } else {
+        return -1;
+    }
 }
 
 - (NSDate *)lastModifiedDate

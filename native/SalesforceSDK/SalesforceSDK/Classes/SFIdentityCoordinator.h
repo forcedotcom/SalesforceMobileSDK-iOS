@@ -44,7 +44,8 @@ extern NSString * const kSFIdentityErrorDomain;
 enum {
     kSFIdentityErrorUnknown = 766,
     kSFIdentityErrorNoData,
-    kSFIdentityErrorDataMalformed
+    kSFIdentityErrorDataMalformed,
+    kSFIdentityErrorBadHttpResponse
 };
 
 /**

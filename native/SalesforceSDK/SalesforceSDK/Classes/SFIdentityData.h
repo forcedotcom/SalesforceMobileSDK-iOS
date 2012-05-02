@@ -196,6 +196,26 @@
 @property (readonly) int utcOffset;
 
 /**
+ * Whether or not any additional mobile security policies have been configured
+ * for this application.
+ */
+@property (readonly) BOOL mobilePoliciesConfigured;
+
+/**
+ * The length of the PIN code, if it's required.  Defaults to 0 if not set, but
+ * querying mobilePoliciesConfigured is recommended to validate that policies
+ * are set.
+ */
+@property (readonly) int mobileAppPinLength;
+
+/**
+ * The length of time in minutes before the app will be locked, if it's required.
+ * Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
+ * to validate that policies are set.
+ */
+@property (readonly) int mobileAppScreenLockTimeout;
+
+/**
  * The date this record was last modified.
  */
 @property (nonatomic, readonly) NSDate *lastModifiedDate;

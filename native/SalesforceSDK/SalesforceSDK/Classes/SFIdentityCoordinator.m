@@ -43,6 +43,7 @@ static NSString * const kSFIdentityError                     = @"error";
 static NSString * const kSFIdentityErrorDescription          = @"error_description";
 static NSString * const kSFIdentityErrorTypeNoData           = @"no_data_returned";
 static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_response";
+static NSString * const kSFIdentityErrorTypeBadHttpResponse  = @"bad_http_response";
 
 @implementation SFIdentityCoordinator
 
@@ -53,6 +54,7 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
 @synthesize connection = _connection;
+@synthesize httpError = _httpError;
 
 #pragma mark - init / dealloc
 
@@ -76,7 +78,7 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
     self.idData = nil;
     self.responseData = nil;
     self.connection = nil;
-    [_typeToCodeDict release]; _typeToCodeDict = nil;
+    self.httpError = nil;
     [super dealloc];
 }
 
@@ -134,10 +136,17 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
     self.retrievingData = NO;
     self.connection = nil;
     self.responseData = nil;
+    self.httpError = nil;
 }
 
 - (void)processResponse
 {
+    // If there was an invalid HTTP response, the request failed.
+    if (nil != self.httpError) {
+        [self notifyDelegateOfFailure:self.httpError];
+        return;
+    }
+    
     NSError *error;
     if (self.responseData == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeNoData description:@"No identity data returned in response."];
@@ -183,10 +192,12 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
 
 - (NSDictionary *)typeToCodeDict
 {
+    static NSDictionary *_typeToCodeDict = nil;
     if (_typeToCodeDict == nil) {
         _typeToCodeDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                            [NSNumber numberWithInteger:kSFIdentityErrorNoData],        kSFIdentityErrorTypeNoData,
                            [NSNumber numberWithInteger:kSFIdentityErrorDataMalformed], kSFIdentityErrorTypeDataMalformed,
+                           [NSNumber numberWithInteger:kSFIdentityErrorBadHttpResponse], kSFIdentityErrorTypeBadHttpResponse,
                            nil];
     }
     
@@ -204,6 +215,13 @@ static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_respo
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
+    int statusCode = [(NSHTTPURLResponse *)response statusCode];
+    if (statusCode != 200) {
+        self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
+                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %d", statusCode]];
+    }
+    
 	// reset the response data for a new refresh response
     self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
 }
