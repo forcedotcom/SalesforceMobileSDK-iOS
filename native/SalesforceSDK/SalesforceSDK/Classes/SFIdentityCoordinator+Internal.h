@@ -23,41 +23,64 @@
  */
 
 #import <Foundation/Foundation.h>
-
-#import "SFRestRequest.h"
 #import "SFIdentityCoordinator.h"
-#import "SFOAuthCoordinator.h"
 
-extern NSString* const kTestRequestStatusWaiting;
-extern NSString* const kTestRequestStatusDidLoad;
-extern NSString* const kTestRequestStatusDidFail;
-extern NSString* const kTestRequestStatusDidCancel;
-extern NSString* const kTestRequestStatusDidTimeout;
-
-@interface TestRequestListener : NSObject <SFRestDelegate, SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
-    id _originalRequest;
-    id _jsonResponse;
-    NSError *_lastError;
-    NSString *_returnStatus;
-    NSTimeInterval _maxWaitTime;
-}
-
-@property (nonatomic, retain) id originalRequest;
-@property (nonatomic, retain) id jsonResponse;
-@property (nonatomic, retain) NSError *lastError;
-@property (nonatomic, retain) NSString *returnStatus;
-
-/// Max time to wait for request completion
-@property (nonatomic, assign) NSTimeInterval maxWaitTime;
-
-- (id)initWithRequest:(id)request;
+@class SFIdentityData;
 
 /**
- * Wait for the request to complete (success or fail)
- * Waits for up to maxWaitTime.
- * @return returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded
+ * Internal interface for the SFIdentityCoordinator.
  */
-- (NSString *)waitForCompletion;
+@interface SFIdentityCoordinator ()
+
+/**
+ * The data from the service response will be populated here.
+ */
+@property (nonatomic, retain) NSMutableData *responseData;
+
+/**
+ * Whether or not a request is already in progress.
+ */
+@property (assign) BOOL retrievingData;
+
+/**
+ * The NSURLConnection associated with the ID request.
+ */
+@property (nonatomic, retain) NSURLConnection *connection;
+
+/**
+ * Dictionary mapping error codes to their respective types.
+ */
+@property (nonatomic, readonly) NSDictionary *typeToCodeDict;
+
+/**
+ * If there's an error in the HTTP transaction, set it in this property.
+ */
+@property (nonatomic, retain) NSError *httpError;
+
+/**
+ * Triggers the success notifictation to the delegate.
+ */
+- (void)notifyDelegateOfSuccess;
+
+/**
+ * Triggers the failure notification and error to the delegate.
+ */
+- (void)notifyDelegateOfFailure:(NSError *)error;
+
+/**
+ * Process a completed response from the service, populating the ID data.
+ */
+- (void)processResponse;
+
+/**
+ * Cleans up the in-process properties and vars, once a request is completed.
+ */
+- (void)cleanupData;
+
+/**
+ * Creates an NSError instance based on type and description, for notifying the delegate
+ * of a failure.
+ */
+- (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 
 @end
-

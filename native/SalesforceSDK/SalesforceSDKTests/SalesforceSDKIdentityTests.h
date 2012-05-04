@@ -22,42 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <SenTestingKit/SenTestingKit.h>
 
-#import "SFRestRequest.h"
-#import "SFIdentityCoordinator.h"
-#import "SFOAuthCoordinator.h"
-
-extern NSString* const kTestRequestStatusWaiting;
-extern NSString* const kTestRequestStatusDidLoad;
-extern NSString* const kTestRequestStatusDidFail;
-extern NSString* const kTestRequestStatusDidCancel;
-extern NSString* const kTestRequestStatusDidTimeout;
-
-@interface TestRequestListener : NSObject <SFRestDelegate, SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
-    id _originalRequest;
-    id _jsonResponse;
-    NSError *_lastError;
-    NSString *_returnStatus;
-    NSTimeInterval _maxWaitTime;
-}
-
-@property (nonatomic, retain) id originalRequest;
-@property (nonatomic, retain) id jsonResponse;
-@property (nonatomic, retain) NSError *lastError;
-@property (nonatomic, retain) NSString *returnStatus;
-
-/// Max time to wait for request completion
-@property (nonatomic, assign) NSTimeInterval maxWaitTime;
-
-- (id)initWithRequest:(id)request;
+@class TestRequestListener;
+@class SFOAuthCoordinator;
 
 /**
- * Wait for the request to complete (success or fail)
- * Waits for up to maxWaitTime.
- * @return returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded
+ * The unit tests associated with SFIdentityCoordinator requests.
  */
-- (NSString *)waitForCompletion;
+@interface SalesforceSDKIdentityTests : SenTestCase
+{
+    TestRequestListener *_requestListener;
+    SFOAuthCoordinator *_oauthCoordinator;
+}
 
 @end
-

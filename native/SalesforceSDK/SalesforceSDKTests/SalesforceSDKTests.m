@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -49,7 +49,10 @@
 {
     // Set-up code here.
     [_requestListener release]; _requestListener = nil;
-    [TestSetupUtils ensureCredentialsLoaded];
+    if ([[SFRestAPI sharedInstance] coordinator] == nil) {
+        SFOAuthCoordinator *restCoord = [TestSetupUtils coordinatorFromCredentialsConfigFile];
+        [[SFRestAPI sharedInstance] setCoordinator:restCoord];
+    }
     [super setUp];
 }
 
@@ -65,7 +68,7 @@
 
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
     [_requestListener release]; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     [_requestListener waitForCompletion];
@@ -106,7 +109,7 @@
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
 
     [_requestListener release]; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     
     //exercises overwriting the delegate at send time
     [[SFRestAPI sharedInstance] send:request delegate:_requestListener];
@@ -150,7 +153,7 @@
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     
     [_requestListener release]; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
     [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
@@ -165,7 +168,7 @@
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     
     [_requestListener release]; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRestRequest:request];
+    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
@@ -513,19 +516,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRestRequest:request0] autorelease];
+        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRequest:request0] autorelease];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRestRequest:request1] autorelease];
+        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRequest:request1] autorelease];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRestRequest:request2] autorelease];
+        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRequest:request2] autorelease];
 
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRestRequest:request3] autorelease];
+        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRequest:request3] autorelease];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRestRequest:request4] autorelease];
+        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRequest:request4] autorelease];
        
         //send multiple requests, all of which should fail with "unauthorized" initially,
         //but then be replayed after an access token refresh
@@ -576,19 +579,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRestRequest:request0] autorelease];
+        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRequest:request0] autorelease];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRestRequest:request1] autorelease];
+        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRequest:request1] autorelease];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRestRequest:request2] autorelease];
+        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRequest:request2] autorelease];
         
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRestRequest:request3] autorelease];
+        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRequest:request3] autorelease];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRestRequest:request4] autorelease];
+        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRequest:request4] autorelease];
         
         //send multiple requests, all of which should fail with "unauthorized" 
         [[SFRestAPI sharedInstance] send:request0 delegate:nil];

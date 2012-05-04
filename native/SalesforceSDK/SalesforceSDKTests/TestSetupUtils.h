@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,27 +24,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFOAuthCoordinator;
+
 
 /**
  This class provides utilities useful to all unit tests based on the Salesforce SDK
  */
 @interface TestSetupUtils : NSObject
 
-
-
-/**
- This method can be called from eg SenTestCase setUp to ensure that
- oauth credentials required for the test are loaded.
- @see readCredentialsConfigFile
- */
-+ (void)ensureCredentialsLoaded;
-
 /**
  Forces a reload of authorization credentials from the configuration file.
- Normally you'd call ensureCredentialsLoaded unless you wish to force a reload.
- @see ensureCredentialsLoaded
+ @return SFOAuthCoordinator instance configured from the test credentials file.
  */
-+ (void)readCredentialsConfigFile;
++ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile;
 
 
 /**
