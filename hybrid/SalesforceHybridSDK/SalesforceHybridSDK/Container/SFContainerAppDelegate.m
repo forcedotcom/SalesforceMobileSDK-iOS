@@ -29,7 +29,7 @@
 #import "NSURL+SFStringUtils.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.1.6";
+NSString * const kSFMobileSDKVersion = @"1.1.7";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -78,6 +78,7 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
         [dictionary release];
         
         _foundHomeUrl = NO;
+        _isAppStartup = YES;
     }
     return self;
 }
@@ -118,21 +119,27 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
     return [super application:application handleOpenURL:url];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {    
-    //Ensure that we have an OAuth plugin instance asap
-    if (nil == _oauthPlugin)
-        _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
+- (void)applicationDidBecomeActive:(UIApplication *)application {   
     
-    // If the app is in a state where it should be reset, re-initialize the app.
-    if ([_oauthPlugin resetAppState]) {
-        [_oauthPlugin release]; _oauthPlugin = nil;
-        [self loadStartPageIntoWebView];
+    // These actions only need to be taken when the app is coming back to the foreground, i.e. not when the app is first starting,
+    // which has a separate bootstrapping process.
+    if (!_isAppStartup) {
+        //Ensure that we have an OAuth plugin instance asap
+        if (nil == _oauthPlugin)
+            _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
+        
+        // If the app is in a state where it should be reset, re-initialize the app.
+        if ([_oauthPlugin resetAppState]) {
+            [_oauthPlugin release]; _oauthPlugin = nil;
+            [self loadStartPageIntoWebView];
+        }
+        
+        //Touch this to ensure that we have a SmartStore plugin instance that
+        //can listen for file data protection notifications.
+        [self getCommandInstance:kSFSmartStorePluginName];
     }
     
-    //Touch this to ensure that we have a SmartStore plugin instance that
-    //can listen for file data protection notifications.
-    [self getCommandInstance:kSFSmartStorePluginName];
-    
+    _isAppStartup = NO;
     [super applicationDidBecomeActive:application];
 }
 

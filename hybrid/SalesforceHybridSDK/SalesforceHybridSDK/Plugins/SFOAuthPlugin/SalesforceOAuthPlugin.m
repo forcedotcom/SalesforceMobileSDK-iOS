@@ -121,9 +121,24 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)cleanupCoordinator;
 
+/**
+ Dismisses the authentication retry alert box, if present.
+ */
 - (void)cleanupRetryAlert;
 
+/**
+ Displays an alert in the event of an unknown failure for OAuth, allowing the user
+ to retry authentication.
+ */
 - (void)showRetryAlertForAuthError:(NSError *)error;
+
+/**
+ Revokes the current user's credentials for the app, optionally redirecting her to the
+ login screen.
+ @param restartAuthentication Whether or not to immediately restart the authentication
+                              process.
+ */
+- (void)logout:(BOOL)restartAuthentication;
 
 @end
 
@@ -233,7 +248,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     NSLog(@"logoutCurrentUser");
     [self logout];
-    [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -291,7 +305,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         shouldReset = YES;
-        [self logout];
+        [self logout:NO];
     } else {
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
@@ -368,6 +382,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout
 {
+    [self logout:YES];
+}
+
+- (void)logout:(BOOL)restartAuthentication
+{
     // Clear any cookies set by the app.
     [self removeCookies];
     
@@ -380,6 +399,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     //clear this since we just called revokeAuthentication
     [defs setBool:NO forKey:kAccountLogoutUserDefault];
     [defs synchronize];
+    
+    if (restartAuthentication)
+        [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)loggedIn
@@ -647,7 +669,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
     else {
         // show alert and allow retry
-        [self performSelector:@selector(showOAuthStatusAlert:) withObject:error afterDelay:0];
+        [self performSelector:@selector(showRetryAlertForAuthError:) withObject:error afterDelay:0];
     }
 }
 
