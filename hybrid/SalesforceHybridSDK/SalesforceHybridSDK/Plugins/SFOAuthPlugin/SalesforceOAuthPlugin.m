@@ -124,9 +124,24 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  */
 - (void)cleanupCoordinator;
 
+/**
+ Dismisses the authentication retry alert box, if present.
+ */
 - (void)cleanupRetryAlert;
 
+/**
+ Displays an alert in the event of an unknown failure for OAuth, allowing the user
+ to retry authentication.
+ */
 - (void)showRetryAlertForAuthError:(NSError *)error;
+
+/**
+ Revokes the current user's credentials for the app, optionally redirecting her to the
+ login screen.
+ @param restartAuthentication Whether or not to immediately restart the authentication
+                              process.
+ */
+- (void)logout:(BOOL)restartAuthentication;
 
 
 /**
@@ -251,7 +266,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     NSLog(@"logoutCurrentUser");
     [self logout];
-    [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -417,7 +431,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         shouldReset = YES;
-        [self logout];
+        [self logout:NO];
     } else {
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
@@ -493,6 +507,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)logout
 {
+    [self logout:YES];
+}
+
+- (void)logout:(BOOL)restartAuthentication
+{
     // Clear any cookies set by the app.
     [self removeCookies];
     
@@ -505,6 +524,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     //clear this since we just called revokeAuthentication
     [defs setBool:NO forKey:kAccountLogoutUserDefault];
     [defs synchronize];
+    
+    if (restartAuthentication)
+        [_appDelegate loadStartPageIntoWebView];
 }
 
 - (void)loggedIn
@@ -774,7 +796,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     }
     else {
         // show alert and allow retry
-        [self performSelector:@selector(showOAuthStatusAlert:) withObject:error afterDelay:0];
+        [self performSelector:@selector(showRetryAlertForAuthError:) withObject:error afterDelay:0];
     }
 }
 
