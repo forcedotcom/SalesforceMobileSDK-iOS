@@ -29,7 +29,7 @@
 #import "NSURL+SFStringUtils.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.1.7";
+NSString * const kSFMobileSDKVersion = @"1.1.8";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
