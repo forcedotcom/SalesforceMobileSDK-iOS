@@ -166,6 +166,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     if (self) {
         _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         [[self class] ensureAccountDefaultsExist];
+        [[self class] updateLoginHost];
     }
     
     return self;
