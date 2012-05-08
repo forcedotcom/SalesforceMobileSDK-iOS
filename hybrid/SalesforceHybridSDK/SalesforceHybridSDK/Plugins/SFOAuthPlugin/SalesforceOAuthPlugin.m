@@ -182,6 +182,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     if (self) {
         _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         [[self class] ensureAccountDefaultsExist];
+        [[self class] updateLoginHost];
     }
     
     return self;
