@@ -8,6 +8,7 @@
 
 #import "SFUserActivityMonitor.h"
 #import "SFApplication.h"
+#import "SFInactivityTimerCenter.h"
 
 // Singleton instance
 static SFUserActivityMonitor *_instance;
@@ -49,7 +50,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
 - (void)dealloc
 {
     [_lastEventDate release]; _lastEventDate = nil;
-    [self stopMonitoring]; _monitorTimer = nil;
+    [self stopMonitoring];
     [super dealloc];
 }
 
@@ -60,7 +61,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
     [self stopMonitoring];
     
     [_lastEventDate release];
-    _lastEventDate = [[(SFApplication *)[UIApplication sharedApplication] lastEventDate] retain];
+    _lastEventDate = [[(SFApplication *)[UIApplication sharedApplication] lastEventDate] copy];
     _monitorTimer = [[NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds target:self selector:@selector(timerFired:) userInfo:nil repeats:YES] retain];
     [[NSRunLoop mainRunLoop] addTimer:_monitorTimer forMode:NSDefaultRunLoopMode];
 }
@@ -70,12 +71,19 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
     if (_monitorTimer != nil) {
         [_monitorTimer invalidate];
         [_monitorTimer release];
+        _monitorTimer = nil;
     }
 }
 
 - (void)timerFired:(NSTimer *)theTimer
 {
-    
+    NSDate *lastEventAsOfNow = [(SFApplication *)[UIApplication sharedApplication] lastEventDate];
+    if (![_lastEventDate isEqualToDate:lastEventAsOfNow]) {
+        [SFInactivityTimerCenter updateActivityTimestamp];
+        // TODO: Possibly consider a notification, if other objects would like to subscribe to this.
+        [_lastEventDate release];
+        _lastEventDate = [lastEventAsOfNow copy];
+    }
 }
 
 @end
