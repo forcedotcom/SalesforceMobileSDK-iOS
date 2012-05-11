@@ -138,8 +138,6 @@
 		8207C823155C24E30076916C /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C821155C24E30076916C /* SFInactivityTimerCenter.m */; };
 		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; };
 		8207C832155C4F000076916C /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C830155C4F000076916C /* SFApplication.m */; };
-		8207C835155C4F880076916C /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C833155C4F880076916C /* SFUserActivityMonitor.h */; };
-		8207C836155C4F880076916C /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C834155C4F880076916C /* SFUserActivityMonitor.m */; };
 		82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
 		82D2B464153E3DC700571102 /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D2B462153E3DC700571102 /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -149,6 +147,8 @@
 		82D2B46B153E3E2100571102 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */; };
 		82D2B46C153E3E2100571102 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */; };
 		82D2B47E153E41DA00571102 /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D2B47C153E41DA00571102 /* SFIdentityCoordinator+Internal.h */; };
+		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
+		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -332,8 +332,6 @@
 		8207C821155C24E30076916C /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFInactivityTimerCenter.m; sourceTree = "<group>"; };
 		8207C82F155C4F000076916C /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFApplication.h; path = ../../../shared/Classes/Common/SFApplication.h; sourceTree = "<group>"; };
 		8207C830155C4F000076916C /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFApplication.m; path = ../../../shared/Classes/Common/SFApplication.m; sourceTree = "<group>"; };
-		8207C833155C4F880076916C /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Security/SFUserActivityMonitor.h; sourceTree = "<group>"; };
-		8207C834155C4F880076916C /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Security/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		82146430154091E00096C16F /* SalesforceSDKIdentityTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKIdentityTests.h; sourceTree = "<group>"; };
 		82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKIdentityTests.m; sourceTree = "<group>"; };
 		82D2B462153E3DC700571102 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
@@ -341,6 +339,8 @@
 		82D2B468153E3E2100571102 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
 		82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityCoordinator.m; sourceTree = "<group>"; };
 		82D2B47C153E41DA00571102 /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
+		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
+		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26713BA13D6B845001FE0B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C26713BE13D6B845001FE0B8 /* SalesforceSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -666,6 +666,8 @@
 		8207C825155C49160076916C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */,
+				82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */,
 				8207C82F155C4F000076916C /* SFApplication.h */,
 				8207C830155C4F000076916C /* SFApplication.m */,
 			);
@@ -675,8 +677,6 @@
 		8207C82E155C4A380076916C /* Security */ = {
 			isa = PBXGroup;
 			children = (
-				8207C833155C4F880076916C /* SFUserActivityMonitor.h */,
-				8207C834155C4F880076916C /* SFUserActivityMonitor.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -921,7 +921,7 @@
 				82D2B47E153E41DA00571102 /* SFIdentityCoordinator+Internal.h in Headers */,
 				8207C822155C24E30076916C /* SFInactivityTimerCenter.h in Headers */,
 				8207C831155C4F000076916C /* SFApplication.h in Headers */,
-				8207C835155C4F880076916C /* SFUserActivityMonitor.h in Headers */,
+				82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1061,7 +1061,7 @@
 				82D2B46B153E3E2100571102 /* SFIdentityCoordinator.m in Sources */,
 				8207C823155C24E30076916C /* SFInactivityTimerCenter.m in Sources */,
 				8207C832155C4F000076916C /* SFApplication.m in Sources */,
-				8207C836155C4F880076916C /* SFUserActivityMonitor.m in Sources */,
+				82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
