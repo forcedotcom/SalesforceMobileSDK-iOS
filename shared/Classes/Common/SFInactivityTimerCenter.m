@@ -24,7 +24,7 @@ static NSDate *lastActivityTimestamp = nil;
 }
 
 + (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval {
-	[InactivityTimerCenter removeTimer:timerName];
+	[SFInactivityTimerCenter removeTimer:timerName];
 	if (interval > 0) {
 		NSTimer *t = [NSTimer timerWithTimeInterval:interval target:target selector:aSelector userInfo:timerName repeats:NO];
 		[[NSRunLoop mainRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
@@ -60,15 +60,12 @@ static NSDate *lastActivityTimestamp = nil;
 		NSTimer *t = [allTimers objectForKey:timerName];
 		NSNumber *interval = [allIntervals objectForKey:timerName];
 		if ([t isValid]) {
-            if ([[NSDate date] respondsToSelector:@selector(dateByAddingTimeInterval:)]) {
-                [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
-            }
-            else {
-                [t setFireDate:[[NSDate date] addTimeInterval:[interval doubleValue]]];
-            }
-			[self log:Info format:@"timer %@ updated to +%@ seconds", timerName, interval];
+            [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
+            // TODO: Pull in logging from Chatter SDK.  We need a more robust logging mechanism, and they have one.
+			//[self log:Info format:@"timer %@ updated to +%@ seconds", timerName, interval];
 		} else {
-			[self log:Error format:@"timer %@ is invalid. removing...", timerName];
+            // TODO: See above.
+			//[self log:Error format:@"timer %@ is invalid. removing...", timerName];
 			[keysToRemove addObject:timerName];
 		}
 	}
