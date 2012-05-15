@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const DEFAULT_KEY_LAST_ACTIVITY;
+extern NSString *const kDefaultKeyLastActivity;
 
 @interface SFInactivityTimerCenter : NSObject
 

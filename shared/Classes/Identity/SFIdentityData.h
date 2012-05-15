@@ -31,9 +31,9 @@
 @interface SFIdentityData : NSObject
 
 /**
- * The JSON representation of this identity data.
+ * The NSDictionary representation of this identity data.
  */
-@property (nonatomic, readonly) NSDictionary *jsonRepresentation;
+@property (nonatomic, readonly) NSDictionary *dictRepresentation;
 
 /**
  * The ID URL.

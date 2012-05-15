@@ -207,7 +207,20 @@
 			<string>dependencies</string>
 		</array>
 		<key>Path</key>
-		<string>/usr/lib/libsqlite3.0.dylib</string>
+		<string>/usr/lib/libsqlite3.dylib</string>
+		<key>PathType</key>
+		<string>CurrentSDK</string>
+	</dict>
+
+	<!-- libz is required by NSData extensions currently -->
+	<key>dependencies/libz.dylib</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+		</array>
+		<key>Path</key>
+		<string>/usr/lib/libz.dylib</string>
 		<key>PathType</key>
 		<string>CurrentSDK</string>
 	</dict>
@@ -1658,7 +1671,8 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
-	<string>dependencies/libsqlite3.0.dylib</string>
+	<string>dependencies/libsqlite3.dylib</string>
+	<string>dependencies/libz.dylib</string>
 	
 
 

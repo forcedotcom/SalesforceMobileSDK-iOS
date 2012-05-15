@@ -9,6 +9,8 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFLogger.h"
 
+NSString *const kDefaultKeyLastActivity = @"timer.lastactivity";
+
 @implementation SFInactivityTimerCenter
 
 static NSMutableDictionary *allTimers = nil;
@@ -17,7 +19,7 @@ static NSDate *lastActivityTimestamp = nil;
 
 + (void)initialize {
     if (self == [SFInactivityTimerCenter class]) {
-        lastActivityTimestamp = [[NSUserDefaults standardUserDefaults] objectForKey:DEFAULT_KEY_LAST_ACTIVITY];
+        lastActivityTimestamp = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultKeyLastActivity];
         if(lastActivityTimestamp == nil) {
             lastActivityTimestamp = [[NSDate alloc] init];
         }
@@ -73,7 +75,7 @@ static NSDate *lastActivityTimestamp = nil;
 }
 
 + (void)saveActivityTimestamp {
-	[[NSUserDefaults standardUserDefaults] setObject:lastActivityTimestamp forKey:DEFAULT_KEY_LAST_ACTIVITY];
+	[[NSUserDefaults standardUserDefaults] setObject:lastActivityTimestamp forKey:kDefaultKeyLastActivity];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

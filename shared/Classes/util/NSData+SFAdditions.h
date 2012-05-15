@@ -33,7 +33,7 @@
 
 @end
 
-@interface NSData (zlib)
+@interface NSData (SFzlib)
 
 -(NSData *)gzipDeflate;
 

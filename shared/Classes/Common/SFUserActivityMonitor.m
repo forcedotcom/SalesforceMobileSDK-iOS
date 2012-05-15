@@ -8,6 +8,7 @@
 
 #import "SFUserActivityMonitor.h"
 #import "SFApplication.h"
+#import "SalesforceSDKConstants.h"
 #import "SFInactivityTimerCenter.h"
 
 // Singleton instance

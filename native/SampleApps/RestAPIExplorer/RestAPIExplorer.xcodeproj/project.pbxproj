@@ -41,6 +41,7 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
+		8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8271F49F1562BB1C00C261CF /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +187,13 @@
 		7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QueryListViewController.xib; path = Classes/QueryListViewController.xib; sourceTree = "<group>"; };
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
+		8271F48A1562B62500C261CF /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
+		8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
+		8271F48C1562B62500C261CF /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
+		8271F48D1562B62500C261CF /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		8271F48E1562B62500C261CF /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
+		8271F49F1562BB1C00C261CF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82B96C0815630C4100B25A03 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */,
 				7D4FEBDA150EC2AF00842979 /* libsqlite3.0.dylib in Frameworks */,
 				7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */,
 				7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */,
@@ -379,6 +388,12 @@
 		7D4FEBC7150EC1D300842979 /* SalesforceSDK */ = {
 			isa = PBXGroup;
 			children = (
+				82B96C0815630C4100B25A03 /* SalesforceSDKConstants.h */,
+				8271F48A1562B62500C261CF /* SFApplication.h */,
+				8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */,
+				8271F48C1562B62500C261CF /* SFIdentityData.h */,
+				8271F48D1562B62500C261CF /* SFLogger.h */,
+				8271F48E1562B62500C261CF /* SFRestAPI+QueryBuilder.h */,
 				7D4FEBC8150EC1D300842979 /* FMDatabase.h */,
 				7D4FEBC9150EC1D300842979 /* FMResultSet.h */,
 				7D4FEBCA150EC1D300842979 /* NSDictionary+NullHandling.h */,
@@ -399,7 +414,6 @@
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
-				7D4FEBD9150EC2AF00842979 /* libsqlite3.0.dylib */,
 				7DF4D2EE1472E238005CE144 /* RestAPIExplorer */,
 				7DF4D2DD1472E238005CE144 /* Frameworks */,
 				7DF4D2DB1472E238005CE144 /* Products */,
@@ -458,6 +472,8 @@
 		7DF4D2F81472E238005CE144 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D4FEBD9150EC2AF00842979 /* libsqlite3.0.dylib */,
+				8271F49F1562BB1C00C261CF /* libz.dylib */,
 				7D4FEBC5150EC1D300842979 /* SalesforceSDK */,
 				7D32F35B1506991800AD2D64 /* SalesforceOAuth */,
 				7D0F1EF214DB4FCE00E20F3D /* RestKit */,

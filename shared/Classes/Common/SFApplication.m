@@ -7,6 +7,7 @@
 //
 
 #import "SFApplication.h"
+#import "SalesforceSDKConstants.h"
 
 @implementation SFApplication
 

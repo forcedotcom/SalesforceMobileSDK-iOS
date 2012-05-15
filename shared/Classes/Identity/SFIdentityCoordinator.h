@@ -101,6 +101,9 @@ enum {
  */
 - (void)cancelRetrieval;
 
++ (void)saveIdentityData:(SFIdentityData *)identityData;
++ (SFIdentityData *)loadIdentityData;
+
 /**
  * The OAuth credentials associated with this instance.
  */

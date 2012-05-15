@@ -276,7 +276,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 
 @end
 
-@implementation NSData (zlib)
+@implementation NSData (SFzlib)
 
 -(NSData *)gzipDeflate {
 	z_stream stream;

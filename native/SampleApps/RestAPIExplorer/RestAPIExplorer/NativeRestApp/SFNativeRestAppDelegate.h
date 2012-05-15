@@ -26,8 +26,10 @@
 
 
 #import "SFOAuthCoordinator.h"
+#import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;
+@class SFIdentityData;
 
 /**
  
@@ -35,7 +37,7 @@
  
  */
 
-@interface SFNativeRestAppDelegate : NSObject <UIApplicationDelegate, SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SFNativeRestAppDelegate : NSObject <UIApplicationDelegate, SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
     SFAuthorizingViewController *_authViewController;
 }
@@ -49,6 +51,8 @@
  The SFOAuthCoordinator used for managing login/logout.
  */
 @property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
+
+@property (nonatomic, readonly) SFIdentityData *idData;
 
 /**
  View controller that gives the app some view state while authorizing.

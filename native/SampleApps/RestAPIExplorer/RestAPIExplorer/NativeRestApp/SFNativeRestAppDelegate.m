@@ -27,10 +27,14 @@
 #import "SFOAuthCredentials.h"
 #import "SFAuthorizingViewController.h"
 #import "SFRestAPI.h"
+#import "SalesforceSDKConstants.h"
+#import "SFIdentityData.h"
 
 
 
-static NSString * const kUserAgentPropKey = @"UserAgent";
+static NSString * const kUserAgentPropKey     = @"UserAgent";
+static NSInteger  const kOAuthAlertViewTag    = 444;
+static NSInteger  const kIdentityAlertViewTag = 555;
 
 
 // Key for storing the user's configured login host.
@@ -54,7 +58,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 
 
-@interface SFNativeRestAppDelegate (private)
+@interface SFNativeRestAppDelegate () {
+    BOOL _initialLogin;
+    SFIdentityCoordinator *_idCoordinator;
+}
 
 
 /**
@@ -87,6 +94,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)setupAuthorizingViewController;
 
+- (void)retrievedIdentityData;
+- (void)setIdentityData:(SFIdentityData *)newIdData;
+
 @end
 
 @implementation SFNativeRestAppDelegate
@@ -95,6 +105,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize  coordinator = _coordinator;
 @synthesize  viewController = _viewController;
 @synthesize  window = _window;
+@synthesize idData = _idData;
 
 #pragma mark - init/dealloc
 
@@ -107,6 +118,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
         
         [[self class] ensureAccountDefaultsExist];
+        
+        // Strictly for internal tracking, assume we've got our initial credentials, until
+        // OAuth tells us otherwise.  E.g. we only want to call the identity service after
+        // we first authenticate.  If oauthCoordinator:didBeginAuthenticationWithView: isn't
+        // called, we can assume we've already gone through initial authentication at some point.
+        _initialLogin = NO;
+        
     }
     return self;
 }
@@ -116,7 +134,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self.authViewController = nil;
     
     [_coordinator setDelegate:nil];
-    [_coordinator release]; _coordinator = nil;
+    SFRelease(_coordinator)
+    SFRelease(_idCoordinator);
+    SFRelease(_idData);
+    
     self.window = nil;
     self.viewController = nil;
     
@@ -224,6 +245,37 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 - (void)loggedIn {
+    
+    // If this is the initial login, or there's no persisted identity data, get the data
+    // from the service.
+    SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
+    if (_initialLogin || checkIdData == nil) {
+        _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.coordinator.credentials];
+        _idCoordinator.delegate = self;
+        [_idCoordinator initiateIdentityDataRetrieval];
+    } else {
+        // Just go directly to the post-processing step.
+        [self retrievedIdentityData];
+    }
+}
+
+- (void)retrievedIdentityData
+{
+    // If we have an identity coordinator, we retrieved the identity data from the service.  Otherwise, grab it from
+    // the user defaults data.
+    if (_idCoordinator != nil) {
+        [self setIdentityData:_idCoordinator.idData];
+        [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
+        SFRelease(_idCoordinator);
+    } else {
+        [self setIdentityData:[SFIdentityCoordinator loadIdentityData]];
+    }
+    
+    NSAssert(_idData != nil, @"Identity data should not be empty.  Can't continue.");
+    if ([_idData mobilePoliciesConfigured]) {
+        // TODO: Mobile policy data load.
+    }
+    
     //provide the Rest API with a reference to the coordinator we used for login
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     
@@ -283,6 +335,15 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     
 }
 
+- (void)setIdentityData:(SFIdentityData *)newIdData
+{
+    if (newIdData != _idData) {
+        SFIdentityData *oldValue = _idData;
+        _idData = [newIdData retain];
+        [oldValue release];
+    }
+}
+
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
@@ -293,6 +354,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
     
+    _initialLogin = YES;
     if (nil != self.authViewController) {
         // We're in the initialization of the app.  Make sure the auth view is in the foreground.
         [self.window bringSubviewToFront:self.authViewController.view];
@@ -325,15 +387,38 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                                        delegate:self
                                               cancelButtonTitle:@"Retry"
                                               otherButtonTitles: nil];
+        alert.tag = kOAuthAlertViewTag;
         [alert show];
         [alert release];
     }
 }
 
+#pragma mark - SFIdentityCoordinatorDelegate
+
+- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
+{
+    [self retrievedIdentityData];
+}
+
+- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+                                                    message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+                                                   delegate:self
+                                          cancelButtonTitle:@"Retry"
+                                          otherButtonTitles: nil];
+    alert.tag = kIdentityAlertViewTag;
+    [alert show];
+    [alert release];
+}
+
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.coordinator authenticate];    
+    if (alertView.tag == kOAuthAlertViewTag)
+        [self.coordinator authenticate];
+    else if (alertView.tag == kIdentityAlertViewTag)
+        [_idCoordinator initiateIdentityDataRetrieval];
 }
 
 
