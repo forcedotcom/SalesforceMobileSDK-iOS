@@ -7,6 +7,7 @@
 //
 
 #import "SFInactivityTimerCenter.h"
+#import "SFLogger.h"
 
 @implementation SFInactivityTimerCenter
 
@@ -61,11 +62,9 @@ static NSDate *lastActivityTimestamp = nil;
 		NSNumber *interval = [allIntervals objectForKey:timerName];
 		if ([t isValid]) {
             [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
-            // TODO: Pull in logging from Chatter SDK.  We need a more robust logging mechanism, and they have one.
-			//[self log:Info format:@"timer %@ updated to +%@ seconds", timerName, interval];
+            [self log:Info format:@"timer %@ updated to +%@ seconds", timerName, interval];
 		} else {
-            // TODO: See above.
-			//[self log:Error format:@"timer %@ is invalid. removing...", timerName];
+            [self log:Error format:@"timer %@ is invalid. removing...", timerName];
 			[keysToRemove addObject:timerName];
 		}
 	}

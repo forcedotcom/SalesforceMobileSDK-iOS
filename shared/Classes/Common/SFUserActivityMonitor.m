@@ -49,7 +49,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
 
 - (void)dealloc
 {
-    [_lastEventDate release]; _lastEventDate = nil;
+    SFRelease(_lastEventDate);
     [self stopMonitoring];
     [super dealloc];
 }
@@ -62,7 +62,11 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
     
     [_lastEventDate release];
     _lastEventDate = [[(SFApplication *)[UIApplication sharedApplication] lastEventDate] copy];
-    _monitorTimer = [[NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds target:self selector:@selector(timerFired:) userInfo:nil repeats:YES] retain];
+    _monitorTimer = [[NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds
+                                             target:self
+                                           selector:@selector(timerFired:)
+                                           userInfo:nil
+                                            repeats:YES] retain];
     [[NSRunLoop mainRunLoop] addTimer:_monitorTimer forMode:NSDefaultRunLoopMode];
 }
 
@@ -70,8 +74,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
 {
     if (_monitorTimer != nil) {
         [_monitorTimer invalidate];
-        [_monitorTimer release];
-        _monitorTimer = nil;
+        SFRelease(_monitorTimer);
     }
 }
 

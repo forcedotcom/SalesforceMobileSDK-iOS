@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface NSData (Base64)
+@interface NSData (SFBase64)
 
 
 /*!
@@ -27,7 +27,7 @@
 
 @end
 
-@interface NSData (MD5)
+@interface NSData (SFMD5)
 
 -(NSString *)md5;
 
@@ -40,7 +40,7 @@
 @end
 
 
-@interface NSData (HexSupport)
+@interface NSData (SFHexSupport)
 
 /*!
  @abstract Return a hex string representation of the data contained in receiver

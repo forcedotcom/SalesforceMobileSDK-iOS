@@ -25,7 +25,7 @@
 
 - (void)dealloc
 {
-    [_lastEventDate release]; _lastEventDate = nil;
+    SFRelease(_lastEventDate);
     
     [super dealloc];
 }
@@ -34,9 +34,13 @@
 
 - (void)sendEvent:(UIEvent *)event
 {
-    if (event.type == UIEventTypeTouches) {
-        [_lastEventDate release];
-        _lastEventDate = [[NSDate alloc] init];
+    NSSet *allTouches = [event allTouches];
+    if ([allTouches count] > 0) {
+        UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
+        if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
+            [_lastEventDate release];
+            _lastEventDate = [[NSDate alloc] init];
+        }
     }
     
     [super sendEvent:event];

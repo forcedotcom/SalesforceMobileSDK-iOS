@@ -8,13 +8,15 @@
 
 #import "SFCrypto.h"
 #import "UIDevice-Hardware.h"
-#import "CHKeychainItemWrapper.h"
-#import "NSString+Additions.h"
+#import "SFKeychainItemWrapper.h"
+#import "NSString+SFAdditions.h"
+#import "SalesforceSDKConstants.h"
+#import "SFLogger.h"
 
 static const char *const_key = "SFDCMobileChatteriOS";
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 
-@interface CHCrypto ()
+@interface SFCrypto ()
 @property (nonatomic) CCCryptorStatus status;
 @property (nonatomic, retain) NSOutputStream *outputStream;
 @property (nonatomic, copy) NSMutableData *dataBuffer;
@@ -22,7 +24,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 @end
 
 
-@implementation CHCrypto
+@implementation SFCrypto
 
 @synthesize status = _status;
 @synthesize outputStream = _outputStream;
@@ -31,7 +33,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 @synthesize mode = _mode;
 
 #pragma mark - Object Lifecycle
-- (id)initWithOperation:(CCOperation)operation key:(NSData *)key mode:(CHCryptoMode)mode{
+- (id)initWithOperation:(CCOperation)operation key:(NSData *)key mode:(SFCryptoMode)mode{
     if (self = [super init]) {
         char keyPtr[kCCKeySizeAES256 + 1];
         bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
@@ -57,7 +59,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
         
         _mode = mode;
         
-        if (mode == CHCryptoModeInMemory) {
+        if (mode == SFCryptoModeInMemory) {
             _dataBuffer = [[NSMutableData alloc] init];
         }
         
@@ -72,7 +74,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
         _file = [file copy];
         if (_outputStream) {
             [_outputStream close];
-            CHRelease(_outputStream);
+            SFRelease(_outputStream);
         }
         _outputStream = [[NSOutputStream outputStreamToFileAtPath:_file append:YES] retain];
         [_outputStream open];
@@ -82,9 +84,9 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 
 -(void)dealloc {
     [_outputStream close];
-    CHRelease(_outputStream);
-    CHRelease(_dataBuffer);
-    CHRelease(_file);
+    SFRelease(_outputStream);
+    SFRelease(_dataBuffer);
+    SFRelease(_file);
     [super dealloc];
 }
 
@@ -92,7 +94,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 - (NSData *)defaultSecret{
     NSString *macAddress = [[UIDevice currentDevice] macaddress];
     NSString *constKey = [[[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding] autorelease];
-    CHKeychainItemWrapper *passcodeWrapper = [[[CHKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
+    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
     NSString *passcode = [passcodeWrapper passcode];
     
     NSString *strSecret = [macAddress stringByAppendingString:constKey];
@@ -138,7 +140,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
         _totalLength += _dataOutMoved;
         _filePtr += _dataOutMoved;
         
-        if (self.mode == CHCryptoModeInMemory) {
+        if (self.mode == SFCryptoModeInMemory) {
             [self.dataBuffer setLength:_totalLength];
             [self.dataBuffer replaceBytesInRange:bytesRange withBytes:_dataOut];
         } else {
@@ -160,7 +162,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
         return NO;
     }
     
-    if (self.mode == CHCryptoModeInMemory) {
+    if (self.mode == SFCryptoModeInMemory) {
         // In the case of encryption, expand the buffer if it required some padding (an encrypted buffer will always be a multiple of 16).
         // In the case of decryption, truncate our buffer in case the encrypted buffer contained some padding
         [self.dataBuffer setLength:_totalLength];

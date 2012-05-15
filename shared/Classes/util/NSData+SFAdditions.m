@@ -4,7 +4,7 @@
  * Company Confidential
  */
 
-#import "NSData_additions.h"
+#import "NSData+SFAdditions.h"
 #define COMMON_DIGEST_FOR_OPENSSL
 #import <CommonCrypto/CommonDigest.h>
 #import "SalesforceSDKConstants.h"

@@ -9,13 +9,14 @@
 #import <Security/Security.h>
 #import "SFKeychainItemWrapper.h"
 #import "SFCrypto.h"
-#import "NSData_additions.h"
-#import "NSString+Additions.h"
+#import "NSData+SFAdditions.h"
+#import "NSString+SFAdditions.h"
 #import "UIDevice-Hardware.h"
+#import "SFLogger.h"
 
 static NSString * const kRefreshTokenEncryptionKey = @"com.salesforce.oauth.refresh";
 
-@interface SFKeychainItemWrapper (PrivateMethods)
+@interface SFKeychainItemWrapper ()
 /*
  The method converts the data from the keychain wrapper class to what is expected by the keychain API
  */
@@ -204,7 +205,7 @@ static NSString * const kRefreshTokenEncryptionKey = @"com.salesforce.oauth.refr
         NSString *strSecret = [macAddress stringByAppendingString:kRefreshTokenEncryptionKey];
         NSData *secretData = [strSecret sha256]; 
         
-        CHCrypto *cipher = [[[CHCrypto alloc] initWithOperation:kCCEncrypt key:secretData mode:CHCryptoModeInMemory] autorelease];
+        SFCrypto *cipher = [[[SFCrypto alloc] initWithOperation:kCCEncrypt key:secretData mode:SFCryptoModeInMemory] autorelease];
         NSData *encryptedData = [cipher encryptDataInMemory:token];
         [self setObject:encryptedData forKey:(id)kSecValueData];
     } else {
@@ -218,7 +219,7 @@ static NSString * const kRefreshTokenEncryptionKey = @"com.salesforce.oauth.refr
         NSString *strSecret = [macAddress stringByAppendingString:kRefreshTokenEncryptionKey];
         NSData *secretData = [strSecret sha256];
         
-        CHCrypto *cipher  = [[[CHCrypto alloc] initWithOperation:kCCDecrypt key:secretData mode:CHCryptoModeInMemory] autorelease];
+        SFCrypto *cipher  = [[[SFCrypto alloc] initWithOperation:kCCDecrypt key:secretData mode:SFCryptoModeInMemory] autorelease];
         return [cipher decryptDataInMemory:(NSData *)[self objectForKey:(id)kSecValueData]];
     } else {
         return (NSData *)[self objectForKey:(id)kSecValueData];
