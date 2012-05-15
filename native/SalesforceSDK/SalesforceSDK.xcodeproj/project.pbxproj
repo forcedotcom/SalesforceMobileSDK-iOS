@@ -144,27 +144,25 @@
 		8200B11F1561ED8F006BAD3B /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B11D1561ED8F006BAD3B /* UIDevice-Hardware.m */; };
 		8200B1221561EF15006BAD3B /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8200B1201561EF15006BAD3B /* NSData+SFAdditions.h */; };
 		8200B1231561EF15006BAD3B /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1211561EF15006BAD3B /* NSData+SFAdditions.m */; };
-		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; };
+		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8207C832155C4F000076916C /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C830155C4F000076916C /* SFApplication.m */; };
-		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; };
+		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; settings = {ATTRIBUTES = (); }; };
 		8207C840155DB57A0076916C /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
 		82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
 		829EF7B11561F5B0002F376C /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7AF1561F5AF002F376C /* NSString+SFAdditions.h */; };
 		829EF7B21561F5B0002F376C /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7B01561F5AF002F376C /* NSString+SFAdditions.m */; };
 		829EF7B51561F6CF002F376C /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7B41561F6CF002F376C /* SalesforceSDKConstants.h */; };
-		829EF7BD1561FA7D002F376C /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7BB1561FA7D002F376C /* SFLogger.h */; };
+		829EF7BD1561FA7D002F376C /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7BB1561FA7D002F376C /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829EF7BE1561FA7D002F376C /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7BC1561FA7D002F376C /* SFLogger.m */; };
 		829EF7C11561FB4B002F376C /* SFLogger+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7BF1561FB4B002F376C /* SFLogger+Internal.h */; };
 		829EF7C51561FBA2002F376C /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7C31561FBA2002F376C /* SFPathUtil.h */; };
 		829EF7C61561FBA2002F376C /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7C41561FBA2002F376C /* SFPathUtil.m */; };
-		82D2B464153E3DC700571102 /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D2B462153E3DC700571102 /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82D2B465153E3DC700571102 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B463153E3DC700571102 /* SFIdentityData.m */; };
-		82D2B466153E3DC700571102 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B463153E3DC700571102 /* SFIdentityData.m */; };
-		82D2B46A153E3E2100571102 /* SFIdentityCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D2B468153E3E2100571102 /* SFIdentityCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82D2B46B153E3E2100571102 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */; };
-		82D2B46C153E3E2100571102 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */; };
-		82D2B47E153E41DA00571102 /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D2B47C153E41DA00571102 /* SFIdentityCoordinator+Internal.h */; };
+		829EF7DC15629D33002F376C /* SFIdentityCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7D715629D33002F376C /* SFIdentityCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7D815629D33002F376C /* SFIdentityCoordinator.m */; };
+		829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */; };
+		829EF7DF15629D33002F376C /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7DA15629D33002F376C /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829EF7E015629D33002F376C /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */; };
@@ -372,11 +370,11 @@
 		829EF7BF1561FB4B002F376C /* SFLogger+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFLogger+Internal.h"; sourceTree = "<group>"; };
 		829EF7C31561FBA2002F376C /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
 		829EF7C41561FBA2002F376C /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPathUtil.m; sourceTree = "<group>"; };
-		82D2B462153E3DC700571102 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
-		82D2B463153E3DC700571102 /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityData.m; sourceTree = "<group>"; };
-		82D2B468153E3E2100571102 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
-		82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityCoordinator.m; sourceTree = "<group>"; };
-		82D2B47C153E41DA00571102 /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
+		829EF7D715629D33002F376C /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityCoordinator.h; path = ../../../shared/Classes/Identity/SFIdentityCoordinator.h; sourceTree = "<group>"; };
+		829EF7D815629D33002F376C /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityCoordinator.m; path = ../../../shared/Classes/Identity/SFIdentityCoordinator.m; sourceTree = "<group>"; };
+		829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFIdentityCoordinator+Internal.h"; path = "../../../shared/Classes/Identity/SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
+		829EF7DA15629D33002F376C /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
+		829EF7DB15629D33002F376C /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
@@ -741,6 +739,18 @@
 			name = Security;
 			sourceTree = "<group>";
 		};
+		829EF7D615629C9A002F376C /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				829EF7D715629D33002F376C /* SFIdentityCoordinator.h */,
+				829EF7D815629D33002F376C /* SFIdentityCoordinator.m */,
+				829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */,
+				829EF7DA15629D33002F376C /* SFIdentityData.h */,
+				829EF7DB15629D33002F376C /* SFIdentityData.m */,
+			);
+			name = Identity;
+			sourceTree = "<group>";
+		};
 		C26713AC13D6B845001FE0B8 = {
 			isa = PBXGroup;
 			children = (
@@ -780,6 +790,7 @@
 		C26713BC13D6B845001FE0B8 /* SalesforceSDK */ = {
 			isa = PBXGroup;
 			children = (
+				829EF7D615629C9A002F376C /* Identity */,
 				8207C82E155C4A380076916C /* Security */,
 				8207C825155C49160076916C /* Common */,
 				7D8ECEB414EB2642004F241C /* SmartStore */,
@@ -828,11 +839,6 @@
 		C26713EC13D6B8DB001FE0B8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				82D2B468153E3E2100571102 /* SFIdentityCoordinator.h */,
-				82D2B47C153E41DA00571102 /* SFIdentityCoordinator+Internal.h */,
-				82D2B469153E3E2100571102 /* SFIdentityCoordinator.m */,
-				82D2B462153E3DC700571102 /* SFIdentityData.h */,
-				82D2B463153E3DC700571102 /* SFIdentityData.m */,
 				C26713ED13D6B8DB001FE0B8 /* SFRestAPI.h */,
 				C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */,
 				5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */,
@@ -870,8 +876,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D2B464153E3DC700571102 /* SFIdentityData.h in Headers */,
-				82D2B46A153E3E2100571102 /* SFIdentityCoordinator.h in Headers */,
+				8207C831155C4F000076916C /* SFApplication.h in Headers */,
+				829EF7DC15629D33002F376C /* SFIdentityCoordinator.h in Headers */,
+				829EF7DF15629D33002F376C /* SFIdentityData.h in Headers */,
+				829EF7BD1561FA7D002F376C /* SFLogger.h in Headers */,
 				C26713EF13D6B8DB001FE0B8 /* SFRestAPI.h in Headers */,
 				C2C92E6713DE10A0008833A4 /* SFRestRequest.h in Headers */,
 				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
@@ -888,6 +896,7 @@
 				7DC1D68114DB0AFC005B819A /* ISO8601DateFormatter.h in Headers */,
 				7DC1D68214DB0AFC005B819A /* JSONKit.h in Headers */,
 				7DC1D68314DB0AFC005B819A /* lcl.h in Headers */,
+				8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */,
 				7DC1D68414DB0AFC005B819A /* lcl_config_components.h in Headers */,
 				7DC1D68514DB0AFC005B819A /* lcl_config_components.template.h in Headers */,
 				7DC1D68614DB0AFC005B819A /* lcl_config_extensions.h in Headers */,
@@ -978,11 +987,8 @@
 				7D8ECEDE14EB270C004F241C /* NSDictionary+NullHandling.h in Headers */,
 				7D32F6CB1506A3BD00AD2D64 /* SFOAuthCoordinator.h in Headers */,
 				7D32F6CC1506A3BD00AD2D64 /* SFOAuthCredentials.h in Headers */,
-				82D2B47E153E41DA00571102 /* SFIdentityCoordinator+Internal.h in Headers */,
-				8207C831155C4F000076916C /* SFApplication.h in Headers */,
 				82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */,
 				82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */,
-				8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */,
 				8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */,
 				8200B1161561EB9E006BAD3B /* SFKeychainItemWrapper.h in Headers */,
 				8200B11A1561EC66006BAD3B /* SFCrypto.h in Headers */,
@@ -990,9 +996,9 @@
 				8200B1221561EF15006BAD3B /* NSData+SFAdditions.h in Headers */,
 				829EF7B11561F5B0002F376C /* NSString+SFAdditions.h in Headers */,
 				829EF7B51561F6CF002F376C /* SalesforceSDKConstants.h in Headers */,
-				829EF7BD1561FA7D002F376C /* SFLogger.h in Headers */,
 				829EF7C11561FB4B002F376C /* SFLogger+Internal.h in Headers */,
 				829EF7C51561FBA2002F376C /* SFPathUtil.h in Headers */,
+				829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1128,8 +1134,6 @@
 				7D8ECED914EB2642004F241C /* SqliteAdditions.c in Sources */,
 				7D8ECEDD14EB270C004F241C /* NSDictionary+NullHandling.m in Sources */,
 				5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */,
-				82D2B465153E3DC700571102 /* SFIdentityData.m in Sources */,
-				82D2B46B153E3E2100571102 /* SFIdentityCoordinator.m in Sources */,
 				8207C832155C4F000076916C /* SFApplication.m in Sources */,
 				82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */,
 				82FF1AD1155D8053007ADAF2 /* SFInactivityTimerCenter.m in Sources */,
@@ -1142,6 +1146,8 @@
 				829EF7B21561F5B0002F376C /* NSString+SFAdditions.m in Sources */,
 				829EF7BE1561FA7D002F376C /* SFLogger.m in Sources */,
 				829EF7C61561FBA2002F376C /* SFPathUtil.m in Sources */,
+				829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */,
+				829EF7E015629D33002F376C /* SFIdentityData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1159,8 +1165,6 @@
 				5ECED64814B5313900A19357 /* SFRestAPI+Blocks.m in Sources */,
 				7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */,
 				5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */,
-				82D2B466153E3DC700571102 /* SFIdentityData.m in Sources */,
-				82D2B46C153E3E2100571102 /* SFIdentityCoordinator.m in Sources */,
 				82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
