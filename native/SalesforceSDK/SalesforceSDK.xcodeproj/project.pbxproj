@@ -150,6 +150,8 @@
 		8207C840155DB57A0076916C /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
 		82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
+		825C80B41562A01C00F94599 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7D815629D33002F376C /* SFIdentityCoordinator.m */; };
+		825C80B61562A02100F94599 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
 		829EF7B11561F5B0002F376C /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7AF1561F5AF002F376C /* NSString+SFAdditions.h */; };
 		829EF7B21561F5B0002F376C /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7B01561F5AF002F376C /* NSString+SFAdditions.m */; };
 		829EF7B51561F6CF002F376C /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7B41561F6CF002F376C /* SalesforceSDKConstants.h */; };
@@ -1166,6 +1168,8 @@
 				7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */,
 				5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */,
 				82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */,
+				825C80B41562A01C00F94599 /* SFIdentityCoordinator.m in Sources */,
+				825C80B61562A02100F94599 /* SFIdentityData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
