@@ -11,11 +11,23 @@ static const NSUInteger kMaxNumberofAttempts = 10;
 static NSString * const kRemainingAttemptsKey = @"remainingAttempts"; 
 extern NSString * const kKeychainIdentifierPasscode;
 
+@class SFOAuthCredentials;
+
 /**
  This class interacts with the inactivity timer.
  It is responsible for locking and unlocking the device by presenting the passcode modal controller when the timer expires.
  */
 @interface SFSecurityLockout : NSObject 
+
+/** Set the auth credentials associated with this app.
+ @param credentials The auth credentials to set.
+ */
++ (void)setCredentials:(SFOAuthCredentials *)credentials;
+
+/** Get the auth credentials associated with this app.
+ @return The auth credentials configured for this app.
+ */
++ (SFOAuthCredentials *)credentials;
 
 /** Get the current lockout time, in seconds
  */
