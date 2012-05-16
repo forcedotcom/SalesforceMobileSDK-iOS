@@ -165,6 +165,8 @@
 		829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */; };
 		829EF7DF15629D33002F376C /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7DA15629D33002F376C /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829EF7E015629D33002F376C /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
+		82C4224C15636A5900ACF930 /* SFCredentialsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C4224A15636A5900ACF930 /* SFCredentialsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82C4224D15636A5900ACF930 /* SFCredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C4224B15636A5900ACF930 /* SFCredentialsManager.m */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */; };
@@ -377,6 +379,8 @@
 		829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFIdentityCoordinator+Internal.h"; path = "../../../shared/Classes/Identity/SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
 		829EF7DA15629D33002F376C /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
 		829EF7DB15629D33002F376C /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
+		82C4224A15636A5900ACF930 /* SFCredentialsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCredentialsManager.h; path = ../../../shared/Classes/Security/SFCredentialsManager.h; sourceTree = "<group>"; };
+		82C4224B15636A5900ACF930 /* SFCredentialsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCredentialsManager.m; path = ../../../shared/Classes/Security/SFCredentialsManager.m; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
@@ -733,6 +737,8 @@
 		8207C82E155C4A380076916C /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				82C4224A15636A5900ACF930 /* SFCredentialsManager.h */,
+				82C4224B15636A5900ACF930 /* SFCredentialsManager.m */,
 				8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */,
 				8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */,
 				8207C83D155DB57A0076916C /* SFSecurityLockout.h */,
@@ -1001,6 +1007,7 @@
 				829EF7C51561FBA2002F376C /* SFPathUtil.h in Headers */,
 				829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */,
 				8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */,
+				82C4224C15636A5900ACF930 /* SFCredentialsManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1150,6 +1157,7 @@
 				829EF7C61561FBA2002F376C /* SFPathUtil.m in Sources */,
 				829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */,
 				829EF7E015629D33002F376C /* SFIdentityData.m in Sources */,
+				82C4224D15636A5900ACF930 /* SFCredentialsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

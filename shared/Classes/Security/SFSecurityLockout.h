@@ -19,16 +19,6 @@ extern NSString * const kKeychainIdentifierPasscode;
  */
 @interface SFSecurityLockout : NSObject 
 
-/** Set the auth credentials associated with this app.
- @param credentials The auth credentials to set.
- */
-+ (void)setCredentials:(SFOAuthCredentials *)credentials;
-
-/** Get the auth credentials associated with this app.
- @return The auth credentials configured for this app.
- */
-+ (SFOAuthCredentials *)credentials;
-
 /** Get the current lockout time, in seconds
  */
 + (NSUInteger)lockoutTime;
@@ -93,6 +83,11 @@ extern NSString * const kKeychainIdentifierPasscode;
  @param passcode The passcode to set.
  */
 + (void)setPasscode:(NSString *)passcode;
+
+/** Set the required length of the passcode.
+ @param passcodeLength The required length of the passcode.
+ */
++ (void)setPasscodeLength:(NSInteger)passcodeLength;
 
 /** Verify the passcode
  @param passcode The passcode to verify.

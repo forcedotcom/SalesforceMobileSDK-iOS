@@ -11,19 +11,19 @@
 #import "SFOAuthCredentials.h"
 #import "SFKeychainItemWrapper.h"
 #import "SFLogger.h"
+#import "SFCredentialsManager.h"
 
-static NSUInteger const kDefaultLockoutTime                  = 600; 
+static NSUInteger const kDefaultLockoutTime                  = 600;
+static NSUInteger const kDefaultPasscodeLength               = 5;
 static NSString * const kSecurityTimeoutKey                  = @"security.timeout";
 static NSString * const kTimerSecurity                       = @"security.timer";
+static NSString * const kPasscodeLengthKey                   = @"security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kSecurityIsLockedKey                 = @"security.islocked";
-//static NSUInteger const kPadPasscodeViewWidth  = 322; /// Width of the wrapper view for iPad (from the UI specs).
-//static NSUInteger const kPadPasscodeViewHeight = 367; /// Height of the wrapper view for iPad (from the UI specs).
 
 NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 
 static NSUInteger         securityLockoutTime;
-static SFOAuthCredentials *sOAuthCredentials = nil; 
 static UIViewController   *sPasscodeViewController = nil;
 
 // Flag used to prevent the display of the passcode view controller.
@@ -69,23 +69,23 @@ static BOOL _showPasscode = YES;
     } 
 }
 
-+ (void)setCredentials:(SFOAuthCredentials *)credentials
++ (void)setPasscodeLength:(NSInteger)passcodeLength
 {
-    if (credentials != sOAuthCredentials) {
-        SFOAuthCredentials *oldValue = sOAuthCredentials;
-        sOAuthCredentials = [credentials retain];
-        [oldValue release];
-    }
+    NSNumber *nPasscodeLength = [NSNumber numberWithInt:passcodeLength];
+    [[NSUserDefaults standardUserDefaults] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (SFOAuthCredentials *)credentials
++ (NSInteger)passcodeLength
 {
-    return sOAuthCredentials;
+    NSNumber *nPasscodeLength = [[NSUserDefaults standardUserDefaults] objectForKey:kPasscodeLengthKey];
+    return (nPasscodeLength != nil ? [nPasscodeLength intValue] : kDefaultPasscodeLength);
 }
 
 + (BOOL)hasValidSession
 {
-    return [self credentials] != nil && [self credentials].accessToken != nil;
+    return [[SFCredentialsManager sharedInstance] credentials] != nil
+        && [[SFCredentialsManager sharedInstance] credentials].accessToken != nil;
 }
 
 + (void)setLockoutTime:(NSUInteger)seconds {
