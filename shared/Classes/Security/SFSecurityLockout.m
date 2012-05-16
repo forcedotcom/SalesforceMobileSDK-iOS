@@ -30,7 +30,7 @@ static UIViewController   *sPasscodeViewController = nil;
 // Note: it is used by the unit tests only.
 static BOOL _showPasscode = YES;
 
-@interface SFSecurityLockout() 
+@interface SFSecurityLockout () 
 
 + (void)timerExpired:(NSTimer *)theTimer;
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue;
@@ -198,7 +198,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
                                                                                                      {
                                                                                                          return win1.windowLevel - win2.windowLevel;
                                                                                                      }] lastObject];
-        SFPasscodeViewController *pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue] autorelease];
+        SFPasscodeViewController *pvc = nil;
+        if (modeValue == SFPasscodeControllerModeCreate ) {
+            pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue minPasscodeLength:[SFSecurityLockout passcodeLength]] autorelease];
+        } else {
+            pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue] autorelease];
+        }
         UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:pvc] autorelease];
         [SFSecurityLockout setPasscodeViewController:nc];
         [topWindow.rootViewController presentModalViewController:nc animated:NO];

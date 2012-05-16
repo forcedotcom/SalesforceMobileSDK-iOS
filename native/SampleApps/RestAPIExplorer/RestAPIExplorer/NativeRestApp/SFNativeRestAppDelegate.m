@@ -29,6 +29,8 @@
 #import "SFRestAPI.h"
 #import "SalesforceSDKConstants.h"
 #import "SFIdentityData.h"
+#import "SFCredentialsManager.h"
+#import "SFSecurityLockout.h"
 
 
 
@@ -241,11 +243,16 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout {
     [self.coordinator revokeAuthentication];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserLoggedOutNotification object:self];
     [self.coordinator authenticate];
 }
 
 - (void)loggedIn {
-    
+    // Send notification of authentication.
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserAuthenticatedNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:self.coordinator.credentials
+                                                                                           forKey:kSFUserAuthenticatedNotificationCredentialsKey]];
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
@@ -267,14 +274,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self setIdentityData:_idCoordinator.idData];
         [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
         SFRelease(_idCoordinator);
+        
+//        if ([self.idData mobilePoliciesConfigured]) {
+//            [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
+//            [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
+//        }
+        [SFSecurityLockout setPasscodeLength:7];
+        [SFSecurityLockout setLockoutTime:300];
     } else {
         [self setIdentityData:[SFIdentityCoordinator loadIdentityData]];
     }
     
     NSAssert(_idData != nil, @"Identity data should not be empty.  Can't continue.");
-    if ([_idData mobilePoliciesConfigured]) {
-        // TODO: Mobile policy data load.
-    }
     
     //provide the Rest API with a reference to the coordinator we used for login
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
