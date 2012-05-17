@@ -41,6 +41,8 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
+		820A792B15644EFE0060067C /* SFNativeRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820A792915644EFE0060067C /* SFNativeRootViewController.m */; };
+		820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820A792A15644EFE0060067C /* SFNativeRootViewController.xib */; };
 		8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8271F49F1562BB1C00C261CF /* libz.dylib */; };
 /* End PBXBuildFile section */
 
@@ -187,6 +189,9 @@
 		7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QueryListViewController.xib; path = Classes/QueryListViewController.xib; sourceTree = "<group>"; };
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
+		820A792815644EFE0060067C /* SFNativeRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRootViewController.h; path = NativeRestApp/SFNativeRootViewController.h; sourceTree = "<group>"; };
+		820A792915644EFE0060067C /* SFNativeRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRootViewController.m; path = NativeRestApp/SFNativeRootViewController.m; sourceTree = "<group>"; };
+		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
 		822677A915637FEA001F6CCD /* SFSecurityLockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSecurityLockout.h; sourceTree = "<group>"; };
 		8271F48A1562B62500C261CF /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
 		8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
@@ -539,6 +544,9 @@
 				7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */,
 				7DF4D3B61472E23A005CE144 /* SFNativeRestAppDelegate.h */,
 				7DF4D3B71472E23A005CE144 /* SFNativeRestAppDelegate.m */,
+				820A792815644EFE0060067C /* SFNativeRootViewController.h */,
+				820A792915644EFE0060067C /* SFNativeRootViewController.m */,
+				820A792A15644EFE0060067C /* SFNativeRootViewController.xib */,
 			);
 			name = NativeRestApp;
 			sourceTree = "<group>";
@@ -610,6 +618,7 @@
 				7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
+				820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +653,7 @@
 				7DF4D3B81472E23A005CE144 /* SFNativeRestAppDelegate.m in Sources */,
 				7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */,
 				7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */,
+				820A792B15644EFE0060067C /* SFNativeRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

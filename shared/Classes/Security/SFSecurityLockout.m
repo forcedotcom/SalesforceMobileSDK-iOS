@@ -153,7 +153,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 	if([self locked]) {
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
-            [passVc.presentingViewController dismissModalViewControllerAnimated:YES];
+//            [passVc.presentingViewController dismissModalViewControllerAnimated:YES];
+            [passVc.presentedViewController dismissViewControllerAnimated:YES completion:NULL];
             [SFSecurityLockout setPasscodeViewController:nil];
         }
         
@@ -194,10 +195,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [self setIsLocked:YES];
     if (_showPasscode) {
-        UIWindow *topWindow = [[[UIApplication sharedApplication].windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow *win1, UIWindow *win2)
-                                                                                                     {
-                                                                                                         return win1.windowLevel - win2.windowLevel;
-                                                                                                     }] lastObject];
+//        UIWindow *topWindow = [[[UIApplication sharedApplication].windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow *win1, UIWindow *win2)
+//                                                                                                     {
+//                                                                                                         return win1.windowLevel - win2.windowLevel;
+//                                                                                                     }] lastObject];
+        [self log:Info msg:@"Setting window to key window."];
+        UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
         if (modeValue == SFPasscodeControllerModeCreate ) {
             pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue minPasscodeLength:[SFSecurityLockout passcodeLength]] autorelease];
@@ -206,7 +209,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
         UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:pvc] autorelease];
         [SFSecurityLockout setPasscodeViewController:nc];
-        [topWindow.rootViewController presentModalViewController:nc animated:NO];
+        [topWindow.rootViewController presentViewController:nc animated:YES completion:NULL];
+        [topWindow makeKeyAndVisible];
+//        topWindow.rootViewController = nc;
+//        [topWindow bringSubviewToFront:nc.view];
+
     }
 }
 

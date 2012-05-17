@@ -86,12 +86,6 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     return [self initWithMode:mode minPasscodeLength:-1];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    return self;
-}
-
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
 {
     self = [super init];
@@ -171,6 +165,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate)
         [self updateInstructionsLabel:passcodeCreateInstructions];

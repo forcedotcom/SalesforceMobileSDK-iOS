@@ -31,6 +31,7 @@
 #import "SFIdentityData.h"
 #import "SFCredentialsManager.h"
 #import "SFSecurityLockout.h"
+#import "SFNativeRootViewController.h"
 
 
 
@@ -90,11 +91,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 + (BOOL)updateLoginHost;
 
-
-/**
- Set the SFAuthorzingViewController as the root view controller.
- */
-- (void)setupAuthorizingViewController;
+- (void)presentAuthViewController:(UIWebView *)webView;
+- (void)dismissAuthViewController:(SEL)postDismissalAction;
 
 - (void)retrievedIdentityData;
 - (void)setIdentityData:(SFIdentityData *)newIdData;
@@ -133,17 +131,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)dealloc
 {
-    self.authViewController = nil;
-    
     [_coordinator setDelegate:nil];
     SFRelease(_coordinator)
     SFRelease(_idCoordinator);
     SFRelease(_idData);
+    SFRelease(_viewController);
+    SFRelease(_window);
     
-    self.window = nil;
-    self.viewController = nil;
-    
-	[ super dealloc ];
+	[super dealloc];
 }
 
 #pragma mark - App lifecycle
@@ -151,7 +146,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self setupAuthorizingViewController];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -165,19 +163,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     BOOL shouldLogout = [self checkForUserLogout] ;
     if (shouldLogout) {
         [self logout];
-        [self clearDataModel];
-        
-        [defs setBool:NO forKey:kAccountLogoutUserDefault];
-        [defs synchronize];
-        [self setupAuthorizingViewController];
     } else {
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
-            [_coordinator release]; _coordinator = nil;
-            
+            SFRelease(_coordinator);
             [self clearDataModel];
-            [self setupAuthorizingViewController];
         }
     }
     
@@ -244,6 +235,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)logout {
     [self.coordinator revokeAuthentication];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserLoggedOutNotification object:self];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kAccountLogoutUserDefault];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self clearDataModel];
     [self.coordinator authenticate];
 }
 
@@ -281,6 +275,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 //        }
         [SFSecurityLockout setPasscodeLength:7];
         [SFSecurityLockout setLockoutTime:300];
+        return;
     } else {
         [self setIdentityData:[SFIdentityCoordinator loadIdentityData]];
     }
@@ -295,12 +290,43 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         self.authViewController = nil;
     }
     
-    if (nil == self.viewController) {
-        UIViewController *rootVC = [self newRootViewController];
+    if (_initialLogin) {
+        UIViewController *rootVC = [[self newRootViewController] autorelease];
         self.viewController = rootVC;
-        [rootVC release];
-        self.window.rootViewController = self.viewController;
-        [self.window makeKeyAndVisible];
+        [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+    }
+}
+
+- (void)presentAuthViewController:(UIWebView *)webView
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentAuthViewController:webView];
+        });
+        return;
+    }
+    
+    self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    [self.authViewController setOauthView:webView];
+    [self.window.rootViewController presentViewController:self.authViewController animated:YES completion:NULL];
+}
+
+- (void)dismissAuthViewController:(SEL)postDismissalAction
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self dismissAuthViewController:postDismissalAction];
+        });
+        return;
+    }
+    
+    if (self.authViewController != nil) {
+        NSLog(@"Dismissing the auth view controller.");
+        [self.window.rootViewController dismissViewControllerAnimated:YES
+                                                           completion:^{
+                                                               SFRelease(_authViewController);
+                                                               [self performSelectorOnMainThread:postDismissalAction withObject:self waitUntilDone:NO];
+                                                           }];
     }
 }
 
@@ -317,33 +343,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 + (NSSet *)oauthScopes {
     return [NSSet setWithObjects:@"web",@"api",nil] ; 
-}
-
-
-- (void)setupAuthorizingViewController {
-    
-    //clear all children of the existing window, if any
-    if (nil != self.window) {
-        NSLog(@"SFNativeRestAppDelegate clearing self.window");
-        [self.window.subviews  makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        self.window = nil;
-    }
-    
-    //(re)init window
-    CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
-    UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
-	self.window = rootWindow;
-    [rootWindow release];
-    
-    // Set up a view controller for the authentication process.
-    SFAuthorizingViewController *authVc = [[SFAuthorizingViewController alloc] initWithNibName:@"SFAuthorizingViewController" bundle:nil];
-    self.authViewController = authVc;
-    self.window.rootViewController = self.authViewController;
-    self.window.autoresizesSubviews = YES;
-    [authVc release];
-    
-    [self.window makeKeyAndVisible];
-    
 }
 
 - (void)setIdentityData:(SFIdentityData *)newIdData
@@ -366,25 +365,17 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
     
     _initialLogin = YES;
-    if (nil != self.authViewController) {
-        // We're in the initialization of the app.  Make sure the auth view is in the foreground.
-        [self.window bringSubviewToFront:self.authViewController.view];
-        [self.authViewController setOauthView:view];
-    }
-    else
-        [self.viewController.view addSubview:view];
+    [self presentAuthViewController:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
-    [coordinator.view removeFromSuperview];
-    [self loggedIn];
+    [self dismissAuthViewController:@selector(loggedIn)];
 }
 
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-    [coordinator.view removeFromSuperview];
     
     if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
         //restart the login process asynchronously
@@ -426,8 +417,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kOAuthAlertViewTag)
-        [self.coordinator authenticate];
+    if (alertView.tag == kOAuthAlertViewTag) {
+        [self dismissAuthViewController:@selector(login)];
+    }
     else if (alertView.tag == kIdentityAlertViewTag)
         [_idCoordinator initiateIdentityDataRetrieval];
 }
