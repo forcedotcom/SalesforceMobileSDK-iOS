@@ -96,6 +96,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)retrievedIdentityData;
 - (void)setIdentityData:(SFIdentityData *)newIdData;
+- (void)checkMobilePolicies;
 
 @end
 
@@ -139,6 +140,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     SFRelease(_window);
     
 	[super dealloc];
+}
+
++ (void)initialize
+{
+    // Make sure the shared instance of SFCredentialsManager is alive.
+    [SFCredentialsManager sharedInstance];
 }
 
 #pragma mark - App lifecycle
@@ -256,31 +263,28 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [_idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
-        [self retrievedIdentityData];
+        [self setIdentityData:checkIdData];
+        [self checkMobilePolicies];
     }
 }
 
 - (void)retrievedIdentityData
 {
-    // If we have an identity coordinator, we retrieved the identity data from the service.  Otherwise, grab it from
-    // the user defaults data.
-    if (_idCoordinator != nil) {
+    // NB: This method is assumed to run after identity data has been refreshed from the service.
+    NSAssert(_idCoordinator != nil, @"Identity coordinator should be populated at this point.");
+    NSAssert(_idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
         [self setIdentityData:_idCoordinator.idData];
         [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
         SFRelease(_idCoordinator);
         
-//        if ([self.idData mobilePoliciesConfigured]) {
-//            [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
-//            [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
-//        }
-        [SFSecurityLockout setPasscodeLength:7];
-        [SFSecurityLockout setLockoutTime:300];
-        return;
-    } else {
-        [self setIdentityData:[SFIdentityCoordinator loadIdentityData]];
-    }
+        if ([self.idData mobilePoliciesConfigured]) {
+            [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
+            [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
+        }
+        
+//        [SFSecurityLockout setPasscodeLength:7];
+//        [SFSecurityLockout setLockoutTime:300];
     
-    NSAssert(_idData != nil, @"Identity data should not be empty.  Can't continue.");
     
     //provide the Rest API with a reference to the coordinator we used for login
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
@@ -295,6 +299,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         self.viewController = rootVC;
         [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
     }
+}
+- (void)checkMobilePolicies
+{
+    
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView
@@ -325,7 +333,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self.window.rootViewController dismissViewControllerAnimated:YES
                                                            completion:^{
                                                                SFRelease(_authViewController);
-                                                               [self performSelectorOnMainThread:postDismissalAction withObject:self waitUntilDone:NO];
+                                                               [self performSelectorOnMainThread:postDismissalAction withObject:nil waitUntilDone:NO];
                                                            }];
     }
 }

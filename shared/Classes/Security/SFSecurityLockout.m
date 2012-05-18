@@ -21,10 +21,16 @@ static NSString * const kPasscodeLengthKey                   = @"security.passco
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kSecurityIsLockedKey                 = @"security.islocked";
 
-NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
+// Public constants
 
-static NSUInteger         securityLockoutTime;
-static UIViewController   *sPasscodeViewController = nil;
+NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.security.passcode";
+NSString * const kSFSecurityLockoutUnlockedNotification = @"kSFSecurityLockoutUnlockedNotification";
+NSString * const kSFSecurityLockoutUnlockSuccessKey     = @"unlockSuccess";
+
+static NSUInteger              securityLockoutTime;
+static UIViewController        *sPasscodeViewController        = nil;
+static SFLockScreenCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
+static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -38,6 +44,10 @@ static BOOL _showPasscode = YES;
 + (UIViewController *)passcodeViewController;
 + (BOOL)passcodeScreenIsPresent;
 + (BOOL)hasValidSession;
++ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenCallbackBlock)block;
++ (SFLockScreenCallbackBlock)lockScreenSuccessCallbackBlock;
++ (void)setLockScreenFailureCallbackBlock:(SFLockScreenCallbackBlock)block;
++ (SFLockScreenCallbackBlock)lockScreenFailureCallbackBlock;
 
 @end
 
@@ -56,11 +66,13 @@ static BOOL _showPasscode = YES;
     [SFSecurityLockout validateTimer];
 }
 
-+ (void)validateTimer {
++ (void)validateTimerWithSuccessBlock:(SFLockScreenCallbackBlock)successBlock
+                         failureBlock:(SFLockScreenCallbackBlock)failureBlock
+{
     if ([SFSecurityLockout isPasscodeValid]) {
         if([SFSecurityLockout inactivityExpired] || [SFSecurityLockout locked]) {
             [self log:Info msg:@"Timer expired."];
-            [SFSecurityLockout lock];
+            [SFSecurityLockout lockWithSuccessBlock:successBlock failureBlock:failureBlock];
         } 
         else {
             [SFSecurityLockout setupTimer];
@@ -99,7 +111,7 @@ static BOOL _showPasscode = YES;
         if ([SFSecurityLockout hashedPasscode] != nil) {
             // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
         }
-		[SFSecurityLockout unlock];
+		[SFSecurityLockout unlock:YES];
 		[SFSecurityLockout resetPasscode];
 		[SFInactivityTimerCenter removeTimer:kTimerSecurity];
 	} else { 
@@ -142,23 +154,31 @@ static BOOL _showPasscode = YES;
 
 static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
-+ (void)unlock {
++ (void)unlock:(BOOL)success {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self unlock];
+            [self unlock:success];
         });
         return;
     }
     
-	if([self locked]) {
+	if ([self locked]) {
+        NSNotification *note = [NSNotification notificationWithName:kSFSecurityLockoutUnlockedNotification
+                                                             object:self
+                                                           userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:success]
+                                                                                                forKey:kSFSecurityLockoutUnlockSuccessKey]];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
-//            [passVc.presentingViewController dismissModalViewControllerAnimated:YES];
-            [passVc.presentedViewController dismissViewControllerAnimated:YES completion:NULL];
-            [SFSecurityLockout setPasscodeViewController:nil];
+            [passVc.presentingViewController dismissViewControllerAnimated:YES
+                                                                completion:^{
+                                                                    [SFSecurityLockout setPasscodeViewController:nil];
+                                                                    [[NSNotificationCenter defaultCenter] postNotification:note];
+                                                                    [self setIsLocked:NO];
+                                                                }];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotification:note];
+            [self setIsLocked:NO];
         }
-        
-        [self setIsLocked:NO];
 	} 
 }
 
@@ -167,7 +187,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 	[SFSecurityLockout lock];
 }
 
-+ (void)lock {
++ (void)lockWithSuccessBlock:(SFLockScreenCallbackBlock)successBlock
+                failureBlock:(SFLockScreenCallbackBlock)failureBlock
+{
 	if(![SFSecurityLockout hasValidSession]) {
 		[self log:Info msg:@"Skipping 'lock' since not authenticated"];
 		return;
@@ -195,10 +217,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [self setIsLocked:YES];
     if (_showPasscode) {
-//        UIWindow *topWindow = [[[UIApplication sharedApplication].windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow *win1, UIWindow *win2)
-//                                                                                                     {
-//                                                                                                         return win1.windowLevel - win2.windowLevel;
-//                                                                                                     }] lastObject];
         [self log:Info msg:@"Setting window to key window."];
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
@@ -247,6 +265,34 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (UIViewController *)passcodeViewController
 {
     return sPasscodeViewController;
+}
+
++ (void)setLockScreenFailureCallbackBlock:(SFLockScreenCallbackBlock)block
+{
+    if (sLockScreenFailureCallbackBlock != block) {
+        SFLockScreenCallbackBlock oldValue = sLockScreenFailureCallbackBlock;
+        sLockScreenFailureCallbackBlock = [block copy];
+        [oldValue release];
+    }
+}
+
++ (SFLockScreenCallbackBlock)lockScreenFailureCallbackBlock
+{
+    return sLockScreenFailureCallbackBlock;
+}
+
++ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenCallbackBlock)block
+{
+    if (sLockScreenSuccessCallbackBlock != block) {
+        SFLockScreenCallbackBlock oldValue = sLockScreenSuccessCallbackBlock;
+        sLockScreenSuccessCallbackBlock = [block copy];
+        [oldValue release];
+    }
+}
+
++ (SFLockScreenCallbackBlock)lockScreenSuccessCallbackBlock
+{
+    return sLockScreenSuccessCallbackBlock;
 }
 
 + (BOOL)passcodeScreenIsPresent

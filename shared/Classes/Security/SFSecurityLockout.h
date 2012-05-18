@@ -9,7 +9,12 @@
 
 static const NSUInteger kMaxNumberofAttempts = 10;
 static NSString * const kRemainingAttemptsKey = @"remainingAttempts"; 
+
 extern NSString * const kKeychainIdentifierPasscode;
+extern NSString * const kSFSecurityLockoutUnlockedNotification;
+extern NSString * const kSFSecurityLockoutUnlockSuccessKey;
+
+typedef void (^SFLockScreenCallbackBlock)(void);
 
 @class SFOAuthCredentials;
 
@@ -52,11 +57,14 @@ extern NSString * const kKeychainIdentifierPasscode;
 
 /** Lock the device immediately.
  */
-+ (void)lock;
++ (void)lockWithSuccessBlock:(SFLockScreenCallbackBlock)successBlock
+                failureBlock:(SFLockScreenCallbackBlock)failureBlock;
 
 /** Unlock the device
+ @param success Whether the device is being unlocked as the result of a successful passcode
+ challenge, as opposed to unlocking to reset the application to to a failed challenge.
  */
-+ (void)unlock;
++ (void)unlock:(BOOL)success;
 
 /** Toggle the locked state
  @param locked Locks the device if `YES`, otherwise unlocks the device.
