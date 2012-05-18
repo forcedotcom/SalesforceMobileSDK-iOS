@@ -146,13 +146,19 @@
 		8200B1231561EF15006BAD3B /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1211561EF15006BAD3B /* NSData+SFAdditions.m */; };
 		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8207C832155C4F000076916C /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C830155C4F000076916C /* SFApplication.m */; };
-		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; settings = {ATTRIBUTES = (); }; };
 		8207C840155DB57A0076916C /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
 		82146432154091E00096C16F /* SalesforceSDKIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
 		825C80B41562A01C00F94599 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7D815629D33002F376C /* SFIdentityCoordinator.m */; };
 		825C80B61562A02100F94599 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
 		8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829B80F615670CF40050465E /* SFNativeRestAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829B80F715670CF40050465E /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */; };
+		829B80F815670CF40050465E /* SFNativeRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 829B80F415670CF40050465E /* SFNativeRootViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829B80F915670CF40050465E /* SFNativeRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B80F515670CF40050465E /* SFNativeRootViewController.m */; };
+		829B80FC15670DF90050465E /* SFAuthorizingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 829B80FA15670DF90050465E /* SFAuthorizingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829B80FD15670DF90050465E /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B80FB15670DF90050465E /* SFAuthorizingViewController.m */; };
 		829EF7B11561F5B0002F376C /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7AF1561F5AF002F376C /* NSString+SFAdditions.h */; };
 		829EF7B21561F5B0002F376C /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7B01561F5AF002F376C /* NSString+SFAdditions.m */; };
 		829EF7BD1561FA7D002F376C /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7BB1561FA7D002F376C /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -165,7 +171,7 @@
 		829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */; };
 		829EF7DF15629D33002F376C /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7DA15629D33002F376C /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829EF7E015629D33002F376C /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
-		82C4224C15636A5900ACF930 /* SFCredentialsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C4224A15636A5900ACF930 /* SFCredentialsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82C4224C15636A5900ACF930 /* SFCredentialsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C4224A15636A5900ACF930 /* SFCredentialsManager.h */; settings = {ATTRIBUTES = (); }; };
 		82C4224D15636A5900ACF930 /* SFCredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C4224B15636A5900ACF930 /* SFCredentialsManager.m */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
@@ -367,6 +373,12 @@
 		82146430154091E00096C16F /* SalesforceSDKIdentityTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKIdentityTests.h; sourceTree = "<group>"; };
 		82146431154091E00096C16F /* SalesforceSDKIdentityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKIdentityTests.m; sourceTree = "<group>"; };
 		8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKConstants.h; path = ../../../shared/Classes/Common/SalesforceSDKConstants.h; sourceTree = "<group>"; };
+		829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestAppDelegate.h; path = NativeApp/SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
+		829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
+		829B80F415670CF40050465E /* SFNativeRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRootViewController.h; path = NativeApp/SFNativeRootViewController.h; sourceTree = "<group>"; };
+		829B80F515670CF40050465E /* SFNativeRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRootViewController.m; path = NativeApp/SFNativeRootViewController.m; sourceTree = "<group>"; };
+		829B80FA15670DF90050465E /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAuthorizingViewController.h; path = ../../../shared/Classes/Security/SFAuthorizingViewController.h; sourceTree = "<group>"; };
+		829B80FB15670DF90050465E /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthorizingViewController.m; path = ../../../shared/Classes/Security/SFAuthorizingViewController.m; sourceTree = "<group>"; };
 		829EF7AF1561F5AF002F376C /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
 		829EF7B01561F5AF002F376C /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFAdditions.m"; sourceTree = "<group>"; };
 		829EF7BB1561FA7D002F376C /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
@@ -737,6 +749,8 @@
 		8207C82E155C4A380076916C /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				829B80FA15670DF90050465E /* SFAuthorizingViewController.h */,
+				829B80FB15670DF90050465E /* SFAuthorizingViewController.m */,
 				82C4224A15636A5900ACF930 /* SFCredentialsManager.h */,
 				82C4224B15636A5900ACF930 /* SFCredentialsManager.m */,
 				8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */,
@@ -745,6 +759,17 @@
 				8207C83E155DB57A0076916C /* SFSecurityLockout.m */,
 			);
 			name = Security;
+			sourceTree = "<group>";
+		};
+		829B80F015670CD60050465E /* NativeApp */ = {
+			isa = PBXGroup;
+			children = (
+				829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */,
+				829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */,
+				829B80F415670CF40050465E /* SFNativeRootViewController.h */,
+				829B80F515670CF40050465E /* SFNativeRootViewController.m */,
+			);
+			name = NativeApp;
 			sourceTree = "<group>";
 		};
 		829EF7D615629C9A002F376C /* Identity */ = {
@@ -847,6 +872,7 @@
 		C26713EC13D6B8DB001FE0B8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				829B80F015670CD60050465E /* NativeApp */,
 				C26713ED13D6B8DB001FE0B8 /* SFRestAPI.h */,
 				C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */,
 				5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */,
@@ -1008,6 +1034,9 @@
 				829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */,
 				8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */,
 				82C4224C15636A5900ACF930 /* SFCredentialsManager.h in Headers */,
+				829B80F615670CF40050465E /* SFNativeRestAppDelegate.h in Headers */,
+				829B80F815670CF40050465E /* SFNativeRootViewController.h in Headers */,
+				829B80FC15670DF90050465E /* SFAuthorizingViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1158,6 +1187,9 @@
 				829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */,
 				829EF7E015629D33002F376C /* SFIdentityData.m in Sources */,
 				82C4224D15636A5900ACF930 /* SFCredentialsManager.m in Sources */,
+				829B80F715670CF40050465E /* SFNativeRestAppDelegate.m in Sources */,
+				829B80F915670CF40050465E /* SFNativeRootViewController.m in Sources */,
+				829B80FD15670DF90050465E /* SFAuthorizingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

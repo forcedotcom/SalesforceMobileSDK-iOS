@@ -14,6 +14,8 @@
     NSDate *_lastEventDate;
 }
 
++ (SFUserActivityMonitor *)sharedInstance;
+
 - (void)startMonitoring;
 - (void)stopMonitoring;
 

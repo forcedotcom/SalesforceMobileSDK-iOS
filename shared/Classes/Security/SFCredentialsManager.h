@@ -10,10 +10,6 @@
 
 @class SFOAuthCredentials;
 
-extern NSString * const kSFUserAuthenticatedNotification;
-extern NSString * const kSFUserAuthenticatedNotificationCredentialsKey;
-extern NSString * const kSFUserLoggedOutNotification;
-
 @interface SFCredentialsManager : NSObject
 
 + (SFCredentialsManager *)sharedInstance;

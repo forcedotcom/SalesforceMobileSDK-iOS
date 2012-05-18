@@ -10,17 +10,6 @@
 #import "SFOAuthCredentials.h"
 #import "SalesforceSDKConstants.h"
 
-NSString * const kSFUserAuthenticatedNotification               = @"SFUserAuthenticatedNotification";
-NSString * const kSFUserAuthenticatedNotificationCredentialsKey = @"oauthCredentials";
-NSString * const kSFUserLoggedOutNotification                   = @"SFUserLoggedOutNotification";
-
-@interface SFCredentialsManager ()
-
-- (void)gotCredentials:(NSNotification *)note;
-- (void)loggedOut;
-
-@end
-
 @implementation SFCredentialsManager
 
 @synthesize credentials = _credentials;
@@ -37,40 +26,10 @@ NSString * const kSFUserLoggedOutNotification                   = @"SFUserLogged
     return credentialsManager;
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(gotCredentials:) 
-                                                     name:kSFUserAuthenticatedNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(loggedOut) 
-                                                     name:kSFUserLoggedOutNotification
-                                                   object:nil];
-    }
-    
-    return self;
-}
-
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     SFRelease(_credentials);
     [super dealloc];
-}
-
-#pragma mark - Private methods
-
-- (void)gotCredentials:(NSNotification *)note
-{
-    self.credentials = [[note userInfo] objectForKey:kSFUserAuthenticatedNotificationCredentialsKey];
-}
-
-- (void)loggedOut
-{
-    SFRelease(_credentials);
 }
 
 @end

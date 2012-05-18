@@ -32,6 +32,8 @@
 #import "SFCredentialsManager.h"
 #import "SFSecurityLockout.h"
 #import "SFNativeRootViewController.h"
+#import "SFUserActivityMonitor.h"
+#import "SFInactivityTimerCenter.h"
 
 
 
@@ -99,7 +101,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)retrievedIdentityData;
 - (void)setIdentityData:(SFIdentityData *)newIdData;
 - (void)postIdentityRetrievalProcesses;
-- (void)resetRootView;
+- (void)resetRootPresentation;
+- (BOOL)mobilePinPolicyConfigured;
+- (void)prepareToShutDown;
 
 @end
 
@@ -140,16 +144,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     SFRelease(_coordinator)
     SFRelease(_idCoordinator);
     SFRelease(_idData);
+    SFRelease(_authViewController);
+    SFRelease(_baseView);
     SFRelease(_viewController);
     SFRelease(_window);
     
 	[super dealloc];
-}
-
-+ (void)initialize
-{
-    // Make sure the shared instance of SFCredentialsManager is alive.
-    [SFCredentialsManager sharedInstance];
 }
 
 #pragma mark - App lifecycle
@@ -189,9 +189,15 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 	[self login];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self prepareToShutDown];
+}
 
-
-
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    [self prepareToShutDown];
+}
 
 + (BOOL) isIPad {
 #ifdef UI_USER_INTERFACE_IDIOM
@@ -200,8 +206,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     return NO;
 #endif
 }
-
-
 
 #pragma mark - Salesforce.com login helpers
 
@@ -247,7 +251,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout {
     [self.coordinator revokeAuthentication];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserLoggedOutNotification object:self];
+    [SFCredentialsManager sharedInstance].credentials = nil;
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kAccountLogoutUserDefault];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self clearDataModel];
@@ -255,11 +259,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 - (void)loggedIn {
-    // Send notification of authentication.
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserAuthenticatedNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObject:self.coordinator.credentials
-                                                                                           forKey:kSFUserAuthenticatedNotificationCredentialsKey]];
+    // Update the shared credentials.
+    [SFCredentialsManager sharedInstance].credentials = self.coordinator.credentials;
+    
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
@@ -283,22 +285,20 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
     SFRelease(_idCoordinator);
     
-    if (/*[self.idData mobilePoliciesConfigured]*/YES) {
+    if ([self mobilePinPolicyConfigured]) {
+        // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self postIdentityRetrievalProcesses];
-            UIViewController *rootVC = [[self newRootViewController] autorelease];
-            self.viewController = rootVC;
-            [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
-//            self.window.rootViewController = self.viewController;
         }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
             [self logout];
         }];
-//        [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
-//        [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
-        [SFSecurityLockout setPasscodeLength:7];
-        [SFSecurityLockout setLockoutTime:20];
+        
+        // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
+        [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:(self.idData.mobileAppScreenLockTimeout * 60)];
     } else {
+        // No additional mobile policies.  So no passcode.
         [self postIdentityRetrievalProcesses];
     }
 }
@@ -309,12 +309,36 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     
     if (_isAppInitialization) {
-        UIViewController *rootVC = [[self newRootViewController] autorelease];
-        self.viewController = rootVC;
-        [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+        // We'll ask for a passcode every time the application is initialized, regardless of activity.
+        // But, if the user just went through credentials initialization, she's already just created
+        // a passcode, so she gets a pass here.
+        if (_isInitialLogin) {
+            UIViewController *rootVC = [[self newRootViewController] autorelease];
+            self.viewController = rootVC;
+            [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+        } else if ([self mobilePinPolicyConfigured]) {
+            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+                UIViewController *rootVC = [[self newRootViewController] autorelease];
+                self.viewController = rootVC;
+                [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+            }];
+            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                [self logout];
+            }];
+            [SFSecurityLockout lock];
+        }
+    } else if ([self mobilePinPolicyConfigured]) {
+        // App is foregrounding.  Passcode check subject to standard inactivity.
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self logout];
+        }];
+        [SFSecurityLockout validateTimer];
     }
     
+    [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    
     // Best place to reset this stuff is at the end of the line for app launch/foregrounding processes.
+    // Which is (currently) here.
     _isAppInitialization = NO;
     _isInitialLogin = NO;
 }
@@ -363,14 +387,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     _isAppInitialization = YES;
     _isInitialLogin = YES;  // OAuth would flip this to YES anyway, but let's be complete.
-    [self resetRootView];
+    [self resetRootPresentation];
 }
 
-- (void)resetRootView
+- (void)resetRootPresentation
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self resetRootView];
+            [self resetRootPresentation];
         });
         return;
     }
@@ -380,11 +404,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     // If the root view controller has been changed out from our original one, just recreate it.
     if (self.window.rootViewController == nil
         || ![self.window.rootViewController isKindOfClass:[SFNativeRootViewController class]]) {
-        self.window.rootViewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-        self.baseView = self.window.rootViewController.view;
+        self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+        self.window.rootViewController = self.viewController;
+        self.baseView = self.viewController.view;
     } else {
         // Clear any other presented view controllers and/or subviews.
         UIViewController *rvc = self.window.rootViewController;
+        self.viewController = rvc;
         if (rvc.presentedViewController != nil) {
             [rvc dismissViewControllerAnimated:NO completion:NULL];
         }
@@ -408,6 +434,23 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         _idData = [newIdData retain];
         [oldValue release];
     }
+}
+
+- (BOOL)mobilePinPolicyConfigured
+{
+    return (self.idData != nil
+            && self.idData.mobilePoliciesConfigured
+            && self.idData.mobileAppPinLength > 0
+            && self.idData.mobileAppScreenLockTimeout > 0);
+}
+
+#pragma mark - Other view lifecycle helpers
+
+- (void)prepareToShutDown {
+    [SFSecurityLockout removeTimer];
+    if ([SFCredentialsManager sharedInstance].credentials != nil) {
+		[SFInactivityTimerCenter saveActivityTimestamp];
+	}
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate

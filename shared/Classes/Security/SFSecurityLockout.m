@@ -58,10 +58,6 @@ static BOOL _showPasscode = YES;
 	}
 }
 
-+ (void)didLogin {
-    [SFSecurityLockout validateTimer];
-}
-
 + (void)validateTimer;
 {
     if ([SFSecurityLockout isPasscodeValid]) {
@@ -72,6 +68,7 @@ static BOOL _showPasscode = YES;
         else {
             [SFSecurityLockout setupTimer];
             [SFInactivityTimerCenter updateActivityTimestamp];	
+            [SFSecurityLockout unlockSuccessPostProcessing];  // "Unlock" was successful, as locking wasn't required.
         }
     } 
 }
@@ -117,6 +114,7 @@ static BOOL _showPasscode = YES;
 		}
         else {
             [SFSecurityLockout setupTimer];
+            [SFSecurityLockout unlockSuccessPostProcessing];  // "Unlocking" was a success, since no lock required.
         }
 	}
     [[NSUserDefaults standardUserDefaults] synchronize];

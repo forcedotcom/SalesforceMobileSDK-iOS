@@ -10,6 +10,7 @@
 #import "SFApplication.h"
 #import "SalesforceSDKConstants.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFLogger.h"
 
 // Singleton instance
 static SFUserActivityMonitor *_instance;
@@ -83,10 +84,13 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
 {
     NSDate *lastEventAsOfNow = [(SFApplication *)[UIApplication sharedApplication] lastEventDate];
     if (![_lastEventDate isEqualToDate:lastEventAsOfNow]) {
+        [self log:Debug format:@"New user activity at %@", lastEventAsOfNow];
         [SFInactivityTimerCenter updateActivityTimestamp];
         // TODO: Possibly consider a notification, if other objects would like to subscribe to this.
         [_lastEventDate release];
         _lastEventDate = [lastEventAsOfNow copy];
+    } else {
+        [self log:Debug format:@"Last user activity: %.2f", [[NSDate date] timeIntervalSinceDate:_lastEventDate]];
     }
 }
 

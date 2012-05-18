@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
+
 @interface SFAuthorizingViewController : UIViewController {
     UILabel *_authorizingMessageLabel;
 }
