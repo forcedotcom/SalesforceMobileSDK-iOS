@@ -11,8 +11,6 @@ static const NSUInteger kMaxNumberofAttempts = 10;
 static NSString * const kRemainingAttemptsKey = @"remainingAttempts"; 
 
 extern NSString * const kKeychainIdentifierPasscode;
-extern NSString * const kSFSecurityLockoutUnlockedNotification;
-extern NSString * const kSFSecurityLockoutUnlockSuccessKey;
 
 typedef void (^SFLockScreenCallbackBlock)(void);
 
@@ -57,8 +55,7 @@ typedef void (^SFLockScreenCallbackBlock)(void);
 
 /** Lock the device immediately.
  */
-+ (void)lockWithSuccessBlock:(SFLockScreenCallbackBlock)successBlock
-                failureBlock:(SFLockScreenCallbackBlock)failureBlock;
++ (void)lock;
 
 /** Unlock the device
  @param success Whether the device is being unlocked as the result of a successful passcode
@@ -105,6 +102,11 @@ typedef void (^SFLockScreenCallbackBlock)(void);
 /** Show the passcode view. Used by unit tests.
  */
 + (void)setCanShowPasscode:(BOOL)showPasscode;
+
++ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenCallbackBlock)block;
++ (SFLockScreenCallbackBlock)lockScreenSuccessCallbackBlock;
++ (void)setLockScreenFailureCallbackBlock:(SFLockScreenCallbackBlock)block;
++ (SFLockScreenCallbackBlock)lockScreenFailureCallbackBlock;
 
 @end
 

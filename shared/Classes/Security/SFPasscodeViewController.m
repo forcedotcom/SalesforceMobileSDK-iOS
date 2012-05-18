@@ -7,6 +7,8 @@
 //
 
 #import "SFPasscodeViewController.h"
+#import "SFSecurityLockout.h"
+#import "SFInactivityTimerCenter.h"
 
 static CGFloat      const kPaddingTop                       = 75.0f;
 static NSString *   const kPasscodeTextFontName             = @"HelveticaNeue-Bold";
@@ -20,10 +22,6 @@ static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 75.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
-
-// In SFSecurityLockout.h
-static NSUInteger   const kMaxNumberofAttempts              = 10;
-static NSString *   const kRemainingAttemptsKey             = @"remainingAttempts"; 
 
 // TODO: Localization
 static NSString *         nextScreenNavButtonTitle          = @"Next";
@@ -264,12 +262,33 @@ static NSString *         passcodeInvalidError              = @"The passcode you
         [self updateErrorLabel:passcodesDoNotMatchError];
     } else {
         // Set new passcode.
+        [SFSecurityLockout setPasscode:self.passcodeField.text];
+        [SFSecurityLockout setupTimer];
+        [SFInactivityTimerCenter updateActivityTimestamp];
+        [SFSecurityLockout unlock:YES];
     }
 }
 
 - (void)finishedValidatePasscode
 {
-    NSLog(@"Code to validate passcode goes here!");
+    NSString *checkPasscode = [self.passcodeField text];
+    if ([SFSecurityLockout verifyPasscode:checkPasscode]) {
+        [SFSecurityLockout unlock:YES];
+        [SFSecurityLockout setupTimer];
+        [self setRemainingAttempts:kMaxNumberofAttempts];
+        [SFInactivityTimerCenter updateActivityTimestamp];
+    } else {
+        _attempts -= 1;
+        [self setRemainingAttempts:_attempts];
+        if (_attempts <= 0) {
+            [self setRemainingAttempts:kMaxNumberofAttempts];
+            [SFSecurityLockout resetPasscode];
+            [SFSecurityLockout unlock:NO];
+        } else {
+            self.passcodeField.text = @"";
+            [self updateErrorLabel:passcodeInvalidError];
+        }
+    }
 }
 
 - (void)updateInstructionsLabel:(NSString *)newLabel

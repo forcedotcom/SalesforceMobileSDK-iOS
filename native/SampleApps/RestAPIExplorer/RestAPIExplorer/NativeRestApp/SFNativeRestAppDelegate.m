@@ -62,10 +62,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 
 @interface SFNativeRestAppDelegate () {
-    BOOL _initialLogin;
+    BOOL _isInitialLogin;
     SFIdentityCoordinator *_idCoordinator;
+    BOOL _isAppInitialization;
 }
 
+@property (nonatomic, retain) UIView *baseView;
 
 /**
  Initializes the app settings, in the event that the user has not configured
@@ -96,7 +98,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)retrievedIdentityData;
 - (void)setIdentityData:(SFIdentityData *)newIdData;
-- (void)checkMobilePolicies;
+- (void)postIdentityRetrievalProcesses;
+- (void)resetRootView;
 
 @end
 
@@ -107,6 +110,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize  viewController = _viewController;
 @synthesize  window = _window;
 @synthesize idData = _idData;
+@synthesize baseView = _baseView;
 
 #pragma mark - init/dealloc
 
@@ -124,7 +128,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         // OAuth tells us otherwise.  E.g. we only want to call the identity service after
         // we first authenticate.  If oauthCoordinator:didBeginAuthenticationWithView: isn't
         // called, we can assume we've already gone through initial authentication at some point.
-        _initialLogin = NO;
+        _isInitialLogin = NO;
         
     }
     return self;
@@ -153,9 +157,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    _isAppInitialization = YES;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
+    self.baseView = self.viewController.view;
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -245,7 +251,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kAccountLogoutUserDefault];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self clearDataModel];
-    [self.coordinator authenticate];
+    [self login];
 }
 
 - (void)loggedIn {
@@ -257,14 +263,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
-    if (_initialLogin || checkIdData == nil) {
+    if (_isInitialLogin || checkIdData == nil) {
         _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.coordinator.credentials];
         _idCoordinator.delegate = self;
         [_idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
         [self setIdentityData:checkIdData];
-        [self checkMobilePolicies];
+        [self postIdentityRetrievalProcesses];
     }
 }
 
@@ -273,36 +279,44 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     // NB: This method is assumed to run after identity data has been refreshed from the service.
     NSAssert(_idCoordinator != nil, @"Identity coordinator should be populated at this point.");
     NSAssert(_idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-        [self setIdentityData:_idCoordinator.idData];
-        [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
-        SFRelease(_idCoordinator);
-        
-        if ([self.idData mobilePoliciesConfigured]) {
-            [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
-            [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
-        }
-        
-//        [SFSecurityLockout setPasscodeLength:7];
-//        [SFSecurityLockout setLockoutTime:300];
+    [self setIdentityData:_idCoordinator.idData];
+    [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
+    SFRelease(_idCoordinator);
     
-    
-    //provide the Rest API with a reference to the coordinator we used for login
+    if (/*[self.idData mobilePoliciesConfigured]*/YES) {
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+            [self postIdentityRetrievalProcesses];
+            UIViewController *rootVC = [[self newRootViewController] autorelease];
+            self.viewController = rootVC;
+            [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+//            self.window.rootViewController = self.viewController;
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self logout];
+        }];
+//        [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
+//        [SFSecurityLockout setLockoutTime:self.idData.mobileAppScreenLockTimeout];
+        [SFSecurityLockout setPasscodeLength:7];
+        [SFSecurityLockout setLockoutTime:20];
+    } else {
+        [self postIdentityRetrievalProcesses];
+    }
+}
+
+- (void)postIdentityRetrievalProcesses
+{
+    // Provide the Rest API with a reference to the coordinator we used for login.
     [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
     
-    // now show the true app view controller if it's not already shown
-    if (nil != self.authViewController) {
-        self.authViewController = nil;
-    }
-    
-    if (_initialLogin) {
+    if (_isAppInitialization) {
         UIViewController *rootVC = [[self newRootViewController] autorelease];
         self.viewController = rootVC;
         [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
     }
-}
-- (void)checkMobilePolicies
-{
     
+    // Best place to reset this stuff is at the end of the line for app launch/foregrounding processes.
+    _isAppInitialization = NO;
+    _isInitialLogin = NO;
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView
@@ -345,8 +359,42 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 }
 
 
-- (void)clearDataModel {
+- (void)clearDataModel
+{
+    _isAppInitialization = YES;
+    _isInitialLogin = YES;  // OAuth would flip this to YES anyway, but let's be complete.
+    [self resetRootView];
+}
+
+- (void)resetRootView
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resetRootView];
+        });
+        return;
+    }
+    
     self.viewController = nil;
+    
+    // If the root view controller has been changed out from our original one, just recreate it.
+    if (self.window.rootViewController == nil
+        || ![self.window.rootViewController isKindOfClass:[SFNativeRootViewController class]]) {
+        self.window.rootViewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+        self.baseView = self.window.rootViewController.view;
+    } else {
+        // Clear any other presented view controllers and/or subviews.
+        UIViewController *rvc = self.window.rootViewController;
+        if (rvc.presentedViewController != nil) {
+            [rvc dismissViewControllerAnimated:NO completion:NULL];
+        }
+        for (UIView *subView in [NSArray arrayWithArray:self.window.subviews]) {
+            [subView removeFromSuperview];
+        }
+        
+        // Go back to the original "base" view.
+        [self.window addSubview:self.baseView];
+    }
 }
 
 + (NSSet *)oauthScopes {
@@ -372,7 +420,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
     
-    _initialLogin = YES;
+    _isInitialLogin = YES;
     [self presentAuthViewController:view];
 }
 
