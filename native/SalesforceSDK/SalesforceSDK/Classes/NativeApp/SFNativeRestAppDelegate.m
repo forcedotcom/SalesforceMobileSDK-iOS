@@ -96,7 +96,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 + (BOOL)updateLoginHost;
 
 - (void)presentAuthViewController:(UIWebView *)webView;
-- (void)dismissAuthViewController:(SEL)postDismissalAction;
+- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction;
 
 - (void)retrievedIdentityData;
 - (void)setIdentityData:(SFIdentityData *)newIdData;
@@ -316,16 +316,22 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
             UIViewController *rootVC = [[self newRootViewController] autorelease];
             self.viewController = rootVC;
             [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
-        } else if ([self mobilePinPolicyConfigured]) {
-            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+        } else {
+            if ([self mobilePinPolicyConfigured]) {
+                [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+                    UIViewController *rootVC = [[self newRootViewController] autorelease];
+                    self.viewController = rootVC;
+                    [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+                }];
+                [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                    [self logout];
+                }];
+                [SFSecurityLockout lock];
+            } else {
                 UIViewController *rootVC = [[self newRootViewController] autorelease];
                 self.viewController = rootVC;
                 [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
-            }];
-            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-                [self logout];
-            }];
-            [SFSecurityLockout lock];
+            }
         }
     } else if ([self mobilePinPolicyConfigured]) {
         // App is foregrounding.  Passcode check subject to standard inactivity.
@@ -357,11 +363,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [self.window.rootViewController presentViewController:self.authViewController animated:YES completion:NULL];
 }
 
-- (void)dismissAuthViewController:(SEL)postDismissalAction
+- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismissAuthViewController:postDismissalAction];
+            [self dismissAuthViewControllerIfPresent:postDismissalAction];
         });
         return;
     }
@@ -371,8 +377,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self.window.rootViewController dismissViewControllerAnimated:YES
                                                            completion:^{
                                                                SFRelease(_authViewController);
-                                                               [self performSelectorOnMainThread:postDismissalAction withObject:nil waitUntilDone:NO];
+                                                               [self performSelector:postDismissalAction];
                                                            }];
+    } else {
+        [self performSelector:postDismissalAction];
     }
 }
 
@@ -469,7 +477,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
     NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
-    [self dismissAuthViewController:@selector(loggedIn)];
+    [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 
@@ -517,7 +525,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == kOAuthAlertViewTag) {
-        [self dismissAuthViewController:@selector(login)];
+        [self dismissAuthViewControllerIfPresent:@selector(login)];
     }
     else if (alertView.tag == kIdentityAlertViewTag)
         [_idCoordinator initiateIdentityDataRetrieval];

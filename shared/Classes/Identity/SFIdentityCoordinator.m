@@ -119,16 +119,18 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 + (void)saveIdentityData:(SFIdentityData *)identityData
 {
     if (identityData != nil && identityData.dictRepresentation != nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:identityData.dictRepresentation forKey:kSFIdentityDataPropertyKey];
+        NSData *encodedData = [NSKeyedArchiver archivedDataWithRootObject:identityData];
+        [[NSUserDefaults standardUserDefaults] setObject:encodedData forKey:kSFIdentityDataPropertyKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
 + (SFIdentityData *)loadIdentityData
 {
-    NSDictionary *idDict = [[NSUserDefaults standardUserDefaults] objectForKey:kSFIdentityDataPropertyKey];
-    if (idDict == nil)
+    NSData *encodedIdData = [[NSUserDefaults standardUserDefaults] objectForKey:kSFIdentityDataPropertyKey];
+    if (encodedIdData == nil)
         return nil;
-    return [[[SFIdentityData alloc] initWithJsonDict:idDict] autorelease];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData];
 }
 
 #pragma mark - Private methods

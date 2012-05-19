@@ -68,6 +68,7 @@ NSString * const kSFIdentityMobileAppScreenLockTimeoutKey = @"screen_lock";
 NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
 
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
+NSString * const kIdJsonDictKey                           = @"dictRepresentation";
 
 /**
  * Private interface
@@ -354,6 +355,23 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
     NSDate *date = [df dateFromString:dateString];
     [df release];
     return date;
+}
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        _dictRepresentation = [[aDecoder decodeObjectForKey:kIdJsonDictKey] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_dictRepresentation forKey:kIdJsonDictKey];
 }
 
 @end

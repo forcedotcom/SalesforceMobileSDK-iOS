@@ -28,7 +28,7 @@
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
  */
-@interface SFIdentityData : NSObject
+@interface SFIdentityData : NSObject <NSCoding>
 
 /**
  * The NSDictionary representation of this identity data.
