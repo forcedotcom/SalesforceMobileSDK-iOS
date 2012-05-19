@@ -42,16 +42,24 @@
     SFAuthorizingViewController *_authViewController;
 }
 
+/**
+ The root window of the native application.
+ */
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
+/**
+ The current view controller of the application.
+ */
 @property (nonatomic, retain) IBOutlet UIViewController *viewController;
-
-
 
 /**
  The SFOAuthCoordinator used for managing login/logout.
  */
 @property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
 
+/**
+ The identity data associated with this app, retrieved from the ID service.
+ */
 @property (nonatomic, readonly) SFIdentityData *idData;
 
 /**

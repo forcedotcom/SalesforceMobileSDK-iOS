@@ -64,11 +64,26 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 
 @interface SFNativeRestAppDelegate () {
+    /**
+     Whether this is the initial login to the application (i.e. no previous credentials).
+     */
     BOOL _isInitialLogin;
+    
+    /**
+     The identity coordinator used to retrieve data from the ID service.
+     */
     SFIdentityCoordinator *_idCoordinator;
+    
+    /**
+     Whether the app is in its initialization run (vs. just being brought to the foreground).
+     */
     BOOL _isAppInitialization;
 }
 
+/**
+ The initial view of the underlying root view controller.  Will be used as the "initial"
+ page when the app is reset in situ.
+ */
 @property (nonatomic, retain) UIView *baseView;
 
 /**
@@ -95,14 +110,50 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 + (BOOL)updateLoginHost;
 
+/**
+ Present the authentication view and controller modally, for the User Agent flow.
+ @param webView The authentication web view to associate with the view controller.
+ */
 - (void)presentAuthViewController:(UIWebView *)webView;
+
+/**
+ Will dismiss the authentication view controller, if present.
+ @param postDismissalAction Action to be taken after the view/controller is dismissed.  If
+ the view controller is not present, this action will be taken immediately.
+ */
 - (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction;
 
+/**
+ Called after identity data is retrieved from the service.
+ */
 - (void)retrievedIdentityData;
+
+/**
+ Sets the identity data property with the given data.
+ @param newIdData The identity data to set.
+ */
 - (void)setIdentityData:(SFIdentityData *)newIdData;
+
+/**
+ Called after the ID data retrieval process is complete.  Finalizes login, app startup.
+ */
 - (void)postIdentityRetrievalProcesses;
+
+/**
+ Will reset the app into its initial view state.  Primarily for when the user is logged out
+ and the app starts over.
+ */
 - (void)resetRootPresentation;
+
+/**
+ Convenience method to determine whether all of the mobile passcode policy properties have
+ valid values to establish a passcode.
+ */
 - (BOOL)mobilePinPolicyConfigured;
+
+/**
+ Called when the app is entering the background, or in the process of being shut down.
+ */
 - (void)prepareToShutDown;
 
 @end
