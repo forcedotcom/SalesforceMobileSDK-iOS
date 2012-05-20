@@ -41,6 +41,12 @@ static NSString * const kUserAgentPropKey     = @"UserAgent";
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
+#if defined(DEBUG)
+static SFLogLevel const kAppLogLevel = Debug;
+#else
+static SFLogLevel const kAppLogLevel = Info;
+#endif
+
 
 // Key for storing the user's configured login host.
 NSString * const kLoginHostUserDefault = @"login_host_pref";
@@ -156,6 +162,17 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)prepareToShutDown;
 
+/**
+ Set up and present the user-defined app root window.
+ */
+- (void)setupNewRootViewController;
+
+/**
+ Clean up / finalize any state information, post-login workflow.  This should be the last
+ method called before handing off to the consuming app.
+ */
+- (void)finalizeAppBootstrap;
+
 @end
 
 @implementation SFNativeRestAppDelegate
@@ -166,6 +183,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @synthesize  window = _window;
 @synthesize idData = _idData;
 @synthesize baseView = _baseView;
+@synthesize appLogLevel = _appLogLevel;
 
 #pragma mark - init/dealloc
 
@@ -185,6 +203,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         // called, we can assume we've already gone through initial authentication at some point.
         _isInitialLogin = NO;
         
+        self.appLogLevel = kAppLogLevel;
     }
     return self;
 }
@@ -209,6 +228,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     _isAppInitialization = YES;
+    [SFLogger setLogLevel:self.appLogLevel];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
@@ -364,24 +384,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         // But, if the user just went through credentials initialization, she's already just created
         // a passcode, so she gets a pass here.
         if (_isInitialLogin) {
-            UIViewController *rootVC = [[self newRootViewController] autorelease];
-            self.viewController = rootVC;
-            [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+            [self setupNewRootViewController];
         } else {
             if ([self mobilePinPolicyConfigured]) {
                 [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-                    UIViewController *rootVC = [[self newRootViewController] autorelease];
-                    self.viewController = rootVC;
-                    [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+                    [self setupNewRootViewController];
                 }];
                 [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                     [self logout];
                 }];
                 [SFSecurityLockout lock];
             } else {
-                UIViewController *rootVC = [[self newRootViewController] autorelease];
-                self.viewController = rootVC;
-                [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+                [self setupNewRootViewController];
             }
         }
     } else if ([self mobilePinPolicyConfigured]) {
@@ -392,10 +406,19 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [SFSecurityLockout validateTimer];
     }
     
+    [self finalizeAppBootstrap];
+}
+
+- (void)setupNewRootViewController
+{
+    UIViewController *rootVC = [[self newRootViewController] autorelease];
+    self.viewController = rootVC;
+    [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
+}
+
+- (void)finalizeAppBootstrap
+{
     [[SFUserActivityMonitor sharedInstance] startMonitoring];
-    
-    // Best place to reset this stuff is at the end of the line for app launch/foregrounding processes.
-    // Which is (currently) here.
     _isAppInitialization = NO;
     _isInitialLogin = NO;
 }

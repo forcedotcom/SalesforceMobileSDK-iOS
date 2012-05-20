@@ -27,6 +27,7 @@
 
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
+#import "SFLogger.h"
 
 @class SFAuthorizingViewController;
 @class SFIdentityData;
@@ -67,6 +68,11 @@
  */
 @property (nonatomic, retain) SFAuthorizingViewController *authViewController;
 
+/**
+ The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+ builds.
+ */
+@property (assign) SFLogLevel appLogLevel;
 
 /**
  @return YES if this device is an iPad

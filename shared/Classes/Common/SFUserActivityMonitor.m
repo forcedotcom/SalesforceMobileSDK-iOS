@@ -90,7 +90,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
         [_lastEventDate release];
         _lastEventDate = [lastEventAsOfNow copy];
     } else {
-        [self log:Debug format:@"Last user activity: %.2f", [[NSDate date] timeIntervalSinceDate:_lastEventDate]];
+        [self log:Debug format:@"Last user activity: %.2f secs ago.", [[NSDate date] timeIntervalSinceDate:_lastEventDate]];
     }
 }
 

@@ -262,6 +262,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
         [self updateErrorLabel:passcodesDoNotMatchError];
     } else {
         // Set new passcode.
+        [self.passcodeField resignFirstResponder];
         [SFSecurityLockout setPasscode:self.passcodeField.text];
         [SFSecurityLockout setupTimer];
         [SFInactivityTimerCenter updateActivityTimestamp];
