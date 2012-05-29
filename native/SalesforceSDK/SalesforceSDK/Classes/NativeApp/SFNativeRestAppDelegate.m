@@ -230,6 +230,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     _isAppInitialization = YES;
     [SFLogger setLogLevel:self.appLogLevel];
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
+    // TODO: The SFNativeRootViewController.xib file is currently shipped as part of the native app template.
+    // This should delivered in an SDK bundle, so that it's not dependent on that resource split outside of
+    // the SDK code proper.
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
@@ -432,6 +436,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         return;
     }
     
+    // TODO: This is another NIB file that's delivered as part of the native app template, and should be
+    // moved into a bundle (along with the root vc NIB file mentioned above.
     self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     [self.authViewController setOauthView:webView];
     [self.window.rootViewController presentViewController:self.authViewController animated:YES completion:NULL];
@@ -447,6 +453,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
     
     if (self.authViewController != nil) {
+        // TODO: Why do we not have the logging facilities calls in this class?
         NSLog(@"Dismissing the auth view controller.");
         [self.window.rootViewController dismissViewControllerAnimated:YES
                                                            completion:^{
