@@ -22,12 +22,46 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SFAuthorizingViewController.h"
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
+
+@implementation SFAuthorizingViewController
+
+@synthesize oauthView = _oauthView;
+@synthesize authorizingMessageLabel = _authorizingMessageLabel;
+
+- (void)dealloc {
+    self.oauthView = nil;
+    [super dealloc];
 }
+
+#pragma mark - View lifecycle
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation:%d",interfaceOrientation);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    } else {
+        return YES;
+    }
+}
+
+
+#pragma mark - Properties
+
+- (void)setOauthView:(UIView *)oauthView {
+    if (![oauthView isEqual:_oauthView]) {
+        [_oauthView removeFromSuperview];
+        [_oauthView release];
+        _oauthView = [oauthView retain];
+        
+        if (nil != _oauthView) {
+            [_oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_oauthView setFrame:self.view.bounds];
+            [self.view addSubview:_oauthView];
+        }
+    }
+}
+
+@end

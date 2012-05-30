@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SFLogger.h"
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
-}
+
+@interface SFLogger ()
+
+@property (retain) NSFileHandle *logHandle;
+@property (readonly) NSDateFormatter *dateFormatter;
+@property (assign) SFLogLevel logLevel;
+@property (retain) NSString *logFile;
+
++ (NSDate *)startDateOfLog:(NSString *)log;
++ (NSDate *)endDateOfLog:(NSString *)log;
+
++ (NSString *)LogFile;
+
++ (void)log:(Class)cls level:(SFLogLevel)level msg:(NSString *)msg arguments:(va_list)args;
+
+- (NSString *)levelName:(SFLogLevel)level;
+
+/**
+ Use this method to enable the recording of the assertion instead of aborting the
+ program when an assertion is triggered. This is usually used by the 
+ unit tests.
+ */
++ (void)setRecordAssertionEnabled:(BOOL)enabled;
+
+/**
+ Returns YES if an assertion was recorded and clear the flag.
+ */
++ (BOOL)assertionRecordedAndClear;
+
+@end

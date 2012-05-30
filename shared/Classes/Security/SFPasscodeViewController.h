@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,10 +24,38 @@
 
 #import <UIKit/UIKit.h>
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
-}
+/**
+ Mode constants indicating whether to create or verify an existing passcode.
+ */
+typedef enum {
+    SFPasscodeControllerModeCreate,
+    SFPasscodeControllerModeVerify
+} SFPasscodeControllerMode;
+
+/**
+ * The view controller for managing the passcode screen.
+ */
+@interface SFPasscodeViewController : UIViewController <UITextFieldDelegate>
+
+/**
+ * The minimum passcode length, which this view controller will enforce.
+ */
+@property (readonly) NSInteger minPasscodeLength;
+
+/**
+ * Whether or not this controller is in a passcode creation or verification mode.
+ */
+@property (readonly) SFPasscodeControllerMode mode;
+
+/**
+ * Initializes the controller for verifying an existing passcode.
+ */
+- (id)initForPasscodeVerification;
+
+/**
+ * Initializes the controller for creating a new passcode.
+ * @param minPasscodeLength The minimum passcode length for the new passcode.
+ */
+- (id)initForPasscodeCreation:(NSInteger)minPasscodeLength;
+
+@end

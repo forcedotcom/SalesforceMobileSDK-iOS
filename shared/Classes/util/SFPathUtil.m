@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2008-2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SFPathUtil.h"
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
+
+@implementation SFPathUtil
+
++(NSString *)absolutePathForDocumentFile:(NSString *)file {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:documentsDirectory]) 
+		[[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+	return [documentsDirectory stringByAppendingPathComponent:file];
 }
+
++(NSString *)absolutePathForDocumentFolder:(NSString *)folder {
+	NSString *dir = [SFPathUtil absolutePathForDocumentFile:folder];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:dir]) 
+		[[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
+	return dir;
+}
+
+@end

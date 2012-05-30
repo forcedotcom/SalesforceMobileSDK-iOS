@@ -26,8 +26,11 @@
 
 
 #import "SFOAuthCoordinator.h"
+#import "SFIdentityCoordinator.h"
+#import "SFLogger.h"
 
 @class SFAuthorizingViewController;
+@class SFIdentityData;
 
 /**
  
@@ -35,15 +38,20 @@
  
  */
 
-@interface SFNativeRestAppDelegate : NSObject <UIApplicationDelegate, SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SFNativeRestAppDelegate : NSObject <UIApplicationDelegate, SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
     SFAuthorizingViewController *_authViewController;
 }
 
+/**
+ The root window of the native application.
+ */
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
+/**
+ The current view controller of the application.
+ */
 @property (nonatomic, retain) IBOutlet UIViewController *viewController;
-
-
 
 /**
  The SFOAuthCoordinator used for managing login/logout.
@@ -51,10 +59,20 @@
 @property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
 
 /**
+ The identity data associated with this app, retrieved from the ID service.
+ */
+@property (nonatomic, readonly) SFIdentityData *idData;
+
+/**
  View controller that gives the app some view state while authorizing.
  */
 @property (nonatomic, retain) SFAuthorizingViewController *authViewController;
 
+/**
+ The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+ builds.
+ */
+@property (assign) SFLogLevel appLogLevel;
 
 /**
  @return YES if this device is an iPad

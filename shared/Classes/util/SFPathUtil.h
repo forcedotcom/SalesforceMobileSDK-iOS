@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2008-2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,13 +21,23 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import <UIKit/UIKit.h>
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
+
+@interface SFPathUtil : NSObject {
+    
 }
+
+/*!
+ returns the absolute path for a file located in the apps document directory
+ it also ensures that the documents directory exists
+ */
++(NSString *)absolutePathForDocumentFile:(NSString *)file;
+
+/*!
+ returns the absolute path for a directory/folder located in the apps document directory
+ it also ensures this sub-directory exists
+ */
++(NSString *)absolutePathForDocumentFolder:(NSString *)folder;
+
+@end

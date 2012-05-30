@@ -44,6 +44,7 @@ static NSString * const kSFIdentityErrorDescription          = @"error_descripti
 static NSString * const kSFIdentityErrorTypeNoData           = @"no_data_returned";
 static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_response";
 static NSString * const kSFIdentityErrorTypeBadHttpResponse  = @"bad_http_response";
+static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.keys.identity.data";
 
 @implementation SFIdentityCoordinator
 
@@ -111,6 +112,25 @@ static NSString * const kSFIdentityErrorTypeBadHttpResponse  = @"bad_http_respon
 {
     [self.connection cancel];
     [self cleanupData];
+}
+
+#pragma mark - Identity data persistence
+
++ (void)saveIdentityData:(SFIdentityData *)identityData
+{
+    if (identityData != nil && identityData.dictRepresentation != nil) {
+        NSData *encodedData = [NSKeyedArchiver archivedDataWithRootObject:identityData];
+        [[NSUserDefaults standardUserDefaults] setObject:encodedData forKey:kSFIdentityDataPropertyKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
++ (SFIdentityData *)loadIdentityData
+{
+    NSData *encodedIdData = [[NSUserDefaults standardUserDefaults] objectForKey:kSFIdentityDataPropertyKey];
+    if (encodedIdData == nil)
+        return nil;
+    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData];
 }
 
 #pragma mark - Private methods

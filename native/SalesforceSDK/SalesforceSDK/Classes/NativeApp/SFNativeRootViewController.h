@@ -22,43 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFAuthorizingViewController.h"
+#import <UIKit/UIKit.h>
 
-
-@implementation SFAuthorizingViewController
-
-@synthesize oauthView = _oauthView;
-@synthesize authorizingMessageLabel=_authorizingMessageLabel;
-
-- (void)dealloc {
-    self.oauthView = nil;
-    [super dealloc];
-}
-
-#pragma mark - View lifecycle
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation:%d",interfaceOrientation);
-    // Return YES for supported orientations
-	return YES;
-}
-
-
-#pragma mark - Properties
-
-- (void)setOauthView:(UIView *)oauthView {
-    if (![oauthView isEqual:_oauthView]) {
-        [_oauthView removeFromSuperview];
-        [_oauthView release];
-        _oauthView = [oauthView retain];
-        
-        if (nil != _oauthView) {
-            [_oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-            [_oauthView setFrame:self.view.bounds];
-            [self.view addSubview:_oauthView];
-        }
-    }
-}
+@interface SFNativeRootViewController : UIViewController
 
 @end

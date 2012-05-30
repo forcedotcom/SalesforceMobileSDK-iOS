@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,43 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFAuthorizingViewController.h"
+#import "SFCredentialsManager.h"
+#import "SFOAuthCredentials.h"
+#import "SalesforceSDKConstants.h"
 
+@implementation SFCredentialsManager
 
-@implementation SFAuthorizingViewController
+@synthesize credentials = _credentials;
 
-@synthesize oauthView = _oauthView;
-@synthesize authorizingMessageLabel=_authorizingMessageLabel;
+#pragma mark - init / dealloc / etc.
 
-- (void)dealloc {
-    self.oauthView = nil;
-    [super dealloc];
++ (SFCredentialsManager *)sharedInstance {
+    static dispatch_once_t pred;
+    static SFCredentialsManager *credentialsManager = nil;
+	
+    dispatch_once(&pred, ^{
+		credentialsManager = [[self alloc] init];
+	});
+    return credentialsManager;
 }
 
-#pragma mark - View lifecycle
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)dealloc
 {
-    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation:%d",interfaceOrientation);
-    // Return YES for supported orientations
-	return YES;
-}
-
-
-#pragma mark - Properties
-
-- (void)setOauthView:(UIView *)oauthView {
-    if (![oauthView isEqual:_oauthView]) {
-        [_oauthView removeFromSuperview];
-        [_oauthView release];
-        _oauthView = [oauthView retain];
-        
-        if (nil != _oauthView) {
-            [_oauthView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-            [_oauthView setFrame:self.view.bounds];
-            [self.view addSubview:_oauthView];
-        }
-    }
+    SFRelease(_credentials);
+    [super dealloc];
 }
 
 @end

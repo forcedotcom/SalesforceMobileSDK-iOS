@@ -23,6 +23,7 @@
  */
 
 #import "SFIdentityData.h"
+#import "SalesforceSDKConstants.h"
 
 // Private constants
 
@@ -67,6 +68,7 @@ NSString * const kSFIdentityMobileAppScreenLockTimeoutKey = @"screen_lock";
 NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
 
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
+NSString * const kIdJsonDictKey                           = @"dictRepresentation";
 
 /**
  * Private interface
@@ -94,7 +96,7 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 @implementation SFIdentityData
 
-@synthesize jsonRepresentation = _jsonRepresentation;
+@synthesize dictRepresentation = _dictRepresentation;
 
 #pragma mark - init / dealloc / standard overrides
 
@@ -103,7 +105,7 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
     self = [super init];
     if (self) {
         NSAssert(jsonDict != nil, @"Data dictionary must not be nil.");
-        _jsonRepresentation = [jsonDict retain];
+        _dictRepresentation = [jsonDict retain];
     }
     
     return self;
@@ -111,74 +113,74 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (void)dealloc
 {
-    [_jsonRepresentation release]; _jsonRepresentation = nil;
+    SFRelease(_dictRepresentation);
     
     [super dealloc];
 }
 
 - (NSString *)description
 {
-    return [self.jsonRepresentation description];
+    return [self.dictRepresentation description];
 }
 
 #pragma mark - Property getters
 
 - (NSURL *)idUrl
 {
-    return [NSURL URLWithString:[self.jsonRepresentation objectForKey:kSFIdentityIdUrlKey]];
+    return [NSURL URLWithString:[self.dictRepresentation objectForKey:kSFIdentityIdUrlKey]];
 }
 
 - (BOOL)assertedUser
 {
-    if ([self.jsonRepresentation objectForKey:kSFIdentityAssertedUserKey] != nil)
-        return [[self.jsonRepresentation objectForKey:kSFIdentityAssertedUserKey] boolValue];
+    if ([self.dictRepresentation objectForKey:kSFIdentityAssertedUserKey] != nil)
+        return [[self.dictRepresentation objectForKey:kSFIdentityAssertedUserKey] boolValue];
     else
         return NO;
 }
 
 - (NSString *)userId
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityUserIdKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityUserIdKey];
 }
 
 - (NSString *)orgId
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityOrgIdKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityOrgIdKey];
 }
 
 - (NSString *)username
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityUsernameKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityUsernameKey];
 }
 
 - (NSString *)nickname
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityNicknameKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityNicknameKey];
 }
 
 - (NSString *)displayName
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityDisplayNameKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityDisplayNameKey];
 }
 
 - (NSString *)email
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityEmailKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityEmailKey];
 }
 
 - (NSString *)firstName
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityFirstNameKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityFirstNameKey];
 }
 
 - (NSString *)lastName
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityLastNameKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityLastNameKey];
 }
 
 - (NSString *)statusBody
 {
-    NSDictionary *idStatus = [self.jsonRepresentation objectForKey:kSFIdentityStatusKey];
+    NSDictionary *idStatus = [self.dictRepresentation objectForKey:kSFIdentityStatusKey];
     if (idStatus != nil)
         return [idStatus objectForKey:kSFIdentityStatusBodyKey];
     else
@@ -187,7 +189,7 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (NSDate *)statusCreationDate
 {
-    NSDictionary *idStatus = [self.jsonRepresentation objectForKey:kSFIdentityStatusKey];
+    NSDictionary *idStatus = [self.dictRepresentation objectForKey:kSFIdentityStatusKey];
     if (idStatus != nil && [idStatus objectForKey:kSFIdentityStatusCreationDateKey] != nil)
         return [[self class] dateFromRfc822String:[idStatus objectForKey:kSFIdentityStatusCreationDateKey]];
     else
@@ -271,43 +273,43 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (BOOL)isActive
 {
-    if ([self.jsonRepresentation objectForKey:kSFIdentityIsActiveKey] != nil)
-        return [[self.jsonRepresentation objectForKey:kSFIdentityIsActiveKey] boolValue];
+    if ([self.dictRepresentation objectForKey:kSFIdentityIsActiveKey] != nil)
+        return [[self.dictRepresentation objectForKey:kSFIdentityIsActiveKey] boolValue];
     else
         return NO;
 }
 
 - (NSString *)userType
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityUserTypeKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityUserTypeKey];
 }
 
 - (NSString *)language
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityLanguageKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityLanguageKey];
 }
 
 - (NSString *)locale
 {
-    return [self.jsonRepresentation objectForKey:kSFIdentityLocaleKey];
+    return [self.dictRepresentation objectForKey:kSFIdentityLocaleKey];
 }
 
 - (int)utcOffset
 {
-    if ([self.jsonRepresentation objectForKey:kSFIdentityUtcOffsetKey] != nil)
-        return [[self.jsonRepresentation objectForKey:kSFIdentityUtcOffsetKey] intValue];
+    if ([self.dictRepresentation objectForKey:kSFIdentityUtcOffsetKey] != nil)
+        return [[self.dictRepresentation objectForKey:kSFIdentityUtcOffsetKey] intValue];
     else
         return -1;
 }
 
 - (BOOL)mobilePoliciesConfigured
 {
-    return ([self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey] != nil);
+    return ([self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey] != nil);
 }
 
 - (int)mobileAppPinLength
 {
-    NSDictionary *mobilePolicy = [self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
         id pinLength = [mobilePolicy objectForKey:kSFIdentityMobileAppPinLengthKey];
         return (pinLength != nil ? [pinLength intValue] : 0);
@@ -318,7 +320,7 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (int)mobileAppScreenLockTimeout
 {
-    NSDictionary *mobilePolicy = [self.jsonRepresentation objectForKey:kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
         id screenLockTimeout = [mobilePolicy objectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
         return (screenLockTimeout != nil ? [screenLockTimeout intValue] : -1);
@@ -329,8 +331,8 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (NSDate *)lastModifiedDate
 {
-    if ([self.jsonRepresentation objectForKey:kSFIdentityLastModifiedDateKey] != nil)
-        return [[self class] dateFromRfc822String:[self.jsonRepresentation objectForKey:kSFIdentityLastModifiedDateKey]];
+    if ([self.dictRepresentation objectForKey:kSFIdentityLastModifiedDateKey] != nil)
+        return [[self class] dateFromRfc822String:[self.dictRepresentation objectForKey:kSFIdentityLastModifiedDateKey]];
     else
         return nil;
 }
@@ -339,7 +341,7 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
 
 - (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey
 {
-    NSDictionary *parentDict = [self.jsonRepresentation objectForKey:parentKey];
+    NSDictionary *parentDict = [self.dictRepresentation objectForKey:parentKey];
     if (parentDict != nil)
         return [NSURL URLWithString:[parentDict objectForKey:childKey]];
     else
@@ -353,6 +355,23 @@ NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm
     NSDate *date = [df dateFromString:dateString];
     [df release];
     return date;
+}
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        _dictRepresentation = [[aDecoder decodeObjectForKey:kIdJsonDictKey] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_dictRepresentation forKey:kIdJsonDictKey];
 }
 
 @end

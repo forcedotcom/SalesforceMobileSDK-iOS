@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
-}
+@class SFOAuthCredentials;
+
+/**
+ * Class used to manage a common credentials set across the app.
+ */
+@interface SFCredentialsManager : NSObject
+
+/**
+ * Returns the singleton instance of this class.
+ */
++ (SFCredentialsManager *)sharedInstance;
+
+/**
+ * The auth credentials maintained for this app.
+ */
+@property (nonatomic, retain) SFOAuthCredentials *credentials;
+
+@end

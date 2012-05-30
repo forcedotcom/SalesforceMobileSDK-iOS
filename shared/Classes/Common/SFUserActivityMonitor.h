@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-int main(int argc, char *argv[])
+/**
+ * Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
+ * a change is detected.
+ */
+@interface SFUserActivityMonitor : NSObject
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
+    NSTimer *_monitorTimer;
+    NSDate *_lastEventDate;
 }
+
+/**
+ * Returns the singleton instance of the class.
+ */
++ (SFUserActivityMonitor *)sharedInstance;
+
+/**
+ * Starts the application monitoring process.
+ */
+- (void)startMonitoring;
+
+/**
+ * Stops the application monitoring process.
+ */
+- (void)stopMonitoring;
+
+@end

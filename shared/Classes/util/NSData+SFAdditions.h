@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2008-2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,10 +24,45 @@
 
 #import <UIKit/UIKit.h>
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
-}
+
+@interface NSData (SFBase64)
+
+
+/*!
+ @abstract Create a new base64 encoding of this NSData that is not left in the autorelease pool
+ */
+-(NSString *)newBase64Encoding;
+
+/*!
+ @abstract Same as newBase64Encoding but returns autorelease string
+ */
+-(NSString *)base64Encode;
+
+/*!
+ @abstract Initialize NSData from a base64-encoded string
+ */
+-(id)initWithBase64String:(NSString *)base64;
+
+@end
+
+@interface NSData (SFMD5)
+
+-(NSString *)md5;
+
+@end
+
+@interface NSData (SFzlib)
+
+-(NSData *)gzipDeflate;
+
+@end
+
+
+@interface NSData (SFHexSupport)
+
+/*!
+ @abstract Return a hex string representation of the data contained in receiver
+ */
+- (NSString*)newHexStringFromBytes;
+
+@end

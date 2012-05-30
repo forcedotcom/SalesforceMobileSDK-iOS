@@ -112,43 +112,20 @@
         <key>Path</key>
         <string>Main.m</string>
     </dict>
-
-	
-	<key>NativeRestApp/SFNativeRestAppDelegate.h</key>
-    <dict>
-        <key>Group</key>
-        <string>NativeRestApp</string>
-        <key>Path</key>
-        <string>NativeRestApp/SFNativeRestAppDelegate.h</string>
-    </dict>
-    <key>NativeRestApp/SFNativeRestAppDelegate.m</key>
-    <dict>
-        <key>Group</key>
-        <string>NativeRestApp</string>
-        <key>Path</key>
-        <string>NativeRestApp/SFNativeRestAppDelegate.m</string>
-    </dict>
-
-	<key>NativeRestApp/SFAuthorizingViewController.h</key>
-    <dict>
-        <key>Group</key>
-        <string>NativeRestApp</string>
-        <key>Path</key>
-        <string>NativeRestApp/SFAuthorizingViewController.h</string>
-    </dict>
-    <key>NativeRestApp/SFAuthorizingViewController.m</key>
-    <dict>
-        <key>Group</key>
-        <string>NativeRestApp</string>
-        <key>Path</key>
-        <string>NativeRestApp/SFAuthorizingViewController.m</string>
-    </dict>
+    
 	<key>NativeRestApp/SFAuthorizingViewController.xib</key>
     <dict>
         <key>Group</key>
         <string>NativeRestApp</string>
         <key>Path</key>
         <string>NativeRestApp/SFAuthorizingViewController.xib</string>
+    </dict>
+	<key>NativeRestApp/SFNativeRootViewController.xib</key>
+    <dict>
+        <key>Group</key>
+        <string>NativeRestApp</string>
+        <key>Path</key>
+        <string>NativeRestApp/SFNativeRootViewController.xib</string>
     </dict>
 	
 	
@@ -207,7 +184,20 @@
 			<string>dependencies</string>
 		</array>
 		<key>Path</key>
-		<string>/usr/lib/libsqlite3.0.dylib</string>
+		<string>/usr/lib/libsqlite3.dylib</string>
+		<key>PathType</key>
+		<string>CurrentSDK</string>
+	</dict>
+
+	<!-- libz is required by NSData extensions currently -->
+	<key>dependencies/libz.dylib</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+		</array>
+		<key>Path</key>
+		<string>/usr/lib/libz.dylib</string>
 		<key>PathType</key>
 		<string>CurrentSDK</string>
 	</dict>
@@ -1365,6 +1355,110 @@
 		<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 	</dict>
 
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityCoordinator.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityCoordinator.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRestAppDelegate.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRestAppDelegate.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRootViewController.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRootViewController.h</string>
+	</dict>
+
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</key>
 	<dict>
 		<key>Group</key>			
@@ -1618,6 +1712,14 @@
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
 	<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityCoordinator.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRestAppDelegate.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRootViewController.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+Blocks.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+QueryBuilder.h</string>
@@ -1645,11 +1747,8 @@
     <string>Classes/RootViewController.m</string>
 
 	<!-- NativeRestApp template -->
-	<string>NativeRestApp/SFAuthorizingViewController.h</string>
-	<string>NativeRestApp/SFAuthorizingViewController.m</string>
 	<string>NativeRestApp/SFAuthorizingViewController.xib</string>
-	<string>NativeRestApp/SFNativeRestAppDelegate.h</string>
-	<string>NativeRestApp/SFNativeRestAppDelegate.m</string>
+	<string>NativeRestApp/SFNativeRootViewController.xib</string>
 	
     <!-- supporting files -->
     <string>main.m</string>
@@ -1658,7 +1757,8 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
-	<string>dependencies/libsqlite3.0.dylib</string>
+	<string>dependencies/libsqlite3.dylib</string>
+	<string>dependencies/libz.dylib</string>
 	
 
 

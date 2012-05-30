@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "NSString+SFAdditions.h"
+#import <CommonCrypto/CommonDigest.h>
 
-int main(int argc, char *argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, @"SFApplication", @"AppDelegate");
-    [pool release];
-    return retVal;
+@implementation NSString (SFAdditions)
+
++ (NSString *)stringWithHexData:(NSData *)data {
+    if (nil == data) return nil;
+    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
+	const unsigned char *dataBuffer = [data bytes];
+	for (int i = 0; i < [data length]; ++i) {
+		[stringBuffer appendFormat:@"%02x", (unsigned long)dataBuffer[ i ]];
+    }
+    return [NSString stringWithString:stringBuffer];
 }
+
+- (NSData *)sha256 {
+    unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
+    CC_SHA256([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
+    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+}
+
+
+- (NSString *)removeWhitespaces {
+    NSArray* words = [self componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceCharacterSet]];
+    return [words componentsJoinedByString:@""];
+}
+@end
