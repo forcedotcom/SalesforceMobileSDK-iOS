@@ -33,7 +33,7 @@ static SFUserActivityMonitor *_instance;
 static dispatch_once_t _sharedInstanceGuard;
 
 // Private constants
-static NSTimeInterval const kActivityCheckPeriodSeconds = 10;
+static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 
 @interface SFUserActivityMonitor()
 
