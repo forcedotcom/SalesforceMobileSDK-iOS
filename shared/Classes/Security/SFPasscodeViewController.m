@@ -1,14 +1,32 @@
-//
-//  SFPasscodeViewController.m
-//  CustomViews
-//
-//  Created by Kevin Hawkins on 5/12/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SFPasscodeViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
+
+// Private view layout constants
 
 static CGFloat      const kPaddingTop                       = 75.0f;
 static NSString *   const kPasscodeTextFontName             = @"HelveticaNeue-Bold";
@@ -23,7 +41,8 @@ static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 75.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
 
-// TODO: Localization
+// TODO: These messages should be localized.  This work will be covered when we make an auxilliary
+// bundle for the SDK.
 static NSString *         nextScreenNavButtonTitle          = @"Next";
 static NSString *         prevScreenNavButtonTitle          = @"Back";
 static NSString *         createPasscodeNavTitle            = @"Create Passcode";
@@ -41,28 +60,113 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     NSInteger _attempts;
 }
 
-@property (nonatomic, retain) UILabel *headerLabel;
+/**
+ * The passcode text field.
+ */
 @property (nonatomic, retain) UITextField *passcodeField;
+
+/**
+ * The error label displayed if something goes wrong.
+ */
 @property (nonatomic, retain) UILabel *errorLabel;
-@property (nonatomic, retain) UIButton *continueButton;
+
+/**
+ * The label displaying instructions for a given section of the workflow.
+ */
 @property (nonatomic, retain) UILabel *instructionsLabel;
+
+/**
+ * Keeps a copy of the initial passcode of the passcode creation process.
+ */
 @property (nonatomic, copy) NSString *initialPasscode;
 
+/**
+ * Initializes the object with the given mode and minimum passcode length.
+ * @param mode The passcode mode of the controller (create, verify).
+ * @param minPasscodeLength For creation, the minimum passcode length required for the passcode.
+ */
+- (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength;
+
+/**
+ * Utility method to return a random string with the given length, for text field sizing.
+ */
 + (NSString *)stringWithLength:(NSUInteger)length;
+
+/**
+ * Called during creation when the first passcode has been entered.
+ */
 - (void)finishedInitialPasscode;
+
+/**
+ * Called during creation when the confirming passcode has been entered.
+ */
 - (void)finishedConfirmPasscode;
+
+/**
+ * Called during verification after the passcode to validate against the actual has been entered.
+ */
 - (void)finishedValidatePasscode;
+
+/**
+ * Lays out all of the view's subviews properly on the screen.
+ */
 - (void)layoutSubviews;
+
+/**
+ * Lays out the passcode field on the screen.
+ */
 - (void)layoutPasscodeField;
+
+/**
+ * Lays out the error label on the screen.
+ */
 - (void)layoutErrorLabel;
+
+/**
+ * Lays out the instructions label on the screen.
+ */
 - (void)layoutInstructionsLabel;
+
+/**
+ * Updates the instructions label with a new value.
+ * @param newLabel The new text to be used for the instructions label.
+ */
 - (void)updateInstructionsLabel:(NSString *)newLabel;
+
+/**
+ * Updates the error label with new text.
+ * @param newLabel The new text to be used for the error label.
+ */
 - (void)updateErrorLabel:(NSString *)newLabel;
+
+/**
+ * In passcode creation mode, resets the view back to its original, initial state.
+ */
 - (void)resetInitialCreateView;
+
+/**
+ * Gets the (persisted) remaining attempts available for verifying a passcode.
+ */
 - (NSInteger)remainingAttempts;
+
+/**
+ * Sets the (persisted) remaining attempts for verifying a passcode.
+ */
 - (void)setRemainingAttempts:(NSUInteger)remainingAttempts;
+
+/**
+ * Sets up the navigation bar for the initial passcode creation screen.
+ */
 - (void)addPasscodeCreationNav;
+
+/**
+ * Sets up the navigation bar for the passcode confirmation screen of passcode creation.
+ */
 - (void)addPasscodeConfirmNav;
+
+/**
+ * Sets up the navigation bar for the passcode verification flow.
+ */
 - (void)addPasscodeVerificationNav;
 
 @end
@@ -71,17 +175,19 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 
 @synthesize mode = _mode;
 @synthesize minPasscodeLength = _minPasscodeLength;
-@synthesize headerLabel = _headerLabel;
 @synthesize passcodeField = _passcodeField;
 @synthesize errorLabel = _errorLabel;
-@synthesize continueButton = _continueButton;
 @synthesize instructionsLabel = _instructionsLabel;
 @synthesize initialPasscode = _initialPasscode;
 
-- (id)initWithMode:(SFPasscodeControllerMode)mode
+- (id)initForPasscodeVerification
 {
-    NSAssert(mode != SFPasscodeControllerModeCreate, @"You must specify a pin code length when creating a pin code.");
-    return [self initWithMode:mode minPasscodeLength:-1];
+    return [self initWithMode:SFPasscodeControllerModeVerify minPasscodeLength:-1];
+}
+
+- (id)initForPasscodeCreation:(NSInteger)minPasscodeLength
+{
+    return [self initWithMode:SFPasscodeControllerModeCreate minPasscodeLength:minPasscodeLength];
 }
 
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength

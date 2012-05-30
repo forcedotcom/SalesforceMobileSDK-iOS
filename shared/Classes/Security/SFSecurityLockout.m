@@ -1,8 +1,25 @@
 /*
- SecurityLockout.m
- Chatter
- Created by Amol Prabhu on 10/6/11.
- Copyright 2011 Salesforce.com. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "SFSecurityLockout.h"
@@ -12,6 +29,8 @@
 #import "SFKeychainItemWrapper.h"
 #import "SFLogger.h"
 #import "SFCredentialsManager.h"
+
+// Private constants
 
 static NSUInteger const kDefaultLockoutTime                  = 600;
 static NSUInteger const kDefaultPasscodeLength               = 5;
@@ -36,13 +55,45 @@ static BOOL _showPasscode = YES;
 
 @interface SFSecurityLockout () 
 
+/**
+ * Called when the user activity timer expires.
+ */
 + (void)timerExpired:(NSTimer *)theTimer;
+
+/**
+ * Presents the passcode controller when it's time to create or verify the passcode.
+ */
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue;
+
+/**
+ * Sets a retained instance of the current passcode view controller that's displayed.
+ */
 + (void)setPasscodeViewController:(UIViewController *)vc;
+
+/**
+ * Returns the currently displayed passcode view controller, or nil if the passcode view controller
+ * is not currently displayed.
+ */
 + (UIViewController *)passcodeViewController;
+
+/**
+ * Whether or not the passcode screen is currently displayed.
+ */
 + (BOOL)passcodeScreenIsPresent;
+
+/**
+ * Whether or not the app currently has a valid authenticated session.
+ */
 + (BOOL)hasValidSession;
+
+/**
+ * Runs in the event of a successful passcode unlock.
+ */
 + (void)unlockSuccessPostProcessing;
+
+/**
+ * Runs in the event that a passcode unlock attempt failed.
+ */
 + (void)unlockFailurePostProcessing;
 
 @end
@@ -222,9 +273,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
         if (modeValue == SFPasscodeControllerModeCreate ) {
-            pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue minPasscodeLength:[SFSecurityLockout passcodeLength]] autorelease];
+            pvc = [[[SFPasscodeViewController alloc] initForPasscodeCreation:[SFSecurityLockout passcodeLength]] autorelease];
         } else {
-            pvc = [[[SFPasscodeViewController alloc] initWithMode:modeValue] autorelease];
+            pvc = [[[SFPasscodeViewController alloc] initForPasscodeVerification] autorelease];
         }
         UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:pvc] autorelease];
         [SFSecurityLockout setPasscodeViewController:nc];
