@@ -116,11 +116,10 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self.authViewController = nil;
     
     [_coordinator setDelegate:nil];
-    [_coordinator release]; _coordinator = nil;
+    _coordinator = nil;
     self.window = nil;
     self.viewController = nil;
     
-	[ super dealloc ];
 }
 
 #pragma mark - App lifecycle
@@ -151,7 +150,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         BOOL loginHostChanged = [[self class] updateLoginHost];
         if (loginHostChanged) {
             [_coordinator setDelegate:nil];
-            [_coordinator release]; _coordinator = nil;
+            _coordinator = nil;
             
             [self clearDataModel];
             [self setupAuthorizingViewController];
@@ -202,7 +201,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         creds.redirectUri = [self oauthRedirectURI];
         
         SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-        [creds release];
         coord.scopes = [[self class] oauthScopes]; 
         
         coord.delegate = self;
@@ -235,7 +233,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     if (nil == self.viewController) {
         UIViewController *rootVC = [self newRootViewController];
         self.viewController = rootVC;
-        [rootVC release];
         self.window.rootViewController = self.viewController;
         [self.window makeKeyAndVisible];
     }
@@ -272,14 +269,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
     UIWindow *rootWindow = [[UIWindow alloc] initWithFrame:screenBounds];
 	self.window = rootWindow;
-    [rootWindow release];
     
     // Set up a view controller for the authentication process.
     SFAuthorizingViewController *authVc = [[SFAuthorizingViewController alloc] initWithNibName:@"SFAuthorizingViewController" bundle:nil];
     self.authViewController = authVc;
     self.window.rootViewController = self.authViewController;
     self.window.autoresizesSubviews = YES;
-    [authVc release];
     
     [self.window makeKeyAndVisible];
     
@@ -328,7 +323,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                                               cancelButtonTitle:@"Retry"
                                               otherButtonTitles: nil];
         [alert show];
-        [alert release];
     }
 }
 

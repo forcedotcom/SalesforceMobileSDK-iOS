@@ -26,7 +26,7 @@
     UILabel *_authorizingMessageLabel;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *authorizingMessageLabel;
-@property (nonatomic, retain) IBOutlet UIView *oauthView;
+@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel;
+@property (nonatomic, strong) IBOutlet UIView *oauthView;
 
 @end

@@ -61,7 +61,6 @@ static NSString *const OAuthRedirectURI = @"___VARIABLE_redirectURL___";
 - (UIViewController*)newRootViewController {
     RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    [rootVC release];
     
     return navVC;
 }
