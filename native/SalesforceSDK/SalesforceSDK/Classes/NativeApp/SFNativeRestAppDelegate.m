@@ -422,7 +422,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)finalizeAppBootstrap
 {
-    [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    // For now, let's only monitor user activity if there are pin code policies to support it.
+    // If someone decides they want to monitor user activity outside of screen lock, we can revisit.
+    if ([self mobilePinPolicyConfigured]) {
+        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
     _isAppInitialization = NO;
     _isInitialLogin = NO;
 }
