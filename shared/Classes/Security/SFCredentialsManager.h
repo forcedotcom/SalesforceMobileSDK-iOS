@@ -36,6 +36,15 @@
  */
 + (SFCredentialsManager *)sharedInstance;
 
+- (void)clearCredentialsState;
+- (void)clearCredentialsState:(NSString *)accountIdentifier;
+- (BOOL)logoutSettingEnabled;
++ (void)ensureAccountDefaultsExist;
++ (NSString *)clientId;
++ (void)setClientId:(NSString *)newClientId;
+- (SFOAuthCredentials *)credentials:(NSString *)accountIdentifier;
+- (void)setCredentials:(SFOAuthCredentials *)credentials forAccount:(NSString *)accountIdentifier;
+
 /**
  * The auth credentials maintained for this app.
  */

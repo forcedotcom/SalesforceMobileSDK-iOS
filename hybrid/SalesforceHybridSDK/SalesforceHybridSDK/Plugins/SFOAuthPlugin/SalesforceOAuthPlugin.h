@@ -25,14 +25,15 @@
 #import <Foundation/Foundation.h>
 #import "PGPlugin.h"
 #import "SFOAuthCoordinator.h"
+#import "SFIdentityCoordinator.h"
 
-@class SFAuthorizingViewController;
 @class SFContainerAppDelegate;
+@class SFIdentityData;
 
 /**
  * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFOAuthCoordinator *_coordinator;
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
@@ -42,7 +43,7 @@
     NSSet *_oauthScopes;
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
-    UIAlertView *_oauthStatusAlert;
+    UIAlertView *_statusAlert;
     BOOL _autoRefreshPeriodically;
     NSTimer *_autoRefreshTimer;
     NSURLConnection *_sessionKeepaliveConnection;
@@ -91,6 +92,11 @@
  while the app is running.
  */
 @property (nonatomic, assign) BOOL autoRefreshPeriodically;
+
+/**
+ The identity data associated with this app, retrieved from the ID service.
+ */
+@property (nonatomic, readonly) SFIdentityData *idData;
 
 
 /**

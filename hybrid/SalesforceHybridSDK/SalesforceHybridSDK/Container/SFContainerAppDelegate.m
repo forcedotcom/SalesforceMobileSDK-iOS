@@ -26,6 +26,7 @@
 #import "SFContainerAppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
 #import "SalesforceOAuthPlugin.h"
+#import "SFCredentialsManager.h"
 #import "NSURL+SFStringUtils.h"
 
 // Public constants
@@ -106,6 +107,9 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 		self.invokeString = [url absoluteString];
 		NSLog(@"app launchOptions = %@",url);
 	}
+    
+    
+    
     
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
