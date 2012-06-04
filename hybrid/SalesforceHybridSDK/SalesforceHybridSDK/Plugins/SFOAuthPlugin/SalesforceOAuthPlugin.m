@@ -33,6 +33,7 @@
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityData.h"
 #import "SFSecurityLockout.h"
+#import "SFUserActivityMonitor.h"
 
 // ------------------------------------------
 // Private constants
@@ -52,41 +53,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
      Whether this is the initial login to the application (i.e. no previous credentials).
      */
     BOOL _isInitialLogin;
-    
-    /**
-     Whether or not this is the first authentication since the app launched.  Passcode
-     challenge should occur 
-    BOOL isFirstAuthOfAppLaunch;
-    
-    /**
-     The identity coordinator used to retrieve data from the ID service.
-     */
-    SFIdentityCoordinator *_idCoordinator;
 }
-
-/**
- @return  YES if  user requested a logout in Settings.
- */
-- (BOOL)checkForUserLogout;
-
-/**
- Gets the primary login host value from app settings, initializing it to a default
- value first, if a valid one did not previously exist.
- @return The login host value from the app settings.
- */
-+ (NSString *)primaryLoginHost;
-
-/**
- Update the configured login host based on the user-defined app settings. 
- @return  YES if login host has changed in the app settings, NO otherwise. 
- */
-+ (BOOL)updateLoginHost;
-
-/**
- Initializes the app settings, in the event that the user has not configured
- them before the first launch of the application.
- */
-+ (void)ensureAccountDefaultsExist;
 
 /**
  Adds the access (session) token cookie to the web view, for authentication.
@@ -97,18 +64,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  Called after identity data is retrieved from the service.
  */
 - (void)retrievedIdentityData;
-
-/**
- Convenience method to determine whether all of the mobile passcode policy properties have
- valid values to establish a passcode.
- */
-- (BOOL)mobilePinPolicyConfigured;
-
-/**
- Removes any cookies from the cookie store.  All app cookies are reset with
- new authentication.
- */
-- (void)removeCookies;
 
 /**
  Remove any cookies with the given names from the given domains.
@@ -122,6 +77,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  */
 - (NSDictionary *)credentialsAsDictionary;
 
+- (void)finalizeBootstrap;
+
 /**
  Converts the OAuth properties JSON input string into an object, and populates
  the OAuth properties of the plug-in with the values.
@@ -133,11 +90,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  @param creds  OAuth credentials as a dictionary
  */
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
-
-/**
- Cleanup oauth coordinator
- */
-- (void)cleanupCoordinator;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -159,12 +111,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)logout:(BOOL)restartAuthentication;
 
 /**
- Called after the ID data retrieval process is complete.  Finalizes login, app startup.
- */
-- (void)postIdentityRetrievalProcesses;
-
-
-/**
  Periodic check for auto refresh
  */
 - (void)startSessionAutoRefreshTimer;
@@ -173,8 +119,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)sendSessionKeepaliveRequest;
 - (void)cleanupSessionKeepaliveRequest;
 
-- (void)clearPeriodicRefreshState;
-
 @end
 
 // ------------------------------------------
@@ -182,7 +126,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
-@synthesize coordinator=_coordinator;
 @synthesize remoteAccessConsumerKey=_remoteAccessConsumerKey;
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
@@ -190,7 +133,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 @synthesize lastRefreshCompleted = _lastRefreshCompleted;
 @synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
 @synthesize autoRefreshPeriodically = _autoRefreshPeriodically;
-@synthesize idData = _idData;
 
 #pragma mark - init/dealloc
 
@@ -209,8 +151,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         // called, we can assume we've already gone through initial authentication at some point.
         _isInitialLogin = NO;
         
-        [[self class] ensureAccountDefaultsExist];
-        [[self class] updateLoginHost];
+        [SFCredentialsManager updateLoginHost];
     }
     
     return self;
@@ -220,7 +161,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     [self clearPeriodicRefreshState];
     
-    [self cleanupCoordinator];
+    [[SFCredentialsManager sharedInstance] clearAccountState:NO];
     [self cleanupRetryAlert];
     
     SFRelease(_authCallbackId);
@@ -285,6 +226,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     if (nil != argsString) {
         // Build the OAuth args from the JSON object string argument.
         [self populateOAuthProperties:argsString];
+        [SFCredentialsManager setClientId:self.remoteAccessConsumerKey];
+        [SFCredentialsManager setRedirectUri:self.oauthRedirectURI];
+        [SFCredentialsManager setScopes:self.oauthScopes];
     }
     
     [self login];
@@ -315,7 +259,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (NSDictionary*)credentialsAsDictionary {
     NSDictionary *credentialsDict = nil;
     
-    SFOAuthCredentials *creds = self.coordinator.credentials;
+    SFOAuthCredentials *creds = [SFCredentialsManager sharedInstance].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -391,7 +335,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
     NSLog(@"sendSessionKeepaliveRequest");
 
-    SFOAuthCredentials *creds = self.coordinator.credentials;
+    SFOAuthCredentials *creds = [SFCredentialsManager sharedInstance].coordinator.credentials;
     //retrieve "Versions" -- should remain the same across all API versions
     NSURL *fullUrl = [[NSURL alloc] initWithScheme:creds.protocol host: creds.instanceUrl.host path:@"/services/data/"];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:fullUrl];
@@ -443,73 +387,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     }
 }
 
-
-#pragma mark - AppDelegate interaction
-
-- (BOOL)resetAppState
-{
-    NSLog(@"resetAppState");
-    
-    BOOL shouldReset = NO;
-    
-    [self clearPeriodicRefreshState];
-    
-    
-    BOOL shouldLogout = [self checkForUserLogout] ;
-    if (shouldLogout) {
-        shouldReset = YES;
-        [self logout:NO];
-    } else {
-        BOOL loginHostChanged = [[self class] updateLoginHost];
-        if (loginHostChanged) {
-            shouldReset = YES;
-            [self cleanupCoordinator];
-        }
-    }
-    
-    if (!shouldReset) {
-        if (self.autoRefreshOnForeground || self.autoRefreshPeriodically) {
-            [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
-        }
-    }
-    
-    return shouldReset;
-}
-
 #pragma mark - Salesforce.com login helpers
-
-- (SFOAuthCoordinator*)coordinator
-{
-    // Create a new coordinator instance if we don't already have one.
-    if (nil == _coordinator) {
-        
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSString *loginDomain = self.oauthLoginDomain;
-        NSString *accountIdentifier = @"Default"; //TODO support multiple accounts someday
-        // Here we use the login domain as part of the identifier
-        // to distinguish between e.g. sandbox and production credentials.
-        NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@", appName, accountIdentifier, loginDomain];
-        
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
-                                     initWithIdentifier:fullKeychainIdentifier  
-                                     clientId:self.remoteAccessConsumerKey 
-                                     encrypted:YES
-                                     ];
-        
-        creds.domain = loginDomain;
-        creds.redirectUri = self.oauthRedirectURI;
-        
-        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-        [creds release];
-        coord.scopes = self.oauthScopes; 
-        
-        
-        coord.delegate = self;
-        _coordinator = coord;        
-    } 
-    
-    return _coordinator;
-}
 
 - (void)login
 {
@@ -524,7 +402,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [self cleanupRetryAlert];
          
         // Kick off authentication.
-        [self.coordinator authenticate];
+        [SFCredentialsManager sharedInstance].coordinator.delegate = self;
+        [[SFCredentialsManager sharedInstance].coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
         NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
@@ -539,105 +418,27 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)logout:(BOOL)restartAuthentication
 {
-    // Clear any cookies set by the app.
-    [self removeCookies];
-    
-    // Revoke all stored OAuth authentication.
-    [self.coordinator revokeAuthentication];
-    [[SFCredentialsManager sharedInstance] clearCredentialsState];
-    
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    // Clear the home URL since we are no longer authenticated.
-    [defs setURL:nil forKey:kAppHomeUrlPropKey];
-    [defs synchronize];
-    
-    _isInitialLogin = YES;  // OAuth would flip this to YES anyway, but let's be complete.
-    
-    if (restartAuthentication)
-        [_appDelegate loadStartPageIntoWebView];
+    [_appDelegate clearAppState:restartAuthentication];
+}
+
+- (void)autoRefresh
+{
+    if (self.autoRefreshOnForeground || self.autoRefreshPeriodically) {
+        [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
+    }
 }
 
 - (void)loggedIn
 {
-    // Update the shared credentials.
-    [SFCredentialsManager sharedInstance].credentials = self.coordinator.credentials;
-    
+    [SFCredentialsManager sharedInstance].credentials = [SFCredentialsManager sharedInstance].coordinator.credentials;
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
-    SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
-    if (_isInitialLogin || checkIdData == nil) {
-        _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.coordinator.credentials];
-        _idCoordinator.delegate = self;
-        [_idCoordinator initiateIdentityDataRetrieval];
+    if (_isInitialLogin || [SFCredentialsManager sharedInstance].idData == nil) {
+        [SFCredentialsManager sharedInstance].idCoordinator.delegate = self;
+        [[SFCredentialsManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
-        [self setIdentityData:checkIdData];
-        [self postIdentityRetrievalProcesses];
-    }
-    
-    // First, remove any session cookies associated with the app.
-    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
-    
-    self.lastRefreshCompleted = [NSDate date];
-    
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (nil != _authCallbackId) {
-        // Call back to the client with the authentication credentials.    
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
-        
-        SFRelease(_authCallbackId);
-    } else {
-        //fire a notification that the session has been refreshed
-        [self fireSessionRefreshEvent:authDict];
-    }
-    
-    if (self.autoRefreshPeriodically) {
-        [self startSessionAutoRefreshTimer];
-    }
-}
-
-- (void)postIdentityRetrievalProcesses
-{
-    if (_isAppInitialization) {
-        // We'll ask for a passcode every time the application is initialized, regardless of activity.
-        // But, if the user just went through credentials initialization, she's already just created
-        // a passcode, so she gets a pass here.
-        if (_isInitialLogin) {
-            [self setupNewRootViewController];
-        } else {
-            if ([self mobilePinPolicyConfigured]) {
-                [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-                    [self setupNewRootViewController];
-                }];
-                [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-                    [self logout];
-                }];
-                [SFSecurityLockout lock];
-            } else {
-                [self setupNewRootViewController];
-            }
-        }
-    } else if ([self mobilePinPolicyConfigured]) {
-        // App is foregrounding.  Passcode check subject to standard inactivity.
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self logout];
-        }];
-        [SFSecurityLockout validateTimer];
-    }
-    
-    [self finalizeAppBootstrap];
-}
-
-- (void)removeCookies
-{
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
+        [self finalizeBootstrap];
     }
 }
 
@@ -674,16 +475,49 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
                                                    @"/", NSHTTPCookiePath,
-                                                   self.coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   [SFCredentialsManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
                                                    @"sid", NSHTTPCookieName,
                                                    @"TRUE", NSHTTPCookieDiscard,
                                                    nil];
-    if ([self.coordinator.credentials.protocol isEqualToString:@"https"]) {
+    if ([[SFCredentialsManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
         [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
     }
     
     NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
     [cookieStorage setCookie:sidCookie0];
+}
+
+- (void)finalizeBootstrap
+{
+    // First, remove any session cookies associated with the app.
+    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
+    [self addSidCookieForDomain:@".salesforce.com"];
+    
+    self.lastRefreshCompleted = [NSDate date];
+    
+    NSDictionary *authDict = [self credentialsAsDictionary];
+    if (nil != _authCallbackId) {
+        // Call back to the client with the authentication credentials.    
+        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
+        
+        SFRelease(_authCallbackId);
+    } else {
+        //fire a notification that the session has been refreshed
+        [self fireSessionRefreshEvent:authDict];
+    }
+    
+    if (self.autoRefreshPeriodically) {
+        [self startSessionAutoRefreshTimer];
+    }
+    
+    if ([[SFCredentialsManager sharedInstance] mobilePinPolicyConfigured]) {
+        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
+    
+    _isInitialLogin = NO;
 }
 
 - (void)populateOAuthProperties:(NSString *)propsJsonString
@@ -710,14 +544,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [eventStr release];
 }
 
-- (void)cleanupCoordinator {
-    if (self.coordinator.view) {
-        [self.coordinator.view removeFromSuperview];
-    }
-    [_coordinator setDelegate:nil];
-    SFRelease(_coordinator);
-}
-
 - (void)cleanupRetryAlert {
     [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
     [_statusAlert setDelegate:nil];
@@ -738,48 +564,29 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     }
 }
 
-- (void)setIdentityData:(SFIdentityData *)newIdData
-{
-    if (newIdData != _idData) {
-        SFIdentityData *oldValue = _idData;
-        _idData = [newIdData retain];
-        [oldValue release];
-    }
-}
-
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert(_idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert(_idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    [self setIdentityData:_idCoordinator.idData];
-    [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
-    SFRelease(_idCoordinator);
+    NSAssert([SFCredentialsManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
+    NSAssert([SFCredentialsManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    [SFCredentialsManager sharedInstance].idData = [SFCredentialsManager sharedInstance].idCoordinator.idData;
     
-    if ([self mobilePinPolicyConfigured]) {
+    if ([[SFCredentialsManager sharedInstance] mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [self postIdentityRetrievalProcesses];
+            [self finalizeBootstrap];
         }];
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
             [self logout];
         }];
         
         // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:(self.idData.mobileAppScreenLockTimeout * 60)];
+        [SFSecurityLockout setPasscodeLength:[SFCredentialsManager sharedInstance].idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:([SFCredentialsManager sharedInstance].idData.mobileAppScreenLockTimeout * 60)];
     } else {
         // No additional mobile policies.  So no passcode.
-        [self postIdentityRetrievalProcesses];
+        [self finalizeBootstrap];
     }
-}
-
-- (BOOL)mobilePinPolicyConfigured
-{
-    return (self.idData != nil
-            && self.idData.mobilePoliciesConfigured
-            && self.idData.mobileAppPinLength > 0
-            && self.idData.mobileAppScreenLockTimeout > 0);
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
@@ -806,10 +613,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
 {
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-    [coordinator.view removeFromSuperview];
     
-    //clear coordinator before continuing
-    [self cleanupCoordinator];
+    // Clear account state before continuing.
+    [[SFCredentialsManager sharedInstance] clearAccountState:NO];
     
     if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
         // Restart the login process asynchronously.
@@ -843,7 +649,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         if (alertView.tag == kOAuthAlertViewTag) {
             [self login];    
         } else if (alertView.tag == kIdentityAlertViewTag) {
-            [_idCoordinator initiateIdentityDataRetrieval];
+            [[SFCredentialsManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
         }
     }
 }

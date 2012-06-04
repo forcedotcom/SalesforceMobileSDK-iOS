@@ -246,6 +246,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 		return;
 	}
     
+    if (![[SFCredentialsManager sharedInstance] mobilePinPolicyConfigured]) {
+        [self log:Info msg:@"Skipping 'lock' since pin policies are not configured."];
+        return;
+    }
+    
 	if([SFSecurityLockout hashedPasscode] == nil) {
 		[SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
 	} else {

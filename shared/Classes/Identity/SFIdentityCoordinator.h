@@ -102,18 +102,6 @@ enum {
 - (void)cancelRetrieval;
 
 /**
- * Saves an instance of identity data to the user defaults data of the app.
- * @param identityData The data to persist to user deafults.
- */
-+ (void)saveIdentityData:(SFIdentityData *)identityData;
-
-/**
- * Loads identity data from the user defaults data of the app.
- * @return The persisted indentity data, or nil if the data was not found.
- */
-+ (SFIdentityData *)loadIdentityData;
-
-/**
  * The OAuth credentials associated with this instance.
  */
 @property (nonatomic, retain) SFOAuthCredentials *credentials;

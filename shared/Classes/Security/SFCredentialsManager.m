@@ -23,14 +23,17 @@
  */
 
 #import "SFCredentialsManager.h"
+#import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
+#import "SFIdentityCoordinator.h"
+#import "SFIdentityData.h"
 #import "SalesforceSDKConstants.h"
 
 // ------------------------------------------
 // Private constants
 // ------------------------------------------
 
-NSString * const kDefaultCredentialsIdentifier = @"Default";
+NSString * const kDefaultAccountIdentifier = @"Default";
 
 // Key for storing the user's configured login host.
 NSString * const kLoginHost = @"login_host_pref";
@@ -52,33 +55,66 @@ NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_pref";
 NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 NSString * const kOAuthClientIdKey = @"oauth_client_id";
+NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
+NSString * const kOAuthScopesKey = @"oauth_scopes";
+NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
+
+static NSMutableDictionary *AccountManagerDict;
 
 @interface SFCredentialsManager ()
 {
-    NSMutableDictionary *_credentialsDict;
+
 }
+
+/**
+ * Initializes an instance of the account manager with the given account ID.
+ * @param accountIdentifier The account ID associated with this account manager.
+ */
+- (id)initWithAccount:(NSString *)accountIdentifier;
+
+/**
+ * Builds the key to store and retrieve the identity data, based on the account ID.
+ */
+- (NSString *)idDataKey;
 
 @end
 
 @implementation SFCredentialsManager
 
+@synthesize accountIdentifier = _accountIdentifier;
+@synthesize credentials = _credentials;
+@synthesize coordinator = _coordinator;
+@synthesize idCoordinator = _idCoordinator;
+
 #pragma mark - init / dealloc / etc.
 
-+ (SFCredentialsManager *)sharedInstance {
-    static dispatch_once_t pred;
-    static SFCredentialsManager *credentialsManager = nil;
-	
-    dispatch_once(&pred, ^{
-		credentialsManager = [[self alloc] init];
-	});
-    return credentialsManager;
++ (SFCredentialsManager *)sharedInstance
+{
+    return [self sharedInstanceForAccount:kDefaultAccountIdentifier];
 }
 
-- (id)init
++ (SFCredentialsManager *)sharedInstanceForAccount:(NSString *)accountIdentifier
+{
+    SFCredentialsManager *accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
+    if (accountMgr == nil) {
+        @synchronized (AccountManagerDict) {
+            // Check again, if this thread didn't beat the lock.
+            accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
+            if (accountMgr == nil) {
+                accountMgr = [[[SFCredentialsManager alloc] initWithAccount:accountIdentifier] autorelease];
+                [AccountManagerDict setObject:accountMgr forKey:accountIdentifier];
+            }
+        }
+    }
+    
+    return accountMgr;
+}
+
+- (id)initWithAccount:(NSString *)accountIdentifier
 {
     self = [super init];
     if (self) {
-        _credentialsDict = [[NSMutableDictionary alloc] init];
+        _accountIdentifier = [accountIdentifier copy];
     }
     
     return self;
@@ -86,13 +122,17 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
 
 - (void)dealloc
 {
-    SFRelease(_credentialsDict);
+    SFRelease(_coordinator);
+    SFRelease(_idCoordinator);
+    SFRelease(_credentials);
+    SFRelease(_accountIdentifier);
     [super dealloc];
 }
 
 + (void)initialize
 {
     [self ensureAccountDefaultsExist];
+    AccountManagerDict = [[NSMutableDictionary alloc] init];
 }
 
 #pragma mark - Credentials management methods
@@ -111,34 +151,97 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
     [defs synchronize];
 }
 
-- (SFOAuthCredentials *)credentials
++ (NSString *)redirectUri
 {
-    return [self credentials:kDefaultCredentialsIdentifier];
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
+    return redirectUri;
 }
 
-- (SFOAuthCredentials *)credentials:(NSString *)accountIdentifier
++ (void)setRedirectUri:(NSString *)newRedirectUri
 {
-    SFOAuthCredentials *returnCreds = [_credentialsDict objectForKey:accountIdentifier];
-    if (returnCreds == nil) {
-        NSString *oauthClientId = [[self class] clientId];
-        if (oauthClientId != nil) {
-            NSString *fullIdentifier = [[self class] fullKeychainIdentifier:accountIdentifier];
-            returnCreds = [[[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES] autorelease];
-            [_credentialsDict setObject:returnCreds forKey:accountIdentifier];
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
+    [defs synchronize];
+}
+
++ (NSSet *)scopes
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
+    return [NSSet setWithArray:scopesArray];
+}
+
++ (void)setScopes:(NSSet *)newScopes
+{
+    NSArray *scopesArray = [newScopes allObjects];
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setObject:scopesArray forKey:kOAuthScopesKey];
+    [defs synchronize];
+}
+
+- (SFOAuthCoordinator *)coordinator
+{
+    if (_coordinator == nil) {
+        SFOAuthCredentials *creds = self.credentials;
+        if (creds != nil) {
+            _coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+            _coordinator.scopes = [[self class] scopes];
         }
     }
     
-    return returnCreds;
+    return _coordinator;
 }
 
-- (void)setCredentials:(SFOAuthCredentials *)credentials
+- (SFIdentityCoordinator *)idCoordinator
 {
-    [self setCredentials:credentials forAccount:kDefaultCredentialsIdentifier];
+    if (_idCoordinator == nil) {
+        SFOAuthCredentials *creds = self.credentials;
+        _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:creds];
+    }
+    
+    return _idCoordinator;
 }
 
-- (void)setCredentials:(SFOAuthCredentials *)credentials forAccount:(NSString *)accountIdentifier
+- (SFOAuthCredentials *)credentials
 {
-    [_credentialsDict setObject:credentials forKey:accountIdentifier];
+    if (_credentials == nil) {
+        NSString *oauthClientId = [[self class] clientId];
+        if (oauthClientId != nil) {
+            NSString *fullIdentifier = [[self class] fullKeychainIdentifier:_accountIdentifier];
+            _credentials = [[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES];
+            _credentials.domain = [[self class] loginHost];
+            _credentials.redirectUri = [[self class] redirectUri];
+        }
+    }
+    
+    return _credentials;
+}
+
+- (SFIdentityData *)idData
+{
+    NSString *dataKey = [self idDataKey];
+    NSData *encodedIdData = [[NSUserDefaults standardUserDefaults] objectForKey:dataKey];
+    if (encodedIdData == nil)
+        return nil;
+    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData];
+}
+
+- (void)setIdData:(SFIdentityData *)idData
+{
+    NSString *dataKey = [self idDataKey];
+    if (idData == nil || idData.dictRepresentation == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:[self idDataKey]];
+    } else {
+        NSData *encodedData = [NSKeyedArchiver archivedDataWithRootObject:idData];
+        [[NSUserDefaults standardUserDefaults] setObject:encodedData forKey:dataKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)idDataKey
+{
+    return [NSString stringWithFormat:@"%@-%@-%@", kOAuthIdentityDataKeyPrefix, [[self class] loginHost], self.accountIdentifier];
 }
 
 + (NSString *)fullKeychainIdentifier:(NSString *)accountIdentifier
@@ -148,17 +251,32 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
     return [NSString stringWithFormat:@"%@-%@-%@", appName, accountIdentifier, loginHost];
 }
 
-- (void)clearCredentialsState
+- (void)clearAccountState:(BOOL)clearAccountData
 {
-    [self clearCredentialsState:kDefaultCredentialsIdentifier];
+    if (clearAccountData) {
+        [self.coordinator revokeAuthentication];
+        self.idData = nil;
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:NO forKey:kAppSettingsAccountLogout];
+        [defs synchronize];
+    }
+    
+    if (self.coordinator.view) {
+        [self.coordinator.view removeFromSuperview];
+    }
+    [self.coordinator setDelegate:nil];
+    [self.idCoordinator setDelegate:nil];
+    SFRelease(_idCoordinator);
+    SFRelease(_coordinator);
+    SFRelease(_credentials);
 }
 
-- (void)clearCredentialsState:(NSString *)accountIdentifier
+- (BOOL)mobilePinPolicyConfigured
 {
-    [_credentialsDict removeObjectForKey:accountIdentifier];
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs setBool:NO forKey:kAppSettingsAccountLogout];
-    [defs synchronize];
+    return (self.idData != nil
+            && self.idData.mobilePoliciesConfigured
+            && self.idData.mobileAppPinLength > 0
+            && self.idData.mobileAppScreenLockTimeout > 0);
 }
 
 #pragma mark - Login host settings methods
@@ -188,6 +306,12 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
     return loginHost;
 }
 
++ (void)setLoginHost:(NSString *)newLoginHost
+{
+    [[NSUserDefaults standardUserDefaults] setObject:newLoginHost forKey:kLoginHost];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 + (BOOL)updateLoginHost
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -208,7 +332,7 @@ NSString * const kOAuthClientIdKey = @"oauth_client_id";
 	return hostnameChanged;
 }
 
-- (BOOL)logoutSettingEnabled
++ (BOOL)logoutSettingEnabled
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];

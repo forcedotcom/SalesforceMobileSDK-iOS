@@ -34,7 +34,6 @@
  * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
  */
 @interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
-    SFOAuthCoordinator *_coordinator;
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;
@@ -48,11 +47,6 @@
     NSTimer *_autoRefreshTimer;
     NSURLConnection *_sessionKeepaliveConnection;
 }
-
-/**
- The SFOAuthCoordinator used for managing login/logout.
- */
-@property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
 
 /**
  The Remote Access object consumer key.
@@ -94,12 +88,6 @@
 @property (nonatomic, assign) BOOL autoRefreshPeriodically;
 
 /**
- The identity data associated with this app, retrieved from the ID service.
- */
-@property (nonatomic, readonly) SFIdentityData *idData;
-
-
-/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
@@ -116,12 +104,8 @@
  */
 - (void)loggedIn;
 
-
-/**
- Used to reset the application to its initial state, with a cleared authentication state.
- */
-- (BOOL)resetAppState;
-
+- (void)clearPeriodicRefreshState;
+- (void)autoRefresh;
 
 #pragma mark - Plugin exported to javascript
 

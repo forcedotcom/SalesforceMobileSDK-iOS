@@ -102,6 +102,8 @@ extern NSString * const kSFSmartStorePluginName;
  */
 - (void)addOAuthViewToMainView:(UIView*)oauthView;
 
+- (void)clearAppState:(BOOL)restartAuthentication;
+
 
 /**
  The currently running app delegate

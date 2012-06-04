@@ -24,7 +24,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFOAuthCoordinator;
 @class SFOAuthCredentials;
+@class SFIdentityCoordinator;
+@class SFIdentityData;
 
 /**
  * Class used to manage a common credentials set across the app.
@@ -32,22 +35,43 @@
 @interface SFCredentialsManager : NSObject
 
 /**
- * Returns the singleton instance of this class.
+ * Returns the singleton instance of this class for the default account.
  */
 + (SFCredentialsManager *)sharedInstance;
 
-- (void)clearCredentialsState;
-- (void)clearCredentialsState:(NSString *)accountIdentifier;
-- (BOOL)logoutSettingEnabled;
+/**
+ * Returns the singleton instance of this class for the given account.
+ * @param accountIdentifier The account identifier of the class.
+ */
++ (SFCredentialsManager *)sharedInstanceForAccount:(NSString *)accountIdentifier;
+
++ (BOOL)logoutSettingEnabled;
 + (void)ensureAccountDefaultsExist;
++ (NSString *)loginHost;
++ (void)setLoginHost:(NSString *)newLoginHost;
++ (BOOL)updateLoginHost;
 + (NSString *)clientId;
 + (void)setClientId:(NSString *)newClientId;
-- (SFOAuthCredentials *)credentials:(NSString *)accountIdentifier;
-- (void)setCredentials:(SFOAuthCredentials *)credentials forAccount:(NSString *)accountIdentifier;
++ (NSString *)redirectUri;
++ (void)setRedirectUri:(NSString *)newRedirectUri;
++ (NSSet *)scopes;
++ (void)setScopes:(NSSet *)newScopes;
+- (void)clearAccountState:(BOOL)clearAccountData;
+- (BOOL)mobilePinPolicyConfigured;
+
+/**
+ * The account identifier for a given account manager instance.
+ */
+@property (nonatomic, readonly) NSString *accountIdentifier;
+
+@property (nonatomic, retain) SFOAuthCoordinator *coordinator;
+@property (nonatomic, retain) SFIdentityCoordinator *idCoordinator;
 
 /**
  * The auth credentials maintained for this app.
  */
 @property (nonatomic, retain) SFOAuthCredentials *credentials;
+
+@property (nonatomic, retain) SFIdentityData *idData;
 
 @end
