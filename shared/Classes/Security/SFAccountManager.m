@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SFIdentityCoordinator.h"
@@ -61,7 +61,7 @@ NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
 
 static NSMutableDictionary *AccountManagerDict;
 
-@interface SFCredentialsManager ()
+@interface SFAccountManager ()
 {
 
 }
@@ -79,7 +79,7 @@ static NSMutableDictionary *AccountManagerDict;
 
 @end
 
-@implementation SFCredentialsManager
+@implementation SFAccountManager
 
 @synthesize accountIdentifier = _accountIdentifier;
 @synthesize credentials = _credentials;
@@ -88,20 +88,20 @@ static NSMutableDictionary *AccountManagerDict;
 
 #pragma mark - init / dealloc / etc.
 
-+ (SFCredentialsManager *)sharedInstance
++ (SFAccountManager *)sharedInstance
 {
     return [self sharedInstanceForAccount:kDefaultAccountIdentifier];
 }
 
-+ (SFCredentialsManager *)sharedInstanceForAccount:(NSString *)accountIdentifier
++ (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier
 {
-    SFCredentialsManager *accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
+    SFAccountManager *accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
     if (accountMgr == nil) {
         @synchronized (AccountManagerDict) {
             // Check again, if this thread didn't beat the lock.
             accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
             if (accountMgr == nil) {
-                accountMgr = [[[SFCredentialsManager alloc] initWithAccount:accountIdentifier] autorelease];
+                accountMgr = [[[SFAccountManager alloc] initWithAccount:accountIdentifier] autorelease];
                 [AccountManagerDict setObject:accountMgr forKey:accountIdentifier];
             }
         }

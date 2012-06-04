@@ -27,7 +27,7 @@
 #import <PhoneGap/PhoneGapViewController.h>
 #import "SalesforceSDKConstants.h"
 #import "SalesforceOAuthPlugin.h"
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
@@ -131,12 +131,12 @@ static SFLogLevel const kAppLogLevel = Info;
     // Reset app state if necessary (login settings have changed).  We have to do this in
     // both didFinishLaunchedWithOptions and applicationDidBecomeActive, because the latter
     // will conflict with PhoneGap's page launch process when the app starts.
-    BOOL shouldLogout = [SFCredentialsManager logoutSettingEnabled];
-    BOOL loginHostChanged = [SFCredentialsManager updateLoginHost];
+    BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+    BOOL loginHostChanged = [SFAccountManager updateLoginHost];
     if (shouldLogout) {
         [self clearAppState:NO];
     } else if (loginHostChanged) {
-        [[SFCredentialsManager sharedInstance] clearAccountState:NO];
+        [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
     
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
@@ -158,12 +158,12 @@ static SFLogLevel const kAppLogLevel = Info;
     if (!_isAppStartup) {
         SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self getCommandInstance:kSFOAuthPluginName];
         [oauthPlugin clearPeriodicRefreshState];
-        BOOL shouldLogout = [SFCredentialsManager logoutSettingEnabled];
-        BOOL loginHostChanged = [SFCredentialsManager updateLoginHost];
+        BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+        BOOL loginHostChanged = [SFAccountManager updateLoginHost];
         if (shouldLogout) {
             [self clearAppState:YES];
         } else if (loginHostChanged) {
-            [[SFCredentialsManager sharedInstance] clearAccountState:NO];
+            [[SFAccountManager sharedInstance] clearAccountState:NO];
             [self loadStartPageIntoWebView];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
@@ -388,7 +388,7 @@ static SFLogLevel const kAppLogLevel = Info;
     [[self class] removeCookies];
     
     // Revoke all stored OAuth authentication.
-    [[SFCredentialsManager sharedInstance] clearAccountState:YES];
+    [[SFAccountManager sharedInstance] clearAccountState:YES];
     
     // Clear the home URL since we are no longer authenticated.
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -410,7 +410,7 @@ static SFLogLevel const kAppLogLevel = Info;
 
 - (void)prepareToShutDown {
     [SFSecurityLockout removeTimer];
-    if ([SFCredentialsManager sharedInstance].credentials != nil) {
+    if ([SFAccountManager sharedInstance].credentials != nil) {
 		[SFInactivityTimerCenter saveActivityTimestamp];
 	}
 }

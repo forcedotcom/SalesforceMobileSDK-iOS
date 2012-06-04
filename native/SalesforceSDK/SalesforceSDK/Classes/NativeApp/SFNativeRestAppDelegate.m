@@ -29,7 +29,7 @@
 #import "SFRestAPI.h"
 #import "SalesforceSDKConstants.h"
 #import "SFIdentityData.h"
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
 #import "SFNativeRootViewController.h"
 #import "SFUserActivityMonitor.h"
@@ -58,7 +58,7 @@ static SFLogLevel const kAppLogLevel = Info;
      */
     BOOL _isAppInitialization;
     
-    SFCredentialsManager *_accountMgr;
+    SFAccountManager *_accountMgr;
 }
 
 /**
@@ -132,11 +132,11 @@ static SFLogLevel const kAppLogLevel = Info;
         NSString *uaString =  [SFRestAPI userAgentString];
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
         
-        [SFCredentialsManager setLoginHost:[self oauthLoginDomain]];
-        [SFCredentialsManager setClientId:[self remoteAccessConsumerKey]];
-        [SFCredentialsManager setRedirectUri:[self oauthRedirectURI]];
-        [SFCredentialsManager setScopes:[[self class] oauthScopes]];
-        _accountMgr = [SFCredentialsManager sharedInstanceForAccount:[self userAccountIdentifier]];
+        [SFAccountManager setLoginHost:[self oauthLoginDomain]];
+        [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
+        [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
+        [SFAccountManager setScopes:[[self class] oauthScopes]];
+        _accountMgr = [SFAccountManager sharedInstanceForAccount:[self userAccountIdentifier]];
         
         // Strictly for internal tracking, assume we've got our initial credentials, until
         // OAuth tells us otherwise.  E.g. we only want to call the identity service after
@@ -186,8 +186,8 @@ static SFLogLevel const kAppLogLevel = Info;
     //Apparently when app is foregrounded, NSUserDefaults can be stale
 	[defs synchronize];
     
-    BOOL shouldLogout = [SFCredentialsManager logoutSettingEnabled];
-    BOOL loginHostChanged = [SFCredentialsManager updateLoginHost];
+    BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+    BOOL loginHostChanged = [SFAccountManager updateLoginHost];
     if (shouldLogout) {
         [self logout];
     } else if (loginHostChanged) {
@@ -511,7 +511,7 @@ static SFLogLevel const kAppLogLevel = Info;
 
 - (NSString *)oauthLoginDomain
 {
-    return [SFCredentialsManager loginHost];
+    return [SFAccountManager loginHost];
 }
 
 - (NSString*)userAccountIdentifier {

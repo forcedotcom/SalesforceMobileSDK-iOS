@@ -32,18 +32,18 @@
 /**
  * Class used to manage a common credentials set across the app.
  */
-@interface SFCredentialsManager : NSObject
+@interface SFAccountManager : NSObject
 
 /**
  * Returns the singleton instance of this class for the default account.
  */
-+ (SFCredentialsManager *)sharedInstance;
++ (SFAccountManager *)sharedInstance;
 
 /**
  * Returns the singleton instance of this class for the given account.
  * @param accountIdentifier The account identifier of the class.
  */
-+ (SFCredentialsManager *)sharedInstanceForAccount:(NSString *)accountIdentifier;
++ (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier;
 
 + (BOOL)logoutSettingEnabled;
 + (void)ensureAccountDefaultsExist;

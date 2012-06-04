@@ -29,7 +29,7 @@
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityData.h"
 #import "SFSecurityLockout.h"
@@ -151,7 +151,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         // called, we can assume we've already gone through initial authentication at some point.
         _isInitialLogin = NO;
         
-        [SFCredentialsManager updateLoginHost];
+        [SFAccountManager updateLoginHost];
     }
     
     return self;
@@ -161,7 +161,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     [self clearPeriodicRefreshState];
     
-    [[SFCredentialsManager sharedInstance] clearAccountState:NO];
+    [[SFAccountManager sharedInstance] clearAccountState:NO];
     [self cleanupRetryAlert];
     
     SFRelease(_authCallbackId);
@@ -226,9 +226,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     if (nil != argsString) {
         // Build the OAuth args from the JSON object string argument.
         [self populateOAuthProperties:argsString];
-        [SFCredentialsManager setClientId:self.remoteAccessConsumerKey];
-        [SFCredentialsManager setRedirectUri:self.oauthRedirectURI];
-        [SFCredentialsManager setScopes:self.oauthScopes];
+        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
+        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
+        [SFAccountManager setScopes:self.oauthScopes];
     }
     
     [self login];
@@ -259,7 +259,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (NSDictionary*)credentialsAsDictionary {
     NSDictionary *credentialsDict = nil;
     
-    SFOAuthCredentials *creds = [SFCredentialsManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -335,7 +335,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
     NSLog(@"sendSessionKeepaliveRequest");
 
-    SFOAuthCredentials *creds = [SFCredentialsManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     //retrieve "Versions" -- should remain the same across all API versions
     NSURL *fullUrl = [[NSURL alloc] initWithScheme:creds.protocol host: creds.instanceUrl.host path:@"/services/data/"];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:fullUrl];
@@ -402,8 +402,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [self cleanupRetryAlert];
          
         // Kick off authentication.
-        [SFCredentialsManager sharedInstance].coordinator.delegate = self;
-        [[SFCredentialsManager sharedInstance].coordinator authenticate];
+        [SFAccountManager sharedInstance].coordinator.delegate = self;
+        [[SFAccountManager sharedInstance].coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
         NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
@@ -430,12 +430,12 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)loggedIn
 {
-    [SFCredentialsManager sharedInstance].credentials = [SFCredentialsManager sharedInstance].coordinator.credentials;
+    [SFAccountManager sharedInstance].credentials = [SFAccountManager sharedInstance].coordinator.credentials;
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
-    if (_isInitialLogin || [SFCredentialsManager sharedInstance].idData == nil) {
-        [SFCredentialsManager sharedInstance].idCoordinator.delegate = self;
-        [[SFCredentialsManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+    if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
+        [SFAccountManager sharedInstance].idCoordinator.delegate = self;
+        [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
         [self finalizeBootstrap];
@@ -475,11 +475,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
                                                    @"/", NSHTTPCookiePath,
-                                                   [SFCredentialsManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   [SFAccountManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
                                                    @"sid", NSHTTPCookieName,
                                                    @"TRUE", NSHTTPCookieDiscard,
                                                    nil];
-    if ([[SFCredentialsManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
+    if ([[SFAccountManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
         [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
     }
     
@@ -513,7 +513,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [self startSessionAutoRefreshTimer];
     }
     
-    if ([[SFCredentialsManager sharedInstance] mobilePinPolicyConfigured]) {
+    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
     
@@ -567,11 +567,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert([SFCredentialsManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert([SFCredentialsManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    [SFCredentialsManager sharedInstance].idData = [SFCredentialsManager sharedInstance].idCoordinator.idData;
+    NSAssert([SFAccountManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
+    NSAssert([SFAccountManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    [SFAccountManager sharedInstance].idData = [SFAccountManager sharedInstance].idCoordinator.idData;
     
-    if ([[SFCredentialsManager sharedInstance] mobilePinPolicyConfigured]) {
+    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self finalizeBootstrap];
@@ -581,8 +581,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         }];
         
         // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:[SFCredentialsManager sharedInstance].idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:([SFCredentialsManager sharedInstance].idData.mobileAppScreenLockTimeout * 60)];
+        [SFSecurityLockout setPasscodeLength:[SFAccountManager sharedInstance].idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:([SFAccountManager sharedInstance].idData.mobileAppScreenLockTimeout * 60)];
     } else {
         // No additional mobile policies.  So no passcode.
         [self finalizeBootstrap];
@@ -615,7 +615,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
     
     // Clear account state before continuing.
-    [[SFCredentialsManager sharedInstance] clearAccountState:NO];
+    [[SFAccountManager sharedInstance] clearAccountState:NO];
     
     if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
         // Restart the login process asynchronously.
@@ -649,7 +649,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         if (alertView.tag == kOAuthAlertViewTag) {
             [self login];    
         } else if (alertView.tag == kIdentityAlertViewTag) {
-            [[SFCredentialsManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+            [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
         }
     }
 }
