@@ -77,6 +77,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  */
 - (NSDictionary *)credentialsAsDictionary;
 
+/**
+ The method to call at the end of the auth bootstrapping process.  Any processes that
+ should run prior to launching the app should be called here.
+ */
 - (void)finalizeBootstrap;
 
 /**
@@ -97,8 +101,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)cleanupRetryAlert;
 
 /**
- Displays an alert in the event of an unknown failure for OAuth, allowing the user
- to retry authentication.
+ Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
+ to retry the process.
+ @param tag The tag that identifies the process (OAuth or Identity).
  */
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag;
 

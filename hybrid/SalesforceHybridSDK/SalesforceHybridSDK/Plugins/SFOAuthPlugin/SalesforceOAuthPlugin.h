@@ -104,7 +104,14 @@
  */
 - (void)loggedIn;
 
+/**
+ Resets the processes that perform periodic session refreshing.
+ */
 - (void)clearPeriodicRefreshState;
+
+/**
+ If auto refresh is configured, refresh the existing OAuth session.
+ */
 - (void)autoRefresh;
 
 #pragma mark - Plugin exported to javascript

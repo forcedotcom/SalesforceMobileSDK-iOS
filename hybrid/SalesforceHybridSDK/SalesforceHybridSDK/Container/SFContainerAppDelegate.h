@@ -109,7 +109,17 @@ extern NSString * const kSFSmartStorePluginName;
  */
 - (void)addOAuthViewToMainView:(UIView*)oauthView;
 
+/**
+ * Clears all of the app state, including user credentials, from the app, and optionally restarts
+ * the login process.
+ * @param restartAuthentication Whether or not to restart authentication after the app is reset.
+ */
 - (void)clearAppState:(BOOL)restartAuthentication;
+
+/**
+ * Essentially a call to clearAppState:YES.  The pin code functionality requires a logout function
+ * on the app, in the event of pin verification failure.
+ */
 - (void)logout;
 
 

@@ -58,6 +58,9 @@ static SFLogLevel const kAppLogLevel = Info;
      */
     BOOL _isAppInitialization;
     
+    /**
+     The instance of the shared SFAccountManager to use for this class.
+     */
     SFAccountManager *_accountMgr;
 }
 

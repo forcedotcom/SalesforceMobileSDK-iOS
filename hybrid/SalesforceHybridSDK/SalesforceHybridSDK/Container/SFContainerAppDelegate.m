@@ -42,6 +42,7 @@ NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
+// The default logging level of the app.
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = Debug;
 #else
@@ -64,11 +65,14 @@ static SFLogLevel const kAppLogLevel = Info;
 + (BOOL)isReservedUrlValue:(NSURL *)url;
 
 /**
- Removes any cookies from the cookie store.  All app cookies are reset with
- new authentication.
+ * Removes any cookies from the cookie store.  All app cookies are reset with
+ * new authentication.
  */
 + (void)removeCookies;
 
+/**
+ * Tasks to run when the app is backgrounding or terminating.
+ */
 - (void)prepareToShutDown;
 
 @end

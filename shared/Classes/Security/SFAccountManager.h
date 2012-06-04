@@ -30,7 +30,7 @@
 @class SFIdentityData;
 
 /**
- * Class used to manage a common credentials set across the app.
+ * Class used to manage a common account functions used across the app.
  */
 @interface SFAccountManager : NSObject
 
@@ -45,18 +45,80 @@
  */
 + (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier;
 
+/**
+ * Wheher or not the Logout app setting is enabled.
+ * @return YES if so, NO if not.
+ */
 + (BOOL)logoutSettingEnabled;
+
+/**
+ * Makes sure that the app-level configuration for the login host has been populated with the
+ * current value in the app settings of the app.
+ */
 + (void)ensureAccountDefaultsExist;
+
+/**
+ * @return The configured login host for the app.
+ */
 + (NSString *)loginHost;
+
+/**
+ * Sets a new value for the login host for the app.
+ * @param newLoginHost The new host value to set.
+ */
 + (void)setLoginHost:(NSString *)newLoginHost;
+
+/**
+ * Synchronizes the app-level login host setting with the value in app settings.
+ * @return YES if the two values were initially different, NO otherwise.
+ */
 + (BOOL)updateLoginHost;
+
+/**
+ * @return The OAuth client ID of the app.
+ */
 + (NSString *)clientId;
+
+/**
+ * Sets a new value for the app's OAuth client ID.
+ * @param newClientId The new value for the client ID.
+ */
 + (void)setClientId:(NSString *)newClientId;
+
+/**
+ * @return The app's OAuth redirect URI.
+ */
 + (NSString *)redirectUri;
+
+/**
+ * Sets a new value for the app's OAuth redirect URI.
+ * @param newRedirectUri The new value for the app's OAuth redirect URI.
+ */
 + (void)setRedirectUri:(NSString *)newRedirectUri;
+
+/**
+ * @return The OAuth scopes associated with the app.
+ */
 + (NSSet *)scopes;
+
+/**
+ * Sets a new value for the OAuth scopes associated with the app.
+ * @param newScopes The new value for the OAuth scopes of the app.
+ */
 + (void)setScopes:(NSSet *)newScopes;
+
+/**
+ * Clears the account state of the given account (i.e. clears credentials, coordinator
+ * instances, etc.
+ * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
+ *        with the account.
+ */
 - (void)clearAccountState:(BOOL)clearAccountData;
+
+/**
+ * Whether or not there is a mobile pin code policy configured for this app.
+ * @return YES if so, NO if not.
+ */
 - (BOOL)mobilePinPolicyConfigured;
 
 /**
@@ -64,7 +126,14 @@
  */
 @property (nonatomic, readonly) NSString *accountIdentifier;
 
+/**
+ * The OAuth Coordinator associated with this account.
+ */
 @property (nonatomic, retain) SFOAuthCoordinator *coordinator;
+
+/**
+ * The Identity Coordinator associated with this account.
+ */
 @property (nonatomic, retain) SFIdentityCoordinator *idCoordinator;
 
 /**
@@ -72,6 +141,9 @@
  */
 @property (nonatomic, retain) SFOAuthCredentials *credentials;
 
+/**
+ * The Identity data associated with this account.
+ */
 @property (nonatomic, retain) SFIdentityData *idData;
 
 @end

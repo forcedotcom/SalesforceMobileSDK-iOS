@@ -54,9 +54,17 @@ NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_pref";
 // app when it is re-opened.
 NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
+// The key for storing the persisted OAuth client ID.
 NSString * const kOAuthClientIdKey = @"oauth_client_id";
+
+// The key for storing the persisted OAuth redirect URI.
 NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
+
+// The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
+
+// The key prefix for storing the Identity data of the account.  Will be combined with
+// account-specific information to ensure uniqueness across accounts.
 NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
 
 static NSMutableDictionary *AccountManagerDict;
