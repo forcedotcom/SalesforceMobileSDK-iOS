@@ -42,6 +42,12 @@ NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
+#if defined(DEBUG)
+static SFLogLevel const kAppLogLevel = Debug;
+#else
+static SFLogLevel const kAppLogLevel = Info;
+#endif
+
 @interface SFContainerAppDelegate ()
 
 /**
@@ -70,6 +76,7 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 @implementation SFContainerAppDelegate
 
 @synthesize invokeString;
+@synthesize appLogLevel = _appLogLevel;
 
 #pragma mark - init/dealloc
 
@@ -91,6 +98,7 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
         
         _foundHomeUrl = NO;
         _isAppStartup = YES;
+        self.appLogLevel = kAppLogLevel;
     }
     return self;
 }
@@ -118,8 +126,18 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 		NSLog(@"app launchOptions = %@",url);
 	}
     
-    // Make sure account manager is initialized.
-    [SFCredentialsManager sharedInstance];
+    [SFLogger setLogLevel:self.appLogLevel];
+    
+    // Reset app state if necessary (login settings have changed).  We have to do this in
+    // both didFinishLaunchedWithOptions and applicationDidBecomeActive, because the latter
+    // will conflict with PhoneGap's page launch process when the app starts.
+    BOOL shouldLogout = [SFCredentialsManager logoutSettingEnabled];
+    BOOL loginHostChanged = [SFCredentialsManager updateLoginHost];
+    if (shouldLogout) {
+        [self clearAppState:NO];
+    } else if (loginHostChanged) {
+        [[SFCredentialsManager sharedInstance] clearAccountState:NO];
+    }
     
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -357,6 +375,11 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 + (SFContainerAppDelegate*)sharedInstance 
 {
     return (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
+- (void)logout
+{
+    [self clearAppState:YES];
 }
 
 - (void)clearAppState:(BOOL)restartAuthentication

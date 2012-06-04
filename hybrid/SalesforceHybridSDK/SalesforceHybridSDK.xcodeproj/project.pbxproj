@@ -216,7 +216,7 @@
 		822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0891577D995007C20B9 /* NSData+SFAdditions.m */; };
 		822AC0951577D995007C20B9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */; };
 		822AC0961577D995007C20B9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08B1577D995007C20B9 /* NSString+SFAdditions.m */; };
-		822AC0971577D995007C20B9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08C1577D995007C20B9 /* SFLogger.h */; };
+		822AC0971577D995007C20B9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08C1577D995007C20B9 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822AC0981577D995007C20B9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08D1577D995007C20B9 /* SFLogger.m */; };
 		822AC0991577D995007C20B9 /* SFLogger+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08E1577D995007C20B9 /* SFLogger+Internal.h */; };
 		822AC09A1577D995007C20B9 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08F1577D995007C20B9 /* SFPathUtil.h */; };
@@ -224,7 +224,7 @@
 		822AC09C1577D995007C20B9 /* UIDevice-Hardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0911577D995007C20B9 /* UIDevice-Hardware.h */; };
 		822AC09D1577D995007C20B9 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0921577D995007C20B9 /* UIDevice-Hardware.m */; };
 		822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */; };
-		822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A11577DCCC007C20B9 /* SFApplication.h */; };
+		822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A11577DCCC007C20B9 /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
 		822AC0AE1577DCCC007C20B9 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A31577DCCC007C20B9 /* SFCrypto.h */; };
 		822AC0AF1577DCCC007C20B9 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A41577DCCC007C20B9 /* SFCrypto.m */; };

@@ -264,8 +264,8 @@ static NSMutableDictionary *AccountManagerDict;
     if (self.coordinator.view) {
         [self.coordinator.view removeFromSuperview];
     }
-    [self.coordinator setDelegate:nil];
-    [self.idCoordinator setDelegate:nil];
+    [_coordinator setDelegate:nil];
+    [_idCoordinator setDelegate:nil];
     SFRelease(_idCoordinator);
     SFRelease(_coordinator);
     SFRelease(_credentials);

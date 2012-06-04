@@ -46,6 +46,7 @@
 		7DBD0748149AA8440043A9E0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */; };
 		7DBD074F149AA8780043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD074E149AA8780043A9E0 /* www */; };
 		7DFBB71914C8955D00D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */; };
+		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 		82B13EAD14C0E95800D45D9C /* SFHybridApp.css in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAB14C0E95800D45D9C /* SFHybridApp.css */; };
 		82B13EAE14C0E95800D45D9C /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAC14C0E95800D45D9C /* SFHybridApp.js */; };
 /* End PBXBuildFile section */
@@ -112,6 +113,7 @@
 		7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		7DBD074E149AA8780043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82B13EAB14C0E95800D45D9C /* SFHybridApp.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/SFHybridApp.css; sourceTree = "<group>"; };
 		82B13EAC14C0E95800D45D9C /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/SFHybridApp.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
 				7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
 				7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */,
@@ -179,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				7D72611814C74B9700CFD63C /* libsqlite3.dylib */,
+				82707C11157C49EB00B50291 /* libz.dylib */,
 				7DBD06C9149AA8420043A9E0 /* Foundation.framework */,
 				7DBD06CB149AA8420043A9E0 /* UIKit.framework */,
 				7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */,

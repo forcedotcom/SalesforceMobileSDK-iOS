@@ -47,28 +47,6 @@ static SFLogLevel const kAppLogLevel = Debug;
 static SFLogLevel const kAppLogLevel = Info;
 #endif
 
-
-// Key for storing the user's configured login host.
-NSString * const kLoginHostUserDefault = @"login_host_pref";
-
-// Key for the primary login host, as defined in the app settings.
-NSString * const kPrimaryLoginHostUserDefault = @"primary_login_host_pref";
-
-// Key for the custom login host value in the app settings.
-NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
-
-// Value for kPrimaryLoginHostUserDefault when a custom host is chosen.
-NSString * const kPrimaryLoginHostCustomValue = @"CUSTOM";
-
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
-
-/// Value to use for login host if user never opens the app settings.
-NSString * const kDefaultLoginHost = @"login.salesforce.com";
-
-
-
 @interface SFNativeRestAppDelegate () {
     /**
      Whether this is the initial login to the application (i.e. no previous credentials).
@@ -244,6 +222,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)login {
     //kickoff authentication
+    _accountMgr.coordinator.delegate = self;
     [_accountMgr.coordinator authenticate];
 }
 

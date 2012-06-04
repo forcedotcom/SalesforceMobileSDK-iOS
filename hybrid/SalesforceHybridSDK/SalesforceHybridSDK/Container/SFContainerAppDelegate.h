@@ -28,6 +28,7 @@
 
 
 #import "SFOAuthCoordinator.h"
+#import "SFLogger.h"
 
 @class SalesforceOAuthPlugin;
 
@@ -90,6 +91,12 @@ extern NSString * const kSFSmartStorePluginName;
  */
 @property (nonatomic, readonly) NSString *userAgentString;
 
+/**
+ The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+ builds.
+ */
+@property (assign) SFLogLevel appLogLevel;
+
 
 /**
  @return YES if this device is an iPad
@@ -103,6 +110,7 @@ extern NSString * const kSFSmartStorePluginName;
 - (void)addOAuthViewToMainView:(UIView*)oauthView;
 
 - (void)clearAppState:(BOOL)restartAuthentication;
+- (void)logout;
 
 
 /**
