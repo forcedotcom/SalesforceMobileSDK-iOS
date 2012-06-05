@@ -26,6 +26,7 @@
 
 #import "SalesforceHybridSDK/SalesforceOAuthPlugin.h"
 #import "SalesforceHybridSDK/SFJsonUtils.h"
+#import "SFAccountManager.h"
 
 #import "SFTestRunnerPlugin.h"
 
@@ -34,11 +35,11 @@ FILE *fopen$UNIX2003(const char *filename, const char *mode);
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 
-@interface AppDelegate (Private)
+@interface AppDelegate ()
 
 /// Was the app started in Test mode? 
 - (BOOL) isRunningOctest;
-
++ (void)setCredentialsFromConfigFile;
 
 
 @end
@@ -49,7 +50,7 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 
 
-+ (SFOAuthCredentials*)readCredentialsConfigFile {
++ (void)setCredentialsFromConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
     if (nil == tokenPath) {
         NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
@@ -68,6 +69,10 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
     NSString *clientID = [dictResponse objectForKey:@"test_client_id"];
     NSString *redirectUri = [dictResponse objectForKey:@"test_redirect_uri"];
     NSString *loginDomain = [dictResponse objectForKey:@"test_login_domain"];
+    
+    [SFAccountManager setClientId:clientID];
+    [SFAccountManager setLoginHost:loginDomain];
+    [SFAccountManager setRedirectUri:redirectUri];
     
     NSAssert1(nil != refreshToken &&
               nil != clientID &&
@@ -94,9 +99,8 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
-    
-    return [credentials autorelease];
-
+    [SFAccountManager sharedInstance].credentials = credentials;
+    [credentials release];
 }
 
 
@@ -120,15 +124,8 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
-    SFOAuthCredentials *creds = [[self class] readCredentialsConfigFile];
+    [[self class] setCredentialsFromConfigFile];
     
-    //need to set this since bootconfig.js hasn't been loaded yet and
-    //oauthplugin blows up if we subsequently set creds without it
-    _oauthPlugin.remoteAccessConsumerKey = creds.clientId;
-    
-    [_oauthPlugin.coordinator setCredentials:creds];
-    
-
     [super applicationDidBecomeActive:application];
     
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];

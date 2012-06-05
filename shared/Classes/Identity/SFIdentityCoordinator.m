@@ -114,25 +114,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     [self cleanupData];
 }
 
-#pragma mark - Identity data persistence
-
-+ (void)saveIdentityData:(SFIdentityData *)identityData
-{
-    if (identityData != nil && identityData.dictRepresentation != nil) {
-        NSData *encodedData = [NSKeyedArchiver archivedDataWithRootObject:identityData];
-        [[NSUserDefaults standardUserDefaults] setObject:encodedData forKey:kSFIdentityDataPropertyKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-+ (SFIdentityData *)loadIdentityData
-{
-    NSData *encodedIdData = [[NSUserDefaults standardUserDefaults] objectForKey:kSFIdentityDataPropertyKey];
-    if (encodedIdData == nil)
-        return nil;
-    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData];
-}
-
 #pragma mark - Private methods
 
 - (void)notifyDelegateOfSuccess

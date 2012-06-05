@@ -29,7 +29,7 @@
 #import "SFRestAPI.h"
 #import "SalesforceSDKConstants.h"
 #import "SFIdentityData.h"
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
 #import "SFNativeRootViewController.h"
 #import "SFUserActivityMonitor.h"
@@ -47,28 +47,6 @@ static SFLogLevel const kAppLogLevel = Debug;
 static SFLogLevel const kAppLogLevel = Info;
 #endif
 
-
-// Key for storing the user's configured login host.
-NSString * const kLoginHostUserDefault = @"login_host_pref";
-
-// Key for the primary login host, as defined in the app settings.
-NSString * const kPrimaryLoginHostUserDefault = @"primary_login_host_pref";
-
-// Key for the custom login host value in the app settings.
-NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
-
-// Value for kPrimaryLoginHostUserDefault when a custom host is chosen.
-NSString * const kPrimaryLoginHostCustomValue = @"CUSTOM";
-
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
-
-/// Value to use for login host if user never opens the app settings.
-NSString * const kDefaultLoginHost = @"login.salesforce.com";
-
-
-
 @interface SFNativeRestAppDelegate () {
     /**
      Whether this is the initial login to the application (i.e. no previous credentials).
@@ -76,14 +54,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     BOOL _isInitialLogin;
     
     /**
-     The identity coordinator used to retrieve data from the ID service.
-     */
-    SFIdentityCoordinator *_idCoordinator;
-    
-    /**
      Whether the app is in its initialization run (vs. just being brought to the foreground).
      */
     BOOL _isAppInitialization;
+    
+    /**
+     The instance of the shared SFAccountManager to use for this class.
+     */
+    SFAccountManager *_accountMgr;
 }
 
 /**
@@ -91,30 +69,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  page when the app is reset in situ.
  */
 @property (nonatomic, retain) UIView *baseView;
-
-/**
- Initializes the app settings, in the event that the user has not configured
- them before the first launch of the application.
- */
-+ (void)ensureAccountDefaultsExist;
-
-/**
- @return  YES if  user requested a logout in Settings.
- */
-- (BOOL)checkForUserLogout;
-
-/**
- Gets the primary login host value from app settings, initializing it to a default
- value first, if a valid one did not previously exist.
- @return The login host value from the app settings.
- */
-+ (NSString *)primaryLoginHost;
-
-/**
- Update the configured login host based on the user-defined app settings. 
- @return  YES if login host has changed in the app settings, NO otherwise. 
- */
-+ (BOOL)updateLoginHost;
 
 /**
  Present the authentication view and controller modally, for the User Agent flow.
@@ -135,12 +89,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)retrievedIdentityData;
 
 /**
- Sets the identity data property with the given data.
- @param newIdData The identity data to set.
- */
-- (void)setIdentityData:(SFIdentityData *)newIdData;
-
-/**
  Called after the ID data retrieval process is complete.  Finalizes login, app startup.
  */
 - (void)postIdentityRetrievalProcesses;
@@ -150,12 +98,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  and the app starts over.
  */
 - (void)resetRootPresentation;
-
-/**
- Convenience method to determine whether all of the mobile passcode policy properties have
- valid values to establish a passcode.
- */
-- (BOOL)mobilePinPolicyConfigured;
 
 /**
  Called when the app is entering the background, or in the process of being shut down.
@@ -178,10 +120,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 @implementation SFNativeRestAppDelegate
 
 @synthesize authViewController=_authViewController;
-@synthesize  coordinator = _coordinator;
 @synthesize  viewController = _viewController;
 @synthesize  window = _window;
-@synthesize idData = _idData;
 @synthesize baseView = _baseView;
 @synthesize appLogLevel = _appLogLevel;
 
@@ -195,7 +135,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         NSString *uaString =  [SFRestAPI userAgentString];
         [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
         
-        [[self class] ensureAccountDefaultsExist];
+        [SFAccountManager setLoginHost:[self oauthLoginDomain]];
+        [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
+        [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
+        [SFAccountManager setScopes:[[self class] oauthScopes]];
+        _accountMgr = [SFAccountManager sharedInstanceForAccount:[self userAccountIdentifier]];
         
         // Strictly for internal tracking, assume we've got our initial credentials, until
         // OAuth tells us otherwise.  E.g. we only want to call the identity service after
@@ -210,10 +154,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)dealloc
 {
-    [_coordinator setDelegate:nil];
-    SFRelease(_coordinator)
-    SFRelease(_idCoordinator);
-    SFRelease(_idData);
+    [_accountMgr clearAccountState:NO];
     SFRelease(_authViewController);
     SFRelease(_baseView);
     SFRelease(_viewController);
@@ -248,20 +189,18 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     //Apparently when app is foregrounded, NSUserDefaults can be stale
 	[defs synchronize];
     
-    BOOL shouldLogout = [self checkForUserLogout] ;
+    BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+    BOOL loginHostChanged = [SFAccountManager updateLoginHost];
     if (shouldLogout) {
         [self logout];
+    } else if (loginHostChanged) {
+        [_accountMgr clearAccountState:NO];
+        [self clearDataModel];
+        [self login];
     } else {
-        BOOL loginHostChanged = [[self class] updateLoginHost];
-        if (loginHostChanged) {
-            [_coordinator setDelegate:nil];
-            SFRelease(_coordinator);
-            [self clearDataModel];
-        }
+        // refresh session or login for the first time
+        [self login];
     }
-    
-	// refresh session or login for the first time
-	[self login];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -284,69 +223,30 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 #pragma mark - Salesforce.com login helpers
 
-
-- (SFOAuthCoordinator*)coordinator {
-    //create a new coordinator if we don't already have one
-    if (nil == _coordinator) {
-        
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSString *loginDomain = [self oauthLoginDomain];
-        NSString *accountIdentifier = [self userAccountIdentifier];
-        //here we use the login domain as part of the identifier
-        //to distinguish between eg  sandbox and production credentials
-        NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@",appName,accountIdentifier,loginDomain];
-        
-        
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
-                                     initWithIdentifier:fullKeychainIdentifier  
-                                     clientId: [self remoteAccessConsumerKey] 
-                                     encrypted:YES
-                                     ];
-        
-        
-        creds.domain = loginDomain;
-        creds.redirectUri = [self oauthRedirectURI];
-        
-        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-        [creds release];
-        coord.scopes = [[self class] oauthScopes]; 
-        
-        coord.delegate = self;
-        _coordinator = coord;        
-    } 
-    
-    return _coordinator;
-}
-
 - (void)login {
     //kickoff authentication
-    [self.coordinator authenticate];
+    _accountMgr.coordinator.delegate = self;
+    [_accountMgr.coordinator authenticate];
 }
 
 
 - (void)logout {
-    [self.coordinator revokeAuthentication];
-    [SFCredentialsManager sharedInstance].credentials = nil;
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kAccountLogoutUserDefault];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [_accountMgr clearAccountState:YES];
     [self clearDataModel];
     [self login];
 }
 
 - (void)loggedIn {
     // Update the shared credentials.
-    [SFCredentialsManager sharedInstance].credentials = self.coordinator.credentials;
+    _accountMgr.credentials = _accountMgr.coordinator.credentials;
     
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
-    SFIdentityData *checkIdData = [SFIdentityCoordinator loadIdentityData];
-    if (_isInitialLogin || checkIdData == nil) {
-        _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.coordinator.credentials];
-        _idCoordinator.delegate = self;
-        [_idCoordinator initiateIdentityDataRetrieval];
+    if (_isInitialLogin || _accountMgr.idData == nil) {
+        _accountMgr.idCoordinator.delegate = self;
+        [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
-        [self setIdentityData:checkIdData];
         [self postIdentityRetrievalProcesses];
     }
 }
@@ -354,13 +254,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert(_idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert(_idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    [self setIdentityData:_idCoordinator.idData];
-    [SFIdentityCoordinator saveIdentityData:_idCoordinator.idData];
-    SFRelease(_idCoordinator);
+    NSAssert(_accountMgr.idCoordinator != nil, @"Identity coordinator should be populated at this point.");
+    NSAssert(_accountMgr.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    _accountMgr.idData = _accountMgr.idCoordinator.idData;
     
-    if ([self mobilePinPolicyConfigured]) {
+    if ([_accountMgr mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self postIdentityRetrievalProcesses];
@@ -370,8 +268,8 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         }];
         
         // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:self.idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:(self.idData.mobileAppScreenLockTimeout * 60)];
+        [SFSecurityLockout setPasscodeLength:_accountMgr.idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:(_accountMgr.idData.mobileAppScreenLockTimeout * 60)];
     } else {
         // No additional mobile policies.  So no passcode.
         [self postIdentityRetrievalProcesses];
@@ -381,7 +279,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)postIdentityRetrievalProcesses
 {
     // Provide the Rest API with a reference to the coordinator we used for login.
-    [[SFRestAPI sharedInstance] setCoordinator:self.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
     
     if (_isAppInitialization) {
         // We'll ask for a passcode every time the application is initialized, regardless of activity.
@@ -390,7 +288,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         if (_isInitialLogin) {
             [self setupNewRootViewController];
         } else {
-            if ([self mobilePinPolicyConfigured]) {
+            if ([_accountMgr mobilePinPolicyConfigured]) {
                 [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
                     [self setupNewRootViewController];
                 }];
@@ -402,7 +300,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
                 [self setupNewRootViewController];
             }
         }
-    } else if ([self mobilePinPolicyConfigured]) {
+    } else if ([_accountMgr mobilePinPolicyConfigured]) {
         // App is foregrounding.  Passcode check subject to standard inactivity.
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
             [self logout];
@@ -424,7 +322,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 {
     // For now, let's only monitor user activity if there are pin code policies to support it.
     // If someone decides they want to monitor user activity outside of screen lock, we can revisit.
-    if ([self mobilePinPolicyConfigured]) {
+    if ([_accountMgr mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
     _isAppInitialization = NO;
@@ -520,28 +418,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     return [NSSet setWithObjects:@"web",@"api",nil] ; 
 }
 
-- (void)setIdentityData:(SFIdentityData *)newIdData
-{
-    if (newIdData != _idData) {
-        SFIdentityData *oldValue = _idData;
-        _idData = [newIdData retain];
-        [oldValue release];
-    }
-}
-
-- (BOOL)mobilePinPolicyConfigured
-{
-    return (self.idData != nil
-            && self.idData.mobilePoliciesConfigured
-            && self.idData.mobileAppPinLength > 0
-            && self.idData.mobileAppScreenLockTimeout > 0);
-}
-
 #pragma mark - Other view lifecycle helpers
 
 - (void)prepareToShutDown {
     [SFSecurityLockout removeTimer];
-    if ([SFCredentialsManager sharedInstance].credentials != nil) {
+    if (_accountMgr.credentials != nil) {
 		[SFInactivityTimerCenter saveActivityTimestamp];
 	}
 }
@@ -613,7 +494,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self dismissAuthViewControllerIfPresent:@selector(login)];
     }
     else if (alertView.tag == kIdentityAlertViewTag)
-        [_idCoordinator initiateIdentityDataRetrieval];
+        [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
 }
 
 
@@ -631,11 +512,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     return nil;
 }
 
-- (NSString*)oauthLoginDomain {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *loginHost = [defs objectForKey:kLoginHostUserDefault];
-    
-    return loginHost;
+- (NSString *)oauthLoginDomain
+{
+    return [SFAccountManager loginHost];
 }
 
 - (NSString*)userAccountIdentifier {
@@ -644,95 +523,6 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     //"account" but you could provide your own means (eg NSUserDefaults) of 
     //storing which account the user last accessed, and using that here
     return @"Default";
-}
-
-
-
-#pragma mark - Settings utilities
-
-+ (BOOL)updateLoginHost
-{
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    
-	NSString *previousLoginHost = [defs objectForKey:kLoginHostUserDefault];
-	NSString *currentLoginHost = [self primaryLoginHost];
-	NSLog(@"Hosts before update: previousLoginHost=%@ currentLoginHost=%@", previousLoginHost, currentLoginHost);
-    
-    // Update the previous app settings value to current.
-	[defs setValue:currentLoginHost forKey:kLoginHostUserDefault];
-    
-	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
-	if (hostnameChanged) {
-		NSLog(@"updateLoginHost detected a host change in the app settings, from %@ to %@.", previousLoginHost, currentLoginHost);
-	}
-	
-	return hostnameChanged;
-}
-
-
-+ (NSString *)primaryLoginHost
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    NSString *primaryLoginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
-    
-    // If the primary host value is nil/empty, it's never been set.  Initialize it to default and return it.
-    if (nil == primaryLoginHost || [primaryLoginHost length] == 0) {
-        [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
-        [defs synchronize];
-        return kDefaultLoginHost;
-    }
-    
-    // If a custom login host value was chosen and configured, return it.  If a custom value is
-    // chosen but the value is *not* configured, reset the primary login host to a sane
-    // value and return that.
-    if ([primaryLoginHost isEqualToString:kPrimaryLoginHostCustomValue]) {  // User specified to use a custom host.
-        NSString *customLoginHost = [defs objectForKey:kCustomLoginHostUserDefault];
-        if (nil != customLoginHost && [customLoginHost length] > 0) {
-            // Custom value is set.  Return that.
-            return customLoginHost;
-        } else {
-            // The custom host value is empty.  We'll try to set a previous user-defined
-            // value for the primary first, and if we can't set that, we'll just set it to the default host.
-            NSString *prevUserDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
-            if (nil != prevUserDefinedLoginHost && [prevUserDefinedLoginHost length] > 0) {
-                // We found a previously user-defined value.  Use that.
-                [defs setValue:prevUserDefinedLoginHost forKey:kPrimaryLoginHostUserDefault];
-                [defs synchronize];
-                return prevUserDefinedLoginHost;
-            } else {
-                // No previously user-defined value either.  Use the default.
-                [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
-                [defs synchronize];
-                return kDefaultLoginHost;
-            }
-        }
-    }
-    
-    // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
-    return primaryLoginHost;
-}
-
-+ (void)ensureAccountDefaultsExist
-{
-    
-    // Getting primary login host will initialize it to a proper value if it isn't already
-    // set.
-	NSString *currentHostValue = [self primaryLoginHost];
-    
-    // Make sure we initialize the user-defined app setting as well, if it's not already.
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    NSString *userDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
-    if (nil == userDefinedLoginHost || [userDefinedLoginHost length] == 0) {
-        [defs setValue:currentHostValue forKey:kLoginHostUserDefault];
-        [defs synchronize];
-    }
-}
-
-- (BOOL)checkForUserLogout {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:kAccountLogoutUserDefault];
 }
 
 @end

@@ -47,6 +47,7 @@
 		7D1DB20014C5F704003830CD /* phonegap-1.2.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */; };
 		7DFBB74414C89BA300D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */; };
 		7DFBB74B14C8A7D600D373E2 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7DFBB74914C8A7CA00D373E2 /* forcetk.js */; };
+		82707C0B157C49C300B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C0A157C49C300B50291 /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +117,7 @@
 		7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7DFBB74314C89BA300D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		7DFBB74914C8A7CA00D373E2 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../forcetk.js; sourceTree = "<group>"; };
+		82707C0A157C49C300B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82707C0B157C49C300B50291 /* libz.dylib in Frameworks */,
 				7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */,
 				7D13804B14B50BAC00A21EE2 /* Foundation.framework in Frameworks */,
 				7D13804D14B50BAC00A21EE2 /* UIKit.framework in Frameworks */,
@@ -167,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */,
+				82707C0A157C49C300B50291 /* libz.dylib */,
 				7D13804A14B50BAC00A21EE2 /* Foundation.framework */,
 				7D13804C14B50BAC00A21EE2 /* UIKit.framework */,
 				7D13804E14B50BAC00A21EE2 /* CFNetwork.framework */,

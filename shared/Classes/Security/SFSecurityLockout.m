@@ -28,7 +28,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFKeychainItemWrapper.h"
 #import "SFLogger.h"
-#import "SFCredentialsManager.h"
+#import "SFAccountManager.h"
 
 // Private constants
 
@@ -139,8 +139,8 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFCredentialsManager sharedInstance] credentials] != nil
-        && [[SFCredentialsManager sharedInstance] credentials].accessToken != nil;
+    return [[SFAccountManager sharedInstance] credentials] != nil
+        && [[SFAccountManager sharedInstance] credentials].accessToken != nil;
 }
 
 + (void)setLockoutTime:(NSUInteger)seconds {
@@ -245,6 +245,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 		[self log:Info msg:@"Skipping 'lock' since not authenticated"];
 		return;
 	}
+    
+    if (![[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+        [self log:Info msg:@"Skipping 'lock' since pin policies are not configured."];
+        return;
+    }
     
 	if([SFSecurityLockout hashedPasscode] == nil) {
 		[SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
