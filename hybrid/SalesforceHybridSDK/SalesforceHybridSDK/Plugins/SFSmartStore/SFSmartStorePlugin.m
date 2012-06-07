@@ -36,13 +36,14 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
 
-NSString * const kSoupNameArg  = @"soupName";
-NSString * const kEntryIdsArg  = @"entryIds";
-NSString * const kCursorIdArg  = @"cursorId";
-NSString * const kIndexArg     = @"index";
-NSString * const kIndexesArg   = @"indexes";
-NSString * const kQuerySpecArg = @"querySpec";
-NSString * const kEntriesArg   = @"entries";
+NSString * const kSoupNameArg         = @"soupName";
+NSString * const kEntryIdsArg         = @"entryIds";
+NSString * const kCursorIdArg         = @"cursorId";
+NSString * const kIndexArg            = @"index";
+NSString * const kIndexesArg          = @"indexes";
+NSString * const kQuerySpecArg        = @"querySpec";
+NSString * const kEntriesArg          = @"entries";
+NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 
 
@@ -239,8 +240,9 @@ NSString * const kEntriesArg   = @"entries";
 	NSString* callbackId = [arguments objectAtIndex:0];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
+    NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
     
-    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName];
+    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalId:externalIdPath];
     PluginResult *result;
     if (nil != resultEntries) {
         //resultEntries

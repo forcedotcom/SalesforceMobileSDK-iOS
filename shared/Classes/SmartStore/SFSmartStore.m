@@ -40,7 +40,15 @@ static NSMutableDictionary *_allSharedStores;
 
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
-NSString *const kDefaultSmartStoreName = @"defaultStore";
+NSString * const kDefaultSmartStoreName   = @"defaultStore";
+
+// NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
+// in a plist, once we start delivering a bundle.
+NSString *        const kSFSmartStoreErrorDomain                 = @"com.salesforce.smartstore.error";
+static NSInteger  const kSFSmartStoreSoupDoesNotExistCode        = 1;
+static NSString * const kSFSmartStoreSoupDoesNotExistDescription = @"The soup '%@' does not exist!";
+static NSInteger  const kSFSmartStoreTooManyEntriesCode          = 2;
+static NSString * const kSFSmartStoreTooManyEntriesDescription   = @"The value '%@' for path '%@' does not represent a unique entry!";
 
 
 static NSString *const kStoresDirectory = @"stores";
@@ -157,7 +165,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 /// Convenience methods for upserting individual entries: should generally be wrapped with beginTransaction/endTransaction
-- (NSDictionary *)upsertOneEntry:(NSDictionary *)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
+- (NSDictionary *)upsertOneEntry:(NSDictionary *)entry inSoup:(NSString*)soupName indices:(NSArray*)indices exteralId:(NSString *)externalId;
 - (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
 - (NSDictionary *)updateOneEntry:(NSDictionary*)entry withEntryId:(NSString*)entryId inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
 
@@ -849,6 +857,42 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 }
 
+- (NSNumber *)lookupSoupEntryId:(NSString *)soupTableName
+                  forFieldPath:(NSString *)fieldPath
+                    fieldValue:(NSString *)fieldValue
+                         error:(NSError **)error
+{
+    NSAssert(soupName != nil && [soupName length] > 0, @"Soup name must have a value.");
+    NSAssert(fieldPath != nil && [fieldPath length] > 0, @"Field path must have a value.");
+    NSAssert(fieldValue != nil && [fieldValue length] > 0, @"Field value must not be empty.");
+    
+    NSString *fieldPathColumnName = [self columnNameForPath:fieldPath inSoup:soupName];
+    NSString *whereClause = [NSString stringWithFormat:@"%@ = ?", fieldPathColumnName];
+    
+    FMResultSet *rs = [self queryTable:soupTableName
+                            forColumns:[NSArray arrayWithObject:ID_COL]
+                               orderBy:nil
+                                 limit:nil
+                           whereClause:whereClause
+                             whereArgs:[NSArray arrayWithObject:fieldValue]];
+    NSNumber *returnId = nil;
+    if ([rs next]) {
+        returnId = [NSNumber numberWithInt:[rs intForColumn:ID_COL]];
+        if ([rs next]) {
+            // Shouldn't be more than one value; that's an error.
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreTooManyEntriesDescription, fieldValue, fieldPath];
+            *error = [[[NSError alloc] initWithDomain:kSFSmartStoreErrorDomain
+                                                 code:kSFSmartStoreTooManyEntriesCode
+                                             userInfo:[NSDictionary dictionaryWithObject:errorDesc
+                                                                                  forKey:NSLocalizedDescriptionKey]] autorelease];
+            returnId = nil;
+        }
+    }
+    [rs close];
+    
+    return returnId;
+}
+
 
 - (FMResultSet *)queryTable:(NSString*)table 
                  forColumns:(NSArray*)columns 
@@ -1134,11 +1178,24 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (NSDictionary *)upsertOneEntry:(NSDictionary *)entry 
-                     inSoupTable:(NSString*)soupTableName  
+                     inSoup:(NSString*)soupName  
                          indices:(NSArray*)indices
+                       exteralId:(NSString *)externalId
 {
     NSDictionary *result = nil;
     
+    // NB: We're assuming soupExists has already been validated on the soup name.  This happens
+    // e.g. in upsertEntries:toSoup:withExternalId: .
+    NSString *soupTableName = [self tableNameForSoup:soupName];
+    
+    NSNumber *entryId = nil;
+    if (externalId != nil) {
+        if ([externalId isEqualToString:SOUP_ENTRY_ID]) {
+            entryId = [entry objectForKey:SOUP_ENTRY_ID];
+        } else {
+            entryId = [self lookupSoupEntryIdForSoupName:soupName soupTableName:soupTableName fieldPath:<#(NSString *)#> fieldValue:<#(NSString *)#> error:<#(NSError **)#>
+        }
+    }
     NSString *soupEntryId = [entry objectForKey:SOUP_ENTRY_ID];
     if (nil != soupEntryId) {
         //entry already has an entry id: update
@@ -1153,13 +1210,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 
-- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName
+- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName
+{
+    return [self upsertEntries:entries toSoup:soupName withExternalId:SOUP_ENTRY_ID];
+}
+
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalId:(NSString *)externalId
 {
     NSMutableArray *result = nil;
     
     if ([self soupExists:soupName]) {
-        //prefetch the soupTableName and the soup indices
-        NSString *soupTableName = [self tableNameForSoup:soupName];
         NSArray *indices = [self indicesForSoup:soupName];
 
         result = [NSMutableArray array]; //empty result array by default
@@ -1167,7 +1227,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [self.storeDb beginTransaction];
         
         for (NSDictionary *entry in entries) {
-            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoupTable:soupTableName indices:indices];
+            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName indices:indices exteralId:externalId];
             if (nil != upsertedEntry) {
                 [result addObject:upsertedEntry];
             } else {
