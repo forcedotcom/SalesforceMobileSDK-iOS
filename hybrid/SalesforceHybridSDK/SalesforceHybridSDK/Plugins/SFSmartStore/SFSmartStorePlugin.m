@@ -242,7 +242,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
     NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
     
-    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalId:externalIdPath];
+    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath];
     PluginResult *result;
     if (nil != resultEntries) {
         //resultEntries

@@ -172,7 +172,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
 /**
  Insert/update entries to the soup.  Insert vs. update will be determined by the internal
  soup entry ID generated from intial entry.  If you want to specify a different identifier
- for determining existing entries, use upsertEntries:toSoup:withExternalId:
+ for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:
  
  @param entries The entries to insert or update.
  @param soupName The name of the soup to update.
@@ -183,15 +183,15 @@ extern NSString * const kSFSmartStoreErrorDomain;
 
 /**
  Insert/update entries to the soup.  Insert vs. update will be determined by the specified
- external ID argument.
+ external ID path argument.
  
  @param entries The entries to insert or update.
  @param soupName The name of the soup to update.
- @param externalId The user-defined query spec used to determine insert vs. update.
+ @param externalIdPath The user-defined query spec path used to determine insert vs. update.
  
  @return The array of updated entries in the soup.
  */
-- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalId:(NSString *)externalId;
+- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath;
 
 /**
  Remove soup entries exactly matching the soup entry IDs
