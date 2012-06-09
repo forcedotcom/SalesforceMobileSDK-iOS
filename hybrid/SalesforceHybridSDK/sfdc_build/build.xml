@@ -179,6 +179,7 @@
 			<fileset dir="${project.dir}/../../external/shared/PhoneGap/test">
                 <not>
                     <filename name="**/*TestSuite*" />
+                </not>
 			</fileset>
 		</copy>
 		

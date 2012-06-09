@@ -91,11 +91,25 @@
             <arg line="-d '${xcodetemplate.dependency.dir}' ${hybrid_sdk.zip}"/>
         </exec>
 
+        <copy file="${xcodetemplate.pgplugin.base.dir}/bootconfig.js" todir="${xcodetemplate.www.dir}"  />
+        <copy file="${xcodetemplate.pgplugin.base.dir}/bootstrap.html" todir="${xcodetemplate.www.dir}"  />
         <copy todir="${xcodetemplate.www.dir}">
-			<fileset dir="${xcodetemplate.pgplugin.base.dir}" >
-			  <not>
-			    <filename name="**/*TestSuite.js"/>
-			  </not>
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}/plugins">
+			</fileset>
+		</copy>
+        <copy todir="${xcodetemplate.www.dir}">
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}/util">
+			</fileset>
+		</copy>
+        <copy todir="${xcodetemplate.www.dir}">
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}/contactexplorer">
+			</fileset>
+		</copy>
+        <copy todir="${xcodetemplate.www.dir}">
+			<fileset dir="${xcodetemplate.pgplugin.base.dir}/test">
+                <not>
+                    <filename name="**/*TestSuite*" />
+                </not>
 			</fileset>
 		</copy>
 
