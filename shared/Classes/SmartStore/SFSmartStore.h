@@ -188,10 +188,11 @@ extern NSString * const kSFSmartStoreErrorDomain;
  @param entries The entries to insert or update.
  @param soupName The name of the soup to update.
  @param externalIdPath The user-defined query spec path used to determine insert vs. update.
+ @param error Sets/returns any error generated as part of the process.
  
  @return The array of updated entries in the soup.
  */
-- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath;
+- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error;
 
 /**
  Remove soup entries exactly matching the soup entry IDs

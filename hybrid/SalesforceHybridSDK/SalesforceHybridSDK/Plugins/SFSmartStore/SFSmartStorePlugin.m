@@ -242,13 +242,18 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
     NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
     
-    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath];
+    NSError *error = nil;
+    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
     PluginResult *result;
     if (nil != resultEntries) {
         //resultEntries
         [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
     } else {
-        result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        if (error == nil) {
+            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        } else {
+            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        }
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
