@@ -164,15 +164,24 @@
         </move>
 		
 		<!-- copy over www resources as well -->
+        <copy todir="${results.dir}/shared-www" file="${project.dir}/../../external/shared/forcetk.js" />
+        <copy todir="${results.dir}/shared-www" file="${project.dir}/../../external/shared/PhoneGap/bootconfig.js" />
+        <copy todir="${results.dir}/shared-www" file="${project.dir}/../../external/shared/PhoneGap/bootstrap.html" />
 		<copy todir="${results.dir}/shared-www" >
-			<fileset dir="${project.dir}/../../external/shared/PhoneGap">
-				<not>
-				<filename name="**/*TestSuite*"/>
-				</not>
+			<fileset dir="${project.dir}/../../external/shared/PhoneGap/plugins">
 			</fileset>
 		</copy>
-		<copy todir="${results.dir}/shared-www"
-		    file="${project.dir}/../../external/shared/forcetk.js" />
+        <copy todir="${results.dir}/shared-www" >
+			<fileset dir="${project.dir}/../../external/shared/PhoneGap/util">
+			</fileset>
+		</copy>
+        <copy todir="${results.dir}/shared-www" >
+			<fileset dir="${project.dir}/../../external/shared/PhoneGap/test">
+                <not>
+                    <filename name="**/*TestSuite*" />
+                </not>
+			</fileset>
+		</copy>
 		
 		<delete file="${artifacts.dir}/${target.name}-${configuration}.zip" failonerror="false" />
 		<delete file="${dist.dir}/${target.name}-${configuration}.zip" failonerror="false" />

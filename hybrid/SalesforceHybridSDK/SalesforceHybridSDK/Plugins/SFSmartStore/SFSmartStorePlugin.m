@@ -34,7 +34,16 @@
 //NOTE: must match value in PhoneGap.plist file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
+// Private constants
 
+NSString * const kSoupNameArg         = @"soupName";
+NSString * const kEntryIdsArg         = @"entryIds";
+NSString * const kCursorIdArg         = @"cursorId";
+NSString * const kIndexArg            = @"index";
+NSString * const kIndexesArg          = @"indexes";
+NSString * const kQuerySpecArg        = @"querySpec";
+NSString * const kEntriesArg          = @"entries";
+NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 
 
@@ -145,7 +154,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
 //    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     
     BOOL exists = [self.store soupExists:soupName];
     PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsBool:exists];
@@ -158,8 +167,8 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
 //    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
-    NSArray *indexes = [options nonNullObjectForKey:@"indexes"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexes = [options nonNullObjectForKey:kIndexesArg];
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
@@ -177,7 +186,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
 //    NSDate *startTime = [NSDate date];
     NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     
     [self.store removeSoup:soupName];
     
@@ -191,8 +200,8 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
-    NSDictionary *querySpec = [options nonNullObjectForKey:@"querySpec"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSDictionary *querySpec = [options nonNullObjectForKey:kQuerySpecArg];
     
     SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
     NSLog(@"pgQuerySoup returning: %@",cursor);
@@ -213,8 +222,8 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
-    NSArray *rawIds = [options nonNullObjectForKey:@"entryIds"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSArray *rawIds = [options nonNullObjectForKey:kEntryIdsArg];
     //make entry Ids unique
     NSSet *entryIdSet = [NSSet setWithArray:rawIds];
     NSArray *entryIds = [entryIdSet allObjects];
@@ -229,16 +238,22 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 {
 //    NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
-    NSArray *entries = [options nonNullObjectForKey:@"entries"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
+    NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
     
-    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName];
+    NSError *error = nil;
+    NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
     PluginResult *result;
     if (nil != resultEntries) {
         //resultEntries
         [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
     } else {
-        result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        if (error == nil) {
+            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        } else {
+            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        }
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
@@ -250,8 +265,8 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 //    NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     
-    NSString *soupName = [options nonNullObjectForKey:@"soupName"];
-    NSArray *entryIds = [options nonNullObjectForKey:@"entryIds"];
+    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSArray *entryIds = [options nonNullObjectForKey:kEntryIdsArg];
     
     [self.store removeEntries:entryIds fromSoup:soupName];
     
@@ -265,7 +280,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 - (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
 {
 	NSString* callbackId = [arguments objectAtIndex:0];
-    NSString *cursorId = [options nonNullObjectForKey:@"cursorId"];
+    NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
     
     [self closeCursorWithId:cursorId];
     
@@ -278,8 +293,8 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
     NSDate *startTime = [NSDate date];
 	NSString* callbackId = [arguments objectAtIndex:0];
     
-    NSString *cursorId = [options nonNullObjectForKey:@"cursorId"];
-    NSNumber *newPageIndex = [options nonNullObjectForKey:@"index"];
+    NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
+    NSNumber *newPageIndex = [options nonNullObjectForKey:kIndexArg];
     NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
     
     SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
