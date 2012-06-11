@@ -63,6 +63,10 @@
     [self runTest:@"testUpsertSoupEntries"];
 }
 
+- (void)testUpsertSoupEntriesWithExternalId {
+    [self runTest:@"testUpsertSoupEntriesWithExternalId"];
+}
+
 - (void)testRetrieveSoupEntries {
     [self runTest:@"testRetrieveSoupEntries"];
 }
