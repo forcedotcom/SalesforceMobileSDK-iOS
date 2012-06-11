@@ -635,7 +635,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString* tableName = [frs stringForColumn:SOUP_NAME_COL];
         [result addObject:tableName];
     }
-    
+
+    [frs close];
     return result;
 }
 
@@ -872,6 +873,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     for (NSString* soupTableName in soupTableNames) {
         [self removeSoup:soupTableName];
     }
+    [soupTableNames release];
  }
 
 
