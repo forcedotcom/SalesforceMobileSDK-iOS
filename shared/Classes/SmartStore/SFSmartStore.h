@@ -191,6 +191,11 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (void)removeSoup:(NSString*)soupName;
 
+/**
+ Remove all soups from the store.
+ */
+- (void)removeAllSoups;
+
 
 #pragma mark - Utility methods
 
