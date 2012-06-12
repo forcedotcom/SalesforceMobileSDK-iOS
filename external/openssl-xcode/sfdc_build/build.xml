@@ -16,11 +16,13 @@
     <property id="target.name" name="target.name" value="${ant.project.name}"/>
     <property name="project.dir" location="../openssl-xcode"/>
     <property name="artifacts.dir" location="./artifacts"/>
+    
+    <property name="openssl.dist.dir" location="${iOSShared.distdir}/${target.name}" />
+    <property name="openssl.dist" value="openssl-1.0.1c.tar.gz" />
+    <property name="openssl.license" value="openssl_license.txt" />
 
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
-
-    <property id="sdk.iphonesimulator" name="sdk.iphonesimulator" value="${platform.iphonesimulator}"/>
 
     <property id="configuration.debug" name="configuration.debug" value="Debug"/>
     <property id="configuration.release" name="configuration.release" value="Release"/>
@@ -28,8 +30,8 @@
     <target name="all" depends="pre, build" description="do it all"/>
 
     <target name="build" description="builds all targets">
+        <antcall target="compileDebug" />
         <antcall target="compileRelease"/>
-        <delete dir="${project.dir}/build"/>
     </target>
 
     <target name="pre" depends="initArtifacts"/>
@@ -37,6 +39,9 @@
     <target name="initArtifacts">
 		<echo>artifacts.dir is '${artifacts.dir}'</echo>
         <mkdir dir="${artifacts.dir}"/>
+        
+        <echo>Copying openssl distribution to '${project.dir}'.</echo>
+        <copy todir="${project.dir}" file="${openssl.dist.dir}/${openssl.dist}" />
     </target>
 
     <target name="compileDebug" depends="pre">
@@ -62,6 +67,8 @@
             <param name="target" value="crypto"/>
             <!-- <param name="action" value="install"/> -->
         </antcall>
+        
+        <delete file="${project.dir}/${openssl.dist}" />
 
 		<copy todir="${artifacts.dir}/${configuration}-${platform.iphonesimulator}">
 			<fileset dir="${buildProductsDir}/${configuration}-${platform.iphonesimulator}"/>
@@ -84,10 +91,19 @@
 			<fileset dir="${deviceLibDir}/openssl"/>
 		</copy>
         
+        <!-- Copy license file -->
+        <copy todir="${destinationDir}" file="${openssl.dist.dir}/${openssl.license}" />
+        
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-${configuration}.zip"/>
             <param name="basedir" value="${destinationDir}"/>
         </antcall>
+        
+        <move todir="${openssl.dist.dir}">
+            <filelist dir="${artifacts.dir}">
+                <file name="${target.name}-${configuration}.zip"/>
+            </filelist>
+		</move>
 
         <delete dir="${artifacts.dir}/${target.name}"/>
         <delete dir="${buildProductsDir}"/>
@@ -102,7 +118,7 @@
 	        <param name="install_path" value="${artifacts.dir}/${configuration}-${platform.iphoneos}"/>
             <param name="configuration" value="${configuration}"/>
             <param name="sdk" refid="platform.iphoneos"/>
-            <param name="target" value="RestKit"/>
+            <param name="target" value="crypto"/>
             <!-- <param name="action" value="install"/> -->
         </antcall>
 
@@ -114,36 +130,43 @@
             <param name="install_path" value="${artifacts.dir}/${configuration}-${platform.iphonesimulator}"/>
             <param name="configuration" value="${configuration}"/>
             <param name="sdk" refid="platform.iphonesimulator"/>
-            <param name="target" value="RestKit"/>
+            <param name="target" value="crypto"/>
             <!-- <param name="action" value="install"/> -->
         </antcall>
+        
+        <delete file="${project.dir}/${openssl.dist}" />
 
 		<copy todir="${artifacts.dir}/${configuration}-${platform.iphonesimulator}">
 			<fileset dir="${buildProductsDir}/${configuration}-${platform.iphonesimulator}"/>
 		</copy>
 		
-        <!-- RestKit sticks its output in an unusual place -->
-        <property name="deviceLibDir" value="${artifacts.dir}/${configuration}-${sdk.iphoneos}" />
+        <property name="deviceLibDir" value="${artifacts.dir}/${configuration}-${platform.iphoneos}" />
         <property name="simulatorLibDir" value="${artifacts.dir}/${configuration}-${platform.iphonesimulator}" />
             
         <property name="destinationDir" value="${artifacts.dir}/${target.name}" />
 
 
 		<antcall target="iOSShared.lipo_full">
-		    <param name="libname" value="libRestKit.a"/>
+		    <param name="libname" value="libcrypto.a"/>
+		</antcall>
+        <antcall target="iOSShared.lipo_full">
+		    <param name="libname" value="libssl.a"/>
 		</antcall>
 
         <!-- Copy includes along with libs -->
-		<copy todir="${destinationDir}/include">
-			<fileset dir="${deviceLibDir}/include"/>
+		<copy todir="${destinationDir}/openssl">
+			<fileset dir="${deviceLibDir}/openssl"/>
 		</copy>
+        
+        <!-- Copy license file -->
+        <copy todir="${destinationDir}" file="${openssl.dist.dir}/${openssl.license}" />
         
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-${configuration}.zip"/>
             <param name="basedir" value="${destinationDir}"/>
         </antcall>
 
-		<move todir="${iOSShared.distdir}/${target.name}">
+		<move todir="${openssl.dist.dir}">
 		  <filelist dir="${artifacts.dir}">
 		    <file name="${target.name}-${configuration}.zip"/>
 		  </filelist>
@@ -156,7 +179,8 @@
     <target name="clean">
         <delete dir="${project.dir}/build"/>
         <delete dir="${artifacts.dir}"/>
-        <delete dir="${iOSShared.distdir}/${target.name}"/>
+        <delete file="${openssl.dist.dir}/${target.name}-${configuration.debug}.zip"/>
+        <delete file="${openssl.dist.dir}/${target.name}-${configuration.release}.zip"/>
     </target>
 </project>
 
