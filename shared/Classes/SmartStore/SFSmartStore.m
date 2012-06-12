@@ -698,7 +698,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (NSArray *)tableNamesForAllSoups {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSMutableArray* result = [NSMutableArray array]; // equivalent to: [[[NSMutableArray alloc] init] autorelease]
     NSString* sql = [NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_NAMES_TABLE];
     FMResultSet *frs = [self.storeDb executeQuery:sql];
     while ([frs next]) {
@@ -943,7 +943,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     for (NSString* soupTableName in soupTableNames) {
         [self removeSoup:soupTableName];
     }
-    [soupTableNames release];
  }
 
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
