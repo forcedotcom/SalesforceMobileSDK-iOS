@@ -10,3 +10,9 @@
 [submodule "external/fmdb/fmdb"]
 	path = external/fmdb/fmdb
 	url = https://github.com/forcedotcom/fmdb.git
+[submodule "external/openssl-xcode/openssl-xcode"]
+	path = external/openssl-xcode/openssl-xcode
+	url = https://github.com/forcedotcom/openssl-xcode.git
+[submodule "external/sqlcipher/sqlcipher"]
+	path = external/sqlcipher/sqlcipher
+	url = https://github.com/forcedotcom/sqlcipher.git
