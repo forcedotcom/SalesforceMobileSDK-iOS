@@ -143,6 +143,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSString *)tableNameBySoupId:(long)soupId;
 
 /**
+ Obtain all soup table names from SOUP_NAMES_TABLE
+ */
+- (NSArray *)tableNamesForAllSoups;
+
+/**
  Pull an indexSpec value from the json-derived object
  */
 - (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
@@ -692,6 +697,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return [NSString stringWithFormat:@"TABLE_%d",soupId];
 }
 
+- (NSArray *)tableNamesForAllSoups {
+    NSMutableArray* result = [NSMutableArray array]; // equivalent to: [[[NSMutableArray alloc] init] autorelease]
+    NSString* sql = [NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_NAMES_TABLE];
+    FMResultSet *frs = [self.storeDb executeQuery:sql];
+    while ([frs next]) {
+        NSString* tableName = [frs stringForColumn:SOUP_NAME_COL];
+        [result addObject:tableName];
+    }
+
+    [frs close];
+    return result;
+}
 
 /**
  @param soupName the name of the soup
@@ -919,6 +936,15 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 }
 
+ - (void)removeAllSoups {
+    NSArray* soupTableNames = [self tableNamesForAllSoups];
+    if (nil == soupTableNames)
+        return;
+    for (NSString* soupTableName in soupTableNames) {
+        [self removeSoup:soupTableName];
+    }
+ }
+
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
                              soupTableName:(NSString *)soupTableName
                   forFieldPath:(NSString *)fieldPath
@@ -971,7 +997,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     return returnId;
 }
-
 
 - (FMResultSet *)queryTable:(NSString*)table 
                  forColumns:(NSArray*)columns 
