@@ -510,7 +510,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                            tableName, fieldNames, fieldValueMarkers];
     //NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
     [fieldNames release]; [fieldValueMarkers release];
-    BOOL result = [self.storeDb executeUpdate:insertSql withParams:binds];
+    BOOL result = [self.storeDb executeUpdate:insertSql withArgumentsInArray:binds];
     [binds release];
         
     return result;
@@ -543,7 +543,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                            tableName, fieldEntries, ID_COL];
     //NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
     [fieldEntries release];
-    BOOL result = [self.storeDb executeUpdate:updateSql withParams:binds];
+    BOOL result = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
     [binds release];
     
     return result;
@@ -588,7 +588,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                         SOUP_NAME_COL,
                         PATH_COL
                         ];
-    FMResultSet *frs = [self.storeDb executeQuery:querySql withParams:[NSArray arrayWithObjects:soupName, path, nil]];
+    FMResultSet *frs = [self.storeDb executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObjects:soupName, path, nil]];
     if ([frs next]) {        
         result = [frs stringForColumnIndex:0];         
     }
@@ -678,7 +678,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_NAMES_TABLE,SOUP_NAME_COL];
 //    NSLog(@"tableName query: %@",sql);
-    FMResultSet *frs = [self.storeDb executeQuery:sql withParams:[NSArray arrayWithObject:soupName]];
+    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
     
     if ([frs next]) {
         NSUInteger colIdx = [frs columnIndexForName:ID_COL];
@@ -726,7 +726,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                               SOUP_INDEX_MAP_TABLE,
                               SOUP_NAME_COL];
         NSLog(@"indices sql: %@",querySql);
-        FMResultSet *frs = [self.storeDb executeQuery:querySql withParams:[NSArray arrayWithObject:soupName]];
+        FMResultSet *frs = [self.storeDb executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
         
         while([frs next]) {
             NSString *path = [frs stringForColumn:PATH_COL];
@@ -787,9 +787,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                    nil];
     
     [self.storeDb beginTransaction];
-    [self insertIntoTable:SOUP_NAMES_TABLE values:soupMapValues];
-    soupTableName = [self tableNameForSoup:soupName];
-    [self.storeDb endTransaction:YES];
+    BOOL insertSucceeded = [self insertIntoTable:SOUP_NAMES_TABLE values:soupMapValues];
+    if (insertSucceeded) {
+        [self.storeDb commit];
+        soupTableName = [self tableNameForSoup:soupName];
+    } else
+        [self.storeDb rollback];
     
     if (nil == soupTableName) {
         NSLog(@"couldn't properly register soupName: '%@' ",soupName);
@@ -887,9 +890,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             }
         }
         
-        [self.storeDb endTransaction:runOk];
-        result = runOk;
+        if (runOk)
+            [self.storeDb commit];
+        else
+            [self.storeDb rollback];
         
+        result = runOk;
     }
     
     [createTableStmt release];
@@ -915,12 +921,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
         NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", 
                                     SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
-        [self.storeDb executeUpdate:deleteIndexSql withParams:nil];
+        [self.storeDb executeUpdate:deleteIndexSql];
         NSString *deleteNameSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", 
                                    SOUP_NAMES_TABLE, SOUP_NAME_COL, soupName];
-        [self.storeDb executeUpdate:deleteNameSql withParams:nil];
+        [self.storeDb executeUpdate:deleteNameSql];
         
-        [self.storeDb endTransaction:YES];
+        [self.storeDb commit];
                     
         [_indexSpecsBySoup removeObjectForKey:soupName ];
          
@@ -930,7 +936,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     @catch (NSException *exception) {
         NSLog(@"exception removing soup: %@", exception);
-        [self.storeDb endTransaction:NO];
+        [self.storeDb rollback];
     }
 
 
@@ -1021,7 +1027,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", 
                      columnsStr, table, selectionStr, orderByStr, limitStr];
-    FMResultSet *frs = [self.storeDb executeQuery:sql withParams:whereArgs];
+    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:whereArgs];
     return frs;
 }
 
@@ -1146,7 +1152,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ %@", soupTableName, whereClause];
     NSLog(@"countSql: \n %@ \n binds: %@",querySql,binds);
-    frs = [self.storeDb executeQuery:querySql withParams:binds];
+    frs = [self.storeDb executeQuery:querySql withArgumentsInArray:binds];
     
     NSUInteger result = 0;
 
@@ -1236,7 +1242,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupTableName, SOUP_COL, ID_COL];
 //    NSLog(@"updateSql: \n %@ \n binds: %@",updateSql,binds);
                 
-    BOOL updateOk = [self.storeDb executeUpdate:updateSql withParams:binds];
+    BOOL updateOk = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
     if (!updateOk) {
         mutableEntry = nil;
     }
@@ -1371,7 +1377,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         if (!upsertSuccess) {
             [result removeAllObjects];
         }
-        [self.storeDb endTransaction:upsertSuccess];
+        
+        if (upsertSuccess)
+            [self.storeDb commit];
+        else
+            [self.storeDb rollback];
         
     }
     

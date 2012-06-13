@@ -7,3 +7,6 @@
 [submodule "external/RestKit/RestKit"]
 	path = external/RestKit/RestKit
 	url = https://github.com/forcedotcom/RestKit.git
+[submodule "external/fmdb/fmdb"]
+	path = external/fmdb/fmdb
+	url = https://github.com/forcedotcom/fmdb.git

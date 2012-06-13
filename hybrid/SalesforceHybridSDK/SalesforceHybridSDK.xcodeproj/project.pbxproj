@@ -19,10 +19,6 @@
 		7D20FBBC14ED7DBD00A86731 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE7F14EB246B004F241C /* SFSoupIndex.m */; };
 		7D20FBBD14ED7DBD00A86731 /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8014EB246B004F241C /* SFSoupQuerySpec.m */; };
 		7D20FBBE14ED7DBD00A86731 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
-		7D20FBBF14ED7DBD00A86731 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D20FBC014ED7DBD00A86731 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D20FBC114ED7DBD00A86731 /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D20FBC214ED7DBD00A86731 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D20FBC614ED7DBD00A86731 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
 		7D20FBC714ED7DBD00A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
@@ -47,7 +43,6 @@
 		7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
-		7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
 		7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
 		7D20FBF414ED7DBD00A86731 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
@@ -80,19 +75,6 @@
 		7D8ECE9814EB246B004F241C /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
 		7D8ECE9914EB246B004F241C /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
 		7D8ECE9A14EB246B004F241C /* SFSoupQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8214EB246B004F241C /* SFSoupQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECE9B14EB246B004F241C /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8414EB246B004F241C /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECE9C14EB246B004F241C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D8ECE9D14EB246B004F241C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D8ECE9E14EB246B004F241C /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */; };
-		7D8ECE9F14EB246B004F241C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D8ECEA014EB246B004F241C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D8ECEA114EB246B004F241C /* FMDbException.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8814EB246B004F241C /* FMDbException.h */; };
-		7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D8ECEA314EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D8ECEA414EB246B004F241C /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
-		7D8ECEA614EB246B004F241C /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8B14EB246B004F241C /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
-		7D8ECEA814EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D8ECEAA14EB246B004F241C /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D8ECEAB14EB246B004F241C /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */; };
@@ -184,6 +166,27 @@
 		7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E7014C646DB00D0C211 /* PluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
+		821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E801583FBBF00433F92 /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E8C1583FBBF00433F92 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */; };
+		821C5E8D1583FBBF00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E8E1583FBBF00433F92 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E841583FBBF00433F92 /* FMDatabasePool.h */; };
+		821C5E8F1583FBBF00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E901583FBBF00433F92 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */; };
+		821C5E911583FBBF00433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E921583FBBF00433F92 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E881583FBBF00433F92 /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E931583FBBF00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		821C5E941583FBD100433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E951583FBD200433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E961583FBDA00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E971583FBDB00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E981583FBEA00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E991583FBEB00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E9A1583FBF100433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
 		822AC0931577D995007C20B9 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0881577D995007C20B9 /* NSData+SFAdditions.h */; };
 		822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0891577D995007C20B9 /* NSData+SFAdditions.m */; };
 		822AC0951577D995007C20B9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */; };
@@ -429,15 +432,6 @@
 		7D8ECE8014EB246B004F241C /* SFSoupQuerySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSoupQuerySpec.m; path = ../../../../../shared/Classes/SmartStore/SFSoupQuerySpec.m; sourceTree = "<group>"; };
 		7D8ECE8114EB246B004F241C /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSoupCursor.m; path = ../../../../../shared/Classes/SmartStore/SFSoupCursor.m; sourceTree = "<group>"; };
 		7D8ECE8214EB246B004F241C /* SFSoupQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSoupQuerySpec.h; path = ../../../../../shared/Classes/SmartStore/SFSoupQuerySpec.h; sourceTree = "<group>"; };
-		7D8ECE8414EB246B004F241C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		7D8ECE8514EB246B004F241C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		7D8ECE8814EB246B004F241C /* FMDbException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDbException.h; sourceTree = "<group>"; };
-		7D8ECE8914EB246B004F241C /* FMDbException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDbException.m; sourceTree = "<group>"; };
-		7D8ECE8A14EB246B004F241C /* FMLicense.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FMLicense.txt; sourceTree = "<group>"; };
-		7D8ECE8B14EB246B004F241C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		7D8ECE8C14EB246B004F241C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SqliteAdditions.c; sourceTree = "<group>"; };
 		7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
 		7D8ECE8F14EB246B004F241C /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSoupIndex.h; path = ../../../../../shared/Classes/SmartStore/SFSoupIndex.h; sourceTree = "<group>"; };
@@ -499,6 +493,17 @@
 		7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapDelegate.h; sourceTree = "<group>"; };
 		7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapViewController.h; sourceTree = "<group>"; };
 		7DF93E7014C646DB00D0C211 /* PluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
+		821C5E7E1583FBA000433F92 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
+		821C5E801583FBBF00433F92 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/fmdb/src/FMDatabase.h; sourceTree = "<group>"; };
+		821C5E811583FBBF00433F92 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/fmdb/src/FMDatabase.m; sourceTree = "<group>"; };
+		821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = ../../../../external/fmdb/fmdb/src/FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		821C5E841583FBBF00433F92 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = ../../../../external/fmdb/fmdb/src/FMDatabasePool.h; sourceTree = "<group>"; };
+		821C5E851583FBBF00433F92 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = ../../../../external/fmdb/fmdb/src/FMDatabasePool.m; sourceTree = "<group>"; };
+		821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.h; sourceTree = "<group>"; };
+		821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.m; sourceTree = "<group>"; };
+		821C5E881583FBBF00433F92 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../external/fmdb/fmdb/src/FMResultSet.h; sourceTree = "<group>"; };
+		821C5E891583FBBF00433F92 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../external/fmdb/fmdb/src/FMResultSet.m; sourceTree = "<group>"; };
 		822AC0881577D995007C20B9 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
 		822AC0891577D995007C20B9 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SFAdditions.m"; sourceTree = "<group>"; };
 		822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
@@ -891,15 +896,17 @@
 		7D8ECE8314EB246B004F241C /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
-				7D8ECE8414EB246B004F241C /* FMDatabase.h */,
-				7D8ECE8514EB246B004F241C /* FMDatabase.m */,
-				7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */,
-				7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */,
-				7D8ECE8814EB246B004F241C /* FMDbException.h */,
-				7D8ECE8914EB246B004F241C /* FMDbException.m */,
-				7D8ECE8A14EB246B004F241C /* FMLicense.txt */,
-				7D8ECE8B14EB246B004F241C /* FMResultSet.h */,
-				7D8ECE8C14EB246B004F241C /* FMResultSet.m */,
+				821C5E801583FBBF00433F92 /* FMDatabase.h */,
+				821C5E811583FBBF00433F92 /* FMDatabase.m */,
+				821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */,
+				821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */,
+				821C5E841583FBBF00433F92 /* FMDatabasePool.h */,
+				821C5E851583FBBF00433F92 /* FMDatabasePool.m */,
+				821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */,
+				821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */,
+				821C5E881583FBBF00433F92 /* FMResultSet.h */,
+				821C5E891583FBBF00433F92 /* FMResultSet.m */,
+				821C5E7E1583FBA000433F92 /* LICENSE.txt */,
 				7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */,
 				7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */,
 			);
@@ -1163,10 +1170,6 @@
 				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
 				7DD5B43714E47FDB005C62E1 /* NSDictionary+NullHandling.h in Headers */,
 				7D8ECE9A14EB246B004F241C /* SFSoupQuerySpec.h in Headers */,
-				7D8ECE9B14EB246B004F241C /* FMDatabase.h in Headers */,
-				7D8ECE9E14EB246B004F241C /* FMDatabaseAdditions.h in Headers */,
-				7D8ECEA114EB246B004F241C /* FMDbException.h in Headers */,
-				7D8ECEA614EB246B004F241C /* FMResultSet.h in Headers */,
 				7D8ECEAB14EB246B004F241C /* SqliteAdditions.h in Headers */,
 				7D8ECEAC14EB246B004F241C /* SFSoupIndex.h in Headers */,
 				7D8ECEAD14EB246B004F241C /* SFSoupCursor.h in Headers */,
@@ -1193,6 +1196,11 @@
 				822AC0CC1577EFCF007C20B9 /* SFIdentityCoordinator.h in Headers */,
 				822AC0CE1577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h in Headers */,
 				822AC0CF1577EFCF007C20B9 /* SFIdentityData.h in Headers */,
+				821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */,
+				821C5E8C1583FBBF00433F92 /* FMDatabaseAdditions.h in Headers */,
+				821C5E8E1583FBBF00433F92 /* FMDatabasePool.h in Headers */,
+				821C5E901583FBBF00433F92 /* FMDatabaseQueue.h in Headers */,
+				821C5E921583FBBF00433F92 /* FMResultSet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,7 +1402,6 @@
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
 				7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */,
 				7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */,
-				7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */,
 				7D20FC3314ED98F000A86731 /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1412,7 +1419,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */,
-				7D8ECEA414EB246B004F241C /* FMLicense.txt in Resources */,
+				821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1589,10 +1596,6 @@
 				7D20FBBC14ED7DBD00A86731 /* SFSoupIndex.m in Sources */,
 				7D20FBBD14ED7DBD00A86731 /* SFSoupQuerySpec.m in Sources */,
 				7D20FBBE14ED7DBD00A86731 /* SFSoupCursor.m in Sources */,
-				7D20FBBF14ED7DBD00A86731 /* FMDatabase.m in Sources */,
-				7D20FBC014ED7DBD00A86731 /* FMDatabaseAdditions.m in Sources */,
-				7D20FBC114ED7DBD00A86731 /* FMDbException.m in Sources */,
-				7D20FBC214ED7DBD00A86731 /* FMResultSet.m in Sources */,
 				7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */,
 				8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */,
 				8248E067157D102100A7FE69 /* SFLogger.m in Sources */,
@@ -1605,6 +1608,11 @@
 				8248E07C157D10AD00A7FE69 /* SFKeychainItemWrapper.m in Sources */,
 				8248E07F157D10BF00A7FE69 /* SFIdentityData.m in Sources */,
 				8248E082157D10D500A7FE69 /* SFCrypto.m in Sources */,
+				821C5E951583FBD200433F92 /* FMDatabase.m in Sources */,
+				821C5E971583FBDB00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E991583FBEB00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1630,10 +1638,6 @@
 				7D8ECE9414EB246B004F241C /* SFSoupIndex.m in Sources */,
 				7D8ECE9614EB246B004F241C /* SFSoupQuerySpec.m in Sources */,
 				7D8ECE9814EB246B004F241C /* SFSoupCursor.m in Sources */,
-				7D8ECE9C14EB246B004F241C /* FMDatabase.m in Sources */,
-				7D8ECE9F14EB246B004F241C /* FMDatabaseAdditions.m in Sources */,
-				7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */,
-				7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */,
 				82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */,
 				822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */,
@@ -1651,6 +1655,11 @@
 				822AC0C51577EF57007C20B9 /* SFSecurityLockout.m in Sources */,
 				822AC0CD1577EFCF007C20B9 /* SFIdentityCoordinator.m in Sources */,
 				822AC0D01577EFCF007C20B9 /* SFIdentityData.m in Sources */,
+				821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */,
+				821C5E8D1583FBBF00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E8F1583FBBF00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E911583FBBF00433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E931583FBBF00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1689,10 +1698,6 @@
 				7D8ECE9514EB246B004F241C /* SFSoupIndex.m in Sources */,
 				7D8ECE9714EB246B004F241C /* SFSoupQuerySpec.m in Sources */,
 				7D8ECE9914EB246B004F241C /* SFSoupCursor.m in Sources */,
-				7D8ECE9D14EB246B004F241C /* FMDatabase.m in Sources */,
-				7D8ECEA014EB246B004F241C /* FMDatabaseAdditions.m in Sources */,
-				7D8ECEA314EB246B004F241C /* FMDbException.m in Sources */,
-				7D8ECEA814EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEAA14EB246B004F241C /* SqliteAdditions.c in Sources */,
 				8248E063157D0CC400A7FE69 /* SFAccountManager.m in Sources */,
 				8248E066157D102000A7FE69 /* SFLogger.m in Sources */,
@@ -1705,6 +1710,11 @@
 				8248E07B157D10AC00A7FE69 /* SFKeychainItemWrapper.m in Sources */,
 				8248E07E157D10BE00A7FE69 /* SFIdentityData.m in Sources */,
 				8248E081157D10D300A7FE69 /* SFCrypto.m in Sources */,
+				821C5E941583FBD100433F92 /* FMDatabase.m in Sources */,
+				821C5E961583FBDA00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E981583FBEA00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E9A1583FBF100433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
