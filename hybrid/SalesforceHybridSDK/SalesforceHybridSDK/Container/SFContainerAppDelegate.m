@@ -31,6 +31,7 @@
 #import "SFSecurityLockout.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFSmartStore.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.2.0";
@@ -398,6 +399,9 @@ static SFLogLevel const kAppLogLevel = Info;
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setURL:nil forKey:kAppHomeUrlPropKey];
     [defs synchronize];
+
+    // Clear smartstore
+    [[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] removeAllSoups];
     
     if (restartAuthentication)
         [self loadStartPageIntoWebView];
