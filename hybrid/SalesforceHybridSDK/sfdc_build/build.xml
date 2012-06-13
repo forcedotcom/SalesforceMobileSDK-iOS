@@ -26,11 +26,11 @@
     </target>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.callback-ios, iOSShared.dependency.oauth"
+		depends="iOSShared.dependency.callback-ios, iOSShared.dependency.oauth, iOSShared.dependency.openssl, iOSShared.dependency.sqlcipher"
 		/>
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean"
+		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sqlcipher.clean, iOSShared.dependency.openssl.clean"
 		/>
 	
 	<target name="all" depends="pre,utest,buildDist" description="do it all">

@@ -37,7 +37,6 @@
 		7D1380C714B50BAD00A21EE2 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */; };
 		7D1380C914B50BAD00A21EE2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380C814B50BAD00A21EE2 /* Settings.bundle */; };
 		7D1380CB14B50BAD00A21EE2 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */; };
-		7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */; };
 		7D1380FE14B5192E00A21EE2 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D1380FD14B5192E00A21EE2 /* www */; };
 		7D1DB1F214C5F1C6003830CD /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D1DB1E214C5F1B4003830CD /* bootstrap.html */; };
 		7D1DB20014C5F704003830CD /* phonegap-1.2.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */; };
@@ -105,7 +104,6 @@
 		7D1380C614B50BAD00A21EE2 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		7D1380C814B50BAD00A21EE2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7D1380CA14B50BAD00A21EE2 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
-		7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D1380FD14B5192E00A21EE2 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7D1DB1E214C5F1B4003830CD /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bootstrap.html; sourceTree = "<group>"; };
 		7D1DB1FE14C5F6F3003830CD /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82707C0B157C49C300B50291 /* libz.dylib in Frameworks */,
-				7D1380F314B50D3500A21EE2 /* libsqlite3.dylib in Frameworks */,
 				7D13804B14B50BAC00A21EE2 /* Foundation.framework in Frameworks */,
 				7D13804D14B50BAC00A21EE2 /* UIKit.framework in Frameworks */,
 				7D13804F14B50BAC00A21EE2 /* CFNetwork.framework in Frameworks */,
@@ -169,7 +166,6 @@
 		7D13804914B50BAC00A21EE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7D1380F214B50D3500A21EE2 /* libsqlite3.dylib */,
 				82707C0A157C49C300B50291 /* libz.dylib */,
 				7D13804A14B50BAC00A21EE2 /* Foundation.framework */,
 				7D13804C14B50BAC00A21EE2 /* UIKit.framework */,
