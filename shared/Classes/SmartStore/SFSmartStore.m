@@ -33,6 +33,7 @@
 #import "SFSoupCursor.h"
 #import "SFSoupIndex.h"
 #import "SFSoupQuerySpec.h"
+#import "SFSecurityLockout.h"
 
 
 
@@ -210,6 +211,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                 fieldValue:(NSString *)fieldValue
                                      error:(NSError **)error;
 
+- (NSString *)encKey;
+
 @end
 
 
@@ -349,6 +352,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [db setLogsErrors:YES];
     [db setCrashOnErrors:YES];
     if ([db open]) {
+        NSString *key = [self encKey];
+        [db setKey:key];
         [_storeDb release];
         _storeDb = [db retain];
         result = YES;
@@ -399,8 +404,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 + (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
-    //We use NSCachesDirectory here to prevent backup that could be decrypted.
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
     NSString *result = [storesDir stringByAppendingPathComponent:storeName];
@@ -666,7 +670,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-
+- (NSString *)encKey
+{
+    NSString *key = [SFSecurityLockout hashedPasscode];
+    return (key == nil ? @"" : key);
+}
 
 
 
