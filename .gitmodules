@@ -16,3 +16,6 @@
 [submodule "external/sqlcipher/sqlcipher"]
 	path = external/sqlcipher/sqlcipher
 	url = https://github.com/forcedotcom/sqlcipher.git
+[submodule "external/appledoc/appledoc"]
+	path = external/appledoc/appledoc
+	url = https://github.com/tomaz/appledoc.git
