@@ -25,15 +25,15 @@
 #import <Foundation/Foundation.h>
 #import "PGPlugin.h"
 #import "SFOAuthCoordinator.h"
+#import "SFIdentityCoordinator.h"
 
-@class SFAuthorizingViewController;
 @class SFContainerAppDelegate;
+@class SFIdentityData;
 
 /**
  * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, UIAlertViewDelegate> {
-    SFOAuthCoordinator *_coordinator;
+@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;
@@ -42,13 +42,11 @@
     NSSet *_oauthScopes;
     NSDate *_lastRefreshCompleted;
     BOOL _autoRefreshOnForeground;
-    UIAlertView *_oauthStatusAlert;
+    UIAlertView *_statusAlert;
+    BOOL _autoRefreshPeriodically;
+    NSTimer *_autoRefreshTimer;
+    NSURLConnection *_sessionKeepaliveConnection;
 }
-
-/**
- The SFOAuthCoordinator used for managing login/logout.
- */
-@property (nonatomic, readonly) SFOAuthCoordinator *coordinator;
 
 /**
  The Remote Access object consumer key.
@@ -84,6 +82,12 @@
 
 
 /**
+ Whether the app should automatically refresh oauth session every ~15 minutes
+ while the app is running.
+ */
+@property (nonatomic, assign) BOOL autoRefreshPeriodically;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
@@ -100,12 +104,15 @@
  */
 - (void)loggedIn;
 
+/**
+ Resets the processes that perform periodic session refreshing.
+ */
+- (void)clearPeriodicRefreshState;
 
 /**
- Used to reset the application to its initial state, with a cleared authentication state.
+ If auto refresh is configured, refresh the existing OAuth session.
  */
-- (BOOL)resetAppState;
-
+- (void)autoRefresh;
 
 #pragma mark - Plugin exported to javascript
 

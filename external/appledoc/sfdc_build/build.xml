@@ -1,0 +1,83 @@
+<!--
+    Build file for appledoc
+    - Public Headers Folder Path to: <don't change>
+    - Installation Directory to: /
+    - Skip Install to: No
+-->
+<project name="appledoc" default="all">
+    <import file="../../../shared/build.xml"/>
+    
+    <property environment="env"/>
+    <property name="env.BUILD_NUMBER" value="1"/>
+
+    <!-- Supplied by the automated build server -->
+    <property id="SDK" name="SDK" value="Latest"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}"/>
+    <property name="project.dir" location="../appledoc"/>
+    <property name="artifacts.dir" location="./artifacts"/>
+    
+    <property name="appledoc.dist.dir" location="${iOSShared.distdir}/${target.name}" />
+    <property name="appledoc.license" value="appledoc_license.txt" />
+
+    <property id="platform.macosx" name="platform.macosx" value="macosx"/>
+
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+    <target name="all" depends="pre, build" description="do it all"/>
+
+    <target name="build" description="builds all targets">
+        <antcall target="compileRelease"/>
+    </target>
+
+    <target name="pre" depends="initArtifacts" />
+
+    <target name="initArtifacts">
+		<echo>artifacts.dir is '${artifacts.dir}'</echo>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+    <target name="compileRelease" depends="pre">
+        <property name="configuration" value="${configuration.release}" />
+        <property name="buildProductsDir" value="${project.dir}/build" />
+        <property name="destinationDir" value="${artifacts.dir}/${target.name}" />
+
+        <antcall target="iOSShared.compile">
+	        <param name="install_path" value="${artifacts.dir}/${configuration}-${platform.macosx}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.macosx"/>
+            <param name="target" value="appledoc"/>
+        </antcall>
+
+		<copy todir="${destinationDir}">
+			<fileset dir="${buildProductsDir}/${configuration}"/>
+		</copy>
+        <chmod file="${destinationDir}/appledoc" perm="755"/>
+        
+        <copy todir="${destinationDir}" file="${appledoc.dist.dir}/${appledoc.license}" />
+        <copy todir="${destinationDir}/Templates">
+            <fileset dir="${project.dir}/Templates" />
+        </copy>
+        
+        <antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/${target.name}-${configuration}.zip"/>
+            <param name="basedir" value="${destinationDir}"/>
+        </antcall>
+
+		<move todir="${appledoc.dist.dir}">
+		  <filelist dir="${artifacts.dir}">
+		    <file name="${target.name}-${configuration}.zip"/>
+		  </filelist>
+		</move>
+		
+        <delete dir="${artifacts.dir}/${target.name}"/>
+        <delete dir="${buildProductsDir}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${project.dir}/build"/>
+        <delete dir="${artifacts.dir}"/>
+        <delete file="${appledoc.dist.dir}/${target.name}-${configuration.release}.zip"/>
+    </target>
+</project>
+

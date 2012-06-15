@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 
 #import "SFRestRequest.h"
+#import "SFIdentityCoordinator.h"
+#import "SFOAuthCoordinator.h"
 
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;
@@ -32,15 +34,15 @@ extern NSString* const kTestRequestStatusDidFail;
 extern NSString* const kTestRequestStatusDidCancel;
 extern NSString* const kTestRequestStatusDidTimeout;
 
-@interface TestRequestListener : NSObject <SFRestDelegate> {
-    SFRestRequest *_originalRequest;
+@interface TestRequestListener : NSObject <SFRestDelegate, SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
+    id _originalRequest;
     id _jsonResponse;
     NSError *_lastError;
     NSString *_returnStatus;
     NSTimeInterval _maxWaitTime;
 }
 
-@property (nonatomic, retain) SFRestRequest *originalRequest;
+@property (nonatomic, retain) id originalRequest;
 @property (nonatomic, retain) id jsonResponse;
 @property (nonatomic, retain) NSError *lastError;
 @property (nonatomic, retain) NSString *returnStatus;
@@ -48,7 +50,7 @@ extern NSString* const kTestRequestStatusDidTimeout;
 /// Max time to wait for request completion
 @property (nonatomic, assign) NSTimeInterval maxWaitTime;
 
-- (id)initWithRestRequest:(SFRestRequest*)request;
+- (id)initWithRequest:(id)request;
 
 /**
  * Wait for the request to complete (success or fail)

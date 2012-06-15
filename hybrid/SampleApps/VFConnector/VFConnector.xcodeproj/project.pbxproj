@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7D3FF09414BE2B1D004D3FF6 /* bootstrap.html in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */; };
-		7D3FF09514BE2B1D004D3FF6 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */; };
-		7D3FF09614BE2B1D004D3FF6 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */; };
 		7D3FF09F14BE2CB5004D3FF6 /* phonegap-1.2.0.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */; };
 		7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D72611814C74B9700CFD63C /* libsqlite3.dylib */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
@@ -46,8 +44,11 @@
 		7DBD0748149AA8440043A9E0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */; };
 		7DBD074F149AA8780043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD074E149AA8780043A9E0 /* www */; };
 		7DFBB71914C8955D00D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */; };
-		82B13EAD14C0E95800D45D9C /* SFHybridApp.css in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAB14C0E95800D45D9C /* SFHybridApp.css */; };
-		82B13EAE14C0E95800D45D9C /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 82B13EAC14C0E95800D45D9C /* SFHybridApp.js */; };
+		826ED6C61582D96C00321962 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6C71582D97200321962 /* SFHybridApp.css in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C01582D92000321962 /* SFHybridApp.css */; };
+		826ED6C81582D97800321962 /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C21582D92800321962 /* SFHybridApp.js */; };
+		826ED6C91582D97F00321962 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C41582D93400321962 /* SFSmartStorePlugin.js */; };
+		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,12 +58,12 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				826ED6C91582D97F00321962 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */,
+				826ED6C81582D97800321962 /* SFHybridApp.js in Copy SFDC Shared WWW */,
+				826ED6C71582D97200321962 /* SFHybridApp.css in Copy SFDC Shared WWW */,
+				826ED6C61582D96C00321962 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */,
 				7D3FF09F14BE2CB5004D3FF6 /* phonegap-1.2.0.js in Copy SFDC Shared WWW */,
 				7D3FF09414BE2B1D004D3FF6 /* bootstrap.html in Copy SFDC Shared WWW */,
-				7D3FF09514BE2B1D004D3FF6 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */,
-				82B13EAD14C0E95800D45D9C /* SFHybridApp.css in Copy SFDC Shared WWW */,
-				82B13EAE14C0E95800D45D9C /* SFHybridApp.js in Copy SFDC Shared WWW */,
-				7D3FF09614BE2B1D004D3FF6 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */,
 			);
 			name = "Copy SFDC Shared WWW";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,8 +72,6 @@
 
 /* Begin PBXFileReference section */
 		7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
-		7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
-		7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7D72611814C74B9700CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7DBD06C5149AA8420043A9E0 /* VFConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,8 +111,11 @@
 		7DBD0747149AA8440043A9E0 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		7DBD074E149AA8780043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
-		82B13EAB14C0E95800D45D9C /* SFHybridApp.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/SFHybridApp.css; sourceTree = "<group>"; };
-		82B13EAC14C0E95800D45D9C /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/SFHybridApp.js; sourceTree = "<group>"; };
+		826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		826ED6C01582D92000321962 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/util/SFHybridApp.css; sourceTree = "<group>"; };
+		826ED6C21582D92800321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
+		826ED6C41582D93400321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
 				7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
 				7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */,
@@ -147,12 +150,12 @@
 		7D3FF05A14BE2A77004D3FF6 /* sfdc-shared */ = {
 			isa = PBXGroup;
 			children = (
-				7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */,
 				7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */,
-				7D3FF07214BE2A77004D3FF6 /* SalesforceOAuthPlugin.js */,
-				82B13EAB14C0E95800D45D9C /* SFHybridApp.css */,
-				82B13EAC14C0E95800D45D9C /* SFHybridApp.js */,
-				7D3FF07314BE2A77004D3FF6 /* SFSmartStorePlugin.js */,
+				7D3FF09D14BE2C9A004D3FF6 /* phonegap-1.2.0.js */,
+				826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */,
+				826ED6C01582D92000321962 /* SFHybridApp.css */,
+				826ED6C21582D92800321962 /* SFHybridApp.js */,
+				826ED6C41582D93400321962 /* SFSmartStorePlugin.js */,
 			);
 			name = "sfdc-shared";
 			path = ../../../../external/shared;
@@ -179,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				7D72611814C74B9700CFD63C /* libsqlite3.dylib */,
+				82707C11157C49EB00B50291 /* libz.dylib */,
 				7DBD06C9149AA8420043A9E0 /* Foundation.framework */,
 				7DBD06CB149AA8420043A9E0 /* UIKit.framework */,
 				7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */,

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -32,14 +32,7 @@
 
 @implementation TestSetupUtils
 
-
-+ (void)ensureCredentialsLoaded {
-    if (nil == [[SFRestAPI sharedInstance] coordinator]) {
-        [self readCredentialsConfigFile];
-    }
-}
-
-+ (void)readCredentialsConfigFile {
++ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath,@"Test config file not found!");
     
@@ -80,8 +73,7 @@
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
     [credentials release];
     
-    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
-    [coordinator release];
+    return [coordinator autorelease];
 }
 
 + (void)clearSFRestAPISingleton {

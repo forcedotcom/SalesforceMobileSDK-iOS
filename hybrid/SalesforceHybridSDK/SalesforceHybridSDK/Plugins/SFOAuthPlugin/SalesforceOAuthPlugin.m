@@ -26,60 +26,34 @@
 #import <PhoneGap/Connection.h>
 
 #import "SalesforceOAuthPlugin.h"
+#import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
+#import "SFAccountManager.h"
+#import "SFIdentityCoordinator.h"
+#import "SFIdentityData.h"
+#import "SFSecurityLockout.h"
+#import "SFUserActivityMonitor.h"
 
 // ------------------------------------------
 // Private constants
 // ------------------------------------------
 
-// Key for storing the user's configured login host.
-NSString * const kLoginHostUserDefault = @"login_host_pref";
+static NSInteger  const kOAuthAlertViewTag    = 444;
+static NSInteger  const kIdentityAlertViewTag = 555;
 
-// Key for the primary login host, as defined in the app settings.
-NSString * const kPrimaryLoginHostUserDefault = @"primary_login_host_pref";
-
-// Key for the custom login host value in the app settings.
-NSString * const kCustomLoginHostUserDefault = @"custom_login_host_pref";
-
-// Value for kPrimaryLoginHostUserDefault when a custom host is chosen.
-NSString * const kPrimaryLoginHostCustomValue = @"CUSTOM";
-
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-NSString * const kAccountLogoutUserDefault = @"account_logout_pref";
-
-/// Value to use for login host if user never opens the app settings.
-NSString * const kDefaultLoginHost = @"login.salesforce.com";
+NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
-@interface SalesforceOAuthPlugin (private)
-
-/**
- @return  YES if  user requested a logout in Settings.
- */
-- (BOOL)checkForUserLogout;
-
-/**
- Gets the primary login host value from app settings, initializing it to a default
- value first, if a valid one did not previously exist.
- @return The login host value from the app settings.
- */
-+ (NSString *)primaryLoginHost;
-
-/**
- Update the configured login host based on the user-defined app settings. 
- @return  YES if login host has changed in the app settings, NO otherwise. 
- */
-+ (BOOL)updateLoginHost;
-
-/**
- Initializes the app settings, in the event that the user has not configured
- them before the first launch of the application.
- */
-+ (void)ensureAccountDefaultsExist;
+@interface SalesforceOAuthPlugin ()
+{
+    /**
+     Whether this is the initial login to the application (i.e. no previous credentials).
+     */
+    BOOL _isInitialLogin;
+}
 
 /**
  Adds the access (session) token cookie to the web view, for authentication.
@@ -87,10 +61,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)addSidCookieForDomain:(NSString*)domain;
 
 /**
- Removes any cookies from the cookie store.  All app cookies are reset with
- new authentication.
+ Called after identity data is retrieved from the service.
  */
-- (void)removeCookies;
+- (void)retrievedIdentityData;
 
 /**
  Remove any cookies with the given names from the given domains.
@@ -105,6 +78,12 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (NSDictionary *)credentialsAsDictionary;
 
 /**
+ The method to call at the end of the auth bootstrapping process.  Any processes that
+ should run prior to launching the app should be called here.
+ */
+- (void)finalizeBootstrap;
+
+/**
  Converts the OAuth properties JSON input string into an object, and populates
  the OAuth properties of the plug-in with the values.
  */
@@ -117,20 +96,16 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
 /**
- Cleanup oauth coordinator
- */
-- (void)cleanupCoordinator;
-
-/**
  Dismisses the authentication retry alert box, if present.
  */
 - (void)cleanupRetryAlert;
 
 /**
- Displays an alert in the event of an unknown failure for OAuth, allowing the user
- to retry authentication.
+ Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
+ to retry the process.
+ @param tag The tag that identifies the process (OAuth or Identity).
  */
-- (void)showRetryAlertForAuthError:(NSError *)error;
+- (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag;
 
 /**
  Revokes the current user's credentials for the app, optionally redirecting her to the
@@ -140,6 +115,15 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
  */
 - (void)logout:(BOOL)restartAuthentication;
 
+/**
+ Periodic check for auto refresh
+ */
+- (void)startSessionAutoRefreshTimer;
+- (void)clearSessionAutoRefreshTimer;
+
+- (void)sendSessionKeepaliveRequest;
+- (void)cleanupSessionKeepaliveRequest;
+
 @end
 
 // ------------------------------------------
@@ -147,13 +131,13 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
-@synthesize coordinator=_coordinator;
 @synthesize remoteAccessConsumerKey=_remoteAccessConsumerKey;
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
 @synthesize oauthScopes=_oauthScopes;
 @synthesize lastRefreshCompleted = _lastRefreshCompleted;
 @synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
+@synthesize autoRefreshPeriodically = _autoRefreshPeriodically;
 
 #pragma mark - init/dealloc
 
@@ -165,8 +149,14 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
         _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
-        [[self class] ensureAccountDefaultsExist];
-        [[self class] updateLoginHost];
+        
+        // Strictly for internal tracking, assume we've got our initial credentials, until
+        // OAuth tells us otherwise.  E.g. we only want to call the identity service after
+        // we first authenticate.  If oauthCoordinator:didBeginAuthenticationWithView: isn't
+        // called, we can assume we've already gone through initial authentication at some point.
+        _isInitialLogin = NO;
+        
+        [SFAccountManager updateLoginHost];
     }
     
     return self;
@@ -174,15 +164,16 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)dealloc
 {
-    [self cleanupCoordinator];
+    [self clearPeriodicRefreshState];
+    
+    [[SFAccountManager sharedInstance] clearAccountState:NO];
     [self cleanupRetryAlert];
     
-    [_authCallbackId release]; _authCallbackId = nil;
-    [_remoteAccessConsumerKey release]; _remoteAccessConsumerKey = nil;
-    [_oauthRedirectURI release]; _oauthRedirectURI = nil;
-    [_oauthLoginDomain release]; _oauthLoginDomain = nil;
-    [_oauthScopes release]; _oauthScopes = nil;
-
+    SFRelease(_authCallbackId);
+    SFRelease(_remoteAccessConsumerKey);
+    SFRelease(_oauthRedirectURI);
+    SFRelease(_oauthLoginDomain);
+    SFRelease(_oauthScopes);
     
     [super dealloc];
 }
@@ -240,6 +231,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     if (nil != argsString) {
         // Build the OAuth args from the JSON object string argument.
         [self populateOAuthProperties:argsString];
+        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
+        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
+        [SFAccountManager setScopes:self.oauthScopes];
     }
     
     [self login];
@@ -270,7 +264,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (NSDictionary*)credentialsAsDictionary {
     NSDictionary *credentialsDict = nil;
     
-    SFOAuthCredentials *creds = self.coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -293,78 +287,118 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     return credentialsDict;
 }
 
+#pragma mark - Session Auto Refresh handling
 
-
-#pragma mark - AppDelegate interaction
-
-- (BOOL)resetAppState
+- (void)refreshTimerExpired:(NSTimer*)timer
 {
-    NSLog(@"resetAppState");
+    NSLog(@"refreshTimerExpired");
+    [self sendSessionKeepaliveRequest];
+}
+
+- (void)clearSessionAutoRefreshTimer
+{
+    //clear any existing autorefresh timer
+    [_autoRefreshTimer invalidate]; _autoRefreshTimer = nil;
+}
+
+- (void)startSessionAutoRefreshTimer
+{
+    [self clearSessionAutoRefreshTimer];
+
+    _autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:kSessionAutoRefreshInterval
+                                     target:self
+                                   selector:@selector(refreshTimerExpired:)
+                                   userInfo:nil
+                                    repeats:YES]; 
+}
+
+- (void)clearPeriodicRefreshState
+{
+    [self cleanupSessionKeepaliveRequest];
+    [self clearSessionAutoRefreshTimer];
+}
+
+- (void)setAutoRefreshPeriodically:(BOOL)autoRefreshPeriodically
+{
+    _autoRefreshPeriodically = autoRefreshPeriodically;
     
-    BOOL shouldReset = NO;
-    
-    BOOL shouldLogout = [self checkForUserLogout] ;
-    if (shouldLogout) {
-        shouldReset = YES;
-        [self logout:NO];
-    } else {
-        BOOL loginHostChanged = [[self class] updateLoginHost];
-        if (loginHostChanged) {
-            shouldReset = YES;
-            [self cleanupCoordinator];
-        }
+    if (!_autoRefreshPeriodically) {
+        [self clearPeriodicRefreshState];
     }
     
-    if (!shouldReset) {
-        if (self.autoRefreshOnForeground) {
-            [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
+}
+
+
+- (void)cleanupSessionKeepaliveRequest {
+    [_sessionKeepaliveConnection cancel];
+    SFRelease(_sessionKeepaliveConnection);
+}
+
+- (void)sendSessionKeepaliveRequest 
+{
+    [self cleanupSessionKeepaliveRequest];
+    
+    NSLog(@"sendSessionKeepaliveRequest");
+
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    //retrieve "Versions" -- should remain the same across all API versions
+    NSURL *fullUrl = [[NSURL alloc] initWithScheme:creds.protocol host: creds.instanceUrl.host path:@"/services/data/"];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:fullUrl];
+    [fullUrl release];
+    
+    NSString *authHeader = [[NSString alloc] initWithFormat:@"OAuth %@", creds.accessToken];
+    
+    //[req setHTTPMethod:@"GET"];
+    [req setValue:authHeader forHTTPHeaderField:@"Authorization"];
+    [authHeader release];
+    
+    _sessionKeepaliveConnection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
+    [req release];
+}
+
+
+
+#pragma mark - NSURLConnection delegate
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    if ([connection isEqual:_sessionKeepaliveConnection]) {
+        NSLog(@"keepalive conn failed with error: %@",error);
+
+        [self clearPeriodicRefreshState];
+
+        //renew the session
+        [self performSelector:@selector(login) withObject:nil afterDelay:0];
+    }
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    if ([connection isEqual:_sessionKeepaliveConnection]) {
+        NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
+        
+        [self clearPeriodicRefreshState];
+        
+        if (401 == statusCode) { //unauthorized --- session timeout
+            NSLog(@"keepalive request received session timeout -- renewing session");
+            //renew the session
+            [self performSelector:@selector(login) withObject:nil afterDelay:0];
+        } else {
+            //restart the refresh timer from now, to correct for drift due to network response time
+            [self startSessionAutoRefreshTimer];
         }
     }
-    
-    return shouldReset;
 }
 
 #pragma mark - Salesforce.com login helpers
-
-- (SFOAuthCoordinator*)coordinator
-{
-    // Create a new coordinator instance if we don't already have one.
-    if (nil == _coordinator) {
-        
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSString *loginDomain = self.oauthLoginDomain;
-        NSString *accountIdentifier = @"Default"; //TODO support multiple accounts someday
-        // Here we use the login domain as part of the identifier
-        // to distinguish between e.g. sandbox and production credentials.
-        NSString *fullKeychainIdentifier = [NSString stringWithFormat:@"%@-%@-%@", appName, accountIdentifier, loginDomain];
-        
-        SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] 
-                                     initWithIdentifier:fullKeychainIdentifier  
-                                     clientId:self.remoteAccessConsumerKey 
-                                     encrypted:YES
-                                     ];
-        
-        creds.domain = loginDomain;
-        creds.redirectUri = self.oauthRedirectURI;
-        
-        SFOAuthCoordinator *coord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-        [creds release];
-        coord.scopes = self.oauthScopes; 
-        
-        
-        coord.delegate = self;
-        _coordinator = coord;        
-    } 
-    
-    return _coordinator;
-}
 
 - (void)login
 {
     //verify that we have a network connection
     PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:@"com.phonegap.connection"];
     NSString *connType = connectionPlugin.connectionType;
-    NSLog(@"Available connection: '%@' ",connType);
     
     if ((nil != connType) && 
         ![connType isEqualToString:@"unknown"] && 
@@ -373,10 +407,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
         [self cleanupRetryAlert];
          
         // Kick off authentication.
-        [self.coordinator authenticate];
+        [SFAccountManager sharedInstance].coordinator.delegate = self;
+        [[SFAccountManager sharedInstance].coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
-        NSLog(@"No network connection -- cannot authenticate");
+        NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
     }
 
 }
@@ -388,52 +423,27 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 
 - (void)logout:(BOOL)restartAuthentication
 {
-    // Clear any cookies set by the app.
-    [self removeCookies];
-    
-    // Revoke all stored OAuth authentication.
-    [self.coordinator revokeAuthentication];
-    
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    // Clear the home URL since we are no longer authenticated.
-    [defs setURL:nil forKey:kAppHomeUrlPropKey];
-    //clear this since we just called revokeAuthentication
-    [defs setBool:NO forKey:kAccountLogoutUserDefault];
-    [defs synchronize];
-    
-    if (restartAuthentication)
-        [_appDelegate loadStartPageIntoWebView];
+    [_appDelegate clearAppState:restartAuthentication];
+}
+
+- (void)autoRefresh
+{
+    if (self.autoRefreshOnForeground || self.autoRefreshPeriodically) {
+        [self performSelector:@selector(login) withObject:nil afterDelay:3.0];
+    }
 }
 
 - (void)loggedIn
 {
-    // First, remove any session cookies associated with the app.
-    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
-    
-    self.lastRefreshCompleted = [NSDate date];
-    
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (nil != _authCallbackId) {
-        // Call back to the client with the authentication credentials.    
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
-        
-        [_authCallbackId release]; _authCallbackId = nil;
+    [SFAccountManager sharedInstance].credentials = [SFAccountManager sharedInstance].coordinator.credentials;
+    // If this is the initial login, or there's no persisted identity data, get the data
+    // from the service.
+    if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
+        [SFAccountManager sharedInstance].idCoordinator.delegate = self;
+        [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
-        //fire a notification that the session has been refreshed
-        [self fireSessionRefreshEvent:authDict];
-    }
-}
-
-- (void)removeCookies
-{
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
+        // Just go directly to the post-processing step.
+        [self finalizeBootstrap];
     }
 }
 
@@ -470,11 +480,11 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
                                                    @"/", NSHTTPCookiePath,
-                                                   self.coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   [SFAccountManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
                                                    @"sid", NSHTTPCookieName,
                                                    @"TRUE", NSHTTPCookieDiscard,
                                                    nil];
-    if ([self.coordinator.credentials.protocol isEqualToString:@"https"]) {
+    if ([[SFAccountManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
         [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
     }
     
@@ -482,19 +492,50 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [cookieStorage setCookie:sidCookie0];
 }
 
+- (void)finalizeBootstrap
+{
+    // First, remove any session cookies associated with the app.
+    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
+    [self addSidCookieForDomain:@".salesforce.com"];
+    
+    self.lastRefreshCompleted = [NSDate date];
+    
+    NSDictionary *authDict = [self credentialsAsDictionary];
+    if (nil != _authCallbackId) {
+        // Call back to the client with the authentication credentials.    
+        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
+        
+        SFRelease(_authCallbackId);
+    } else {
+        //fire a notification that the session has been refreshed
+        [self fireSessionRefreshEvent:authDict];
+    }
+    
+    if (self.autoRefreshPeriodically) {
+        [self startSessionAutoRefreshTimer];
+    }
+    
+    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
+    
+    _isInitialLogin = NO;
+}
+
 - (void)populateOAuthProperties:(NSString *)propsJsonString
 {
-    NSError *parseError = nil;
-    NSData *jsonData = [propsJsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *propsDict = [NSJSONSerialization JSONObjectWithData:jsonData 
-                                                              options:NSJSONReadingMutableContainers 
-                                                                error:&parseError];
+    NSDictionary *propsDict = [SFJsonUtils objectFromJSONString:propsJsonString];
 
-    //NSDictionary *propsDict = [propsJsonString JSONValue];
-    self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
-    self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-    self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
-    self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
+    if (nil != propsDict) {
+        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
+        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
+        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
+        self.autoRefreshOnForeground =   [[propsDict objectForKey :@"autoRefreshOnForeground"] boolValue];
+        self.autoRefreshPeriodically =  [[propsDict objectForKey :@"autoRefreshPeriodically"] boolValue];
+    }
 }
 
 
@@ -508,130 +549,48 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     [eventStr release];
 }
 
-- (void)cleanupCoordinator {
-    if (self.coordinator.view) {
-        [self.coordinator.view removeFromSuperview];
-    }
-    [_coordinator setDelegate:nil];
-    [_coordinator release];
-    _coordinator = nil;
-}
-
 - (void)cleanupRetryAlert {
-    [_oauthStatusAlert dismissWithClickedButtonIndex:-666 animated:NO];
-    [_oauthStatusAlert setDelegate:nil];
-    [_oauthStatusAlert release]; _oauthStatusAlert = nil;
+    [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
+    [_statusAlert setDelegate:nil];
+    SFRelease(_statusAlert);
 }
 
-- (void)showRetryAlertForAuthError:(NSError *)error {
-    if (nil == _oauthStatusAlert) {
+- (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
+{
+    if (nil == _statusAlert) {
         // show alert and allow retry
-        _oauthStatusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
+        _statusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
                                                       delegate:self
                                              cancelButtonTitle:@"Retry"
                                              otherButtonTitles: nil];
-        [_oauthStatusAlert show];
+        _statusAlert.tag = tag;
+        [_statusAlert show];
     }
 }
 
-
-#pragma mark - Settings utilities
-
-- (NSString*)oauthLoginDomain
+- (void)retrievedIdentityData
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *loginHost = [defs objectForKey:kLoginHostUserDefault];
+    // NB: This method is assumed to run after identity data has been refreshed from the service.
+    NSAssert([SFAccountManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
+    NSAssert([SFAccountManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    [SFAccountManager sharedInstance].idData = [SFAccountManager sharedInstance].idCoordinator.idData;
     
-    return loginHost;
-}
-
-+ (BOOL)updateLoginHost
-{
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    
-	NSString *previousLoginHost = [defs objectForKey:kLoginHostUserDefault];
-	NSString *currentLoginHost = [[self class] primaryLoginHost];
-    
-    // Update the previous app settings value to current.
-	[defs setValue:currentLoginHost forKey:kLoginHostUserDefault];
-    
-	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
-	if (hostnameChanged) {
-		NSLog(@"updateLoginHost detected a host change in the app settings, from %@ to %@.", previousLoginHost, currentLoginHost);
-	}
-	
-	return hostnameChanged;
-}
-
-+ (NSString *)primaryLoginHost
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    NSString *primaryLoginHost = [defs objectForKey:kPrimaryLoginHostUserDefault];
-    
-    // If the primary host value is nil/empty, it's never been set.  Initialize it to default and return it.
-    if (nil == primaryLoginHost || [primaryLoginHost length] == 0) {
-        [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
-        [defs synchronize];
-        return kDefaultLoginHost;
-    }
-    
-    // If a custom login host value was chosen and configured, return it.  If a custom value is
-    // chosen but the value is *not* configured, reset the primary login host to a sane
-    // value and return that.
-    if ([primaryLoginHost isEqualToString:kPrimaryLoginHostCustomValue]) {  // User specified to use a custom host.
-        NSString *customLoginHost = [defs objectForKey:kCustomLoginHostUserDefault];
-        if (nil != customLoginHost && [customLoginHost length] > 0) {
-            // Custom value is set.  Return that.
-            return customLoginHost;
-        } else {
-            // The custom host value is empty.  We'll try to set a previous user-defined
-            // value for the primary first, and if we can't set that, we'll just set it to the default host.
-            NSString *prevUserDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
-            if (nil != prevUserDefinedLoginHost && [prevUserDefinedLoginHost length] > 0) {
-                // We found a previously user-defined value.  Use that.
-                [defs setValue:prevUserDefinedLoginHost forKey:kPrimaryLoginHostUserDefault];
-                [defs synchronize];
-                return prevUserDefinedLoginHost;
-            } else {
-                // No previously user-defined value either.  Use the default.
-                [defs setValue:kDefaultLoginHost forKey:kPrimaryLoginHostUserDefault];
-                [defs synchronize];
-                return kDefaultLoginHost;
-            }
-        }
-    }
-    
-    // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
-    return primaryLoginHost;
-}
-
-- (BOOL)checkForUserLogout
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-	BOOL shouldLogout =  [userDefaults boolForKey:kAccountLogoutUserDefault];
-    NSLog(@"shouldLogout: %d",shouldLogout);
-    
-    return shouldLogout;
-}
-
-+ (void)ensureAccountDefaultsExist
-{
-    
-    // Getting primary login host will initialize it to a proper value if it isn't already
-    // set.
-	NSString *currentHostValue = [self primaryLoginHost];
-    
-    // Make sure we initialize the user-defined app setting as well, if it's not already.
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs synchronize];
-    NSString *userDefinedLoginHost = [defs objectForKey:kLoginHostUserDefault];
-    if (nil == userDefinedLoginHost || [userDefinedLoginHost length] == 0) {
-        [defs setValue:currentHostValue forKey:kLoginHostUserDefault];
-        [defs synchronize];
+    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+        // Set the callback actions for post-passcode entry/configuration.
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+            [self finalizeBootstrap];
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
+            [self logout];
+        }];
+        
+        // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
+        [SFSecurityLockout setPasscodeLength:[SFAccountManager sharedInstance].idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:([SFAccountManager sharedInstance].idData.mobileAppScreenLockTimeout * 60)];
+    } else {
+        // No additional mobile policies.  So no passcode.
+        [self finalizeBootstrap];
     }
 }
 
@@ -645,6 +604,7 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
+    _isInitialLogin = YES;
     [_appDelegate addOAuthViewToMainView:view];
 }
 
@@ -658,10 +618,9 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
 {
     NSLog(@"oauthCoordinator:didFailWithError: %@", error);
-    [coordinator.view removeFromSuperview];
     
-    //clear coordinator before continuing
-    [self cleanupCoordinator];
+    // Clear account state before continuing.
+    [[SFAccountManager sharedInstance] clearAccountState:NO];
     
     if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
         // Restart the login process asynchronously.
@@ -670,19 +629,33 @@ NSString * const kDefaultLoginHost = @"login.salesforce.com";
     }
     else {
         // show alert and allow retry
-        [self performSelector:@selector(showRetryAlertForAuthError:) withObject:error afterDelay:0];
+        [self showRetryAlertForAuthError:error alertTag:kOAuthAlertViewTag];
     }
+}
+
+#pragma mark - SFIdentityCoordinatorDelegate
+
+- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
+{
+    [self retrievedIdentityData];
+}
+
+- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
+{
+    [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
 }
 
 #pragma mark - UIAlertViewDelegate
 //called after animation is finished
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (alertView == _oauthStatusAlert) {
+    if (alertView == _statusAlert) {
         NSLog(@"clickedButtonAtIndex: %d",buttonIndex);
-        if (buttonIndex == alertView.cancelButtonIndex) {
+        if (alertView.tag == kOAuthAlertViewTag) {
             [self login];    
-        }  
+        } else if (alertView.tag == kIdentityAlertViewTag) {
+            [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+        }
     }
 }
 

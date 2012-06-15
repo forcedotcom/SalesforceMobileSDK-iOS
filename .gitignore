@@ -3,6 +3,8 @@ xcuserdata
 project.xcworkspace
 artifacts
 
+/external/sqlcipher/dependencies/
+
 /native/SalesforceSDK/SalesforceSDKTests/token.json
 
 hybrid/SampleApps/ContactExplorer/build/

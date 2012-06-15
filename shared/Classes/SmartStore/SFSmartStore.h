@@ -33,6 +33,11 @@
  */
 extern NSString *const kDefaultSmartStoreName;
 
+/**
+ The NSError domain for SmartStore errors.
+ */
+extern NSString * const kSFSmartStoreErrorDomain;
+
 @class FMDatabase;
 @class SFSoupCursor;
 @class SFSoupQuerySpec;
@@ -154,7 +159,7 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
 
-/*
+/**
  Search soup for entries exactly matching the soup entry IDs
  
  @param soupName The name of the soup to query
@@ -164,17 +169,32 @@ extern NSString *const kDefaultSmartStoreName;
  */
 - (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName;
 
-/*
- Search soup for entries matching the querySpec
+/**
+ Insert/update entries to the soup.  Insert vs. update will be determined by the internal
+ soup entry ID generated from intial entry.  If you want to specify a different identifier
+ for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:
  
- @param soupName The name of the soup to query
- @param entries A set of soup entry dictionaries
+ @param entries The entries to insert or update.
+ @param soupName The name of the soup to update.
  
- @return A set of entries
+ @return The array of updated entries in the soup.
  */
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName;
 
-/*
+/**
+ Insert/update entries to the soup.  Insert vs. update will be determined by the specified
+ external ID path argument.
+ 
+ @param entries The entries to insert or update.
+ @param soupName The name of the soup to update.
+ @param externalIdPath The user-defined query spec path used to determine insert vs. update.
+ @param error Sets/returns any error generated as part of the process.
+ 
+ @return The array of updated entries in the soup.
+ */
+- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error;
+
+/**
  Remove soup entries exactly matching the soup entry IDs
  
  @param soupName The name of the soup from which to remove the soup entries
@@ -190,6 +210,11 @@ extern NSString *const kDefaultSmartStoreName;
  @param soupName The name of the soup to remove from the store.
  */
 - (void)removeSoup:(NSString*)soupName;
+
+/**
+ Remove all soups from the store.
+ */
+- (void)removeAllSoups;
 
 
 #pragma mark - Utility methods
