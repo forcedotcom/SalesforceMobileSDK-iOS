@@ -1,0 +1,605 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF01814BE27B2004D3FF6 /* forcetk.js */; };
+		7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF02914BE27B2004D3FF6 /* bootstrap.html */; };
+		7D3FF0A914BE2D9F004D3FF6 /* phonegap-1.2.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF0A714BE2D93004D3FF6 /* phonegap-1.2.0.js */; };
+		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
+		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
+		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
+		7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */; };
+		7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0768149AA9620043A9E0 /* CoreLocation.framework */; };
+		7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076A149AA9620043A9E0 /* CoreMedia.framework */; };
+		7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076C149AA9620043A9E0 /* QuartzCore.framework */; };
+		7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076E149AA9620043A9E0 /* Security.framework */; };
+		7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */; };
+		7DBD0773149AA9620043A9E0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0772149AA9620043A9E0 /* AddressBook.framework */; };
+		7DBD0775149AA9620043A9E0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0774149AA9620043A9E0 /* AddressBookUI.framework */; };
+		7DBD0777149AA9620043A9E0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0776149AA9620043A9E0 /* AudioToolbox.framework */; };
+		7DBD0779149AA9620043A9E0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0778149AA9620043A9E0 /* AVFoundation.framework */; };
+		7DBD077B149AA9620043A9E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD077A149AA9620043A9E0 /* MediaPlayer.framework */; };
+		7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */; };
+		7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0781149AA9630043A9E0 /* InfoPlist.strings */; };
+		7DBD0785149AA9630043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0784149AA9630043A9E0 /* main.m */; };
+		7DBD0787149AA9630043A9E0 /* SFDCAccounts-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0786149AA9630043A9E0 /* SFDCAccounts-Prefix.pch */; };
+		7DBD07BA149AA9640043A9E0 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07B9149AA9640043A9E0 /* icon-72.png */; };
+		7DBD07BC149AA9640043A9E0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07BB149AA9640043A9E0 /* icon.png */; };
+		7DBD07BE149AA9640043A9E0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07BD149AA9640043A9E0 /* icon@2x.png */; };
+		7DBD07C1149AA9640043A9E0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */; };
+		7DBD07C3149AA9640043A9E0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */; };
+		7DBD07C5149AA9640043A9E0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C4149AA9640043A9E0 /* Default.png */; };
+		7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C6149AA9640043A9E0 /* Default@2x.png */; };
+		7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C8149AA9640043A9E0 /* Default~iPad.png */; };
+		7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD07CE149AA9640043A9E0 /* AppDelegate.m */; };
+		7DBD07DB149AA9650043A9E0 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DA149AA9650043A9E0 /* PhoneGap.plist */; };
+		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
+		7DBD07DF149AA9650043A9E0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DE149AA9650043A9E0 /* PhoneGapResources.bundle */; };
+		7DBD07E6149AA98E0043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07E5149AA98E0043A9E0 /* www */; };
+		7DFBB72414C8963000D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */; };
+		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
+		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
+		826ED6A31582D68B00321962 /* SFHybridApp.css in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69C1582D29E00321962 /* SFHybridApp.css */; };
+		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
+		CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
+		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
+		CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
+		CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C3158BD46B00618949 /* sfdcaccounts.js */; };
+		CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */; };
+		CEDF50EA158BD5E800618949 /* jquery-1.6.2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */; };
+		CEDF50EB158BD5E800618949 /* jquery-1.6.2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */; };
+		CEDF50EC158BD5E800618949 /* jquery.mobile-1.0b2.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */; };
+		CEDF50ED158BD5E800618949 /* jquery.mobile-1.0b2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */; };
+		CEDF50EE158BD5E800618949 /* jquery.mobile-1.0b2.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */; };
+		CEDF50EF158BD5E800618949 /* jquery.mobile-1.0b2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */; };
+		CEDF50F1158BD61300618949 /* ajax-loader.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D1158BD53D00618949 /* ajax-loader.png */; };
+		CEDF50F2158BD61300618949 /* icon-search-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D2158BD53D00618949 /* icon-search-black.png */; };
+		CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D3158BD53D00618949 /* icons-18-black.png */; };
+		CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D4158BD53D00618949 /* icons-18-white.png */; };
+		CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D5158BD53D00618949 /* icons-36-black.png */; };
+		CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D6158BD53D00618949 /* icons-36-white.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7D3FF04F14BE2804004D3FF6 /* Copy sfdc-shared */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */,
+				CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */,
+				CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */,
+				CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */,
+				CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */,
+				826ED6A31582D68B00321962 /* SFHybridApp.css in Copy sfdc-shared */,
+				826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */,
+				826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */,
+				826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */,
+				7D3FF0A914BE2D9F004D3FF6 /* phonegap-1.2.0.js in Copy sfdc-shared */,
+				7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy sfdc-shared */,
+				7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy sfdc-shared */,
+			);
+			name = "Copy sfdc-shared";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEDF50E9158BD5B700618949 /* Copy jquery */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/jquery;
+			dstSubfolderSpec = 7;
+			files = (
+				CEDF50EA158BD5E800618949 /* jquery-1.6.2.js in Copy jquery */,
+				CEDF50EB158BD5E800618949 /* jquery-1.6.2.min.js in Copy jquery */,
+				CEDF50EC158BD5E800618949 /* jquery.mobile-1.0b2.css in Copy jquery */,
+				CEDF50ED158BD5E800618949 /* jquery.mobile-1.0b2.js in Copy jquery */,
+				CEDF50EE158BD5E800618949 /* jquery.mobile-1.0b2.min.css in Copy jquery */,
+				CEDF50EF158BD5E800618949 /* jquery.mobile-1.0b2.min.js in Copy jquery */,
+			);
+			name = "Copy jquery";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEDF50F0158BD5F500618949 /* Copy jquery-images */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/jquery/images;
+			dstSubfolderSpec = 7;
+			files = (
+				CEDF50F1158BD61300618949 /* ajax-loader.png in Copy jquery-images */,
+				CEDF50F2158BD61300618949 /* icon-search-black.png in Copy jquery-images */,
+				CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */,
+				CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */,
+				CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */,
+				CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jquery-images */,
+			);
+			name = "Copy jquery-images";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7D3FF01814BE27B2004D3FF6 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
+		7D3FF02914BE27B2004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
+		7D3FF0A714BE2D93004D3FF6 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
+		7D72612114C74DAC00CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		7DBD075C149AA9620043A9E0 /* SFDCAccounts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFDCAccounts.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7DBD0762149AA9620043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7DBD0764149AA9620043A9E0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7DBD0768149AA9620043A9E0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7DBD076A149AA9620043A9E0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7DBD076C149AA9620043A9E0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7DBD076E149AA9620043A9E0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		7DBD0772149AA9620043A9E0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		7DBD0774149AA9620043A9E0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		7DBD0776149AA9620043A9E0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7DBD0778149AA9620043A9E0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7DBD077A149AA9620043A9E0 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7DBD0780149AA9620043A9E0 /* SFDCAccounts-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SFDCAccounts-Info.plist"; sourceTree = "<group>"; };
+		7DBD0782149AA9630043A9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7DBD0784149AA9630043A9E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7DBD0786149AA9630043A9E0 /* SFDCAccounts-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFDCAccounts-Prefix.pch"; sourceTree = "<group>"; };
+		7DBD07B9149AA9640043A9E0 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		7DBD07BB149AA9640043A9E0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		7DBD07BD149AA9640043A9E0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		7DBD07C4149AA9640043A9E0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		7DBD07C6149AA9640043A9E0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		7DBD07C8149AA9640043A9E0 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
+		7DBD07CA149AA9640043A9E0 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		7DBD07CD149AA9640043A9E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		7DBD07CE149AA9640043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		7DBD07D5149AA9650043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		7DBD07DA149AA9650043A9E0 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
+		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7DBD07DE149AA9650043A9E0 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
+		7DBD07E5149AA98E0043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		826ED69C1582D29E00321962 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/util/SFHybridApp.css; sourceTree = "<group>"; };
+		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
+		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CEDF50C0158BD46B00618949 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
+		CEDF50C1158BD46B00618949 /* editopportunity.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editopportunity.html; sourceTree = "<group>"; };
+		CEDF50C2158BD46B00618949 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CEDF50C3158BD46B00618949 /* sfdcaccounts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcaccounts.js; sourceTree = "<group>"; };
+		CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcsmartstore.js; sourceTree = "<group>"; };
+		CEDF50D1158BD53D00618949 /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
+		CEDF50D2158BD53D00618949 /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
+		CEDF50D3158BD53D00618949 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		CEDF50D4158BD53D00618949 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		CEDF50D5158BD53D00618949 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		CEDF50D6158BD53D00618949 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
+		CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
+		CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
+		CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
+		CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
+		CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7DBD0758149AA9620043A9E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
+				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
+				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
+				7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */,
+				7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */,
+				7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */,
+				7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */,
+				7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */,
+				7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */,
+				7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */,
+				7DBD0773149AA9620043A9E0 /* AddressBook.framework in Frameworks */,
+				7DBD0775149AA9620043A9E0 /* AddressBookUI.framework in Frameworks */,
+				7DBD0777149AA9620043A9E0 /* AudioToolbox.framework in Frameworks */,
+				7DBD0779149AA9620043A9E0 /* AVFoundation.framework in Frameworks */,
+				7DBD077B149AA9620043A9E0 /* MediaPlayer.framework in Frameworks */,
+				7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */,
+				7DFBB72414C8963000D373E2 /* SalesforceHybridSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7D3FF01614BE27B2004D3FF6 /* sfdc-shared */ = {
+			isa = PBXGroup;
+			children = (
+				826ED69E1582D2B200321962 /* SFHybridApp.js */,
+				826ED69C1582D29E00321962 /* SFHybridApp.css */,
+				826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */,
+				826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */,
+				7D3FF0A714BE2D93004D3FF6 /* phonegap-1.2.0.js */,
+				7D3FF02914BE27B2004D3FF6 /* bootstrap.html */,
+				7D3FF01814BE27B2004D3FF6 /* forcetk.js */,
+			);
+			name = "sfdc-shared";
+			path = ../../../../external/shared;
+			sourceTree = "<group>";
+		};
+		7DBD0750149AA9620043A9E0 = {
+			isa = PBXGroup;
+			children = (
+				CEDF50CF158BD53D00618949 /* jquery */,
+				7DBD077E149AA9620043A9E0 /* SFDCAccounts */,
+				7DBD075F149AA9620043A9E0 /* Frameworks */,
+				7DBD075D149AA9620043A9E0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7DBD075D149AA9620043A9E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD075C149AA9620043A9E0 /* SFDCAccounts.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7DBD075F149AA9620043A9E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D72612114C74DAC00CFD63C /* libsqlite3.dylib */,
+				82707BFF157C498B00B50291 /* libz.dylib */,
+				7DBD0760149AA9620043A9E0 /* Foundation.framework */,
+				7DBD0762149AA9620043A9E0 /* UIKit.framework */,
+				7DBD0764149AA9620043A9E0 /* CFNetwork.framework */,
+				7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */,
+				7DBD0768149AA9620043A9E0 /* CoreLocation.framework */,
+				7DBD076A149AA9620043A9E0 /* CoreMedia.framework */,
+				7DBD076C149AA9620043A9E0 /* QuartzCore.framework */,
+				7DBD076E149AA9620043A9E0 /* Security.framework */,
+				7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */,
+				7DBD0772149AA9620043A9E0 /* AddressBook.framework */,
+				7DBD0774149AA9620043A9E0 /* AddressBookUI.framework */,
+				7DBD0776149AA9620043A9E0 /* AudioToolbox.framework */,
+				7DBD0778149AA9620043A9E0 /* AVFoundation.framework */,
+				7DBD077A149AA9620043A9E0 /* MediaPlayer.framework */,
+				7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7DBD077E149AA9620043A9E0 /* SFDCAccounts */ = {
+			isa = PBXGroup;
+			children = (
+				CEDF50BF158BD46B00618949 /* sfdcaccounts */,
+				7DBD07E5149AA98E0043A9E0 /* www */,
+				7DBD07CC149AA9640043A9E0 /* Classes */,
+				7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */,
+				7D3FF01614BE27B2004D3FF6 /* sfdc-shared */,
+				7DBD07CA149AA9640043A9E0 /* readme.md */,
+				7DBD07DC149AA9650043A9E0 /* Settings.bundle */,
+				7DBD07DE149AA9650043A9E0 /* PhoneGapResources.bundle */,
+				7DBD07B7149AA9640043A9E0 /* Resources */,
+				7DBD07D4149AA9650043A9E0 /* Plugins */,
+				7DBD077F149AA9620043A9E0 /* Supporting Files */,
+			);
+			path = SFDCAccounts;
+			sourceTree = "<group>";
+		};
+		7DBD077F149AA9620043A9E0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD0780149AA9620043A9E0 /* SFDCAccounts-Info.plist */,
+				7DBD0781149AA9630043A9E0 /* InfoPlist.strings */,
+				7DBD0784149AA9630043A9E0 /* main.m */,
+				7DBD0786149AA9630043A9E0 /* SFDCAccounts-Prefix.pch */,
+				7DBD07DA149AA9650043A9E0 /* PhoneGap.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7DBD07B7149AA9640043A9E0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD07B8149AA9640043A9E0 /* icons */,
+				7DBD07BF149AA9640043A9E0 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7DBD07B8149AA9640043A9E0 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD07B9149AA9640043A9E0 /* icon-72.png */,
+				7DBD07BB149AA9640043A9E0 /* icon.png */,
+				7DBD07BD149AA9640043A9E0 /* icon@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		7DBD07BF149AA9640043A9E0 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */,
+				7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */,
+				7DBD07C4149AA9640043A9E0 /* Default.png */,
+				7DBD07C6149AA9640043A9E0 /* Default@2x.png */,
+				7DBD07C8149AA9640043A9E0 /* Default~iPad.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		7DBD07CC149AA9640043A9E0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD07CD149AA9640043A9E0 /* AppDelegate.h */,
+				7DBD07CE149AA9640043A9E0 /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		7DBD07D4149AA9650043A9E0 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				7DBD07D5149AA9650043A9E0 /* README */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		CEDF50BF158BD46B00618949 /* sfdcaccounts */ = {
+			isa = PBXGroup;
+			children = (
+				CEDF50C0158BD46B00618949 /* editaccount.html */,
+				CEDF50C1158BD46B00618949 /* editopportunity.html */,
+				CEDF50C2158BD46B00618949 /* index.html */,
+				CEDF50C3158BD46B00618949 /* sfdcaccounts.js */,
+				CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */,
+			);
+			name = sfdcaccounts;
+			path = ../../../../external/shared/PhoneGap/sfdcaccounts;
+			sourceTree = "<group>";
+		};
+		CEDF50CF158BD53D00618949 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				CEDF50D0158BD53D00618949 /* images */,
+				CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */,
+				CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */,
+				CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */,
+				CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */,
+				CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */,
+				CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */,
+			);
+			name = jquery;
+			path = ../../../external/shared/jquery;
+			sourceTree = "<group>";
+		};
+		CEDF50D0158BD53D00618949 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				CEDF50D1158BD53D00618949 /* ajax-loader.png */,
+				CEDF50D2158BD53D00618949 /* icon-search-black.png */,
+				CEDF50D3158BD53D00618949 /* icons-18-black.png */,
+				CEDF50D4158BD53D00618949 /* icons-18-white.png */,
+				CEDF50D5158BD53D00618949 /* icons-36-black.png */,
+				CEDF50D6158BD53D00618949 /* icons-36-white.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7DBD075B149AA9620043A9E0 /* SFDCAccounts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DBD07E2149AA9650043A9E0 /* Build configuration list for PBXNativeTarget "SFDCAccounts" */;
+			buildPhases = (
+				7DBD0757149AA9620043A9E0 /* Sources */,
+				7DBD0758149AA9620043A9E0 /* Frameworks */,
+				7DBD0759149AA9620043A9E0 /* Resources */,
+				7D3FF04F14BE2804004D3FF6 /* Copy sfdc-shared */,
+				CEDF50E9158BD5B700618949 /* Copy jquery */,
+				CEDF50F0158BD5F500618949 /* Copy jquery-images */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SFDCAccounts;
+			productName = SFDCAccounts;
+			productReference = 7DBD075C149AA9620043A9E0 /* SFDCAccounts.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7DBD0752149AA9620043A9E0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 7DBD0755149AA9620043A9E0 /* Build configuration list for PBXProject "SFDCAccounts" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DBD0750149AA9620043A9E0;
+			productRefGroup = 7DBD075D149AA9620043A9E0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7DBD075B149AA9620043A9E0 /* SFDCAccounts */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7DBD0759149AA9620043A9E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */,
+				7DBD0787149AA9630043A9E0 /* SFDCAccounts-Prefix.pch in Resources */,
+				7DBD07BA149AA9640043A9E0 /* icon-72.png in Resources */,
+				7DBD07BC149AA9640043A9E0 /* icon.png in Resources */,
+				7DBD07BE149AA9640043A9E0 /* icon@2x.png in Resources */,
+				7DBD07C1149AA9640043A9E0 /* Default-Landscape~ipad.png in Resources */,
+				7DBD07C3149AA9640043A9E0 /* Default-Portrait~ipad.png in Resources */,
+				7DBD07C5149AA9640043A9E0 /* Default.png in Resources */,
+				7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */,
+				7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */,
+				7DBD07DB149AA9650043A9E0 /* PhoneGap.plist in Resources */,
+				7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */,
+				7DBD07DF149AA9650043A9E0 /* PhoneGapResources.bundle in Resources */,
+				7DBD07E6149AA98E0043A9E0 /* www in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7DBD0757149AA9620043A9E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DBD0785149AA9630043A9E0 /* main.m in Sources */,
+				7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7DBD0781149AA9630043A9E0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7DBD0782149AA9630043A9E0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7DBD07E0149AA9650043A9E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7DBD07E1149AA9650043A9E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7DBD07E3149AA9650043A9E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../dependencies\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SFDCAccounts/SFDCAccounts-Prefix.pch";
+				INFOPLIST_FILE = "SFDCAccounts/SFDCAccounts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7DBD07E4149AA9650043A9E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../dependencies\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SFDCAccounts/SFDCAccounts-Prefix.pch";
+				INFOPLIST_FILE = "SFDCAccounts/SFDCAccounts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7DBD0755149AA9620043A9E0 /* Build configuration list for PBXProject "SFDCAccounts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DBD07E0149AA9650043A9E0 /* Debug */,
+				7DBD07E1149AA9650043A9E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DBD07E2149AA9650043A9E0 /* Build configuration list for PBXNativeTarget "SFDCAccounts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DBD07E3149AA9650043A9E0 /* Debug */,
+				7DBD07E4149AA9650043A9E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7DBD0752149AA9620043A9E0 /* Project object */;
+}
