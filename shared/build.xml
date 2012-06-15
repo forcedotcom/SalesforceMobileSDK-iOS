@@ -67,17 +67,24 @@
      -->
     <target name="appledocDocumentation">
         <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
-        <property name="appledoc_path" value="${iOSCommon.basedir}/tools/appledoc/bin/appledoc" />
-        <echo>appledoc_path is '${appledoc_path}' </echo>
+        <property name="appledoc_base_path" value="${iOSCommon.basedir}/tools" />
+        <property name="appledoc_app_path" value="${appledoc_base_path}/appledoc/appledoc" />
+        <property name="appledoc.zip" value="${iOSShared.distdir}/appledoc/appledoc-Release.zip" />
+        
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${appledoc_base_path} ${appledoc.zip}"/>
+        </exec>
+        <echo>appledoc_path is '${appledoc_app_path}' </echo>
         <exec executable="echo">
-            <arg line="appledoc_path --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="appledoc_app_path --templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
-        <exec executable="${appledoc_path}">
-            <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+        <exec executable="${appledoc_app_path}">
+            <arg line="--templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
         <delete file="${output}/docset-installed.txt"/>
+        <delete dir="${appledoc_base_path}/appledoc" />
     </target>
     
     <!--[target] lipo 
@@ -244,6 +251,62 @@
     <target name="dependency.callback-ios.clean">
         <ant dir="${subproject.callback-ios.dir}/sfdc_build" target="clean" inheritAll="false"/>
 		<delete dir="${dependency.dir}/PhoneGap.framework" />
+    </target>
+    
+    <!-- dependency: openssl -->
+    <property name="subproject.openssl.dir" value="${iOSShared.basedir}/../external/openssl-xcode"/>
+    <target name="dependency.openssl.check">
+        <condition property="dependency.openssl.present">
+            <available file="${dependency.dir}/openssl" type="dir"/>
+        </condition>
+    </target>
+    
+    <target name="dependency.openssl" depends="dependency.openssl.check" unless="dependency.openssl.present">
+        <property name="dependency.openssl.zip" value="${iOSShared.distdir}/openssl/openssl-Release.zip"/>
+        
+        <available file="${dependency.openssl.zip}" property="dependency.openssl.zip.present"/>
+        <antcall target="dependency.openssl.compile"/>
+        
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.openssl.zip}"/>
+        </exec>
+    </target>
+    
+    <target name="dependency.openssl.compile" unless="dependency.openssl.zip.present">
+        <ant dir="${subproject.openssl.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+    
+    <target name="dependency.openssl.clean">
+        <ant dir="${subproject.openssl.dir}/sfdc_build" target="clean" inheritAll="false"/>
+		<delete dir="${dependency.dir}/openssl" />
+    </target>
+    
+    <!-- dependency: sqlcipher -->
+    <property name="subproject.sqlcipher.dir" value="${iOSShared.basedir}/../external/sqlcipher"/>
+    <target name="dependency.sqlcipher.check">
+        <condition property="dependency.sqlcipher.present">
+            <available file="${dependency.dir}/sqlcipher" type="dir"/>
+        </condition>
+    </target>
+    
+    <target name="dependency.sqlcipher" depends="dependency.sqlcipher.check" unless="dependency.sqlcipher.present">
+        <property name="dependency.sqlcipher.zip" value="${iOSShared.distdir}/sqlcipher/sqlcipher-Release.zip"/>
+        
+        <available file="${dependency.sqlcipher.zip}" property="dependency.sqlcipher.zip.present"/>
+        <antcall target="dependency.sqlcipher.compile"/>
+        
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${dependency.dir} ${dependency.sqlcipher.zip}"/>
+        </exec>
+    </target>
+    
+    <target name="dependency.sqlcipher.compile" unless="dependency.sqlcipher.zip.present">
+        <ant dir="${subproject.sqlcipher.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+    
+    <target name="dependency.sqlcipher.clean">
+        <ant dir="${subproject.sqlcipher.dir}/sfdc_build" target="clean" inheritAll="false"/>
+		<delete dir="${dependency.dir}/sqlcipher" />
     </target>
 
     <!-- dependency: SalesforceHybridSDK -->

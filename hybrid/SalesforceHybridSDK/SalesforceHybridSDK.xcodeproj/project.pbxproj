@@ -19,10 +19,6 @@
 		7D20FBBC14ED7DBD00A86731 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE7F14EB246B004F241C /* SFSoupIndex.m */; };
 		7D20FBBD14ED7DBD00A86731 /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8014EB246B004F241C /* SFSoupQuerySpec.m */; };
 		7D20FBBE14ED7DBD00A86731 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
-		7D20FBBF14ED7DBD00A86731 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D20FBC014ED7DBD00A86731 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D20FBC114ED7DBD00A86731 /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D20FBC214ED7DBD00A86731 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D20FBC614ED7DBD00A86731 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */; };
 		7D20FBC714ED7DBD00A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
@@ -40,32 +36,20 @@
 		7D20FBD314ED7DBD00A86731 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7626DD14D33BBE0064B5B2 /* AVFoundation.framework */; };
 		7D20FBD414ED7DBD00A86731 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7626DF14D33BBE0064B5B2 /* MediaPlayer.framework */; };
 		7D20FBD514ED7DBD00A86731 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7626E114D33BBE0064B5B2 /* SystemConfiguration.framework */; };
-		7D20FBD614ED7DBD00A86731 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */; };
 		7D20FBD814ED7DBD00A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163614D85C3400A17E6A /* InfoPlist.strings */; };
 		7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
 		7D20FBE214ED7DBD00A86731 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
-		7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
-		7D20FBE914ED7DBD00A86731 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */; };
-		7D20FBEA14ED7DBD00A86731 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */; };
 		7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
-		7D20FBEC14ED7DBD00A86731 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */; };
-		7D20FBED14ED7DBD00A86731 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */; };
 		7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7D20FBEF14ED7DBD00A86731 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */; };
-		7D20FBF014ED7DBD00A86731 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */; };
-		7D20FBF114ED7DBD00A86731 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BC14C0F09E00CCDBE0 /* qunit.js */; };
-		7D20FBF214ED7DBD00A86731 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BB14C0F09E00CCDBE0 /* qunit.css */; };
-		7D20FBF314ED7DBD00A86731 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */; };
 		7D20FBF414ED7DBD00A86731 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7D20FC1314ED815500A86731 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
 		7D20FC1414ED815500A86731 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FC14BFB259002C4A27 /* UIKit.framework */; };
 		7D20FC1514ED815500A86731 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FE14BFB259002C4A27 /* Foundation.framework */; };
 		7D20FC1714ED815500A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
 		7D20FC2A14ED83A700A86731 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */; };
-		7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */; };
 		7D20FC3314ED98F000A86731 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7D20FC3214ED98F000A86731 /* www */; };
 		7D32F3091506871800AD2D64 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D32F30A1506871800AD2D64 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D32F3061506871800AD2D64 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,19 +74,6 @@
 		7D8ECE9814EB246B004F241C /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
 		7D8ECE9914EB246B004F241C /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
 		7D8ECE9A14EB246B004F241C /* SFSoupQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8214EB246B004F241C /* SFSoupQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECE9B14EB246B004F241C /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8414EB246B004F241C /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECE9C14EB246B004F241C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D8ECE9D14EB246B004F241C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8514EB246B004F241C /* FMDatabase.m */; };
-		7D8ECE9E14EB246B004F241C /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */; };
-		7D8ECE9F14EB246B004F241C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D8ECEA014EB246B004F241C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */; };
-		7D8ECEA114EB246B004F241C /* FMDbException.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8814EB246B004F241C /* FMDbException.h */; };
-		7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D8ECEA314EB246B004F241C /* FMDbException.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8914EB246B004F241C /* FMDbException.m */; };
-		7D8ECEA414EB246B004F241C /* FMLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8A14EB246B004F241C /* FMLicense.txt */; };
-		7D8ECEA614EB246B004F241C /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8B14EB246B004F241C /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
-		7D8ECEA814EB246B004F241C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8C14EB246B004F241C /* FMResultSet.m */; };
 		7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D8ECEAA14EB246B004F241C /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */; };
 		7D8ECEAB14EB246B004F241C /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */; };
@@ -126,13 +97,7 @@
 		7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */; };
 		7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7DBB14D514C0F49800CCDBE0 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */; };
-		7DBB14D614C0F49800CCDBE0 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */; };
-		7DBB14D714C0F49800CCDBE0 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BC14C0F09E00CCDBE0 /* qunit.js */; };
-		7DBB14D814C0F49800CCDBE0 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BB14C0F09E00CCDBE0 /* qunit.css */; };
-		7DBB14D914C0F49800CCDBE0 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */; };
 		7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
-		7DBB14DC14C0F50500CCDBE0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */; };
 		7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */; };
 		7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */; };
 		7DBB14E614C0F61D00CCDBE0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E514C0F61D00CCDBE0 /* CFNetwork.framework */; };
@@ -163,23 +128,13 @@
 		7DBD163814D85C3400A17E6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163614D85C3400A17E6A /* InfoPlist.strings */; };
 		7DBD163A14D85C3400A17E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
 		7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
-		7DBD165D14D85C3600A17E6A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */; };
 		7DBD167B14D85C3600A17E6A /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
 		7DBD167F14D85C3600A17E6A /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7DBD168414D85C7F00A17E6A /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
 		7DBD169514D85CC900A17E6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
-		7DBD169614D85D3100A17E6A /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */; };
-		7DBD169714D85D3100A17E6A /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */; };
 		7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
-		7DBD169914D85D3100A17E6A /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */; };
-		7DBD169A14D85D3100A17E6A /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */; };
 		7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7DBD169C14D85D3100A17E6A /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */; };
-		7DBD169D14D85D3100A17E6A /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */; };
-		7DBD169E14D85D3100A17E6A /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BC14C0F09E00CCDBE0 /* qunit.js */; };
-		7DBD169F14D85D3100A17E6A /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BB14C0F09E00CCDBE0 /* qunit.css */; };
-		7DBD16A014D85D3100A17E6A /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */; };
 		7DBD16A114D85D3100A17E6A /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
@@ -193,10 +148,6 @@
 		7DBD16D914D8625000A17E6A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD16D814D8625000A17E6A /* www */; };
 		7DBD16DA14D8625000A17E6A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD16D814D8625000A17E6A /* www */; };
 		7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
-		7DCEF50014D0944200BB3F3E /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */; };
-		7DCEF50114D0944200BB3F3E /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */; };
-		7DD5A11E14CF94BE00D308B1 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */; };
-		7DD5A11F14CF94BE00D308B1 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */; };
 		7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7DD5B43714E47FDB005C62E1 /* NSDictionary+NullHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DD5B43814E47FDB005C62E1 /* NSDictionary+NullHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */; };
@@ -212,6 +163,197 @@
 		7DF93E8914C646DB00D0C211 /* PhoneGapDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8A14C646DB00D0C211 /* PhoneGapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DF93E8B14C646DB00D0C211 /* PluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DF93E7014C646DB00D0C211 /* PluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
+		821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E801583FBBF00433F92 /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E8C1583FBBF00433F92 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */; };
+		821C5E8D1583FBBF00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E8E1583FBBF00433F92 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E841583FBBF00433F92 /* FMDatabasePool.h */; };
+		821C5E8F1583FBBF00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E901583FBBF00433F92 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */; };
+		821C5E911583FBBF00433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E921583FBBF00433F92 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E881583FBBF00433F92 /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		821C5E931583FBBF00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		821C5E941583FBD100433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E951583FBD200433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		821C5E961583FBDA00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E971583FBDB00433F92 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		821C5E981583FBEA00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E991583FBEB00433F92 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E851583FBBF00433F92 /* FMDatabasePool.m */; };
+		821C5E9A1583FBF100433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
+		821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		822AC0931577D995007C20B9 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0881577D995007C20B9 /* NSData+SFAdditions.h */; };
+		822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0891577D995007C20B9 /* NSData+SFAdditions.m */; };
+		822AC0951577D995007C20B9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */; };
+		822AC0961577D995007C20B9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08B1577D995007C20B9 /* NSString+SFAdditions.m */; };
+		822AC0971577D995007C20B9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08C1577D995007C20B9 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		822AC0981577D995007C20B9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08D1577D995007C20B9 /* SFLogger.m */; };
+		822AC0991577D995007C20B9 /* SFLogger+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08E1577D995007C20B9 /* SFLogger+Internal.h */; };
+		822AC09A1577D995007C20B9 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08F1577D995007C20B9 /* SFPathUtil.h */; };
+		822AC09B1577D995007C20B9 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0901577D995007C20B9 /* SFPathUtil.m */; };
+		822AC09C1577D995007C20B9 /* UIDevice-Hardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0911577D995007C20B9 /* UIDevice-Hardware.h */; };
+		822AC09D1577D995007C20B9 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0921577D995007C20B9 /* UIDevice-Hardware.m */; };
+		822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */; };
+		822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A11577DCCC007C20B9 /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
+		822AC0AE1577DCCC007C20B9 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A31577DCCC007C20B9 /* SFCrypto.h */; };
+		822AC0AF1577DCCC007C20B9 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A41577DCCC007C20B9 /* SFCrypto.m */; };
+		822AC0B01577DCCC007C20B9 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */; };
+		822AC0B11577DCCC007C20B9 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
+		822AC0B21577DCCC007C20B9 /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A71577DCCC007C20B9 /* SFKeychainItemWrapper.h */; };
+		822AC0B31577DCCC007C20B9 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A81577DCCC007C20B9 /* SFKeychainItemWrapper.m */; };
+		822AC0B41577DCCC007C20B9 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */; };
+		822AC0B51577DCCC007C20B9 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
+		822AC0C01577EF57007C20B9 /* SFAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0BA1577EF57007C20B9 /* SFAccountManager.h */; };
+		822AC0C11577EF57007C20B9 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
+		822AC0C21577EF57007C20B9 /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0BC1577EF57007C20B9 /* SFPasscodeViewController.h */; };
+		822AC0C31577EF57007C20B9 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
+		822AC0C41577EF57007C20B9 /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0BE1577EF57007C20B9 /* SFSecurityLockout.h */; };
+		822AC0C51577EF57007C20B9 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
+		822AC0CC1577EFCF007C20B9 /* SFIdentityCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0C71577EFCF007C20B9 /* SFIdentityCoordinator.h */; };
+		822AC0CD1577EFCF007C20B9 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */; };
+		822AC0CE1577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0C91577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h */; };
+		822AC0CF1577EFCF007C20B9 /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */; };
+		822AC0D01577EFCF007C20B9 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
+		823819401587FA2F007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
+		823819411587FA2F007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
+		823819421587FA2F007C0D86 /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F41587FA2E007C0D86 /* aes.h */; };
+		823819431587FA2F007C0D86 /* asn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F51587FA2E007C0D86 /* asn1.h */; };
+		823819441587FA2F007C0D86 /* asn1_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F61587FA2E007C0D86 /* asn1_mac.h */; };
+		823819451587FA2F007C0D86 /* asn1t.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F71587FA2E007C0D86 /* asn1t.h */; };
+		823819461587FA2F007C0D86 /* bio.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F81587FA2E007C0D86 /* bio.h */; };
+		823819471587FA2F007C0D86 /* blowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F91587FA2E007C0D86 /* blowfish.h */; };
+		823819481587FA2F007C0D86 /* bn.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FA1587FA2E007C0D86 /* bn.h */; };
+		823819491587FA2F007C0D86 /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FB1587FA2E007C0D86 /* buffer.h */; };
+		8238194A1587FA2F007C0D86 /* camellia.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FC1587FA2E007C0D86 /* camellia.h */; };
+		8238194B1587FA2F007C0D86 /* cast.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FD1587FA2E007C0D86 /* cast.h */; };
+		8238194C1587FA2F007C0D86 /* cmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FE1587FA2E007C0D86 /* cmac.h */; };
+		8238194D1587FA2F007C0D86 /* cms.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818FF1587FA2E007C0D86 /* cms.h */; };
+		8238194E1587FA2F007C0D86 /* comp.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819001587FA2E007C0D86 /* comp.h */; };
+		8238194F1587FA2F007C0D86 /* conf.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819011587FA2E007C0D86 /* conf.h */; };
+		823819501587FA2F007C0D86 /* conf_api.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819021587FA2E007C0D86 /* conf_api.h */; };
+		823819511587FA2F007C0D86 /* crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819031587FA2E007C0D86 /* crypto.h */; };
+		823819521587FA2F007C0D86 /* des.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819041587FA2E007C0D86 /* des.h */; };
+		823819531587FA2F007C0D86 /* des_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819051587FA2E007C0D86 /* des_old.h */; };
+		823819541587FA2F007C0D86 /* dh.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819061587FA2E007C0D86 /* dh.h */; };
+		823819551587FA2F007C0D86 /* dsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819071587FA2E007C0D86 /* dsa.h */; };
+		823819561587FA2F007C0D86 /* dso.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819081587FA2E007C0D86 /* dso.h */; };
+		823819571587FA2F007C0D86 /* dtls1.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819091587FA2E007C0D86 /* dtls1.h */; };
+		823819581587FA2F007C0D86 /* e_os2.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190A1587FA2E007C0D86 /* e_os2.h */; };
+		823819591587FA2F007C0D86 /* ebcdic.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190B1587FA2E007C0D86 /* ebcdic.h */; };
+		8238195A1587FA2F007C0D86 /* ec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190C1587FA2E007C0D86 /* ec.h */; };
+		8238195B1587FA2F007C0D86 /* ecdh.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190D1587FA2E007C0D86 /* ecdh.h */; };
+		8238195C1587FA2F007C0D86 /* ecdsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190E1587FA2E007C0D86 /* ecdsa.h */; };
+		8238195D1587FA2F007C0D86 /* engine.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238190F1587FA2E007C0D86 /* engine.h */; };
+		8238195E1587FA2F007C0D86 /* err.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819101587FA2E007C0D86 /* err.h */; };
+		8238195F1587FA2F007C0D86 /* evp.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819111587FA2E007C0D86 /* evp.h */; };
+		823819601587FA2F007C0D86 /* hmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819121587FA2F007C0D86 /* hmac.h */; };
+		823819611587FA2F007C0D86 /* idea.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819131587FA2F007C0D86 /* idea.h */; };
+		823819621587FA2F007C0D86 /* krb5_asn.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819141587FA2F007C0D86 /* krb5_asn.h */; };
+		823819631587FA2F007C0D86 /* kssl.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819151587FA2F007C0D86 /* kssl.h */; };
+		823819641587FA2F007C0D86 /* lhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819161587FA2F007C0D86 /* lhash.h */; };
+		823819651587FA2F007C0D86 /* md4.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819171587FA2F007C0D86 /* md4.h */; };
+		823819661587FA2F007C0D86 /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819181587FA2F007C0D86 /* md5.h */; };
+		823819671587FA2F007C0D86 /* mdc2.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819191587FA2F007C0D86 /* mdc2.h */; };
+		823819681587FA2F007C0D86 /* modes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191A1587FA2F007C0D86 /* modes.h */; };
+		823819691587FA2F007C0D86 /* obj_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191B1587FA2F007C0D86 /* obj_mac.h */; };
+		8238196A1587FA2F007C0D86 /* objects.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191C1587FA2F007C0D86 /* objects.h */; };
+		8238196B1587FA2F007C0D86 /* ocsp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191D1587FA2F007C0D86 /* ocsp.h */; };
+		8238196C1587FA2F007C0D86 /* opensslconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191E1587FA2F007C0D86 /* opensslconf.h */; };
+		8238196D1587FA2F007C0D86 /* opensslv.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238191F1587FA2F007C0D86 /* opensslv.h */; };
+		8238196E1587FA2F007C0D86 /* ossl_typ.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819201587FA2F007C0D86 /* ossl_typ.h */; };
+		8238196F1587FA2F007C0D86 /* pem.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819211587FA2F007C0D86 /* pem.h */; };
+		823819701587FA2F007C0D86 /* pem2.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819221587FA2F007C0D86 /* pem2.h */; };
+		823819711587FA2F007C0D86 /* pkcs12.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819231587FA2F007C0D86 /* pkcs12.h */; };
+		823819721587FA2F007C0D86 /* pkcs7.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819241587FA2F007C0D86 /* pkcs7.h */; };
+		823819731587FA2F007C0D86 /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819251587FA2F007C0D86 /* pqueue.h */; };
+		823819741587FA2F007C0D86 /* rand.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819261587FA2F007C0D86 /* rand.h */; };
+		823819751587FA2F007C0D86 /* rc2.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819271587FA2F007C0D86 /* rc2.h */; };
+		823819761587FA2F007C0D86 /* rc4.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819281587FA2F007C0D86 /* rc4.h */; };
+		823819771587FA2F007C0D86 /* ripemd.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819291587FA2F007C0D86 /* ripemd.h */; };
+		823819781587FA2F007C0D86 /* rsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192A1587FA2F007C0D86 /* rsa.h */; };
+		823819791587FA2F007C0D86 /* safestack.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192B1587FA2F007C0D86 /* safestack.h */; };
+		8238197A1587FA2F007C0D86 /* seed.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192C1587FA2F007C0D86 /* seed.h */; };
+		8238197B1587FA2F007C0D86 /* sha.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192D1587FA2F007C0D86 /* sha.h */; };
+		8238197C1587FA2F007C0D86 /* srp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192E1587FA2F007C0D86 /* srp.h */; };
+		8238197D1587FA2F007C0D86 /* srtp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238192F1587FA2F007C0D86 /* srtp.h */; };
+		8238197E1587FA2F007C0D86 /* ssl.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819301587FA2F007C0D86 /* ssl.h */; };
+		8238197F1587FA2F007C0D86 /* ssl2.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819311587FA2F007C0D86 /* ssl2.h */; };
+		823819801587FA2F007C0D86 /* ssl23.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819321587FA2F007C0D86 /* ssl23.h */; };
+		823819811587FA2F007C0D86 /* ssl3.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819331587FA2F007C0D86 /* ssl3.h */; };
+		823819821587FA2F007C0D86 /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819341587FA2F007C0D86 /* stack.h */; };
+		823819831587FA2F007C0D86 /* symhacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819351587FA2F007C0D86 /* symhacks.h */; };
+		823819841587FA2F007C0D86 /* tls1.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819361587FA2F007C0D86 /* tls1.h */; };
+		823819851587FA2F007C0D86 /* ts.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819371587FA2F007C0D86 /* ts.h */; };
+		823819861587FA2F007C0D86 /* txt_db.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819381587FA2F007C0D86 /* txt_db.h */; };
+		823819871587FA2F007C0D86 /* ui.h in Headers */ = {isa = PBXBuildFile; fileRef = 823819391587FA2F007C0D86 /* ui.h */; };
+		823819881587FA2F007C0D86 /* ui_compat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238193A1587FA2F007C0D86 /* ui_compat.h */; };
+		823819891587FA2F007C0D86 /* whrlpool.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238193B1587FA2F007C0D86 /* whrlpool.h */; };
+		8238198A1587FA2F007C0D86 /* x509.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238193C1587FA2F007C0D86 /* x509.h */; };
+		8238198B1587FA2F007C0D86 /* x509_vfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238193D1587FA2F007C0D86 /* x509_vfy.h */; };
+		8238198C1587FA2F007C0D86 /* x509v3.h in Headers */ = {isa = PBXBuildFile; fileRef = 8238193E1587FA2F007C0D86 /* x509v3.h */; };
+		8238198D1587FA2F007C0D86 /* openssl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8238193F1587FA2F007C0D86 /* openssl_license.txt */; };
+		82381A141587FAAE007C0D86 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
+		82381A151587FAAE007C0D86 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 82381A131587FAAE007C0D86 /* LICENSE */; };
+		82381A161587FC8C007C0D86 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
+		82381A171587FC90007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
+		82381A181587FC94007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
+		82381A201587FE7E007C0D86 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
+		82381A211587FE83007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
+		82381A221587FE86007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
+		8248E063157D0CC400A7FE69 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
+		8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
+		8248E066157D102000A7FE69 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08D1577D995007C20B9 /* SFLogger.m */; };
+		8248E067157D102100A7FE69 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC08D1577D995007C20B9 /* SFLogger.m */; };
+		8248E069157D103000A7FE69 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
+		8248E06A157D103100A7FE69 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
+		8248E06C157D103F00A7FE69 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
+		8248E06D157D104100A7FE69 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
+		8248E06F157D105500A7FE69 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
+		8248E070157D105700A7FE69 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
+		8248E072157D106700A7FE69 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */; };
+		8248E073157D106900A7FE69 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */; };
+		8248E075157D108B00A7FE69 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0901577D995007C20B9 /* SFPathUtil.m */; };
+		8248E076157D108D00A7FE69 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0901577D995007C20B9 /* SFPathUtil.m */; };
+		8248E078157D109C00A7FE69 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
+		8248E079157D109D00A7FE69 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
+		8248E07B157D10AC00A7FE69 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A81577DCCC007C20B9 /* SFKeychainItemWrapper.m */; };
+		8248E07C157D10AD00A7FE69 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A81577DCCC007C20B9 /* SFKeychainItemWrapper.m */; };
+		8248E07E157D10BE00A7FE69 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
+		8248E07F157D10BF00A7FE69 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
+		8248E081157D10D300A7FE69 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A41577DCCC007C20B9 /* SFCrypto.m */; };
+		8248E082157D10D500A7FE69 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A41577DCCC007C20B9 /* SFCrypto.m */; };
+		824B4E27157D21E50017229C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B4E26157D21E50017229C /* libz.dylib */; };
+		826ED6E51582DB3800321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
+		826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
+		826ED6E71582DB5600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */; };
+		826ED6E81582DB6400321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6E91582DB7200321962 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DF1582DAA300321962 /* qunit.js */; };
+		826ED6EA1582DB7900321962 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E11582DAAB00321962 /* qunit.css */; };
+		826ED6EB1582DB8A00321962 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */; };
+		826ED6EC1582DB9100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
+		826ED6ED1582DBA100321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
+		826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
+		826ED6EF1582DC4C00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
+		826ED6F01582DC5C00321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
+		826ED6F11582DC5C00321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
+		826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */; };
+		826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E11582DAAB00321962 /* qunit.css */; };
+		826ED6F41582DC7600321962 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DF1582DAA300321962 /* qunit.js */; };
+		826ED6F51582DC7600321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6F61582DC7600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */; };
+		826ED6F71582DCAE00321962 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */; };
+		826ED6F81582DCAE00321962 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E11582DAAB00321962 /* qunit.css */; };
+		826ED6F91582DCAE00321962 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DF1582DAA300321962 /* qunit.js */; };
+		826ED6FA1582DCAE00321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6FB1582DCAE00321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */; };
+		826ED6FC1582DCAE00321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
+		826ED6FD1582DCAE00321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
+		826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
+		826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
+		826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
@@ -261,18 +403,18 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				7D20FBE914ED7DBD00A86731 /* SFTestRunnerPlugin.js in Copy shared-www files */,
-				7D20FBEA14ED7DBD00A86731 /* SFTestSuite.js in Copy shared-www files */,
+				826ED6F71582DCAE00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
+				826ED6F81582DCAE00321962 /* qunit.css in Copy shared-www files */,
+				826ED6F91582DCAE00321962 /* qunit.js in Copy shared-www files */,
+				826ED6FA1582DCAE00321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
+				826ED6FB1582DCAE00321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
+				826ED6FC1582DCAE00321962 /* SFHybridApp.js in Copy shared-www files */,
+				826ED6FD1582DCAE00321962 /* SFHybridApp.css in Copy shared-www files */,
+				826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */,
+				826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
+				826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
 				7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */,
-				7D20FBEC14ED7DBD00A86731 /* SFHybridApp.css in Copy shared-www files */,
-				7D20FBED14ED7DBD00A86731 /* SFHybridApp.js in Copy shared-www files */,
 				7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */,
-				7D20FBEF14ED7DBD00A86731 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
-				7D20FC2F14ED981100A86731 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
-				7D20FBF014ED7DBD00A86731 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
-				7D20FBF114ED7DBD00A86731 /* qunit.js in Copy shared-www files */,
-				7D20FBF214ED7DBD00A86731 /* qunit.css in Copy shared-www files */,
-				7D20FBF314ED7DBD00A86731 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				7D20FBF414ED7DBD00A86731 /* phonegap-1.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
@@ -284,16 +426,16 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				826ED6ED1582DBA100321962 /* SFTestSuite.js in Copy shared-www files */,
+				826ED6EC1582DB9100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
+				826ED6EB1582DB8A00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
+				826ED6EA1582DB7900321962 /* qunit.css in Copy shared-www files */,
+				826ED6E91582DB7200321962 /* qunit.js in Copy shared-www files */,
+				826ED6E81582DB6400321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
+				826ED6E71582DB5600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
+				826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */,
+				826ED6E51582DB3800321962 /* SFHybridApp.css in Copy shared-www files */,
 				7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */,
-				7DD5A11E14CF94BE00D308B1 /* SFHybridApp.css in Copy shared-www files */,
-				7DD5A11F14CF94BE00D308B1 /* SFHybridApp.js in Copy shared-www files */,
-				7DBB14D514C0F49800CCDBE0 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
-				7DBB14D614C0F49800CCDBE0 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
-				7DBB14D714C0F49800CCDBE0 /* qunit.js in Copy shared-www files */,
-				7DBB14D814C0F49800CCDBE0 /* qunit.css in Copy shared-www files */,
-				7DBB14D914C0F49800CCDBE0 /* SFSmartStorePlugin.js in Copy shared-www files */,
-				7DCEF50014D0944200BB3F3E /* SFTestRunnerPlugin.js in Copy shared-www files */,
-				7DCEF50114D0944200BB3F3E /* SFTestSuite.js in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
 				7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */,
 			);
@@ -306,17 +448,17 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				7DBD169614D85D3100A17E6A /* SFTestRunnerPlugin.js in Copy shared-www files */,
-				7DBD169714D85D3100A17E6A /* SFTestSuite.js in Copy shared-www files */,
+				826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
+				826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */,
+				826ED6F41582DC7600321962 /* qunit.js in Copy shared-www files */,
+				826ED6F51582DC7600321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
+				826ED6F61582DC7600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
+				826ED6F01582DC5C00321962 /* SFHybridApp.js in Copy shared-www files */,
+				826ED6F11582DC5C00321962 /* SFHybridApp.css in Copy shared-www files */,
+				826ED6EF1582DC4C00321962 /* SFTestSuite.js in Copy shared-www files */,
+				826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */,
-				7DBD169914D85D3100A17E6A /* SFHybridApp.css in Copy shared-www files */,
-				7DBD169A14D85D3100A17E6A /* SFHybridApp.js in Copy shared-www files */,
 				7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */,
-				7DBD169C14D85D3100A17E6A /* SFSmartStoreTestSuite.js in Copy shared-www files */,
-				7DBD169D14D85D3100A17E6A /* SalesforceOAuthPlugin.js in Copy shared-www files */,
-				7DBD169E14D85D3100A17E6A /* qunit.js in Copy shared-www files */,
-				7DBD169F14D85D3100A17E6A /* qunit.css in Copy shared-www files */,
-				7DBD16A014D85D3100A17E6A /* SFSmartStorePlugin.js in Copy shared-www files */,
 				7DBD16A114D85D3100A17E6A /* phonegap-1.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
@@ -330,7 +472,6 @@
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
 		7D20FC2814ED83A700A86731 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartStoreLoadTestSuite.h; path = StressPluginsTests/SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
 		7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmartStoreLoadTestSuite.m; path = StressPluginsTests/SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
-		7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
 		7D20FC3014ED989500A86731 /* StressPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "StressPlugins-Info.plist"; path = "StressPlugins/StressPlugins-Info.plist"; sourceTree = "<group>"; };
 		7D20FC3214ED98F000A86731 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = StressPlugins/www; sourceTree = "<group>"; };
 		7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
@@ -352,7 +493,6 @@
 		7D45E32214BFB394002C4A27 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
 		7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhoneGap.framework; sourceTree = "<group>"; };
-		7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7D45E38E14BFB8AC002C4A27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7D45E39014BFB8BA002C4A27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStorePlugin.h; sourceTree = "<group>"; };
@@ -374,15 +514,6 @@
 		7D8ECE8014EB246B004F241C /* SFSoupQuerySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSoupQuerySpec.m; path = ../../../../../shared/Classes/SmartStore/SFSoupQuerySpec.m; sourceTree = "<group>"; };
 		7D8ECE8114EB246B004F241C /* SFSoupCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSoupCursor.m; path = ../../../../../shared/Classes/SmartStore/SFSoupCursor.m; sourceTree = "<group>"; };
 		7D8ECE8214EB246B004F241C /* SFSoupQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSoupQuerySpec.h; path = ../../../../../shared/Classes/SmartStore/SFSoupQuerySpec.h; sourceTree = "<group>"; };
-		7D8ECE8414EB246B004F241C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		7D8ECE8514EB246B004F241C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		7D8ECE8814EB246B004F241C /* FMDbException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDbException.h; sourceTree = "<group>"; };
-		7D8ECE8914EB246B004F241C /* FMDbException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDbException.m; sourceTree = "<group>"; };
-		7D8ECE8A14EB246B004F241C /* FMLicense.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FMLicense.txt; sourceTree = "<group>"; };
-		7D8ECE8B14EB246B004F241C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		7D8ECE8C14EB246B004F241C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SqliteAdditions.c; sourceTree = "<group>"; };
 		7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteAdditions.h; sourceTree = "<group>"; };
 		7D8ECE8F14EB246B004F241C /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSoupIndex.h; path = ../../../../../shared/Classes/SmartStore/SFSoupIndex.h; sourceTree = "<group>"; };
@@ -406,11 +537,6 @@
 		7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bootstrap.html; sourceTree = "<group>"; };
-		7DBB14BB14C0F09E00CCDBE0 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
-		7DBB14BC14C0F09E00CCDBE0 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
-		7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
-		7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStorePlugin.js; sourceTree = "<group>"; };
-		7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -429,7 +555,6 @@
 		7DBD163714D85C3400A17E6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DBD163914D85C3400A17E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DebugPlugins-Prefix.pch"; sourceTree = "<group>"; };
-		7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		7DBD167A14D85C3600A17E6A /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		7DBD167C14D85C3600A17E6A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
@@ -438,10 +563,6 @@
 		7DBD16D814D8625000A17E6A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DCEF4F914D0812700BB3F3E /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTestRunnerPlugin.h; path = Plugins/SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFTestRunnerPlugin.m; path = Plugins/SFTestRunnerPlugin.m; sourceTree = "<group>"; };
-		7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
-		7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
-		7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SFHybridApp.css; sourceTree = "<group>"; };
-		7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
 		7DD5A13314CF9F9C00D308B1 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../forcetk.js; sourceTree = "<group>"; };
 		7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullHandling.h"; sourceTree = "<group>"; };
 		7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullHandling.m"; sourceTree = "<group>"; };
@@ -453,6 +574,141 @@
 		7DF93E6E14C646DB00D0C211 /* PhoneGapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapDelegate.h; sourceTree = "<group>"; };
 		7DF93E6F14C646DB00D0C211 /* PhoneGapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneGapViewController.h; sourceTree = "<group>"; };
 		7DF93E7014C646DB00D0C211 /* PluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
+		821C5E7E1583FBA000433F92 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
+		821C5E801583FBBF00433F92 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/fmdb/src/FMDatabase.h; sourceTree = "<group>"; };
+		821C5E811583FBBF00433F92 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/fmdb/src/FMDatabase.m; sourceTree = "<group>"; };
+		821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = ../../../../external/fmdb/fmdb/src/FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		821C5E841583FBBF00433F92 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = ../../../../external/fmdb/fmdb/src/FMDatabasePool.h; sourceTree = "<group>"; };
+		821C5E851583FBBF00433F92 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = ../../../../external/fmdb/fmdb/src/FMDatabasePool.m; sourceTree = "<group>"; };
+		821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.h; sourceTree = "<group>"; };
+		821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.m; sourceTree = "<group>"; };
+		821C5E881583FBBF00433F92 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../external/fmdb/fmdb/src/FMResultSet.h; sourceTree = "<group>"; };
+		821C5E891583FBBF00433F92 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../external/fmdb/fmdb/src/FMResultSet.m; sourceTree = "<group>"; };
+		822AC0881577D995007C20B9 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		822AC0891577D995007C20B9 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SFAdditions.m"; sourceTree = "<group>"; };
+		822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
+		822AC08B1577D995007C20B9 /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFAdditions.m"; sourceTree = "<group>"; };
+		822AC08C1577D995007C20B9 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		822AC08D1577D995007C20B9 /* SFLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLogger.m; sourceTree = "<group>"; };
+		822AC08E1577D995007C20B9 /* SFLogger+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFLogger+Internal.h"; sourceTree = "<group>"; };
+		822AC08F1577D995007C20B9 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
+		822AC0901577D995007C20B9 /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPathUtil.m; sourceTree = "<group>"; };
+		822AC0911577D995007C20B9 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		822AC0921577D995007C20B9 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKConstants.h; path = ../../../shared/Classes/Common/SalesforceSDKConstants.h; sourceTree = "<group>"; };
+		822AC0A11577DCCC007C20B9 /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFApplication.h; path = ../../../shared/Classes/Common/SFApplication.h; sourceTree = "<group>"; };
+		822AC0A21577DCCC007C20B9 /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFApplication.m; path = ../../../shared/Classes/Common/SFApplication.m; sourceTree = "<group>"; };
+		822AC0A31577DCCC007C20B9 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCrypto.h; path = ../../../shared/Classes/Common/SFCrypto.h; sourceTree = "<group>"; };
+		822AC0A41577DCCC007C20B9 /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCrypto.m; path = ../../../shared/Classes/Common/SFCrypto.m; sourceTree = "<group>"; };
+		822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
+		822AC0A71577DCCC007C20B9 /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeychainItemWrapper.h; path = ../../../shared/Classes/Common/SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		822AC0A81577DCCC007C20B9 /* SFKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeychainItemWrapper.m; path = ../../../shared/Classes/Common/SFKeychainItemWrapper.m; sourceTree = "<group>"; };
+		822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
+		822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
+		822AC0BA1577EF57007C20B9 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManager.h; path = ../../../shared/Classes/Security/SFAccountManager.h; sourceTree = "<group>"; };
+		822AC0BB1577EF57007C20B9 /* SFAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManager.m; path = ../../../shared/Classes/Security/SFAccountManager.m; sourceTree = "<group>"; };
+		822AC0BC1577EF57007C20B9 /* SFPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeViewController.h; path = ../../../shared/Classes/Security/SFPasscodeViewController.h; sourceTree = "<group>"; };
+		822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeViewController.m; path = ../../../shared/Classes/Security/SFPasscodeViewController.m; sourceTree = "<group>"; };
+		822AC0BE1577EF57007C20B9 /* SFSecurityLockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSecurityLockout.h; path = ../../../shared/Classes/Security/SFSecurityLockout.h; sourceTree = "<group>"; };
+		822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSecurityLockout.m; path = ../../../shared/Classes/Security/SFSecurityLockout.m; sourceTree = "<group>"; };
+		822AC0C71577EFCF007C20B9 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityCoordinator.h; path = ../../../shared/Classes/Identity/SFIdentityCoordinator.h; sourceTree = "<group>"; };
+		822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityCoordinator.m; path = ../../../shared/Classes/Identity/SFIdentityCoordinator.m; sourceTree = "<group>"; };
+		822AC0C91577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFIdentityCoordinator+Internal.h"; path = "../../../shared/Classes/Identity/SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
+		822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
+		822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
+		823818F11587FA2E007C0D86 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		823818F21587FA2E007C0D86 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		823818F41587FA2E007C0D86 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
+		823818F51587FA2E007C0D86 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
+		823818F61587FA2E007C0D86 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
+		823818F71587FA2E007C0D86 /* asn1t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1t.h; sourceTree = "<group>"; };
+		823818F81587FA2E007C0D86 /* bio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bio.h; sourceTree = "<group>"; };
+		823818F91587FA2E007C0D86 /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
+		823818FA1587FA2E007C0D86 /* bn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bn.h; sourceTree = "<group>"; };
+		823818FB1587FA2E007C0D86 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
+		823818FC1587FA2E007C0D86 /* camellia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camellia.h; sourceTree = "<group>"; };
+		823818FD1587FA2E007C0D86 /* cast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cast.h; sourceTree = "<group>"; };
+		823818FE1587FA2E007C0D86 /* cmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmac.h; sourceTree = "<group>"; };
+		823818FF1587FA2E007C0D86 /* cms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cms.h; sourceTree = "<group>"; };
+		823819001587FA2E007C0D86 /* comp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comp.h; sourceTree = "<group>"; };
+		823819011587FA2E007C0D86 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		823819021587FA2E007C0D86 /* conf_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf_api.h; sourceTree = "<group>"; };
+		823819031587FA2E007C0D86 /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
+		823819041587FA2E007C0D86 /* des.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = des.h; sourceTree = "<group>"; };
+		823819051587FA2E007C0D86 /* des_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = des_old.h; sourceTree = "<group>"; };
+		823819061587FA2E007C0D86 /* dh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dh.h; sourceTree = "<group>"; };
+		823819071587FA2E007C0D86 /* dsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsa.h; sourceTree = "<group>"; };
+		823819081587FA2E007C0D86 /* dso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dso.h; sourceTree = "<group>"; };
+		823819091587FA2E007C0D86 /* dtls1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dtls1.h; sourceTree = "<group>"; };
+		8238190A1587FA2E007C0D86 /* e_os2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = e_os2.h; sourceTree = "<group>"; };
+		8238190B1587FA2E007C0D86 /* ebcdic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ebcdic.h; sourceTree = "<group>"; };
+		8238190C1587FA2E007C0D86 /* ec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ec.h; sourceTree = "<group>"; };
+		8238190D1587FA2E007C0D86 /* ecdh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdh.h; sourceTree = "<group>"; };
+		8238190E1587FA2E007C0D86 /* ecdsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdsa.h; sourceTree = "<group>"; };
+		8238190F1587FA2E007C0D86 /* engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = engine.h; sourceTree = "<group>"; };
+		823819101587FA2E007C0D86 /* err.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = err.h; sourceTree = "<group>"; };
+		823819111587FA2E007C0D86 /* evp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evp.h; sourceTree = "<group>"; };
+		823819121587FA2F007C0D86 /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		823819131587FA2F007C0D86 /* idea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idea.h; sourceTree = "<group>"; };
+		823819141587FA2F007C0D86 /* krb5_asn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = krb5_asn.h; sourceTree = "<group>"; };
+		823819151587FA2F007C0D86 /* kssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kssl.h; sourceTree = "<group>"; };
+		823819161587FA2F007C0D86 /* lhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lhash.h; sourceTree = "<group>"; };
+		823819171587FA2F007C0D86 /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md4.h; sourceTree = "<group>"; };
+		823819181587FA2F007C0D86 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		823819191587FA2F007C0D86 /* mdc2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mdc2.h; sourceTree = "<group>"; };
+		8238191A1587FA2F007C0D86 /* modes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modes.h; sourceTree = "<group>"; };
+		8238191B1587FA2F007C0D86 /* obj_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = obj_mac.h; sourceTree = "<group>"; };
+		8238191C1587FA2F007C0D86 /* objects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objects.h; sourceTree = "<group>"; };
+		8238191D1587FA2F007C0D86 /* ocsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocsp.h; sourceTree = "<group>"; };
+		8238191E1587FA2F007C0D86 /* opensslconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opensslconf.h; sourceTree = "<group>"; };
+		8238191F1587FA2F007C0D86 /* opensslv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opensslv.h; sourceTree = "<group>"; };
+		823819201587FA2F007C0D86 /* ossl_typ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ossl_typ.h; sourceTree = "<group>"; };
+		823819211587FA2F007C0D86 /* pem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pem.h; sourceTree = "<group>"; };
+		823819221587FA2F007C0D86 /* pem2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pem2.h; sourceTree = "<group>"; };
+		823819231587FA2F007C0D86 /* pkcs12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkcs12.h; sourceTree = "<group>"; };
+		823819241587FA2F007C0D86 /* pkcs7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pkcs7.h; sourceTree = "<group>"; };
+		823819251587FA2F007C0D86 /* pqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pqueue.h; sourceTree = "<group>"; };
+		823819261587FA2F007C0D86 /* rand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rand.h; sourceTree = "<group>"; };
+		823819271587FA2F007C0D86 /* rc2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rc2.h; sourceTree = "<group>"; };
+		823819281587FA2F007C0D86 /* rc4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rc4.h; sourceTree = "<group>"; };
+		823819291587FA2F007C0D86 /* ripemd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ripemd.h; sourceTree = "<group>"; };
+		8238192A1587FA2F007C0D86 /* rsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rsa.h; sourceTree = "<group>"; };
+		8238192B1587FA2F007C0D86 /* safestack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = safestack.h; sourceTree = "<group>"; };
+		8238192C1587FA2F007C0D86 /* seed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = seed.h; sourceTree = "<group>"; };
+		8238192D1587FA2F007C0D86 /* sha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha.h; sourceTree = "<group>"; };
+		8238192E1587FA2F007C0D86 /* srp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srp.h; sourceTree = "<group>"; };
+		8238192F1587FA2F007C0D86 /* srtp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srtp.h; sourceTree = "<group>"; };
+		823819301587FA2F007C0D86 /* ssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssl.h; sourceTree = "<group>"; };
+		823819311587FA2F007C0D86 /* ssl2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssl2.h; sourceTree = "<group>"; };
+		823819321587FA2F007C0D86 /* ssl23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssl23.h; sourceTree = "<group>"; };
+		823819331587FA2F007C0D86 /* ssl3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssl3.h; sourceTree = "<group>"; };
+		823819341587FA2F007C0D86 /* stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stack.h; sourceTree = "<group>"; };
+		823819351587FA2F007C0D86 /* symhacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symhacks.h; sourceTree = "<group>"; };
+		823819361587FA2F007C0D86 /* tls1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tls1.h; sourceTree = "<group>"; };
+		823819371587FA2F007C0D86 /* ts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ts.h; sourceTree = "<group>"; };
+		823819381587FA2F007C0D86 /* txt_db.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = txt_db.h; sourceTree = "<group>"; };
+		823819391587FA2F007C0D86 /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
+		8238193A1587FA2F007C0D86 /* ui_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_compat.h; sourceTree = "<group>"; };
+		8238193B1587FA2F007C0D86 /* whrlpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = whrlpool.h; sourceTree = "<group>"; };
+		8238193C1587FA2F007C0D86 /* x509.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509.h; sourceTree = "<group>"; };
+		8238193D1587FA2F007C0D86 /* x509_vfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509_vfy.h; sourceTree = "<group>"; };
+		8238193E1587FA2F007C0D86 /* x509v3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509v3.h; sourceTree = "<group>"; };
+		8238193F1587FA2F007C0D86 /* openssl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openssl_license.txt; sourceTree = "<group>"; };
+		82381A121587FAAE007C0D86 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
+		82381A131587FAAE007C0D86 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		824B4E26157D21E50017229C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStoreLoadTestSuite.js; path = test/SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
+		826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFTestRunnerPlugin.js; path = test/SFTestRunnerPlugin.js; sourceTree = "<group>"; };
+		826ED6D51582DA6700321962 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFTestSuite.js; path = test/SFTestSuite.js; sourceTree = "<group>"; };
+		826ED6D71582DA7100321962 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = util/SFHybridApp.css; sourceTree = "<group>"; };
+		826ED6D91582DA7900321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = util/SFHybridApp.js; sourceTree = "<group>"; };
+		826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStoreTestSuite.js; path = test/SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
+		826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		826ED6DF1582DAA300321962 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = test/qunit.js; sourceTree = "<group>"; };
+		826ED6E11582DAAB00321962 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = test/qunit.css; sourceTree = "<group>"; };
+		826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -486,8 +742,10 @@
 				7D20FBD314ED7DBD00A86731 /* AVFoundation.framework in Frameworks */,
 				7D20FBD414ED7DBD00A86731 /* MediaPlayer.framework in Frameworks */,
 				7D20FBD514ED7DBD00A86731 /* SystemConfiguration.framework in Frameworks */,
-				7D20FBD614ED7DBD00A86731 /* libsqlite3.dylib in Frameworks */,
 				7D32F30D150687EE00AD2D64 /* libSalesforceOAuth.a in Frameworks */,
+				82381A201587FE7E007C0D86 /* libsqlcipher.a in Frameworks */,
+				82381A211587FE83007C0D86 /* libcrypto.a in Frameworks */,
+				82381A221587FE86007C0D86 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +765,9 @@
 			files = (
 				7D45E36914BFB3FD002C4A27 /* PhoneGap.framework in Frameworks */,
 				7D32F30B1506871800AD2D64 /* libSalesforceOAuth.a in Frameworks */,
+				823819401587FA2F007C0D86 /* libcrypto.a in Frameworks */,
+				823819411587FA2F007C0D86 /* libssl.a in Frameworks */,
+				82381A141587FAAE007C0D86 /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,10 +788,13 @@
 				7DBB14E614C0F61D00CCDBE0 /* CFNetwork.framework in Frameworks */,
 				7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */,
 				7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */,
-				7DBB14DC14C0F50500CCDBE0 /* libsqlite3.dylib in Frameworks */,
+				824B4E27157D21E50017229C /* libz.dylib in Frameworks */,
 				7DBB147614C0ECF700CCDBE0 /* UIKit.framework in Frameworks */,
 				7DBB147714C0ECF700CCDBE0 /* Foundation.framework in Frameworks */,
 				7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */,
+				82381A161587FC8C007C0D86 /* libsqlcipher.a in Frameworks */,
+				82381A171587FC90007C0D86 /* libcrypto.a in Frameworks */,
+				82381A181587FC94007C0D86 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,7 +828,6 @@
 				7DBD163014D85C3400A17E6A /* AVFoundation.framework in Frameworks */,
 				7DBD163114D85C3400A17E6A /* MediaPlayer.framework in Frameworks */,
 				7DBD163214D85C3400A17E6A /* SystemConfiguration.framework in Frameworks */,
-				7DBD165D14D85C3600A17E6A /* libsqlite3.dylib in Frameworks */,
 				7D32F30C150687D900AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,7 +915,7 @@
 				7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */,
 				7D45E39014BFB8BA002C4A27 /* UIKit.framework */,
 				7D45E38E14BFB8AC002C4A27 /* Foundation.framework */,
-				7D45E38C14BFB88C002C4A27 /* libsqlite3.dylib */,
+				824B4E26157D21E50017229C /* libz.dylib */,
 				7D45E31414BFB30E002C4A27 /* scripts */,
 				7D45E2EC14BFB259002C4A27 /* SalesforceHybridSDK */,
 				7DBB147A14C0ECF700CCDBE0 /* TestPlugins */,
@@ -685,10 +948,13 @@
 		7D45E2EC14BFB259002C4A27 /* SalesforceHybridSDK */ = {
 			isa = PBXGroup;
 			children = (
-				7DD88EE914DA044E00C0D0A0 /* util */,
-				7D45E35314BFB3FD002C4A27 /* dependencies */,
+				822AC09F1577DC6F007C20B9 /* Common */,
 				7D45E31B14BFB394002C4A27 /* Container */,
+				7D45E35314BFB3FD002C4A27 /* dependencies */,
+				822AC0C61577EF9F007C20B9 /* Identity */,
 				7D45E31E14BFB394002C4A27 /* Plugins */,
+				822AC0B91577EF06007C20B9 /* Security */,
+				7DD88EE914DA044E00C0D0A0 /* util */,
 				7D45E2ED14BFB259002C4A27 /* Supporting Files */,
 			);
 			path = SalesforceHybridSDK;
@@ -785,6 +1051,8 @@
 		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				82381A111587FAAE007C0D86 /* sqlcipher */,
+				823818F01587FA2E007C0D86 /* openssl */,
 				7D32F3021506871800AD2D64 /* SalesforceOAuth */,
 				7DF93E5714C646DB00D0C211 /* Headers */,
 				7D45E35414BFB3FD002C4A27 /* PhoneGap.framework */,
@@ -796,15 +1064,17 @@
 		7D8ECE8314EB246B004F241C /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
-				7D8ECE8414EB246B004F241C /* FMDatabase.h */,
-				7D8ECE8514EB246B004F241C /* FMDatabase.m */,
-				7D8ECE8614EB246B004F241C /* FMDatabaseAdditions.h */,
-				7D8ECE8714EB246B004F241C /* FMDatabaseAdditions.m */,
-				7D8ECE8814EB246B004F241C /* FMDbException.h */,
-				7D8ECE8914EB246B004F241C /* FMDbException.m */,
-				7D8ECE8A14EB246B004F241C /* FMLicense.txt */,
-				7D8ECE8B14EB246B004F241C /* FMResultSet.h */,
-				7D8ECE8C14EB246B004F241C /* FMResultSet.m */,
+				821C5E801583FBBF00433F92 /* FMDatabase.h */,
+				821C5E811583FBBF00433F92 /* FMDatabase.m */,
+				821C5E821583FBBF00433F92 /* FMDatabaseAdditions.h */,
+				821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */,
+				821C5E841583FBBF00433F92 /* FMDatabasePool.h */,
+				821C5E851583FBBF00433F92 /* FMDatabasePool.m */,
+				821C5E861583FBBF00433F92 /* FMDatabaseQueue.h */,
+				821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */,
+				821C5E881583FBBF00433F92 /* FMResultSet.h */,
+				821C5E891583FBBF00433F92 /* FMResultSet.m */,
+				821C5E7E1583FBA000433F92 /* LICENSE.txt */,
 				7D8ECE8D14EB246B004F241C /* SqliteAdditions.c */,
 				7D8ECE8E14EB246B004F241C /* SqliteAdditions.h */,
 			);
@@ -873,18 +1143,18 @@
 		7DBB14B614C0F09E00CCDBE0 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				7D20FC2B14ED97D600A86731 /* SFSmartStoreLoadTestSuite.js */,
-				7DCEF4FC14D0943200BB3F3E /* SFTestRunnerPlugin.js */,
-				7DCEF4FD14D0943200BB3F3E /* SFTestSuite.js */,
+				826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */,
+				826ED6E11582DAAB00321962 /* qunit.css */,
+				826ED6DF1582DAA300321962 /* qunit.js */,
+				826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */,
+				826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */,
+				826ED6D91582DA7900321962 /* SFHybridApp.js */,
+				826ED6D71582DA7100321962 /* SFHybridApp.css */,
+				826ED6D51582DA6700321962 /* SFTestSuite.js */,
+				826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */,
+				826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
-				7DD5A11A14CF94B300D308B1 /* SFHybridApp.css */,
-				7DD5A11B14CF94B300D308B1 /* SFHybridApp.js */,
 				7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */,
-				7DBB14BF14C0F09E00CCDBE0 /* SFSmartStoreTestSuite.js */,
-				7DBB14BD14C0F09E00CCDBE0 /* SalesforceOAuthPlugin.js */,
-				7DBB14BC14C0F09E00CCDBE0 /* qunit.js */,
-				7DBB14BB14C0F09E00CCDBE0 /* qunit.css */,
-				7DBB14BE14C0F09E00CCDBE0 /* SFSmartStorePlugin.js */,
 				7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */,
 			);
 			name = "shared-www";
@@ -912,7 +1182,6 @@
 		7DBD163314D85C3400A17E6A /* DebugPlugins */ = {
 			isa = PBXGroup;
 			children = (
-				7DBD165C14D85C3600A17E6A /* libsqlite3.dylib */,
 				7DBD167C14D85C3600A17E6A /* Settings.bundle */,
 				7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */,
 				7DBD163414D85C3400A17E6A /* Supporting Files */,
@@ -952,12 +1221,23 @@
 		7DD88EE914DA044E00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				822AC0881577D995007C20B9 /* NSData+SFAdditions.h */,
+				822AC0891577D995007C20B9 /* NSData+SFAdditions.m */,
+				7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */,
+				7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */,
+				822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */,
+				822AC08B1577D995007C20B9 /* NSString+SFAdditions.m */,
 				82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */,
 				82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */,
 				7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */,
 				7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */,
-				7DD5B43514E47FDB005C62E1 /* NSDictionary+NullHandling.h */,
-				7DD5B43614E47FDB005C62E1 /* NSDictionary+NullHandling.m */,
+				822AC08C1577D995007C20B9 /* SFLogger.h */,
+				822AC08E1577D995007C20B9 /* SFLogger+Internal.h */,
+				822AC08D1577D995007C20B9 /* SFLogger.m */,
+				822AC08F1577D995007C20B9 /* SFPathUtil.h */,
+				822AC0901577D995007C20B9 /* SFPathUtil.m */,
+				822AC0911577D995007C20B9 /* UIDevice-Hardware.h */,
+				822AC0921577D995007C20B9 /* UIDevice-Hardware.m */,
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
@@ -973,6 +1253,151 @@
 			);
 			name = Headers;
 			path = PhoneGap.framework/Headers;
+			sourceTree = "<group>";
+		};
+		822AC09F1577DC6F007C20B9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */,
+				822AC0A11577DCCC007C20B9 /* SFApplication.h */,
+				822AC0A21577DCCC007C20B9 /* SFApplication.m */,
+				822AC0A31577DCCC007C20B9 /* SFCrypto.h */,
+				822AC0A41577DCCC007C20B9 /* SFCrypto.m */,
+				822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */,
+				822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */,
+				822AC0A71577DCCC007C20B9 /* SFKeychainItemWrapper.h */,
+				822AC0A81577DCCC007C20B9 /* SFKeychainItemWrapper.m */,
+				822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */,
+				822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		822AC0B91577EF06007C20B9 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				822AC0BA1577EF57007C20B9 /* SFAccountManager.h */,
+				822AC0BB1577EF57007C20B9 /* SFAccountManager.m */,
+				822AC0BC1577EF57007C20B9 /* SFPasscodeViewController.h */,
+				822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */,
+				822AC0BE1577EF57007C20B9 /* SFSecurityLockout.h */,
+				822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */,
+			);
+			name = Security;
+			sourceTree = "<group>";
+		};
+		822AC0C61577EF9F007C20B9 /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				822AC0C71577EFCF007C20B9 /* SFIdentityCoordinator.h */,
+				822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */,
+				822AC0C91577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h */,
+				822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */,
+				822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */,
+			);
+			name = Identity;
+			sourceTree = "<group>";
+		};
+		823818F01587FA2E007C0D86 /* openssl */ = {
+			isa = PBXGroup;
+			children = (
+				823818F11587FA2E007C0D86 /* libcrypto.a */,
+				823818F21587FA2E007C0D86 /* libssl.a */,
+				823818F31587FA2E007C0D86 /* openssl */,
+				8238193F1587FA2F007C0D86 /* openssl_license.txt */,
+			);
+			path = openssl;
+			sourceTree = "<group>";
+		};
+		823818F31587FA2E007C0D86 /* openssl */ = {
+			isa = PBXGroup;
+			children = (
+				823818F41587FA2E007C0D86 /* aes.h */,
+				823818F51587FA2E007C0D86 /* asn1.h */,
+				823818F61587FA2E007C0D86 /* asn1_mac.h */,
+				823818F71587FA2E007C0D86 /* asn1t.h */,
+				823818F81587FA2E007C0D86 /* bio.h */,
+				823818F91587FA2E007C0D86 /* blowfish.h */,
+				823818FA1587FA2E007C0D86 /* bn.h */,
+				823818FB1587FA2E007C0D86 /* buffer.h */,
+				823818FC1587FA2E007C0D86 /* camellia.h */,
+				823818FD1587FA2E007C0D86 /* cast.h */,
+				823818FE1587FA2E007C0D86 /* cmac.h */,
+				823818FF1587FA2E007C0D86 /* cms.h */,
+				823819001587FA2E007C0D86 /* comp.h */,
+				823819011587FA2E007C0D86 /* conf.h */,
+				823819021587FA2E007C0D86 /* conf_api.h */,
+				823819031587FA2E007C0D86 /* crypto.h */,
+				823819041587FA2E007C0D86 /* des.h */,
+				823819051587FA2E007C0D86 /* des_old.h */,
+				823819061587FA2E007C0D86 /* dh.h */,
+				823819071587FA2E007C0D86 /* dsa.h */,
+				823819081587FA2E007C0D86 /* dso.h */,
+				823819091587FA2E007C0D86 /* dtls1.h */,
+				8238190A1587FA2E007C0D86 /* e_os2.h */,
+				8238190B1587FA2E007C0D86 /* ebcdic.h */,
+				8238190C1587FA2E007C0D86 /* ec.h */,
+				8238190D1587FA2E007C0D86 /* ecdh.h */,
+				8238190E1587FA2E007C0D86 /* ecdsa.h */,
+				8238190F1587FA2E007C0D86 /* engine.h */,
+				823819101587FA2E007C0D86 /* err.h */,
+				823819111587FA2E007C0D86 /* evp.h */,
+				823819121587FA2F007C0D86 /* hmac.h */,
+				823819131587FA2F007C0D86 /* idea.h */,
+				823819141587FA2F007C0D86 /* krb5_asn.h */,
+				823819151587FA2F007C0D86 /* kssl.h */,
+				823819161587FA2F007C0D86 /* lhash.h */,
+				823819171587FA2F007C0D86 /* md4.h */,
+				823819181587FA2F007C0D86 /* md5.h */,
+				823819191587FA2F007C0D86 /* mdc2.h */,
+				8238191A1587FA2F007C0D86 /* modes.h */,
+				8238191B1587FA2F007C0D86 /* obj_mac.h */,
+				8238191C1587FA2F007C0D86 /* objects.h */,
+				8238191D1587FA2F007C0D86 /* ocsp.h */,
+				8238191E1587FA2F007C0D86 /* opensslconf.h */,
+				8238191F1587FA2F007C0D86 /* opensslv.h */,
+				823819201587FA2F007C0D86 /* ossl_typ.h */,
+				823819211587FA2F007C0D86 /* pem.h */,
+				823819221587FA2F007C0D86 /* pem2.h */,
+				823819231587FA2F007C0D86 /* pkcs12.h */,
+				823819241587FA2F007C0D86 /* pkcs7.h */,
+				823819251587FA2F007C0D86 /* pqueue.h */,
+				823819261587FA2F007C0D86 /* rand.h */,
+				823819271587FA2F007C0D86 /* rc2.h */,
+				823819281587FA2F007C0D86 /* rc4.h */,
+				823819291587FA2F007C0D86 /* ripemd.h */,
+				8238192A1587FA2F007C0D86 /* rsa.h */,
+				8238192B1587FA2F007C0D86 /* safestack.h */,
+				8238192C1587FA2F007C0D86 /* seed.h */,
+				8238192D1587FA2F007C0D86 /* sha.h */,
+				8238192E1587FA2F007C0D86 /* srp.h */,
+				8238192F1587FA2F007C0D86 /* srtp.h */,
+				823819301587FA2F007C0D86 /* ssl.h */,
+				823819311587FA2F007C0D86 /* ssl2.h */,
+				823819321587FA2F007C0D86 /* ssl23.h */,
+				823819331587FA2F007C0D86 /* ssl3.h */,
+				823819341587FA2F007C0D86 /* stack.h */,
+				823819351587FA2F007C0D86 /* symhacks.h */,
+				823819361587FA2F007C0D86 /* tls1.h */,
+				823819371587FA2F007C0D86 /* ts.h */,
+				823819381587FA2F007C0D86 /* txt_db.h */,
+				823819391587FA2F007C0D86 /* ui.h */,
+				8238193A1587FA2F007C0D86 /* ui_compat.h */,
+				8238193B1587FA2F007C0D86 /* whrlpool.h */,
+				8238193C1587FA2F007C0D86 /* x509.h */,
+				8238193D1587FA2F007C0D86 /* x509_vfy.h */,
+				8238193E1587FA2F007C0D86 /* x509v3.h */,
+			);
+			path = openssl;
+			sourceTree = "<group>";
+		};
+		82381A111587FAAE007C0D86 /* sqlcipher */ = {
+			isa = PBXGroup;
+			children = (
+				82381A121587FAAE007C0D86 /* libsqlcipher.a */,
+				82381A131587FAAE007C0D86 /* LICENSE */,
+			);
+			path = sqlcipher;
 			sourceTree = "<group>";
 		};
 		82D99FB1154E0D8000971B4D /* SalesforceHybridSDKTests */ = {
@@ -1014,10 +1439,6 @@
 				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
 				7DD5B43714E47FDB005C62E1 /* NSDictionary+NullHandling.h in Headers */,
 				7D8ECE9A14EB246B004F241C /* SFSoupQuerySpec.h in Headers */,
-				7D8ECE9B14EB246B004F241C /* FMDatabase.h in Headers */,
-				7D8ECE9E14EB246B004F241C /* FMDatabaseAdditions.h in Headers */,
-				7D8ECEA114EB246B004F241C /* FMDbException.h in Headers */,
-				7D8ECEA614EB246B004F241C /* FMResultSet.h in Headers */,
 				7D8ECEAB14EB246B004F241C /* SqliteAdditions.h in Headers */,
 				7D8ECEAC14EB246B004F241C /* SFSoupIndex.h in Headers */,
 				7D8ECEAD14EB246B004F241C /* SFSoupCursor.h in Headers */,
@@ -1026,6 +1447,104 @@
 				7D32F3091506871800AD2D64 /* SFOAuthCoordinator.h in Headers */,
 				7D32F30A1506871800AD2D64 /* SFOAuthCredentials.h in Headers */,
 				82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */,
+				822AC0931577D995007C20B9 /* NSData+SFAdditions.h in Headers */,
+				822AC0951577D995007C20B9 /* NSString+SFAdditions.h in Headers */,
+				822AC0971577D995007C20B9 /* SFLogger.h in Headers */,
+				822AC0991577D995007C20B9 /* SFLogger+Internal.h in Headers */,
+				822AC09A1577D995007C20B9 /* SFPathUtil.h in Headers */,
+				822AC09C1577D995007C20B9 /* UIDevice-Hardware.h in Headers */,
+				822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */,
+				822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */,
+				822AC0AE1577DCCC007C20B9 /* SFCrypto.h in Headers */,
+				822AC0B01577DCCC007C20B9 /* SFInactivityTimerCenter.h in Headers */,
+				822AC0B21577DCCC007C20B9 /* SFKeychainItemWrapper.h in Headers */,
+				822AC0B41577DCCC007C20B9 /* SFUserActivityMonitor.h in Headers */,
+				822AC0C01577EF57007C20B9 /* SFAccountManager.h in Headers */,
+				822AC0C21577EF57007C20B9 /* SFPasscodeViewController.h in Headers */,
+				822AC0C41577EF57007C20B9 /* SFSecurityLockout.h in Headers */,
+				822AC0CC1577EFCF007C20B9 /* SFIdentityCoordinator.h in Headers */,
+				822AC0CE1577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h in Headers */,
+				822AC0CF1577EFCF007C20B9 /* SFIdentityData.h in Headers */,
+				821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */,
+				821C5E8C1583FBBF00433F92 /* FMDatabaseAdditions.h in Headers */,
+				821C5E8E1583FBBF00433F92 /* FMDatabasePool.h in Headers */,
+				821C5E901583FBBF00433F92 /* FMDatabaseQueue.h in Headers */,
+				821C5E921583FBBF00433F92 /* FMResultSet.h in Headers */,
+				823819421587FA2F007C0D86 /* aes.h in Headers */,
+				823819431587FA2F007C0D86 /* asn1.h in Headers */,
+				823819441587FA2F007C0D86 /* asn1_mac.h in Headers */,
+				823819451587FA2F007C0D86 /* asn1t.h in Headers */,
+				823819461587FA2F007C0D86 /* bio.h in Headers */,
+				823819471587FA2F007C0D86 /* blowfish.h in Headers */,
+				823819481587FA2F007C0D86 /* bn.h in Headers */,
+				823819491587FA2F007C0D86 /* buffer.h in Headers */,
+				8238194A1587FA2F007C0D86 /* camellia.h in Headers */,
+				8238194B1587FA2F007C0D86 /* cast.h in Headers */,
+				8238194C1587FA2F007C0D86 /* cmac.h in Headers */,
+				8238194D1587FA2F007C0D86 /* cms.h in Headers */,
+				8238194E1587FA2F007C0D86 /* comp.h in Headers */,
+				8238194F1587FA2F007C0D86 /* conf.h in Headers */,
+				823819501587FA2F007C0D86 /* conf_api.h in Headers */,
+				823819511587FA2F007C0D86 /* crypto.h in Headers */,
+				823819521587FA2F007C0D86 /* des.h in Headers */,
+				823819531587FA2F007C0D86 /* des_old.h in Headers */,
+				823819541587FA2F007C0D86 /* dh.h in Headers */,
+				823819551587FA2F007C0D86 /* dsa.h in Headers */,
+				823819561587FA2F007C0D86 /* dso.h in Headers */,
+				823819571587FA2F007C0D86 /* dtls1.h in Headers */,
+				823819581587FA2F007C0D86 /* e_os2.h in Headers */,
+				823819591587FA2F007C0D86 /* ebcdic.h in Headers */,
+				8238195A1587FA2F007C0D86 /* ec.h in Headers */,
+				8238195B1587FA2F007C0D86 /* ecdh.h in Headers */,
+				8238195C1587FA2F007C0D86 /* ecdsa.h in Headers */,
+				8238195D1587FA2F007C0D86 /* engine.h in Headers */,
+				8238195E1587FA2F007C0D86 /* err.h in Headers */,
+				8238195F1587FA2F007C0D86 /* evp.h in Headers */,
+				823819601587FA2F007C0D86 /* hmac.h in Headers */,
+				823819611587FA2F007C0D86 /* idea.h in Headers */,
+				823819621587FA2F007C0D86 /* krb5_asn.h in Headers */,
+				823819631587FA2F007C0D86 /* kssl.h in Headers */,
+				823819641587FA2F007C0D86 /* lhash.h in Headers */,
+				823819651587FA2F007C0D86 /* md4.h in Headers */,
+				823819661587FA2F007C0D86 /* md5.h in Headers */,
+				823819671587FA2F007C0D86 /* mdc2.h in Headers */,
+				823819681587FA2F007C0D86 /* modes.h in Headers */,
+				823819691587FA2F007C0D86 /* obj_mac.h in Headers */,
+				8238196A1587FA2F007C0D86 /* objects.h in Headers */,
+				8238196B1587FA2F007C0D86 /* ocsp.h in Headers */,
+				8238196C1587FA2F007C0D86 /* opensslconf.h in Headers */,
+				8238196D1587FA2F007C0D86 /* opensslv.h in Headers */,
+				8238196E1587FA2F007C0D86 /* ossl_typ.h in Headers */,
+				8238196F1587FA2F007C0D86 /* pem.h in Headers */,
+				823819701587FA2F007C0D86 /* pem2.h in Headers */,
+				823819711587FA2F007C0D86 /* pkcs12.h in Headers */,
+				823819721587FA2F007C0D86 /* pkcs7.h in Headers */,
+				823819731587FA2F007C0D86 /* pqueue.h in Headers */,
+				823819741587FA2F007C0D86 /* rand.h in Headers */,
+				823819751587FA2F007C0D86 /* rc2.h in Headers */,
+				823819761587FA2F007C0D86 /* rc4.h in Headers */,
+				823819771587FA2F007C0D86 /* ripemd.h in Headers */,
+				823819781587FA2F007C0D86 /* rsa.h in Headers */,
+				823819791587FA2F007C0D86 /* safestack.h in Headers */,
+				8238197A1587FA2F007C0D86 /* seed.h in Headers */,
+				8238197B1587FA2F007C0D86 /* sha.h in Headers */,
+				8238197C1587FA2F007C0D86 /* srp.h in Headers */,
+				8238197D1587FA2F007C0D86 /* srtp.h in Headers */,
+				8238197E1587FA2F007C0D86 /* ssl.h in Headers */,
+				8238197F1587FA2F007C0D86 /* ssl2.h in Headers */,
+				823819801587FA2F007C0D86 /* ssl23.h in Headers */,
+				823819811587FA2F007C0D86 /* ssl3.h in Headers */,
+				823819821587FA2F007C0D86 /* stack.h in Headers */,
+				823819831587FA2F007C0D86 /* symhacks.h in Headers */,
+				823819841587FA2F007C0D86 /* tls1.h in Headers */,
+				823819851587FA2F007C0D86 /* ts.h in Headers */,
+				823819861587FA2F007C0D86 /* txt_db.h in Headers */,
+				823819871587FA2F007C0D86 /* ui.h in Headers */,
+				823819881587FA2F007C0D86 /* ui_compat.h in Headers */,
+				823819891587FA2F007C0D86 /* whrlpool.h in Headers */,
+				8238198A1587FA2F007C0D86 /* x509.h in Headers */,
+				8238198B1587FA2F007C0D86 /* x509_vfy.h in Headers */,
+				8238198C1587FA2F007C0D86 /* x509v3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1227,7 +1746,6 @@
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
 				7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */,
 				7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */,
-				7D20FBE714ED7DBD00A86731 /* FMLicense.txt in Resources */,
 				7D20FC3314ED98F000A86731 /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1245,7 +1763,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D45E2F114BFB259002C4A27 /* InfoPlist.strings in Resources */,
-				7D8ECEA414EB246B004F241C /* FMLicense.txt in Resources */,
+				821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */,
+				8238198D1587FA2F007C0D86 /* openssl_license.txt in Resources */,
+				82381A151587FAAE007C0D86 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1422,11 +1942,23 @@
 				7D20FBBC14ED7DBD00A86731 /* SFSoupIndex.m in Sources */,
 				7D20FBBD14ED7DBD00A86731 /* SFSoupQuerySpec.m in Sources */,
 				7D20FBBE14ED7DBD00A86731 /* SFSoupCursor.m in Sources */,
-				7D20FBBF14ED7DBD00A86731 /* FMDatabase.m in Sources */,
-				7D20FBC014ED7DBD00A86731 /* FMDatabaseAdditions.m in Sources */,
-				7D20FBC114ED7DBD00A86731 /* FMDbException.m in Sources */,
-				7D20FBC214ED7DBD00A86731 /* FMResultSet.m in Sources */,
 				7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */,
+				8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */,
+				8248E067157D102100A7FE69 /* SFLogger.m in Sources */,
+				8248E06A157D103100A7FE69 /* SFSecurityLockout.m in Sources */,
+				8248E06D157D104100A7FE69 /* SFInactivityTimerCenter.m in Sources */,
+				8248E070157D105700A7FE69 /* SFUserActivityMonitor.m in Sources */,
+				8248E073157D106900A7FE69 /* SFIdentityCoordinator.m in Sources */,
+				8248E076157D108D00A7FE69 /* SFPathUtil.m in Sources */,
+				8248E079157D109D00A7FE69 /* SFPasscodeViewController.m in Sources */,
+				8248E07C157D10AD00A7FE69 /* SFKeychainItemWrapper.m in Sources */,
+				8248E07F157D10BF00A7FE69 /* SFIdentityData.m in Sources */,
+				8248E082157D10D500A7FE69 /* SFCrypto.m in Sources */,
+				821C5E951583FBD200433F92 /* FMDatabase.m in Sources */,
+				821C5E971583FBDB00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E991583FBEB00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1452,12 +1984,28 @@
 				7D8ECE9414EB246B004F241C /* SFSoupIndex.m in Sources */,
 				7D8ECE9614EB246B004F241C /* SFSoupQuerySpec.m in Sources */,
 				7D8ECE9814EB246B004F241C /* SFSoupCursor.m in Sources */,
-				7D8ECE9C14EB246B004F241C /* FMDatabase.m in Sources */,
-				7D8ECE9F14EB246B004F241C /* FMDatabaseAdditions.m in Sources */,
-				7D8ECEA214EB246B004F241C /* FMDbException.m in Sources */,
-				7D8ECEA714EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */,
 				82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */,
+				822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */,
+				822AC0961577D995007C20B9 /* NSString+SFAdditions.m in Sources */,
+				822AC0981577D995007C20B9 /* SFLogger.m in Sources */,
+				822AC09B1577D995007C20B9 /* SFPathUtil.m in Sources */,
+				822AC09D1577D995007C20B9 /* UIDevice-Hardware.m in Sources */,
+				822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */,
+				822AC0AF1577DCCC007C20B9 /* SFCrypto.m in Sources */,
+				822AC0B11577DCCC007C20B9 /* SFInactivityTimerCenter.m in Sources */,
+				822AC0B31577DCCC007C20B9 /* SFKeychainItemWrapper.m in Sources */,
+				822AC0B51577DCCC007C20B9 /* SFUserActivityMonitor.m in Sources */,
+				822AC0C11577EF57007C20B9 /* SFAccountManager.m in Sources */,
+				822AC0C31577EF57007C20B9 /* SFPasscodeViewController.m in Sources */,
+				822AC0C51577EF57007C20B9 /* SFSecurityLockout.m in Sources */,
+				822AC0CD1577EFCF007C20B9 /* SFIdentityCoordinator.m in Sources */,
+				822AC0D01577EFCF007C20B9 /* SFIdentityData.m in Sources */,
+				821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */,
+				821C5E8D1583FBBF00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E8F1583FBBF00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E911583FBBF00433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E931583FBBF00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1496,11 +2044,23 @@
 				7D8ECE9514EB246B004F241C /* SFSoupIndex.m in Sources */,
 				7D8ECE9714EB246B004F241C /* SFSoupQuerySpec.m in Sources */,
 				7D8ECE9914EB246B004F241C /* SFSoupCursor.m in Sources */,
-				7D8ECE9D14EB246B004F241C /* FMDatabase.m in Sources */,
-				7D8ECEA014EB246B004F241C /* FMDatabaseAdditions.m in Sources */,
-				7D8ECEA314EB246B004F241C /* FMDbException.m in Sources */,
-				7D8ECEA814EB246B004F241C /* FMResultSet.m in Sources */,
 				7D8ECEAA14EB246B004F241C /* SqliteAdditions.c in Sources */,
+				8248E063157D0CC400A7FE69 /* SFAccountManager.m in Sources */,
+				8248E066157D102000A7FE69 /* SFLogger.m in Sources */,
+				8248E069157D103000A7FE69 /* SFSecurityLockout.m in Sources */,
+				8248E06C157D103F00A7FE69 /* SFInactivityTimerCenter.m in Sources */,
+				8248E06F157D105500A7FE69 /* SFUserActivityMonitor.m in Sources */,
+				8248E072157D106700A7FE69 /* SFIdentityCoordinator.m in Sources */,
+				8248E075157D108B00A7FE69 /* SFPathUtil.m in Sources */,
+				8248E078157D109C00A7FE69 /* SFPasscodeViewController.m in Sources */,
+				8248E07B157D10AC00A7FE69 /* SFKeychainItemWrapper.m in Sources */,
+				8248E07E157D10BE00A7FE69 /* SFIdentityData.m in Sources */,
+				8248E081157D10D300A7FE69 /* SFCrypto.m in Sources */,
+				821C5E941583FBD100433F92 /* FMDatabase.m in Sources */,
+				821C5E961583FBDA00433F92 /* FMDatabaseAdditions.m in Sources */,
+				821C5E981583FBEA00433F92 /* FMDatabasePool.m in Sources */,
+				821C5E9A1583FBF100433F92 /* FMDatabaseQueue.m in Sources */,
+				821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1639,9 +2199,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1671,6 +2234,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1701,6 +2266,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1730,6 +2296,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1759,6 +2326,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = DebugPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1787,7 +2355,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1819,7 +2390,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1852,7 +2426,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1882,6 +2459,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = StressPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1908,6 +2486,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = StressPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1934,6 +2513,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = StressPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2005,9 +2585,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2038,9 +2621,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"/**",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2070,7 +2656,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
+				"OTHER_CFLAGS[arch=*]" = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2101,8 +2690,11 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"OTHER_CFLAGS[arch=*]" = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2132,6 +2724,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2159,6 +2752,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2188,6 +2782,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -2221,6 +2816,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -2250,6 +2846,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = DebugPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2276,6 +2873,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = DebugPluginsTests;
 				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2293,6 +2891,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -2308,6 +2907,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -2323,6 +2923,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -2419,6 +3020,7 @@
 				82D99FBE154E0D8000971B4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

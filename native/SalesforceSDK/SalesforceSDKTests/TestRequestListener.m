@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -40,12 +40,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @synthesize maxWaitTime = _maxWaitTime;
 
-- (id)initWithRestRequest:(SFRestRequest*)request {
+- (id)initWithRequest:(id)request {
     self = [super init];
     if (nil != self) {
         self.maxWaitTime = 30.0;
         self.originalRequest = request;
-        request.delegate = self;
+        NSAssert([request respondsToSelector:@selector(setDelegate:)], @"The request does not expose a delegate.  Nothing to do.");
+        [request setDelegate:self];
         self.returnStatus = kTestRequestStatusWaiting;
     }
     
@@ -53,7 +54,9 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 }
 
 - (void)dealloc {
-    self.originalRequest.delegate = nil;
+    if ([self.originalRequest respondsToSelector:@selector(setDelegate:)]) {
+        [self.originalRequest setDelegate:nil];
+    }
     self.originalRequest = nil;
     self.jsonResponse = nil;
     self.lastError = nil;
@@ -69,7 +72,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
-            NSLog(@"request took too long (%f) to complete: %@",elapsed,self.originalRequest);
+            NSLog(@"Request took too long (> %f secs) to complete: %@", elapsed, self.originalRequest);
             return kTestRequestStatusDidTimeout;
         }
         
@@ -98,6 +101,52 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
     self.returnStatus = kTestRequestStatusDidTimeout;
+}
+
+#pragma mark - SFIdentityCoordinatorDelegate
+
+- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
+{
+    self.returnStatus = kTestRequestStatusDidLoad;
+}
+
+- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
+{
+    self.lastError = error;
+    self.returnStatus = kTestRequestStatusDidFail;
+}
+
+#pragma mark - SFOAuthCoordinatorDelegate
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
+{
+    NSAssert(NO, @"User Agent flow not supported in this class.");
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+{
+    NSAssert(NO, @"User Agent flow not supported in this class.");
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil
+{
+    NSAssert(NO, @"User Agent flow not supported in this class.");
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
+{
+    NSAssert(NO, @"User Agent flow not supported in this class.");
+}
+
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+{
+    self.returnStatus = kTestRequestStatusDidLoad;
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+{
+    self.lastError = error;
+    self.returnStatus = kTestRequestStatusDidFail;
 }
 
 @end

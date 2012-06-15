@@ -32,15 +32,15 @@
 		7DF4D3A61472E23A005CE144 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A51472E23A005CE144 /* Default~iPad.png */; };
 		7DF4D3A81472E23A005CE144 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A71472E23A005CE144 /* readme.txt */; };
 		7DF4D3AC1472E23A005CE144 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3AB1472E23A005CE144 /* AppDelegate.m */; };
-		7DF4D3B31472E23A005CE144 /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3B21472E23A005CE144 /* SFAuthorizingViewController.m */; };
 		7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */; };
-		7DF4D3B81472E23A005CE144 /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3B71472E23A005CE144 /* SFNativeRestAppDelegate.m */; };
 		7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D3B91472E23A005CE144 /* libxml2.dylib */; };
 		7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3BB1472E23B005CE144 /* Settings.bundle */; };
 		7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */; };
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
+		820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820A792A15644EFE0060067C /* SFNativeRootViewController.xib */; };
+		8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8271F49F1562BB1C00C261CF /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,11 +173,7 @@
 		7DF4D3A71472E23A005CE144 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		7DF4D3AA1472E23A005CE144 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DF4D3AB1472E23A005CE144 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
-		7DF4D3B11472E23A005CE144 /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFAuthorizingViewController.h; path = NativeRestApp/SFAuthorizingViewController.h; sourceTree = "<group>"; };
-		7DF4D3B21472E23A005CE144 /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFAuthorizingViewController.m; path = NativeRestApp/SFAuthorizingViewController.m; sourceTree = "<group>"; };
 		7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SFAuthorizingViewController.xib; path = NativeRestApp/SFAuthorizingViewController.xib; sourceTree = "<group>"; };
-		7DF4D3B61472E23A005CE144 /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNativeRestAppDelegate.h; path = NativeRestApp/SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
-		7DF4D3B71472E23A005CE144 /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeRestApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
 		7DF4D3B91472E23A005CE144 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		7DF4D3BB1472E23B005CE144 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestAPIExplorerViewController.xib; path = Classes/RestAPIExplorerViewController.xib; sourceTree = "<group>"; };
@@ -186,6 +182,17 @@
 		7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QueryListViewController.xib; path = Classes/QueryListViewController.xib; sourceTree = "<group>"; };
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
+		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
+		8271F48A1562B62500C261CF /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
+		8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
+		8271F48C1562B62500C261CF /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
+		8271F48D1562B62500C261CF /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		8271F48E1562B62500C261CF /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
+		8271F49F1562BB1C00C261CF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		829B8103156711EF0050465E /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
+		829B8104156711EF0050465E /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
+		829B8105156711EF0050465E /* SFNativeRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRootViewController.h; sourceTree = "<group>"; };
+		82B96C0815630C4100B25A03 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */,
 				7D4FEBDA150EC2AF00842979 /* libsqlite3.0.dylib in Frameworks */,
 				7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */,
 				7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */,
@@ -382,10 +390,19 @@
 				7D4FEBC8150EC1D300842979 /* FMDatabase.h */,
 				7D4FEBC9150EC1D300842979 /* FMResultSet.h */,
 				7D4FEBCA150EC1D300842979 /* NSDictionary+NullHandling.h */,
+				82B96C0815630C4100B25A03 /* SalesforceSDKConstants.h */,
+				8271F48A1562B62500C261CF /* SFApplication.h */,
+				829B8103156711EF0050465E /* SFAuthorizingViewController.h */,
+				8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */,
+				8271F48C1562B62500C261CF /* SFIdentityData.h */,
 				7D4FEBCB150EC1D300842979 /* SFJsonUtils.h */,
+				8271F48D1562B62500C261CF /* SFLogger.h */,
+				829B8104156711EF0050465E /* SFNativeRestAppDelegate.h */,
+				829B8105156711EF0050465E /* SFNativeRootViewController.h */,
 				7D4FEBCC150EC1D300842979 /* SFOAuthCoordinator.h */,
 				7D4FEBCD150EC1D300842979 /* SFOAuthCredentials.h */,
 				7D4FEBCE150EC1D300842979 /* SFRestAPI+Blocks.h */,
+				8271F48E1562B62500C261CF /* SFRestAPI+QueryBuilder.h */,
 				7D4FEBCF150EC1D300842979 /* SFRestAPI.h */,
 				7D4FEBD0150EC1D300842979 /* SFRestRequest.h */,
 				7D4FEBD1150EC1D300842979 /* SFSmartStore.h */,
@@ -399,7 +416,6 @@
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
-				7D4FEBD9150EC2AF00842979 /* libsqlite3.0.dylib */,
 				7DF4D2EE1472E238005CE144 /* RestAPIExplorer */,
 				7DF4D2DD1472E238005CE144 /* Frameworks */,
 				7DF4D2DB1472E238005CE144 /* Products */,
@@ -458,6 +474,8 @@
 		7DF4D2F81472E238005CE144 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				7D4FEBD9150EC2AF00842979 /* libsqlite3.0.dylib */,
+				8271F49F1562BB1C00C261CF /* libz.dylib */,
 				7D4FEBC5150EC1D300842979 /* SalesforceSDK */,
 				7D32F35B1506991800AD2D64 /* SalesforceOAuth */,
 				7D0F1EF214DB4FCE00E20F3D /* RestKit */,
@@ -514,11 +532,8 @@
 		7DF4D3B01472E23A005CE144 /* NativeRestApp */ = {
 			isa = PBXGroup;
 			children = (
-				7DF4D3B11472E23A005CE144 /* SFAuthorizingViewController.h */,
-				7DF4D3B21472E23A005CE144 /* SFAuthorizingViewController.m */,
 				7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */,
-				7DF4D3B61472E23A005CE144 /* SFNativeRestAppDelegate.h */,
-				7DF4D3B71472E23A005CE144 /* SFNativeRestAppDelegate.m */,
+				820A792A15644EFE0060067C /* SFNativeRootViewController.xib */,
 			);
 			name = NativeRestApp;
 			sourceTree = "<group>";
@@ -590,6 +605,7 @@
 				7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
+				820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,8 +636,6 @@
 			files = (
 				7DF4D2F51472E238005CE144 /* main.m in Sources */,
 				7DF4D3AC1472E23A005CE144 /* AppDelegate.m in Sources */,
-				7DF4D3B31472E23A005CE144 /* SFAuthorizingViewController.m in Sources */,
-				7DF4D3B81472E23A005CE144 /* SFNativeRestAppDelegate.m in Sources */,
 				7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */,
 				7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */,
 			);

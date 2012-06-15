@@ -205,12 +205,12 @@
 		<string>wrapper.framework</string>
 	</dict>
 
-	<key>libsqlite3.dylib</key>
+	<key>libz.dylib</key>
 	<dict>
 		<key>PathType</key>
 		<string>DeveloperDir</string>
 		<key>Path</key>
-		<string>/usr/lib/libsqlite3.dylib</string>
+		<string>/usr/lib/libz.dylib</string>
 		<key>FileType</key>
 		<string>wrapper.framework</string>
 	</dict>
@@ -329,7 +329,7 @@
 	<!-- begin generated dependencies -->
 
 	<string>SalesforceHybridSDK.framework</string>
-	<string>libsqlite3.dylib</string>
+	<string>libz.dylib</string>
 		
 	
 	<string>Resources/icons/icon-72.png</string>

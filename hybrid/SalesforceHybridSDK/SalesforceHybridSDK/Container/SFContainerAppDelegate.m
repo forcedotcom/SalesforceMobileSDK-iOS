@@ -25,11 +25,16 @@
 
 #import "SFContainerAppDelegate.h"
 #import <PhoneGap/PhoneGapViewController.h>
+#import "SalesforceSDKConstants.h"
 #import "SalesforceOAuthPlugin.h"
+#import "SFAccountManager.h"
+#import "SFSecurityLockout.h"
 #import "NSURL+SFStringUtils.h"
+#import "SFInactivityTimerCenter.h"
+#import "SFSmartStore.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.1.8";
+NSString * const kSFMobileSDKVersion = @"1.2.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -38,7 +43,14 @@ NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
-@interface SFContainerAppDelegate (Private)
+// The default logging level of the app.
+#if defined(DEBUG)
+static SFLogLevel const kAppLogLevel = Debug;
+#else
+static SFLogLevel const kAppLogLevel = Info;
+#endif
+
+@interface SFContainerAppDelegate ()
 
 /**
  * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
@@ -53,11 +65,23 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
  */
 + (BOOL)isReservedUrlValue:(NSURL *)url;
 
+/**
+ * Removes any cookies from the cookie store.  All app cookies are reset with
+ * new authentication.
+ */
++ (void)removeCookies;
+
+/**
+ * Tasks to run when the app is backgrounding or terminating.
+ */
+- (void)prepareToShutDown;
+
 @end
 
 @implementation SFContainerAppDelegate
 
 @synthesize invokeString;
+@synthesize appLogLevel = _appLogLevel;
 
 #pragma mark - init/dealloc
 
@@ -79,15 +103,15 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
         
         _foundHomeUrl = NO;
         _isAppStartup = YES;
+        self.appLogLevel = kAppLogLevel;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_oauthPlugin release]; _oauthPlugin = nil;
-    [invokeString release]; invokeString = nil;
-
+    SFRelease(_oauthPlugin);
+    SFRelease(invokeString);
     
 	[ super dealloc ];
 }
@@ -107,6 +131,19 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 		NSLog(@"app launchOptions = %@",url);
 	}
     
+    [SFLogger setLogLevel:self.appLogLevel];
+    
+    // Reset app state if necessary (login settings have changed).  We have to do this in
+    // both didFinishLaunchedWithOptions and applicationDidBecomeActive, because the latter
+    // will conflict with PhoneGap's page launch process when the app starts.
+    BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+    BOOL loginHostChanged = [SFAccountManager updateLoginHost];
+    if (shouldLogout) {
+        [self clearAppState:NO];
+    } else if (loginHostChanged) {
+        [[SFAccountManager sharedInstance] clearAccountState:NO];
+    }
+    
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -124,23 +161,48 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
     // These actions only need to be taken when the app is coming back to the foreground, i.e. not when the app is first starting,
     // which has a separate bootstrapping process.
     if (!_isAppStartup) {
-        //Ensure that we have an OAuth plugin instance asap
-        if (nil == _oauthPlugin)
-            _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
-        
-        // If the app is in a state where it should be reset, re-initialize the app.
-        if ([_oauthPlugin resetAppState]) {
-            [_oauthPlugin release]; _oauthPlugin = nil;
+        SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self getCommandInstance:kSFOAuthPluginName];
+        [oauthPlugin clearPeriodicRefreshState];
+        BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
+        BOOL loginHostChanged = [SFAccountManager updateLoginHost];
+        if (shouldLogout) {
+            [self clearAppState:YES];
+        } else if (loginHostChanged) {
+            [[SFAccountManager sharedInstance] clearAccountState:NO];
             [self loadStartPageIntoWebView];
+        } else {
+            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                [self clearAppState:YES];
+            }];
+            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+                [oauthPlugin autoRefresh];
+                [self getCommandInstance:kSFSmartStorePluginName];
+                [super applicationDidBecomeActive:application];
+            }];
+            [SFSecurityLockout validateTimer];
         }
-        
-        //Touch this to ensure that we have a SmartStore plugin instance that
-        //can listen for file data protection notifications.
-        [self getCommandInstance:kSFSmartStorePluginName];
+    } else {
+        // Actions to take place exclusively when the app starts up.
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self clearAppState:YES];
+        }];
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+            [super applicationDidBecomeActive:application];
+        }];
+        [SFSecurityLockout lock];
     }
     
     _isAppStartup = NO;
-    [super applicationDidBecomeActive:application];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self prepareToShutDown];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    [self prepareToShutDown];
 }
 
 #pragma mark - PhoneGap helpers
@@ -318,6 +380,47 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 + (SFContainerAppDelegate*)sharedInstance 
 {
     return (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
+- (void)logout
+{
+    [self clearAppState:YES];
+}
+
+- (void)clearAppState:(BOOL)restartAuthentication
+{
+    // Clear any cookies set by the app.
+    [[self class] removeCookies];
+    
+    // Revoke all stored OAuth authentication.
+    [[SFAccountManager sharedInstance] clearAccountState:YES];
+    
+    // Clear the home URL since we are no longer authenticated.
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setURL:nil forKey:kAppHomeUrlPropKey];
+    [defs synchronize];
+
+    // Clear smartstore
+    [[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] removeAllSoups];
+    
+    if (restartAuthentication)
+        [self loadStartPageIntoWebView];
+}
+
++ (void)removeCookies
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        [cookieStorage deleteCookie:cookie];
+    }
+}
+
+- (void)prepareToShutDown {
+    [SFSecurityLockout removeTimer];
+    if ([SFAccountManager sharedInstance].credentials != nil) {
+		[SFInactivityTimerCenter saveActivityTimestamp];
+	}
 }
 
 
