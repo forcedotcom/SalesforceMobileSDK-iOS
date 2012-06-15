@@ -1,0 +1,44 @@
+// SECTION: Root //
+"GROUP_TITLE_ACCOUNT"="取引先";
+/* group label for Account settings */
+"LOGOUT_SELECTOR_TITLE"="今すぐログアウト";
+/* allows user to log out of account*/
+"GROUP_TITLE_DEBUG"="デバッグ";
+/* a section title for debug settings (SEND_LOGS_SELECTOR_TITLE) */
+"SEND_LOGS_SELECTOR_TITLE"="ログを送信";
+/* if true, app will send debug logs to Salesforce Support */
+"GROUP_TITLE_CONNECTION"="接続";
+/* Settings label for network connection */
+"LOGIN_HOST_TITLE"="ログインホスト";
+/* Settings label for login host */
+"PRODUCTION_LOGIN_HOST_TITLE"="運用";
+/* Settings label for production login host */
+"SANDBOX_LOGIN_HOST_TITLE"="Sandbox";
+/* Settings label for sandbox login host */
+"CUSTOM_LOGIN_HOST_TITLE"="カスタムホスト";
+/* Settings label for Custom Host login host */
+"DEFAULT_CUSTOM_LOGIN_HOST_TITLE"="テスト用";
+/* default value for the custom host setting */
+"PROTOCOL_SELECTOR_TITLE"="プロトコル";
+/* Settings label for protocol (test only) */
+"MAX_PREVIOUS_RETRIEVE"="取得";
+/* Settings label for how many items to retrieve in a page of items (eg feed items) */
+"RETRIEVE_5"="5 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_10"="10 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_20"="20 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_25"="25 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_50"="50 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_100"="100 項目";
+/* Label for: retrieve this many items */
+"RETRIEVE_500"="500 項目";
+/* Label for: retrieve this many items */
+"GROUP_TITLE_APPLICATION_INFO"="アプリケーション情報";
+"VERSION_TITLE"="バージョン";
+// ENDSECTION //
+
+
