@@ -67,17 +67,24 @@
      -->
     <target name="appledocDocumentation">
         <property name="globalSettings" value="${basedir}/AppledocSettings.plist"/>
-        <property name="appledoc_path" value="${iOSCommon.basedir}/tools/appledoc/bin/appledoc" />
-        <echo>appledoc_path is '${appledoc_path}' </echo>
+        <property name="appledoc_base_path" value="${iOSCommon.basedir}/tools" />
+        <property name="appledoc_app_path" value="${appledoc_base_path}/appledoc/appledoc" />
+        <property name="appledoc.zip" value="${iOSShared.distdir}/appledoc/appledoc-Release.zip" />
+        
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d ${appledoc_base_path} ${appledoc.zip}"/>
+        </exec>
+        <echo>appledoc_path is '${appledoc_app_path}' </echo>
         <exec executable="echo">
-            <arg line="appledoc_path --templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+            <arg line="appledoc_app_path --templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
-        <exec executable="${appledoc_path}">
-            <arg line="--templates &quot;${iOSCommon.basedir}/tools/appledoc/Templates/&quot; "/>
+        <exec executable="${appledoc_app_path}">
+            <arg line="--templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
             <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
         </exec>
         <delete file="${output}/docset-installed.txt"/>
+        <delete dir="${appledoc_base_path}/appledoc" />
     </target>
     
     <!--[target] lipo 
