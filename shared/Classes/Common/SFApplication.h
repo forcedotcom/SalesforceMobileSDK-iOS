@@ -24,6 +24,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ * Mobile SDK extension of the UIApplication object.  Currently just gathers
+ * date/time information about user events.
+ */
 @interface SFApplication : UIApplication
 
 /**
