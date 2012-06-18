@@ -21,6 +21,9 @@ If you have problems building any of the projects, take a look at the online [FA
 
 Introduction
 ==
+
+__What’s New in 1.1__
+
 **Connected Apps Pilot** 
 * Apps implemented with the Mobile SDK will now respect Connected Apps policies.  Rules defined by administrators for PIN code protection and session timeout intervals will now be enforced by native and hybrid app implementations. (This feature requires the Connected Apps Pilot be turned on)
 
@@ -28,8 +31,6 @@ Introduction
 * Upsert records based on external id. SmartStore can now determine record uniqueness and perform the proper updates based on an id defined by the developer. This design is reflects the Salesforce REST API, making it easier to implement data synchronization. 
 * Mock SmartStore Implementation. Developers can build and test SmartStore apps directly in the desktop browser. 
 * Option to self-encrypt the SmartStore databases, which can be securely backed-up
-
-__What’s New in 1.1__
 
 __Version 1.0__
 This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
