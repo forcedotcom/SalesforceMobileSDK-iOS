@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SalesforceOAuthPlugin Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SalesforceOAuthPlugin Class Reference</h1>
 			</div>
@@ -36,7 +42,7 @@
 	
 	<option value="//api/name/autoRefreshOnForeground">&nbsp;&nbsp;&nbsp;&nbsp;autoRefreshOnForeground</option>
 	
-	<option value="//api/name/coordinator">&nbsp;&nbsp;&nbsp;&nbsp;coordinator</option>
+	<option value="//api/name/autoRefreshPeriodically">&nbsp;&nbsp;&nbsp;&nbsp;autoRefreshPeriodically</option>
 	
 	<option value="//api/name/lastRefreshCompleted">&nbsp;&nbsp;&nbsp;&nbsp;lastRefreshCompleted</option>
 	
@@ -57,6 +63,10 @@
 	
 	<option value="//api/name/authenticate:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- authenticate:withDict:</option>
 	
+	<option value="//api/name/autoRefresh">&nbsp;&nbsp;&nbsp;&nbsp;- autoRefresh</option>
+	
+	<option value="//api/name/clearPeriodicRefreshState">&nbsp;&nbsp;&nbsp;&nbsp;- clearPeriodicRefreshState</option>
+	
 	<option value="//api/name/getAppHomeUrl:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- getAppHomeUrl:withDict:</option>
 	
 	<option value="//api/name/getAuthCredentials:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- getAuthCredentials:withDict:</option>
@@ -68,8 +78,6 @@
 	<option value="//api/name/logout">&nbsp;&nbsp;&nbsp;&nbsp;- logout</option>
 	
 	<option value="//api/name/logoutCurrentUser:withDict:">&nbsp;&nbsp;&nbsp;&nbsp;- logoutCurrentUser:withDict:</option>
-	
-	<option value="//api/name/resetAppState">&nbsp;&nbsp;&nbsp;&nbsp;- resetAppState</option>
 	
 	
 	
@@ -97,7 +105,7 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/autoRefreshOnForeground">autoRefreshOnForeground</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/coordinator">coordinator</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/autoRefreshPeriodically">autoRefreshPeriodically</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastRefreshCompleted">lastRefreshCompleted</a></span></li>
 	
@@ -119,6 +127,10 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authenticate:withDict:">authenticate:withDict:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/autoRefresh">autoRefresh</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/clearPeriodicRefreshState">clearPeriodicRefreshState</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getAppHomeUrl:withDict:">getAppHomeUrl:withDict:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/getAuthCredentials:withDict:">getAuthCredentials:withDict:</a></span></li>
@@ -130,8 +142,6 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logout">logout</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logoutCurrentUser:withDict:">logoutCurrentUser:withDict:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/resetAppState">resetAppState</a></span></li>
 	
 </ul></li>
 
@@ -160,7 +170,7 @@
 	<td class="specification-value">PGPlugin : NSObject</td>
 </tr><tr>
 	<td class="specification-title">Conforms to</td>
-	<td class="specification-value"><a href="../Protocols/SFOAuthCoordinatorDelegate.html">SFOAuthCoordinatorDelegate</a><br />UIAlertViewDelegate</td>
+	<td class="specification-value">SFIdentityCoordinatorDelegate<br /><a href="../Protocols/SFOAuthCoordinatorDelegate.html">SFOAuthCoordinatorDelegate</a><br />UIAlertViewDelegate</td>
 </tr><tr>
 	<td class="specification-title">Declared in</td>
 	<td class="specification-value">SalesforceOAuthPlugin.h</td>
@@ -190,13 +200,6 @@
 
 						<ul class="task-list">
 							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/coordinator">&nbsp;&nbsp;coordinator</a></code>
-		<span class="tooltip"><p>The SFOAuthCoordinator used for managing login/logout.</p></span>
-	</span>
-	<span class="task-item-suffix">property</span>
-	
-</li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/remoteAccessConsumerKey">&nbsp;&nbsp;remoteAccessConsumerKey</a></code>
 		<span class="tooltip"><p>The Remote Access object consumer key.</p></span>
@@ -240,8 +243,16 @@
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/autoRefreshPeriodically">&nbsp;&nbsp;autoRefreshPeriodically</a></code>
+		<span class="tooltip"><p>Whether the app should automatically refresh oauth session every ~15 minutes
+while the app is running.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/logout">&ndash;&nbsp;logout</a></code>
-		<span class="tooltip"><p>Forces a logout from the current account.
+		<span class="tooltip"><p>Forces a logout from the current account, redirecting the user to the login process.
 This throws out the OAuth refresh token.</p></span>
 	</span>
 	
@@ -263,8 +274,15 @@ Be sure to call super if you override this.</p></span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/resetAppState">&ndash;&nbsp;resetAppState</a></code>
-		<span class="tooltip"><p>Used to reset the application to its initial state, with a cleared authentication state.</p></span>
+		<code><a href="#//api/name/clearPeriodicRefreshState">&ndash;&nbsp;clearPeriodicRefreshState</a></code>
+		<span class="tooltip"><p>Resets the processes that perform periodic session refreshing.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/autoRefresh">&ndash;&nbsp;autoRefresh</a></code>
+		<span class="tooltip"><p>If auto refresh is configured, refresh the existing OAuth session.</p></span>
 	</span>
 	
 	
@@ -319,8 +337,12 @@ Be sure to call super if you override this.</p></span>
 		<p>Whether the app should automatically refresh oauth session when foregrounded</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL autoRefreshOnForeground</code></div>
+
+    
+	
 	
 	
 	
@@ -347,17 +369,22 @@ Be sure to call super if you override this.</p></span>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/coordinator" title="coordinator"></a>
-	<h3 class="subsubtitle method-title">coordinator</h3>
+	<a name="//api/name/autoRefreshPeriodically" title="autoRefreshPeriodically"></a>
+	<h3 class="subsubtitle method-title">autoRefreshPeriodically</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>The SFOAuthCoordinator used for managing login/logout.</p>
+		<p>Whether the app should automatically refresh oauth session every ~15 minutes
+while the app is running.</p>
 	</div>		
 	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL autoRefreshPeriodically</code></div>
+
+    
 	
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFOAuthCoordinator *coordinator</code></div>
 	
 	
 	
@@ -366,7 +393,8 @@ Be sure to call super if you override this.</p></span>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The SFOAuthCoordinator used for managing login/logout.</p>
+		<p>Whether the app should automatically refresh oauth session every ~15 minutes
+while the app is running.</p>
 	</div>
 	
 	
@@ -393,8 +421,12 @@ Be sure to call super if you override this.</p></span>
 		<p>The timestamp at which the last oauth refresh completed.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSDate *lastRefreshCompleted</code></div>
+
+    
+	
 	
 	
 	
@@ -430,8 +462,12 @@ Be sure to call super if you override this.</p></span>
 		<p>The Remote Access object Login Domain</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthLoginDomain</code></div>
+
+    
+	
 	
 	
 	
@@ -467,8 +503,12 @@ Be sure to call super if you override this.</p></span>
 		<p>The Remote Access object redirect URI</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthRedirectURI</code></div>
+
+    
+	
 	
 	
 	
@@ -504,8 +544,12 @@ Be sure to call super if you override this.</p></span>
 		<p>The set of oauth scopes that should be requested for this app.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSSet *oauthScopes</code></div>
+
+    
+	
 	
 	
 	
@@ -541,8 +585,12 @@ Be sure to call super if you override this.</p></span>
 		<p>The Remote Access object consumer key.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</code></div>
+
+    
+	
 	
 	
 	
@@ -588,9 +636,11 @@ Be sure to call super if you override this.</p></span>
 		<p>PhoneGap plug-in method to authenticate a user to the application.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)authenticate:(NSMutableArray *)<em>arguments</em> withDict:(NSMutableDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -611,9 +661,93 @@ Be sure to call super if you override this.</p></span>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>PhoneGap plug-in method to authenticate a user to the application.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SalesforceOAuthPlugin.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/autoRefresh" title="autoRefresh"></a>
+	<h3 class="subsubtitle method-title">autoRefresh</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If auto refresh is configured, refresh the existing OAuth session.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)autoRefresh</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>If auto refresh is configured, refresh the existing OAuth session.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SalesforceOAuthPlugin.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/clearPeriodicRefreshState" title="clearPeriodicRefreshState"></a>
+	<h3 class="subsubtitle method-title">clearPeriodicRefreshState</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resets the processes that perform periodic session refreshing.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)clearPeriodicRefreshState</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Resets the processes that perform periodic session refreshing.</p>
 	</div>
 	
 	
@@ -640,9 +774,11 @@ Be sure to call super if you override this.</p></span>
 		<p>Get the app&rsquo;s homepage URL, which can be used for loading the app in scenarios where it&rsquo;s offline.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)getAppHomeUrl:(NSMutableArray *)<em>arguments</em> withDict:(NSMutableDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -658,6 +794,8 @@ Be sure to call super if you override this.</p></span>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -692,9 +830,11 @@ Be sure to call super if you override this.</p></span>
 		<p>PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)getAuthCredentials:(NSMutableArray *)<em>arguments</em> withDict:(NSMutableDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -710,6 +850,8 @@ Be sure to call super if you override this.</p></span>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -745,8 +887,12 @@ Be sure to call super if you override this.</p></span>
 Be sure to call super if you override this.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)loggedIn</code></div>
+
+    
+	
 	
 	
 	
@@ -783,8 +929,12 @@ Be sure to call super if you override this.</p>
 		<p>Kick off the login process.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)login</code></div>
+
+    
+	
 	
 	
 	
@@ -817,12 +967,16 @@ Be sure to call super if you override this.</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Forces a logout from the current account.
+		<p>Forces a logout from the current account, redirecting the user to the login process.
 This throws out the OAuth refresh token.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)logout</code></div>
+
+    
+	
 	
 	
 	
@@ -831,7 +985,7 @@ This throws out the OAuth refresh token.</p>
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Forces a logout from the current account.
+		<p>Forces a logout from the current account, redirecting the user to the login process.
 This throws out the OAuth refresh token.</p>
 	</div>
 	
@@ -859,9 +1013,11 @@ This throws out the OAuth refresh token.</p>
 		<p>Clear the current user&rsquo;s authentication credentials.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)logoutCurrentUser:(NSMutableArray *)<em>arguments</em> withDict:(NSMutableDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -882,46 +1038,11 @@ This throws out the OAuth refresh token.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Clear the current user&rsquo;s authentication credentials.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SalesforceOAuthPlugin.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/resetAppState" title="resetAppState"></a>
-	<h3 class="subsubtitle method-title">resetAppState</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Used to reset the application to its initial state, with a cleared authentication state.</p>
-	</div>		
-	
-	
-	<div class="method-subsection method-declaration"><code>- (BOOL)resetAppState</code></div>
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Used to reset the application to its initial state, with a cleared authentication state.</p>
 	</div>
 	
 	
@@ -951,9 +1072,9 @@ This throws out the OAuth refresh token.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -1041,6 +1162,14 @@ This throws out the OAuth refresh token.</p>
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>

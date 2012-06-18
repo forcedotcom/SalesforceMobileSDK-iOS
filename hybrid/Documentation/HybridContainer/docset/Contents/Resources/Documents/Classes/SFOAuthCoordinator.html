@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFOAuthCoordinator Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFOAuthCoordinator Class Reference</h1>
 			</div>
@@ -166,7 +172,7 @@
 <p>This class manages a <code>UIWebView</code> instance and monitors it as it works its way
 through the various stages of the OAuth2 workflow. When authentication is complete,
 the coordinator instance extracts the necessary session information from the response
-and updates the <code>SFOAuthCredentials</code> object as necessary.</p><div class="warning"><p>This class requires the following dependencies:
+and updates the <code>SFOAuthCredentials</code> object as necessary.</p><div class="warning"><p><strong>Warning:</strong> This class requires the following dependencies:
 the Security framework and either the NSJSONSerialization iOS 5.0 SDK class
 or the third party SBJsonParser class.</p></div>
 					</div>
@@ -304,8 +310,12 @@ https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;id=remoteaccess_o
 		<p>User credentials to use within the authentication process.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) SFOAuthCredentials *credentials</code></div>
+
+    
+	
 	
 	
 	
@@ -314,8 +324,8 @@ https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;id=remoteaccess_o
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>User credentials to use within the authentication process.</p><div class="warning"><p>The behavior of this class is undefined if this property is set after <code>authenticate</code> has been called and
-authentication has started.</p></div><div class="warning"><p>This property must not be <code>nil</code> at the time the <code>authenticate</code> method is called or an exception will be raised.</p></div>
+		<p>User credentials to use within the authentication process.</p><div class="warning"><p><strong>Warning:</strong> The behavior of this class is undefined if this property is set after <code>authenticate</code> has been called and
+authentication has started.</p></div><div class="warning"><p><strong>Warning:</strong> This property must not be <code>nil</code> at the time the <code>authenticate</code> method is called or an exception will be raised.</p></div>
 	</div>
 	
 	
@@ -351,8 +361,12 @@ authentication has started.</p></div><div class="warning"><p>This property must 
 		<p>The delegate object for this coordinator.</p>
 	</div>		
 	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) id&lt;&gt; delegate</code></div>
+
+    
 	
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) id&lt;SFOAuthCoordinatorDelegate&gt; delegate</code></div>
 	
 	
 	
@@ -401,8 +415,12 @@ See:
 https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;id=remoteaccess_oauth_scopes.htm</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet *scopes</code></div>
+
+    
+	
 	
 	
 	
@@ -449,8 +467,12 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		<p>Timeout interval for OAuth requests.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval timeout</code></div>
+
+    
+	
 	
 	
 	
@@ -488,8 +510,12 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		<p>View in which the user will input OAuth credentials for the user-agent flow OAuth process.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) UIWebView *view</code></div>
+
+    
+	
 	
 	
 	
@@ -546,8 +572,12 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		<p>Begins the authentication process.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)authenticate</code></div>
+
+    
+	
 	
 	
 	
@@ -595,9 +625,11 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 <code>[coordinator authenticate];</code></p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)authenticateWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -608,6 +640,8 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -654,9 +688,11 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		<p>Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (id)initWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -677,9 +713,11 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.</p><div class="warning"><p>Although it is permissible to pass <code>nil</code> for the credentials argument, the credentials propery
+		<p>Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.</p><div class="warning"><p><strong>Warning:</strong> Although it is permissible to pass <code>nil</code> for the credentials argument, the credentials propery
 must not be <code>nil</code> prior to calling the <code>authenticate</code> method or an exception will be raised.</p></div>
 	</div>
 	
@@ -716,8 +754,12 @@ must not be <code>nil</code> prior to calling the <code>authenticate</code> meth
 		<p>Returns YES if the coordinator is in the process of authentication; otherwise NO.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (BOOL)isAuthenticating</code></div>
+
+    
+	
 	
 	
 	
@@ -753,8 +795,12 @@ must not be <code>nil</code> prior to calling the <code>authenticate</code> meth
 		<p>Revokes the authentication credentials.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)revokeAuthentication</code></div>
+
+    
+	
 	
 	
 	
@@ -790,8 +836,12 @@ must not be <code>nil</code> prior to calling the <code>authenticate</code> meth
 		<p>Stops the authentication process.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)stopAuthentication</code></div>
+
+    
+	
 	
 	
 	
@@ -830,9 +880,9 @@ must not be <code>nil</code> prior to calling the <code>authenticate</code> meth
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -920,6 +970,14 @@ must not be <code>nil</code> prior to calling the <code>authenticate</code> meth
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>

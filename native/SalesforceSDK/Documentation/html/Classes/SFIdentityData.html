@@ -1,0 +1,2275 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SFIdentityData Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDK </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFIdentityData Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/assertedUser">&nbsp;&nbsp;&nbsp;&nbsp;assertedUser</option>
+	
+	<option value="//api/name/chatterFeedItemsUrl">&nbsp;&nbsp;&nbsp;&nbsp;chatterFeedItemsUrl</option>
+	
+	<option value="//api/name/chatterFeedsUrl">&nbsp;&nbsp;&nbsp;&nbsp;chatterFeedsUrl</option>
+	
+	<option value="//api/name/chatterGroupsUrl">&nbsp;&nbsp;&nbsp;&nbsp;chatterGroupsUrl</option>
+	
+	<option value="//api/name/chatterUsersUrl">&nbsp;&nbsp;&nbsp;&nbsp;chatterUsersUrl</option>
+	
+	<option value="//api/name/dictRepresentation">&nbsp;&nbsp;&nbsp;&nbsp;dictRepresentation</option>
+	
+	<option value="//api/name/displayName">&nbsp;&nbsp;&nbsp;&nbsp;displayName</option>
+	
+	<option value="//api/name/email">&nbsp;&nbsp;&nbsp;&nbsp;email</option>
+	
+	<option value="//api/name/enterpriseSoapUrl">&nbsp;&nbsp;&nbsp;&nbsp;enterpriseSoapUrl</option>
+	
+	<option value="//api/name/firstName">&nbsp;&nbsp;&nbsp;&nbsp;firstName</option>
+	
+	<option value="//api/name/idUrl">&nbsp;&nbsp;&nbsp;&nbsp;idUrl</option>
+	
+	<option value="//api/name/isActive">&nbsp;&nbsp;&nbsp;&nbsp;isActive</option>
+	
+	<option value="//api/name/language">&nbsp;&nbsp;&nbsp;&nbsp;language</option>
+	
+	<option value="//api/name/lastModifiedDate">&nbsp;&nbsp;&nbsp;&nbsp;lastModifiedDate</option>
+	
+	<option value="//api/name/lastName">&nbsp;&nbsp;&nbsp;&nbsp;lastName</option>
+	
+	<option value="//api/name/locale">&nbsp;&nbsp;&nbsp;&nbsp;locale</option>
+	
+	<option value="//api/name/metadataSoapUrl">&nbsp;&nbsp;&nbsp;&nbsp;metadataSoapUrl</option>
+	
+	<option value="//api/name/mobileAppPinLength">&nbsp;&nbsp;&nbsp;&nbsp;mobileAppPinLength</option>
+	
+	<option value="//api/name/mobileAppScreenLockTimeout">&nbsp;&nbsp;&nbsp;&nbsp;mobileAppScreenLockTimeout</option>
+	
+	<option value="//api/name/mobilePoliciesConfigured">&nbsp;&nbsp;&nbsp;&nbsp;mobilePoliciesConfigured</option>
+	
+	<option value="//api/name/nickname">&nbsp;&nbsp;&nbsp;&nbsp;nickname</option>
+	
+	<option value="//api/name/orgId">&nbsp;&nbsp;&nbsp;&nbsp;orgId</option>
+	
+	<option value="//api/name/partnerSoapUrl">&nbsp;&nbsp;&nbsp;&nbsp;partnerSoapUrl</option>
+	
+	<option value="//api/name/pictureUrl">&nbsp;&nbsp;&nbsp;&nbsp;pictureUrl</option>
+	
+	<option value="//api/name/profileUrl">&nbsp;&nbsp;&nbsp;&nbsp;profileUrl</option>
+	
+	<option value="//api/name/restQueryUrl">&nbsp;&nbsp;&nbsp;&nbsp;restQueryUrl</option>
+	
+	<option value="//api/name/restRecentUrl">&nbsp;&nbsp;&nbsp;&nbsp;restRecentUrl</option>
+	
+	<option value="//api/name/restSObjectsUrl">&nbsp;&nbsp;&nbsp;&nbsp;restSObjectsUrl</option>
+	
+	<option value="//api/name/restSearchUrl">&nbsp;&nbsp;&nbsp;&nbsp;restSearchUrl</option>
+	
+	<option value="//api/name/restUrl">&nbsp;&nbsp;&nbsp;&nbsp;restUrl</option>
+	
+	<option value="//api/name/statusBody">&nbsp;&nbsp;&nbsp;&nbsp;statusBody</option>
+	
+	<option value="//api/name/statusCreationDate">&nbsp;&nbsp;&nbsp;&nbsp;statusCreationDate</option>
+	
+	<option value="//api/name/thumbnailUrl">&nbsp;&nbsp;&nbsp;&nbsp;thumbnailUrl</option>
+	
+	<option value="//api/name/userId">&nbsp;&nbsp;&nbsp;&nbsp;userId</option>
+	
+	<option value="//api/name/userType">&nbsp;&nbsp;&nbsp;&nbsp;userType</option>
+	
+	<option value="//api/name/username">&nbsp;&nbsp;&nbsp;&nbsp;username</option>
+	
+	<option value="//api/name/utcOffset">&nbsp;&nbsp;&nbsp;&nbsp;utcOffset</option>
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/initWithJsonDict:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithJsonDict:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/assertedUser">assertedUser</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/chatterFeedItemsUrl">chatterFeedItemsUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/chatterFeedsUrl">chatterFeedsUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/chatterGroupsUrl">chatterGroupsUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/chatterUsersUrl">chatterUsersUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dictRepresentation">dictRepresentation</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/displayName">displayName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/email">email</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/enterpriseSoapUrl">enterpriseSoapUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/firstName">firstName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/idUrl">idUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isActive">isActive</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/language">language</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastModifiedDate">lastModifiedDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastName">lastName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/locale">locale</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/metadataSoapUrl">metadataSoapUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mobileAppPinLength">mobileAppPinLength</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mobileAppScreenLockTimeout">mobileAppScreenLockTimeout</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mobilePoliciesConfigured">mobilePoliciesConfigured</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/nickname">nickname</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orgId">orgId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/partnerSoapUrl">partnerSoapUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pictureUrl">pictureUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/profileUrl">profileUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/restQueryUrl">restQueryUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/restRecentUrl">restRecentUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/restSObjectsUrl">restSObjectsUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/restSearchUrl">restSearchUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/restUrl">restUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/statusBody">statusBody</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/statusCreationDate">statusCreationDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/thumbnailUrl">thumbnailUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userId">userId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userType">userType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/username">username</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/utcOffset">utcOffset</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithJsonDict:">initWithJsonDict:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFIdentityData Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFIdentityData Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value">NSCoding</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFIdentityData.h</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The data structure for the identity data that&rsquo;s retrieved from the Salesforce service.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dictRepresentation">&nbsp;&nbsp;dictRepresentation</a></code>
+		<span class="tooltip"><p>The NSDictionary representation of this identity data.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/idUrl">&nbsp;&nbsp;idUrl</a></code>
+		<span class="tooltip"><p>The ID URL.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/assertedUser">&nbsp;&nbsp;assertedUser</a></code>
+		<span class="tooltip"><p>Whether or not this is the asserted user for this session.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userId">&nbsp;&nbsp;userId</a></code>
+		<span class="tooltip"><p>The User ID of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orgId">&nbsp;&nbsp;orgId</a></code>
+		<span class="tooltip"><p>The Organization ID of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/username">&nbsp;&nbsp;username</a></code>
+		<span class="tooltip"><p>The username of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/nickname">&nbsp;&nbsp;nickname</a></code>
+		<span class="tooltip"><p>The nickname of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/displayName">&nbsp;&nbsp;displayName</a></code>
+		<span class="tooltip"><p>The display name of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/email">&nbsp;&nbsp;email</a></code>
+		<span class="tooltip"><p>The email address of the associated user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/firstName">&nbsp;&nbsp;firstName</a></code>
+		<span class="tooltip"><p>The first name of the user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lastName">&nbsp;&nbsp;lastName</a></code>
+		<span class="tooltip"><p>The last name of the user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/statusBody">&nbsp;&nbsp;statusBody</a></code>
+		<span class="tooltip"><p>The body content of the user&rsquo;s status, if any.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/statusCreationDate">&nbsp;&nbsp;statusCreationDate</a></code>
+		<span class="tooltip"><p>The creation date of the user&rsquo;s current status, if any.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pictureUrl">&nbsp;&nbsp;pictureUrl</a></code>
+		<span class="tooltip"><p>The URL to retrieve the user&rsquo;s picture.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/thumbnailUrl">&nbsp;&nbsp;thumbnailUrl</a></code>
+		<span class="tooltip"><p>The URL to retrieve a thumbnail picture for the user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/enterpriseSoapUrl">&nbsp;&nbsp;enterpriseSoapUrl</a></code>
+		<span class="tooltip"><p>The enterprise SOAP API URL for this user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/metadataSoapUrl">&nbsp;&nbsp;metadataSoapUrl</a></code>
+		<span class="tooltip"><p>The metadata SOAP API URL for this user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/partnerSoapUrl">&nbsp;&nbsp;partnerSoapUrl</a></code>
+		<span class="tooltip"><p>The partner SOAP API URL for this user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/restUrl">&nbsp;&nbsp;restUrl</a></code>
+		<span class="tooltip"><p>The REST API URL entry point for this user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/restSObjectsUrl">&nbsp;&nbsp;restSObjectsUrl</a></code>
+		<span class="tooltip"><p>The REST endpoint for SObjects.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/restSearchUrl">&nbsp;&nbsp;restSearchUrl</a></code>
+		<span class="tooltip"><p>The REST endpoint for search.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/restQueryUrl">&nbsp;&nbsp;restQueryUrl</a></code>
+		<span class="tooltip"><p>The REST endpoint for queries.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/restRecentUrl">&nbsp;&nbsp;restRecentUrl</a></code>
+		<span class="tooltip"><p>The REST endpoint for recent activity.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/profileUrl">&nbsp;&nbsp;profileUrl</a></code>
+		<span class="tooltip"><p>The user profile URL.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/chatterFeedsUrl">&nbsp;&nbsp;chatterFeedsUrl</a></code>
+		<span class="tooltip"><p>The URL for Chatter feeds.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/chatterGroupsUrl">&nbsp;&nbsp;chatterGroupsUrl</a></code>
+		<span class="tooltip"><p>The URL for Chatter groups.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/chatterUsersUrl">&nbsp;&nbsp;chatterUsersUrl</a></code>
+		<span class="tooltip"><p>The URL for Chatter users.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/chatterFeedItemsUrl">&nbsp;&nbsp;chatterFeedItemsUrl</a></code>
+		<span class="tooltip"><p>The URL for Chatter feed items.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isActive">&nbsp;&nbsp;isActive</a></code>
+		<span class="tooltip"><p>Whether or not this user is active.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userType">&nbsp;&nbsp;userType</a></code>
+		<span class="tooltip"><p>The user type.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/language">&nbsp;&nbsp;language</a></code>
+		<span class="tooltip"><p>The user&rsquo;s configured language.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/locale">&nbsp;&nbsp;locale</a></code>
+		<span class="tooltip"><p>The user&rsquo;s configured locale.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/utcOffset">&nbsp;&nbsp;utcOffset</a></code>
+		<span class="tooltip"><p>The UTC offset for this user.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mobilePoliciesConfigured">&nbsp;&nbsp;mobilePoliciesConfigured</a></code>
+		<span class="tooltip"><p>Whether or not any additional mobile security policies have been configured
+for this application.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mobileAppPinLength">&nbsp;&nbsp;mobileAppPinLength</a></code>
+		<span class="tooltip"><p>The length of the PIN code, if it&rsquo;s required.  Defaults to 0 if not set, but
+querying mobilePoliciesConfigured is recommended to validate that policies
+are set.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mobileAppScreenLockTimeout">&nbsp;&nbsp;mobileAppScreenLockTimeout</a></code>
+		<span class="tooltip"><p>The length of time in minutes before the app will be locked, if it&rsquo;s required.
+Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
+to validate that policies are set.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lastModifiedDate">&nbsp;&nbsp;lastModifiedDate</a></code>
+		<span class="tooltip"><p>The date this record was last modified.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithJsonDict:">&ndash;&nbsp;initWithJsonDict:</a></code>
+		<span class="tooltip"><p>Designated initializer for creating an instance of the SFIdentityData object.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/assertedUser" title="assertedUser"></a>
+	<h3 class="subsubtitle method-title">assertedUser</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether or not this is the asserted user for this session.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) BOOL assertedUser</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Whether or not this is the asserted user for this session.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/chatterFeedItemsUrl" title="chatterFeedItemsUrl"></a>
+	<h3 class="subsubtitle method-title">chatterFeedItemsUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL for Chatter feed items.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *chatterFeedItemsUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL for Chatter feed items.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/chatterFeedsUrl" title="chatterFeedsUrl"></a>
+	<h3 class="subsubtitle method-title">chatterFeedsUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL for Chatter feeds.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *chatterFeedsUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL for Chatter feeds.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/chatterGroupsUrl" title="chatterGroupsUrl"></a>
+	<h3 class="subsubtitle method-title">chatterGroupsUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL for Chatter groups.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *chatterGroupsUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL for Chatter groups.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/chatterUsersUrl" title="chatterUsersUrl"></a>
+	<h3 class="subsubtitle method-title">chatterUsersUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL for Chatter users.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *chatterUsersUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL for Chatter users.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dictRepresentation" title="dictRepresentation"></a>
+	<h3 class="subsubtitle method-title">dictRepresentation</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The NSDictionary representation of this identity data.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSDictionary *dictRepresentation</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The NSDictionary representation of this identity data.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/displayName" title="displayName"></a>
+	<h3 class="subsubtitle method-title">displayName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The display name of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *displayName</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The display name of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/email" title="email"></a>
+	<h3 class="subsubtitle method-title">email</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The email address of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *email</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The email address of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/enterpriseSoapUrl" title="enterpriseSoapUrl"></a>
+	<h3 class="subsubtitle method-title">enterpriseSoapUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The enterprise SOAP API URL for this user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *enterpriseSoapUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The enterprise SOAP API URL for this user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/firstName" title="firstName"></a>
+	<h3 class="subsubtitle method-title">firstName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The first name of the user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *firstName</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The first name of the user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/idUrl" title="idUrl"></a>
+	<h3 class="subsubtitle method-title">idUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The ID URL.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *idUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The ID URL.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isActive" title="isActive"></a>
+	<h3 class="subsubtitle method-title">isActive</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether or not this user is active.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) BOOL isActive</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Whether or not this user is active.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/language" title="language"></a>
+	<h3 class="subsubtitle method-title">language</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The user&rsquo;s configured language.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *language</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The user&rsquo;s configured language.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastModifiedDate" title="lastModifiedDate"></a>
+	<h3 class="subsubtitle method-title">lastModifiedDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The date this record was last modified.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSDate *lastModifiedDate</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The date this record was last modified.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastName" title="lastName"></a>
+	<h3 class="subsubtitle method-title">lastName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The last name of the user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *lastName</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The last name of the user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/locale" title="locale"></a>
+	<h3 class="subsubtitle method-title">locale</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The user&rsquo;s configured locale.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *locale</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The user&rsquo;s configured locale.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/metadataSoapUrl" title="metadataSoapUrl"></a>
+	<h3 class="subsubtitle method-title">metadataSoapUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The metadata SOAP API URL for this user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *metadataSoapUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The metadata SOAP API URL for this user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mobileAppPinLength" title="mobileAppPinLength"></a>
+	<h3 class="subsubtitle method-title">mobileAppPinLength</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The length of the PIN code, if it&rsquo;s required.  Defaults to 0 if not set, but
+querying mobilePoliciesConfigured is recommended to validate that policies
+are set.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) int mobileAppPinLength</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The length of the PIN code, if it&rsquo;s required.  Defaults to 0 if not set, but
+querying mobilePoliciesConfigured is recommended to validate that policies
+are set.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mobileAppScreenLockTimeout" title="mobileAppScreenLockTimeout"></a>
+	<h3 class="subsubtitle method-title">mobileAppScreenLockTimeout</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The length of time in minutes before the app will be locked, if it&rsquo;s required.
+Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
+to validate that policies are set.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) int mobileAppScreenLockTimeout</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The length of time in minutes before the app will be locked, if it&rsquo;s required.
+Defaults to -1 if not set, but querying mobilePoliciesConfigured is recommended
+to validate that policies are set.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mobilePoliciesConfigured" title="mobilePoliciesConfigured"></a>
+	<h3 class="subsubtitle method-title">mobilePoliciesConfigured</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether or not any additional mobile security policies have been configured
+for this application.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) BOOL mobilePoliciesConfigured</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Whether or not any additional mobile security policies have been configured
+for this application.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/nickname" title="nickname"></a>
+	<h3 class="subsubtitle method-title">nickname</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The nickname of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *nickname</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The nickname of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orgId" title="orgId"></a>
+	<h3 class="subsubtitle method-title">orgId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The Organization ID of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *orgId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The Organization ID of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/partnerSoapUrl" title="partnerSoapUrl"></a>
+	<h3 class="subsubtitle method-title">partnerSoapUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The partner SOAP API URL for this user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *partnerSoapUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The partner SOAP API URL for this user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pictureUrl" title="pictureUrl"></a>
+	<h3 class="subsubtitle method-title">pictureUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL to retrieve the user&rsquo;s picture.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *pictureUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL to retrieve the user&rsquo;s picture.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/profileUrl" title="profileUrl"></a>
+	<h3 class="subsubtitle method-title">profileUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The user profile URL.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *profileUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The user profile URL.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/restQueryUrl" title="restQueryUrl"></a>
+	<h3 class="subsubtitle method-title">restQueryUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The REST endpoint for queries.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *restQueryUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The REST endpoint for queries.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/restRecentUrl" title="restRecentUrl"></a>
+	<h3 class="subsubtitle method-title">restRecentUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The REST endpoint for recent activity.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *restRecentUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The REST endpoint for recent activity.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/restSObjectsUrl" title="restSObjectsUrl"></a>
+	<h3 class="subsubtitle method-title">restSObjectsUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The REST endpoint for SObjects.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *restSObjectsUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The REST endpoint for SObjects.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/restSearchUrl" title="restSearchUrl"></a>
+	<h3 class="subsubtitle method-title">restSearchUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The REST endpoint for search.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *restSearchUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The REST endpoint for search.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/restUrl" title="restUrl"></a>
+	<h3 class="subsubtitle method-title">restUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The REST API URL entry point for this user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *restUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The REST API URL entry point for this user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/statusBody" title="statusBody"></a>
+	<h3 class="subsubtitle method-title">statusBody</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The body content of the user&rsquo;s status, if any.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *statusBody</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The body content of the user&rsquo;s status, if any.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/statusCreationDate" title="statusCreationDate"></a>
+	<h3 class="subsubtitle method-title">statusCreationDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The creation date of the user&rsquo;s current status, if any.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSDate *statusCreationDate</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The creation date of the user&rsquo;s current status, if any.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/thumbnailUrl" title="thumbnailUrl"></a>
+	<h3 class="subsubtitle method-title">thumbnailUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The URL to retrieve a thumbnail picture for the user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSURL *thumbnailUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The URL to retrieve a thumbnail picture for the user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userId" title="userId"></a>
+	<h3 class="subsubtitle method-title">userId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The User ID of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *userId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The User ID of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userType" title="userType"></a>
+	<h3 class="subsubtitle method-title">userType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The user type.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *userType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The user type.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/username" title="username"></a>
+	<h3 class="subsubtitle method-title">username</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The username of the associated user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *username</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The username of the associated user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/utcOffset" title="utcOffset"></a>
+	<h3 class="subsubtitle method-title">utcOffset</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The UTC offset for this user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (readonly) int utcOffset</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The UTC offset for this user.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithJsonDict:" title="initWithJsonDict:"></a>
+	<h3 class="subsubtitle method-title">initWithJsonDict:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Designated initializer for creating an instance of the SFIdentityData object.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (id)initWithJsonDict:(NSDictionary *)<em>jsonDict</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>jsonDict</em></dt>
+			<dd><p>The JSON dictionary containing the user data.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Designated initializer for creating an instance of the SFIdentityData object.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityData.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

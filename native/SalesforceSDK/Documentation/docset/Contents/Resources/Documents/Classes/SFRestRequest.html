@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFRestRequest Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDK </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFRestRequest Class Reference</h1>
 			</div>
@@ -228,8 +234,12 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		<p>The delegate for this request. Notified of request status.</p>
 	</div>		
 	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) id&lt;&gt; delegate</code></div>
+
+    
 	
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) id&lt;SFRestDelegate&gt; delegate</code></div>
 	
 	
 	
@@ -265,8 +275,12 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		<p>Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *endpoint</code></div>
+
+    
+	
 	
 	
 	
@@ -302,8 +316,12 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		<p>The HTTP method of the request.  See SFRestMethod.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFRestMethod method</code></div>
+
+    
+	
 	
 	
 	
@@ -341,8 +359,12 @@ For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;
 Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSString *path</code></div>
+
+    
+	
 	
 	
 	
@@ -353,7 +375,7 @@ Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For insta
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>The path of the request.
 For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;v22.0/query&rdquo;.
-Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p><div class="warning"><p>Do not pass URL encoded query parameters in the path. Use the <code>queryParams</code> property instead.</p></div>
+Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p><div class="warning"><p><strong>Warning:</strong> Do not pass URL encoded query parameters in the path. Use the <code>queryParams</code> property instead.</p></div>
 	</div>
 	
 	
@@ -381,8 +403,12 @@ Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For insta
 Note that URL encoding of the parameters will automatically happen when the request is sent.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSDictionary *queryParams</code></div>
+
+    
+	
 	
 	
 	
@@ -427,9 +453,11 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		<p>Creates an <code>SFRestRequest</code> object. See SFRestMethod.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (id)requestWithMethod:(SFRestMethod)<em>method</em> path:(NSString *)<em>path</em> queryParams:(NSDictionary *)<em>queryParams</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -450,6 +478,8 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -489,9 +519,9 @@ Note that URL encoding of the parameters will automatically happen when the requ
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -579,6 +609,14 @@ Note that URL encoding of the parameters will automatically happen when the requ
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
