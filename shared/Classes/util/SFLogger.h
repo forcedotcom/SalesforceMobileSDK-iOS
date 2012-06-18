@@ -57,6 +57,7 @@ if (!(_cond)) { \
  * Logs a formatted message with the given log level and format parameters.
  * @param level The minimum log level to log at.
  * @param msg The format message, and optional arguments to expand in the format.
+ * @param ... The arguments to the message format string.
  */
 -(void)log:(SFLogLevel)level format:(NSString *)msg, ...;
 
@@ -81,11 +82,13 @@ if (!(_cond)) { \
 
 /**
  * Sets the log level of the app.
+ * @param newLevel The new log level to configure.
  */
 + (void)setLogLevel:(SFLogLevel)newLevel;
 
 /**
  * Logs a message to the file at the given file path.
+ * @param file The file path.
  */
 + (void)logToFile:(NSString *)file;
 
@@ -93,14 +96,23 @@ if (!(_cond)) { \
  */
 + (NSString *)logFileContents;
 
-/*!
- Should only be used if you don't have an NSObject instance to
- log from.
+/**
+ * Logs at the Class level.  Should only be used if you don't have an NSObject instance to
+ * log from.
+ * @param cls The class associated with the log event.
+ * @param level The level to log at.
+ * @param msg The message to log.
  */
 + (void)log:(Class)cls level:(SFLogLevel)level msg:(NSString *)msg;
 
 /**
  * Logs an assertion failure to a file.
+ * @param method The method where the assertion failure occurred.
+ * @param obj The object where the assertion failure occurred.
+ * @param file The file to log to.
+ * @param line The line number of the failure.
+ * @param desc The formatted description to log.
+ * @param ... The format arguments of the description.
  */
 + (void)logAssertionFailureInMethod:(SEL)method object:(id)obj file:(NSString *)file lineNumber:(NSUInteger)line description:(NSString *)desc, ...;
 

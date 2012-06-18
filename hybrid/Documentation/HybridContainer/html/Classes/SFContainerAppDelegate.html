@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFContainerAppDelegate Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFContainerAppDelegate Class Reference</h1>
 			</div>
@@ -34,6 +40,8 @@
 	
 	<option value="properties">Properties</option>
 	
+	<option value="//api/name/appLogLevel">&nbsp;&nbsp;&nbsp;&nbsp;appLogLevel</option>
+	
 	<option value="//api/name/invokeString">&nbsp;&nbsp;&nbsp;&nbsp;invokeString</option>
 	
 	<option value="//api/name/userAgentString">&nbsp;&nbsp;&nbsp;&nbsp;userAgentString</option>
@@ -53,6 +61,10 @@
 	<option value="instance_methods">Instance Methods</option>
 	
 	<option value="//api/name/addOAuthViewToMainView:">&nbsp;&nbsp;&nbsp;&nbsp;- addOAuthViewToMainView:</option>
+	
+	<option value="//api/name/clearAppState:">&nbsp;&nbsp;&nbsp;&nbsp;- clearAppState:</option>
+	
+	<option value="//api/name/logout">&nbsp;&nbsp;&nbsp;&nbsp;- logout</option>
 	
 	
 	
@@ -78,6 +90,8 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/appLogLevel">appLogLevel</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/invokeString">invokeString</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAgentString">userAgentString</a></span></li>
@@ -99,6 +113,10 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addOAuthViewToMainView:">addOAuthViewToMainView:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/clearAppState:">clearAppState:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logout">logout</a></span></li>
 	
 </ul></li>
 
@@ -172,6 +190,14 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/appLogLevel">&nbsp;&nbsp;appLogLevel</a></code>
+		<span class="tooltip"><p>The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+builds.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/isIPad">+&nbsp;isIPad</a></code>
 		<span class="tooltip"><p>YES if this device is an iPad</p></span>
 	</span>
@@ -181,6 +207,22 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 	<span class="tooltip">
 		<code><a href="#//api/name/addOAuthViewToMainView:">&ndash;&nbsp;addOAuthViewToMainView:</a></code>
 		<span class="tooltip"><p>Adds the generated OAuth view to the main app view.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/clearAppState:">&ndash;&nbsp;clearAppState:</a></code>
+		<span class="tooltip"><p>Clears all of the app state, including user credentials, from the app, and optionally restarts
+the login process.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/logout">&ndash;&nbsp;logout</a></code>
+		<span class="tooltip"><p>Essentially a call to clearAppState:YES.  The pin code functionality requires a logout function
+on the app, in the event of pin verification failure.</p></span>
 	</span>
 	
 	
@@ -205,6 +247,49 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 						<h2 class="subtitle subtitle-methods">Properties</h2>
 						
 						<div class="section-method">
+	<a name="//api/name/appLogLevel" title="appLogLevel"></a>
+	<h3 class="subsubtitle method-title">appLogLevel</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+builds.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (assign) SFLogLevel appLogLevel</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
+builds.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/invokeString" title="invokeString"></a>
 	<h3 class="subsubtitle method-title">invokeString</h3>
 	
@@ -217,8 +302,12 @@ a simple tutorial can be found here :
 http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *invokeString</code></div>
+
+    
+	
 	
 	
 	
@@ -257,8 +346,12 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 		<p>The User-Agent string presented by this application</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *userAgentString</code></div>
+
+    
+	
 	
 	
 	
@@ -302,9 +395,11 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 		<p>YES if this device is an iPad</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (BOOL)isIPad</code></div>
-	
+
+    
 	
 	
 	
@@ -312,6 +407,8 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>YES if this device is an iPad</p>
 	</div>
+	
+	
 	
 	
 	
@@ -339,8 +436,12 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 		<p>The currently running app delegate</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (SFContainerAppDelegate *)sharedInstance</code></div>
+
+    
+	
 	
 	
 	
@@ -384,9 +485,11 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 		<p>Adds the generated OAuth view to the main app view.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)addOAuthViewToMainView:(UIView *)<em>oauthView</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -402,9 +505,107 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Adds the generated OAuth view to the main app view.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/clearAppState:" title="clearAppState:"></a>
+	<h3 class="subsubtitle method-title">clearAppState:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Clears all of the app state, including user credentials, from the app, and optionally restarts
+the login process.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)clearAppState:(BOOL)<em>restartAuthentication</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>restartAuthentication</em></dt>
+			<dd><p>Whether or not to restart authentication after the app is reset.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Clears all of the app state, including user credentials, from the app, and optionally restarts
+the login process.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFContainerAppDelegate.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/logout" title="logout"></a>
+	<h3 class="subsubtitle method-title">logout</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Essentially a call to clearAppState:YES.  The pin code functionality requires a logout function
+on the app, in the event of pin verification failure.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)logout</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Essentially a call to clearAppState:YES.  The pin code functionality requires a logout function
+on the app, in the event of pin verification failure.</p>
 	</div>
 	
 	
@@ -434,9 +635,9 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-29)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -524,6 +725,14 @@ http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
