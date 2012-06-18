@@ -21,7 +21,7 @@ If you have problems building any of the projects, take a look at the online [FA
 
 Introduction
 ==
-__What’s New in 1.1__ 
+__What's New in 1.1__ 
 
 **Secure Offline API** 
 Store sensitive business data directly on a device with enterprise-class encryption for offline access. The Salesforce SDK provides a robust API for storing, retrieving, and querying  data without internet connectivity. 
