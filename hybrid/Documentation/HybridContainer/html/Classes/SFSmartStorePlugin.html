@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFSmartStorePlugin Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFSmartStorePlugin Class Reference</h1>
 			</div>
@@ -261,8 +267,12 @@
 		<p>Used for unit testing purposes only: allows the shared smart store instance to be reset.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (void)resetSharedStore</code></div>
+
+    
+	
 	
 	
 	
@@ -306,9 +316,11 @@
 		<p>Gets a handle to a cursor, from its ID.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFSoupCursor *)cursorByCursorId:(NSString *)<em>cursorId</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -326,6 +338,8 @@
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>The cached SFSoupCursor isntance with the given ID, or nil.</p>
 	</div>
+	
+	
 	
 	
 	
@@ -358,9 +372,11 @@
 		<p>Closes a cursor associated with soup data.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgCloseCursor:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -377,6 +393,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -411,9 +429,11 @@
 		<p>Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgQuerySoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -431,6 +451,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -465,9 +487,11 @@
 		<p>Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgRegisterSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -485,6 +509,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -519,9 +545,11 @@
 		<p>Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgRemoveFromSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -539,6 +567,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -573,9 +603,11 @@
 		<p>Removes a soup from the store.  See [SFSmartStore removeSoup:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgRemoveSoup:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -593,6 +625,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -627,9 +661,11 @@
 		<p>Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgRetrieveSoupEntries:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -647,6 +683,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -681,9 +719,11 @@
 		<p>Does the given soup exist in the store?  See see [SFSmartStore soupExists:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgSoupExists:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -701,6 +741,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -735,9 +777,11 @@
 		<p>Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pgUpsertSoupEntries:(NSArray *)<em>arguments</em> withDict:(NSDictionary *)<em>options</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -755,6 +799,8 @@
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -792,9 +838,9 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -882,6 +928,14 @@
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
