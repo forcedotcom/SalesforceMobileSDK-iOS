@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
-		<title>SFRestRequest Class Reference</title>
+		<title>SFIdentityCoordinator Class Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
@@ -17,7 +17,7 @@
 			</div>
 			
 			<div id="title" role="banner">
-				<h1 class="hideInXcode">SFRestRequest Class Reference</h1>
+				<h1 class="hideInXcode">SFIdentityCoordinator Class Reference</h1>
 			</div>
 			<ul id="headerButtons" role="toolbar">
 				<li id="toc_button">
@@ -40,24 +40,26 @@
 	
 	<option value="properties">Properties</option>
 	
+	<option value="//api/name/credentials">&nbsp;&nbsp;&nbsp;&nbsp;credentials</option>
+	
 	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
 	
-	<option value="//api/name/endpoint">&nbsp;&nbsp;&nbsp;&nbsp;endpoint</option>
+	<option value="//api/name/idData">&nbsp;&nbsp;&nbsp;&nbsp;idData</option>
 	
-	<option value="//api/name/method">&nbsp;&nbsp;&nbsp;&nbsp;method</option>
-	
-	<option value="//api/name/path">&nbsp;&nbsp;&nbsp;&nbsp;path</option>
-	
-	<option value="//api/name/queryParams">&nbsp;&nbsp;&nbsp;&nbsp;queryParams</option>
+	<option value="//api/name/timeout">&nbsp;&nbsp;&nbsp;&nbsp;timeout</option>
 	
 	
 	
 	
-	<option value="class_methods">Class Methods</option>
-	
-	<option value="//api/name/requestWithMethod:path:queryParams:">&nbsp;&nbsp;&nbsp;&nbsp;+ requestWithMethod:path:queryParams:</option>
 	
 	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/cancelRetrieval">&nbsp;&nbsp;&nbsp;&nbsp;- cancelRetrieval</option>
+	
+	<option value="//api/name/initWithCredentials:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithCredentials:</option>
+	
+	<option value="//api/name/initiateIdentityDataRetrieval">&nbsp;&nbsp;&nbsp;&nbsp;- initiateIdentityDataRetrieval</option>
 	
 	
 	
@@ -75,8 +77,6 @@
 
 <li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Initialization">Initialization</a></span></li>
-	
 </ul></li>
 
 
@@ -85,34 +85,36 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/credentials">credentials</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/endpoint">endpoint</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/idData">idData</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/method">method</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/path">path</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queryParams">queryParams</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/timeout">timeout</a></span></li>
 	
 </ul></li>
 
 
 
-<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestWithMethod:path:queryParams:">requestWithMethod:path:queryParams:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cancelRetrieval">cancelRetrieval</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithCredentials:">initWithCredentials:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initiateIdentityDataRetrieval">initiateIdentityDataRetrieval</a></span></li>
 	
 </ul></li>
-
-
 
 
 			</ul>
 		</nav>
 		<article>
 			<div id="contents" class="isShowingTOC" role="main">
-				<a title="SFRestRequest Class Reference" name="top"></a>
+				<a title="SFIdentityCoordinator Class Reference" name="top"></a>
 				<div class="main-navigation navigation-top">
 					<ul>
 	<li><a href="../index.html">Index</a></li>
@@ -121,7 +123,7 @@
 				</div>
 				<div id="header">
 					<div class="section-header">
-						<h1 class="title title-header">SFRestRequest Class Reference</h1>
+						<h1 class="title title-header">SFIdentityCoordinator Class Reference</h1>
 					</div>		
 				</div>
 				<div id="container">	
@@ -131,8 +133,11 @@
 	<td class="specification-title">Inherits from</td>
 	<td class="specification-value">NSObject</td>
 </tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value">NSURLConnectionDataDelegate</td>
+</tr><tr>
 	<td class="specification-title">Declared in</td>
-	<td class="specification-value">SFRestRequest.h</td>
+	<td class="specification-value">SFIdentityCoordinator.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -142,7 +147,9 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Request object used to send a REST request to Salesforce.com</p>
+						<p>The SFIdentityCoordinator class is used to retrieve identity data from the ID endpoint of the
+Salesforce service.  This data will be based on the requesting user, and the OAuth app
+credentials he/she is using to request this information.</p>
 					</div>
 					
 					
@@ -155,61 +162,62 @@
 						
 						
 						
-						<h3 class="subsubtitle task-title">Other Methods</h3>
+						
 
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
-		<code><a href="#//api/name/method">&nbsp;&nbsp;method</a></code>
-		<span class="tooltip"><p>The HTTP method of the request.  See SFRestMethod.</p></span>
+		<code><a href="#//api/name/initWithCredentials:">&ndash;&nbsp;initWithCredentials:</a></code>
+		<span class="tooltip"><p>The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
+OAuth credentials.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initiateIdentityDataRetrieval">&ndash;&nbsp;initiateIdentityDataRetrieval</a></code>
+		<span class="tooltip"><p>Begins the identity request.  This request is asynchronous.  Implement the
+SFIdentityCoordinatorDelegate protocol to receive events related to the identity response from
+the service.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cancelRetrieval">&ndash;&nbsp;cancelRetrieval</a></code>
+		<span class="tooltip"><p>Cancels a request in progress.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/credentials">&nbsp;&nbsp;credentials</a></code>
+		<span class="tooltip"><p>The OAuth credentials associated with this instance.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
-		<span class="tooltip"><p>The path of the request.
-For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;v22.0/query&rdquo;.
-Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p></span>
-	</span>
-	<span class="task-item-suffix">property</span>
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/queryParams">&nbsp;&nbsp;queryParams</a></code>
-		<span class="tooltip"><p>The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</p></span>
+		<code><a href="#//api/name/idData">&nbsp;&nbsp;idData</a></code>
+		<span class="tooltip"><p>The SFIdentityData that will be populated with the response data from the service.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
-		<span class="tooltip"><p>The delegate for this request. Notified of request status.</p></span>
+		<span class="tooltip"><p>The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/endpoint">&nbsp;&nbsp;endpoint</a></code>
-		<span class="tooltip"><p>Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</p></span>
+		<code><a href="#//api/name/timeout">&nbsp;&nbsp;timeout</a></code>
+		<span class="tooltip"><p>The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
-	
-</li>
-						</ul>
-						
-						
-						<a title="Initialization" name="task_Initialization"></a>
-						<h3 class="subsubtitle task-title">Initialization</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestWithMethod:path:queryParams:">+&nbsp;requestWithMethod:path:queryParams:</a></code>
-		<span class="tooltip"><p>Creates an <code>SFRestRequest</code> object. See SFRestMethod.</p></span>
-	</span>
-	
 	
 </li>
 						</ul>
@@ -225,13 +233,55 @@ Note that URL encoding of the parameters will automatically happen when the requ
 						<h2 class="subtitle subtitle-methods">Properties</h2>
 						
 						<div class="section-method">
+	<a name="//api/name/credentials" title="credentials"></a>
+	<h3 class="subsubtitle method-title">credentials</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The OAuth credentials associated with this instance.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) SFOAuthCredentials *credentials</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The OAuth credentials associated with this instance.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/delegate" title="delegate"></a>
 	<h3 class="subsubtitle method-title">delegate</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>The delegate for this request. Notified of request status.</p>
+		<p>The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</p>
 	</div>		
 	
     
@@ -248,7 +298,8 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The delegate for this request. Notified of request status.</p>
+		<p>The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</p>
 	</div>
 	
 	
@@ -259,25 +310,25 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
 	</div>				
 	
 	
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/endpoint" title="endpoint"></a>
-	<h3 class="subsubtitle method-title">endpoint</h3>
+	<a name="//api/name/idData" title="idData"></a>
+	<h3 class="subsubtitle method-title">idData</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</p>
+		<p>The SFIdentityData that will be populated with the response data from the service.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *endpoint</code></div>
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) SFIdentityData *idData</code></div>
 
     
 	
@@ -289,7 +340,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</p>
+		<p>The SFIdentityData that will be populated with the response data from the service.</p>
 	</div>
 	
 	
@@ -300,25 +351,26 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
 	</div>				
 	
 	
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/method" title="method"></a>
-	<h3 class="subsubtitle method-title">method</h3>
+	<a name="//api/name/timeout" title="timeout"></a>
+	<h3 class="subsubtitle method-title">timeout</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>The HTTP method of the request.  See SFRestMethod.</p>
+		<p>The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFRestMethod method</code></div>
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval timeout</code></div>
 
     
 	
@@ -330,7 +382,8 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>The HTTP method of the request.  See SFRestMethod.</p>
+		<p>The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</p>
 	</div>
 	
 	
@@ -341,95 +394,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/path" title="path"></a>
-	<h3 class="subsubtitle method-title">path</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>The path of the request.
-For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;v22.0/query&rdquo;.
-Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSString *path</code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>The path of the request.
-For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;v22.0/query&rdquo;.
-Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p><div class="warning"><p><strong>Warning:</strong> Do not pass URL encoded query parameters in the path. Use the <code>queryParams</code> property instead.</p></div>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/queryParams" title="queryParams"></a>
-	<h3 class="subsubtitle method-title">queryParams</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (nonatomic, retain) NSDictionary *queryParams</code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
 	</div>				
 	
 	
@@ -439,23 +404,67 @@ Note that URL encoding of the parameters will automatically happen when the requ
 					
 					
 					
+					
+					
 					<div class="section section-methods">
-						<a title="Class Methods" name="class_methods"></a>
-						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
 						
 						<div class="section-method">
-	<a name="//api/name/requestWithMethod:path:queryParams:" title="requestWithMethod:path:queryParams:"></a>
-	<h3 class="subsubtitle method-title">requestWithMethod:path:queryParams:</h3>
+	<a name="//api/name/cancelRetrieval" title="cancelRetrieval"></a>
+	<h3 class="subsubtitle method-title">cancelRetrieval</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Creates an <code>SFRestRequest</code> object. See SFRestMethod.</p>
+		<p>Cancels a request in progress.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (id)requestWithMethod:(SFRestMethod)<em>method</em> path:(NSString *)<em>path</em> queryParams:(NSDictionary *)<em>queryParams</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)cancelRetrieval</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Cancels a request in progress.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithCredentials:" title="initWithCredentials:"></a>
+	<h3 class="subsubtitle method-title">initWithCredentials:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
+OAuth credentials.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (id)initWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
     
 	
@@ -463,18 +472,9 @@ Note that URL encoding of the parameters will automatically happen when the requ
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>method</em></dt>
-			<dd><p>the HTTP method</p></dd>
-		</dl>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>path</em></dt>
-			<dd><p>the request path</p></dd>
-		</dl>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>queryParams</em></dt>
-			<dd><p>the parameters of the request (could be nil)</p></dd>
+			<dt><em>credentials</em></dt>
+			<dd><p>The OAuth credentials used to query the identity service.  At a minimum,
+the OAuth credentials must specify a value for accessToken and instanceUrl.</p></dd>
 		</dl>
 		
 	</div>
@@ -487,7 +487,8 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Creates an <code>SFRestRequest</code> object. See SFRestMethod.</p>
+		<p>The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
+OAuth credentials.</p>
 	</div>
 	
 	
@@ -498,15 +499,58 @@ Note that URL encoding of the parameters will automatically happen when the requ
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFRestRequest.h</code><br />
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initiateIdentityDataRetrieval" title="initiateIdentityDataRetrieval"></a>
+	<h3 class="subsubtitle method-title">initiateIdentityDataRetrieval</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Begins the identity request.  This request is asynchronous.  Implement the
+SFIdentityCoordinatorDelegate protocol to receive events related to the identity response from
+the service.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)initiateIdentityDataRetrieval</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Begins the identity request.  This request is asynchronous.  Implement the
+SFIdentityCoordinatorDelegate protocol to receive events related to the identity response from
+the service.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFIdentityCoordinator.h</code><br />
 	</div>				
 	
 	
 </div>
 						
 					</div>
-					
-					
 					
 					
 				</div>
