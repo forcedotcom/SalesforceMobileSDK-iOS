@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFRestAPI Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDK </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFRestAPI Class Reference</h1>
 			</div>
@@ -132,9 +138,9 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Other utility methods">Other utility methods</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_QueryBuilder Methods">QueryBuilder Methods</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
 	
 </ul></li>
 
@@ -348,6 +354,25 @@ In this case, <code>request:didFailLoadWithError:</code> is called on the <code>
 The error passed will be a standard <code>RestKit</code> error with an error domain of <code>RKRestKitErrorDomain</code>.</p></li>
 </ul>
 
+
+<p>This category assists with creating SOQL and SOSL queries.</p>
+
+<p>Example SOQL usage:</p>
+
+<p>NSString *soqlQuery =
+[SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObjects:@&ldquo;Id&rdquo;, @&ldquo;Name&rdquo;, @&ldquo;Company&rdquo;, @&ldquo;Status&rdquo;, nil]
+sObject:@&ldquo;Lead&rdquo;
+where:nil
+limit:10];</p>
+
+<p>Example SOSL usage:</p>
+
+<p>NSString *soslQuery =
+[SFRestAPI SOSLSearchWithSearchTerm:@&ldquo;all of these will be escaped:~{]&rdquo;</p>
+
+<pre><code>                          objectScope:[NSDictionary dictionaryWithObject:@"WHERE isactive=true ORDER BY lastname asc limit 5"
+                                                                  forKey:@"User"]];
+</code></pre>
 					</div>
 					
 					
@@ -506,6 +531,49 @@ given external ID.</p></span>
 						</ul>
 						
 						
+						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
+						<h3 class="subsubtitle task-title">QueryBuilder Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
+		<span class="tooltip"><p>The search term to be sanitized.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
+		<span class="tooltip"><p>Generate a SOSL search.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOSL search.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOQL query.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</a></code>
+		<span class="tooltip"><p>Generate a SOQL query.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
 						<a title="Blocks Methods" name="task_Blocks Methods"></a>
 						<h3 class="subsubtitle task-title">Blocks Methods</h3>
 
@@ -604,49 +672,6 @@ given external ID.</p></span>
 </li>
 						</ul>
 						
-						
-						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
-						<h3 class="subsubtitle task-title">QueryBuilder Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
-		<span class="tooltip"><p>The search term to be sanitized.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
-		<span class="tooltip"><p>Generate a SOSL search.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOSL search.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOQL query.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOQL query.</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
 					</div>
 					
 					
@@ -668,8 +693,12 @@ given external ID.</p></span>
 The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23.0&rdquo;)</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *apiVersion</code></div>
+
+    
+	
 	
 	
 	
@@ -714,9 +743,11 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 		<p>Generate a SOQL query.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)SOQLQueryWithFields:(NSArray *)<em>fields</em> sObject:(NSString *)<em>sObject</em> where:(NSString *)<em>where</em> groupBy:(NSArray *)<em>groupBy</em> having:(NSString *)<em>having</em> orderBy:(NSArray *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -783,6 +814,8 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Generate a SOQL query.</p>
@@ -812,9 +845,11 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 		<p>Generate a SOQL query.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)SOQLQueryWithFields:(NSArray *)<em>fields</em> sObject:(NSString *)<em>sObject</em> where:(NSString *)<em>where</em> limit:(NSInteger)<em>limit</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -857,6 +892,8 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Generate a SOQL query.</p>
@@ -886,9 +923,11 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 		<p>Generate a SOSL search.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(NSString *)<em>fieldScope</em> objectScope:(NSDictionary *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -933,6 +972,8 @@ or NSNull to not specify any fields/clauses for that object</li>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Generate a SOSL search.</p>
@@ -962,9 +1003,11 @@ or NSNull to not specify any fields/clauses for that object</li>
 		<p>Generate a SOSL search.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(NSDictionary *)<em>objectScope</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -988,6 +1031,8 @@ or NSNull to not specify any fields/clauses for that object</li>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -1022,9 +1067,11 @@ or NSNull to not specify any fields/clauses for that object</li>
 		<p>The search term to be sanitized.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1042,6 +1089,8 @@ or NSNull to not specify any fields/clauses for that object</li>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>SOSL-safe version of search term</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1071,8 +1120,12 @@ After a successful oauth login with an SFOAuthCoordinator, you
 should set it as the coordinator property of this instance.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (SFRestAPI *)sharedInstance</code></div>
+
+    
+	
 	
 	
 	
@@ -1110,8 +1163,12 @@ should set it as the coordinator property of this instance.</p>
 		<p>Provides the User-Agent string used by the SDK</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)userAgentString</code></div>
+
+    
+	
 	
 	
 	
@@ -1155,9 +1212,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a DML insert.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performCreateWithObjectType:(NSString *)<em>objectType</em> fields:(NSDictionary *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1193,6 +1252,8 @@ should set it as the coordinator property of this instance.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Executes a DML insert.</p>
@@ -1222,9 +1283,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a DML delete on a single record</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDeleteWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1260,6 +1323,8 @@ should set it as the coordinator property of this instance.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Executes a DML delete on a single record</p>
@@ -1289,9 +1354,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a global describe.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeGlobalWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1314,6 +1381,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1346,9 +1415,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a describe on a single sObject.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performDescribeWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1376,6 +1447,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1408,9 +1481,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a metadata describe on a single sObject.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performMetadataWithObjectType:(NSString *)<em>objectType</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1438,6 +1513,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1470,9 +1547,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a request to list REST API resources</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForResourcesWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1495,6 +1574,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1527,9 +1608,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a request to list REST API versions</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRequestForVersionsWithFailBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1552,6 +1635,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1584,9 +1669,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a retrieve for a single record.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performRetrieveWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fieldList:(NSArray *)<em>fieldList</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1627,6 +1714,8 @@ should set it as the coordinator property of this instance.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Executes a retrieve for a single record.</p>
@@ -1656,9 +1745,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a SOQL query.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQuery:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1686,6 +1777,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1718,9 +1811,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a SOSL search.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOSLSearch:(NSString *)<em>search</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestArrayResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1748,6 +1843,8 @@ should set it as the coordinator property of this instance.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the newly sent SFRestRequest</p>
 	</div>
+	
+	
 	
 	
 	
@@ -1780,9 +1877,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a DML update for a single record.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpdateWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fields:(NSDictionary *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1823,6 +1922,8 @@ should set it as the coordinator property of this instance.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Executes a DML update for a single record.</p>
@@ -1852,9 +1953,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Executes a DML upsert for a single record.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performUpsertWithObjectType:(NSString *)<em>objectType</em> externalIdField:(NSString *)<em>externalIdField</em> externalId:(NSString *)<em>externalId</em> fields:(NSDictionary *)<em>fields</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1900,6 +2003,8 @@ should set it as the coordinator property of this instance.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Executes a DML upsert for a single record.</p>
@@ -1929,9 +2034,11 @@ should set it as the coordinator property of this instance.</p>
 		<p>Returns an <code>SFRestRequest</code> which creates a new record of the given type.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)<em>objectType</em> fields:(NSDictionary *)<em>fields</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -1949,6 +2056,8 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol:
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -1992,9 +2101,11 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol:
 		<p>Returns an <code>SFRestRequest</code> which deletes a record of the given type.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2010,6 +2121,8 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol:
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2054,8 +2167,12 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol:
 metadata for your organization&rsquo;s data.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForDescribeGlobal</code></div>
+
+    
+	
 	
 	
 	
@@ -2103,9 +2220,11 @@ at all levels for the
 specified object.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)<em>objectType</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2116,6 +2235,8 @@ specified object.</p>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2162,9 +2283,11 @@ specified object.</p>
 specified object.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)<em>objectType</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2175,6 +2298,8 @@ specified object.</p>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2219,9 +2344,11 @@ specified object.</p>
 		<p>Returns an <code>SFRestRequest</code> which executes the specified SOQL query.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForQuery:(NSString *)<em>soql</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2233,6 +2360,8 @@ Name from Account ORDER BY Name LIMIT 20&rdquo;</p></dd>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2277,8 +2406,12 @@ Name from Account ORDER BY Name LIMIT 20&rdquo;</p></dd>
 client&rsquo;s API version, including resource name and URI.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForResources</code></div>
+
+    
+	
 	
 	
 	
@@ -2324,9 +2457,11 @@ client&rsquo;s API version, including resource name and URI.</p>
 		<p>Returns an <code>SFRestRequest</code> which retrieves field values for a record of the given type.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fieldList:(NSString *)<em>fieldList</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2349,6 +2484,8 @@ Pass nil to retrieve all the fields.</p></dd>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2392,9 +2529,11 @@ Pass nil to retrieve all the fields.</p></dd>
 		<p>Returns an <code>SFRestRequest</code> which executes the specified SOSL search.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForSearch:(NSString *)<em>sosl</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2405,6 +2544,8 @@ Pass nil to retrieve all the fields.</p></dd>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2448,9 +2589,11 @@ Pass nil to retrieve all the fields.</p></dd>
 		<p>Returns an <code>SFRestRequest</code> which updates field values on a record of the given type.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)<em>objectType</em> objectId:(NSString *)<em>objectId</em> fields:(NSDictionary *)<em>fields</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2473,6 +2616,8 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2517,9 +2662,11 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol
 given external ID.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)<em>objectType</em> externalIdField:(NSString *)<em>externalIdField</em> externalId:(NSString *)<em>externalId</em> fields:(NSDictionary *)<em>fields</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2547,6 +2694,8 @@ the record, for example, {Name: &ldquo;salesforce.com&rdquo;, TickerSymbol
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2593,8 +2742,12 @@ Salesforce.com version currently available, including the version,
 label, and a link to each version&rsquo;s root.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForVersions</code></div>
+
+    
+	
 	
 	
 	
@@ -2641,9 +2794,11 @@ label, and a link to each version&rsquo;s root.</p>
 		<p>Sends a REST request to the Salesforce server and invokes the appropriate delegate method.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)send:(SFRestRequest *)<em>request</em> delegate:(id&lt;SFRestDelegate&gt;)<em>delegate</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2660,6 +2815,8 @@ This overwrites the delegate property of the request.</p></dd>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2694,9 +2851,11 @@ This overwrites the delegate property of the request.</p></dd>
 		<p>Send a request you&rsquo;ve already built, using blocks to return status.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)sendRESTRequest:(SFRestRequest *)<em>request</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(id)<em>completeBlock</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -2717,6 +2876,8 @@ This overwrites the delegate property of the request.</p></dd>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -2754,9 +2915,9 @@ This overwrites the delegate property of the request.</p></dd>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -2844,6 +3005,14 @@ This overwrites the delegate property of the request.</p></dd>
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>

@@ -197,8 +197,8 @@ extern NSString * const kSFSmartStoreErrorDomain;
 /**
  Remove soup entries exactly matching the soup entry IDs
  
+ @param entryIds An array of opaque soup entry IDs from _soupEntryId
  @param soupName The name of the soup from which to remove the soup entries
- @param soupEntryIds An array of opaque soup entry IDs from _soupEntryId
  
  */
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;

@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFSoupCursor Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDK </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFSoupCursor Class Reference</h1>
 			</div>
@@ -261,8 +267,12 @@ causes currentPageOrderedEntries to be refetched.</p></span>
 causes currentPageOrderedEntries to be refetched.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</code></div>
+
+    
+	
 	
 	
 	
@@ -299,8 +309,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>The list of current page entries, ordered as requested in the querySpec.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</code></div>
+
+    
+	
 	
 	
 	
@@ -336,8 +350,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>A unique ID for this cursor.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *cursorId</code></div>
+
+    
+	
 	
 	
 	
@@ -373,8 +391,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>The maximum number of entries returned per page.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSNumber *pageSize</code></div>
+
+    
+	
 	
 	
 	
@@ -410,8 +432,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>The query spec that generated this cursor.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) SFSoupQuerySpec *querySpec</code></div>
+
+    
+	
 	
 	
 	
@@ -447,8 +473,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>Soup name from which this cursor was generated.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *soupName</code></div>
+
+    
+	
 	
 	
 	
@@ -484,8 +514,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>The total number of pages of results available .</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSNumber *totalPages</code></div>
+
+    
+	
 	
 	
 	
@@ -531,9 +565,11 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>The NSDictionary representation of this object.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSDictionary *)asDictionary</code></div>
-	
+
+    
 	
 	
 	
@@ -541,6 +577,8 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>Dictionary representation of this object, for translation to JSON.</p>
 	</div>
+	
+	
 	
 	
 	
@@ -573,8 +611,12 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>Close this cursor when finished operating on it.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)close</code></div>
+
+    
+	
 	
 	
 	
@@ -610,9 +652,11 @@ causes currentPageOrderedEntries to be refetched.</p>
 		<p>Initializes a new instance of a soup cursor.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (id)initWithSoupName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em> querySpec:(SFSoupQuerySpec *)<em>querySpec</em> totalEntries:(NSUInteger)<em>totalEntries</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -638,6 +682,8 @@ causes currentPageOrderedEntries to be refetched.</p>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -675,9 +721,9 @@ causes currentPageOrderedEntries to be refetched.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-04-05)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -765,6 +811,14 @@ causes currentPageOrderedEntries to be refetched.</p>
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
