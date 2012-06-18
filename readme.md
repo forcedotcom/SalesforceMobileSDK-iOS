@@ -29,6 +29,7 @@ Introduction
 * Mock SmartStore Implementation. Developers can build and test SmartStore apps directly in the desktop browser. 
 * Option to self-encrypt the SmartStore databases, which can be securely backed-up
 
+__What’s New in 1.1__
 
 __Version 1.0__
 This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
