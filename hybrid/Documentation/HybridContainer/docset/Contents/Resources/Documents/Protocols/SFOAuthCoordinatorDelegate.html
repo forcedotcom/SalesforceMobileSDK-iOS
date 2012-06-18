@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFOAuthCoordinatorDelegate Protocol Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFOAuthCoordinatorDelegate Protocol Reference</h1>
 			</div>
@@ -215,9 +221,11 @@ Use these methods to update your interface and refresh your application once a s
 		<p>Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didBeginAuthenticationWithView:(UIWebView *)<em>view</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -238,12 +246,14 @@ Use these methods to update your interface and refresh your application once a s
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</p>
 
 <p>The delegate will receive this message when the first page of the authentication flow is visible in the view parameter.
-The receiver should display the view in the implementation of this method.</p><div class="warning"><p>the view parameter must be added to a superview upon completion of this method or an assert will fail</p></div>
+The receiver should display the view in the implementation of this method.</p><div class="warning"><p><strong>Warning:</strong> the view parameter must be added to a superview upon completion of this method or an assert will fail</p></div>
 	</div>
 	
 	
@@ -279,9 +289,11 @@ The receiver should display the view in the implementation of this method.</p><d
 		<p>Sent if authentication fails due to an error.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFailWithError:(NSError *)<em>error</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -297,6 +309,8 @@ The receiver should display the view in the implementation of this method.</p><d
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -340,9 +354,11 @@ The receiver should display the view in the implementation of this method.</p><d
 		<p>Sent when the web will completed to load its content.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFinishLoad:(UIWebView *)<em>view</em> error:(NSError *)<em>errorOrNil</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -363,6 +379,8 @@ The receiver should display the view in the implementation of this method.</p><d
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -397,9 +415,11 @@ The receiver should display the view in the implementation of this method.</p><d
 		<p>Sent when the web will starts to load its content.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didStartLoad:(UIWebView *)<em>view</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -415,6 +435,8 @@ The receiver should display the view in the implementation of this method.</p><d
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -449,9 +471,11 @@ The receiver should display the view in the implementation of this method.</p><d
 		<p>Sent when authentication will begin.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> willBeginAuthenticationWithView:(UIWebView *)<em>view</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -467,6 +491,8 @@ The receiver should display the view in the implementation of this method.</p><d
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -514,9 +540,11 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 		<p>Sent when authentication successfully completes.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -527,6 +555,8 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -573,9 +603,9 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-03-07)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -663,6 +693,14 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
