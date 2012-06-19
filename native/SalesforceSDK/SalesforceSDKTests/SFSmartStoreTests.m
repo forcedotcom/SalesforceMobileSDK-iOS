@@ -8,6 +8,7 @@
 
 #import "SFSmartStoreTests.h"
 #import "SFJsonUtils.h"
+#import "FMDatabase.h"
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
 
@@ -15,6 +16,7 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
 - (void) assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString*)message;
 - (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*)actual message:(NSString*)message;
 - (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*)actual message:(NSString*)message;
+- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
 @end
 
 @implementation SFSmartStoreTests
@@ -23,13 +25,13 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
 #pragma mark - setup and teardown
 
 
-- (void)setUp
+- (void) setUp
 {
     // Set-up code here.
     [super setUp];
 }
 
-- (void)tearDown
+- (void) tearDown
 {
     // Tear-down code here.    
     [super tearDown];
@@ -39,7 +41,10 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
 #pragma mark - tests
 // All code under test must be linked into the Unit Test bundle
 
-- (void)testProjectTopLevel
+/**
+ * Testing method with paths to top level string/integer/array/map as well as edge cases (nil object/nil or empty path)
+ */
+- (void) testProjectTopLevel
 {
     NSString* rawJson = @"{\"a\":\"va\", \"b\":2, \"c\":[0,1,2], \"d\": {\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}}";
     NSDictionary* json = (NSDictionary*) [SFJsonUtils objectFromJSONString:rawJson];
@@ -60,7 +65,10 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}"] actual:[SFJsonUtils projectIntoJson:json path:@"d"] message:@"Wrong value for key d"];
 }
 
--(void)testProjectNested
+/**
+  * Testing method with paths to non-top level string/integer/array/map
+  */
+- (void) testProjectNested
 {
     NSString* rawJson = @"{\"a\":\"va\", \"b\":2, \"c\":[0,1,2], \"d\": {\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}}";    
     NSDictionary* json = (NSDictionary*) [SFJsonUtils objectFromJSONString:rawJson];
@@ -73,9 +81,26 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     [self assertSameJSONWithExpected:[NSNumber numberWithInt:5] actual:[SFJsonUtils projectIntoJson:json path:@"d.d4.e"] message:@"Wrong value for key d.d4.e"];    
 }
 
+/**
+ * Check that the meta data tables (soup index map and soup names) have been created
+ */
+- (void) testMetaDataTablesCreated
+{
+    SFSmartStore* store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
+    @try {
+        STAssertTrue([self hasTable:@"soup_index_map" store:store], @"Soup index map table not found");
+        STAssertTrue([self hasTable:@"soup_names" store:store], @"Soup names table not found");
+    }
+    @finally {
+        [store release]; // close the underlying db
+        [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
+    }
+}
+
 #pragma mark - helper methods
 
-- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message {
+- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message 
+{
     // At least one nil
     if (expected == nil || actual == nil) {
         // Both nil
@@ -101,7 +126,8 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     
 }
 
-- (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message {
+- (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message 
+{
     // First compare length
     NSUInteger expectedCount = [expected count];
     STAssertEquals(expectedCount, [actual count], message);
@@ -112,7 +138,8 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     }
 }
 
-- (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*) actual message:(NSString*) message {
+- (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*) actual message:(NSString*) message
+{
     // First compare length
     NSUInteger expectedCount = [expected count];
     STAssertEquals(expectedCount, [actual count], message);
@@ -125,4 +152,16 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     }
 }
 
+- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store
+{
+    FMResultSet *frs = [store.storeDb executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
+
+    int result = NSNotFound;
+    if ([frs next]) {        
+        result = [frs intForColumnIndex:0];
+    }
+    [frs close];
+    
+    return result == 1;
+}
 @end
