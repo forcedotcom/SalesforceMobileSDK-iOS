@@ -229,6 +229,4 @@ extern NSString * const kSFSmartStoreErrorDomain;
 - (BOOL)isFileDataProtectionActive;
 
 
-
-
 @end
