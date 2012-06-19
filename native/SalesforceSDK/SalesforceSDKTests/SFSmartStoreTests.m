@@ -60,7 +60,7 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}"] actual:[SFJsonUtils projectIntoJson:json path:@"d"] message:@"Wrong value for key d"];
 }
 
--(void)testProjectNester
+-(void)testProjectNested
 {
     NSString* rawJson = @"{\"a\":\"va\", \"b\":2, \"c\":[0,1,2], \"d\": {\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}}";    
     NSDictionary* json = (NSDictionary*) [SFJsonUtils objectFromJSONString:rawJson];
