@@ -35,6 +35,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) tearDown
 {
     [_store release]; // close underlying db
+    _store = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [super tearDown];
 }
@@ -53,8 +54,6 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Null object
     STAssertNil([SFJsonUtils projectIntoJson:nil path:@"path"], @"Should have been null");
-    
-    NSLog(@"here");
     
     // Root object
     [self assertSameJSONWithExpected:json actual:[SFJsonUtils projectIntoJson:json path:nil] message:@"Should have returned whole object"];
