@@ -88,4 +88,30 @@
     return  jsonData;
 }
 
++ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path {
+    id result = nil;
+    
+    if (!path || [path length] == 0) {
+        return jsonObj;
+    }
+    
+    if (nil != jsonObj) {
+        id o = jsonObj;
+        NSArray *pathElements = [path componentsSeparatedByString:@"."];
+        for (NSString *pathElement in pathElements) {
+            if ([o isKindOfClass:[NSDictionary class]]) {
+                o = [(NSDictionary*)o objectForKey:pathElement];
+            } else  {
+                NSLog(@"unexpected object in compound path (%@): %@",pathElement, o);
+                o = nil;
+                break;
+            }
+        }
+        result = o;
+    }
+    
+    return result;
+}
+
+
 @end

@@ -149,11 +149,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSArray *)tableNamesForAllSoups;
 
 /**
- Pull an indexSpec value from the json-derived object
- */
-- (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
-
-/**
  Helper method to insert values into an arbitrary table
  
  @param map A dictionary of key-value pairs to be inserted into table. 
@@ -552,31 +547,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     return result;
     
-}
-
-
-/**
- Reach into JSON object and pull out the value at the path given
- */
-- (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path {
-    id result = nil;
-    
-    if ((nil != jsonObj) && [path length] > 0) {
-        id o = jsonObj;
-        NSArray *pathElements = [path componentsSeparatedByString:@"."];
-        for (NSString *pathElement in pathElements) {
-            if ([o isKindOfClass:[NSDictionary class]]) {
-                o = [(NSDictionary*)o objectForKey:pathElement];
-            } else  {
-                NSLog(@"unexpected object in compound path (%@): %@",pathElement, o);
-                o = nil;
-                break;
-            }
-        }
-        result = o;
-    }
-    
-    return result;
 }
 
 
@@ -1221,7 +1191,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     //build up the set of index column values for this new row
     for (SFSoupIndex *idx in indices) {
-        NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
+        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
         if (nil != indexColVal) {//not every entry will have a value for each index column
             NSString *colName = [idx columnName];
             [baseColumns setObject:indexColVal forKey:colName];
@@ -1272,7 +1242,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     //build up the set of index column values for this row
     for (SFSoupIndex *idx in indices) {
-        NSString *indexColVal = [self projectIntoJson:entry path:[idx path]];
+        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
         if (nil != indexColVal) { //not every entry will have a value for each index column
             NSString *colName = [idx columnName];
             [colVals setObject:indexColVal forKey:colName];
@@ -1313,7 +1283,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         if ([externalIdPath isEqualToString:SOUP_ENTRY_ID]) {
             soupEntryId = [entry objectForKey:SOUP_ENTRY_ID];
         } else {
-            NSString *fieldValue = [self projectIntoJson:entry path:externalIdPath];
+            NSString *fieldValue = [SFJsonUtils projectIntoJson:entry path:externalIdPath];
             if (fieldValue == nil) {
                 // Cannot have empty values for user-defined external ID upsert.
                 *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
