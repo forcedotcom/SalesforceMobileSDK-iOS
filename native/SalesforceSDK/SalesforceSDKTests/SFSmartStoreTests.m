@@ -50,7 +50,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) testProjectTopLevel
 {
     NSString* rawJson = @"{\"a\":\"va\", \"b\":2, \"c\":[0,1,2], \"d\": {\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}}";
-    NSDictionary* json = (NSDictionary*) [SFJsonUtils objectFromJSONString:rawJson];
+    NSDictionary* json = [SFJsonUtils objectFromJSONString:rawJson];
     
     // Null object
     STAssertNil([SFJsonUtils projectIntoJson:nil path:@"path"], @"Should have been null");
@@ -72,7 +72,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) testProjectNested
 {
     NSString* rawJson = @"{\"a\":\"va\", \"b\":2, \"c\":[0,1,2], \"d\": {\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}}";    
-    NSDictionary* json = (NSDictionary*) [SFJsonUtils objectFromJSONString:rawJson];
+    NSDictionary* json = [SFJsonUtils objectFromJSONString:rawJson];
 
     // Nested elements
     [self assertSameJSONWithExpected:@"vd1" actual:[SFJsonUtils projectIntoJson:json path:@"d.d1"] message:@"Wrong value for key d.d1"];
