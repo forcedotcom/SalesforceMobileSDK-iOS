@@ -13,5 +13,6 @@
 #import "SFSmartStore.h"
 
 @interface SFSmartStoreTests : SenTestCase {
+    SFSmartStore* _store;
 }
 @end

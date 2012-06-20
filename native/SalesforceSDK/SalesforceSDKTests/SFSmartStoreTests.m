@@ -17,7 +17,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString*)message;
 - (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*)actual message:(NSString*)message;
 - (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*)actual message:(NSString*)message;
-- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
+- (BOOL) hasTable:(NSString*)tableName;
 @end
 
 @implementation SFSmartStoreTests
@@ -28,13 +28,14 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void) setUp
 {
-    // Set-up code here.
     [super setUp];
+    _store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
 }
 
 - (void) tearDown
 {
-    // Tear-down code here.    
+    [_store release]; // close underlying db
+    [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [super tearDown];
 }
 
@@ -87,15 +88,8 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMetaDataTablesCreated
 {
-    SFSmartStore* store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
-    @try {
-        STAssertTrue([self hasTable:@"soup_index_map" store:store], @"Soup index map table not found");
-        STAssertTrue([self hasTable:@"soup_names" store:store], @"Soup names table not found");
-    }
-    @finally {
-        [store release]; // close the underlying db
-        [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
-    }
+    STAssertTrue([self hasTable:@"soup_index_map"], @"Soup index map table not found");
+    STAssertTrue([self hasTable:@"soup_names"], @"Soup names table not found");
 }
 
 /**
@@ -103,24 +97,17 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testRegisterRemoveSoup
 {
-    SFSmartStore* store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
-    @try {
-        // Before
-        STAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
-        
-        // Register
-        NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-        [store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
-        STAssertTrue([store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
-        
-        // Remove
-        [store removeSoup:kTestSoupName];
-        STAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
-    }
-    @finally {
-        [store release]; // close the underlying db
-        [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
-    }
+    // Before
+    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+    
+    // Register
+    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    STAssertTrue([_store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+    
+    // Remove
+    [_store removeSoup:kTestSoupName];
+    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
     
 }
 
@@ -179,9 +166,9 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
-- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store
+- (BOOL) hasTable:(NSString*)tableName
 {
-    FMResultSet *frs = [store.storeDb executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
+    FMResultSet *frs = [_store.storeDb executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
 
     int result = NSNotFound;
     if ([frs next]) {        
