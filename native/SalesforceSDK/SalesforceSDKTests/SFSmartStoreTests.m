@@ -11,6 +11,7 @@
 #import "FMDatabase.h"
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
+NSString * const kTestSoupName   = @"testSoup";
 
 @interface SFSmartStoreTests ()
 - (void) assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString*)message;
@@ -95,6 +96,32 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
         [store release]; // close the underlying db
         [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     }
+}
+
+/**
+ * Test register/remove soup
+ */
+- (void) testRegisterRemoveSoup
+{
+    SFSmartStore* store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
+    @try {
+        // Before
+        STAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+        
+        // Register
+        NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
+        [store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+        STAssertTrue([store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+        
+        // Remove
+        [store removeSoup:kTestSoupName];
+        STAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
+    }
+    @finally {
+        [store release]; // close the underlying db
+        [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
+    }
+    
 }
 
 #pragma mark - helper methods
