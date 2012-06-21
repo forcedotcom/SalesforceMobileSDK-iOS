@@ -88,7 +88,7 @@
  
 		<!-- unzip the hybrid framework  -->
         <exec executable="unzip" failonerror="true" logError="true">
-            <arg line="-d '${xcodetemplate.dependency.dir}' ${hybrid_sdk.zip}"/>
+            <arg line="-d &quot;${xcodetemplate.dependency.dir}&quot; &quot;${hybrid_sdk.zip}&quot;"/>
         </exec>
 
         <copy file="${xcodetemplate.pgplugin.base.dir}/bootconfig.js" todir="${xcodetemplate.www.dir}"  />
