@@ -1849,7 +1849,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/prep-framework.sh";
+			shellScript = "\"${SRCROOT}/scripts/prep-framework.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		7D45E2E814BFB259002C4A27 /* Construct Framework */ = {
@@ -1864,7 +1864,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/construct-framework.sh";
+			shellScript = "\"${SRCROOT}/scripts/construct-framework.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		7D45E35214BFB3B6002C4A27 /* Move Framework to Dependencies */ = {
@@ -1879,7 +1879,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "${SRCROOT}/scripts/move-framework.sh";
+			shellScript = "\"${SRCROOT}/scripts/move-framework.sh\"";
 			showEnvVarsInLog = 0;
 		};
 		7DBB149214C0ECF800CCDBE0 /* ShellScript */ = {

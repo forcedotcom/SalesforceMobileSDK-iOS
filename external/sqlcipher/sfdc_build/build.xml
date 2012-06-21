@@ -55,7 +55,7 @@
         <antcall target="dependency.openssl.compile"/>
         
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.openssl.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.openssl.zip}&quot;"/>
         </exec>
     </target>
     
