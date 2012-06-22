@@ -30,7 +30,7 @@
 		/>
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sqlcipher.clean, iOSShared.dependency.openssl.clean"
+		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sqlcipher.clean"
 		/>
 	
 	<target name="all" depends="pre,utest,buildDist" description="do it all">
@@ -92,9 +92,9 @@
             <arg value="-l"/>
             <arg value="RunIPhoneLaunchDaemons"/>
             <arg value="--"/>
-            <arg file="${basedir}/RunIPhoneLaunchDaemons.sh"/>
-            <arg value="${sdkPath}"/> <!-- $IPHONE_SIMULATOR_ROOT -->
-            <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
+            <arg file="&quot;${basedir}/RunIPhoneLaunchDaemons.sh&quot;"/>
+            <arg value="&quot;${sdkPath}&quot;"/> <!-- $IPHONE_SIMULATOR_ROOT -->
+            <arg value="&quot;${tmp_home}&quot;"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
        
 
@@ -103,7 +103,7 @@
 		
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration ${covConfig}  -sdk iphonesimulator build" />
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target TestPluginsTests -configuration ${covConfig}  -sdk iphonesimulator build" />
         </exec>
 
         <echo message="Stopping securityd ..."/>

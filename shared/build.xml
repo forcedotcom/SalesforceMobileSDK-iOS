@@ -72,16 +72,16 @@
         <property name="appledoc.zip" value="${iOSShared.distdir}/appledoc/appledoc-Release.zip" />
         
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${appledoc_base_path} ${appledoc.zip}"/>
+            <arg line="-d &quot;${appledoc_base_path}&quot; &quot;${appledoc.zip}&quot;"/>
         </exec>
         <echo>appledoc_path is '${appledoc_app_path}' </echo>
         <exec executable="echo">
             <arg line="appledoc_app_path --templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
-            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+            <arg line="--output &quot;${output}&quot; ${additionalOptions} &quot;${globalSettings}&quot; &quot;${source}&quot;"/>
         </exec>
         <exec executable="${appledoc_app_path}">
             <arg line="--templates &quot;${appledoc_base_path}/appledoc/Templates/&quot; "/>
-            <arg line="--output ${output} ${additionalOptions} ${globalSettings} ${source}"/>
+            <arg line="--output &quot;${output}&quot; ${additionalOptions} &quot;${globalSettings}&quot; &quot;${source}&quot;"/>
         </exec>
         <delete file="${output}/docset-installed.txt"/>
         <delete dir="${appledoc_base_path}/appledoc" />
@@ -95,7 +95,7 @@
         <property name="simulator" value="${artifacts.dir}/Simulator/${libname}"/>
         <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
         <exec executable="lipo" failonerror="true" logError="true">
-            <arg line="-create -output ${lipo.output} ${device} ${simulator}"/>
+            <arg line="-create -output &quot;${lipo.output}&quot; &quot;${device}&quot; &quot;${simulator}&quot;"/>
         </exec>
         <move file="${lipo.output}" toFile="${device}"/>
     </target>
@@ -109,7 +109,7 @@
 
         <tempfile property="lipo.output" deleteonexit="false" prefix="lipo" suffix=".a"/>
         <exec executable="lipo" failonerror="true" logError="true">
-            <arg line="-create -output ${lipo.output} ${deviceLibDir}/${libname} ${simulatorLibDir}/${libname}"/>
+            <arg line="-create -output &quot;${lipo.output}&quot; &quot;${deviceLibDir}/${libname}&quot; &quot;${simulatorLibDir}/${libname}&quot;"/>
         </exec>
         <move file="${lipo.output}" toFile="${destinationDir}/${libname}"/>
     </target>
@@ -122,7 +122,7 @@
         <echo>${action}ing ${target.name} for SDK ${sdk}</echo>
 
         <exec executable="xcodebuild" failonerror="true" logError="true">
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=${install_path} ${action}"/>
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=&quot;${install_path}&quot; ${action}"/>
         </exec>
     </target>
 
@@ -130,7 +130,7 @@
         <echo>xcodebuild ${target}(${configuration}) from ${target.name}.xcodeproj using SDK '${sdk}'</echo>
 
         <exec executable="xcodebuild" failonerror="true" logError="true">
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target ${target} -configuration ${configuration} -sdk ${sdk} "/>
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} "/>
         </exec>
     </target>
 
@@ -151,7 +151,7 @@
         <antcall target="dependency.sdk.compile"/>
 
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.sdk.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.sdk.zip}&quot;"/>
         </exec>
     </target>
 
@@ -181,7 +181,7 @@
         <antcall target="dependency.oauth.compile"/>
 
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.oauth.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.oauth.zip}&quot;"/>
         </exec>
     </target>
 
@@ -211,7 +211,7 @@
         <antcall target="dependency.restkit.compile"/>
 
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.restkit.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.restkit.zip}&quot;"/>
         </exec>
     </target>
 
@@ -240,7 +240,7 @@
         <antcall target="dependency.callback-ios.compile"/>
 
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.callback-ios.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.callback-ios.zip}&quot;"/>
         </exec>
     </target>
 
@@ -268,7 +268,7 @@
         <antcall target="dependency.openssl.compile"/>
         
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.openssl.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.openssl.zip}&quot;"/>
         </exec>
     </target>
     
@@ -296,7 +296,7 @@
         <antcall target="dependency.sqlcipher.compile"/>
         
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.sqlcipher.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.sqlcipher.zip}&quot;"/>
         </exec>
     </target>
     
@@ -326,7 +326,7 @@
         <antcall target="dependency.hybrid_sdk.compile"/>
 
         <exec executable="unzip" failonerror="false" logError="true">
-            <arg line="-d ${dependency.dir} ${dependency.hybrid_sdk.zip}"/>
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.hybrid_sdk.zip}&quot;"/>
         </exec>
     </target>
 

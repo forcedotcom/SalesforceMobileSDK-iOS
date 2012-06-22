@@ -94,9 +94,9 @@
             <arg value="-l"/>
             <arg value="RunIPhoneLaunchDaemons"/>
             <arg value="--"/>
-            <arg file="${basedir}/RunIPhoneLaunchDaemons.sh"/>
-            <arg value="${sdkPath}"/> <!-- $IPHONE_SIMULATOR_ROOT -->
-            <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
+            <arg file="&quot;${basedir}/RunIPhoneLaunchDaemons.sh&quot;"/>
+            <arg value="&quot;${sdkPath}&quot;"/> <!-- $IPHONE_SIMULATOR_ROOT -->
+            <arg value="&quot;${tmp_home}&quot;"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
        
 		<delete dir="${artifacts.dir}/BuildProducts" />
@@ -104,7 +104,7 @@
  
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=&quot;${artifacts.dir}/BuildProducts&quot; -sdk iphonesimulator build" />
         </exec>
        		
 		<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
