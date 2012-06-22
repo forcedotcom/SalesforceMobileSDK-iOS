@@ -543,7 +543,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     
     NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
-    NSString *eventStr = [[NSString alloc] initWithFormat:@"PhoneGap.fireDocumentEvent('salesforceSessionRefresh',%@);",
+    NSString *eventStr = [[NSString alloc] initWithFormat:@"PhoneGap.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
                           credsStr];
     [super writeJavascript:eventStr];
     [eventStr release];
