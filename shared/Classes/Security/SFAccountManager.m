@@ -86,6 +86,17 @@ static NSMutableDictionary *AccountManagerDict;
  */
 - (NSString *)idDataKey;
 
+/**
+ * The full name of the keychain identifier, based on the account identifier.
+ * @param accountIdentifier The account identifier associated with the keychain ID.
+ */
++ (NSString *)fullKeychainIdentifier:(NSString *)accountIdentifier;
+
+/**
+ * Gets the login host as its configured in the app's settings.
+ */
++ (NSString *)appSettingsLoginHost;
+
 @end
 
 @implementation SFAccountManager
