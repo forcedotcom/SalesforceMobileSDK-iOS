@@ -35,9 +35,9 @@
 			<arg value="-k" />
 			<arg value="-p" />
 			<arg value="--exclude=${excludePattern}" />
-			<arg value="--root=&quot;${rootPath}&quot;" />
-			<arg value="--object-directory=&quot;${inputPath}&quot;" />
-			<arg value="--output=&quot;${outputPath}/coverage.xml&quot;" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.xml" />
 		</exec>	
 	</target>	 
 	<target name="covreport_text">
@@ -51,9 +51,9 @@
 			<arg value="-k" />
 			<arg value="-p" />
 			<arg value="--exclude=${excludePattern}" />
-			<arg value="--root=&quot;${rootPath}&quot;" />
-			<arg value="--object-directory=&quot;${inputPath}&quot;" />
-			<arg value="--output=&quot;${outputPath}/coverage.txt&quot;" />
+			<arg value="--root=${rootPath}" />
+			<arg value="--object-directory=${inputPath}" />
+			<arg value="--output=${outputPath}/coverage.txt" />
 		</exec>
 	</target>
 
