@@ -94,9 +94,9 @@
             <arg value="-l"/>
             <arg value="RunIPhoneLaunchDaemons"/>
             <arg value="--"/>
-            <arg file="&quot;${basedir}/RunIPhoneLaunchDaemons.sh&quot;"/>
-            <arg value="&quot;${sdkPath}&quot;"/> <!-- $IPHONE_SIMULATOR_ROOT -->
-            <arg value="&quot;${tmp_home}&quot;"/> <!-- $CFFIXED_USER_HOME -->
+            <arg file="${basedir}/RunIPhoneLaunchDaemons.sh"/>
+            <arg value="${sdkPath}"/> <!-- $IPHONE_SIMULATOR_ROOT -->
+            <arg value="${tmp_home}"/> <!-- $CFFIXED_USER_HOME -->
         </exec>
        
 		<delete dir="${artifacts.dir}/BuildProducts" />
