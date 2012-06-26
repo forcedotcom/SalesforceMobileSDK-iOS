@@ -49,7 +49,7 @@
         </antcall>
 		<antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${dist.file}"/>
-            <param name="basedir" value="${project.dir}/build//Release-universal/Cordova.framework"/>
+            <param name="basedir" value="${project.dir}/build/Release-universal/Cordova.framework"/>
         </antcall>
 		<move todir="${dist.dir}">
 		  <filelist dir="${artifacts.dir}">
