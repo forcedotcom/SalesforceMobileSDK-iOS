@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PGPlugin.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
+#import <Cordova/CDVPlugin.h>
 
 @class SFContainerAppDelegate;
 @class SFIdentityData;
@@ -33,7 +33,7 @@
 /**
  * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : CDVPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;

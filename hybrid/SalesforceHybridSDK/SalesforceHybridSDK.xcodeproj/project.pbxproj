@@ -338,6 +338,8 @@
 		826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
 		826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
 		826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */; };
+		828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 828C07D315A39A47002523B2 /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
@@ -685,6 +687,8 @@
 		826ED6DF1582DAA300321962 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = test/qunit.js; sourceTree = "<group>"; };
 		826ED6E11582DAAB00321962 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = test/qunit.css; sourceTree = "<group>"; };
 		826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		828C07D315A39A47002523B2 /* SFHybridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewController.h; sourceTree = "<group>"; };
+		828C07D415A39A47002523B2 /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -968,6 +972,8 @@
 			children = (
 				7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */,
 				7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */,
+				828C07D315A39A47002523B2 /* SFHybridViewController.h */,
+				828C07D415A39A47002523B2 /* SFHybridViewController.m */,
 			);
 			path = Container;
 			sourceTree = "<group>";
@@ -1488,6 +1494,7 @@
 				8238198A1587FA2F007C0D86 /* x509.h in Headers */,
 				8238198B1587FA2F007C0D86 /* x509_vfy.h in Headers */,
 				8238198C1587FA2F007C0D86 /* x509v3.h in Headers */,
+				828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1949,6 +1956,7 @@
 				821C5E8F1583FBBF00433F92 /* FMDatabasePool.m in Sources */,
 				821C5E911583FBBF00433F92 /* FMDatabaseQueue.m in Sources */,
 				821C5E931583FBBF00433F92 /* FMResultSet.m in Sources */,
+				828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

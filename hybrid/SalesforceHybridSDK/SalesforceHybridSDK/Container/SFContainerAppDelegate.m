@@ -24,7 +24,7 @@
  */
 
 #import "SFContainerAppDelegate.h"
-#import <PhoneGap/PhoneGapViewController.h>
+#import "SFHybridViewController.h"
 #import "SalesforceSDKConstants.h"
 #import "SalesforceOAuthPlugin.h"
 #import "SFAccountManager.h"
@@ -32,6 +32,8 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
+#import <Cordova/CDVURLProtocol.h>
+#import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.3.0";
@@ -52,10 +54,12 @@ static SFLogLevel const kAppLogLevel = Info;
 
 @interface SFContainerAppDelegate ()
 
+- (void)uiSetup:(NSURL *)url;
+
 /**
  * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
  */
-+ (NSString *)startPageUrlString;
+- (NSString *)startPageUrlString;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -63,7 +67,7 @@ static SFLogLevel const kAppLogLevel = Info;
  * @param url The URL to test.
  * @return YES if the value is one of the reserved URLs, NO otherwise.
  */
-+ (BOOL)isReservedUrlValue:(NSURL *)url;
+- (BOOL)isReservedUrlValue:(NSURL *)url;
 
 /**
  * Removes any cookies from the cookie store.  All app cookies are reset with
@@ -80,8 +84,9 @@ static SFLogLevel const kAppLogLevel = Info;
 
 @implementation SFContainerAppDelegate
 
-@synthesize invokeString;
 @synthesize appLogLevel = _appLogLevel;
+@synthesize window = _window;
+@synthesize viewController = _viewController;
 
 #pragma mark - init/dealloc
 
@@ -104,6 +109,9 @@ static SFLogLevel const kAppLogLevel = Info;
         _foundHomeUrl = NO;
         _isAppStartup = YES;
         self.appLogLevel = kAppLogLevel;
+        
+        // Cordova
+        [CDVURLProtocol registerURLProtocol];
     }
     return self;
 }
@@ -111,7 +119,8 @@ static SFLogLevel const kAppLogLevel = Info;
 - (void)dealloc
 {
     SFRelease(_oauthPlugin);
-    SFRelease(invokeString);
+    SFRelease(_viewController);
+    SFRelease(_window);
     
 	[ super dealloc ];
 }
@@ -123,13 +132,9 @@ static SFLogLevel const kAppLogLevel = Info;
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	NSArray *keyArray = [launchOptions allKeys];
-	if ([launchOptions objectForKey:[keyArray objectAtIndex:0]]!=nil) 
-	{
-		NSURL *url = [launchOptions objectForKey:[keyArray objectAtIndex:0]];
-		self.invokeString = [url absoluteString];
-		NSLog(@"app launchOptions = %@",url);
-	}
+    // Cordova
+    NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    [self uiSetup:url];
     
     [SFLogger setLogLevel:self.appLogLevel];
     
@@ -144,16 +149,25 @@ static SFLogLevel const kAppLogLevel = Info;
         [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
     
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES;
 }
 
 // this happens while we are running ( in the background, or from within our own app )
-// only valid if App.plist specifies a protocol to handle
+// only valid if App-Info.plist specifies a protocol to handle
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
 {
-    // must call super so all plugins will get the notification, and their handlers will be called 
-	// super also calls into javascript global function 'handleOpenURL'
-    return [super application:application handleOpenURL:url];
+    if (!url) { 
+        return NO; 
+    }
+    
+	// calls into javascript global function 'handleOpenURL'
+    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
+    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    // all plugins will get the notification, and their handlers will be called 
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+    
+    return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {   
@@ -169,15 +183,14 @@ static SFLogLevel const kAppLogLevel = Info;
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self loadStartPageIntoWebView];
+            [self.viewController loadStartPageIntoWebView];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
             }];
             [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
                 [oauthPlugin autoRefresh];
-                [self getCommandInstance:kSFSmartStorePluginName];
-                [super applicationDidBecomeActive:application];
+                [self.viewController.commandDelegate getCommandInstance:kSFSmartStorePluginName];
             }];
             [SFSecurityLockout validateTimer];
         }
@@ -185,9 +198,6 @@ static SFLogLevel const kAppLogLevel = Info;
         // Actions to take place exclusively when the app starts up.
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
             [self clearAppState:YES];
-        }];
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [super applicationDidBecomeActive:application];
         }];
         [SFSecurityLockout lock];
     }
@@ -207,25 +217,29 @@ static SFLogLevel const kAppLogLevel = Info;
 
 #pragma mark - PhoneGap helpers
 
-/**
- We override startPage to load the bootstrap.html page, which will handle
- the app bootstrapping process from client code.
- */
-+ (NSString *)startPage {
-    return @"bootstrap.html";
-}
-
--(id) getCommandInstance:(NSString*)className
+- (void)uiSetup:(NSURL *)url
 {
-	/** You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
-	 *  own app specific protocol to it. -jm
-	 **/
-	return [super getCommandInstance:className];
-}
-
-- (BOOL) execute:(InvokedUrlCommand*)command
-{
-	return [ super execute:command];
+    NSString *invokeString = nil;
+    if (url && [url isKindOfClass:[NSURL class]]) {
+        invokeString = [url absoluteString];
+        NSLog(@"Hybrid app launch options = %@", url);
+    }
+    
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+    self.window.autoresizesSubviews = YES;
+    
+    CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
+    
+    self.viewController = [[[SFHybridViewController alloc] init] autorelease];
+    self.viewController.useSplashScreen = YES;
+    self.viewController.wwwFolderName = @"www";
+    self.viewController.startPage = @"bootstrap.html";
+    self.viewController.invokeString = invokeString;
+    self.viewController.view.frame = viewBounds;
+    
+    [self.window addSubview:self.viewController.view];
+    [self.window makeKeyAndVisible];
 }
 
 + (BOOL) isIPad {
@@ -236,21 +250,21 @@ static SFLogLevel const kAppLogLevel = Info;
 #endif
 }
 
-+ (NSString *)startPageUrlString
+- (NSString *)startPageUrlString
 {
-    NSString *startPageFilePath = [self pathForResource:[self startPage]];
+    NSString *startPageFilePath = [self.viewController.commandDelegate pathForResource:self.viewController.startPage];
     NSURL *startPageFileUrl = [NSURL fileURLWithPath:startPageFilePath];
     NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
                                                                                        withString:@"file:///"];
     return urlString;
 }
 
-+ (BOOL)isReservedUrlValue:(NSURL *)url
+- (BOOL)isReservedUrlValue:(NSURL *)url
 {
     static NSArray *reservedUrlStrings = nil;
     if (reservedUrlStrings == nil) {
         reservedUrlStrings = [[NSArray arrayWithObjects:
-                              [[self class] startPageUrlString],
+                              [self startPageUrlString],
                               @"/secur/frontdoor.jsp",
                               @"/secur/contentDoor",
                               nil] retain];
@@ -288,7 +302,7 @@ static SFLogLevel const kAppLogLevel = Info;
     // be loaded directly in the event that the app is offline.
     if (_foundHomeUrl == NO) {
         NSLog(@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl);
-        if (![[self class] isReservedUrlValue:requestUrl]) {
+        if (![self isReservedUrlValue:requestUrl]) {
             NSLog(@"Setting %@ as the 'home page' URL for this app.", redactedUrl);
             [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
             _foundHomeUrl = YES;

@@ -24,13 +24,12 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "PhoneGapDelegate.h"
-
 
 #import "SFOAuthCoordinator.h"
 #import "SFLogger.h"
 
 @class SalesforceOAuthPlugin;
+@class SFHybridViewController;
 
 /**
  
@@ -69,23 +68,15 @@ extern NSString * const kSFOAuthPluginName;
  */
 extern NSString * const kSFSmartStorePluginName;
 
-@interface SFContainerAppDelegate : PhoneGapDelegate {
-    
-	NSString* invokeString;
+@interface SFContainerAppDelegate : NSObject {
     SalesforceOAuthPlugin *_oauthPlugin;
     BOOL _foundHomeUrl;
     BOOL _isAppStartup;
 }
 
 
-/**
- invoke string is passed to your app on launch, this is only valid if you 
- edit App.plist to add a protocol
- a simple tutorial can be found here : 
- http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-*/
-@property (nonatomic, copy)  NSString *invokeString;
-
+@property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) SFHybridViewController *viewController;
 /**
  The User-Agent string presented by this application
  */

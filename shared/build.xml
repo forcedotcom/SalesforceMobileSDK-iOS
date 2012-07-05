@@ -253,6 +253,35 @@
 		<delete dir="${dependency.dir}/PhoneGap.framework" />
     </target>
     
+    <!-- dependency: Cordova -->
+    <property name="subproject.cordova.dir" value="${iOSShared.basedir}/../external/incubator-cordova-ios"/>
+    <target name="dependency.cordova.check">
+        <condition property="dependency.cordova.present">
+            <available file="${dependency.dir}/Cordova.framework" type="dir"/>
+        </condition>
+    </target>
+    
+    <target name="dependency.cordova" depends="dependency.cordova.check" unless="dependency.cordova.present">
+        <property name="dependency.cordova.zip" 
+        value="${iOSShared.distdir}/Cordova/Cordova-Release.zip"/>
+        
+        <available file="${dependency.cordova.zip}" property="dependency.cordova.zip.present"/>
+        <antcall target="dependency.cordova.compile"/>
+        
+        <exec executable="unzip" failonerror="false" logError="true">
+            <arg line="-d &quot;${dependency.dir}&quot; &quot;${dependency.cordova.zip}&quot;"/>
+        </exec>
+    </target>
+    
+    <target name="dependency.cordova.compile" unless="dependency.cordova.zip.present">
+        <ant dir="${subproject.cordova.dir}/sfdc_build" inheritAll="false"/>
+    </target>
+    
+    <target name="dependency.cordova.clean">
+        <ant dir="${subproject.cordova.dir}/sfdc_build" target="clean" inheritAll="false"/>
+		<delete dir="${dependency.dir}/Cordova.framework" />
+    </target>
+    
     <!-- dependency: openssl -->
     <property name="subproject.openssl.dir" value="${iOSShared.basedir}/../external/openssl-xcode"/>
     <target name="dependency.openssl.check">
