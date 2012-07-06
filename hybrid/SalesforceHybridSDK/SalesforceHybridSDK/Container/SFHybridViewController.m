@@ -24,7 +24,109 @@
  */
 
 #import "SFHybridViewController.h"
+#import "NSURL+SFStringUtils.h"
+#import "SFContainerAppDelegate.h"
+
+@interface SFHybridViewController()
+{
+    BOOL _foundHomeUrl;
+}
+
+/**
+ * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
+ * in determining the app's ultimate home page.
+ * @param url The URL to test.
+ * @return YES if the value is one of the reserved URLs, NO otherwise.
+ */
+- (BOOL)isReservedUrlValue:(NSURL *)url;
+
+/**
+ * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
+ */
+- (NSString *)startPageUrlString;
+
+@end
 
 @implementation SFHybridViewController
+
+#pragma mark - Init / dealloc / etc.
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _foundHomeUrl = NO;
+    }
+    
+    return self;
+}
+
+#pragma mark - UIWebViewDelegate
+
+- (void)webViewDidFinishLoad:(UIWebView *)theWebView 
+{
+    NSURL *requestUrl = theWebView.request.URL;
+    NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
+    NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
+    NSLog(@"webViewDidFinishLoad: Loaded %@", redactedUrl);
+    
+    // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
+    // this app's infrastructure is responsible for) will be considered the "app home URL", which can
+    // be loaded directly in the event that the app is offline.
+    if (_foundHomeUrl == NO) {
+        NSLog(@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl);
+        if (![self isReservedUrlValue:requestUrl]) {
+            NSLog(@"Setting %@ as the 'home page' URL for this app.", redactedUrl);
+            [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
+            _foundHomeUrl = YES;
+        }
+    }
+    
+	// only valid if App.plist specifies a protocol to handle
+	if(self.invokeString)
+	{
+		// this is passed before the deviceready event is fired, so you can access it in js when you receive deviceready
+		NSString* jsString = [NSString stringWithFormat:@"var invokeString = \"%@\";", self.invokeString];
+		[theWebView stringByEvaluatingJavaScriptFromString:jsString];
+	}
+    
+    return [ super webViewDidFinishLoad:theWebView ];
+}
+
+#pragma mark - Home page helpers
+
+- (BOOL)isReservedUrlValue:(NSURL *)url
+{
+    static NSArray *reservedUrlStrings = nil;
+    if (reservedUrlStrings == nil) {
+        reservedUrlStrings = [[NSArray arrayWithObjects:
+                               [self startPageUrlString],
+                               @"/secur/frontdoor.jsp",
+                               @"/secur/contentDoor",
+                               nil] retain];
+    }
+    
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
+        return NO;
+    
+    NSString *inputUrlString = [url absoluteString];
+    for (int i = 0; i < [reservedUrlStrings count]; i++) {
+        NSString *reservedString = [reservedUrlStrings objectAtIndex:i];
+        NSRange range = [[inputUrlString lowercaseString] rangeOfString:[reservedString lowercaseString]];
+        if (range.location != NSNotFound)
+            return YES;
+    }
+    
+    return NO;
+}
+
+- (NSString *)startPageUrlString
+{
+    NSString *startPageFilePath = [self.commandDelegate pathForResource:self.startPage];
+    NSURL *startPageFileUrl = [NSURL fileURLWithPath:startPageFilePath];
+    NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
+                                                                                       withString:@"file:///"];
+    return urlString;
+}
 
 @end

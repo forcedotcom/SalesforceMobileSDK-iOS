@@ -70,7 +70,6 @@ extern NSString * const kSFSmartStorePluginName;
 
 @interface SFContainerAppDelegate : NSObject {
     SalesforceOAuthPlugin *_oauthPlugin;
-    BOOL _foundHomeUrl;
     BOOL _isAppStartup;
 }
 

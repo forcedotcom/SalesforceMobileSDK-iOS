@@ -25,8 +25,7 @@
 
 #import <Foundation/Foundation.h>
 
-// From PhoneGap.framework
-#import "PGPlugin.h"
+#import <Cordova/CDVPlugin.h>
 
 
 /**
@@ -38,7 +37,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 @class SFSoupCursor;
 @class SFSmartStore;
 
-@interface SFSmartStorePlugin : PGPlugin {
+@interface SFSmartStorePlugin : CDVPlugin {
     //a convenient ref to the shared app delegate
     SFContainerAppDelegate *_appDelegate;
 
