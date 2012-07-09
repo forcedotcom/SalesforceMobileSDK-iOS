@@ -34,7 +34,7 @@
 #import "SFSmartStore.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.2.3";
+NSString * const kSFMobileSDKVersion = @"1.3.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
