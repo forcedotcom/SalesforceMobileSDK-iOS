@@ -42,8 +42,9 @@ NSString * const kLoginHost = @"login_host_pref";
 // Key for the login host as defined in the app settings.
 NSString * const kAppSettingsLoginHost = @"primary_login_host_pref";
 
-// Value to use for login host if user never opens the app settings.
-NSString * const kDefaultLoginHost = @"login.salesforce.com";
+// Points to the key to use in the main bundle for the login host, if the user
+// never opens the app settings.
+NSString * const kDefaultLoginHost = @"SFDCOAuthLoginHost";
 
 // Value for kAppSettingsLoginHost when a custom host is chosen.
 NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
@@ -358,11 +359,16 @@ static NSMutableDictionary *AccountManagerDict;
     [defs synchronize];
     NSString *appSettingsLoginHost = [defs objectForKey:kAppSettingsLoginHost];
     
+    NSString *defaultLoginHostFromBundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:kDefaultLoginHost];
+    if (nil == defaultLoginHostFromBundle || [defaultLoginHostFromBundle length] == 0) {
+        defaultLoginHostFromBundle = @"login.salesforce.com";
+    }
+    
     // If the app settings host value is nil/empty, it's never been set.  Initialize it to default and return it.
     if (nil == appSettingsLoginHost || [appSettingsLoginHost length] == 0) {
-        [defs setValue:kDefaultLoginHost forKey:kAppSettingsLoginHost];
+        [defs setValue:defaultLoginHostFromBundle forKey:kAppSettingsLoginHost];
         [defs synchronize];
-        return kDefaultLoginHost;
+        return defaultLoginHostFromBundle;
     }
     
     // If a custom login host value was chosen and configured, return it.  If a custom value is
@@ -384,9 +390,9 @@ static NSMutableDictionary *AccountManagerDict;
                 return prevUserDefinedLoginHost;
             } else {
                 // No previously user-defined value either.  Use the default.
-                [defs setValue:kDefaultLoginHost forKey:kAppSettingsLoginHost];
+                [defs setValue:defaultLoginHostFromBundle forKey:kAppSettingsLoginHost];
                 [defs synchronize];
-                return kDefaultLoginHost;
+                return defaultLoginHostFromBundle;
             }
         }
     }
