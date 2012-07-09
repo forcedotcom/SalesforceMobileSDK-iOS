@@ -41,7 +41,6 @@
 		7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7D20FBF414ED7DBD00A86731 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7D20FC1314ED815500A86731 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
 		7D20FC1714ED815500A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
 		7D20FC2A14ED83A700A86731 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D20FC2914ED83A700A86731 /* SmartStoreLoadTestSuite.m */; };
@@ -87,7 +86,6 @@
 		7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */; };
 		7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */; };
 		7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */; };
 		7DBB14E614C0F61D00CCDBE0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB14E514C0F61D00CCDBE0 /* CFNetwork.framework */; };
@@ -123,7 +121,6 @@
 		7DBD169514D85CC900A17E6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
 		7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
-		7DBD16A114D85D3100A17E6A /* phonegap-1.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */; };
 		7DBD16AD14D85E5600A17E6A /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
 		7DBD16AF14D85E6000A17E6A /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
 		7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
@@ -165,6 +162,9 @@
 		821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
 		821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
 		821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
+		82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
+		82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
 		822AC0931577D995007C20B9 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0881577D995007C20B9 /* NSData+SFAdditions.h */; };
 		822AC0941577D995007C20B9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0891577D995007C20B9 /* NSData+SFAdditions.m */; };
 		822AC0951577D995007C20B9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */; };
@@ -399,7 +399,7 @@
 				826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
 				7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */,
 				7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */,
-				7D20FBF414ED7DBD00A86731 /* phonegap-1.2.0.js in Copy shared-www files */,
+				82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,7 +421,7 @@
 				826ED6E51582DB3800321962 /* SFHybridApp.css in Copy shared-www files */,
 				7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
-				7DBB14DA14C0F49800CCDBE0 /* phonegap-1.2.0.js in Copy shared-www files */,
+				82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,7 +443,7 @@
 				826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */,
 				7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */,
-				7DBD16A114D85D3100A17E6A /* phonegap-1.2.0.js in Copy shared-www files */,
+				82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -518,7 +518,6 @@
 		7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bootstrap.html; sourceTree = "<group>"; };
-		7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "phonegap-1.2.0.js"; path = "../../../hybrid/dependencies/PhoneGap.framework/www/phonegap-1.2.0.js"; sourceTree = "<group>"; };
 		7DBB14E014C0F58400CCDBE0 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		7DBB14E114C0F58400CCDBE0 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		7DBB14E514C0F61D00CCDBE0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -562,6 +561,7 @@
 		821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.m; sourceTree = "<group>"; };
 		821C5E881583FBBF00433F92 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../external/fmdb/fmdb/src/FMResultSet.h; sourceTree = "<group>"; };
 		821C5E891583FBBF00433F92 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../external/fmdb/fmdb/src/FMResultSet.m; sourceTree = "<group>"; };
+		82229AA015A66917006D8266 /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../../hybrid/dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
 		822AC0881577D995007C20B9 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
 		822AC0891577D995007C20B9 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SFAdditions.m"; sourceTree = "<group>"; };
 		822AC08A1577D995007C20B9 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
@@ -1120,7 +1120,7 @@
 				826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
 				7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */,
-				7DBB14CF14C0F36F00CCDBE0 /* phonegap-1.2.0.js */,
+				82229AA015A66917006D8266 /* cordova-1.8.1.js */,
 			);
 			name = "shared-www";
 			path = ../../../external/shared/PhoneGap;
