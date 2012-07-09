@@ -21,7 +21,18 @@ If you have problems building any of the projects, take a look at the online [FA
 
 Introduction
 ==
-__What’s New in 1.1__ 
+
+__What's New in 1.2__
+
+**Connected Apps Pilot**
+* Apps implemented with the Mobile SDK will now respect Connected Apps policies.  Rules defined by administrators for PIN code protection and session timeout intervals will now be enforced by native and hybrid app implementations. (This feature requires the Connected Apps Pilot be turned on.)
+
+**SmartStore Enhancements**
+* Upsert records based on external id. SmartStore can now determine record uniqueness and perform the proper updates based on an id defined by the developer. This design is reflects the Salesforce REST API, making it easier to implement data synchronization.
+* Mock SmartStore Implementation. Developers can build and test SmartStore apps directly in the desktop browser.
+* Option to self-encrypt the SmartStore databases, which can be securely backed-up.
+
+__Version 1.1__ 
 
 **Secure Offline API** 
 Store sensitive business data directly on a device with enterprise-class encryption for offline access. The Salesforce SDK provides a robust API for storing, retrieving, and querying  data without internet connectivity. 
@@ -138,8 +149,9 @@ The sample application project should now build and run cleanly.
 Documentation
 ==
 
-* [SalesforceSDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
-* [SalesforceOAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
+* [Salesforce Native SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
+* [Salesforce OAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
+* [Salesforce Hybrid SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/HybridContainer/index.html)
 
 
 Discussion
