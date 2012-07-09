@@ -172,7 +172,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
     _totalLength += _dataOutMoved;
     
     if (self.status != kCCSuccess) {
-        [self log:Error format:@"Failed in cipher finalization with error:%d", self.status];
+        [self log:SFLogLevelError format:@"Failed in cipher finalization with error:%d", self.status];
         CCCryptorRelease(_cryptor);
         free(_dataOut);
         return NO;

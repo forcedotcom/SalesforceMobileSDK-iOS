@@ -42,9 +42,9 @@ static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
 #if defined(DEBUG)
-static SFLogLevel const kAppLogLevel = Debug;
+static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 #else
-static SFLogLevel const kAppLogLevel = Info;
+static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFNativeRestAppDelegate () {

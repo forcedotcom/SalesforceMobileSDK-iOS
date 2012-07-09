@@ -5,34 +5,22 @@ artifacts
 
 /external/sqlcipher/dependencies/
 
-/native/SalesforceSDK/SalesforceSDKTests/token.json
+/hybrid/SampleApps/ContactExplorer/build/
+/native/SalesforceSDK/build/
+/native/SalesforceOAuth/build/
+/hybrid/SampleApps/VFConnector/build/
+/hybrid/Hybrid Force.com App.xctemplate/
+/native/Native Force.com REST App.xctemplate/
+/native/SampleApps/RestAPIExplorer/build/
+/native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
 
-hybrid/SampleApps/ContactExplorer/build/
-native/SalesforceSDK/build/
-native/SalesforceOAuth/build/
-native/Force.com-based Application.xctemplate/
-native/SalesforceSDK/dependencies/RestKit/
-native/SalesforceSDK/dependencies/SBJson/
-native/SalesforceSDK/dependencies/
-hybrid/SampleApps/ContactExplorer/dependencies/
-hybrid/SampleApps/VFConnector/dependencies/
-native/SampleApps/RestAPIExplorer/dependencies/
-hybrid/SampleApps/VFConnector/build/
-hybrid/Hybrid Salesforce App.xctemplate/
-native/Native Salesforce REST App.xctemplate/
-hybrid/Hybrid Force.com App.xctemplate/
-native/Native Force.com REST App.xctemplate/
-native/SampleApps/RestAPIExplorer/build/
-native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
-hybrid/SampleApps/VFConnector/VFConnector/dependencies/
-hybrid/SampleApps/ContactExplorer/ContactExplorer/dependencies/
-
-hybrid/dependencies/PhoneGap.framework/
-hybrid/dependencies/SalesforceOAuth/
-hybrid/dependencies/SBJson/
-native/dependencies/RestKit/
-native/dependencies/SalesforceOAuth/
-native/dependencies/SalesforceSDK/
-native/dependencies/SBJson/
-hybrid/SalesforceHybridSDK/build/
-hybrid/dependencies/
+/hybrid/dependencies/PhoneGap.framework/
+/hybrid/dependencies/SalesforceHybridSDK/
+/hybrid/dependencies/SalesforceOAuth/
+/hybrid/dependencies/openssl/
+/hybrid/dependencies/sqlcipher/
+/native/dependencies/RestKit/
+/native/dependencies/SalesforceOAuth/
+/native/dependencies/SalesforceSDK/
+/native/dependencies/SalesforceCommonUtils/
+/hybrid/SalesforceHybridSDK/build/
