@@ -40,6 +40,8 @@
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
 		820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820A792A15644EFE0060067C /* SFNativeRootViewController.xib */; };
+		8242E0C315AB80D600E9E6AF /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C215AB80D600E9E6AF /* libSalesforceCommonUtils.a */; };
+		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8271F49F1562BB1C00C261CF /* libz.dylib */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +185,31 @@
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
+		8242E0AA15AB80D600E9E6AF /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		8242E0AB15AB80D600E9E6AF /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
+		8242E0AC15AB80D600E9E6AF /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
+		8242E0AD15AB80D600E9E6AF /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
+		8242E0AE15AB80D600E9E6AF /* NSString+SFPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFPathAdditions.h"; sourceTree = "<group>"; };
+		8242E0AF15AB80D600E9E6AF /* SFCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCoverView.h; sourceTree = "<group>"; };
+		8242E0B015AB80D600E9E6AF /* SFDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDateUtil.h; sourceTree = "<group>"; };
+		8242E0B115AB80D600E9E6AF /* SFDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDeviceInfo.h; sourceTree = "<group>"; };
+		8242E0B215AB80D600E9E6AF /* SFEncryptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionManager.h; sourceTree = "<group>"; };
+		8242E0B315AB80D600E9E6AF /* SFGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFGradientView.h; sourceTree = "<group>"; };
+		8242E0B415AB80D600E9E6AF /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		8242E0B515AB80D600E9E6AF /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		8242E0B615AB80D600E9E6AF /* SFMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMD5.h; sourceTree = "<group>"; };
+		8242E0B715AB80D600E9E6AF /* SFPadPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPadPickListViewController.h; sourceTree = "<group>"; };
+		8242E0B815AB80D600E9E6AF /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
+		8242E0B915AB80D600E9E6AF /* SFPhonePickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPhonePickListViewController.h; sourceTree = "<group>"; };
+		8242E0BA15AB80D600E9E6AF /* SFPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPickListViewController.h; sourceTree = "<group>"; };
+		8242E0BB15AB80D600E9E6AF /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
+		8242E0BC15AB80D600E9E6AF /* UIActionSheet+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+SFBlocks.h"; sourceTree = "<group>"; };
+		8242E0BD15AB80D600E9E6AF /* UIAlertView+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+SFBlocks.h"; sourceTree = "<group>"; };
+		8242E0BE15AB80D600E9E6AF /* UIBarButtonItem+SFAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+SFAddtions.h"; sourceTree = "<group>"; };
+		8242E0BF15AB80D600E9E6AF /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
+		8242E0C015AB80D600E9E6AF /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
+		8242E0C215AB80D600E9E6AF /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8271F48A1562B62500C261CF /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
 		8271F48B1562B62500C261CF /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
 		8271F48C1562B62500C261CF /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
@@ -203,6 +230,7 @@
 				8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */,
 				7D4FEBDA150EC2AF00842979 /* libsqlite3.0.dylib in Frameworks */,
 				7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */,
+				8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */,
 				7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */,
 				7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */,
 				7DF4D2E51472E238005CE144 /* UIKit.framework in Frameworks */,
@@ -214,6 +242,7 @@
 				7D0F1F4C14DB4FCF00E20F3D /* libRestKit.a in Frameworks */,
 				7D32F3621506991800AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 				7D4FEBD6150EC1D300842979 /* libSalesforceSDK.a in Frameworks */,
+				8242E0C315AB80D600E9E6AF /* libSalesforceCommonUtils.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +445,7 @@
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
+				8242E0C915AB823400E9E6AF /* QuartzCore.framework */,
 				7DF4D2EE1472E238005CE144 /* RestAPIExplorer */,
 				7DF4D2DD1472E238005CE144 /* Frameworks */,
 				7DF4D2DB1472E238005CE144 /* Products */,
@@ -476,6 +506,7 @@
 			children = (
 				7D4FEBD9150EC2AF00842979 /* libsqlite3.0.dylib */,
 				8271F49F1562BB1C00C261CF /* libz.dylib */,
+				8242E0A815AB80D600E9E6AF /* SalesforceCommonUtils */,
 				7D4FEBC5150EC1D300842979 /* SalesforceSDK */,
 				7D32F35B1506991800AD2D64 /* SalesforceOAuth */,
 				7D0F1EF214DB4FCE00E20F3D /* RestKit */,
@@ -536,6 +567,54 @@
 				820A792A15644EFE0060067C /* SFNativeRootViewController.xib */,
 			);
 			name = NativeRestApp;
+			sourceTree = "<group>";
+		};
+		8242E0A815AB80D600E9E6AF /* SalesforceCommonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				8242E0A915AB80D600E9E6AF /* Headers */,
+				8242E0C115AB80D600E9E6AF /* Libraries */,
+			);
+			name = SalesforceCommonUtils;
+			path = ../../../dependencies/SalesforceCommonUtils;
+			sourceTree = "<group>";
+		};
+		8242E0A915AB80D600E9E6AF /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8242E0AA15AB80D600E9E6AF /* NSData+SFAdditions.h */,
+				8242E0AB15AB80D600E9E6AF /* NSDictionary+SFAdditions.h */,
+				8242E0AC15AB80D600E9E6AF /* NSObject+SFBlocks.h */,
+				8242E0AD15AB80D600E9E6AF /* NSString+SFAdditions.h */,
+				8242E0AE15AB80D600E9E6AF /* NSString+SFPathAdditions.h */,
+				8242E0AF15AB80D600E9E6AF /* SFCoverView.h */,
+				8242E0B015AB80D600E9E6AF /* SFDateUtil.h */,
+				8242E0B115AB80D600E9E6AF /* SFDeviceInfo.h */,
+				8242E0B215AB80D600E9E6AF /* SFEncryptionManager.h */,
+				8242E0B315AB80D600E9E6AF /* SFGradientView.h */,
+				8242E0B415AB80D600E9E6AF /* SFKeychainItemWrapper.h */,
+				8242E0B515AB80D600E9E6AF /* SFLogger.h */,
+				8242E0B615AB80D600E9E6AF /* SFMD5.h */,
+				8242E0B715AB80D600E9E6AF /* SFPadPickListViewController.h */,
+				8242E0B815AB80D600E9E6AF /* SFPathUtil.h */,
+				8242E0B915AB80D600E9E6AF /* SFPhonePickListViewController.h */,
+				8242E0BA15AB80D600E9E6AF /* SFPickListViewController.h */,
+				8242E0BB15AB80D600E9E6AF /* SFTestContext.h */,
+				8242E0BC15AB80D600E9E6AF /* UIActionSheet+SFBlocks.h */,
+				8242E0BD15AB80D600E9E6AF /* UIAlertView+SFBlocks.h */,
+				8242E0BE15AB80D600E9E6AF /* UIBarButtonItem+SFAddtions.h */,
+				8242E0BF15AB80D600E9E6AF /* UIDevice+SFHardware.h */,
+				8242E0C015AB80D600E9E6AF /* UILabel+SFAdditions.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		8242E0C115AB80D600E9E6AF /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				8242E0C215AB80D600E9E6AF /* libSalesforceCommonUtils.a */,
+			);
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -728,6 +807,7 @@
 					"\"$(SDKROOT)//usr/lib\"",
 					"\"$(SRCROOT)/../../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../../dependencies/SalesforceSDK\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -748,6 +828,7 @@
 					"\"$(SDKROOT)//usr/lib\"",
 					"\"$(SRCROOT)/../../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../../dependencies/SalesforceSDK\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
