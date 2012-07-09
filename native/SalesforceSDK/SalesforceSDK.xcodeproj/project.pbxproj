@@ -126,8 +126,6 @@
 		7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
 		8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */; };
 		8200B1031561A38B006BAD3B /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
-		8200B11A1561EC66006BAD3B /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 8200B1181561EC66006BAD3B /* SFCrypto.h */; };
-		8200B11B1561EC66006BAD3B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1191561EC66006BAD3B /* SFCrypto.m */; };
 		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8207C832155C4F000076916C /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C830155C4F000076916C /* SFApplication.m */; };
 		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; settings = {ATTRIBUTES = (); }; };
@@ -357,8 +355,6 @@
 		7DFF1402143B9D1D0063EF87 /* LogicTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LogicTests-Prefix.pch"; sourceTree = "<group>"; };
 		8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeViewController.h; path = ../../../shared/Classes/Security/SFPasscodeViewController.h; sourceTree = "<group>"; };
 		8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeViewController.m; path = ../../../shared/Classes/Security/SFPasscodeViewController.m; sourceTree = "<group>"; };
-		8200B1181561EC66006BAD3B /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCrypto.h; path = ../../../shared/Classes/Common/SFCrypto.h; sourceTree = "<group>"; };
-		8200B1191561EC66006BAD3B /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCrypto.m; path = ../../../shared/Classes/Common/SFCrypto.m; sourceTree = "<group>"; };
 		8207C82F155C4F000076916C /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFApplication.h; path = ../../../shared/Classes/Common/SFApplication.h; sourceTree = "<group>"; };
 		8207C830155C4F000076916C /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFApplication.m; path = ../../../shared/Classes/Common/SFApplication.m; sourceTree = "<group>"; };
 		8207C83D155DB57A0076916C /* SFSecurityLockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSecurityLockout.h; path = ../../../shared/Classes/Security/SFSecurityLockout.h; sourceTree = "<group>"; };
@@ -745,8 +741,6 @@
 				8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */,
 				8207C82F155C4F000076916C /* SFApplication.h */,
 				8207C830155C4F000076916C /* SFApplication.m */,
-				8200B1181561EC66006BAD3B /* SFCrypto.h */,
-				8200B1191561EC66006BAD3B /* SFCrypto.m */,
 				82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */,
 				82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */,
 				82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */,
@@ -1074,7 +1068,6 @@
 				82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */,
 				82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */,
 				8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */,
-				8200B11A1561EC66006BAD3B /* SFCrypto.h in Headers */,
 				829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */,
 				8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */,
 				829B80F615670CF40050465E /* SFNativeRestAppDelegate.h in Headers */,
@@ -1244,7 +1237,6 @@
 				82FF1AD1155D8053007ADAF2 /* SFInactivityTimerCenter.m in Sources */,
 				8207C840155DB57A0076916C /* SFSecurityLockout.m in Sources */,
 				8200B1031561A38B006BAD3B /* SFPasscodeViewController.m in Sources */,
-				8200B11B1561EC66006BAD3B /* SFCrypto.m in Sources */,
 				829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */,
 				829EF7E015629D33002F376C /* SFIdentityData.m in Sources */,
 				829B80F715670CF40050465E /* SFNativeRestAppDelegate.m in Sources */,
