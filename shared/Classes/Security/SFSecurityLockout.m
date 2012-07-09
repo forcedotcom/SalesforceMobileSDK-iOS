@@ -113,7 +113,7 @@ static BOOL _showPasscode = YES;
 {
     if ([SFSecurityLockout isPasscodeValid]) {
         if([SFSecurityLockout inactivityExpired] || [SFSecurityLockout locked]) {
-            [self log:Info msg:@"Timer expired."];
+            [self log:SFLogLevelInfo msg:@"Timer expired."];
             [SFSecurityLockout lock];
         } 
         else {
@@ -146,7 +146,7 @@ static BOOL _showPasscode = YES;
 + (void)setLockoutTime:(NSUInteger)seconds {
 	securityLockoutTime = seconds;
     
-    [self log:Info format:@"Setting lockout time to: %d", seconds]; 
+    [self log:SFLogLevelInfo format:@"Setting lockout time to: %d", seconds]; 
     
 	NSNumber *n = [NSNumber numberWithInt:securityLockoutTime];
 	[[NSUserDefaults standardUserDefaults] setObject:n forKey:kSecurityTimeoutKey];
@@ -229,7 +229,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 + (void)timerExpired:(NSTimer*)theTimer {
-    [self log:Info msg:@"Inactivity NSTimer expired."];
+    [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
         if ([appDelegate respondsToSelector:@selector(logout)]) {
@@ -242,12 +242,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)lock
 {
 	if(![SFSecurityLockout hasValidSession]) {
-		[self log:Info msg:@"Skipping 'lock' since not authenticated"];
+		[self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
 		return;
 	}
     
     if (![[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
-        [self log:Info msg:@"Skipping 'lock' since pin policies are not configured."];
+        [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
         return;
     }
     
@@ -256,7 +256,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 	} else {
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
     }
-    [self log:Info msg:@"Device locked."];
+    [self log:SFLogLevelInfo msg:@"Device locked."];
 }
 
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue {
@@ -274,7 +274,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [self setIsLocked:YES];
     if (_showPasscode) {
-        [self log:Info msg:@"Setting window to key window."];
+        [self log:SFLogLevelInfo msg:@"Setting window to key window."];
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
         if (modeValue == SFPasscodeControllerModeCreate ) {
@@ -358,7 +358,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (BOOL)passcodeScreenIsPresent
 {
     if ([SFSecurityLockout passcodeViewController] != nil) {
-        [self log:Info msg:kPasscodeScreenAlreadyPresentMessage];
+        [self log:SFLogLevelInfo msg:kPasscodeScreenAlreadyPresentMessage];
         return YES;
     } else {
         return NO;
@@ -395,7 +395,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 + (void)resetPasscode {
-    [self log:Info msg:@"Resetting passcode upon logout."];
+    [self log:SFLogLevelInfo msg:@"Resetting passcode upon logout."];
     SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
     [passcodeWrapper resetKeychainItem];
     [passcodeWrapper release];
@@ -412,7 +412,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 		return;
 	}
 	if(securityLockoutTime == 0) {
-		[self log:Info msg:@"skipping passcode set since lockout timer is 0"];
+		[self log:SFLogLevelInfo msg:@"skipping passcode set since lockout timer is 0"];
 		return;
 	}
     SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
