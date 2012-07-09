@@ -25,7 +25,7 @@
 
 #import "SFSmartStorePlugin.h"
 
-#import "NSDictionary+NullHandling.h"
+#import "NSDictionary+SFAdditions.h"
 
 #import "SFContainerAppDelegate.h"
 #import "SFSoupCursor.h"

@@ -224,6 +224,24 @@
         <delete dir="${dependency.dir}/RestKit"/>
     </target>
     
+    <!-- dependency: SalesforceCommonUtils -->
+    <target name="dependency.salesforcecommonutils.check">
+        <condition property="dependency.salesforcecommonutils.present">
+            <available file="${dependency.dir}/SalesforceCommonUtils" type="dir"/>
+        </condition>
+    </target>
+    
+    <target name="dependency.salesforcecommonutils" depends="dependency.salesforcecommonutils.check" unless="dependency.salesforcecommonutils.present">
+        <property name="dependency.salesforcecommonutils.zip" value="${iOSShared.distdir}/SalesforceCommonUtils/SalesforceCommonUtils.zip"/>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg line="-d &quot;${dependency.dir}/SalesforceCommonUtils&quot; &quot;${dependency.salesforcecommonutils.zip}&quot;"/>
+        </exec>
+    </target>
+    
+    <target name="dependency.salesforcecommonutils.clean">
+        <delete dir="${dependency.dir}/SalesforceCommonUtils"/>
+    </target>
+    
     <!-- dependency: callback-ios -->
     <property name="subproject.callback-ios.dir" value="${iOSShared.basedir}/../external/callback-ios"/>
     <target name="dependency.callback-ios.check">
