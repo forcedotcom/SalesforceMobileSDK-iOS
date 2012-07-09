@@ -32,7 +32,7 @@
 
 // Private constants
 
-static NSUInteger const kDefaultLockoutTime                  = 600;
+static NSUInteger const kDefaultLockoutTime                  = 0;
 static NSUInteger const kDefaultPasscodeLength               = 5;
 static NSString * const kSecurityTimeoutKey                  = @"security.timeout";
 static NSString * const kTimerSecurity                       = @"security.timer";

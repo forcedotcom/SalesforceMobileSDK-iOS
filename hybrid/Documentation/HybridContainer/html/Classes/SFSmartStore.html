@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFSmartStore Class Reference</title>
-		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<meta name="viewport" content="width=550" />
-		<link rel="stylesheet" type="text/css" href="../css/styles.css" />
-		<meta name="generator" content="appledoc 2.0.4 (build 703)" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
 	</head>
 	<body>
 		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceMobileSDK-Hybrid </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
 			<div id="title" role="banner">
 				<h1 class="hideInXcode">SFSmartStore Class Reference</h1>
 			</div>
@@ -68,9 +74,19 @@
 	
 	<option value="//api/name/registerSoup:withIndexSpecs:">&nbsp;&nbsp;&nbsp;&nbsp;- registerSoup:withIndexSpecs:</option>
 	
+	<option value="//api/name/removeAllSoups">&nbsp;&nbsp;&nbsp;&nbsp;- removeAllSoups</option>
+	
+	<option value="//api/name/removeEntries:fromSoup:">&nbsp;&nbsp;&nbsp;&nbsp;- removeEntries:fromSoup:</option>
+	
 	<option value="//api/name/removeSoup:">&nbsp;&nbsp;&nbsp;&nbsp;- removeSoup:</option>
 	
+	<option value="//api/name/retrieveEntries:fromSoup:">&nbsp;&nbsp;&nbsp;&nbsp;- retrieveEntries:fromSoup:</option>
+	
 	<option value="//api/name/soupExists:">&nbsp;&nbsp;&nbsp;&nbsp;- soupExists:</option>
+	
+	<option value="//api/name/upsertEntries:toSoup:">&nbsp;&nbsp;&nbsp;&nbsp;- upsertEntries:toSoup:</option>
+	
+	<option value="//api/name/upsertEntries:toSoup:withExternalIdPath:error:">&nbsp;&nbsp;&nbsp;&nbsp;- upsertEntries:toSoup:withExternalIdPath:error:</option>
 	
 	
 	
@@ -132,9 +148,19 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/registerSoup:withIndexSpecs:">registerSoup:withIndexSpecs:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeAllSoups">removeAllSoups</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeEntries:fromSoup:">removeEntries:fromSoup:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeSoup:">removeSoup:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/retrieveEntries:fromSoup:">retrieveEntries:fromSoup:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/soupExists:">soupExists:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/upsertEntries:toSoup:">upsertEntries:toSoup:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/upsertEntries:toSoup:withExternalIdPath:error:">upsertEntries:toSoup:withExternalIdPath:error:</a></span></li>
 	
 </ul></li>
 
@@ -173,8 +199,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>The default store name used by the SFSmartStorePlugin: native code may choose
-to use separate stores.</p>
+						<p>The NSError domain for SmartStore errors.</p>
 					</div>
 					
 					
@@ -278,8 +303,46 @@ Either creates a new soup or returns an existing soup.</p></span>
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/retrieveEntries:fromSoup:">&ndash;&nbsp;retrieveEntries:fromSoup:</a></code>
+		<span class="tooltip"><p>Search soup for entries exactly matching the soup entry IDs</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/upsertEntries:toSoup:">&ndash;&nbsp;upsertEntries:toSoup:</a></code>
+		<span class="tooltip"><p>Insert/update entries to the soup.  Insert vs. update will be determined by the internal
+soup entry ID generated from intial entry.  If you want to specify a different identifier
+for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/upsertEntries:toSoup:withExternalIdPath:error:">&ndash;&nbsp;upsertEntries:toSoup:withExternalIdPath:error:</a></code>
+		<span class="tooltip"><p>Insert/update entries to the soup.  Insert vs. update will be determined by the specified
+external ID path argument.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeEntries:fromSoup:">&ndash;&nbsp;removeEntries:fromSoup:</a></code>
+		<span class="tooltip"><p>Remove soup entries exactly matching the soup entry IDs</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/removeSoup:">&ndash;&nbsp;removeSoup:</a></code>
 		<span class="tooltip"><p>Remove soup completely from the store.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeAllSoups">&ndash;&nbsp;removeAllSoups</a></code>
+		<span class="tooltip"><p>Remove all soups from the store.</p></span>
 	</span>
 	
 	
@@ -315,8 +378,12 @@ Note that on the simulator currently, data protection is NEVER active.</p></span
 		<p>The db access object for this store.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) FMDatabase *storeDb</code></div>
+
+    
+	
 	
 	
 	
@@ -352,8 +419,12 @@ Note that on the simulator currently, data protection is NEVER active.</p></span
 		<p>The name of this store.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *storeName</code></div>
+
+    
+	
 	
 	
 	
@@ -397,9 +468,11 @@ Note that on the simulator currently, data protection is NEVER active.</p></span
 		<p>The name of the store (excluding paths)</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (BOOL)persistentStoreExists:(NSString *)<em>storeName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -417,6 +490,8 @@ Note that on the simulator currently, data protection is NEVER active.</p></span
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>Does this store already exist in persistent storage (ignoring cache) ?</p>
 	</div>
+	
+	
 	
 	
 	
@@ -445,9 +520,11 @@ Note that on the simulator currently, data protection is NEVER active.</p></span
 the given name.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (void)removeSharedStoreWithName:(NSString *)<em>storeName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -458,6 +535,8 @@ the given name.</p>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -493,9 +572,11 @@ the given name.</p>
 		<p>Use this method to obtain a shared store instance with a particular name.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (id)sharedStoreWithName:(NSString *)<em>storeName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -513,6 +594,8 @@ the given name.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>A shared instance of a store with the given name.</p>
 	</div>
+	
+	
 	
 	
 	
@@ -545,9 +628,11 @@ the given name.</p>
 		<p>The name of the store.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>+ (NSString *)storeDirectoryForStoreName:(NSString *)<em>storeName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -565,6 +650,8 @@ the given name.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>The filesystem diretory containing for the given store name</p>
 	</div>
+	
+	
 	
 	
 	
@@ -600,9 +687,11 @@ the given name.</p>
 		<p>Get the number of entries that would be returned with the given query spec</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSUInteger)countEntriesInSoup:(NSString *)<em>soupName</em> withQuerySpec:(SFSoupQuerySpec *)<em>querySpec</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -618,6 +707,8 @@ the given name.</p>
 		</dl>
 		
 	</div>
+	
+	
 	
 	
 	
@@ -652,9 +743,11 @@ the given name.</p>
 		<p>the name of the soup</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSArray *)indicesForSoup:(NSString *)<em>soupName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -672,6 +765,8 @@ the given name.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>NSArray of SFSoupIndex for the given soup</p>
 	</div>
+	
+	
 	
 	
 	
@@ -701,9 +796,11 @@ UIApplicationProtectedDataDidBecomeAvailable / UIApplicationProtectedDataWillBec
 Note that on the simulator currently, data protection is NEVER active.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (BOOL)isFileDataProtectionActive</code></div>
-	
+
+    
 	
 	
 	
@@ -711,6 +808,8 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>Are we sure that file data protection (full passcode-based encryption) is available?</p>
 	</div>
+	
+	
 	
 	
 	
@@ -745,9 +844,11 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 		<p>Search soup for entries matching the querySpec</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (SFSoupCursor *)querySoup:(NSString *)<em>soupName</em> withQuerySpec:(NSDictionary *)<em>querySpec</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -770,6 +871,8 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>A cursor</p>
 	</div>
+	
+	
 	
 	
 	
@@ -802,9 +905,11 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 		<p>Search soup for entries matching the querySpec</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSArray *)querySoup:(NSString *)<em>soupName</em> withQuerySpec:(SFSoupQuerySpec *)<em>querySpec</em> pageIndex:(NSUInteger)<em>pageIndex</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -832,6 +937,8 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>A set of entries given the pageSize provided in the querySpec</p>
 	</div>
+	
+	
 	
 	
 	
@@ -865,9 +972,11 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 Either creates a new soup or returns an existing soup.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (BOOL)registerSoup:(NSString *)<em>soupName</em> withIndexSpecs:(NSArray *)<em>indexSpecs</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -893,10 +1002,109 @@ Either creates a new soup or returns an existing soup.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Ensure that a soup with the given name exists.
 Either creates a new soup or returns an existing soup.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeAllSoups" title="removeAllSoups"></a>
+	<h3 class="subsubtitle method-title">removeAllSoups</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Remove all soups from the store.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)removeAllSoups</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Remove all soups from the store.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeEntries:fromSoup:" title="removeEntries:fromSoup:"></a>
+	<h3 class="subsubtitle method-title">removeEntries:fromSoup:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Remove soup entries exactly matching the soup entry IDs</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)removeEntries:(NSArray *)<em>entryIds</em> fromSoup:(NSString *)<em>soupName</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entryIds</em></dt>
+			<dd><p>An array of opaque soup entry IDs from _soupEntryId</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupName</em></dt>
+			<dd><p>The name of the soup from which to remove the soup entries</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Remove soup entries exactly matching the soup entry IDs</p>
 	</div>
 	
 	
@@ -923,9 +1131,11 @@ Either creates a new soup or returns an existing soup.</p>
 		<p>Remove soup completely from the store.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)removeSoup:(NSString *)<em>soupName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -941,9 +1151,72 @@ Either creates a new soup or returns an existing soup.</p>
 	
 	
 	
+	
+	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Remove soup completely from the store.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/retrieveEntries:fromSoup:" title="retrieveEntries:fromSoup:"></a>
+	<h3 class="subsubtitle method-title">retrieveEntries:fromSoup:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Search soup for entries exactly matching the soup entry IDs</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)retrieveEntries:(NSArray *)<em>soupEntryIds</em> fromSoup:(NSString *)<em>soupName</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupEntryIds</em></dt>
+			<dd><p>An array of opaque soup entry IDs</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupName</em></dt>
+			<dd><p>The name of the soup to query</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array with zero or more entries matching the input IDs. Order is not guaranteed.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Search soup for entries exactly matching the soup entry IDs</p>
 	</div>
 	
 	
@@ -970,9 +1243,11 @@ Either creates a new soup or returns an existing soup.</p>
 		<p>the name of the soup</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (BOOL)soupExists:(NSString *)<em>soupName</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -992,6 +1267,146 @@ Either creates a new soup or returns an existing soup.</p>
 	</div>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/upsertEntries:toSoup:" title="upsertEntries:toSoup:"></a>
+	<h3 class="subsubtitle method-title">upsertEntries:toSoup:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Insert/update entries to the soup.  Insert vs. update will be determined by the internal
+soup entry ID generated from intial entry.  If you want to specify a different identifier
+for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)upsertEntries:(NSArray *)<em>entries</em> toSoup:(NSString *)<em>soupName</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entries</em></dt>
+			<dd><p>The entries to insert or update.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupName</em></dt>
+			<dd><p>The name of the soup to update.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The array of updated entries in the soup.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Insert/update entries to the soup.  Insert vs. update will be determined by the internal
+soup entry ID generated from intial entry.  If you want to specify a different identifier
+for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSmartStore.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/upsertEntries:toSoup:withExternalIdPath:error:" title="upsertEntries:toSoup:withExternalIdPath:error:"></a>
+	<h3 class="subsubtitle method-title">upsertEntries:toSoup:withExternalIdPath:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Insert/update entries to the soup.  Insert vs. update will be determined by the specified
+external ID path argument.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)upsertEntries:(NSArray *)<em>entries</em> toSoup:(NSString *)<em>soupName</em> withExternalIdPath:(NSString *)<em>externalIdPath</em> error:(NSError **)<em>error</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entries</em></dt>
+			<dd><p>The entries to insert or update.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soupName</em></dt>
+			<dd><p>The name of the soup to update.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>externalIdPath</em></dt>
+			<dd><p>The user-defined query spec path used to determine insert vs. update.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>Sets/returns any error generated as part of the process.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The array of updated entries in the soup.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Insert/update entries to the soup.  Insert vs. update will be determined by the specified
+external ID path argument.</p>
+	</div>
 	
 	
 	
@@ -1020,9 +1435,9 @@ Either creates a new soup or returns an existing soup.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-02-09)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.4 (build 703)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -1110,6 +1525,14 @@ Either creates a new soup or returns an existing soup.</p>
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
