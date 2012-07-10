@@ -25,7 +25,7 @@
 
 #import "SFSoupQuerySpec.h"
 
-#import "NSDictionary+NullHandling.h"
+#import "NSDictionary+SFAdditions.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";

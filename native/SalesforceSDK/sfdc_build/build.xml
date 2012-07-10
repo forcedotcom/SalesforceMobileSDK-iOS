@@ -30,12 +30,10 @@
     </target>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth"
-		/>
+		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.salesforcecommonutils" />
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean"
-		>
+		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.salesforcecommonutils.clean">
 		<delete dir="${dependency.dir}"/>
 	</target>
 	
