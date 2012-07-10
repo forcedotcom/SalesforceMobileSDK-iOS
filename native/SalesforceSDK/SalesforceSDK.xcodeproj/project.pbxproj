@@ -19,10 +19,8 @@
 		4F028B7F158FF04A00F89AD4 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEC714EB2642004F241C /* SqliteAdditions.c */; };
 		4F028B80158FF0D700F89AD4 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
 		4F028B81158FF11800F89AD4 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */; };
-		4F028B82158FF11800F89AD4 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1151561EB9E006BAD3B /* SFKeychainItemWrapper.m */; };
 		4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822B2D20157D1B92001EB677 /* SFAccountManager.m */; };
 		4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
-		4F028B85158FF14800F89AD4 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1191561EC66006BAD3B /* SFCrypto.m */; };
 		4F028B861590FB2D00F89AD4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4FEBC1150EC0A400842979 /* libsqlite3.dylib */; };
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
 		4F9EF4FC158FED9300E35E90 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */; };
@@ -186,6 +184,9 @@
 		822B2D21157D1B92001EB677 /* SFAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822B2D1F157D1B92001EB677 /* SFAccountManager.h */; };
 		822B2D22157D1B92001EB677 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822B2D20157D1B92001EB677 /* SFAccountManager.m */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
+		823C9B6815ABB04200EF9DAE /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229B5D15AA9D8F006D8266 /* libSalesforceCommonUtils.a */; };
+		823C9B6B15ABB07C00EF9DAE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 823C9B6A15ABB07C00EF9DAE /* libz.dylib */; };
+		823C9B6D15ABB0AB00EF9DAE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 823C9B6C15ABB0AB00EF9DAE /* QuartzCore.framework */; };
 		825C80B41562A01C00F94599 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7D815629D33002F376C /* SFIdentityCoordinator.m */; };
 		825C80B61562A02100F94599 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
 		8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -419,6 +420,8 @@
 		82289FC7158404AA00A01903 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
 		822B2D1F157D1B92001EB677 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManager.h; path = ../../../shared/Classes/Security/SFAccountManager.h; sourceTree = "<group>"; };
 		822B2D20157D1B92001EB677 /* SFAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManager.m; path = ../../../shared/Classes/Security/SFAccountManager.m; sourceTree = "<group>"; };
+		823C9B6A15ABB07C00EF9DAE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		823C9B6C15ABB0AB00EF9DAE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKConstants.h; path = ../../../shared/Classes/Common/SalesforceSDKConstants.h; sourceTree = "<group>"; };
 		829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestAppDelegate.h; path = NativeApp/SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
 		829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
@@ -474,6 +477,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				823C9B6D15ABB0AB00EF9DAE /* QuartzCore.framework in Frameworks */,
+				823C9B6B15ABB07C00EF9DAE /* libz.dylib in Frameworks */,
 				4F028B861590FB2D00F89AD4 /* libsqlite3.dylib in Frameworks */,
 				8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */,
 				C28DCB0513F1EAA20050371C /* Security.framework in Frameworks */,
@@ -487,6 +492,7 @@
 				C26713C913D6B845001FE0B8 /* CoreGraphics.framework in Frameworks */,
 				7DC1D6D314DB1281005B819A /* libRestKit.a in Frameworks */,
 				7D32F6CE1506A3FD00AD2D64 /* libSalesforceOAuth.a in Frameworks */,
+				823C9B6815ABB04200EF9DAE /* libSalesforceCommonUtils.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -968,6 +974,8 @@
 			isa = PBXGroup;
 			children = (
 				C28DCAF913F1EA3E0050371C /* libxml2.dylib */,
+				823C9B6A15ABB07C00EF9DAE /* libz.dylib */,
+				823C9B6C15ABB0AB00EF9DAE /* QuartzCore.framework */,
 				C28DCB0413F1EAA10050371C /* Security.framework */,
 				C28DCAFE13F1EA700050371C /* CoreData.framework */,
 				C28DCAFC13F1EA620050371C /* SystemConfiguration.framework */,
@@ -1306,10 +1314,8 @@
 				4F028B7F158FF04A00F89AD4 /* SqliteAdditions.c in Sources */,
 				4F028B80158FF0D700F89AD4 /* SFSecurityLockout.m in Sources */,
 				4F028B81158FF11800F89AD4 /* SFInactivityTimerCenter.m in Sources */,
-				4F028B82158FF11800F89AD4 /* SFKeychainItemWrapper.m in Sources */,
 				4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */,
 				4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */,
-				4F028B85158FF14800F89AD4 /* SFCrypto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,6 +1473,7 @@
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1499,6 +1506,7 @@
 					"\"$(SRCROOT)/../dependencies/RestKit\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
