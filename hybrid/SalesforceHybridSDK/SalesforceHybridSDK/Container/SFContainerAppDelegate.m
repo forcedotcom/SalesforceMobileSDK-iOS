@@ -47,9 +47,9 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
 // The default logging level of the app.
 #if defined(DEBUG)
-static SFLogLevel const kAppLogLevel = Debug;
+static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 #else
-static SFLogLevel const kAppLogLevel = Info;
+static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFContainerAppDelegate ()
