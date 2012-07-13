@@ -34,7 +34,7 @@
 #import "SFSmartStore.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.2.3";
+NSString * const kSFMobileSDKVersion = @"1.3.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -45,9 +45,9 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
 // The default logging level of the app.
 #if defined(DEBUG)
-static SFLogLevel const kAppLogLevel = Debug;
+static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 #else
-static SFLogLevel const kAppLogLevel = Info;
+static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFContainerAppDelegate ()

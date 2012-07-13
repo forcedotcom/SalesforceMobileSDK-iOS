@@ -1381,6 +1381,19 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</string>
 	</dict>
 
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFAccountManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAccountManager.h</string>
+	</dict>
+
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</key>
 	<dict>
 		<key>Group</key>			
@@ -1418,19 +1431,6 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</string>
-	</dict>
-
-	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-			<string>SalesforceSDK</string>
-			<string>include</string>
-			<string>SalesforceSDK</string>
-		</array>
-		<key>Path</key>
-		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRestAppDelegate.h</key>
@@ -1521,6 +1521,294 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/NSData+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSData+SFAdditions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/NSString+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFAdditions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFDeviceInfo.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFDeviceInfo.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFEncryptionManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFEncryptionManager.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFLogger.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFLogger.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFMD5.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFMD5.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFPadPickListViewController.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFPadPickListViewController.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFPathUtil.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFPathUtil.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/UIAlertView+SFBlocks.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/UIAlertView+SFBlocks.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/UIBarButtonItem+SFAddtions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/UIBarButtonItem+SFAddtions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/UIDevice+SFHardware.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/UIDevice+SFHardware.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Headers/UILabel+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/UILabel+SFAdditions.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Libraries</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a</string>
 	</dict>
 
 	<key>Resources/icons/icon-72.png</key>
@@ -1709,15 +1997,41 @@
 	<string>dependencies/RestKit/include/RestKit/Support.h</string>
 	<string>dependencies/RestKit/libRestKit.a</string>
 
+	<string>dependencies/SalesforceCommonUtils/Headers/NSData+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFDeviceInfo.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFEncryptionManager.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFLogger.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFMD5.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFPadPickListViewController.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFPathUtil.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/UIAlertView+SFBlocks.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/UIBarButtonItem+SFAddtions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/UIDevice+SFHardware.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/UILabel+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a</string>
+
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
 	<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
+
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAccountManager.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityCoordinator.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</string>
-	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFLogger.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRestAppDelegate.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFNativeRootViewController.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI.h</string>
@@ -1795,6 +2109,7 @@
     <key>Frameworks</key>
     <array>
         <string>CoreData</string>
+        <string>QuartzCore</string>
         <string>SystemConfiguration</string>
         <string>Security</string>
         <string>UIKit</string>
