@@ -1,6 +1,3 @@
-[submodule "external/callback-ios/PhoneGap"]
-	path = external/callback-ios/PhoneGap
-	url = https://github.com/forcedotcom/callback-ios.git
 [submodule "external/shared"]
 	path = external/shared
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-Shared-dev.git
