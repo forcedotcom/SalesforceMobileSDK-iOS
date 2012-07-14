@@ -90,7 +90,7 @@
 		[theWebView stringByEvaluatingJavaScriptFromString:jsString];
 	}
     
-    return [ super webViewDidFinishLoad:theWebView ];
+    [super webViewDidFinishLoad:theWebView];
 }
 
 #pragma mark - Home page helpers

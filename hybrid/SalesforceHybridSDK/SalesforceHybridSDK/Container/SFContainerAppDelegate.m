@@ -179,7 +179,8 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self resetUi];
+            [self.viewController loadStartPageIntoWebView];
+//            [self resetUi];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
@@ -327,7 +328,8 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] removeAllSoups];
     
     if (restartAuthentication)
-        [self resetUi];
+        [self.viewController loadStartPageIntoWebView];
+//        [self resetUi];
 }
 
 + (void)removeCookies
