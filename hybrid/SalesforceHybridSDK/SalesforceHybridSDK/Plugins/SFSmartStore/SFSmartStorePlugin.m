@@ -33,7 +33,7 @@
 #import "SFHybridViewController.h"
 #import <Cordova/CDVPluginResult.h>
 
-//NOTE: must match value in PhoneGap.plist file
+//NOTE: must match value in Cordova.plist file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
@@ -99,7 +99,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     [super dealloc];
 }
 
-#pragma mark - PhoneGap plugin support
+#pragma mark - Cordova plugin support
 
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
 {

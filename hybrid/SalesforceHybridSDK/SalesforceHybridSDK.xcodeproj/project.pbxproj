@@ -34,9 +34,7 @@
 		7D20FBD514ED7DBD00A86731 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7626E114D33BBE0064B5B2 /* SystemConfiguration.framework */; };
 		7D20FBD814ED7DBD00A86731 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163614D85C3400A17E6A /* InfoPlist.strings */; };
 		7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
-		7D20FBE214ED7DBD00A86731 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
-		7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
 		7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
@@ -80,8 +78,6 @@
 		7DBB149F14C0ECF800CCDBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB149D14C0ECF800CCDBE0 /* InfoPlist.strings */; };
 		7DBB14A214C0ECF800CCDBE0 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */; };
 		7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
-		7DBB14B114C0EFFA00CCDBE0 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */; };
-		7DBB14B214C0EFFA00CCDBE0 /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */; };
 		7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */; };
 		7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */; };
 		7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */; };
@@ -113,9 +109,7 @@
 		7DBD163814D85C3400A17E6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163614D85C3400A17E6A /* InfoPlist.strings */; };
 		7DBD163A14D85C3400A17E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
 		7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */; };
-		7DBD167B14D85C3600A17E6A /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167A14D85C3600A17E6A /* PhoneGap.plist */; };
 		7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167C14D85C3600A17E6A /* Settings.bundle */; };
-		7DBD167F14D85C3600A17E6A /* PhoneGapResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */; };
 		7DBD168414D85C7F00A17E6A /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
 		7DBD169514D85CC900A17E6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
 		7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 7DD5A13314CF9F9C00D308B1 /* forcetk.js */; };
@@ -158,6 +152,16 @@
 		821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */; };
 		821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
 		821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		821D1CBE15B204FB00D05F8E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
+		821D1CBF15B204FB00D05F8E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		821D1CC015B204FB00D05F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		821D1CC615B204FB00D05F8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 821D1CC415B204FB00D05F8E /* InfoPlist.strings */; };
+		821D1CC915B204FB00D05F8E /* SalesforceHybridSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 821D1CC815B204FB00D05F8E /* SalesforceHybridSDKTests.m */; };
+		821D1CD215B2066D00D05F8E /* UtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 821D1CD115B2066D00D05F8E /* UtilsTests.m */; };
+		821D1CD315B206A300D05F8E /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
+		82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
+		82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
 		82229BD815AAA2D4006D8266 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BBF15AAA2D4006D8266 /* NSData+SFAdditions.h */; };
 		82229BD915AAA2D4006D8266 /* NSDictionary+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC015AAA2D4006D8266 /* NSDictionary+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82229BDA15AAA2D4006D8266 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC115AAA2D4006D8266 /* NSObject+SFBlocks.h */; };
@@ -182,9 +186,6 @@
 		82229BED15AAA2D4006D8266 /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD415AAA2D4006D8266 /* UIDevice+SFHardware.h */; };
 		82229BEE15AAA2D4006D8266 /* UILabel+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD515AAA2D4006D8266 /* UILabel+SFAdditions.h */; };
 		82229BEF15AAA2D4006D8266 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
-		82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
-		82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
-		82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
 		822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */; };
 		822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A11577DCCC007C20B9 /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
@@ -339,11 +340,36 @@
 		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
-		82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */; };
-		82D99FB6154E0D8000971B4D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82D99FB4154E0D8000971B4D /* InfoPlist.strings */; };
-		82D99FB9154E0D8000971B4D /* SalesforceHybridSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */; };
-		82D99FBF154E11E000971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
-		82D99FC8154E133500971B4D /* UtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FC7154E133500971B4D /* UtilsTests.m */; };
+		82F3021415B074CD00A6EB5F /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82F3021315B074CD00A6EB5F /* CordovaResources.bundle */; };
+		82F3021615B0752600A6EB5F /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82F3021515B0752600A6EB5F /* CordovaResources.bundle */; };
+		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		82F3022615B07AC400A6EB5F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
+		82F593D215B083BE00C7E033 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
+		82F593D415B083BF00C7E033 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
+		82F593D515B083E900C7E033 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
+		82F593D615B083FE00C7E033 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B4E26157D21E50017229C /* libz.dylib */; };
+		82F593D715B0845100C7E033 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
+		82F593D815B0845600C7E033 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
+		82F593DF15B0CA3100C7E033 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
+		82F593E015B0CA3300C7E033 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
+		82F593E215B0CEDD00C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E115B0CEDD00C7E033 /* Cordova.plist */; };
+		82F593E415B0D15400C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E315B0D15400C7E033 /* Cordova.plist */; };
+		82F593E515B0D16000C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E315B0D15400C7E033 /* Cordova.plist */; };
+		82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82F593E915B0D77300C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F593EA15B0D77A00C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		82F593EB15B0D7B100C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F593EC15B0D7BC00C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		82F593ED15B0D7D000C7E033 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
+		82F593EE15B0D7DD00C7E033 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B4E26157D21E50017229C /* libz.dylib */; };
+		82F593EF15B0D7FF00C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F593F015B0D80600C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		82F5940E15B11E6200C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F5941015B11E6B00C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
+		82F5941115B11E8A00C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
+		82F5941215B11E9400C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -510,8 +536,6 @@
 		7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
 		7DBB14AA14C0EFE400CCDBE0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
-		7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bootstrap.html; sourceTree = "<group>"; };
@@ -532,9 +556,7 @@
 		7DBD163714D85C3400A17E6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DBD163914D85C3400A17E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DebugPlugins-Prefix.pch"; sourceTree = "<group>"; };
-		7DBD167A14D85C3600A17E6A /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		7DBD167C14D85C3600A17E6A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhoneGapResources.bundle; sourceTree = "<group>"; };
 		7DBD16CB14D85F6300A17E6A /* DebugPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebugPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD16CC14D85F6300A17E6A /* DebugPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DebugPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/DebugPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
 		7DBD16D814D8625000A17E6A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
@@ -556,6 +578,14 @@
 		821C5E871583FBBF00433F92 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../external/fmdb/fmdb/src/FMDatabaseQueue.m; sourceTree = "<group>"; };
 		821C5E881583FBBF00433F92 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../external/fmdb/fmdb/src/FMResultSet.h; sourceTree = "<group>"; };
 		821C5E891583FBBF00433F92 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../external/fmdb/fmdb/src/FMResultSet.m; sourceTree = "<group>"; };
+		821D1CBD15B204FB00D05F8E /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		821D1CC315B204FB00D05F8E /* SalesforceHybridSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDKTests-Info.plist"; sourceTree = "<group>"; };
+		821D1CC515B204FB00D05F8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		821D1CC715B204FB00D05F8E /* SalesforceHybridSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDKTests.h; sourceTree = "<group>"; };
+		821D1CC815B204FB00D05F8E /* SalesforceHybridSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceHybridSDKTests.m; sourceTree = "<group>"; };
+		821D1CCA15B204FB00D05F8E /* SalesforceHybridSDKTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDKTests-Prefix.pch"; sourceTree = "<group>"; };
+		821D1CD015B2066D00D05F8E /* UtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTests.h; sourceTree = "<group>"; };
+		821D1CD115B2066D00D05F8E /* UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTests.m; sourceTree = "<group>"; };
 		82229AA015A66917006D8266 /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../../hybrid/dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
 		82229BBF15AAA2D4006D8266 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
 		82229BC015AAA2D4006D8266 /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
@@ -695,14 +725,10 @@
 		828C07D415A39A47002523B2 /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
-		82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceHybridSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		82D99FB3154E0D8000971B4D /* SalesforceHybridSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceHybridSDKTests-Info.plist"; sourceTree = "<group>"; };
-		82D99FB5154E0D8000971B4D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		82D99FB7154E0D8000971B4D /* SalesforceHybridSDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceHybridSDKTests.h; sourceTree = "<group>"; };
-		82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceHybridSDKTests.m; sourceTree = "<group>"; };
-		82D99FBA154E0D8000971B4D /* SalesforceHybridSDKTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDKTests-Prefix.pch"; sourceTree = "<group>"; };
-		82D99FC6154E133500971B4D /* UtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTests.h; sourceTree = "<group>"; };
-		82D99FC7154E133500971B4D /* UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTests.m; sourceTree = "<group>"; };
+		82F3021315B074CD00A6EB5F /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CordovaResources.bundle; sourceTree = "<group>"; };
+		82F3021515B0752600A6EB5F /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CordovaResources.bundle; sourceTree = "<group>"; };
+		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
+		82F593E315B0D15400C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -710,6 +736,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F593EC15B0D7BC00C7E033 /* UIKit.framework in Frameworks */,
+				82F593EB15B0D7B100C7E033 /* Foundation.framework in Frameworks */,
 				7D20FBC914ED7DBD00A86731 /* CFNetwork.framework in Frameworks */,
 				7D20FBCA14ED7DBD00A86731 /* CoreGraphics.framework in Frameworks */,
 				7D20FBCB14ED7DBD00A86731 /* CoreLocation.framework in Frameworks */,
@@ -723,10 +751,12 @@
 				7D20FBD314ED7DBD00A86731 /* AVFoundation.framework in Frameworks */,
 				7D20FBD414ED7DBD00A86731 /* MediaPlayer.framework in Frameworks */,
 				7D20FBD514ED7DBD00A86731 /* SystemConfiguration.framework in Frameworks */,
+				82F593ED15B0D7D000C7E033 /* libSalesforceCommonUtils.a in Frameworks */,
 				7D32F30D150687EE00AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 				82381A201587FE7E007C0D86 /* libsqlcipher.a in Frameworks */,
 				82381A211587FE83007C0D86 /* libcrypto.a in Frameworks */,
 				82381A221587FE86007C0D86 /* libssl.a in Frameworks */,
+				82F593EE15B0D7DD00C7E033 /* libz.dylib in Frameworks */,
 				822ADCF115A36D2600387CCE /* Cordova.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -735,6 +765,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F593F015B0D80600C7E033 /* UIKit.framework in Frameworks */,
+				82F593EF15B0D7FF00C7E033 /* Foundation.framework in Frameworks */,
 				7D20FC1314ED815500A86731 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -756,6 +788,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F5941015B11E6B00C7E033 /* UIKit.framework in Frameworks */,
+				82F5940E15B11E6200C7E033 /* Foundation.framework in Frameworks */,
 				7DBB14F814C0F70000CCDBE0 /* AudioToolbox.framework in Frameworks */,
 				7DBB14F614C0F6E500CCDBE0 /* SystemConfiguration.framework in Frameworks */,
 				7DBB14F414C0F6D700CCDBE0 /* Security.framework in Frameworks */,
@@ -781,6 +815,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F5941215B11E9400C7E033 /* UIKit.framework in Frameworks */,
+				82F5941115B11E8A00C7E033 /* Foundation.framework in Frameworks */,
 				7DBB149514C0ECF800CCDBE0 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,6 +825,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */,
+				82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */,
 				7DBD162614D85C3400A17E6A /* CFNetwork.framework in Frameworks */,
 				7DBD162714D85C3400A17E6A /* CoreGraphics.framework in Frameworks */,
 				7DBD162814D85C3400A17E6A /* CoreLocation.framework in Frameworks */,
@@ -802,8 +840,13 @@
 				7DBD163014D85C3400A17E6A /* AVFoundation.framework in Frameworks */,
 				7DBD163114D85C3400A17E6A /* MediaPlayer.framework in Frameworks */,
 				7DBD163214D85C3400A17E6A /* SystemConfiguration.framework in Frameworks */,
+				82F3022615B07AC400A6EB5F /* libSalesforceCommonUtils.a in Frameworks */,
 				7D32F30C150687D900AD2D64 /* libSalesforceOAuth.a in Frameworks */,
 				822ADCF015A36D2600387CCE /* Cordova.framework in Frameworks */,
+				82F593D515B083E900C7E033 /* libsqlcipher.a in Frameworks */,
+				82F593D615B083FE00C7E033 /* libz.dylib in Frameworks */,
+				82F593D715B0845100C7E033 /* libcrypto.a in Frameworks */,
+				82F593D815B0845600C7E033 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,15 +854,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82F593EA15B0D77A00C7E033 /* UIKit.framework in Frameworks */,
+				82F593E915B0D77300C7E033 /* Foundation.framework in Frameworks */,
 				7DBD16C214D85F6300A17E6A /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D99FA9154E0D8000971B4D /* Frameworks */ = {
+		821D1CB915B204FB00D05F8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D99FAE154E0D8000971B4D /* SenTestingKit.framework in Frameworks */,
+				821D1CBE15B204FB00D05F8E /* SenTestingKit.framework in Frameworks */,
+				821D1CBF15B204FB00D05F8E /* UIKit.framework in Frameworks */,
+				821D1CC015B204FB00D05F8E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,7 +939,7 @@
 				7DBD16D414D860D300A17E6A /* DebugPluginsTests */,
 				7D20FC0414ED80CC00A86731 /* StressPlugins */,
 				7D20FC2014ED81A900A86731 /* StressPluginsTests */,
-				82D99FB1154E0D8000971B4D /* SalesforceHybridSDKTests */,
+				821D1CC115B204FB00D05F8E /* SalesforceHybridSDKTests */,
 				7D45E2F914BFB259002C4A27 /* Frameworks */,
 				7D45E2EB14BFB259002C4A27 /* Products */,
 			);
@@ -908,7 +955,7 @@
 				7DBD16CB14D85F6300A17E6A /* DebugPluginsTests.octest */,
 				7D20FBF914ED7DBD00A86731 /* StressPlugins.app */,
 				7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */,
-				82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */,
+				821D1CBD15B204FB00D05F8E /* SalesforceHybridSDKTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1056,12 +1103,12 @@
 		7DBB147A14C0ECF700CCDBE0 /* TestPlugins */ = {
 			isa = PBXGroup;
 			children = (
+				82F593E115B0CEDD00C7E033 /* Cordova.plist */,
+				82F3021315B074CD00A6EB5F /* CordovaResources.bundle */,
 				7DBD16D814D8625000A17E6A /* www */,
 				7DCEF4F714D0810200BB3F3E /* Plugins */,
 				7DBB14B614C0F09E00CCDBE0 /* shared-www */,
 				7DBB14E414C0F5F600CCDBE0 /* Frameworks */,
-				7DBB14AD14C0EFFA00CCDBE0 /* PhoneGap.plist */,
-				7DBB14AE14C0EFFA00CCDBE0 /* PhoneGapResources.bundle */,
 				7DBB14AF14C0EFFA00CCDBE0 /* Settings.bundle */,
 				7DBB14B014C0EFFA00CCDBE0 /* test_credentials.json */,
 				7DBB14A914C0EFE400CCDBE0 /* Classes */,
@@ -1153,8 +1200,8 @@
 		7DBD163314D85C3400A17E6A /* DebugPlugins */ = {
 			isa = PBXGroup;
 			children = (
+				82F3021515B0752600A6EB5F /* CordovaResources.bundle */,
 				7DBD167C14D85C3600A17E6A /* Settings.bundle */,
-				7DBD167E14D85C3600A17E6A /* PhoneGapResources.bundle */,
 				7DBD163414D85C3400A17E6A /* Supporting Files */,
 			);
 			path = DebugPlugins;
@@ -1163,11 +1210,11 @@
 		7DBD163414D85C3400A17E6A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82F593E315B0D15400C7E033 /* Cordova.plist */,
 				7DBD163514D85C3400A17E6A /* DebugPlugins-Info.plist */,
 				7DBD163614D85C3400A17E6A /* InfoPlist.strings */,
 				7DBD163914D85C3400A17E6A /* main.m */,
 				7DBD163B14D85C3500A17E6A /* DebugPlugins-Prefix.pch */,
-				7DBD167A14D85C3600A17E6A /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1199,6 +1246,28 @@
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
+			sourceTree = "<group>";
+		};
+		821D1CC115B204FB00D05F8E /* SalesforceHybridSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				821D1CD015B2066D00D05F8E /* UtilsTests.h */,
+				821D1CD115B2066D00D05F8E /* UtilsTests.m */,
+				821D1CC715B204FB00D05F8E /* SalesforceHybridSDKTests.h */,
+				821D1CC815B204FB00D05F8E /* SalesforceHybridSDKTests.m */,
+				821D1CC215B204FB00D05F8E /* Supporting Files */,
+			);
+			path = SalesforceHybridSDKTests;
+			sourceTree = "<group>";
+		};
+		821D1CC215B204FB00D05F8E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				821D1CC315B204FB00D05F8E /* SalesforceHybridSDKTests-Info.plist */,
+				821D1CC415B204FB00D05F8E /* InfoPlist.strings */,
+				821D1CCA15B204FB00D05F8E /* SalesforceHybridSDKTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		82229BBD15AAA2D4006D8266 /* SalesforceCommonUtils */ = {
@@ -1387,28 +1456,6 @@
 				82381A131587FAAE007C0D86 /* LICENSE */,
 			);
 			path = sqlcipher;
-			sourceTree = "<group>";
-		};
-		82D99FB1154E0D8000971B4D /* SalesforceHybridSDKTests */ = {
-			isa = PBXGroup;
-			children = (
-				82D99FB7154E0D8000971B4D /* SalesforceHybridSDKTests.h */,
-				82D99FB8154E0D8000971B4D /* SalesforceHybridSDKTests.m */,
-				82D99FB2154E0D8000971B4D /* Supporting Files */,
-				82D99FC6154E133500971B4D /* UtilsTests.h */,
-				82D99FC7154E133500971B4D /* UtilsTests.m */,
-			);
-			path = SalesforceHybridSDKTests;
-			sourceTree = "<group>";
-		};
-		82D99FB2154E0D8000971B4D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				82D99FB3154E0D8000971B4D /* SalesforceHybridSDKTests-Info.plist */,
-				82D99FB4154E0D8000971B4D /* InfoPlist.strings */,
-				82D99FBA154E0D8000971B4D /* SalesforceHybridSDKTests-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1684,14 +1731,14 @@
 			productReference = 7DBD16CB14D85F6300A17E6A /* DebugPluginsTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		82D99FAC154E0D8000971B4D /* SalesforceHybridSDKTests */ = {
+		821D1CBC15B204FB00D05F8E /* SalesforceHybridSDKTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82D99FBB154E0D8000971B4D /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */;
+			buildConfigurationList = 821D1CCE15B204FB00D05F8E /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */;
 			buildPhases = (
-				82D99FA8154E0D8000971B4D /* Sources */,
-				82D99FA9154E0D8000971B4D /* Frameworks */,
-				82D99FAA154E0D8000971B4D /* Resources */,
-				82D99FAB154E0D8000971B4D /* ShellScript */,
+				821D1CB815B204FB00D05F8E /* Sources */,
+				821D1CB915B204FB00D05F8E /* Frameworks */,
+				821D1CBA15B204FB00D05F8E /* Resources */,
+				821D1CBB15B204FB00D05F8E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1699,7 +1746,7 @@
 			);
 			name = SalesforceHybridSDKTests;
 			productName = SalesforceHybridSDKTests;
-			productReference = 82D99FAD154E0D8000971B4D /* SalesforceHybridSDKTests.octest */;
+			productReference = 821D1CBD15B204FB00D05F8E /* SalesforceHybridSDKTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1730,7 +1777,7 @@
 				7DBD16BC14D85F6300A17E6A /* DebugPluginsTests */,
 				7D20FBB114ED7DBD00A86731 /* StressPlugins */,
 				7D20FC0D14ED815500A86731 /* StresssPluginsTests */,
-				82D99FAC154E0D8000971B4D /* SalesforceHybridSDKTests */,
+				821D1CBC15B204FB00D05F8E /* SalesforceHybridSDKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1742,11 +1789,10 @@
 			files = (
 				7D20FBD814ED7DBD00A86731 /* InfoPlist.strings in Resources */,
 				7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */,
-				7D20FBE214ED7DBD00A86731 /* PhoneGap.plist in Resources */,
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
-				7D20FBE414ED7DBD00A86731 /* PhoneGapResources.bundle in Resources */,
 				7D20FBE514ED7DBD00A86731 /* test_credentials.json in Resources */,
 				7D20FC3314ED98F000A86731 /* www in Resources */,
+				82F593E515B0D16000C7E033 /* Cordova.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1774,11 +1820,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DBB147F14C0ECF700CCDBE0 /* InfoPlist.strings in Resources */,
-				7DBB14B114C0EFFA00CCDBE0 /* PhoneGap.plist in Resources */,
-				7DBB14B214C0EFFA00CCDBE0 /* PhoneGapResources.bundle in Resources */,
 				7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */,
 				7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */,
 				7DBD16D914D8625000A17E6A /* www in Resources */,
+				82F3021415B074CD00A6EB5F /* CordovaResources.bundle in Resources */,
+				82F593E215B0CEDD00C7E033 /* Cordova.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,11 +1842,11 @@
 			files = (
 				7DBD163814D85C3400A17E6A /* InfoPlist.strings in Resources */,
 				7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */,
-				7DBD167B14D85C3600A17E6A /* PhoneGap.plist in Resources */,
 				7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */,
-				7DBD167F14D85C3600A17E6A /* PhoneGapResources.bundle in Resources */,
 				7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */,
 				7DBD16DA14D8625000A17E6A /* www in Resources */,
+				82F3021615B0752600A6EB5F /* CordovaResources.bundle in Resources */,
+				82F593E415B0D15400C7E033 /* Cordova.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1812,11 +1858,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D99FAA154E0D8000971B4D /* Resources */ = {
+		821D1CBA15B204FB00D05F8E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D99FB6154E0D8000971B4D /* InfoPlist.strings in Resources */,
+				821D1CC615B204FB00D05F8E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1910,7 +1956,7 @@
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SRCROOT}/tools/SFRunAppUnitTests\"\n";
 			showEnvVarsInLog = 0;
 		};
-		82D99FAB154E0D8000971B4D /* ShellScript */ = {
+		821D1CBB15B204FB00D05F8E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1954,6 +2000,9 @@
 				821C5E991583FBEB00433F92 /* FMDatabasePool.m in Sources */,
 				821C5E9B1583FBF200433F92 /* FMDatabaseQueue.m in Sources */,
 				821C5E9D1583FBFE00433F92 /* FMResultSet.m in Sources */,
+				82F593D415B083BF00C7E033 /* SFHybridViewController.m in Sources */,
+				82F593E015B0CA3300C7E033 /* SFApplication.m in Sources */,
+				82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2044,6 +2093,9 @@
 				821C5E981583FBEA00433F92 /* FMDatabasePool.m in Sources */,
 				821C5E9A1583FBF100433F92 /* FMDatabaseQueue.m in Sources */,
 				821C5E9C1583FBFD00433F92 /* FMResultSet.m in Sources */,
+				82F593D215B083BE00C7E033 /* SFHybridViewController.m in Sources */,
+				82F593DF15B0CA3100C7E033 /* SFApplication.m in Sources */,
+				82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2056,13 +2108,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D99FA8154E0D8000971B4D /* Sources */ = {
+		821D1CB815B204FB00D05F8E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D99FB9154E0D8000971B4D /* SalesforceHybridSDKTests.m in Sources */,
-				82D99FBF154E11E000971B4D /* NSURL+SFStringUtils.m in Sources */,
-				82D99FC8154E133500971B4D /* UtilsTests.m in Sources */,
+				821D1CC915B204FB00D05F8E /* SalesforceHybridSDKTests.m in Sources */,
+				821D1CD215B2066D00D05F8E /* UtilsTests.m in Sources */,
+				821D1CD315B206A300D05F8E /* NSURL+SFStringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2124,10 +2176,10 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		82D99FB4154E0D8000971B4D /* InfoPlist.strings */ = {
+		821D1CC415B204FB00D05F8E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				82D99FB5154E0D8000971B4D /* en */,
+				821D1CC515B204FB00D05F8E /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2279,6 +2331,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2341,6 +2396,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2376,6 +2432,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2403,7 +2460,7 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
 				INFOPLIST_FILE = "StressPlugins/StressPlugins-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2412,6 +2469,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2767,6 +2825,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2794,13 +2855,16 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DebugPlugins/DebugPlugins-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
 				INFOPLIST_FILE = "DebugPlugins/DebugPlugins-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2867,7 +2931,7 @@
 			};
 			name = Release;
 		};
-		82D99FBC154E0D8000971B4D /* Debug */ = {
+		821D1CCB15B204FB00D05F8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2876,14 +2940,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
-		82D99FBD154E0D8000971B4D /* Coverage */ = {
+		821D1CCC15B204FB00D05F8E /* Coverage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2892,14 +2957,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Coverage;
 		};
-		82D99FBE154E0D8000971B4D /* Release */ = {
+		821D1CCD15B204FB00D05F8E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2908,8 +2974,9 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "SalesforceHybridSDKTests/SalesforceHybridSDKTests-Info.plist";
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -2998,15 +3065,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D99FBB154E0D8000971B4D /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
+		821D1CCE15B204FB00D05F8E /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82D99FBC154E0D8000971B4D /* Debug */,
-				82D99FBD154E0D8000971B4D /* Coverage */,
-				82D99FBE154E0D8000971B4D /* Release */,
+				821D1CCB15B204FB00D05F8E /* Debug */,
+				821D1CCC15B204FB00D05F8E /* Coverage */,
+				821D1CCD15B204FB00D05F8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

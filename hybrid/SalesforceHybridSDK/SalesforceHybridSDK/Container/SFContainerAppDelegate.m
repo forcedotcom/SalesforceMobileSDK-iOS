@@ -136,7 +136,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     
     // Reset app state if necessary (login settings have changed).  We have to do this in
     // both didFinishLaunchedWithOptions and applicationDidBecomeActive, because the latter
-    // will conflict with PhoneGap's page launch process when the app starts.
+    // will conflict with Cordova's page launch process when the app starts.
     BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
     BOOL loginHostChanged = [SFAccountManager updateLoginHost];
     if (shouldLogout) {
@@ -211,7 +211,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self prepareToShutDown];
 }
 
-#pragma mark - PhoneGap helpers
+#pragma mark - Cordova helpers
 
 - (void)setupUi
 {

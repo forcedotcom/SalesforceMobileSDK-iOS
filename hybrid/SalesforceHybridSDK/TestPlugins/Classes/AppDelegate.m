@@ -24,6 +24,7 @@
 
 #import "AppDelegate.h"
 
+#import "SFHybridViewController.h"
 #import "SalesforceHybridSDK/SalesforceOAuthPlugin.h"
 #import "SalesforceHybridSDK/SFJsonUtils.h"
 #import "SFAccountManager.h"
@@ -123,12 +124,12 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    _oauthPlugin = (SalesforceOAuthPlugin *)[[self getCommandInstance:kSFOAuthPluginName] retain];
+    _oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
     [[self class] setCredentialsFromConfigFile];
     
     [super applicationDidBecomeActive:application];
     
-    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
     NSLog(@"runner: %@",runner);
     
     BOOL runningOctest = [self isRunningOctest];
@@ -138,8 +139,7 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 
 - (NSString *)evalJS:(NSString*)js {
-    SFContainerAppDelegate *myApp = [SFContainerAppDelegate sharedInstance];
-    NSString *jsResult = [(UIWebView*)myApp.webView stringByEvaluatingJavaScriptFromString:js];
+    NSString *jsResult = [self.viewController.webView stringByEvaluatingJavaScriptFromString:js];
     return jsResult;
 }
 

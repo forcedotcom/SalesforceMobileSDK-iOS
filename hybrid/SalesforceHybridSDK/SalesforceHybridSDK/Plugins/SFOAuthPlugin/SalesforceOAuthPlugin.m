@@ -143,7 +143,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 #pragma mark - init/dealloc
 
 /**
- This is PhoneGap's default initializer for plugins.
+ This is Cordova's default initializer for plugins.
  */
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
@@ -179,7 +179,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [super dealloc];
 }
 
-#pragma mark - PhoneGap plugin methods
+#pragma mark - Cordova plugin methods
 
 
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options

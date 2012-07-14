@@ -29,7 +29,7 @@
 
 
 /**
- String used with PhoneGap to uniquely identify this plugin
+ String used with Cordova to uniquely identify this plugin
  */
 extern NSString * const kSmartStorePluginIdentifier;
 
@@ -58,11 +58,11 @@ extern NSString * const kSmartStorePluginIdentifier;
  */
 + (void)resetSharedStore;
 
-#pragma mark - PhoneGap Plugin methods called from js
+#pragma mark - Cordova Plugin methods called from js
 
 /**
  * Does the given soup exist in the store?  See see [SFSmartStore soupExists:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error 
  *
@@ -73,7 +73,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error 
  *
@@ -85,7 +85,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Removes a soup from the store.  See [SFSmartStore removeSoup:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error 
  *
@@ -97,7 +97,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
  *
@@ -109,7 +109,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
  *
@@ -121,7 +121,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
  *
@@ -132,7 +132,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Closes a cursor associated with soup data.
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *
  * @param options NSDictionary containing "cursorId".
@@ -142,7 +142,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].
- * @param arguments Standard phonegap arguments array, containing:
+ * @param arguments Standard cordova arguments array, containing:
  *   1: successCB - this is the javascript function that will be called on success
  *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
  *
