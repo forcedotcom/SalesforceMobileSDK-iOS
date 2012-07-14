@@ -19,11 +19,18 @@
 	<key>AllowInlineMediaPlayback</key>
 	<false/>
 	<key>OpenAllWhitelistURLsInWebView</key>
-	<false/>
+	<true/>
 	<key>ExternalHosts</key>
-	<array/>
+	<array>
+		<string>*.force.com</string>
+		<string>*.salesforce.com</string>
+	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>com.salesforce.oauth</key>
+		<string>SalesforceOAuthPlugin</string>
+		<key>com.salesforce.smartstore</key>
+		<string>SFSmartStorePlugin</string>
 		<key>Logger</key>
 		<string>CDVLogger</string>
 		<key>Compass</key>

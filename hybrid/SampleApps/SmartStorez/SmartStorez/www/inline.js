@@ -37,9 +37,9 @@ function regLinkClickHandlers() {
     $('#link_reg_soup').click(function() {
       SFHybridApp.logToConsole("link_reg_soup clicked");
       
-    if (!PhoneGap.hasResource("smartstore")) {
-        SFHybridApp.logToConsole("no SmartStore plugin loaded ???");
-    }
+//    if (!PhoneGap.hasResource("smartstore")) {
+//        SFHybridApp.logToConsole("no SmartStore plugin loaded ???");
+//    }
 
       var indexes = [
                      {path:"Name",type:"string"},
