@@ -21,9 +21,9 @@ function regLinkClickHandlers() {
 					});
          
       
-    if (!PhoneGap.hasResource("smartstore")) {
-        SFHybridApp.logToConsole("no resource smartstore ???");
-    }
+//    if (!PhoneGap.hasResource("smartstore")) {
+//        SFHybridApp.logToConsole("no resource smartstore ???");
+//    }
 
                               
 }

@@ -30,34 +30,34 @@ CURRENT_DIR=`pwd`
 # keep anything existing in /dist
 
 echo "Cleaning Native and Hybrid app templates..."
-cd $CURRENT_DIR/hybrid/sfdc_build
+cd "$CURRENT_DIR/hybrid/sfdc_build"
 ant clean
-cd $CURRENT_DIR/native/sfdc_build
+cd "$CURRENT_DIR/native/sfdc_build"
 ant clean
 
 # build salesforce libraries and install templates
 echo "Building and installing Hybrid app template..."
-cd $CURRENT_DIR/hybrid/sfdc_build
+cd "$CURRENT_DIR/hybrid/sfdc_build"
 ant install
 
 echo "Building and installing Native app template..."
-cd $CURRENT_DIR/native/sfdc_build
+cd "$CURRENT_DIR/native/sfdc_build"
 ant install
 
 echo "Cleaning sample apps..."
-cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
+cd "$CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build"
 ant clean
-cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
+cd "$CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build"
 ant clean
-cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
+cd "$CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build"
 ant clean
 
 # build sample apps with dependencies
 echo "Building sample apps..."
-cd $CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build
+cd "$CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build"
 ant
-cd $CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build
+cd "$CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build"
 ant
-cd $CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build
+cd "$CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build"
 ant
 
