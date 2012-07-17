@@ -131,6 +131,8 @@
 		7DE73A4414F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4614F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
+		82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
+		82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
 		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
 		821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E801583FBBF00433F92 /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
@@ -340,8 +342,6 @@
 		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
-		82F3021415B074CD00A6EB5F /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82F3021315B074CD00A6EB5F /* CordovaResources.bundle */; };
-		82F3021615B0752600A6EB5F /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82F3021515B0752600A6EB5F /* CordovaResources.bundle */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
 		82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
 		82F3022615B07AC400A6EB5F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
@@ -567,6 +567,7 @@
 		7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
 		7DE73A4014F6B6E600D489DE /* SFPluginTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPluginTestSuite.h; sourceTree = "<group>"; };
 		7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPluginTestSuite.m; sourceTree = "<group>"; };
+		82031D9B15B4EF4500073595 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		821C5E7E1583FBA000433F92 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
 		821C5E801583FBBF00433F92 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/fmdb/src/FMDatabase.h; sourceTree = "<group>"; };
 		821C5E811583FBBF00433F92 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/fmdb/src/FMDatabase.m; sourceTree = "<group>"; };
@@ -725,8 +726,6 @@
 		828C07D415A39A47002523B2 /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
-		82F3021315B074CD00A6EB5F /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CordovaResources.bundle; sourceTree = "<group>"; };
-		82F3021515B0752600A6EB5F /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CordovaResources.bundle; sourceTree = "<group>"; };
 		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 		82F593E315B0D15400C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1103,8 +1102,8 @@
 		7DBB147A14C0ECF700CCDBE0 /* TestPlugins */ = {
 			isa = PBXGroup;
 			children = (
+				82031D9B15B4EF4500073595 /* CordovaResources.bundle */,
 				82F593E115B0CEDD00C7E033 /* Cordova.plist */,
-				82F3021315B074CD00A6EB5F /* CordovaResources.bundle */,
 				7DBD16D814D8625000A17E6A /* www */,
 				7DCEF4F714D0810200BB3F3E /* Plugins */,
 				7DBB14B614C0F09E00CCDBE0 /* shared-www */,
@@ -1200,7 +1199,6 @@
 		7DBD163314D85C3400A17E6A /* DebugPlugins */ = {
 			isa = PBXGroup;
 			children = (
-				82F3021515B0752600A6EB5F /* CordovaResources.bundle */,
 				7DBD167C14D85C3600A17E6A /* Settings.bundle */,
 				7DBD163414D85C3400A17E6A /* Supporting Files */,
 			);
@@ -1823,8 +1821,8 @@
 				7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */,
 				7DBB14B414C0EFFA00CCDBE0 /* test_credentials.json in Resources */,
 				7DBD16D914D8625000A17E6A /* www in Resources */,
-				82F3021415B074CD00A6EB5F /* CordovaResources.bundle in Resources */,
 				82F593E215B0CEDD00C7E033 /* Cordova.plist in Resources */,
+				82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1845,8 +1843,8 @@
 				7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */,
 				7DBD16BB14D85F2A00A17E6A /* test_credentials.json in Resources */,
 				7DBD16DA14D8625000A17E6A /* www in Resources */,
-				82F3021615B0752600A6EB5F /* CordovaResources.bundle in Resources */,
 				82F593E415B0D15400C7E033 /* Cordova.plist in Resources */,
+				82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3073,6 +3071,7 @@
 				821D1CCD15B204FB00D05F8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
