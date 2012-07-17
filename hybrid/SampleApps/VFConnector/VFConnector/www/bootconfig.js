@@ -20,10 +20,10 @@ var oauthRedirectURI = "testsfdc:///mobilesdk/detect/oauth/done";
 var oauthScopes = ["web","api"];
 
 // The start data associated with the application.  Use SFHybridApp.LocalAppStartData for a "local"
-// PhoneGap-based application, and SFHybridApp.RemoteAppStartData for a Visualforce-based
+// Cordova-based application, and SFHybridApp.RemoteAppStartData for a Visualforce-based
 // application.  The default representations are below, or you can look at the data
 // classes in SFHybridApp.js to see how you can further customize your options.
-//var startData = new SFHybridApp.LocalAppStartData();  // Used for local REST-based "index.html" PhoneGap apps.
+//var startData = new SFHybridApp.LocalAppStartData();  // Used for local REST-based "index.html" Cordova apps.
 var startData = new SFHybridApp.RemoteAppStartData("/apex/BasicVFPage"); // Used for Visualforce-based apps.
 
 

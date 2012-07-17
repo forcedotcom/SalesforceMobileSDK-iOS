@@ -16,8 +16,8 @@
     <!-- include forcetk for REST transaction support -->
     <script type="text/javascript" src="forcetk.js"></script>
         
-    <!-- include phonegap / callback -->
-	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
+    <!-- include cordova -->
+	<script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
         
     <!-- required for oauth plugin support -->    
     <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
@@ -71,9 +71,9 @@
 		document.addEventListener("deviceready", onDeviceReady,false);
     });
 
-    // When this function is called, PhoneGap has been initialized and is ready to roll 
+    // When this function is called, Cordova has been initialized and is ready to roll 
     function onDeviceReady() {
-        SFHybridApp.logToConsole("onDeviceReady: PhoneGap ready");
+        SFHybridApp.logToConsole("onDeviceReady: Cordova ready");
         //Call getAuthCredentials to get the initial session credentials
         SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
         

@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-// From PhoneGap.framework
-#import "PGPlugin.h"
+// From Cordova.framework
+#import <Cordova/CDVPlugin.h>
 
 
 extern NSString * const kSFTestRunnerPluginName;
@@ -33,7 +33,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 
 
-@interface SFTestRunnerPlugin : PGPlugin {
+@interface SFTestRunnerPlugin : CDVPlugin {
     
     NSMutableArray *_testResults;
 }
