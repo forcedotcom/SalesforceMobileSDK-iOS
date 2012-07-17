@@ -61,4 +61,11 @@
  */
 + (id)objectFromJSONData:(NSData *)jsonData;
 
+
+
+/**
+ Pull a value from the json-derived object by path ("." delimited)
+ */
++ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
+
 @end

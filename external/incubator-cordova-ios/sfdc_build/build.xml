@@ -1,0 +1,66 @@
+<!--
+    Build file for CordovaLib 
+    - Public Headers Folder Path to: <don't change>
+    - Installation Directory to: /
+    - Skip Install to: No
+-->
+<project name="CordovaLib" default="all">
+    <import file="../../../shared/build.xml"/>
+
+    <property environment="env"/>
+    <property name="env.BUILD_NUMBER" value="1"/>
+
+    <!-- Supplied by the automated build server -->
+    <property id="SDK" name="SDK" value="Latest"/>
+
+    <property id="target.name" name="target.name" value="${ant.project.name}" />
+    <property name="project.dir" location="../incubator-cordova-ios/CordovaLib" />
+    <property name="artifacts.dir" location="./artifacts" />
+    <property name="dist.dir" location="${iOSShared.distdir}/Cordova" />
+
+    <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
+    <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
+
+    <property id="configuration.debug" name="configuration.debug" value="Debug"/>
+    <property id="configuration.release" name="configuration.release" value="Release"/>
+
+
+    <target name="all" depends="pre, build" description="do it all"/>
+    <target name="pre"  depends="initArtifacts"/>
+
+    <target name="initArtifacts">
+        <delete dir="${artifacts.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+    </target>
+
+   <target name="build">
+	<antcall target="compileRelease" />
+   </target>
+	
+    <target name="compileRelease" depends="pre" >
+        <property name="configuration" value="${configuration.release}" />
+        <property name="dist.file" value="Cordova-${configuration}.zip" />
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphoneos"/>
+            <param name="target" value="UniversalFramework"/>
+            <param name="action" value="install"/>
+        </antcall>
+		<antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/${dist.file}"/>
+            <param name="basedir" value="${project.dir}/build/Release-universal/Cordova.framework"/>
+        </antcall>
+		<move todir="${dist.dir}">
+		  <filelist dir="${artifacts.dir}">
+		    <file name="${dist.file}"/>
+		  </filelist>
+		</move>
+    </target>
+
+    <target name="clean">
+		<delete dir="${project.dir}/build" />
+        <delete dir="${artifacts.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+</project>
