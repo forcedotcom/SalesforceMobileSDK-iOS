@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +23,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
 
-@implementation AppDelegate
 
-#pragma mark - App lifecycle
+#import "SalesforceHybridSDK/SFContainerAppDelegate.h"
 
-// NOTE: be sure to call all super methods you override.
+@interface AppDelegate : SFContainerAppDelegate  {
+
+}
+
 
 @end
+

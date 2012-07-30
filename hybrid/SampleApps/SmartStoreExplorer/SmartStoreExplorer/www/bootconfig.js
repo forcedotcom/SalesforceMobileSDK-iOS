@@ -26,12 +26,11 @@ var oauthScopes = ["web","api"];
 var startData = new SFHybridApp.LocalAppStartData();  // Used for local REST-based "index.html" Cordova apps.
 //var startData = new SFHybridApp.RemoteAppStartData("/apex/BasicVFPage"); // Used for Visualforce-based apps.
 
-
 // Whether the container app should automatically refresh our oauth session on app foreground
-var autoRefreshOnForeground = true; 
-    
+var autoRefreshOnForeground = true;
+
 // Whether the container app should automatically refresh our oauth session periodically
-var autoRefreshPeriodically = false;//rest-based apps automatically refresh when needed
+var autoRefreshPeriodically = true; 
 
 //-----------------------------------------------------------------
 // End configuration block
