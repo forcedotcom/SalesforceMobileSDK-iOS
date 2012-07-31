@@ -9,6 +9,7 @@
 #import "SFSmartStoreTests.h"
 #import "SFJsonUtils.h"
 #import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
 NSString * const kTestSoupName   = @"testSoup";
@@ -103,6 +104,30 @@ NSString * const kTestSoupName   = @"testSoup";
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
     [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
     STAssertTrue([_store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+    
+    // Remove
+    [_store removeSoup:kTestSoupName];
+    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
+    
+}
+
+/**
+ * Test registering same soup name multiple times.
+ */
+- (void) testMultipleRegisterSameSoup
+{
+    // Before
+    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+    
+    // Register first time.
+    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    STAssertTrue([_store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+    
+    // Register second time.  Should only create one soup per unique soup name.
+    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    int rowCount = [_store.storeDb intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
+    STAssertEquals(rowCount, 1, @"Soup names should be unique within a store.");
     
     // Remove
     [_store removeSoup:kTestSoupName];

@@ -690,7 +690,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (NSString *)tableNameBySoupId:(long)soupId {
-    return [NSString stringWithFormat:@"TABLE_%d",soupId];
+    return [NSString stringWithFormat:@"TABLE_%ld",soupId];
 }
 
 - (NSArray *)tableNamesForAllSoups {
@@ -809,6 +809,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     //verify indexSpecs
     if (!([indexSpecs count] > 0)) {
         NSLog(@"Bogus indexSpecs: '%@'",indexSpecs);
+        return result;
+    }
+    
+    // If soup with soupName already exists, just return success.
+    if ([self soupExists:soupName]) {
+        result = YES;
         return result;
     }
     

@@ -74,7 +74,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     NSString *paramStr = _queryParams ? [SFJsonUtils JSONRepresentation:_queryParams] : @"[]";
     return [NSString stringWithFormat:
-            @"<SFRestRequest 0x%x \n"
+            @"<SFRestRequest %p \n"
             "endpoint: %@ \n"
             "method: %@ \n"
             "path: %@ \n"
