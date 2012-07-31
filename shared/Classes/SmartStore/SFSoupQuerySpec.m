@@ -158,7 +158,7 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n  queryType:\"%d\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
+    return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
                         self,self.queryType, self.path,self.beginKey,self.endKey,self.order,self.pageSize];
 }
 
