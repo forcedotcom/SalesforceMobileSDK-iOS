@@ -10,7 +10,6 @@
     <script src="jquery/jquery.mobile-1.0b2.min.js"></script>
         
     <!-- include local utility functionality -->
-    <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
     <script type="text/javascript" src="SFHybridApp.js"></script>
 
     <!-- include forcetk for REST transaction support -->
@@ -64,18 +63,19 @@
 	
     var forcetkClient;
     var debugMode = true;
+    var sfHybridApp = cordova.require("salesforce/util/logger");
 
     $(function() {
         //Add event listeners and so forth here
-        SFHybridApp.logToConsole("onLoad: jquery ready");
+        sfHybridApp.logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
     });
 
     // When this function is called, Cordova has been initialized and is ready to roll 
     function onDeviceReady() {
-        SFHybridApp.logToConsole("onDeviceReady: Cordova ready");
+        sfHybridApp.logToConsole("onDeviceReady: Cordova ready");
         //Call getAuthCredentials to get the initial session credentials
-        SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
+        cordova.require("salesforce/plugin/oauth").getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
         
         //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
         document.addEventListener("salesforceSessionRefresh",salesforceSessionRefreshed,false);
@@ -83,12 +83,12 @@
         //enable buttons
         regLinkClickHandlers();
         
-        navigator.testrunner.onReadyForTests();
+        cordova.require("salesforce/plugin/testrunner").onReadyForTests();
     }
         
 
     function salesforceSessionRefreshed(creds) {
-        SFHybridApp.logToConsole("salesforceSessionRefreshed");
+        sfHybridApp.logToConsole("salesforceSessionRefreshed");
 		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
@@ -98,7 +98,7 @@
 
 
     function getAuthCredentialsError(error) {
-        SFHybridApp.logToConsole("getAuthCredentialsError: " + error);
+        sfHybridApp.logToConsole("getAuthCredentialsError: " + error);
     }
         
     </script>

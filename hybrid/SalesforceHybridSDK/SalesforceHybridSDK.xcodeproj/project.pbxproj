@@ -310,7 +310,6 @@
 		8248E07E157D10BE00A7FE69 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
 		8248E07F157D10BF00A7FE69 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
 		824B4E27157D21E50017229C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B4E26157D21E50017229C /* libz.dylib */; };
-		826ED6E51582DB3800321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
 		826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
 		826ED6E71582DB5600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */; };
 		826ED6E81582DB6400321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */; };
@@ -322,7 +321,6 @@
 		826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
 		826ED6EF1582DC4C00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
 		826ED6F01582DC5C00321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
-		826ED6F11582DC5C00321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
 		826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */; };
 		826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6E11582DAAB00321962 /* qunit.css */; };
 		826ED6F41582DC7600321962 /* qunit.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DF1582DAA300321962 /* qunit.js */; };
@@ -334,7 +332,6 @@
 		826ED6FA1582DCAE00321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */; };
 		826ED6FB1582DCAE00321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */; };
 		826ED6FC1582DCAE00321962 /* SFHybridApp.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D91582DA7900321962 /* SFHybridApp.js */; };
-		826ED6FD1582DCAE00321962 /* SFHybridApp.css in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D71582DA7100321962 /* SFHybridApp.css */; };
 		826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
 		826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
 		826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */; };
@@ -416,7 +413,6 @@
 				826ED6FA1582DCAE00321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
 				826ED6FB1582DCAE00321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6FC1582DCAE00321962 /* SFHybridApp.js in Copy shared-www files */,
-				826ED6FD1582DCAE00321962 /* SFHybridApp.css in Copy shared-www files */,
 				826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */,
 				826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
@@ -441,7 +437,6 @@
 				826ED6E81582DB6400321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
 				826ED6E71582DB5600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */,
-				826ED6E51582DB3800321962 /* SFHybridApp.css in Copy shared-www files */,
 				7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
 				82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
@@ -461,7 +456,6 @@
 				826ED6F51582DC7600321962 /* SalesforceOAuthPlugin.js in Copy shared-www files */,
 				826ED6F61582DC7600321962 /* SFSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F01582DC5C00321962 /* SFHybridApp.js in Copy shared-www files */,
-				826ED6F11582DC5C00321962 /* SFHybridApp.css in Copy shared-www files */,
 				826ED6EF1582DC4C00321962 /* SFTestSuite.js in Copy shared-www files */,
 				826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */,
@@ -715,7 +709,6 @@
 		826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStoreLoadTestSuite.js; path = test/SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
 		826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFTestRunnerPlugin.js; path = test/SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		826ED6D51582DA6700321962 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFTestSuite.js; path = test/SFTestSuite.js; sourceTree = "<group>"; };
-		826ED6D71582DA7100321962 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = util/SFHybridApp.css; sourceTree = "<group>"; };
 		826ED6D91582DA7900321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = util/SFHybridApp.js; sourceTree = "<group>"; };
 		826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStoreTestSuite.js; path = test/SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
@@ -1166,7 +1159,6 @@
 				826ED6DD1582DA9100321962 /* SalesforceOAuthPlugin.js */,
 				826ED6DB1582DA8500321962 /* SFSmartStoreTestSuite.js */,
 				826ED6D91582DA7900321962 /* SFHybridApp.js */,
-				826ED6D71582DA7100321962 /* SFHybridApp.css */,
 				826ED6D51582DA6700321962 /* SFTestSuite.js */,
 				826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */,
 				826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */,
