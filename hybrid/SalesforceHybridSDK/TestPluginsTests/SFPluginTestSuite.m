@@ -126,7 +126,7 @@
     
     self.jsTestName = testName;
     
-    NSString *testCmd = [NSString stringWithFormat:@"navigator.testrunner.setTestSuite('%@');navigator.testrunner.testSuite.startTest('%@');"
+    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"salesforce/plugin/testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
     AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
