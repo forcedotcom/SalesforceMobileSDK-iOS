@@ -63,17 +63,17 @@
 	
     var forcetkClient;
     var debugMode = true;
-    var sfHybridApp = cordova.require("salesforce/util/logger");
+    var logToConsole = cordova.require("salesforce/util/logger").logToConsole;
 
     $(function() {
         //Add event listeners and so forth here
-        sfHybridApp.logToConsole("onLoad: jquery ready");
+        logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
     });
 
     // When this function is called, Cordova has been initialized and is ready to roll 
     function onDeviceReady() {
-        sfHybridApp.logToConsole("onDeviceReady: Cordova ready");
+        logToConsole("onDeviceReady: Cordova ready");
         //Call getAuthCredentials to get the initial session credentials
         cordova.require("salesforce/plugin/oauth").getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
         
@@ -88,7 +88,7 @@
         
 
     function salesforceSessionRefreshed(creds) {
-        sfHybridApp.logToConsole("salesforceSessionRefreshed");
+        logToConsole("salesforceSessionRefreshed");
 		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
@@ -98,7 +98,7 @@
 
 
     function getAuthCredentialsError(error) {
-        sfHybridApp.logToConsole("getAuthCredentialsError: " + error);
+        logToConsole("getAuthCredentialsError: " + error);
     }
         
     </script>
