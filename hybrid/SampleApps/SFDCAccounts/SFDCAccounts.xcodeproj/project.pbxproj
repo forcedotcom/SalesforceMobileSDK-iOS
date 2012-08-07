@@ -45,7 +45,6 @@
 		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
 		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
 		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
-		826ED6A31582D68B00321962 /* SFHybridApp.css in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69C1582D29E00321962 /* SFHybridApp.css */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
 		CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
 		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
@@ -79,7 +78,6 @@
 				CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */,
 				CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */,
 				CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */,
-				826ED6A31582D68B00321962 /* SFHybridApp.css in Copy sfdc-shared */,
 				826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */,
 				826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */,
 				826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */,
@@ -167,7 +165,6 @@
 		821D1CF315B2133D00D05F8E /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../hybrid/dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
 		826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
 		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
-		826ED69C1582D29E00321962 /* SFHybridApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = SFHybridApp.css; path = PhoneGap/util/SFHybridApp.css; sourceTree = "<group>"; };
 		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CEDF50C0158BD46B00618949 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
@@ -222,7 +219,6 @@
 			children = (
 				821D1CF315B2133D00D05F8E /* cordova-1.8.1.js */,
 				826ED69E1582D2B200321962 /* SFHybridApp.js */,
-				826ED69C1582D29E00321962 /* SFHybridApp.css */,
 				826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */,
 				826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */,
 				7D3FF02914BE27B2004D3FF6 /* bootstrap.html */,
