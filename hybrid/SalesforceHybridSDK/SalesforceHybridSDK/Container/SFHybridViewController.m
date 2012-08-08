@@ -61,6 +61,17 @@
     return self;
 }
 
+#pragma mark - View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    // Make sure the view uses the entire application frame.  User's app can override this
+    // behavior if he/she wants to change the footprint of the hybrid UI.
+    self.view.frame = [[UIScreen mainScreen] applicationFrame];
+    
+    [super viewWillAppear:animated];
+}
+
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView 
