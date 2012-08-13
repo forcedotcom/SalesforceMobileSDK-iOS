@@ -104,6 +104,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize approvalCode               = _approvalCode;
 @synthesize scopes                     = _scopes;
 @synthesize refreshFlowConnectionTimer = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread         = _refreshTimerThread;
 
 
 - (id)init {
@@ -130,8 +131,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_credentials release];     _credentials = nil;
     [_responseData release];    _responseData = nil;
     [_scopes release];          _scopes = nil;
-    [_refreshFlowConnectionTimer invalidate];
-    [_refreshFlowConnectionTimer release]; _refreshFlowConnectionTimer = nil;
+    [self stopRefreshFlowConnectionTimer];
     
     _view.delegate = nil;
     [_view release]; _view = nil;
@@ -181,7 +181,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_view stopLoading];
     [self.connection cancel];
     self.connection = nil;
-    [self performSelectorOnMainThread:@selector(stopRefreshFlowConnectionTimer) withObject:nil waitUntilDone:NO];
+    [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
 
@@ -194,7 +194,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)notifyDelegateOfFailure:(NSError*)error {
     self.authenticating = NO;
-    [self performSelectorOnMainThread:@selector(stopRefreshFlowConnectionTimer) withObject:nil waitUntilDone:NO];
     [self.delegate oauthCoordinator:self didFailWithError:error];
 }
 
@@ -315,7 +314,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
     // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
     // the timeout with an NSTimer, which gets started here.
-    [self performSelectorOnMainThread:@selector(startRefreshFlowConnectionTimer) withObject:nil waitUntilDone:NO];
+    [self startRefreshFlowConnectionTimer];
     
 	NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
@@ -335,7 +334,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)handleRefreshResponse {
-    [self performSelectorOnMainThread:@selector(stopRefreshFlowConnectionTimer) withObject:nil waitUntilDone:NO];
+    [self stopRefreshFlowConnectionTimer];
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;
@@ -407,6 +406,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)startRefreshFlowConnectionTimer
 {
+    self.refreshTimerThread = [NSThread currentThread];
     self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
                                                                        target:self
                                                                      selector:@selector(refreshFlowConnectionTimerFired:)
@@ -416,8 +416,21 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)stopRefreshFlowConnectionTimer
 {
+    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
+        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
+        [self cleanupRefreshTimer];
+    }
+}
+
+- (void)invalidateRefreshTimer
+{
     [self.refreshFlowConnectionTimer invalidate];
-    [_refreshFlowConnectionTimer release]; _refreshFlowConnectionTimer = nil;
+}
+
+- (void)cleanupRefreshTimer
+{
+    self.refreshFlowConnectionTimer = nil;
+    self.refreshTimerThread = nil;
 }
 
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
@@ -425,6 +438,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     // If this timer fired, the timeout period for the refresh flow has expired, without the
     // refresh flow completing.
     
+    [self cleanupRefreshTimer];
     NSLog(@"Refresh attempt timed out after %f seconds.", self.timeout);
     [self stopAuthentication];
     NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
@@ -556,7 +570,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
-    [self performSelectorOnMainThread:@selector(stopRefreshFlowConnectionTimer) withObject:nil waitUntilDone:NO];
+    [self stopRefreshFlowConnectionTimer];
     [self notifyDelegateOfFailure:error];
 }
 

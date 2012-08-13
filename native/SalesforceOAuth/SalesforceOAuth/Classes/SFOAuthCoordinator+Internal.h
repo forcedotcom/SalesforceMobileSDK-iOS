@@ -32,6 +32,7 @@
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;
 @property (nonatomic, retain) NSTimer *refreshFlowConnectionTimer;
+@property (nonatomic, retain) NSThread *refreshTimerThread;
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;
@@ -39,6 +40,8 @@
 - (void)startRefreshFlowConnectionTimer;
 - (void)stopRefreshFlowConnectionTimer;
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;
+- (void)invalidateRefreshTimer;
+- (void)cleanupRefreshTimer;
 
 /**
  Notify our delegate that we could not log in, and clear authenticating flag
