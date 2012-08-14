@@ -79,6 +79,7 @@ static NSString * const kSFOAuthErrorTypeInactiveUser               = @"inactive
 static NSString * const kSFOAuthErrorTypeInactiveOrg                = @"inactive_org";
 static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_limit_exceeded";
 static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
+static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -96,12 +97,14 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 // private
 
-@synthesize authenticating       = _authenticating;
-@synthesize connection           = _connection;
-@synthesize responseData         = _responseData;
-@synthesize initialRequestLoaded = _initialRequestLoaded;
-@synthesize approvalCode         = _approvalCode;
-@synthesize scopes               = _scopes;
+@synthesize authenticating             = _authenticating;
+@synthesize connection                 = _connection;
+@synthesize responseData               = _responseData;
+@synthesize initialRequestLoaded       = _initialRequestLoaded;
+@synthesize approvalCode               = _approvalCode;
+@synthesize scopes                     = _scopes;
+@synthesize refreshFlowConnectionTimer = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread         = _refreshTimerThread;
 
 
 - (id)init {
@@ -128,6 +131,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_credentials release];     _credentials = nil;
     [_responseData release];    _responseData = nil;
     [_scopes release];          _scopes = nil;
+    [self stopRefreshFlowConnectionTimer];
     
     _view.delegate = nil;
     [_view release]; _view = nil;
@@ -177,6 +181,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_view stopLoading];
     [self.connection cancel];
     self.connection = nil;
+    [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
 
@@ -273,7 +278,6 @@ static NSString * const kHttpPostContentType                    = @"application/
                                                             timeoutInterval:self.timeout];
 	[request setHTTPMethod:kHttpMethodPost];
 	[request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-	[request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
 	[url release];
     
@@ -305,8 +309,13 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 	NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
 	[params release];
-	
 	[request setHTTPBody:encodedBody];
+    
+    // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
+    // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
+    // the timeout with an NSTimer, which gets started here.
+    [self startRefreshFlowConnectionTimer];
+    
 	NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
 	[request release];
@@ -325,6 +334,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)handleRefreshResponse {
+    [self stopRefreshFlowConnectionTimer];
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;
@@ -392,6 +402,48 @@ static NSString * const kHttpPostContentType                    = @"application/
         [self notifyDelegateOfFailure:finalError];
     }
     [responseString release];
+}
+
+- (void)startRefreshFlowConnectionTimer
+{
+    self.refreshTimerThread = [NSThread currentThread];
+    self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
+                                                                       target:self
+                                                                     selector:@selector(refreshFlowConnectionTimerFired:)
+                                                                     userInfo:nil
+                                                                      repeats:NO];
+}
+
+- (void)stopRefreshFlowConnectionTimer
+{
+    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
+        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
+        [self cleanupRefreshTimer];
+    }
+}
+
+- (void)invalidateRefreshTimer
+{
+    [self.refreshFlowConnectionTimer invalidate];
+}
+
+- (void)cleanupRefreshTimer
+{
+    self.refreshFlowConnectionTimer = nil;
+    self.refreshTimerThread = nil;
+}
+
+- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
+{
+    // If this timer fired, the timeout period for the refresh flow has expired, without the
+    // refresh flow completing.
+    
+    [self cleanupRefreshTimer];
+    NSLog(@"Refresh attempt timed out after %f seconds.", self.timeout);
+    [self stopAuthentication];
+    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
+                                     description:@"The token refresh process timed out."];
+    [self notifyDelegateOfFailure:error];
 }
 
 #pragma mark - UIWebViewDelegate (User-Agent Token Flow)
@@ -518,6 +570,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
+    [self stopRefreshFlowConnectionTimer];
     [self notifyDelegateOfFailure:error];
 }
 
@@ -592,7 +645,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorRateLimitExceeded;
     }  else if ([type isEqualToString:kSFOAuthErrorTypeUnsupportedResponseType]) {
         code = kSFOAuthErrorUnsupportedResponseType;
-    }
+    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout])
+        code = kSFOAuthErrorTimeout;
     
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
                                                                     description, kSFOAuthErrorDescription,
