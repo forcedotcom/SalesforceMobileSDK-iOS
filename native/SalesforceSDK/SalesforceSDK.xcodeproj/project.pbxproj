@@ -201,6 +201,9 @@
 		829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */; };
 		829EF7DF15629D33002F376C /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 829EF7DA15629D33002F376C /* SFIdentityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829EF7E015629D33002F376C /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
+		82A9FF2015DD6F7700AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF1E15DD6F7700AE37B9 /* SFPasscodeManager.h */; };
+		82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */; };
+		82A9FF2215DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */; };
@@ -434,6 +437,8 @@
 		829EF7D915629D33002F376C /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFIdentityCoordinator+Internal.h"; path = "../../../shared/Classes/Identity/SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
 		829EF7DA15629D33002F376C /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
 		829EF7DB15629D33002F376C /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
+		82A9FF1E15DD6F7700AE37B9 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeManager.h; path = ../../../shared/Classes/Security/SFPasscodeManager.h; sourceTree = "<group>"; };
+		82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
@@ -788,6 +793,8 @@
 				8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */,
 				8207C83D155DB57A0076916C /* SFSecurityLockout.h */,
 				8207C83E155DB57A0076916C /* SFSecurityLockout.m */,
+				82A9FF1E15DD6F7700AE37B9 /* SFPasscodeManager.h */,
+				82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -1135,6 +1142,7 @@
 				82229B7415AA9D8F006D8266 /* UILabel+SFAdditions.h in Headers */,
 				4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */,
 				4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */,
+				82A9FF2015DD6F7700AE37B9 /* SFPasscodeManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1281,6 +1289,7 @@
 				82289FC21584049F00A01903 /* FMDatabasePool.m in Sources */,
 				82289FC41584049F00A01903 /* FMDatabaseQueue.m in Sources */,
 				82289FC61584049F00A01903 /* FMResultSet.m in Sources */,
+				82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1316,6 +1325,7 @@
 				4F028B81158FF11800F89AD4 /* SFInactivityTimerCenter.m in Sources */,
 				4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */,
 				4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */,
+				82A9FF2215DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

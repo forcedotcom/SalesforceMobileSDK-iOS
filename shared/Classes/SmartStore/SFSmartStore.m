@@ -33,7 +33,7 @@
 #import "SFSoupCursor.h"
 #import "SFSoupIndex.h"
 #import "SFSoupQuerySpec.h"
-#import "SFSecurityLockout.h"
+#import "SFPasscodeManager.h"
 
 
 
@@ -660,7 +660,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString *)encKey
 {
-    NSString *key = [SFSecurityLockout hashedPasscode];
+    NSString *key = [[SFPasscodeManager sharedManager] hashedPasscode];
     return (key == nil ? @"" : key);
 }
 

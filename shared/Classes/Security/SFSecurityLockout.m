@@ -29,6 +29,7 @@
 #import "SFKeychainItemWrapper.h"
 #import "SFLogger.h"
 #import "SFAccountManager.h"
+#import "SFPasscodeManager.h"
 
 // Private constants
 
@@ -41,8 +42,6 @@ static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode scre
 static NSString * const kSecurityIsLockedKey                 = @"security.islocked";
 
 // Public constants
-
-NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.security.passcode";
 
 static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
@@ -118,7 +117,7 @@ static BOOL _showPasscode = YES;
         } 
         else {
             [SFSecurityLockout setupTimer];
-            [SFInactivityTimerCenter updateActivityTimestamp];	
+            [SFInactivityTimerCenter updateActivityTimestamp];
             [SFSecurityLockout unlockSuccessPostProcessing];  // "Unlock" was successful, as locking wasn't required.
         }
     } 
@@ -151,11 +150,11 @@ static BOOL _showPasscode = YES;
 	NSNumber *n = [NSNumber numberWithInt:securityLockoutTime];
 	[[NSUserDefaults standardUserDefaults] setObject:n forKey:kSecurityTimeoutKey];
 	if (securityLockoutTime == 0) {  // 0 = security code is removed.
-        if ([SFSecurityLockout hashedPasscode] != nil) {
+        if ([[SFPasscodeManager sharedManager] hashedPasscode] != nil) {
             // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
         }
 		[SFSecurityLockout unlock:YES];
-		[SFSecurityLockout resetPasscode];
+		[[SFPasscodeManager sharedManager] resetPasscode];
 		[SFInactivityTimerCenter removeTimer:kTimerSecurity];
 	} else { 
 		if (![SFSecurityLockout isPasscodeValid]) {
@@ -251,7 +250,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-	if([SFSecurityLockout hashedPasscode] == nil) {
+	if([[SFPasscodeManager sharedManager] hashedPasscode] == nil) {
 		[SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
 	} else {
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
@@ -304,7 +303,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)isPasscodeValid {
 	if(securityLockoutTime == 0) return YES; // no passcode is required.
-    return([SFSecurityLockout hashedPasscode] != nil);
+    return([[SFPasscodeManager sharedManager] hashedPasscode] != nil);
 }
 
 + (BOOL)isLockoutEnabled {
@@ -389,35 +388,17 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 #pragma mark keychain methods
 
-+ (NSString *)hashedPasscode {
-    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
-    return [passcodeWrapper passcode];
-}
-
-+ (void)resetPasscode {
-    [self log:SFLogLevelInfo msg:@"Resetting passcode upon logout."];
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper resetKeychainItem];
-    [passcodeWrapper release];
-}
-
-+ (BOOL)verifyPasscode:(NSString *)passcode {
-    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
-    return [passcodeWrapper verifyPasscode:passcode];
-}
-
 + (void)setPasscode:(NSString *)passcode{
 	if(passcode == nil) {
-		[SFSecurityLockout resetPasscode];
+		[[SFPasscodeManager sharedManager] resetPasscode];
 		return;
 	}
 	if(securityLockoutTime == 0) {
 		[self log:SFLogLevelInfo msg:@"skipping passcode set since lockout timer is 0"];
 		return;
 	}
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper setPasscode:passcode];
-    [passcodeWrapper release];
+    
+    [[SFPasscodeManager sharedManager] setPasscode:passcode];
 }
 
 + (void)setCanShowPasscode:(BOOL)showPasscode {
