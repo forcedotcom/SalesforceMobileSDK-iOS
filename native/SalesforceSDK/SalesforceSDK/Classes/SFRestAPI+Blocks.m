@@ -181,15 +181,17 @@ static char CompleteBlockKey;
 
 - (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object {
     if( success ) {
-        SFRestDictionaryResponseBlock block = (SFRestDictionaryResponseBlock)objc_getAssociatedObject(request, &CompleteBlockKey);
-        
-        if( block )
-            block( object );
+        // This block def basically generalizes the SFRestDictionaryResponseBlock and SFRestArrayResponseBlock
+        // block typedefs, so that we can handle either.
+        void (^successBlock)(id);
+        successBlock = (void (^) (id))objc_getAssociatedObject(request, &CompleteBlockKey);
+        if( successBlock )
+            successBlock( object );
     } else {
-        SFRestFailBlock block = (SFRestFailBlock)objc_getAssociatedObject(request, &FailBlockKey);
+        SFRestFailBlock failBlock = (SFRestFailBlock)objc_getAssociatedObject(request, &FailBlockKey);
         
-        if( block )
-            block( object );
+        if( failBlock )
+            failBlock( object );
     }
     
     // Remove both blocks from the request
