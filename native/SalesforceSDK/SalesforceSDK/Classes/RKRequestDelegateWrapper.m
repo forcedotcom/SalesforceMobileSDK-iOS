@@ -123,7 +123,11 @@
     }
 
     NSError *error = nil;
-    id jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
+    
+    // Some responses (e.g. update responses) do not contain any data.
+    id jsonResponse = nil;
+    if (response.body != nil && response.body.length > 0)
+        jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
     
     if ([jsonResponse isKindOfClass:[NSArray class]]) {
         if ([jsonResponse count] == 1) {
