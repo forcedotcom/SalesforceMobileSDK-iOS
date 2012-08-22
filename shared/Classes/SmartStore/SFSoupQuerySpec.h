@@ -40,6 +40,7 @@ extern NSString * const kQuerySpecTypeLike;
 extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
+extern NSUInteger const kQuerySpecDefaultPageSize;
 
 extern NSString * const kQuerySpecParamMatchKey;
 extern NSString * const kQuerySpecParamBeginKey;
