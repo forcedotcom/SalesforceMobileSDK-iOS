@@ -74,8 +74,9 @@
 
         self.pageSize = [NSNumber numberWithInteger:myPageSize]; 
         
-        NSUInteger totalPages = (totalEntries / querySpec.pageSize) + 1;     
-        if (0 == totalEntries) 
+        float totalPagesFloat = totalEntries / (float)querySpec.pageSize;
+        int totalPages = ceilf(totalPagesFloat);
+        if (0 == totalEntries)
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 

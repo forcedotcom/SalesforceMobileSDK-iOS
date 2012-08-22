@@ -10,6 +10,8 @@
 #import "SFJsonUtils.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
+#import "SFSoupQuerySpec.h"
+#import "SFSoupCursor.h"
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
 NSString * const kTestSoupName   = @"testSoup";
@@ -135,9 +137,60 @@ NSString * const kTestSoupName   = @"testSoup";
     
 }
 
+- (void)testQuerySpecPageSize
+{
+    NSDictionary *allQueryNoPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
+                              @"a/path", kQuerySpecParamIndexPath,
+                              nil];
+    
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryNoPageSize];
+    STAssertEquals(querySpec.pageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
+    [querySpec release];
+    
+    uint expectedPageSize = 42;
+    NSDictionary *allQueryWithPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
+                                        @"a/path", kQuerySpecParamIndexPath,
+                                          [NSNumber numberWithInt:expectedPageSize], kQuerySpecParamPageSize,
+                                        nil];
+    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryWithPageSize];
+    STAssertEquals(querySpec.pageSize, expectedPageSize, @"Page size value should reflect input value.");
+    [querySpec release];
+}
+
+- (void)testCursorTotalPages
+{
+    uint totalEntries = 50;
+    
+    // Entries divided evenly by the page size.
+    uint evenDividePageSize = 25;
+    int expectedPageSize = totalEntries / evenDividePageSize;
+    NSDictionary *allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
+                                          @"a/path", kQuerySpecParamIndexPath,
+                                          [NSNumber numberWithInt:evenDividePageSize], kQuerySpecParamPageSize,
+                                          nil];
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
+    SFSoupCursor *cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    STAssertEquals([cursor.totalPages intValue], expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
+    [querySpec release];
+    [cursor release];
+    
+    // Entries not evenly divided across the page size.
+    uint unevenDividePageSize = 24;
+    expectedPageSize = totalEntries / unevenDividePageSize + 1;
+    allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
+                              @"a/path", kQuerySpecParamIndexPath,
+                              [NSNumber numberWithInt:unevenDividePageSize], kQuerySpecParamPageSize,
+                              nil];
+    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
+    cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    STAssertEquals([cursor.totalPages intValue], expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
+    [querySpec release];
+    [cursor release];
+}
+
 #pragma mark - helper methods
 
-- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message 
+- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message
 {
     // At least one nil
     if (expected == nil || actual == nil) {
