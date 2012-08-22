@@ -41,6 +41,7 @@ NSString * const kQuerySpecParamQueryType = @"queryType";
 NSString * const kQuerySpecParamIndexPath = @"indexPath";
 NSString * const kQuerySpecParamOrder = @"order";
 NSString * const kQuerySpecParamPageSize = @"pageSize";
+NSUInteger const kQuerySpecDefaultPageSize = 10;
 
 NSString * const kQuerySpecParamMatchKey = @"matchKey";
 NSString * const kQuerySpecParamBeginKey = @"beginKey";
@@ -91,7 +92,7 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
             }
             
             NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
-            self.pageSize = [pageSize integerValue];
+            self.pageSize = ([pageSize integerValue] > 0 ? [pageSize integerValue] : kQuerySpecDefaultPageSize);
         }
                 
     }
