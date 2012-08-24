@@ -37,7 +37,6 @@
 		7D4FEBC3150EC0E900842979 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4FEBC1150EC0A400842979 /* libsqlite3.dylib */; };
 		7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */; };
 		7D6F54DC14311ED300EF1371 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D47D3142CEB04000F950D /* TestSetupUtils.m */; };
-		7D6F54DE14311EDB00EF1371 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D47D6142CF078000F950D /* test_credentials.json */; };
 		7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */; };
 		7D8968E5142A819300F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
 		7D8968EA142AA08B00F3FB19 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */; };
@@ -204,6 +203,7 @@
 		82A9FF2015DD6F7700AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF1E15DD6F7700AE37B9 /* SFPasscodeManager.h */; };
 		82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */; };
 		82A9FF2215DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */; };
+		82B9FD1415E45BF400BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1315E45BF400BE8822 /* test_credentials.json */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */; };
@@ -256,7 +256,6 @@
 		7D6CD83D14294F260025F733 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
 		7D6D47D2142CEB04000F950D /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
 		7D6D47D3142CEB04000F950D /* TestSetupUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSetupUtils.m; sourceTree = "<group>"; };
-		7D6D47D6142CF078000F950D /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_credentials.json; sourceTree = "<group>"; };
 		7D8968E2142A819300F3FB19 /* SFSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSessionRefresher.h; sourceTree = "<group>"; };
 		7D8968E3142A819300F3FB19 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		7D8968EC142AADBE00F3FB19 /* TestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRequestListener.h; sourceTree = "<group>"; };
@@ -439,6 +438,7 @@
 		829EF7DB15629D33002F376C /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
 		82A9FF1E15DD6F7700AE37B9 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeManager.h; path = ../../../shared/Classes/Security/SFPasscodeManager.h; sourceTree = "<group>"; };
 		82A9FF1F15DD6F7700AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
+		82B9FD1315E45BF400BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
@@ -948,7 +948,7 @@
 		C26713CE13D6B845001FE0B8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7D6D47D6142CF078000F950D /* test_credentials.json */,
+				82B9FD1315E45BF400BE8822 /* test_credentials.json */,
 				C26713CF13D6B845001FE0B8 /* SalesforceSDKTests-Info.plist */,
 				C26713D013D6B845001FE0B8 /* InfoPlist.strings */,
 				C26713D313D6B845001FE0B8 /* SalesforceSDKTests-Prefix.pch */,
@@ -1219,7 +1219,7 @@
 			files = (
 				C26713D213D6B845001FE0B8 /* InfoPlist.strings in Resources */,
 				C26713D513D6B845001FE0B8 /* SalesforceSDKTests.h in Resources */,
-				7D6F54DE14311EDB00EF1371 /* test_credentials.json in Resources */,
+				82B9FD1415E45BF400BE8822 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
