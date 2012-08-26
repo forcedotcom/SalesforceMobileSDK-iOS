@@ -48,9 +48,7 @@
         <mkdir dir="${dependency.dir}" />
     </target>
 
-   <target name="install" depends="cleanDependencies,build" description="create fresh install artifacts" >
-		<antcall target="documentation.archive" />
-   </target>
+   <target name="install" depends="cleanDependencies,build" description="create fresh install artifacts" />
 
 	<target name="build" depends="pre" description="regenerate main build artifacts" >
 		<antcall target="xcodetemplate.install" />
