@@ -92,8 +92,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (id)initWithName:(NSString*)name;
 
-
-
 /**
  Everything needed to setup the store db file when it doesn't yet exist.
  
@@ -335,6 +333,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (!result) {
         NSLog(@"Deleting store dir since we can't set it up properly: %@", self.storeName);
         [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:self.storeName];
+        [self.class setUsesDefaultKey:NO forStore:self.storeName];
     }
     return result;
 }
@@ -388,35 +387,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-+ (BOOL)usesDefaultKey:(NSString *)storeName {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
-    
-    if (defaultPasscodeDict == nil)
-        return NO;
-    
-    NSNumber *usesDefaultKeyNum = [defaultPasscodeDict objectForKey:storeName];
-    if (usesDefaultKeyNum == nil)
-        return NO;
-    else
-        return [usesDefaultKeyNum boolValue];
-}
-
-+ (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
-    NSMutableDictionary *newDict;
-    if (defaultPasscodeDict == nil)
-        newDict = [NSMutableDictionary dictionary];
-    else
-        newDict = [NSMutableDictionary dictionaryWithDictionary:defaultPasscodeDict];
-    
-    NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesDefault];
-    [newDict setObject:usesDefaultNum forKey:storeName];
-    [userDefaults setObject:newDict forKey:kDefaultPasscodeStoresKey];
-    [userDefaults synchronize];
-}
-
 #pragma mark - Store methods
 
 
@@ -447,6 +417,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != existingStore) {
         [_allSharedStores removeObjectForKey:storeName];
     }
+    [self.class setUsesDefaultKey:NO forStore:storeName];
     [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
 }
 
@@ -544,8 +515,51 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 #pragma mark - Utility methods
 
++ (BOOL)usesDefaultKey:(NSString *)storeName {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
+    
+    if (defaultPasscodeDict == nil)
+        return NO;
+    
+    NSNumber *usesDefaultKeyNum = [defaultPasscodeDict objectForKey:storeName];
+    if (usesDefaultKeyNum == nil)
+        return NO;
+    else
+        return [usesDefaultKeyNum boolValue];
+}
 
-- (NSNumber*)currentTimeInMilliseconds {
++ (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
+    NSMutableDictionary *newDict;
+    if (defaultPasscodeDict == nil)
+        newDict = [NSMutableDictionary dictionary];
+    else
+        newDict = [NSMutableDictionary dictionaryWithDictionary:defaultPasscodeDict];
+    
+    NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesDefault];
+    [newDict setObject:usesDefaultNum forKey:storeName];
+    [userDefaults setObject:newDict forKey:kDefaultPasscodeStoresKey];
+    [userDefaults synchronize];
+}
+
++ (NSString *)encKey
+{
+    NSString *key = [[SFPasscodeManager sharedManager] hashedPasscode];
+    return (key == nil ? @"" : key);
+}
+
++ (NSString *)defaultKey
+{
+    NSString *macAddress = [[UIDevice currentDevice] macaddress];
+    NSString *constKey = [[[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding] autorelease];
+    NSString *strSecret = [macAddress stringByAppendingString:constKey];
+    return [[strSecret sha256] base64Encode];
+}
+
+
+- (NSNumber *)currentTimeInMilliseconds {
     NSTimeInterval rawTime = 1000 * [[NSDate date] timeIntervalSince1970];
     rawTime = floor(rawTime);
     NSNumber *nowVal = [NSNumber numberWithDouble:rawTime];
@@ -555,6 +569,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (BOOL)isFileDataProtectionActive {
     return _dataProtectionKnownAvailable;
 }
+
+#pragma mark - Data access utility methods
 
 
 - (BOOL)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
@@ -711,20 +727,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     return result;
-}
-
-+ (NSString *)encKey
-{
-    NSString *key = [[SFPasscodeManager sharedManager] hashedPasscode];
-    return (key == nil ? @"" : key);
-}
-
-+ (NSString *)defaultKey
-{
-    NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    NSString *constKey = [[[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding] autorelease];
-    NSString *strSecret = [macAddress stringByAppendingString:constKey];
-    return [[strSecret sha256] base64Encode];
 }
 
 #pragma mark - Soup maniupulation methods
