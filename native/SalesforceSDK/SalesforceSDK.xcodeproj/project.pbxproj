@@ -142,6 +142,9 @@
 		7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
 		8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */; };
 		8200B1031561A38B006BAD3B /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
+		8201F34B15DEED4000976EC3 /* SFSmartStoreDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */; };
+		8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */; };
+		8201F34D15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */; };
 		8207C831155C4F000076916C /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C82F155C4F000076916C /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8207C832155C4F000076916C /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C830155C4F000076916C /* SFApplication.m */; };
 		8207C83F155DB57A0076916C /* SFSecurityLockout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207C83D155DB57A0076916C /* SFSecurityLockout.h */; settings = {ATTRIBUTES = (); }; };
@@ -379,6 +382,8 @@
 		7DFF1402143B9D1D0063EF87 /* LogicTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LogicTests-Prefix.pch"; sourceTree = "<group>"; };
 		8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeViewController.h; path = ../../../shared/Classes/Security/SFPasscodeViewController.h; sourceTree = "<group>"; };
 		8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeViewController.m; path = ../../../shared/Classes/Security/SFPasscodeViewController.m; sourceTree = "<group>"; };
+		8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreDatabaseManager.h; sourceTree = "<group>"; };
+		8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreDatabaseManager.m; sourceTree = "<group>"; };
 		8207C82F155C4F000076916C /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFApplication.h; path = ../../../shared/Classes/Common/SFApplication.h; sourceTree = "<group>"; };
 		8207C830155C4F000076916C /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFApplication.m; path = ../../../shared/Classes/Common/SFApplication.m; sourceTree = "<group>"; };
 		8207C83D155DB57A0076916C /* SFSecurityLockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSecurityLockout.h; path = ../../../shared/Classes/Security/SFSecurityLockout.h; sourceTree = "<group>"; };
@@ -554,6 +559,8 @@
 			children = (
 				7D8ECEB514EB2642004F241C /* SFSmartStore.h */,
 				7D8ECEB614EB2642004F241C /* SFSmartStore.m */,
+				8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */,
+				8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */,
 				7D8ECEB714EB2642004F241C /* SFSoupCursor.h */,
 				7D8ECEB814EB2642004F241C /* SFSoupCursor.m */,
 				7D8ECEB914EB2642004F241C /* SFSoupIndex.h */,
@@ -1143,6 +1150,7 @@
 				4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */,
 				4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */,
 				82A9FF2015DD6F7700AE37B9 /* SFPasscodeManager.h in Headers */,
+				8201F34B15DEED4000976EC3 /* SFSmartStoreDatabaseManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,6 +1298,7 @@
 				82289FC41584049F00A01903 /* FMDatabaseQueue.m in Sources */,
 				82289FC61584049F00A01903 /* FMResultSet.m in Sources */,
 				82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
+				8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,6 +1335,7 @@
 				4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */,
 				4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */,
 				82A9FF2215DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
+				8201F34D15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

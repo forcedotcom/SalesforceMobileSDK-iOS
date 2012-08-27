@@ -34,8 +34,6 @@ NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.secur
 
 @implementation SFPasscodeManager
 
-#pragma mark - Init / dealloc / etc.
-
 + (id)allocWithZone:(NSZone *)zone
 {
     static dispatch_once_t onceQueue;

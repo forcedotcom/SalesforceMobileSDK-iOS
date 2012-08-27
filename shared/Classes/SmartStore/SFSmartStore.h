@@ -86,21 +86,15 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 + (void)removeSharedStoreWithName:(NSString*)storeName;
 
-
-/**
- @param storeName The name of the store.
- @return The filesystem diretory containing for the given store name
- */
-+ (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
-
-
-
++ (void)removeAllStores;
 
 /**
  @param storeName The name of the store (excluding paths)
  @return Does this store already exist in persistent storage (ignoring cache) ?
  */
 + (BOOL)persistentStoreExists:(NSString*)storeName;
+
++ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
 
 #pragma mark - Soup manipulation methods
 
