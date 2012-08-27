@@ -90,9 +90,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 @property (nonatomic, strong) FMDatabase *storeDb;
 
-+ (NSArray *)allStoreNames;
-+ (BOOL)dbIsOpen:(FMDatabase *)db;
-
 - (id)initWithName:(NSString*)name;
 
 
@@ -209,6 +206,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 + (NSString *)defaultKey;
 + (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName;
 + (BOOL)usesDefaultKey:(NSString *)storeName;
++ (void)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey;
 
 /**
  Queries a table for the given column data, based on the given clauses.
@@ -292,7 +290,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (void)dealloc {    
     NSLog(@"dealloc store: '%@'",_storeName);
     
-    [self.storeDb close];[_storeDb release]; _storeDb = nil;
+    [self.storeDb close]; [_storeDb release]; _storeDb = nil;
     [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
     
     //remove data protection observer
@@ -316,27 +314,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSLog(@"WARNING file data protection inactive when creating store db.");
     }
     
-    //ensure that the store directory exists
-    NSString *storeDir = [self.class storeDirectoryForStoreName:self.storeName];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
-        //this store has not yet been created: create it
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:storeDir 
-                                       withIntermediateDirectories:YES attributes:nil error:&createErr]) {
-            NSLog(@"Couldn't create store dir at %@ error: %@",storeDir, createErr);
-        }
-    } 
-    
+    // Ensure that the store directory exists.
+    [[SFSmartStoreDatabaseManager sharedManager] createStoreDir:self.storeName error:&createErr];
     if (nil == createErr) {
         //need to create the db file itself before we can encrypt it
         if ([self openStoreDatabase:YES]) {
             if ([self createMetaTables]) {
-                [self.storeDb close]; [_storeDb release]; _storeDb = nil; //need to close before setting encryption
-                
-                NSString *dbFilePath = [self.class fullDbFilePathForStoreName:self.storeName];
-                //setup the sqlite file with encryption        
-                NSDictionary *attr = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
-                if (![[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:&protectErr]) {
-                    NSLog(@"Couldn't protect store: %@",protectErr);
+                [self.storeDb close]; [_storeDb release]; _storeDb = nil; // Need to close before setting encryption.
+                [[SFSmartStoreDatabaseManager sharedManager] protectStoreDir:self.storeName error:&protectErr];
+                if (protectErr != nil) {
+                    NSLog(@"Couldn't protect store: %@", protectErr);
                 } else {
                     //reopen the storeDb now that it's protected
                     result = [self openStoreDatabase:NO];
@@ -346,20 +333,20 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     } 
     
     if (!result) {
-        NSLog(@"Deleting store dir since we can't set it up properly: %@",self.storeName);
-        [[NSFileManager defaultManager] removeItemAtPath:storeDir error:nil];
+        NSLog(@"Deleting store dir since we can't set it up properly: %@", self.storeName);
+        [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:self.storeName];
     }
     return result;
 }
 
 - (BOOL)openStoreDatabase:(BOOL)forCreation {
     FMDatabase *db = nil;
-    NSString *key = [self.class encKey];
     BOOL result;
     
     // If there's a bona fide user-defined passcode key, we assume that any existing databases have already
-    // been updated as the result of the passcode addition/change.  Otherwise, we have to do
+    // been updated (if necessary) as the result of the passcode addition/change.  Otherwise, we have to do
     // some special casing around default passcodes.
+    NSString *key = [self.class encKey];
     if (key != nil && [key length] > 0) {
         // User-defined key.  Create or open the database with that.
         result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key db:&db];
@@ -383,7 +370,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 NSError *encryptDbError = nil;
                 db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:self.storeName key:key error:&encryptDbError];
                 if (encryptDbError) {
-                    NSLog(@"Could not encrypted unencrypted data store '%@': %@", self.storeName, [encryptDbError description]);
+                    NSLog(@"Could not encrypted unencrypted data store '%@': %@", self.storeName, [encryptDbError localizedDescription]);
                     result = NO;
                 } else {
                     self.storeDb = db;
@@ -455,45 +442,23 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 + (void)removeSharedStoreWithName:(NSString*)storeName {
-    NSLog(@"removeSharedStoreWithName: %@",storeName);
-    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath]) {    
-        SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
-        if (nil != existingStore) {
-            [_allSharedStores removeObjectForKey:storeName];
-        }
-        [[NSFileManager defaultManager] removeItemAtPath:fullDbFilePath error:nil];
-        NSLog(@"removed: '%@'",fullDbFilePath);
+    NSLog(@"removeSharedStoreWithName: %@", storeName);
+    SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
+    if (nil != existingStore) {
+        [_allSharedStores removeObjectForKey:storeName];
     }
+    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
 }
 
 + (void)removeAllStores {
-    NSArray *allStoreNames = [self allStoreNames];
+    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     for (NSString *storeName in allStoreNames) {
         [self removeSharedStoreWithName:storeName];
     }
 }
 
-+ (NSArray *)allStoreNames {
-    NSString *rootDir = [self rootStoreDirectory];
-    NSError *getStoresError = nil;
-    NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
-    if (getStoresError) {
-        NSLog(@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]);
-        return nil;
-    }
-    
-    NSMutableArray *allStoreNames = [NSMutableArray array];
-    for (NSString *storesDirName in storesDirNames) {
-        if ([self persistentStoreExists:storesDirName])
-            [allStoreNames addObject:storesDirName];
-    }
-    
-    return allStoreNames;
-}
-
 + (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey {
-    NSArray *allStoreNames = [self allStoreNames];
+    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     for (NSString *storeName in allStoreNames) {
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
         if (currentStore != nil) {
@@ -761,15 +726,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *strSecret = [macAddress stringByAppendingString:constKey];
     return [[strSecret sha256] base64Encode];
 }
-
-+ (BOOL)dbIsOpen:(FMDatabase *)db {
-    if ([db sqliteHandle])
-        return YES;
-    else
-        return NO;
-}
-
-
 
 #pragma mark - Soup maniupulation methods
 
@@ -1512,11 +1468,5 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
 }
-
-
-
-
-
-
 
 @end

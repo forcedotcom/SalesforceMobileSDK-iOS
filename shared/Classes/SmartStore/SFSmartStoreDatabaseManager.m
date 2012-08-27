@@ -42,18 +42,18 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
  @param storeName The name of the store.
  @return The filesystem diretory containing for the given store name
  */
-+ (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
+- (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
 
 /**
  @param storeName The name of the store (excluding paths)
  @return full filesystem path for the store db file
  */
-+ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
+- (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
 
 /**
  @return The root directory where all the SmartStore DBs live.
  */
-+ (NSString *)rootStoreDirectory;
+- (NSString *)rootStoreDirectory;
 
 - (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
                                 name:(NSString *)storeName
@@ -104,13 +104,13 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 #pragma mark - Database management methods
 
 - (BOOL)persistentStoreExists:(NSString*)storeName {
-    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];
     return result;
 }
 
 - (BOOL)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key db:(FMDatabase **)db {
-    NSString *fullDbFilePath = [self.class fullDbFilePathForStoreName:storeName];
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     return [self openDatabaseWithPath:fullDbFilePath key:key db:db];
 }
 
@@ -148,7 +148,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 {
     if (newKey == nil) newKey = @"";
     NSString *escapedKey = [newKey stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
-    NSString *origDbPath = [self.class fullDbFilePathForStoreName:storeName];
+    NSString *origDbPath = [self fullDbFilePathForStoreName:storeName];
     NSString *encDbPath = [origDbPath stringByAppendingString:@".encrypted"];
     
     BOOL encrypting = ([newKey length] > 0);
@@ -268,25 +268,68 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 #pragma mark - Utilities
 
-+ (NSString*)fullDbFilePathForStoreName:(NSString*)storeName {
+- (void)createStoreDir:(NSString *)storeName error:(NSError **)error
+{
+    NSString *storeDir = [self storeDirectoryForStoreName:storeName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
+        // This store has not yet been created; create it.
+        [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:error];
+    }
+}
+
+- (void)protectStoreDir:(NSString *)storeName error:(NSError **)error
+{
+    // Setup the database file with filesystem encryption.
+    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
+    NSDictionary *attr = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
+    [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:error];
+}
+
+- (void)removeStoreDir:(NSString *)storeName
+{
+    NSString *storeDir = [self storeDirectoryForStoreName:storeName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
+        [[NSFileManager defaultManager] removeItemAtPath:storeDir error:nil];
+    }
+}
+
+- (NSString*)fullDbFilePathForStoreName:(NSString*)storeName {
     NSString *storePath = [self storeDirectoryForStoreName:storeName];
     NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
     return fullDbFilePath;
 }
 
-+ (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
-    NSString *storesDir = [self.class rootStoreDirectory];
+- (NSString *)storeDirectoryForStoreName:(NSString *)storeName {
+    NSString *storesDir = [self rootStoreDirectory];
     NSString *result = [storesDir stringByAppendingPathComponent:storeName];
     
     return result;
 }
 
-+ (NSString *)rootStoreDirectory {
+- (NSString *)rootStoreDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
     
     return storesDir;
+}
+
+- (NSArray *)allStoreNames {
+    NSString *rootDir = [self rootStoreDirectory];
+    NSError *getStoresError = nil;
+    NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
+    if (getStoresError) {
+        NSLog(@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]);
+        return nil;
+    }
+    
+    NSMutableArray *allStoreNames = [NSMutableArray array];
+    for (NSString *storesDirName in storesDirNames) {
+        if ([self persistentStoreExists:storesDirName])
+            [allStoreNames addObject:storesDirName];
+    }
+    
+    return allStoreNames;
 }
 
 @end
