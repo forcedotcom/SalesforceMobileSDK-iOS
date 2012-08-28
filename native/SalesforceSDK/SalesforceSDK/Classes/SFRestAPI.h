@@ -48,6 +48,11 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 extern NSString * const kSFMobileSDKNativeDesignator;
 
+/*
+ * The current version of the native Mobile SDK.
+ */
+extern NSString * const kSFMobileSDKVersion;
+
 
 @class SFOAuthCoordinator;
 @class RKClient;
