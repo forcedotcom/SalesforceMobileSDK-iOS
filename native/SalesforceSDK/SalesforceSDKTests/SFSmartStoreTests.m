@@ -12,6 +12,7 @@
 #import "FMDatabaseAdditions.h"
 #import "SFSoupQuerySpec.h"
 #import "SFSoupCursor.h"
+#import "SFSmartStoreDatabaseManager.h"
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
 NSString * const kTestSoupName   = @"testSoup";
@@ -186,6 +187,21 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertEquals([cursor.totalPages intValue], expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
     [querySpec release];
     [cursor release];
+}
+
+- (void)testPersistentStoreExists
+{
+    NSString *storeName = @"xyzpdq";
+    STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should not exist at this point.");
+    FMDatabase *db = nil;
+    NSError *error = nil;
+    [[SFSmartStoreDatabaseManager sharedManager] createStoreDir:storeName error:&error];
+    STAssertNil(error, @"Error creating store dir: %@", [error localizedDescription]);
+    [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:@"" db:&db];
+    STAssertTrue([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should exist after creation.");
+    [db close];
+    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
+    STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should no longer exist at this point.");
 }
 
 #pragma mark - helper methods

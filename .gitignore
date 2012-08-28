@@ -21,6 +21,8 @@ artifacts
 /hybrid/dependencies/openssl/
 /hybrid/dependencies/sqlcipher/
 /hybrid/dependencies/SalesforceCommonUtils/
+/native/dependencies/openssl/
+/native/dependencies/sqlcipher/
 /native/dependencies/RestKit/
 /native/dependencies/SalesforceOAuth/
 /native/dependencies/SalesforceSDK/

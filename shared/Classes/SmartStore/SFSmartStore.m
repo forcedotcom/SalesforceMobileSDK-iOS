@@ -355,8 +355,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         // For creation, we can just set the default key from the start.
         key = [self.class defaultKey];
         result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key db:&db];
-        if (result)
+        if (result) {
             self.storeDb = db;
+            [self.class setUsesDefaultKey:YES forStore:self.storeName];
+        }
     } else {
         // For existing databases, we may need to update to the default encryption, if not updated already.
         key = [self.class defaultKey];
