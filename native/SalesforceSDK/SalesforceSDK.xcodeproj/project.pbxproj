@@ -1784,7 +1784,7 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
@@ -1808,7 +1808,7 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/dependencies/**";
 			};
