@@ -3,7 +3,7 @@
 //  SalesforceSDK
 //
 //  Created by Wolfgang Mathurin on 6/12/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 salesforce.com. All rights reserved.
 //
 
 #import "SFSmartStoreTests.h"
@@ -97,8 +97,10 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMetaDataTablesCreated
 {
-    STAssertTrue([self hasTable:@"soup_index_map"], @"Soup index map table not found");
-    STAssertTrue([self hasTable:@"soup_names"], @"Soup names table not found");
+    BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map"];
+    STAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
+    BOOL hasTableSoupNames = [self hasTable:@"soup_names"];
+    STAssertTrue(hasTableSoupNames, @"Soup names table not found");
 }
 
 /**
@@ -112,11 +114,13 @@ NSString * const kTestSoupName   = @"testSoup";
     // Register
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
     [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
-    STAssertTrue([_store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+    BOOL testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
     // Remove
     [_store removeSoup:kTestSoupName];
-    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
+    testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertFalse(testSoupExists, @"Soup %@ should no longer exist", kTestSoupName);
     
 }
 
@@ -126,12 +130,14 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) testMultipleRegisterSameSoup
 {
     // Before
-    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+    BOOL testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertFalse(testSoupExists, @"Soup %@ should not exist", kTestSoupName);
     
     // Register first time.
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
     [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
-    STAssertTrue([_store soupExists:kTestSoupName], @"Soup %@ should exist", kTestSoupName);
+    testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
     // Register second time.  Should only create one soup per unique soup name.
     [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
@@ -140,7 +146,8 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Remove
     [_store removeSoup:kTestSoupName];
-    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should no longer exist", kTestSoupName);
+    testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertFalse(testSoupExists, @"Soup %@ should no longer exist", kTestSoupName);
     
 }
 
@@ -151,7 +158,8 @@ NSString * const kTestSoupName   = @"testSoup";
                               nil];
     
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryNoPageSize];
-    STAssertEquals(querySpec.pageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
+    NSUInteger querySpecPageSize = querySpec.pageSize;
+    STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
     [querySpec release];
     
     uint expectedPageSize = 42;
@@ -160,7 +168,8 @@ NSString * const kTestSoupName   = @"testSoup";
                                           [NSNumber numberWithInt:expectedPageSize], kQuerySpecParamPageSize,
                                         nil];
     querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryWithPageSize];
-    STAssertEquals(querySpec.pageSize, expectedPageSize, @"Page size value should reflect input value.");
+    querySpecPageSize = querySpec.pageSize;
+    STAssertEquals(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
     [querySpec release];
 }
 
@@ -177,7 +186,8 @@ NSString * const kTestSoupName   = @"testSoup";
                                           nil];
     SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
     SFSoupCursor *cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
-    STAssertEquals([cursor.totalPages intValue], expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
+    int cursorTotalPages = [cursor.totalPages intValue];
+    STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
     [querySpec release];
     [cursor release];
     
@@ -190,7 +200,8 @@ NSString * const kTestSoupName   = @"testSoup";
                               nil];
     querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
     cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
-    STAssertEquals([cursor.totalPages intValue], expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
+    cursorTotalPages = [cursor.totalPages intValue];
+    STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
     [querySpec release];
     [cursor release];
 }
@@ -198,13 +209,16 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testPersistentStoreExists
 {
     NSString *storeName = @"xyzpdq";
-    STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should not exist at this point.");
+    BOOL persistentStoreExists = [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName];
+    STAssertFalse(persistentStoreExists, @"Store should not exist at this point.");
     [self createDbDir:storeName];
     FMDatabase *db = [self openDatabase:storeName key:@"" openShouldFail:NO];
-    STAssertTrue([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should exist after creation.");
+    persistentStoreExists = [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName];
+    STAssertTrue(persistentStoreExists, @"Store should exist after creation.");
     [db close];
     [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
-    STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should no longer exist at this point.");
+    persistentStoreExists = [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName];
+    STAssertFalse(persistentStoreExists, @"Store should no longer exist at this point.");
 }
 
 - (void)testOpenDatabase
@@ -316,6 +330,40 @@ NSString * const kTestSoupName   = @"testSoup";
     [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
 }
 
+- (void)testAllStoreNames
+{
+    // Test with no stores. (Note: Have to get rid of the 'default' store created at setup.)
+    [_store release]; // close underlying db
+    _store = nil;
+    [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
+    NSArray *noStoresArray = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
+    if (noStoresArray != nil) {
+        int expectedCount = [noStoresArray count];
+        STAssertEquals(expectedCount, 0, @"There should not be any stores defined.  Count = %d", expectedCount);
+    }
+    
+    // Create some stores.  Verify them.
+    int numStores = arc4random() % 20 + 1;
+    NSMutableSet *initialStoreList = [NSMutableSet set];
+    NSString *tableName = @"My_Table";
+    for (int i = 0; i < numStores; i++) {
+        NSString *storeName = [NSString stringWithFormat:@"myStore%d", (i + 1)];
+        [self createDbDir:storeName];
+        FMDatabase *db = [self openDatabase:storeName key:@"" openShouldFail:NO];
+        [self createTestTable:tableName db:db];
+        [db close];
+        [initialStoreList addObject:storeName];
+    }
+    NSSet *allStoresStoreList = [NSSet setWithArray:[[SFSmartStoreDatabaseManager sharedManager] allStoreNames]];
+    BOOL setsAreEqual = [initialStoreList isEqualToSet:allStoresStoreList];
+    STAssertTrue(setsAreEqual, @"Store list is not equal!");
+    
+    // Cleanup.
+    for (NSString *storeName in initialStoreList) {
+        [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
+    }
+}
+
 #pragma mark - helper methods
 
 - (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message
@@ -349,7 +397,8 @@ NSString * const kTestSoupName   = @"testSoup";
 {
     // First compare length
     NSUInteger expectedCount = [expected count];
-    STAssertEquals(expectedCount, [actual count], message);
+    NSUInteger actualCount = [actual count];
+    STAssertEquals(expectedCount, actualCount, message);
  
     // Compare values in array
     for (int i=0; i<expectedCount; i++) {
@@ -361,7 +410,8 @@ NSString * const kTestSoupName   = @"testSoup";
 {
     // First compare length
     NSUInteger expectedCount = [expected count];
-    STAssertEquals(expectedCount, [actual count], message);
+    NSUInteger actualCount = [actual count];
+    STAssertEquals(expectedCount, actualCount, message);
     
     // Compare values in array
     NSEnumerator* enumator = [expected keyEnumerator];
