@@ -22,6 +22,12 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*)actual message:(NSString*)message;
 - (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*)actual message:(NSString*)message;
 - (BOOL) hasTable:(NSString*)tableName;
+- (void)createDbDir:(NSString *)dbName;
+- (FMDatabase *)openDatabase:(NSString *)dbName key:(NSString *)key openShouldFail:(BOOL)openShouldFail;
+- (void)createTestTable:(NSString *)tableName db:(FMDatabase *)db;
+- (int)rowCountForTable:(NSString *)tableName db:(FMDatabase *)db;
+- (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db;
+- (BOOL)canReadDatabase:(FMDatabase *)db;
 @end
 
 @implementation SFSmartStoreTests
@@ -193,15 +199,80 @@ NSString * const kTestSoupName   = @"testSoup";
 {
     NSString *storeName = @"xyzpdq";
     STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should not exist at this point.");
-    FMDatabase *db = nil;
-    NSError *error = nil;
-    [[SFSmartStoreDatabaseManager sharedManager] createStoreDir:storeName error:&error];
-    STAssertNil(error, @"Error creating store dir: %@", [error localizedDescription]);
-    [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:@"" db:&db];
+    [self createDbDir:storeName];
+    FMDatabase *db = [self openDatabase:storeName key:@"" openShouldFail:NO];
     STAssertTrue([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should exist after creation.");
     [db close];
     [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
     STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName], @"Store should no longer exist at this point.");
+}
+
+- (void)testOpenDatabase
+{
+    // Create a new DB.  Verify its emptiness.
+    NSString *storeName = @"awesometown";
+    [self createDbDir:storeName];
+    FMDatabase *createDb = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    int actualRowCount = [self rowCountForTable:@"sqlite_master" db:createDb];
+    STAssertEquals(actualRowCount, 0, @"%@ should be a new database with no schema.", storeName);
+    
+    // Create a table, verify its addition to the DB.
+    NSString *tableName = @"My_Table";
+    [self createTestTable:tableName db:createDb];
+    actualRowCount = [self rowCountForTable:@"sqlite_master" db:createDb];
+    STAssertEquals(actualRowCount, 1, @"%@ should now have one table in the DB schema.", storeName);
+    
+    // Close the current handle, open the database in another call, verify it has a previously-defined table.
+    [createDb close];
+    FMDatabase *existingDb = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    actualRowCount = [self rowCountForTable:@"sqlite_master" db:existingDb];
+    STAssertEquals(actualRowCount, 1, @"Existing database %@ should have one table in the DB schema.", storeName);
+    
+    [existingDb close];
+    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
+}
+
+- (void)testEncryptDatabase
+{
+    NSString *storeName = @"nunyaBusiness";
+    
+    // Create the unencrypted database, add a table.
+    [self createDbDir:storeName];
+    FMDatabase *unencryptedDb = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    NSString *tableName = @"My_Table";
+    [self createTestTable:tableName db:unencryptedDb];
+    BOOL isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb];
+    STAssertTrue(isTableNameInMaster, @"Table %@ should have been added to sqlite_master.", tableName);
+
+    // Encrypt the DB, verify access.
+    NSString *encKey = @"BigSecret";
+    NSError *encryptError = nil;
+    FMDatabase *encryptedDb = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:unencryptedDb name:storeName key:encKey error:&encryptError];
+    STAssertNotNil(encryptedDb, @"Encrypted DB should be a valid object.");
+    STAssertNil(encryptError, @"Error encrypting the DB: %@", [encryptError localizedDescription]);
+    isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
+    STAssertTrue(isTableNameInMaster, @"Table %@ should still exist in sqlite_master, for encrypted DB.", tableName);
+    [encryptedDb close];
+
+    // Try to open the DB with an empty key, verify no read access.
+    FMDatabase *unencryptedDb2 = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    BOOL canReadDb = [self canReadDatabase:unencryptedDb2];
+    STAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+    [unencryptedDb2 close];
+
+    // Try to read the encrypted database with the wrong key.
+    FMDatabase *encryptedDb2 = [self openDatabase:storeName key:@"WrongKey" openShouldFail:NO];
+    canReadDb = [self canReadDatabase:encryptedDb2];
+    STAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened with the wrong key.");
+    [encryptedDb2 close];
+    
+    // Finally, try to re-open the encrypted database with the right key.  Verify read access.
+    FMDatabase *encryptedDb3 = [self openDatabase:storeName key:encKey openShouldFail:NO];
+    isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb3];
+    STAssertTrue(isTableNameInMaster, @"Should find the original table name in sqlite_master, with proper encryption key.");
+    [encryptedDb3 close];
+    
+    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
 }
 
 #pragma mark - helper methods
@@ -271,4 +342,67 @@ NSString * const kTestSoupName   = @"testSoup";
     
     return result == 1;
 }
+
+- (void)createDbDir:(NSString *)dbName
+{
+    NSError *createError = nil;
+    [[SFSmartStoreDatabaseManager sharedManager] createStoreDir:dbName error:&createError];
+    STAssertNil(createError, @"Error creating store dir: %@", [createError localizedDescription]);
+}
+
+- (FMDatabase *)openDatabase:(NSString *)dbName key:(NSString *)key openShouldFail:(BOOL)openShouldFail
+{
+    FMDatabase *db = nil;
+    BOOL openResult = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:dbName key:key db:&db];
+    if (openShouldFail) {
+        STAssertFalse(openResult, @"Opening database should have failed.");
+    } else {
+        STAssertTrue(openResult, @"Opening database should have succeeded.");
+        STAssertNotNil(db, @"Opening database should have returned a non-nil DB object.");
+    }
+    
+    return db;
+}
+
+- (void)createTestTable:(NSString *)tableName db:(FMDatabase *)db
+{
+    NSString *tableSql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (Col1 TEXT, Col2 TEXT, Col3 TEXT, Col4 TEXT)", tableName];
+    BOOL createSucceeded = [db executeUpdate:tableSql];
+    STAssertTrue(createSucceeded, @"Could not create table %@: %@", tableName, [db lastErrorMessage]);
+}
+
+- (int)rowCountForTable:(NSString *)tableName db:(FMDatabase *)db
+{
+    NSString *rowCountQuery = [NSString stringWithFormat:@"SELECT COUNT(*) FROM %@", tableName];
+    NSLog(@"rowCountQuery: %@", rowCountQuery);
+    int rowCount = [db intForQuery:rowCountQuery];
+    return rowCount;
+}
+
+- (BOOL)canReadDatabase:(FMDatabase *)db
+{
+    // Turn off hard errors from FMDB first.
+    BOOL origCrashOnErrors = [db crashOnErrors];
+    [db setCrashOnErrors:NO];
+    
+    NSString *querySql = @"SELECT * FROM sqlite_master LIMIT 1";
+    FMResultSet *rs = [db executeQuery:querySql];
+    [rs close];
+    [db setCrashOnErrors:origCrashOnErrors];
+    return (rs != nil);
+}
+
+- (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db
+{
+    BOOL result = YES;
+    NSString *querySql = @"SELECT * FROM sqlite_master WHERE name = ?";
+    FMResultSet *rs = [db executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:tableName]];
+    if (rs == nil || ![rs next]) {
+        result = NO;
+    }
+    
+    [rs close];
+    return result;
+}
+
 @end
