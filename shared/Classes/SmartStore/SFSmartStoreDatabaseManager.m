@@ -67,37 +67,44 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 @implementation SFSmartStoreDatabaseManager
 
-+ (id)allocWithZone:(NSZone *)zone
-{
-    static dispatch_once_t onceQueue;
-    
-    dispatch_once(&onceQueue, ^{
-        if (sharedInstance == nil) {
-            sharedInstance = [super allocWithZone:zone];
-        }
-    });
-    
-    return sharedInstance;
-}
+#pragma mark - Singleton initialization / management
 
 + (SFSmartStoreDatabaseManager *)sharedManager
 {
-    static dispatch_once_t onceQueue;
-    
-    dispatch_once(&onceQueue, ^{
-        sharedInstance = [[SFSmartStoreDatabaseManager alloc] init];
-    });
+    if (sharedInstance == nil) {
+        sharedInstance = [[super allocWithZone:NULL] init];
+    }
     
     return sharedInstance;
 }
 
-- (id)init
++ (id)allocWithZone:(NSZone *)zone
 {
-    self = [super init];
-    if (self) {
-        
-    }
-    
+    return [[self sharedManager] retain];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (oneway void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
     return self;
 }
 
