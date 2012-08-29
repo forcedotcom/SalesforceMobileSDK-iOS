@@ -275,6 +275,47 @@ NSString * const kTestSoupName   = @"testSoup";
     [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
 }
 
+- (void)testUnencryptDatabase
+{
+    NSString *storeName = @"lookAtThatData";
+    
+    // Create the encrypted database, add a table.
+    [self createDbDir:storeName];
+    NSString *encKey = @"GiantSecret";
+    FMDatabase *encryptedDb = [self openDatabase:storeName key:encKey openShouldFail:NO];
+    NSString *tableName = @"My_Table";
+    [self createTestTable:tableName db:encryptedDb];
+    BOOL isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
+    STAssertTrue(isTableNameInMaster, @"Table %@ should have been added to sqlite_master.", tableName);
+    [encryptedDb close];
+    
+    // Verify that we can't read data with a plaintext DB open.
+    FMDatabase *unencryptedDb = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    BOOL canReadDb = [self canReadDatabase:unencryptedDb];
+    STAssertFalse(canReadDb, @"Should not be able to read encrypted database with no key.");
+    [unencryptedDb close];
+    
+    // Unencrypt the database, verify data.
+    FMDatabase *encryptedDb2 = [self openDatabase:storeName key:encKey openShouldFail:NO];
+    NSError *unencryptError = nil;
+    FMDatabase *unencryptedDb2 = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:encryptedDb2
+                                                                                     name:storeName
+                                                                                   oldKey:encKey
+                                                                                    error:&unencryptError];
+    STAssertNil(unencryptError, @"Error unencrypting the database: %@", [unencryptError localizedDescription]);
+    isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb2];
+    STAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
+    [unencryptedDb2 close];
+    
+    // Open the database with no key, out of band.  Verify data.
+    FMDatabase *unencryptedDb3 = [self openDatabase:storeName key:@"" openShouldFail:NO];
+    isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb3];
+    STAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
+    [unencryptedDb3 close];
+    
+    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
+}
+
 #pragma mark - helper methods
 
 - (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message
@@ -394,6 +435,10 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db
 {
+    // Turn off hard errors from FMDB first.
+    BOOL origCrashOnErrors = [db crashOnErrors];
+    [db setCrashOnErrors:NO];
+    
     BOOL result = YES;
     NSString *querySql = @"SELECT * FROM sqlite_master WHERE name = ?";
     FMResultSet *rs = [db executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:tableName]];
@@ -402,6 +447,7 @@ NSString * const kTestSoupName   = @"testSoup";
     }
     
     [rs close];
+    [db setCrashOnErrors:origCrashOnErrors];
     return result;
 }
 
