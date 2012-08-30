@@ -38,9 +38,10 @@ NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.secur
 
 + (SFPasscodeManager *)sharedManager
 {
-    if (sharedInstance == nil) {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
         sharedInstance = [[super allocWithZone:NULL] init];
-    }
+    });
     
     return sharedInstance;
 }
