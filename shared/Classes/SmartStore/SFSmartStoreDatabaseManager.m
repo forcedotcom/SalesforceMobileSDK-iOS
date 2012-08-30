@@ -60,7 +60,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                               oldKey:(NSString *)oldKey
                               newKey:(NSString *)newKey
                                error:(NSError **)error;
-- (BOOL)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key db:(FMDatabase **)db;
+- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
 - (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
 
 @end
@@ -116,25 +116,23 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return result;
 }
 
-- (BOOL)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key db:(FMDatabase **)db {
+- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    return [self openDatabaseWithPath:fullDbFilePath key:key db:db];
+    return [self openDatabaseWithPath:fullDbFilePath key:key error:error];
 }
 
-- (BOOL)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key db:(FMDatabase **)db {
-    BOOL result = NO;
-    
-    *db = [FMDatabase databaseWithPath:dbPath];
-    [*db setLogsErrors:YES];
-    [*db setCrashOnErrors:YES];
-    if ([*db open]) {
-        [*db setKey:key];
-        result = YES;
+- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    [db setLogsErrors:YES];
+    [db setCrashOnErrors:NO];
+    if ([db open]) {
+        [db setKey:key];
+        return db;
     } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[*db lastErrorMessage] );
+        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
+        *error = [db lastError];
+        return nil;
     }
-    
-    return result;
 }
 
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error
@@ -231,8 +229,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         return db;
     }
     
-    FMDatabase *encDb = nil;
-    if ([self openDatabaseWithPath:origDbPath key:newKey db:&encDb]) {
+    FMDatabase *encDb = [self openDatabaseWithPath:origDbPath key:newKey error:nil];
+    if (encDb) {
         [[NSFileManager defaultManager] removeItemAtPath:backupPath error:nil];
         return encDb;
     } else {
@@ -246,10 +244,10 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 - (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error
 {
-    FMDatabase *db = nil;
-    BOOL canOpenDb = [self openDatabaseWithPath:dbPath key:key db:&db];
-    if (!canOpenDb) {
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [db lastErrorMessage]];
+    NSError *openDbError = nil;
+    FMDatabase *db = [self openDatabaseWithPath:dbPath key:key error:&openDbError];
+    if (!db) {
+        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [openDbError localizedDescription]];
         *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
                                      code:kSFSmartStoreVerifyDbErrorCode
                                  userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];

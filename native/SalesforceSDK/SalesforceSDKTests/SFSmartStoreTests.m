@@ -443,13 +443,12 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (FMDatabase *)openDatabase:(NSString *)dbName key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
-    FMDatabase *db = nil;
-    BOOL openResult = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:dbName key:key db:&db];
+    NSError *openDbError = nil;
+    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:dbName key:key error:&openDbError];
     if (openShouldFail) {
-        STAssertFalse(openResult, @"Opening database should have failed.");
+        STAssertNil(db, @"Opening database should have failed.");
     } else {
-        STAssertTrue(openResult, @"Opening database should have succeeded.");
-        STAssertNotNil(db, @"Opening database should have returned a non-nil DB object.");
+        STAssertNotNil(db, @"Opening database should have returned a non-nil DB object.  Error: %@", [openDbError localizedDescription]);
     }
     
     return db;

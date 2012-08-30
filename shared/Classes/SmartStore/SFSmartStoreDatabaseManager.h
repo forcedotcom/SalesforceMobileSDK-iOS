@@ -39,7 +39,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 + (SFSmartStoreDatabaseManager *)sharedManager;
 
 - (BOOL)persistentStoreExists:(NSString*)storeName;
-- (BOOL)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key db:(FMDatabase **)db;
+- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 - (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error;
 - (void)createStoreDir:(NSString *)storeName error:(NSError **)error;

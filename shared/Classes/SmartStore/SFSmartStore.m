@@ -339,8 +339,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL)openStoreDatabase:(BOOL)forCreation {
+    NSString * const kOpenExistingDatabaseError = @"Error opening existing store '%@': %@";
+    NSString * const kCreateDatabaseError       = @"Error creating store '%@': %@";
+    NSString * const kEncryptDatabaseError      = @"Error encrypting unencrypted store '%@': %@";
     FMDatabase *db = nil;
-    BOOL result;
+    BOOL result = NO;
+    NSError *openDbError = nil;
     
     // If there's a bona fide user-defined passcode key, we assume that any existing databases have already
     // been updated (if necessary) as the result of the passcode addition/change.  Otherwise, we have to do
@@ -348,41 +352,52 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *key = [self.class encKey];
     if (key != nil && [key length] > 0) {
         // User-defined key.  Create or open the database with that.
-        result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key db:&db];
-        if (result)
+        db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
+        if (db) {
             self.storeDb = db;
+            result = YES;
+        } else {
+            NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
+        }
     } else if (forCreation) {
         // For creation, we can just set the default key from the start.
         key = [self.class defaultKey];
-        result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key db:&db];
-        if (result) {
+        db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
+        if (db) {
             self.storeDb = db;
             [self.class setUsesDefaultKey:YES forStore:self.storeName];
+            result = YES;
+        } else {
+            NSLog(kCreateDatabaseError, self.storeName, [openDbError localizedDescription]);
         }
     } else {
         // For existing databases, we may need to update to the default encryption, if not updated already.
         key = [self.class defaultKey];
         if (![self.class usesDefaultKey:self.storeName]) {
             // This DB is unencrypted.  Encrypt it before proceeding.
-            result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:@"" db:&db];
-            if (!result) {
-                NSLog(@"Couldn't open existing store '%@' for reading.", self.storeName);
+            db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:@"" error:&openDbError];
+            if (!db) {
+                NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
             } else {
                 NSError *encryptDbError = nil;
                 db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:self.storeName key:key error:&encryptDbError];
                 if (encryptDbError) {
-                    NSLog(@"Could not encrypted unencrypted data store '%@': %@", self.storeName, [encryptDbError localizedDescription]);
-                    result = NO;
+                    NSLog(kEncryptDatabaseError, self.storeName, [encryptDbError localizedDescription]);
                 } else {
                     self.storeDb = db;
                     [self.class setUsesDefaultKey:YES forStore:self.storeName];
+                    result = YES;
                 }
             }
         } else {
             // Already uses the default encryption key.  Open with that.
-            result = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key db:&db];
-            if (result)
+            db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
+            if (db) {
                 self.storeDb = db;
+                result = YES;
+            } else {
+                NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
+            }
         }
     }
     
