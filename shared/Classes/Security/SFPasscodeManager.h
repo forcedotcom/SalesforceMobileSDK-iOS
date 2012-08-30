@@ -32,12 +32,12 @@ extern NSString * const kKeychainIdentifierPasscode;
 @interface SFPasscodeManager : NSObject
 
 /**
- Gets the shared instance of the passcode manager.
+ @return The shared instance of the passcode manager.
  */
 + (SFPasscodeManager *)sharedManager;
 
 /**
- Get the hashed passcode from the keychain.
+ @return The hashed passcode from the keychain.
  */
 - (NSString *)hashedPasscode;
 
@@ -49,6 +49,7 @@ extern NSString * const kKeychainIdentifierPasscode;
 /**
  Verify the passcode.
  @param passcode The passcode to verify.
+ @return YES if the passcode verifies, NO otherwise.
  */
 - (BOOL)verifyPasscode:(NSString *)passcode;
 

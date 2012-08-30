@@ -36,58 +36,57 @@
 
 /**
  Everything needed to setup the store db file when it doesn't yet exist.
- 
- @return Success ?
+ @return YES if the store setup was successful, NO otherwise.
  */
 - (BOOL)firstTimeStoreDatabaseSetup;
 
-
 /**
- 
- Update the SOUP_INDEX_MAP_TABLE with new indexing columns
- 
+ Update the SOUP_INDEX_MAP_TABLE with new indexing columns.
  @param soupIndexMapInserts array of NSDictionary of columns and values to be inserted
- @return Insert a new set of indices into the soupe index map.
+ @return YES if the insert was successful, NO otherwise.
  */
 - (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts;
 
-
-
 /**
  Simply open the db file.
- 
- @return YES if we were able to open the db file
+ @param forCreation Whether the DB is to be created, or an existing DB should be opened.
+ @return YES if we were able to open the DB file.
  */
 - (BOOL)openStoreDatabase:(BOOL)forCreation;
 
 /**
  Create soup index map table to keep track of soups' index specs (SOUP_INDEX_MAP_TABLE)
  Create soup names table to map arbitrary soup names to soup table names (SOUP_NAMES_TABLE)
- 
- @return YES if we were able to create the meta tables OK
+ @return YES if we were able to create the meta tables, NO otherwise.
  */
 - (BOOL)createMetaTables;
 
-
 /**
- Register the new soup in SOUP_NAMES_TABLE
+ Register the new soup in SOUP_NAMES_TABLE.
+ @return The table name associated with the new soup.
  */
 - (NSString *)registerNewSoupName:(NSString*)soupName;
+
 /**
- Obtain soup table name from SOUP_NAMES_TABLE
+ @return The soup table name from SOUP_NAMES_TABLE, based on soup name.
  */
 - (NSString *)tableNameForSoup:(NSString*)soupName;
+
+/**
+ @return The soup table name from SOUP_NAMES_TABLE, based on soup ID.
+ */
 - (NSString *)tableNameBySoupId:(long)soupId;
 
 /**
- Obtain all soup table names from SOUP_NAMES_TABLE
+ @return All soup table names from SOUP_NAMES_TABLE.
  */
 - (NSArray *)tableNamesForAllSoups;
 
 /**
- Helper method to insert values into an arbitrary table
- 
+ Helper method to insert values into an arbitrary table.
+ @param tableName The table to insert the data into.
  @param map A dictionary of key-value pairs to be inserted into table.
+ @return YES if the insert was successful, NO otherwise.
  */
 - (BOOL)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map;
 
@@ -95,34 +94,63 @@
  Helper method to update existing values in a table.
  @param tableName The name of the table to update.
  @param values The column name/value mapping to update.
- @param entryId The id column to determine what to update.
- 
+ @param entryId The ID column used to determine what to update.
  @return YES if the update was successful, NO otherwise.
  */
 - (BOOL)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId;
 
-
 /**
- Maps an indexSpec path to a column name using SOUP_INDEX_MAP_TABLE
+ @return The map of an indexSpec path to a column name from SOUP_INDEX_MAP_TABLE.
  */
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName;
 
 /**
- Generates range predicate from beginKey/endKey,likeKey etc
+ Generates range predicate from beginKey/endKey,likeKey, etc.
+ @return The string representing the range predicate.
  */
 - (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString *)columnName;
+
+/**
+ Creates the array of query bindings, based on the query spec.
+ @param querySpec The query spec with the data used to create the bindings.
+ @return An array of query bindings.
+ */
 - (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec *)querySpec;
 
-
-/// Convenience methods for upserting individual entries: should generally be wrapped with beginTransaction/endTransaction
+/**
+ Upserts one entry into the soup.
+ @param entry The entry to upsert.
+ @param soupName The name of the soup to upsert into.
+ @param indices The indices that define a unique entry in the soup.
+ @param externalIdPath A path in the entry to an external ID that can define uniqueness in the data.
+ @param error Will hold an output NSError value, if something goes wrong.
+ @return The dictionary representing the updated entry.
+ */
 - (NSDictionary *)upsertOneEntry:(NSDictionary *)entry inSoup:(NSString*)soupName indices:(NSArray*)indices exteralIdPath:(NSString *)externalIdPath error:(NSError **)error;
-- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
-- (NSDictionary *)updateOneEntry:(NSDictionary*)entry withEntryId:(NSNumber *)entryId inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
 
+/**
+ Inserts one entry into the soup.
+ @param entry The entry to insert.
+ @param soupTableName The name of the table representing the soup, to insert into.
+ @param indices The indices that define a unique entry in the soup.
+ @return The dictionary representing the updated entry.
+ */
+- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
+
+/**
+ Updates one entry in the soup.
+ @param entry The entry to update.
+ @param entryId The unique entry ID associated with this item.
+ @param soupTableName The name of the table representing the soup, to update.
+ @param indices The indices that define a unique entry in the soup.
+ @return The dictionary representing the updated entry.
+ */
+- (NSDictionary *)updateOneEntry:(NSDictionary*)entry withEntryId:(NSNumber *)entryId inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices;
 
 /**
  Similar to System.currentTimeMillis: time in ms since Jan 1 1970
  Used for timestamping created and modified times.
+ @return The current number of milliseconds since 1/1/1970.
  */
 - (NSNumber*)currentTimeInMilliseconds;
 
@@ -132,7 +160,7 @@
  @param soupTableName The name of the soup table to query.
  @param fieldPath The field path associated with the entry.
  @param fieldValue The field value returned for the field path.
- @error Will set an error object, if an unexpected error occurs.
+ @param error Will set an error object, if an unexpected error occurs.
  @return The soup entry ID associated with the fieldPath/fieldValue combination, or nil if that
  entry does not exist.
  */
@@ -142,11 +170,42 @@
                                 fieldValue:(NSString *)fieldValue
                                      error:(NSError **)error;
 
+/**
+ @return The key used to encrypt the store.
+ */
 + (NSString *)encKey;
+
+/**
+ @return The default key to use, if no encryption key exists.
+ */
 + (NSString *)defaultKey;
+
+/**
+ Sets a property specifying whether the given store uses a default key for encryption.
+ @param usesDefault Whether the store uses a default key.
+ @param storeName The store for which the setting applies.
+ */
 + (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName;
+
+/**
+ Determines whether the given store uses a default key for encryption.
+ @param storeName The store associated with the setting.
+ @return YES if it does, NO if it doesn't.
+ */
 + (BOOL)usesDefaultKey:(NSString *)storeName;
+
+/**
+ Change the encryption key for a database.  TODO: This will move into SFSmartStoreDatabaseManager.
+ @param db The DB associated with the encryption.
+ @param storeName The store name associated with the request.
+ @param oldKey The original key for the encryption.
+ @param newKey The new key to re-encrypt with.
+ */
 + (void)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey;
+
+/**
+ FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).
+ */
 + (void)clearSharedStoreMemoryState;
 
 /**

@@ -86,6 +86,9 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 + (void)removeSharedStoreWithName:(NSString*)storeName;
 
+/**
+ Removes all of the stores from this app.
+ */
 + (void)removeAllStores;
 
 /**
@@ -94,6 +97,11 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 + (BOOL)persistentStoreExists:(NSString*)storeName;
 
+/**
+ Changes the encryption key for all of the stores associated with the app.
+ @param oldKey The original encryption key.
+ @param newKey The new encryption key.
+ */
 + (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
 
 #pragma mark - Soup manipulation methods

@@ -38,13 +38,65 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  */
 + (SFSmartStoreDatabaseManager *)sharedManager;
 
+/**
+ Whether the store with the given name exists.
+ @param storeName The name of the store to query.
+ @return YES if the store exists, NO otherwise.
+ */
 - (BOOL)persistentStoreExists:(NSString*)storeName;
+
+/**
+ Creates or opens an existing store DB.
+ @param storeName The name of the store to create or open.
+ @param key The encryption key associated with the store.
+ @param error Returned if there's an error with the process.
+ @return The FMDatabase instance representing the DB, or nil if the create/open failed.
+ */
 - (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+
+/**
+ Encrypts an existing unencrypted database.
+ @param db The DB to encrypt.
+ @param storeName The name of the store representing the DB.
+ @param key The encryption key to be used for encrypting the database.
+ @param error Returned if there's an error with encrypting the data.
+ @return The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.
+ */
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+
+/**
+ Unencrypts an encrypted database, back to plaintext.
+ @param db The database to unencrypt.
+ @param storeName The name of the store associated with the DB.
+ @param oldKey The original encryption key of the database.
+ @param error Returned if there's an error during the process.
+ @return The unencrypted database, or the original encrypted database if the process fails at any point.
+ */
 - (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error;
+
+/**
+ Creates the directory for the store, on the filesystem.
+ @param storeName The name of the store to be created.
+ @param error Returned if the creation process fails.
+ */
 - (void)createStoreDir:(NSString *)storeName error:(NSError **)error;
+
+/**
+ Sets filesystem protection on the store DB contents.
+ @param storeName The store associated with the protection.
+ @param error Returned if protection fails.
+ */
 - (void)protectStoreDir:(NSString *)storeName error:(NSError **)error;
+
+/**
+ Removes the store directory and all of its contents from the filesystem.
+ @param storeName The store associated with the request.
+ */
 - (void)removeStoreDir:(NSString *)storeName;
+
+/**
+ @return All of the store names associated with this application.
+ */
 - (NSArray *)allStoreNames;
 
 @end
