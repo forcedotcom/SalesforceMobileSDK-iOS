@@ -206,6 +206,7 @@
 		822ADCEF15A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
 		822ADCF015A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
 		822ADCF115A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
+		823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */; };
 		823819401587FA2F007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
 		823819411587FA2F007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
 		823819421587FA2F007C0D86 /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 823818F41587FA2E007C0D86 /* aes.h */; };
@@ -628,6 +629,7 @@
 		822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
 		822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
 		822ADCEE15A36D2600387CCE /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cordova.framework; sourceTree = "<group>"; };
+		823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSmartStore+Internal.h"; path = "../../../../../shared/Classes/SmartStore/SFSmartStore+Internal.h"; sourceTree = "<group>"; };
 		823818F11587FA2E007C0D86 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		823818F21587FA2E007C0D86 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		823818F41587FA2E007C0D86 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
@@ -1051,6 +1053,7 @@
 		7D45E32414BFB394002C4A27 /* SFSmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */,
 				82599EDE15EC284000AAACF7 /* SFSmartStoreDatabaseManager.h */,
 				82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */,
 				7D56F40214DC7F200013A60F /* SFSmartStorePlugin.h */,
@@ -1596,6 +1599,7 @@
 				828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */,
 				82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */,
 				82599EE015EC284000AAACF7 /* SFSmartStoreDatabaseManager.h in Headers */,
+				823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

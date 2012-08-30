@@ -183,6 +183,7 @@
 		82289FC61584049F00A01903 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FBC1584049F00A01903 /* FMResultSet.m */; };
 		822B2D21157D1B92001EB677 /* SFAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822B2D1F157D1B92001EB677 /* SFAccountManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822B2D22157D1B92001EB677 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822B2D20157D1B92001EB677 /* SFAccountManager.m */; };
+		8230649615EEFE6F002AA5A0 /* SFSmartStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8230649515EEFE6F002AA5A0 /* SFSmartStore+Internal.h */; };
 		8233E2ED15237747003FEE80 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFF1365143B8A090063EF87 /* SenTestingKit.framework */; };
 		823C9B6815ABB04200EF9DAE /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229B5D15AA9D8F006D8266 /* libSalesforceCommonUtils.a */; };
 		823C9B6B15ABB07C00EF9DAE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 823C9B6A15ABB07C00EF9DAE /* libz.dylib */; };
@@ -502,6 +503,7 @@
 		82289FC7158404AA00A01903 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
 		822B2D1F157D1B92001EB677 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManager.h; path = ../../../shared/Classes/Security/SFAccountManager.h; sourceTree = "<group>"; };
 		822B2D20157D1B92001EB677 /* SFAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManager.m; path = ../../../shared/Classes/Security/SFAccountManager.m; sourceTree = "<group>"; };
+		8230649515EEFE6F002AA5A0 /* SFSmartStore+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSmartStore+Internal.h"; sourceTree = "<group>"; };
 		823C9B6A15ABB07C00EF9DAE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		823C9B6C15ABB0AB00EF9DAE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8243CEC215EC7C1200DC26A1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 			isa = PBXGroup;
 			children = (
 				7D8ECEB514EB2642004F241C /* SFSmartStore.h */,
+				8230649515EEFE6F002AA5A0 /* SFSmartStore+Internal.h */,
 				7D8ECEB614EB2642004F241C /* SFSmartStore.m */,
 				8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */,
 				8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */,
@@ -1485,6 +1488,7 @@
 				8243CF5B15EC7C1200DC26A1 /* x509.h in Headers */,
 				8243CF5C15EC7C1200DC26A1 /* x509_vfy.h in Headers */,
 				8243CF5D15EC7C1200DC26A1 /* x509v3.h in Headers */,
+				8230649615EEFE6F002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
