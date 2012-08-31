@@ -48,6 +48,13 @@
     
 }
 
+- (void)tearDown
+{
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    
+    [super tearDown];
+}
+
 
 - (void)testUpsertManyEntries {
     [self runTest:@"testUpsertManyEntries"];
