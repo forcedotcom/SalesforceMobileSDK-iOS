@@ -25,6 +25,7 @@
 #import "SFPasscodeViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFPasscodeManager.h"
 
 // Private view layout constants
 
@@ -379,7 +380,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 - (void)finishedValidatePasscode
 {
     NSString *checkPasscode = [self.passcodeField text];
-    if ([SFSecurityLockout verifyPasscode:checkPasscode]) {
+    if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
         [SFSecurityLockout unlock:YES];
         [SFSecurityLockout setupTimer];
         [self setRemainingAttempts:kMaxNumberofAttempts];
@@ -389,7 +390,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
         [self setRemainingAttempts:_attempts];
         if (_attempts <= 0) {
             [self setRemainingAttempts:kMaxNumberofAttempts];
-            [SFSecurityLockout resetPasscode];
+            [[SFPasscodeManager sharedManager] resetPasscode];
             [SFSecurityLockout unlock:NO];
         } else {
             self.passcodeField.text = @"";

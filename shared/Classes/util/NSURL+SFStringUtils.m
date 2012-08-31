@@ -37,7 +37,7 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
     // Initialize the new URL.
     NSMutableString *redactedUrl = [NSMutableString stringWithFormat:@"%@://%@", [self scheme], [self host]];
     if ([self port] != nil)
-        [redactedUrl appendFormat:@":%d", [self port]];
+        [redactedUrl appendFormat:@":%@", [self port]];
     [redactedUrl appendFormat:@"%@?", [self path]];
     
     // Loop through the querystring to evaluate the parameters.
