@@ -30,6 +30,7 @@
 #import "SFLogger.h"
 #import "SFAccountManager.h"
 #import "SFPasscodeManager.h"
+#import "SFSmartStore.h"
 
 // Private constants
 
@@ -388,17 +389,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 #pragma mark keychain methods
 
-+ (void)setPasscode:(NSString *)passcode{
-	if(passcode == nil) {
-		[[SFPasscodeManager sharedManager] resetPasscode];
-		return;
-	}
-	if(securityLockoutTime == 0) {
-		[self log:SFLogLevelInfo msg:@"skipping passcode set since lockout timer is 0"];
-		return;
-	}
++ (void)setPasscode:(NSString *)passcode
+{
+    // Get the old passcode, before changing.
+    NSString *oldHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
+    if (oldHashedPasscode == nil) oldHashedPasscode = @"";
     
-    [[SFPasscodeManager sharedManager] setPasscode:passcode];
+    if (passcode == nil || [passcode length] == 0) {
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    } else if (securityLockoutTime == 0) {
+        [self log:SFLogLevelInfo msg:@"Skipping passcode set since lockout timer is 0."];
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    } else {
+        [[SFPasscodeManager sharedManager] setPasscode:passcode];
+    }
+    
+    NSString *newHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
+    if (newHashedPasscode == nil) newHashedPasscode = @"";
+    
+    [SFSmartStore changeKeyForStores:oldHashedPasscode newKey:newHashedPasscode];
 }
 
 + (void)setCanShowPasscode:(BOOL)showPasscode {
