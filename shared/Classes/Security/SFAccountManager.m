@@ -29,6 +29,7 @@
 #import "SFIdentityData.h"
 #import "SalesforceSDKConstants.h"
 #import "SFPasscodeManager.h"
+#import "SFSmartStore.h"
 
 // ------------------------------------------
 // Private constants
@@ -277,6 +278,7 @@ static NSMutableDictionary *AccountManagerDict;
     if (clearAccountData) {
         [self.coordinator revokeAuthentication];
         self.idData = nil;
+        [SFSmartStore removeAllStores];
         [[SFPasscodeManager sharedManager] resetPasscode];
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAppSettingsAccountLogout];

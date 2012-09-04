@@ -289,6 +289,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSLog(@"removeSharedStoreWithName: %@", storeName);
     SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
     if (nil != existingStore) {
+        [existingStore.storeDb close];
         [_allSharedStores removeObjectForKey:storeName];
     }
     [self.class setUsesDefaultKey:NO forStore:storeName];
@@ -307,25 +308,97 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [_allSharedStores removeAllObjects];
 }
 
-+ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey {
++ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey
+{
+    if (oldKey == nil) oldKey = @"";
+    if (newKey == nil) newKey = @"";
+    
+    // If the keys are the same, no work to be done.
+    if ([oldKey isEqualToString:newKey])
+        return;
+    
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     for (NSString *storeName in allStoreNames) {
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
         if (currentStore != nil) {
             // Existing store (whose DB should be initialized and open, if it's in _allSharedStores).
-            [self changeKeyForDb:[currentStore storeDb] name:storeName oldKey:oldKey newKey:newKey];
+            NSLog(@"Updating key for opened store '%@'", storeName);
+            FMDatabase *updatedDb = [self changeKeyForDb:currentStore.storeDb name:storeName oldKey:oldKey newKey:newKey];
+            currentStore.storeDb = updatedDb;
+        } else {
+            // Store database is not resident in memory.  Open it long enough to make the change, then close it.
+            NSLog(@"Updating key for store '%@' on filesystem", storeName);
+            NSString *keyUsedToOpen;
+            if ([oldKey length] == 0) {
+                // No old key.  Are we using the default key?
+                if ([self usesDefaultKey:storeName]) {
+                    keyUsedToOpen = [self defaultKey];
+                } else {
+                    keyUsedToOpen = @"";
+                }
+            } else {
+                // There's a previously-defined key.  Use that.
+                keyUsedToOpen = oldKey;
+            }
+            NSError *openError = nil;
+            FMDatabase *nonStoreDb = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
+                                                                                                        key:keyUsedToOpen
+                                                                                                      error:&openError];
+            if (nonStoreDb == nil || openError != nil) {
+                NSLog(@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]);
+            } else {
+                nonStoreDb = [self changeKeyForDb:nonStoreDb name:storeName oldKey:oldKey newKey:newKey];
+            }
+            [nonStoreDb close];
         }
     }
 }
 
-+ (void)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey {
++ (FMDatabase *)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey
+{
+    NSString * const kEncryptionChangeErrorMessage = @"Error changing the encryption key for store '%@': %@";
+    NSString * const kNewEncryptionErrorMessage = @"Error encrypting the unencrypted store '%@': %@";
+    
+    // NB: Assumes keys have already been checked for equality, and that they're not equal.  Ergo if
+    // oldKey is empty, newKey is not.
     if (oldKey == nil || [oldKey length] == 0) {
-        // No passcode originally.  See if we're using the default.
+        // No old key originally.  See if we're using the default key.
         if ([self usesDefaultKey:storeName]) {
-            [db rekey:newKey];
-            [self setUsesDefaultKey:NO forStore:storeName];
+            BOOL rekeyResult = [db rekey:newKey];
+            if (!rekeyResult) {
+                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+            } else {
+                [self setUsesDefaultKey:NO forStore:storeName];
+            }
+            return db;
         } else {
-            // No default either, which means there's no passcode on this store.
+            // No default key either, which means there's no encryption for this store.  Need to encrypt it.
+            NSError *encryptDbError = nil;
+            db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:storeName key:newKey error:&encryptDbError];
+            if (encryptDbError != nil) {
+                NSLog(kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]);
+            }
+            return db;
+        }
+    } else {
+        // DB is already encrypted with a user-defined key.
+        if (newKey != nil && [newKey length] > 0) {
+            // User-defined new key.
+            BOOL rekeyResult = [db rekey:newKey];
+            if (!rekeyResult) {
+                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+            }
+            return db;
+        } else {
+            // New key is empty.  Revert to default encryption.
+            NSString *defaultKey = [self defaultKey];
+            BOOL rekeyResult = [db rekey:defaultKey];
+            if (!rekeyResult) {
+                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+            } else {
+                [self setUsesDefaultKey:YES forStore:storeName];
+            }
+            return db;
         }
     }
 }
@@ -907,11 +980,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *fieldPathColumnName = [self columnNameForPath:fieldPath inSoup:soupName];
     if (fieldPathColumnName == nil) {
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreIndexNotDefinedDescription, fieldPath];
-        *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
-                                             code:kSFSmartStoreIndexNotDefinedCode
-                                         userInfo:[NSDictionary dictionaryWithObject:errorDesc
-                                                                              forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreIndexNotDefinedDescription, fieldPath];
+            *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                         code:kSFSmartStoreIndexNotDefinedCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc
+                                                                          forKey:NSLocalizedDescriptionKey]];
+        }
         return nil;
     }
     
@@ -936,10 +1011,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreTooManyEntriesDescription,
                                    (fieldValue != nil ? fieldValue : @"NULL"),
                                    fieldPath];
-            *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
-                                                 code:kSFSmartStoreTooManyEntriesCode
-                                             userInfo:[NSDictionary dictionaryWithObject:errorDesc
-                                                                                  forKey:NSLocalizedDescriptionKey]];
+            if (error != nil) {
+                *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                             code:kSFSmartStoreTooManyEntriesCode
+                                         userInfo:[NSDictionary dictionaryWithObject:errorDesc
+                                                                              forKey:NSLocalizedDescriptionKey]];
+            }
             returnId = nil;
         }
     }
@@ -1252,9 +1329,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *fieldValue = [SFJsonUtils projectIntoJson:entry path:externalIdPath];
             if (fieldValue == nil) {
                 // Cannot have empty values for user-defined external ID upsert.
-                *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
-                                             code:kSFSmartStoreExternalIdNilCode
-                                         userInfo:[NSDictionary dictionaryWithObject:kSFSmartStoreExternalIdNilDescription forKey:NSLocalizedDescriptionKey]];
+                if (error != nil) {
+                    *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                                 code:kSFSmartStoreExternalIdNilCode
+                                             userInfo:[NSDictionary dictionaryWithObject:kSFSmartStoreExternalIdNilDescription forKey:NSLocalizedDescriptionKey]];
+                }
                 return nil;
             }
             
@@ -1263,7 +1342,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                                forFieldPath:externalIdPath
                                                  fieldValue:fieldValue
                                                       error:error];
-            if (*error != nil) {
+            if (error != nil && *error != nil) {
                 NSString *errorMsg = [NSString stringWithFormat:kSFSmartStoreExtIdLookupError,
                                       externalIdPath, fieldValue, [*error localizedDescription]];
                 NSLog(@"%@", errorMsg);
@@ -1310,10 +1389,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [self.storeDb beginTransaction];
         
         for (NSDictionary *entry in entries) {
-            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName indices:indices exteralIdPath:localExternalIdPath error:error];
-            if (nil != upsertedEntry && *error == nil) {
+            NSError *localError = nil;
+            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName indices:indices exteralIdPath:localExternalIdPath error:&localError];
+            if (nil != upsertedEntry && localError == nil) {
                 [result addObject:upsertedEntry];
             } else {
+                if (error != nil) *error = localError;
                 upsertSuccess = NO;
                 break;
             }

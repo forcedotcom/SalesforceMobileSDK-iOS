@@ -195,13 +195,15 @@
 + (BOOL)usesDefaultKey:(NSString *)storeName;
 
 /**
- Change the encryption key for a database.  TODO: This will move into SFSmartStoreDatabaseManager.
+ Change the encryption key for a database.
  @param db The DB associated with the encryption.
  @param storeName The store name associated with the request.
  @param oldKey The original key for the encryption.
  @param newKey The new key to re-encrypt with.
+ @return The updated database, post encryption action.  Note: This may be a new instance of
+ FMDatabase, depending on the action.
  */
-+ (void)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey;
++ (FMDatabase *)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey;
 
 /**
  FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).
