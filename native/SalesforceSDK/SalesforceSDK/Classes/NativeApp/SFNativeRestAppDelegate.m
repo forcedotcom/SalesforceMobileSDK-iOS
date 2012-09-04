@@ -465,6 +465,13 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
             fatal = NO;
             NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+            
+            // If this is app startup, we need to go through the bootstrapping of the root view controller,
+            // etc.
+            if (_isAppInitialization) {
+                [self postIdentityRetrievalProcesses];
+                return;
+            }
         }
     }
     
