@@ -108,6 +108,14 @@
 + (void)setScopes:(NSSet *)newScopes;
 
 /**
+ * Evaluates an NSError object to see if it represents a network failure during
+ * an attempted connection.
+ * @param error The NSError to evaluate.
+ * @return YES if the error represents a network failure, NO otherwise.
+ */
++ (BOOL)errorIsNetworkFailure:(NSError *)error;
+
+/**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
  * instances, etc.
  * @param clearAccountData Whether to optionally revoke credentials and persisted data associated

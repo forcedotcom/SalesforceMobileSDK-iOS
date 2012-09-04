@@ -414,4 +414,29 @@ static NSMutableDictionary *AccountManagerDict;
     return appSettingsLoginHost;
 }
 
+#pragma mark - Utility methods
+
++ (BOOL)errorIsNetworkFailure:(NSError *)error
+{
+    BOOL isNetworkFailure = NO;
+    
+    if (error == nil || error.domain == nil)
+        return isNetworkFailure;
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        switch (error.code) {
+            case NSURLErrorTimedOut:
+            case NSURLErrorCannotConnectToHost:
+            case NSURLErrorNetworkConnectionLost:
+            case NSURLErrorNotConnectedToInternet:
+                isNetworkFailure = YES;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return isNetworkFailure;
+}
+
 @end

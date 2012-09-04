@@ -34,6 +34,7 @@
 #import "SFNativeRootViewController.h"
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFOAuthInfo.h"
 
 
 
@@ -443,21 +444,31 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self presentAuthViewController:view];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info);
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
-    if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
-        //restart the login process asynchronously
-        NSLog(@"Logging out because oauth failed with error code: %d",error.code);
-        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    BOOL fatal = YES;
+    if (info.authType == SFOAuthTypeRefresh) {
+        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
+            // Restart the login process asynchronously.
+            fatal = NO;
+            NSLog(@"Logging out because oauth failed with error code: %d",error.code);
+            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
+            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
+            fatal = NO;
+            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+        }
     }
-    else {
+    
+    if (fatal) {
         // show alert and retry
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
                                                         message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]

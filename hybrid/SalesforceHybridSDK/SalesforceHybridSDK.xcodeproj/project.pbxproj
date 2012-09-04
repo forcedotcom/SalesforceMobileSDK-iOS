@@ -340,6 +340,7 @@
 		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
 		82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
 		82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */; };
+		82B0FC4B15F6A2780054B066 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC4A15F6A2780054B066 /* SFOAuthInfo.h */; };
 		82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
@@ -735,6 +736,7 @@
 		82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeManager.h; path = ../../../shared/Classes/Security/SFPasscodeManager.h; sourceTree = "<group>"; };
 		82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSecurityLockout+Internal.h"; path = "../../../shared/Classes/Security/SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
+		82B0FC4A15F6A2780054B066 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthInfo.h; sourceTree = "<group>"; };
 		82B9FD1615E45C7600BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCommandDelegate.h; path = Cordova.framework/Headers/CDVCommandDelegate.h; sourceTree = "<group>"; };
 		82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCordovaView.h; path = Cordova.framework/Headers/CDVCordovaView.h; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 		7D32F3041506871800AD2D64 /* SalesforceOAuth */ = {
 			isa = PBXGroup;
 			children = (
+				82B0FC4A15F6A2780054B066 /* SFOAuthInfo.h */,
 				7D32F3051506871800AD2D64 /* SFOAuthCoordinator.h */,
 				7D32F3061506871800AD2D64 /* SFOAuthCredentials.h */,
 			);
@@ -1633,6 +1636,7 @@
 				82599EE015EC284000AAACF7 /* SFSmartStoreDatabaseManager.h in Headers */,
 				823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 				82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */,
+				82B0FC4B15F6A2780054B066 /* SFOAuthInfo.h in Headers */,
 				82BB230F15FAA18F0071DE14 /* CDVCommandDelegate.h in Headers */,
 				82BB231015FAA18F0071DE14 /* CDVCordovaView.h in Headers */,
 				82BB231115FAA18F0071DE14 /* CDVPlugin.h in Headers */,

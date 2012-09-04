@@ -35,6 +35,7 @@
 #import "SFIdentityData.h"
 #import "SFSecurityLockout.h"
 #import "SFUserActivityMonitor.h"
+#import "SFOAuthInfo.h"
 
 // ------------------------------------------
 // Private constants
@@ -609,16 +610,16 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [_appDelegate addOAuthViewToMainView:view];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, authInfo: %@", coordinator.credentials.userId, info);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
     // Clear account state before continuing.
     [[SFAccountManager sharedInstance] clearAccountState:NO];
