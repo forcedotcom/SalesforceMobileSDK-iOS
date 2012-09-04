@@ -27,6 +27,7 @@
 #import "SFRestRequest.h"
 #import "SFIdentityCoordinator.h"
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthInfo.h"
 
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;

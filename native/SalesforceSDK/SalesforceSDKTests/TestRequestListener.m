@@ -138,12 +138,12 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     NSAssert(NO, @"User Agent flow not supported in this class.");
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;

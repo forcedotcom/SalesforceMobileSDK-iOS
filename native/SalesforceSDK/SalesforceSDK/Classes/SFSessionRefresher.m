@@ -132,8 +132,9 @@
     [tempView addSubview:view];    
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate");
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinatorDidAuthenticate, user: %@, authInfo: %@", coordinator.credentials.userId, info);
     
     //re-set to ensure we are sharing the same coordinator (and update credentials)
     [[SFRestAPI sharedInstance] setCoordinator:coordinator];
@@ -143,8 +144,9 @@
     [self replayQueuedRequests];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
     // oauth error
     [self restoreOAuthDelegate];
