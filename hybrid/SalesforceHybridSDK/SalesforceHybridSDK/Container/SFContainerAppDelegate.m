@@ -323,9 +323,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setURL:nil forKey:kAppHomeUrlPropKey];
     [defs synchronize];
-
-    // Clear smartstore
-    [[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] removeAllSoups];
     
     if (restartAuthentication)
         [self.viewController loadStartPageIntoWebView];

@@ -23,6 +23,7 @@
  */
 
 #import "SFSecurityLockout.h"
+#import "SFSecurityLockout+Internal.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFPasscodeViewController.h"
 #import "SFOAuthCredentials.h"
@@ -30,6 +31,7 @@
 #import "SFLogger.h"
 #import "SFAccountManager.h"
 #import "SFPasscodeManager.h"
+#import "SFSmartStore.h"
 
 // Private constants
 
@@ -51,51 +53,6 @@ static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
 static BOOL _showPasscode = YES;
-
-@interface SFSecurityLockout () 
-
-/**
- * Called when the user activity timer expires.
- */
-+ (void)timerExpired:(NSTimer *)theTimer;
-
-/**
- * Presents the passcode controller when it's time to create or verify the passcode.
- */
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue;
-
-/**
- * Sets a retained instance of the current passcode view controller that's displayed.
- */
-+ (void)setPasscodeViewController:(UIViewController *)vc;
-
-/**
- * Returns the currently displayed passcode view controller, or nil if the passcode view controller
- * is not currently displayed.
- */
-+ (UIViewController *)passcodeViewController;
-
-/**
- * Whether or not the passcode screen is currently displayed.
- */
-+ (BOOL)passcodeScreenIsPresent;
-
-/**
- * Whether or not the app currently has a valid authenticated session.
- */
-+ (BOOL)hasValidSession;
-
-/**
- * Runs in the event of a successful passcode unlock.
- */
-+ (void)unlockSuccessPostProcessing;
-
-/**
- * Runs in the event that a passcode unlock attempt failed.
- */
-+ (void)unlockFailurePostProcessing;
-
-@end
 
 @implementation SFSecurityLockout
 
@@ -168,6 +125,12 @@ static BOOL _showPasscode = YES;
         }
 	}
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+// For unit tests.
++ (void)setLockoutTimeInternal:(NSUInteger)seconds
+{
+    securityLockoutTime = seconds;
 }
 
 + (NSUInteger)lockoutTime {
@@ -388,17 +351,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 #pragma mark keychain methods
 
-+ (void)setPasscode:(NSString *)passcode{
-	if(passcode == nil) {
-		[[SFPasscodeManager sharedManager] resetPasscode];
-		return;
-	}
-	if(securityLockoutTime == 0) {
-		[self log:SFLogLevelInfo msg:@"skipping passcode set since lockout timer is 0"];
-		return;
-	}
++ (void)setPasscode:(NSString *)passcode
+{
+    // Get the old passcode, before changing.
+    NSString *oldHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
+    if (oldHashedPasscode == nil) oldHashedPasscode = @"";
     
-    [[SFPasscodeManager sharedManager] setPasscode:passcode];
+    if (passcode == nil || [passcode length] == 0) {
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    } else if (securityLockoutTime == 0) {
+        [self log:SFLogLevelInfo msg:@"Skipping passcode set since lockout timer is 0."];
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    } else {
+        [[SFPasscodeManager sharedManager] setPasscode:passcode];
+    }
+    
+    NSString *newHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
+    if (newHashedPasscode == nil) newHashedPasscode = @"";
+    
+    [SFSmartStore changeKeyForStores:oldHashedPasscode newKey:newHashedPasscode];
 }
 
 + (void)setCanShowPasscode:(BOOL)showPasscode {

@@ -186,19 +186,22 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreAttachNewDbErrorDesc,
                                (encrypting ? @"encrypting" : @"decrypting"),
                                [db lastErrorMessage]];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreAttachNewDbErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil)
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreAttachNewDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         return db;
     }
     FMResultSet *rs = [db executeQuery:@"SELECT sqlcipher_export('encrypted')"];
     if (rs == nil || ![rs next]) {
         [rs close];
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreDbExportErrorDesc, [db lastErrorMessage]];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreDbExportErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreDbExportErrorDesc, [db lastErrorMessage]];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreDbExportErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         return db;
     }
@@ -206,9 +209,11 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     updateResult = [db executeUpdate:@"DETACH DATABASE encrypted"];
     if (!updateResult) {
         NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreDetachDbErrorDesc, [db lastErrorMessage]];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreDetachDbErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreDetachDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         return db;
     }
@@ -224,10 +229,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSString *backupPath = [origDbPath stringByAppendingString:@".bak"];
     BOOL fileOpSuccess = [[NSFileManager defaultManager] moveItemAtPath:origDbPath toPath:backupPath error:error];
     if (!fileOpSuccess) {
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreDbBackupErrorDesc, storeName, *error];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreDbBackupErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreDbBackupErrorDesc, storeName, *error];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreDbBackupErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         [db open];
         [db setKey:oldKey];
@@ -235,10 +242,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     fileOpSuccess = [[NSFileManager defaultManager] moveItemAtPath:encDbPath toPath:origDbPath error:error];
     if (!fileOpSuccess) {
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreReplaceDbErrorDesc, *error];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreReplaceDbErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreReplaceDbErrorDesc, *error];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreReplaceDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:backupPath toPath:origDbPath error:nil];
         [db open];
@@ -264,10 +273,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSError *openDbError = nil;
     FMDatabase *db = [self openDatabaseWithPath:dbPath key:key error:&openDbError];
     if (!db) {
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [openDbError localizedDescription]];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreVerifyDbErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [openDbError localizedDescription]];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreVerifyDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         return NO;
     }
     
@@ -275,10 +286,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     FMResultSet *rs = [db executeQuery:sqlCommand];
     if (rs == nil) {
         // May not be results, but rs should never be nil coming back.
-        NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, dbPath, [db lastErrorMessage]];
-        *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                     code:kSFSmartStoreVerifyReadDbErrorCode
-                                 userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, dbPath, [db lastErrorMessage]];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreVerifyReadDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
         [rs close];
         return NO;
     }
