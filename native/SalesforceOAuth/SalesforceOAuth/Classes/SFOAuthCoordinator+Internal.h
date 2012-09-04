@@ -24,6 +24,8 @@
 
 #import "SFOAuthCoordinator.h"
 
+@class SFOAuthInfo;
+
 @interface SFOAuthCoordinator ()
 
 @property (assign) BOOL authenticating;
@@ -46,11 +48,11 @@
 /**
  Notify our delegate that we could not log in, and clear authenticating flag
  */
-- (void)notifyDelegateOfFailure:(NSError*)error;
+- (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info;
 /**
  Notify our delegate that login succeeded, and clear authenticating flag
  */
-- (void)notifyDelegateOfSuccess;
+- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo;
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;

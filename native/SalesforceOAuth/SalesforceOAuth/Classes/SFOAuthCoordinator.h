@@ -28,6 +28,7 @@
 
 
 @class SFOAuthCoordinator;
+@class SFOAuthInfo;
 
 /** SFOAuth default network timeout in seconds.
  */
@@ -95,6 +96,48 @@ enum {
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil;
 
+/**
+ Sent when authentication successfully completes. Note: This method is deprecated.  You should use
+ the `oauthCoordinatorDidAuthenticate:authInfo:` method instead.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator __attribute__((deprecated));
+
+/**
+ Sent when authentication successfully completes.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message.
+ @param info Object containing info associated with this authentication attempt.
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info;
+
+/**
+ Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
+ `oauthCoordinator:didFailWithError:authInfo` method instead.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param error       The error message
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error __attribute__((deprecated));
+
+/**
+ Sent if authentication fails due to an error.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message.
+ @param error       The error associated with the failure.
+ @param info        Object containing info associated with the authentication attempt.
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info;
+
 @required
 
 /** Sent after authentication has begun and the view parameter is displaying the first page of authentication content.
@@ -110,23 +153,6 @@ enum {
  @see SFOAuthCoordinator
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view;
-
-/** Sent when authentication successfully completes.
- 
- @param coordinator The SFOAuthCoordinator instance processing this message
- 
- @see SFOAuthCoordinator
- */
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator;
-
-/** Sent if authentication fails due to an error.
- 
- @param coordinator The SFOAuthCoordinator instance processing this message
- @param error       The error message
- 
- @see SFOAuthCoordinator
- */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error;
 
 @end
 

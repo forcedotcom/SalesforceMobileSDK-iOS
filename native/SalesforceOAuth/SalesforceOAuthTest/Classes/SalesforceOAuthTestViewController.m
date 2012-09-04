@@ -26,11 +26,17 @@
 #import "SFOAuthCredentials.h"
 #import "SalesforceOAuthTestAppDelegate.h"
 #import "SalesforceOAuthTestViewController.h"
+#import "SFOAuthInfo.h"
+#import "SFOAuthInfo+Internal.h"
 
 @interface SalesforceOAuthTestViewController ()
+
+@property (nonatomic, retain) SFOAuthInfo *authInfo;
+
 - (void)enableButtons:(BOOL)enable;
 - (void)updateLabels;
 - (void)authCompleted;
+
 @end
 
 @implementation SalesforceOAuthTestViewController
@@ -42,10 +48,12 @@
 @synthesize labelAccessToken   = _labelAccessToken;
 @synthesize labelRefreshToken  = _labelRefreshToken;
 @synthesize labelInstanceUrl   = _labelInstanceUrl;
+@synthesize labelAuthType      = _labelAuthType;
 @synthesize labelIssued        = _labelIssued;
 @synthesize labelUserId        = _labelUserId;
 @synthesize labelOrgId         = _labelOrgId;
 @synthesize activityIndicator  = _activityIndicator;
+@synthesize authInfo           = _authInfo;
 
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -68,10 +76,12 @@
     [_labelAccessToken release];
     [_labelRefreshToken release];
     [_labelInstanceUrl release];
+    [_labelAuthType release];
     [_labelIssued release];
     [_labelUserId release];
     [_labelOrgId release];
     [_activityIndicator release];
+    [_authInfo release];
     
     [super dealloc];
 }
@@ -140,6 +150,7 @@
         self.labelIssued.text = [self.oauthCoordinator.credentials.issuedAt descriptionWithLocale:[NSLocale currentLocale]];
         self.labelUserId.text = self.oauthCoordinator.credentials.userId;
         self.labelOrgId.text = self.oauthCoordinator.credentials.organizationId;
+        self.labelAuthType.text = [self.authInfo authTypeDescription];
     }
 }
 
@@ -186,14 +197,18 @@
     [self.view addSubview:webView];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinatorDidAuthenticate: %@", coordinator.credentials);
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinatorDidAuthenticate:authInfo: info: %@ credentials: %@", info, coordinator.credentials);
+    self.authInfo = info;
     
     [self authCompleted];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinator:didFailWithError: %@", error);
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinator:didFailWithError:authInfo: info: %@ error: %@", info, error);
+    self.authInfo = info;
     
     [self authCompleted];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Error %d", error.code]
@@ -219,6 +234,7 @@
         // invalid index
         NSLog(@"SalesforceOAuthTestViewController:actionSheet:clickedButtonAtIndex: invalid button index: %d", buttonIndex);
     }
+    self.authInfo = nil;
     [self updateLabels];
 }
 
