@@ -586,7 +586,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
     [self stopRefreshFlowConnectionTimer];
-    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent] autorelease];
+    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
     [self notifyDelegateOfFailure:error authInfo:authInfo];
 }
 
