@@ -45,7 +45,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"authType: %@", [self authTypeDescription]];
+    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, [self authTypeDescription]];
 }
 
 #pragma mark - Private methods
