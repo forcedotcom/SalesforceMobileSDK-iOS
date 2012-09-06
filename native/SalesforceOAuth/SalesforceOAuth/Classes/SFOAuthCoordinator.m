@@ -162,7 +162,6 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
-        [self.credentials revokeAccessToken];
         [self beginTokenRefreshFlow];
     } else {
         [self beginUserAgentFlow];
