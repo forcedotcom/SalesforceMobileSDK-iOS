@@ -133,7 +133,9 @@ static SFLogLevel const kAppLogLevel = Info;
     if (nil != self) {
         //Replace the app-wide HTTP User-Agent before the first UIWebView is created
         NSString *uaString =  [SFRestAPI userAgentString];
-        [[NSUserDefaults standardUserDefaults] setValue:uaString forKey:kUserAgentPropKey];
+        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+        [dictionary release];
         
         [SFAccountManager setLoginHost:[self oauthLoginDomain]];
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
