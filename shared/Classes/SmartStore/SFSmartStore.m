@@ -350,7 +350,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
     FMDatabase *db = [FMDatabase databaseWithPath:fullDbFilePath ];
     [db setLogsErrors:YES];
-    [db setCrashOnErrors:YES];
+    [db setCrashOnErrors:NO];
     if ([db open]) {
         NSString *key = [self encKey];
         [db setKey:key];
@@ -702,7 +702,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (NSString *)tableNameBySoupId:(long)soupId {
-    return [NSString stringWithFormat:@"TABLE_%d",soupId];
+    return [NSString stringWithFormat:@"TABLE_%ld",soupId];
 }
 
 - (NSArray *)tableNamesForAllSoups {
