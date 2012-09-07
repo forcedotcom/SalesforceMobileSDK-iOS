@@ -343,6 +343,13 @@
 		82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
+		82BB230F15FAA18F0071DE14 /* CDVCommandDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB231015FAA18F0071DE14 /* CDVCordovaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB231115FAA18F0071DE14 /* CDVPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230C15FAA18F0071DE14 /* CDVPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB231215FAA18F0071DE14 /* CDVPluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB231315FAA18F0071DE14 /* CDVViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230E15FAA18F0071DE14 /* CDVViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB239E15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB239F15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
@@ -729,6 +736,13 @@
 		82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSecurityLockout+Internal.h"; path = "../../../shared/Classes/Security/SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
 		82B9FD1615E45C7600BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCommandDelegate.h; path = Cordova.framework/Headers/CDVCommandDelegate.h; sourceTree = "<group>"; };
+		82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCordovaView.h; path = Cordova.framework/Headers/CDVCordovaView.h; sourceTree = "<group>"; };
+		82BB230C15FAA18F0071DE14 /* CDVPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVPlugin.h; path = Cordova.framework/Headers/CDVPlugin.h; sourceTree = "<group>"; };
+		82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVPluginResult.h; path = Cordova.framework/Headers/CDVPluginResult.h; sourceTree = "<group>"; };
+		82BB230E15FAA18F0071DE14 /* CDVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVViewController.h; path = Cordova.framework/Headers/CDVViewController.h; sourceTree = "<group>"; };
+		82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInvokedUrlCommand.h; path = Cordova.framework/Headers/CDVInvokedUrlCommand.h; sourceTree = "<group>"; };
+		82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+QueueAdditions.h"; path = "Cordova.framework/Headers/NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
@@ -1076,6 +1090,7 @@
 		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				82BB230815FAA0810071DE14 /* CDVPublicHeaders */,
 				82229BBD15AAA2D4006D8266 /* SalesforceCommonUtils */,
 				822ADCEE15A36D2600387CCE /* Cordova.framework */,
 				82381A111587FAAE007C0D86 /* sqlcipher */,
@@ -1466,6 +1481,20 @@
 			path = sqlcipher;
 			sourceTree = "<group>";
 		};
+		82BB230815FAA0810071DE14 /* CDVPublicHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */,
+				82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */,
+				82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */,
+				82BB230C15FAA18F0071DE14 /* CDVPlugin.h */,
+				82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */,
+				82BB230E15FAA18F0071DE14 /* CDVViewController.h */,
+				82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */,
+			);
+			name = CDVPublicHeaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1604,6 +1633,13 @@
 				82599EE015EC284000AAACF7 /* SFSmartStoreDatabaseManager.h in Headers */,
 				823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 				82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */,
+				82BB230F15FAA18F0071DE14 /* CDVCommandDelegate.h in Headers */,
+				82BB231015FAA18F0071DE14 /* CDVCordovaView.h in Headers */,
+				82BB231115FAA18F0071DE14 /* CDVPlugin.h in Headers */,
+				82BB231215FAA18F0071DE14 /* CDVPluginResult.h in Headers */,
+				82BB231315FAA18F0071DE14 /* CDVViewController.h in Headers */,
+				82BB239E15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h in Headers */,
+				82BB239F15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
