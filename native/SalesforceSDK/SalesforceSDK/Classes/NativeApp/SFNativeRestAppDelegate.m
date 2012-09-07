@@ -469,7 +469,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             // If this is app startup, we need to go through the bootstrapping of the root view controller,
             // etc.
             if (_isAppInitialization) {
-                [self postIdentityRetrievalProcesses];
+                [self loggedIn];
                 return;
             }
         }
