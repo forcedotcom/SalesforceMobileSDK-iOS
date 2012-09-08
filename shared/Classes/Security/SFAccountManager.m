@@ -439,4 +439,6 @@ static NSMutableDictionary *AccountManagerDict;
     return isNetworkFailure;
 }
 
+#pragma mark - SFOAuthCoordinatorDelegate methods
+
 @end

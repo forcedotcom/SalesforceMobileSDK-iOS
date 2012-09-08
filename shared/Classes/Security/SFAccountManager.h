@@ -23,8 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFOAuthCoordinator.h"
 
-@class SFOAuthCoordinator;
 @class SFOAuthCredentials;
 @class SFIdentityCoordinator;
 @class SFIdentityData;
@@ -32,7 +32,7 @@
 /**
  * Class used to manage a common account functions used across the app.
  */
-@interface SFAccountManager : NSObject
+@interface SFAccountManager : NSObject <SFOAuthCoordinatorDelegate>
 
 /**
  * Returns the singleton instance of this class for the default account.
