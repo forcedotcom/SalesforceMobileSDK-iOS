@@ -29,10 +29,14 @@
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI+Internal.h"
+#import "SFAccountManager.h"
+
+NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
 
 @implementation TestSetupUtils
 
-+ (SFOAuthCoordinator *)coordinatorFromCredentialsConfigFile {
++ (void)populateAuthCredentialsFromConfigFile
+{
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath,@"Test config file not found!");
     
@@ -60,24 +64,17 @@
     NSAssert(![refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     
-    SFOAuthCredentials *credentials =
-    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount" 
-                                          clientId:clientID 
-                                         encrypted:YES];     
-    credentials.domain = loginDomain;
-    credentials.redirectUri = redirectUri; 
+    [SFAccountManager setLoginHost:loginDomain];
+    [SFAccountManager setClientId:clientID];
+    [SFAccountManager setRedirectUri:redirectUri];
+    [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
+    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
+    
+    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+    SFOAuthCredentials *credentials = accountMgr.credentials;
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
-    
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-    [credentials release];
-    
-    return [coordinator autorelease];
-}
-
-+ (void)clearSFRestAPISingleton {
-    [SFRestAPI clearSharedInstance];
 }
 
 @end

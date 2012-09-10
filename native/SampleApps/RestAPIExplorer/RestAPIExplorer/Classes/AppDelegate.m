@@ -27,6 +27,10 @@
 #import "AppDelegate.h"
 #import "RestAPIExplorerViewController.h"
 #import "SFJsonUtils.h"
+#import "SFAccountManager.h"
+#import "SFOAuthCoordinator.h"
+#import "SFOAuthCredentials.h"
+
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
@@ -69,7 +73,7 @@ static NSString *const OAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/d
 
 - (void)exportTestingCredentials {
     //collect credentials and copy to pasteboard 
-    SFOAuthCredentials *creds = [SFRestAPI sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     NSDictionary *configDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                 RemoteAccessConsumerKey, @"test_client_id", 
                                 self.oauthLoginDomain , @"test_login_domain", 

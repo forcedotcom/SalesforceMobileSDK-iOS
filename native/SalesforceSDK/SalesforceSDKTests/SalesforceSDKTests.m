@@ -36,8 +36,12 @@
 #import "TestSetupUtils.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
+#import "SFAccountManager.h"
 
-@interface SalesforceSDKTests (Private)
+@interface SalesforceSDKTests ()
+{
+    SFAccountManager *_accountMgr;
+}
 - (NSString *)sendSyncRequest:(SFRestRequest *)request;
 - (BOOL)waitForAllBlockCompletions;
 @end
@@ -49,10 +53,8 @@
 {
     // Set-up code here.
     [_requestListener release]; _requestListener = nil;
-    if ([[SFRestAPI sharedInstance] coordinator] == nil) {
-        SFOAuthCoordinator *restCoord = [TestSetupUtils coordinatorFromCredentialsConfigFile];
-        [[SFRestAPI sharedInstance] setCoordinator:restCoord];
-    }
+    [TestSetupUtils populateAuthCredentialsFromConfigFile];
+    _accountMgr = [SFAccountManager sharedInstance];
     [super setUp];
 }
 
@@ -79,24 +81,6 @@
 
 
 #pragma mark - tests
-
-- (void)testSingletonStartup {
-    //this destroys the singleton created in setUp
-    [TestSetupUtils clearSFRestAPISingleton];
-    @try {
-        SFRestAPI *api = [SFRestAPI sharedInstance];
-        STAssertNotNil(api, @"[SFRestAPI sharedInstance] should never return nil");
-        STAssertNil(api.coordinator, @"SFRestAPI.coordinator should be initially nil");
-        STAssertNil(api.rkClient ,  @"SFRestAPI.rkClient should be initially nil");
-
-    }
-    @finally {
-        [TestSetupUtils clearSFRestAPISingleton];
-    }
-    
-    
-}
-
 
 // simple: just invoke requestForVersions
 - (void)testGetVersions {
@@ -414,25 +398,25 @@
 // - make sure the query gets replayed properly (and succeed)
 - (void)testInvalidAccessTokenWithValidRequest {
     // save valid token
-    NSString *validAccessToken = [[SFRestAPI sharedInstance].coordinator.credentials.accessToken copy];
+    NSString *validAccessToken = [_accountMgr.coordinator.credentials.accessToken copy];
     @try {
         // save invalid token
         NSString *invalidAccessToken = @"xyz";
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
+        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
         
         // request (valid)
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSLog(@"latest access token: %@", [SFRestAPI sharedInstance].coordinator.credentials.accessToken);
+        NSLog(@"latest access token: %@", _accountMgr.coordinator.credentials.accessToken);
         
         // let's make sure we have another access token
-        NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
         STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
     }
     @finally {
         // restore token
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;    
+        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
         [validAccessToken release];
     }
 }
@@ -446,11 +430,11 @@
 // - make sure the query gets replayed properly (and fail)
 - (void)testInvalidAccessTokenWithInvalidRequest {
     // save valid token
-    NSString *validAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
     @try {
         // save invalid token
         NSString *invalidAccessToken = @"xyz";
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
+        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
         
         // request (invalid)
         SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
@@ -458,12 +442,12 @@
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
 
         // let's make sure we have another access token
-        NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
         STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
     }
     @finally {
         // restore token
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;      
+        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
     }
 }
 
@@ -473,14 +457,14 @@
 // - ensure all requests are failed with the proper error
 - (void)testInvalidAccessAndRefreshToken {
     // save valid tokens
-    NSString *validAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
-    NSString *validRefreshToken = [SFRestAPI sharedInstance].coordinator.credentials.refreshToken;
+    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    NSString *validRefreshToken = _accountMgr.coordinator.credentials.refreshToken;
     @try {
         // set invalid tokens
         NSString *invalidAccessToken = @"xyz";
         NSString *invalidRefreshToken = @"xyz";
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
-        [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = invalidRefreshToken;
+        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
+        _accountMgr.coordinator.credentials.refreshToken = invalidRefreshToken;
         
         // request (valid)
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
@@ -492,8 +476,8 @@
     }
     @finally {
         // restore tokens
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
-        [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = validRefreshToken;     
+        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
+        _accountMgr.coordinator.credentials.refreshToken = validRefreshToken;
     }
 }
 
@@ -508,11 +492,11 @@
 //
 -(void)testInvalidAccessToken_MultipleRequests {
     // save valid token
-    NSString *validAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
     @try {
         // save invalid token
         NSString *invalidAccessToken = @"xyz";
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
+        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
@@ -552,12 +536,12 @@
         STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
         
         // let's make sure we have a new access token
-        NSString *newAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
+        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
         STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
     }
     @finally {
         // restore token
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
+        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
     }
 }
 
@@ -568,14 +552,14 @@
 // - ensure all requests are failed with the proper error code
 - (void)testInvalidAccessAndRefreshToken_MultipleRequests {
     // save valid token
-    NSString *validAccessToken = [SFRestAPI sharedInstance].coordinator.credentials.accessToken;
-    NSString *validRefreshToken = [SFRestAPI sharedInstance].coordinator.credentials.refreshToken;
+    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    NSString *validRefreshToken = _accountMgr.coordinator.credentials.refreshToken;
     @try {
         // save invalid token
         NSString *invalidAccessToken = @"xyz";
         NSString *invalidRefreshToken = @"xyz";
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = invalidAccessToken;
-        [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = invalidRefreshToken;
+        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
+        _accountMgr.coordinator.credentials.refreshToken = invalidRefreshToken;
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
@@ -634,8 +618,8 @@
     }
     @finally {
         // restore tokens
-        [SFRestAPI sharedInstance].coordinator.credentials.accessToken = validAccessToken;
-        [SFRestAPI sharedInstance].coordinator.credentials.refreshToken = validRefreshToken;     
+        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
+        _accountMgr.coordinator.credentials.refreshToken = validRefreshToken;
     }
 }
 
@@ -687,14 +671,14 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 - (void)testBlockUpdate {
     _blocksUncompletedCount = 0;
     SFRestAPI *api = [SFRestAPI sharedInstance];
-    
+
     NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
     NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            @"John", @"FirstName", 
                                            lastName, @"LastName", 
                                            nil];
-    
+
     [api performCreateWithObjectType:@"Contact"
                               fields:fields
                            failBlock:UNEXPECTED_ERROR_BLOCK(@"performCreateWithObjectType")

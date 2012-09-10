@@ -44,6 +44,7 @@ NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 // Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
+NSString * const kDefaultHybridAccountIdentifier = @"Default";
 
 // The default logging level of the app.
 #if defined(DEBUG)
@@ -99,6 +100,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [dictionary release];
         
         _isAppStartup = YES;
+        [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
         
         // Cordova

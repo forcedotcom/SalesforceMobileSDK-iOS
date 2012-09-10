@@ -142,7 +142,8 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
         [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
         [SFAccountManager setScopes:[[self class] oauthScopes]];
-        _accountMgr = [SFAccountManager sharedInstanceForAccount:[self userAccountIdentifier]];
+        [SFAccountManager setCurrentAccountIdentifier:[self userAccountIdentifier]];
+        _accountMgr = [SFAccountManager sharedInstance];
         
         // Strictly for internal tracking, assume we've got our initial credentials, until
         // OAuth tells us otherwise.  E.g. we only want to call the identity service after
@@ -228,7 +229,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)login {
     //kickoff authentication
-    _accountMgr.coordinator.delegate = self;
+    _accountMgr.oauthDelegate = self;
     [_accountMgr.coordinator authenticate];
 }
 
@@ -240,13 +241,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 }
 
 - (void)loggedIn {
-    // Update the shared credentials.
-    _accountMgr.credentials = _accountMgr.coordinator.credentials;
-    
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     if (_isInitialLogin || _accountMgr.idData == nil) {
-        _accountMgr.idCoordinator.delegate = self;
+        _accountMgr.idDelegate = self;
         [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
@@ -257,9 +255,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert(_accountMgr.idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert(_accountMgr.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    _accountMgr.idData = _accountMgr.idCoordinator.idData;
+    NSAssert(_accountMgr.idData != nil, @"Identity data should not be nil/empty at this point.");
     
     if ([_accountMgr mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
@@ -281,9 +277,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)postIdentityRetrievalProcesses
 {
-    // Provide the Rest API with a reference to the coordinator we used for login.
-    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
-    
     if (_isAppInitialization) {
         // We'll ask for a passcode every time the application is initialized, regardless of activity.
         // But, if the user just went through credentials initialization, she's already just created
