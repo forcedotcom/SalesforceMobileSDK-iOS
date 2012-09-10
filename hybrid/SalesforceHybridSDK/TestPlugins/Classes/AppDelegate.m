@@ -35,23 +35,35 @@
 FILE *fopen$UNIX2003(const char *filename, const char *mode);
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
+NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
+
 
 @interface AppDelegate ()
 
 /// Was the app started in Test mode? 
 - (BOOL) isRunningOctest;
-+ (void)setCredentialsFromConfigFile;
++ (void)populateAuthCredentialsFromConfigFile;
 
 
 @end
 
 @implementation AppDelegate
 
+- (id)init
+{
+    self = [super init];
+    if (self != nil) {
+        [[self class] populateAuthCredentialsFromConfigFile];
+    }
+    
+    return self;
+}
+
 #pragma mark - App lifecycle
 
 
 
-+ (void)setCredentialsFromConfigFile {
++ (void)populateAuthCredentialsFromConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
     if (nil == tokenPath) {
         NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
@@ -71,10 +83,6 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
     NSString *redirectUri = [dictResponse objectForKey:@"test_redirect_uri"];
     NSString *loginDomain = [dictResponse objectForKey:@"test_login_domain"];
     
-    [SFAccountManager setClientId:clientID];
-    [SFAccountManager setLoginHost:loginDomain];
-    [SFAccountManager setRedirectUri:redirectUri];
-    
     NSAssert1(nil != refreshToken &&
               nil != clientID &&
               nil != redirectUri &&
@@ -88,20 +96,17 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
         NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
     }
     
-    SFOAuthCredentials *credentials =
-    [[SFOAuthCredentials alloc] initWithIdentifier:@"SalesforceSDKTests-DefaultAccount"
-                                          clientId:clientID
-                                         encrypted:YES
-                            
-     ];     
-
-    credentials.domain = loginDomain;
-    credentials.redirectUri = redirectUri; 
+    [SFAccountManager setLoginHost:loginDomain];
+    [SFAccountManager setClientId:clientID];
+    [SFAccountManager setRedirectUri:redirectUri];
+    [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
+    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
+    
+    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+    SFOAuthCredentials *credentials = accountMgr.credentials;
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
-    [SFAccountManager sharedInstance].credentials = credentials;
-    [credentials release];
 }
 
 
@@ -125,7 +130,6 @@ size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d);
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     _oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
-    [[self class] setCredentialsFromConfigFile];
     
     [super applicationDidBecomeActive:application];
     

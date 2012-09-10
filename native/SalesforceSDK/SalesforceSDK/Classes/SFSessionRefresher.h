@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthInfo.h"
 #import "SFRestAPI.h"
 
 @class RKRequestDelegateWrapper;

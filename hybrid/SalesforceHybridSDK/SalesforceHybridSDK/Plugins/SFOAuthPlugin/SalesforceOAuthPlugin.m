@@ -35,6 +35,7 @@
 #import "SFIdentityData.h"
 #import "SFSecurityLockout.h"
 #import "SFUserActivityMonitor.h"
+#import "SFOAuthInfo.h"
 
 // ------------------------------------------
 // Private constants
@@ -408,7 +409,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [self cleanupRetryAlert];
          
         // Kick off authentication.
-        [SFAccountManager sharedInstance].coordinator.delegate = self;
+        [SFAccountManager sharedInstance].oauthDelegate = self;
         [[SFAccountManager sharedInstance].coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
@@ -436,11 +437,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)loggedIn
 {
-    [SFAccountManager sharedInstance].credentials = [SFAccountManager sharedInstance].coordinator.credentials;
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
-        [SFAccountManager sharedInstance].idCoordinator.delegate = self;
+        [SFAccountManager sharedInstance].idDelegate = self;
         [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
@@ -573,9 +573,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert([SFAccountManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert([SFAccountManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    [SFAccountManager sharedInstance].idData = [SFAccountManager sharedInstance].idCoordinator.idData;
+    NSAssert([SFAccountManager sharedInstance].idData != nil, @"Identity data should not be nil/empty at this point.");
     
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
@@ -609,16 +607,16 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [_appDelegate addOAuthViewToMainView:view];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, authInfo: %@", coordinator.credentials.userId, info);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
     // Clear account state before continuing.
     [[SFAccountManager sharedInstance] clearAccountState:NO];

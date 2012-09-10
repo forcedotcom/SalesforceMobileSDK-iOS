@@ -33,7 +33,6 @@
 @interface SalesforceSDKIdentityTests : SenTestCase
 {
     TestRequestListener *_requestListener;
-    SFOAuthCoordinator *_oauthCoordinator;
 }
 
 @end
