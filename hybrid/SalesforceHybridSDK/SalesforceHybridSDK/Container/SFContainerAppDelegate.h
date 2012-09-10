@@ -25,7 +25,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SFOAuthCoordinator.h"
 #import "SFLogger.h"
 
 @class SalesforceOAuthPlugin;
