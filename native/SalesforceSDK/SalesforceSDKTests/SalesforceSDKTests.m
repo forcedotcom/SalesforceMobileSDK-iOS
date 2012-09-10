@@ -69,7 +69,7 @@
 
 
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
-    [_requestListener release]; //in case there's any existing one hanging around
+    [_requestListener release]; _requestListener = nil; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     
     [[SFRestAPI sharedInstance] send:request delegate:nil];

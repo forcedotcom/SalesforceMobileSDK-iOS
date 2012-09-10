@@ -361,6 +361,7 @@ static NSString *CurrentAccountIdentifier;
     [_idCoordinator setDelegate:nil];
     SFRelease(_idCoordinator);
     SFRelease(_coordinator);
+    SFRelease(_credentials);
 }
 
 - (BOOL)mobilePinPolicyConfigured
@@ -555,7 +556,7 @@ static NSString *CurrentAccountIdentifier;
 {
     self.credentials = coordinator.credentials;
     
-    if ([self.oauthDelegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.oauthDelegate oauthCoordinatorDidAuthenticate:coordinator authInfo:info];
     }
 }
