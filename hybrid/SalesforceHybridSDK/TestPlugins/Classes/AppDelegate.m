@@ -25,8 +25,8 @@
 #import "AppDelegate.h"
 
 #import "SFHybridViewController.h"
-#import "SalesforceHybridSDK/SalesforceOAuthPlugin.h"
-#import "SalesforceHybridSDK/SFJsonUtils.h"
+#import "SalesforceOAuthPlugin.h"
+#import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 
 #import "SFTestRunnerPlugin.h"
