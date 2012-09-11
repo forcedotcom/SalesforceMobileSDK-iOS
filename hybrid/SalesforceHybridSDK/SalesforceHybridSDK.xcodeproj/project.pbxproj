@@ -338,6 +338,10 @@
 		826ED6FE1582DCAE00321962 /* SFTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D51582DA6700321962 /* SFTestSuite.js */; };
 		826ED6FF1582DCAE00321962 /* SFTestRunnerPlugin.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D31582DA5C00321962 /* SFTestRunnerPlugin.js */; };
 		826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */; };
+		8287610915FFD37B0064B877 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
+		8287610B15FFD3960064B877 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */; };
+		8287610C15FFD4030064B877 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
+		8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */; };
 		828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 828C07D315A39A47002523B2 /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
@@ -2063,6 +2067,8 @@
 				82F593D415B083BF00C7E033 /* SFHybridViewController.m in Sources */,
 				82F593E015B0CA3300C7E033 /* SFApplication.m in Sources */,
 				82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */,
+				8287610C15FFD4030064B877 /* SFPasscodeManager.m in Sources */,
+				8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2158,6 +2164,8 @@
 				82F593D215B083BE00C7E033 /* SFHybridViewController.m in Sources */,
 				82F593DF15B0CA3100C7E033 /* SFApplication.m in Sources */,
 				82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */,
+				8287610915FFD37B0064B877 /* SFPasscodeManager.m in Sources */,
+				8287610B15FFD3960064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
