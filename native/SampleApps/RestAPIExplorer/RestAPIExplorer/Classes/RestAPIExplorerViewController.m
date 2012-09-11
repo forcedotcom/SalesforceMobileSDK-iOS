@@ -28,8 +28,6 @@
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
 #import "SFJsonUtils.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 

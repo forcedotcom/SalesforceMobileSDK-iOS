@@ -1343,6 +1343,19 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthInfo.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceOAuth</string>
+			<string>include</string>
+			<string>SalesforceOAuth</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthInfo.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</key>
 	<dict>
@@ -2024,6 +2037,7 @@
 
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCoordinator.h</string>
 	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthCredentials.h</string>
+	<string>dependencies/SalesforceOAuth/Headers/SalesforceOAuth/SFOAuthInfo.h</string>
 	<string>dependencies/SalesforceOAuth/Libraries/libSalesforceOAuth.a</string>
 
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</string>

@@ -27,6 +27,7 @@
 #import "SFRestRequest.h"
 #import "SFIdentityCoordinator.h"
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthInfo.h"
 
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;
@@ -34,15 +35,20 @@ extern NSString* const kTestRequestStatusDidFail;
 extern NSString* const kTestRequestStatusDidCancel;
 extern NSString* const kTestRequestStatusDidTimeout;
 
+typedef enum {
+    SFAccountManagerServiceTypeNone = 0,
+    SFAccountManagerServiceTypeOAuth,
+    SFAccountManagerServiceTypeIdentity
+} SFAccountManagerServiceType;
+
 @interface TestRequestListener : NSObject <SFRestDelegate, SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
-    id _originalRequest;
     id _jsonResponse;
     NSError *_lastError;
     NSString *_returnStatus;
     NSTimeInterval _maxWaitTime;
 }
 
-@property (nonatomic, retain) id originalRequest;
+@property (nonatomic, retain) SFRestRequest *request;
 @property (nonatomic, retain) id jsonResponse;
 @property (nonatomic, retain) NSError *lastError;
 @property (nonatomic, retain) NSString *returnStatus;
@@ -50,7 +56,8 @@ extern NSString* const kTestRequestStatusDidTimeout;
 /// Max time to wait for request completion
 @property (nonatomic, assign) NSTimeInterval maxWaitTime;
 
-- (id)initWithRequest:(id)request;
+- (id)initWithRequest:(SFRestRequest *)request;
+- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType;
 
 /**
  * Wait for the request to complete (success or fail)
