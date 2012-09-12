@@ -48,10 +48,12 @@ extern NSString* const kSFRestDefaultAPIVersion;
  */
 extern NSString * const kSFMobileSDKNativeDesignator;
 
+/*
+ * The current version of the native Mobile SDK.
+ */
+extern NSString * const kSFMobileSDKVersion;
 
-@class SFOAuthCoordinator;
 @class RKClient;
-
 
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
@@ -61,16 +63,10 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
  ## Initialization
  
- This class is initialized with an SFOAuthCoordinator after a successful
- OAuth authentication with Salesforce, by calling
- [[SFRestAPI sharedInstance] setCoordinator:coordinator];
+ This class is a singleton, and can be accessed by referencing [SFRestAPI sharedInstance].  It relies
+ upon the shared credentials managed by SFAccountManager, for forming up and sending authenticated
+ REST requests.
  
- The initialization is usually done in the method `oauthCoordinatorDidAuthenticate:coordinator:` of
- the class handling the OAuth connection.
- 
- After initialization, the singleton SFRestAPI can be accessed using `[SFRestAPI sharedInstance]`.
- 
-  
  ## Sending requests
 
  Sending a request is done using `send:delegate:`.
@@ -126,7 +122,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  In this case, `request:didFailLoadWithError:` is called on the `SFRestDelegate`.
  The error passed will have an error domain of `kSFRestErrorDomain`
  
- - The oauth access token (session ID) could have expired.
+ - The oauth access token (session ID) managed by SFAccountManager could have expired.
  In this case, the framework tries to acquire another access token and re-issue
  the `SFRestRequest`. This is all done transparently and the appropriate delegate method
  is called once the second `SFRestRequest` returns. 
@@ -143,13 +139,11 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
  */
 @interface SFRestAPI : NSObject {
-    SFOAuthCoordinator *_coordinator;
     RKClient *_client;
     NSString *_apiVersion;
 }
 
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-@property (nonatomic, strong) RKClient *rkClient;
+@property (nonatomic, readonly) RKClient *rkClient;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
@@ -159,8 +153,8 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * Returns the singleton instance of `SFRestAPI`
- * After a successful oauth login with an SFOAuthCoordinator, you
- * should set it as the coordinator property of this instance.
+ * Dependent on authenticated credentials in SFAccountManager, to properly form up
+ * authenticated requests.
  */
 + (SFRestAPI *)sharedInstance;
 

@@ -1,6 +1,5 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -40,6 +39,7 @@ extern NSString * const kQuerySpecTypeLike;
 extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
+extern NSUInteger const kQuerySpecDefaultPageSize;
 
 extern NSString * const kQuerySpecParamMatchKey;
 extern NSString * const kQuerySpecParamBeginKey;

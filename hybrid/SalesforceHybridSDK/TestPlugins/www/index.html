@@ -9,15 +9,14 @@
     <script src="jquery/jquery-1.6.2.min.js"></script>
     <script src="jquery/jquery.mobile-1.0b2.min.js"></script>
         
+    <!-- include cordova -->
+    <script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
+        
     <!-- include local utility functionality -->
-    <link rel="stylesheet" type="text/css" href="SFHybridApp.css" />
     <script type="text/javascript" src="SFHybridApp.js"></script>
 
     <!-- include forcetk for REST transaction support -->
     <script type="text/javascript" src="forcetk.js"></script>
-        
-    <!-- include phonegap / callback -->
-	<script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
         
     <!-- required for oauth plugin support -->    
     <script type="text/javascript" src="SalesforceOAuthPlugin.js"></script>
@@ -64,18 +63,20 @@
 	
     var forcetkClient;
     var debugMode = true;
+    var logToConsole = cordova.require("salesforce/util/logger").logToConsole;
 
     $(function() {
         //Add event listeners and so forth here
-        SFHybridApp.logToConsole("onLoad: jquery ready");
+        logToConsole("onLoad: jquery ready");
 		document.addEventListener("deviceready", onDeviceReady,false);
     });
 
-    // When this function is called, PhoneGap has been initialized and is ready to roll 
+    // When this function is called, Cordova has been initialized and is ready to roll 
     function onDeviceReady() {
-        SFHybridApp.logToConsole("onDeviceReady: PhoneGap ready");
+        
+        logToConsole("onDeviceReady: Cordova ready");
         //Call getAuthCredentials to get the initial session credentials
-        SalesforceOAuthPlugin.getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
+        cordova.require("salesforce/plugin/oauth").getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
         
         //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
         document.addEventListener("salesforceSessionRefresh",salesforceSessionRefreshed,false);
@@ -83,12 +84,12 @@
         //enable buttons
         regLinkClickHandlers();
         
-        navigator.testrunner.onReadyForTests();
+        cordova.require("salesforce/plugin/testrunner").onReadyForTests();
     }
         
 
     function salesforceSessionRefreshed(creds) {
-        SFHybridApp.logToConsole("salesforceSessionRefreshed");
+        logToConsole("salesforceSessionRefreshed");
 		
         forcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl);
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
@@ -98,7 +99,7 @@
 
 
     function getAuthCredentialsError(error) {
-        SFHybridApp.logToConsole("getAuthCredentialsError: " + error);
+        logToConsole("getAuthCredentialsError: " + error);
     }
         
     </script>
@@ -122,7 +123,6 @@
 		 <div id="qunit-fixture">test markup, will be hidden</div>
           <div id="#content" data-role="content"> 
 
-              <p><a href="#" id="link_start_tests" data-role="button" data-inline="true">Tests</a></p>
               <p><a href="#" id="link_reset" data-role="button" data-inline="true">Reset</a></p>
               <p>
 				<a href="#" id="link_reg_soup" data-role="button" data-inline="true">Reg soup</a>

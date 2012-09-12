@@ -28,6 +28,7 @@
 #import "SFPluginTestSuite.h"
 
 #import "AppDelegate.h"
+#import "SFHybridViewController.h"
 #import "SFTestRunnerPlugin.h"
 #import "SFSmartStore.h"
 #import "SFSmartStorePlugin.h"
@@ -43,7 +44,8 @@
 {
     [super setUp];
     
-    _testRunnerPlugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    _testRunnerPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
 
     
     // Block until the javascript has notified the container that it's ready
@@ -124,7 +126,7 @@
     
     self.jsTestName = testName;
     
-    NSString *testCmd = [NSString stringWithFormat:@"navigator.testrunner.setTestSuite('%@');navigator.testrunner.testSuite.startTest('%@');"
+    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"salesforce/plugin/testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
     AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
@@ -135,7 +137,8 @@
     STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
     if (!timedOut) {
-        SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[[SFContainerAppDelegate sharedInstance] getCommandInstance:kSFTestRunnerPluginName];
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
         SFTestResult *testResult = [[[plugin testResults] objectAtIndex:0] retain];
         [[plugin testResults] removeObjectAtIndex:0];
         NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);

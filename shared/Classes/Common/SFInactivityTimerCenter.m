@@ -80,9 +80,9 @@ static NSDate *lastActivityTimestamp = nil;
 		NSNumber *interval = [allIntervals objectForKey:timerName];
 		if ([t isValid]) {
             [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
-            [self log:Info format:@"timer %@ updated to +%@ seconds", timerName, interval];
+            [self log:SFLogLevelInfo format:@"timer %@ updated to +%@ seconds", timerName, interval];
 		} else {
-            [self log:Error format:@"timer %@ is invalid. removing...", timerName];
+            [self log:SFLogLevelError format:@"timer %@ is invalid. removing...", timerName];
 			[keysToRemove addObject:timerName];
 		}
 	}

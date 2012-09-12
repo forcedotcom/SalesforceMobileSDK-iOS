@@ -27,6 +27,7 @@
 #import "TestSetupUtils.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
+#import "SFAccountManager.h"
 
 /**
  * Private interface for this tests module.
@@ -34,9 +35,8 @@
 @interface SalesforceSDKIdentityTests ()
 /**
  * Synchronous wrapper around the asynchronous request to the identity service.
- * @param idRequest the SFIdentityCoordinator used to make the ID request.
  */
-- (NSString *)sendSyncRequest:(SFIdentityCoordinator *)idRequest;
+- (void)sendSyncIdentityRequest;
 
 /**
  * Takes the OAuth credentials from the test file configuration, and retrieves a
@@ -54,9 +54,7 @@
 {
     // Set-up code here.
     [_requestListener release]; _requestListener = nil;
-    if (_oauthCoordinator == nil) {
-        [self bootstrapAuthCredentials];
-    }
+    [self bootstrapAuthCredentials];
 
     [super setUp];
 }
@@ -64,31 +62,31 @@
 - (void)dealloc
 {
     [_requestListener release]; _requestListener = nil;
-    [_oauthCoordinator release]; _oauthCoordinator = nil;
     [super dealloc];
 }
 
 #pragma mark - Helper methods
 
-- (NSString *)sendSyncRequest:(SFIdentityCoordinator *)idRequest {
+- (void)sendSyncIdentityRequest
+{
+    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     [_requestListener release]; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRequest:idRequest];
+    _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
     
-    [idRequest initiateIdentityDataRetrieval];
+    [accountMgr.idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
-    
-    return _requestListener.returnStatus;
 }
 
 - (void)bootstrapAuthCredentials
 {
-    _oauthCoordinator = [[TestSetupUtils coordinatorFromCredentialsConfigFile] retain];
+    [TestSetupUtils populateAuthCredentialsFromConfigFile];
     
-    // With these bootstrapped credentials, get an actual set of credentials (we'll need
+    // With credentials bootstrapped, get an actual set of credentials (we'll need
     // an access token and identity URL for these tests.
+    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     [_requestListener release]; _requestListener = nil;
-    _requestListener = [[TestRequestListener alloc] initWithRequest:_oauthCoordinator];
-    [_oauthCoordinator authenticate];
+    _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
+    [accountMgr.coordinator authenticate];
     [_requestListener waitForCompletion];
     if ([_requestListener.returnStatus isEqualToString:kTestRequestStatusDidFail]) {
         STFail([NSString stringWithFormat:@"OAuth refresh did not succeed: %@", _requestListener.lastError]);
@@ -102,8 +100,7 @@
  */
 - (void)testRetrieveIdentitySuccess
 {
-    SFIdentityCoordinator *idCoord = [[SFIdentityCoordinator alloc] initWithCredentials:_oauthCoordinator.credentials];
-    [self sendSyncRequest:idCoord];
+    [self sendSyncIdentityRequest];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
 }
 
@@ -112,10 +109,11 @@
  */
 - (void)testRetrieveIdentityFailure
 {
-    SFIdentityCoordinator *idCoord = [[SFIdentityCoordinator alloc] initWithCredentials:_oauthCoordinator.credentials];
+    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+    SFIdentityCoordinator *idCoord = accountMgr.idCoordinator;
     NSString *origAccessToken = [idCoord.credentials.accessToken copy];
     idCoord.credentials.accessToken = @"";
-    [self sendSyncRequest:idCoord];
+    [self sendSyncIdentityRequest];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should not have succeeded.");
     NSError *error = _requestListener.lastError;
     STAssertTrue([error.domain isEqualToString:kSFIdentityErrorDomain], [NSString stringWithFormat:@"Error domain should have been '%@'.  Got '%@'", kSFIdentityErrorDomain, error.domain]);

@@ -36,6 +36,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelAccessToken;
 @property (nonatomic, retain) IBOutlet UILabel *labelRefreshToken;
 @property (nonatomic, retain) IBOutlet UILabel *labelInstanceUrl;
+@property (nonatomic, retain) IBOutlet UILabel *labelAuthType;
 @property (nonatomic, retain) IBOutlet UILabel *labelIssued;
 @property (nonatomic, retain) IBOutlet UILabel *labelUserId;
 @property (nonatomic, retain) IBOutlet UILabel *labelOrgId;

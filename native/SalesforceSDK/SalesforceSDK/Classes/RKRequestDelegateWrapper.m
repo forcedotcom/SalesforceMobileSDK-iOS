@@ -28,14 +28,19 @@
 #import "SFJsonUtils.h"
 #import "SFRestRequest.h"
 #import "SFRestAPI+Internal.h"
-#import "SFOAuthCoordinator.h"
 #import "SFSessionRefresher.h"
 #import "RKRequestSerialization.h"
+#import "SFAccountManager.h"
+#import "SFOAuthCredentials.h"
 
 #define KEY_ERROR_CODE @"errorCode"
 
 
-@interface RKRequestDelegateWrapper (private)
+@interface RKRequestDelegateWrapper ()
+{
+    SFAccountManager *_accountMgr;
+}
+
 + (NSObject<RKRequestSerializable>*)formatParamsAsJson:(NSDictionary *)queryParams;
 - (id)initWithRestRequest:(SFRestRequest *)request;
 
@@ -51,6 +56,7 @@
     self = [super init];
     if (self) {
         self.request = request;
+        _accountMgr = [SFAccountManager sharedInstance];
     }
     return self;
 }
@@ -81,10 +87,9 @@
     if (![url hasPrefix:reqEndpoint]) {
         url = [NSString stringWithFormat:@"%@%@", reqEndpoint, url];
     }
-    SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
     
     //make sure we have the latest access token at the moment we send the request
-    [rkClient setValue:[NSString stringWithFormat:@"OAuth %@", coord.credentials.accessToken] 
+    [rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _accountMgr.credentials.accessToken]
          forHTTPHeaderField:@"Authorization"];
     
     if (_request.method == SFRestMethodGET) {
@@ -123,7 +128,11 @@
     }
 
     NSError *error = nil;
-    id jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
+    
+    // Some responses (e.g. update responses) do not contain any data.
+    id jsonResponse = nil;
+    if (response.body != nil && response.body.length > 0)
+        jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
     
     if ([jsonResponse isKindOfClass:[NSArray class]]) {
         if ([jsonResponse count] == 1) {

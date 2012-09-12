@@ -26,6 +26,7 @@
 
 @class RKRequestDelegateWrapper;
 @class SFSessionRefresher;
+@class SFAccountManager;
 
 
 /**
@@ -34,7 +35,11 @@
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI () 
+@interface SFRestAPI ()
+{
+    SFAccountManager *_accountMgr;
+    RKClient *_rkClient;
+}
 
 
 /**
@@ -44,12 +49,6 @@
 @property (nonatomic, readonly, retain) SFSessionRefresher *sessionRefresher;
 
 - (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
-
-/**
- * Release the sharedInstance: for testing only!
- * (Normally you should not need to release the shared instance after it's created.)
- */
-+ (void)clearSharedInstance;
 
 /**
  Force a request to timeout: for testing only!

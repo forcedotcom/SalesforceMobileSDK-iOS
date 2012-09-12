@@ -48,6 +48,8 @@
 	
 	<option value="//api/name/oauthCoordinator:didFailWithError:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didFailWithError:</option>
 	
+	<option value="//api/name/oauthCoordinator:didFailWithError:authInfo:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didFailWithError:authInfo:</option>
+	
 	<option value="//api/name/oauthCoordinator:didFinishLoad:error:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didFinishLoad:error:</option>
 	
 	<option value="//api/name/oauthCoordinator:didStartLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:didStartLoad:</option>
@@ -55,6 +57,8 @@
 	<option value="//api/name/oauthCoordinator:willBeginAuthenticationWithView:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinator:willBeginAuthenticationWithView:</option>
 	
 	<option value="//api/name/oauthCoordinatorDidAuthenticate:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinatorDidAuthenticate:</option>
+	
+	<option value="//api/name/oauthCoordinatorDidAuthenticate:authInfo:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinatorDidAuthenticate:authInfo:</option>
 	
 	
 	
@@ -88,6 +92,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didFailWithError:">oauthCoordinator:didFailWithError:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didFailWithError:authInfo:">oauthCoordinator:didFailWithError:authInfo:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didFinishLoad:error:">oauthCoordinator:didFinishLoad:error:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:didStartLoad:">oauthCoordinator:didStartLoad:</a></span></li>
@@ -95,6 +101,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinator:willBeginAuthenticationWithView:">oauthCoordinator:willBeginAuthenticationWithView:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinatorDidAuthenticate:">oauthCoordinatorDidAuthenticate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:">oauthCoordinatorDidAuthenticate:authInfo:</a></span></li>
 	
 </ul></li>
 
@@ -175,22 +183,38 @@ Use these methods to update your interface and refresh your application once a s
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:didBeginAuthenticationWithView:</a></code>
-		<span class="tooltip"><p>Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</p></span>
+		<code><a href="#//api/name/oauthCoordinatorDidAuthenticate:">&ndash;&nbsp;oauthCoordinatorDidAuthenticate:</a></code>
+		<span class="tooltip"><p>Sent when authentication successfully completes. Note: This method is deprecated.  You should use
+the <code>oauthCoordinatorDidAuthenticate:authInfo:</code> method instead.</p></span>
 	</span>
 	
-	<span class="task-item-suffix">required method</span>
+	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/oauthCoordinatorDidAuthenticate:">&ndash;&nbsp;oauthCoordinatorDidAuthenticate:</a></code>
+		<code><a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:">&ndash;&nbsp;oauthCoordinatorDidAuthenticate:authInfo:</a></code>
 		<span class="tooltip"><p>Sent when authentication successfully completes.</p></span>
 	</span>
 	
-	<span class="task-item-suffix">required method</span>
+	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didFailWithError:">&ndash;&nbsp;oauthCoordinator:didFailWithError:</a></code>
+		<span class="tooltip"><p>Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
+<code>oauthCoordinator:didFailWithError:authInfo</code> method instead.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCoordinator:didFailWithError:authInfo:">&ndash;&nbsp;oauthCoordinator:didFailWithError:authInfo:</a></code>
 		<span class="tooltip"><p>Sent if authentication fails due to an error.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:didBeginAuthenticationWithView:</a></code>
+		<span class="tooltip"><p>Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</p></span>
 	</span>
 	
 	<span class="task-item-suffix">required method</span>
@@ -286,7 +310,8 @@ The receiver should display the view in the implementation of this method.</p><d
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Sent if authentication fails due to an error.</p>
+		<p>Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
+<code>oauthCoordinator:didFailWithError:authInfo</code> method instead.</p>
 	</div>		
 	
     
@@ -306,6 +331,77 @@ The receiver should display the view in the implementation of this method.</p><d
 		<dl class="argument-def parameter-def">
 			<dt><em>error</em></dt>
 			<dd><p>The error message</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
+<code>oauthCoordinator:didFailWithError:authInfo</code> method instead.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFOAuthCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/oauthCoordinator:didFailWithError:authInfo:" title="oauthCoordinator:didFailWithError:authInfo:"></a>
+	<h3 class="subsubtitle method-title">oauthCoordinator:didFailWithError:authInfo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sent if authentication fails due to an error.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFailWithError:(NSError *)<em>error</em> authInfo:(SFOAuthInfo *)<em>info</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>coordinator</em></dt>
+			<dd><p>The SFOAuthCoordinator instance processing this message.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error associated with the failure.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>info</em></dt>
+			<dd><p>Object containing info associated with the authentication attempt.</p></dd>
 		</dl>
 		
 	</div>
@@ -537,7 +633,8 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Sent when authentication successfully completes.</p>
+		<p>Sent when authentication successfully completes. Note: This method is deprecated.  You should use
+the <code>oauthCoordinatorDidAuthenticate:authInfo:</code> method instead.</p>
 	</div>		
 	
     
@@ -552,6 +649,72 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 		<dl class="argument-def parameter-def">
 			<dt><em>coordinator</em></dt>
 			<dd><p>The SFOAuthCoordinator instance processing this message</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sent when authentication successfully completes. Note: This method is deprecated.  You should use
+the <code>oauthCoordinatorDidAuthenticate:authInfo:</code> method instead.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFOAuthCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/oauthCoordinatorDidAuthenticate:authInfo:" title="oauthCoordinatorDidAuthenticate:authInfo:"></a>
+	<h3 class="subsubtitle method-title">oauthCoordinatorDidAuthenticate:authInfo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sent when authentication successfully completes.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)<em>coordinator</em> authInfo:(SFOAuthInfo *)<em>info</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>coordinator</em></dt>
+			<dd><p>The SFOAuthCoordinator instance processing this message.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>info</em></dt>
+			<dd><p>Object containing info associated with this authentication attempt.</p></dd>
 		</dl>
 		
 	</div>
@@ -603,7 +766,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-15)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-09-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						

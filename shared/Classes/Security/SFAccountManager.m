@@ -25,10 +25,12 @@
 #import "SFAccountManager.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
+#import "SFOAuthInfo.h"
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityData.h"
 #import "SalesforceSDKConstants.h"
-#import "SFSecurityLockout.h"
+#import "SFPasscodeManager.h"
+#import "SFSmartStore.h"
 
 // ------------------------------------------
 // Private constants
@@ -69,11 +71,16 @@ NSString * const kOAuthScopesKey = @"oauth_scopes";
 // account-specific information to ensure uniqueness across accounts.
 NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
 
+// The key prefix for storing the OAuth credentials data of the account.  Will be combined with
+// account-specific information to ensure uniqueness across accounts.
+NSString * const kOAuthCredentialsDataKeyPrefix = @"oauth_credentials_data";
+
 static NSMutableDictionary *AccountManagerDict;
+static NSString *CurrentAccountIdentifier;
 
 @interface SFAccountManager ()
 {
-
+    SFOAuthCredentials *_credentials;
 }
 
 /**
@@ -87,20 +94,38 @@ static NSMutableDictionary *AccountManagerDict;
  */
 - (NSString *)idDataKey;
 
+/**
+ * Builds the key to store and retrieve the OAuth credentials data, based on the account ID.
+ */
+- (NSString *)credentialsDataKey;
+
+/**
+ * The full name of the keychain identifier, based on the account identifier.
+ * @param accountIdentifier The account identifier associated with the keychain ID.
+ */
++ (NSString *)fullKeychainIdentifier:(NSString *)accountIdentifier;
+
+/**
+ * Gets the login host as its configured in the app's settings.
+ */
++ (NSString *)appSettingsLoginHost;
+
 @end
 
 @implementation SFAccountManager
 
 @synthesize accountIdentifier = _accountIdentifier;
-@synthesize credentials = _credentials;
 @synthesize coordinator = _coordinator;
 @synthesize idCoordinator = _idCoordinator;
+@synthesize oauthDelegate = _oauthDelegate;
+@synthesize idDelegate = _idDelegate;
 
 #pragma mark - init / dealloc / etc.
 
 + (SFAccountManager *)sharedInstance
 {
-    return [self sharedInstanceForAccount:kDefaultAccountIdentifier];
+    NSAssert(CurrentAccountIdentifier != nil && [CurrentAccountIdentifier length] > 0, @"Current account identifier has not been set for the app.");
+    return [self sharedInstanceForAccount:CurrentAccountIdentifier];
 }
 
 + (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier
@@ -132,10 +157,12 @@ static NSMutableDictionary *AccountManagerDict;
 
 - (void)dealloc
 {
+    _coordinator.delegate = nil;
     SFRelease(_coordinator);
+    _idCoordinator.delegate = nil;
     SFRelease(_idCoordinator);
-    SFRelease(_credentials);
     SFRelease(_accountIdentifier);
+    SFRelease(_credentials);
     [super dealloc];
 }
 
@@ -146,6 +173,20 @@ static NSMutableDictionary *AccountManagerDict;
 }
 
 #pragma mark - Credentials management methods
+
++ (NSString *)currentAccountIdentifier
+{
+    return CurrentAccountIdentifier;
+}
+
++ (void)setCurrentAccountIdentifier:(NSString *)newAccountIdentifier
+{
+    if (newAccountIdentifier != CurrentAccountIdentifier) {
+        NSString *origAcctId = CurrentAccountIdentifier;
+        CurrentAccountIdentifier = [newAccountIdentifier copy];
+        [origAcctId release];
+    }
+}
 
 + (NSString *)clientId
 {
@@ -200,6 +241,7 @@ static NSMutableDictionary *AccountManagerDict;
         }
     }
     
+    _coordinator.delegate = self;
     return _coordinator;
 }
 
@@ -210,22 +252,60 @@ static NSMutableDictionary *AccountManagerDict;
         _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:creds];
     }
     
+    _idCoordinator.delegate = self;
     return _idCoordinator;
 }
 
 - (SFOAuthCredentials *)credentials
 {
     if (_credentials == nil) {
-        NSString *oauthClientId = [[self class] clientId];
-        if (oauthClientId != nil) {
+        NSString *dataKey = [self credentialsDataKey];
+        NSData *encodedIdData = [[NSUserDefaults standardUserDefaults] objectForKey:dataKey];
+        if (encodedIdData == nil) {
+            // Bootstrap an instance with what we've got.
+            NSString *oauthClientId = [[self class] clientId];
+            if (oauthClientId == nil)
+                return nil;
             NSString *fullIdentifier = [[self class] fullKeychainIdentifier:_accountIdentifier];
-            _credentials = [[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES];
-            _credentials.domain = [[self class] loginHost];
-            _credentials.redirectUri = [[self class] redirectUri];
+            SFOAuthCredentials *c = [[[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES] autorelease];
+            c.domain = [[self class] loginHost];
+            c.redirectUri = [[self class] redirectUri];
+            [self setCredentials:c];  // Sets _credentials as well.
+            return c;
+        } else {
+            _credentials = [[NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData] retain];
         }
     }
     
     return _credentials;
+}
+
+- (void)setCredentials:(SFOAuthCredentials *)credentials
+{
+    // Set the 'cached' member variable.
+    if (credentials != _credentials) {
+        SFOAuthCredentials *oldCreds = _credentials;
+        _credentials = [credentials retain];
+        [oldCreds release];
+    }
+    
+    // Persist the data to default settings as well.
+    NSString *dataKey = [self credentialsDataKey];
+    if (_credentials == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:dataKey];
+    } else {
+        // Identifier is managed by SFAccountManager.
+        NSString *fullIdentifier = [[self class] fullKeychainIdentifier:_accountIdentifier];
+        _credentials.identifier = fullIdentifier;
+        NSData *encodedData = [NSKeyedArchiver archivedDataWithRootObject:_credentials];
+        [[NSUserDefaults standardUserDefaults] setObject:encodedData forKey:dataKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)credentialsDataKey
+{
+    return [NSString stringWithFormat:@"%@-%@-%@", kOAuthCredentialsDataKeyPrefix, [[self class] loginHost], self.accountIdentifier];
 }
 
 - (SFIdentityData *)idData
@@ -266,7 +346,9 @@ static NSMutableDictionary *AccountManagerDict;
     if (clearAccountData) {
         [self.coordinator revokeAuthentication];
         self.idData = nil;
-        [SFSecurityLockout resetPasscode];
+        self.credentials = nil;
+        [SFSmartStore removeAllStores];
+        [[SFPasscodeManager sharedManager] resetPasscode];
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAppSettingsAccountLogout];
         [defs synchronize];
@@ -319,8 +401,24 @@ static NSMutableDictionary *AccountManagerDict;
 
 + (void)setLoginHost:(NSString *)newLoginHost
 {
-    [[NSUserDefaults standardUserDefaults] setObject:newLoginHost forKey:kLoginHost];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSAssert(newLoginHost != nil && [newLoginHost length] > 0, @"For setLoginHost: login host must have a value.");
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:newLoginHost forKey:kLoginHost];
+    
+    // Set/sync the app settings login host value too.
+    newLoginHost = [newLoginHost lowercaseString];
+    newLoginHost = [newLoginHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (![newLoginHost isEqualToString:@"login.salesforce.com"]
+        && ![newLoginHost isEqualToString:@"test.salesforce.com"]) {
+        // Custom login host.
+        [userDefaults setObject:kAppSettingsLoginHostIsCustom forKey:kAppSettingsLoginHost];
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHostCustomValue];
+    } else {
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHost];
+    }
+    
+    [userDefaults synchronize];
 }
 
 + (BOOL)updateLoginHost
@@ -399,6 +497,103 @@ static NSMutableDictionary *AccountManagerDict;
     
     // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
     return appSettingsLoginHost;
+}
+
+#pragma mark - Utility methods
+
++ (BOOL)errorIsNetworkFailure:(NSError *)error
+{
+    BOOL isNetworkFailure = NO;
+    
+    if (error == nil || error.domain == nil)
+        return isNetworkFailure;
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        switch (error.code) {
+            case NSURLErrorTimedOut:
+            case NSURLErrorCannotConnectToHost:
+            case NSURLErrorNetworkConnectionLost:
+            case NSURLErrorNotConnectedToInternet:
+                isNetworkFailure = YES;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return isNetworkFailure;
+}
+
+#pragma mark - SFOAuthCoordinatorDelegate methods
+
+// NOTE: The deprecated delegate methods are intentionally not supported here.
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didBeginAuthenticationWithView:)]) {
+        [self.oauthDelegate oauthCoordinator:coordinator didBeginAuthenticationWithView:view];
+    }
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
+        [self.oauthDelegate oauthCoordinator:coordinator didFailWithError:error authInfo:info];
+    }
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
+        [self.oauthDelegate oauthCoordinator:coordinator didFinishLoad:view error:errorOrNil];
+    }
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
+        [self.oauthDelegate oauthCoordinator:coordinator didStartLoad:view];
+    }
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:willBeginAuthenticationWithView:)]) {
+        [self.oauthDelegate oauthCoordinator:coordinator willBeginAuthenticationWithView:view];
+    }
+}
+
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    self.credentials = coordinator.credentials;
+    
+    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
+        [self.oauthDelegate oauthCoordinatorDidAuthenticate:coordinator authInfo:info];
+    }
+}
+
+#pragma mark - SFIdentityCoordinatorDelegate methods
+
+- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
+{
+    // No action by SFAccountManager here.  Just pass it along.
+    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
+        [self.idDelegate identityCoordinator:coordinator didFailWithError:error];
+    }
+}
+
+- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
+{
+    self.idData = coordinator.idData;
+    
+    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
+        [self.idDelegate identityCoordinatorRetrievedData:coordinator];
+    }
 }
 
 @end

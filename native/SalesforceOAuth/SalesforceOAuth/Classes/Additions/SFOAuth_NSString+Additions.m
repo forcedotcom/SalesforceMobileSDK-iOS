@@ -41,7 +41,7 @@ FIX_CATEGORY_BUG(NSString_CryptoAdditions);
     NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
 	const unsigned char *dataBuffer = [data bytes];
 	for (int i = 0; i < [data length]; ++i) {
-		[stringBuffer appendFormat:@"%02x", (unsigned long)dataBuffer[ i ]];
+		[stringBuffer appendFormat:@"%02lx", (unsigned long)dataBuffer[ i ]];
     }
     return [NSString stringWithString:stringBuffer];
 }

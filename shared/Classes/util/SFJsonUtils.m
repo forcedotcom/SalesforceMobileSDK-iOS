@@ -1,6 +1,5 @@
 /*
  Copyright (c) 2011, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -87,5 +86,31 @@
     }
     return  jsonData;
 }
+
++ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path {
+    id result = nil;
+    
+    if (!path || [path length] == 0) {
+        return jsonObj;
+    }
+    
+    if (nil != jsonObj) {
+        id o = jsonObj;
+        NSArray *pathElements = [path componentsSeparatedByString:@"."];
+        for (NSString *pathElement in pathElements) {
+            if ([o isKindOfClass:[NSDictionary class]]) {
+                o = [(NSDictionary*)o objectForKey:pathElement];
+            } else  {
+                NSLog(@"unexpected object in compound path (%@): %@",pathElement, o);
+                o = nil;
+                break;
+            }
+        }
+        result = o;
+    }
+    
+    return result;
+}
+
 
 @end

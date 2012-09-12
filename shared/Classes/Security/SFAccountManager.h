@@ -23,19 +23,20 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFOAuthCoordinator.h"
+#import "SFIdentityCoordinator.h"
 
-@class SFOAuthCoordinator;
 @class SFOAuthCredentials;
-@class SFIdentityCoordinator;
 @class SFIdentityData;
 
 /**
  * Class used to manage a common account functions used across the app.
  */
-@interface SFAccountManager : NSObject
+@interface SFAccountManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
- * Returns the singleton instance of this class for the default account.
+ * Returns the singleton instance of this class for the currently configured account.
+ * @see currentAccountIdentifier
  */
 + (SFAccountManager *)sharedInstance;
 
@@ -44,6 +45,17 @@
  * @param accountIdentifier The account identifier of the class.
  */
 + (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier;
+
+/**
+ * @return The account identifier associated with the current application.
+ */
++ (NSString *)currentAccountIdentifier;
+
+/**
+ * Sets (copies) the current account identifier for the application.  There's really only
+ * one active account identifier for the lifetime of the running application.
+ */
++ (void)setCurrentAccountIdentifier:(NSString *)newAccountIdentifier;
 
 /**
  * Wheher or not the Logout app setting is enabled.
@@ -64,6 +76,13 @@
 
 /**
  * Sets a new value for the login host for the app.
+ *
+ * NOTE: Be careful using this method.  The default behavior of the app is to make a determination
+ * about login host from the app settings of the application, based on the user's configuration.
+ * There are normally many changes around app state that happen on the boundary of changing to a
+ * different login host, and if you use this method, you're responsible for managing that state
+ * change.  Make sure you know what you're doing before calling this method.
+ *
  * @param newLoginHost The new host value to set.
  */
 + (void)setLoginHost:(NSString *)newLoginHost;
@@ -108,6 +127,14 @@
 + (void)setScopes:(NSSet *)newScopes;
 
 /**
+ * Evaluates an NSError object to see if it represents a network failure during
+ * an attempted connection.
+ * @param error The NSError to evaluate.
+ * @return YES if the error represents a network failure, NO otherwise.
+ */
++ (BOOL)errorIsNetworkFailure:(NSError *)error;
+
+/**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
  * instances, etc.
  * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
@@ -145,5 +172,15 @@
  * The Identity data associated with this account.
  */
 @property (nonatomic, retain) SFIdentityData *idData;
+
+/**
+ * Allows the consumer to set its OAuth delegate for handling authentication responses.
+ */
+@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> oauthDelegate;
+
+/**
+ * Allows the consumer to set its Identity delegate for handling identity responses.
+ */
+@property (nonatomic, assign) id<SFIdentityCoordinatorDelegate> idDelegate;
 
 @end

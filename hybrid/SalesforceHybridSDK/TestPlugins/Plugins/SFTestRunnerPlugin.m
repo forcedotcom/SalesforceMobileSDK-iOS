@@ -44,8 +44,8 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 @interface SFTestRunnerPlugin (Private)
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
 - (void)writeCommandOKResultToJsRealm:(NSString*)callbackId;
 
@@ -59,7 +59,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 
 ///designated init
-- (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
+- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
 {
     self = [super initWithWebView:theWebView];
     
@@ -83,15 +83,15 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 
 
-#pragma mark - PhoneGap plugin support
+#pragma mark - Cordova plugin support
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
 {
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:dict];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {    
     NSString *jsString = [result toSuccessCallbackString:callbackId];
     
@@ -102,10 +102,10 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 - (void)writeCommandOKResultToJsRealm:(NSString*)callbackId
 {
-    [self writeSuccessResultToJsRealm:[PluginResult resultWithStatus:PGCommandStatus_OK] callbackId:callbackId];
+    [self writeSuccessResultToJsRealm:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:callbackId];
 }
 
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {
     NSString *jsString = [result toErrorCallbackString:callbackId];
     

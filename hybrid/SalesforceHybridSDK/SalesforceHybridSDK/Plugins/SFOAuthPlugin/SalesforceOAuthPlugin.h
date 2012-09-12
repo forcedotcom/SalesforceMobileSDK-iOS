@@ -23,17 +23,17 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PGPlugin.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
+#import <Cordova/CDVPlugin.h>
 
 @class SFContainerAppDelegate;
 @class SFIdentityData;
 
 /**
- * PhoneGap plugin for managing authentication with the Salesforce service, via OAuth.
+ * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : PGPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : CDVPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;
@@ -117,30 +117,30 @@
 #pragma mark - Plugin exported to javascript
 
 /**
- * PhoneGap plug-in method to obtain the current login credentials, authenticating if needed.
- * @param arguments PhoneGap arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from PhoneGap, not used in this method.
+ * Cordova plug-in method to obtain the current login credentials, authenticating if needed.
+ * @param arguments Cordova arguments array, containing the OAuth configuration properties.
+ * @param options Name/value pair options from Cordova, not used in this method.
  */
 - (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
- * PhoneGap plug-in method to authenticate a user to the application.
- * @param arguments PhoneGap arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from PhoneGap, not used in this method.
+ * Cordova plug-in method to authenticate a user to the application.
+ * @param arguments Cordova arguments array, containing the OAuth configuration properties.
+ * @param options Name/value pair options from Cordova, not used in this method.
  */
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  * Clear the current user's authentication credentials.
- * @param arguments Standard PhoneGap plugin arguments, not used in this method.
- * @param options Name/value pair options from PhoneGap, not used in this method.
+ * @param arguments Standard Cordova plugin arguments, not used in this method.
+ * @param options Name/value pair options from Cordova, not used in this method.
  */
 - (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
- * @param arguments Standard PhoneGap plugin arguments, nominally used in this method.
- * @param options Name/value pair options from PhoneGap, not used in this method.
+ * @param arguments Standard Cordova plugin arguments, nominally used in this method.
+ * @param options Name/value pair options from Cordova, not used in this method.
  */
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 

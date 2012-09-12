@@ -23,6 +23,8 @@
  */
 
 #import "TestRequestListener.h"
+#import "TestSetupUtils.h"
+#import "SFAccountManager.h"
 
 
 NSString* const kTestRequestStatusWaiting = @"waiting";
@@ -31,22 +33,56 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
 NSString* const kTestRequestStatusDidCancel = @"didCancel";
 NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
+@interface TestRequestListener ()
+{
+    SFAccountManager *_accountMgr;
+    SFAccountManagerServiceType _serviceType;
+}
+
+- (id)initInternal;
+- (void)configureAccountServiceDelegate;
+- (void)clearAccountManagerDelegate;
+- (NSString *)serviceTypeDescription;
+
+@end
+
 @implementation TestRequestListener
 
-@synthesize originalRequest = _originalRequest;
+@synthesize request = _request;
 @synthesize jsonResponse = _jsonResponse;
 @synthesize lastError = _lastError;
 @synthesize returnStatus = _returnStatus;
 
 @synthesize maxWaitTime = _maxWaitTime;
 
-- (id)initWithRequest:(id)request {
+- (id)initWithRequest:(SFRestRequest *)request {
+    self = [self initInternal];
+    if (nil != self) {
+        _serviceType = SFAccountManagerServiceTypeNone;
+        self.request = request;
+        self.request.delegate = self;
+    }
+    
+    return self;
+}
+
+- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType
+{
+    self = [self initInternal];
+    if (nil != self) {
+        _serviceType = serviceType;
+        [self configureAccountServiceDelegate];
+    }
+    
+    return self;
+}
+
+- (id)initInternal
+{
     self = [super init];
     if (nil != self) {
+        _accountMgr = [SFAccountManager sharedInstance];
         self.maxWaitTime = 30.0;
-        self.originalRequest = request;
-        NSAssert([request respondsToSelector:@selector(setDelegate:)], @"The request does not expose a delegate.  Nothing to do.");
-        [request setDelegate:self];
         self.returnStatus = kTestRequestStatusWaiting;
     }
     
@@ -54,10 +90,15 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 }
 
 - (void)dealloc {
-    if ([self.originalRequest respondsToSelector:@selector(setDelegate:)]) {
-        [self.originalRequest setDelegate:nil];
+    if (self.request != nil) {
+        self.request.delegate = nil;
     }
-    self.originalRequest = nil;
+    self.request = nil;
+    
+    if (_serviceType != SFAccountManagerServiceTypeNone) {
+        [self clearAccountManagerDelegate];
+    }
+    
     self.jsonResponse = nil;
     self.lastError = nil;
     self.returnStatus = nil;
@@ -72,7 +113,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
-            NSLog(@"Request took too long (> %f secs) to complete: %@", elapsed, self.originalRequest);
+            NSLog(@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed);
             return kTestRequestStatusDidTimeout;
         }
         
@@ -81,6 +122,41 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     }
     
     return self.returnStatus;
+}
+
+#pragma mark - Private methods
+
+- (void)configureAccountServiceDelegate
+{
+    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+        _accountMgr.idDelegate = self;
+    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+        _accountMgr.oauthDelegate = self;
+    } else {
+        NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
+    }
+}
+
+- (void)clearAccountManagerDelegate
+{
+    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+        _accountMgr.idDelegate = nil;
+    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+        _accountMgr.oauthDelegate = nil;
+    }
+}
+
+- (NSString *)serviceTypeDescription
+{
+    if (self.request != nil) {
+        return @"SFRestRequest";
+    } else if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+        return @"SFIdentityCoordinator";
+    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+        return @"SFOAuthCoordinator";
+    } else {
+        return @"Unknown";
+    }
 }
 
 #pragma mark - SFRestDelegate
@@ -138,12 +214,12 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     NSAssert(NO, @"User Agent flow not supported in this class.");
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;

@@ -22,8 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <PhoneGap/NSMutableArray+QueueAdditions.h>
-#import <PhoneGap/Connection.h>
+#import <Cordova/NSMutableArray+QueueAdditions.h>
+#import <Cordova/CDVConnection.h>
+#import <Cordova/CDVPluginResult.h>
 
 #import "SalesforceOAuthPlugin.h"
 #import "SalesforceSDKConstants.h"
@@ -34,6 +35,7 @@
 #import "SFIdentityData.h"
 #import "SFSecurityLockout.h"
 #import "SFUserActivityMonitor.h"
+#import "SFOAuthInfo.h"
 
 // ------------------------------------------
 // Private constants
@@ -142,9 +144,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 #pragma mark - init/dealloc
 
 /**
- This is PhoneGap's default initializer for plugins.
+ This is Cordova's default initializer for plugins.
  */
-- (PGPlugin*) initWithWebView:(UIWebView*)theWebView
+- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
@@ -178,7 +180,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [super dealloc];
 }
 
-#pragma mark - PhoneGap plugin methods
+#pragma mark - Cordova plugin methods
 
 
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
@@ -199,7 +201,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         NSLog(@"lastRefreshCompleted %0.2f seconds ago",delta);
         
         if (delta < 120.0f) { //seconds            
-            PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
             [self authenticate:arguments withDict:nil];
@@ -212,7 +214,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             [self authenticate:arguments withDict:nil];
         } else {
             NSString *errorMessage = @"No auth info available.";
-            PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:errorMessage];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
             [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
         }
     }
@@ -254,7 +256,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     NSLog(@"AppHomeURL: %@",urlString);
     
-    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:urlString];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
@@ -397,7 +399,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)login
 {
     //verify that we have a network connection
-    PGConnection *connectionPlugin = (PGConnection *)[self.appDelegate getCommandInstance:@"com.phonegap.connection"];
+    CDVConnection *connectionPlugin = (CDVConnection *)[self.commandDelegate getCommandInstance:@"NetworkStatus"];
     NSString *connType = connectionPlugin.connectionType;
     
     if ((nil != connType) && 
@@ -407,7 +409,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [self cleanupRetryAlert];
          
         // Kick off authentication.
-        [SFAccountManager sharedInstance].coordinator.delegate = self;
+        [SFAccountManager sharedInstance].oauthDelegate = self;
         [[SFAccountManager sharedInstance].coordinator authenticate];
     } else {
         //TODO some kinda dialog here?
@@ -435,11 +437,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)loggedIn
 {
-    [SFAccountManager sharedInstance].credentials = [SFAccountManager sharedInstance].coordinator.credentials;
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
-        [SFAccountManager sharedInstance].idCoordinator.delegate = self;
+        [SFAccountManager sharedInstance].idDelegate = self;
         [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
@@ -505,7 +506,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     NSDictionary *authDict = [self credentialsAsDictionary];
     if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.    
-        PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:authDict];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
         [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
         
         SFRelease(_authCallbackId);
@@ -543,7 +544,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     
     NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
-    NSString *eventStr = [[NSString alloc] initWithFormat:@"PhoneGap.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
+    NSString *eventStr = [[NSString alloc] initWithFormat:@"cordova.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
                           credsStr];
     [super writeJavascript:eventStr];
     [eventStr release];
@@ -572,9 +573,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert([SFAccountManager sharedInstance].idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert([SFAccountManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    [SFAccountManager sharedInstance].idData = [SFAccountManager sharedInstance].idCoordinator.idData;
+    NSAssert([SFAccountManager sharedInstance].idData != nil, @"Identity data should not be nil/empty at this point.");
     
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
@@ -608,16 +607,16 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [_appDelegate addOAuthViewToMainView:view];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, authInfo: %@", coordinator.credentials.userId, info);
     [coordinator.view removeFromSuperview];
     [self loggedIn];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
     // Clear account state before continuing.
     [[SFAccountManager sharedInstance] clearAccountState:NO];

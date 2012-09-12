@@ -1,6 +1,5 @@
 /*
  Copyright (c) 2011, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -74,8 +73,9 @@
 
         self.pageSize = [NSNumber numberWithInteger:myPageSize]; 
         
-        NSUInteger totalPages = (totalEntries / querySpec.pageSize) + 1;     
-        if (0 == totalEntries) 
+        float totalPagesFloat = totalEntries / (float)querySpec.pageSize;
+        int totalPages = ceilf(totalPagesFloat);
+        if (0 == totalEntries)
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
@@ -146,7 +146,7 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupCursor: 0x%x> {\n cursorId: %@ \n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+    return [NSString stringWithFormat:@"<SFSoupCursor: %p> {\n cursorId: %@ \n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
             self,self.cursorId, 
             self.soupName,
             self.totalPages,

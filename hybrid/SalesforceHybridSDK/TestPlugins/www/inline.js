@@ -2,31 +2,35 @@
 
 var lastSoupCursor = null;
 
+
 function regLinkClickHandlers() {
-    SFHybridApp.logToConsole("regLinkClickHandlers");
+    var logToConsole = cordova.require("salesforce/util/logger").logToConsole;
+    var smartStore = cordova.require("salesforce/plugin/smartstore");
+    
+    logToConsole("regLinkClickHandlers");
 
     
     $('#link_fetch_device_contacts').click(function() {
-                                           var options = new ContactFindOptions();
+                                           var options = cordova.require("cordova/plugin/ContactFindOptions");
                                            var fields = ["name"];
-                                           SFHybridApp.logToConsole("link_fetch_device_contacts clicked");
+                                           logToConsole("link_fetch_device_contacts clicked");
                                            options.filter = ""; // empty search string returns all contacts
                                            options.multiple = true;
-                                           navigator.contacts.find(fields, onSuccessDevice, onErrorDevice, options);
+                                           cordova.require("cordova/plugin/contacts").find(fields, onSuccessDevice, onErrorDevice, options);
                                            });
     
     $('#link_fetch_sfdc_contacts').click(function() {
-                                         SFHybridApp.logToConsole("link_fetch_sfdc_contacts clicked");
+                                         logToConsole("link_fetch_sfdc_contacts clicked");
                                          forcetkClient.query("SELECT Name,Id FROM Contact", onSuccessSfdcContacts, onErrorSfdc); 
                                          });
     
     $('#link_fetch_sfdc_accounts').click(function() {
-         SFHybridApp.logToConsole("link_fetch_sfdc_accounts clicked");
+         logToConsole("link_fetch_sfdc_accounts clicked");
          forcetkClient.query("SELECT Name FROM Account", onSuccessSfdcAccounts, onErrorSfdc); 
      });
     
     $('#link_reset').click(function() {
-                           SFHybridApp.logToConsole("link_reset clicked");
+                           logToConsole("link_reset clicked");
                            $("#div_device_contact_list").html("");
                            $("#div_sfdc_contact_list").html("");
                            $("#div_sfdc_account_list").html("");
@@ -34,29 +38,20 @@ function regLinkClickHandlers() {
                            $("#console").html("");
     });
                   
-   $('#link_start_tests').click(function() {
-                           SFHybridApp.logToConsole("link_start_tests clicked");
-                           kickStartTests();
-					});
-         
-    $('#link_logout').click(function() {
-             SFHybridApp.logToConsole("link_logout clicked");
-             SalesforceOAuthPlugin.logout();
+   $('#link_logout').click(function() {
+             logToConsole("link_logout clicked");
+             cordova.require("salesforce/plugin/oauth").logout();
              });
     
     $('#link_reg_soup').click(function() {
-      SFHybridApp.logToConsole("link_reg_soup clicked");
-      
-    if (!PhoneGap.hasResource("smartstore")) {
-        SFHybridApp.logToConsole("no resource smartstore ???");
-    }
+      logToConsole("link_reg_soup clicked");
 
       var indexes = [
                      {path:"Name",type:"string"},
                      {path:"Id",type:"string"}
                      ];
         
-      navigator.smartstore.registerSoup("myPeopleSoup",
+      smartStore.registerSoup("myPeopleSoup",
                                         indexes,                                  
                                         onSuccessRegSoup, 
                                         onErrorRegSoup
@@ -68,14 +63,14 @@ function regLinkClickHandlers() {
                               
     
     $('#link_stuff_soup').click(function() {
-        SFHybridApp.logToConsole("link_stuff_soup clicked");
+        logToConsole("link_stuff_soup clicked");
 
         var myEntry1 = { Name: "Todd Stellanova", Id: "00300A",  attributes:{type:"Contact"} };
         var myEntry2 = { Name: "Pro Bono Bonobo",  Id: "00300B", attributes:{type:"Contact"}  };
         var myEntry3 = { Name: "Robot", Id: "00300C", attributes:{type:"Contact"}  };
 
         var entries = [myEntry1,myEntry2,myEntry3];
-        navigator.smartstore.upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
+        smartStore.upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
         
     });
                             
@@ -83,7 +78,7 @@ function regLinkClickHandlers() {
 
 
     $('#link_remove_soup').click(function() {
-        navigator.smartstore.removeSoup("myPeopleSoup",
+        smartStore.removeSoup("myPeopleSoup",
                                      onSuccessRemoveSoup, 
                                      onErrorRemoveSoup);
     });
@@ -97,31 +92,21 @@ function regLinkClickHandlers() {
 
     
      $('#link_cursor_page_zero').click(function() {
-        SFHybridApp.logToConsole("link_cursor_page_zero clicked");
-        navigator.smartstore.moveCursorToPageIndex(lastSoupCursor,0, onSuccessQuerySoup,onErrorQuerySoup);
+        logToConsole("link_cursor_page_zero clicked");
+        smartStore.moveCursorToPageIndex(lastSoupCursor,0, onSuccessQuerySoup,onErrorQuerySoup);
     });
      
      $('#link_cursor_page_prev').click(function() {
-        SFHybridApp.logToConsole("link_cursor_page_prev clicked");
-        navigator.smartstore.moveCursorToPreviousPage(lastSoupCursor,onSuccessQuerySoup,onErrorQuerySoup);
+        logToConsole("link_cursor_page_prev clicked");
+        smartStore.moveCursorToPreviousPage(lastSoupCursor,onSuccessQuerySoup,onErrorQuerySoup);
     });
      
     
     $('#link_cursor_page_next').click(function() {
-        SFHybridApp.logToConsole("link_cursor_page_next clicked");
-        navigator.smartstore.moveCursorToNextPage(lastSoupCursor,onSuccessQuerySoup,onErrorQuerySoup);
+        logToConsole("link_cursor_page_next clicked");
+        smartStore.moveCursorToNextPage(lastSoupCursor,onSuccessQuerySoup,onErrorQuerySoup);
     });
 }
-
-/*
-Can be used from native side to start the tests
-*/
-function kickStartTests() {
-    navigator.testrunner.setTestSuite('SmartStoreTestSuite');
-    navigator.testrunner.testSuite.startTests();
-}
-
-
 
 function runQuerySoup() {
     var inputStr = $('#input_query_soup').val();
@@ -129,39 +114,40 @@ function runQuerySoup() {
         inputStr = null;
     }
     
-    SFHybridApp.logToConsole("testSmartStoreQuerySoup: " + inputStr);
+    cordova.require("salesforce/util/logger").logToConsole("testSmartStoreQuerySoup: " + inputStr);
 
-    var querySpec = new SoupQuerySpec("Name",inputStr);
+    var smartStore = cordova.require("salesforce/plugin/smartstore");
+    var querySpec = new smartStore.SoupQuerySpec("Name",inputStr);
     querySpec.pageSize = 25;
                                 
-    navigator.smartstore.querySoup("myPeopleSoup",querySpec,
+    smartStore.querySoup("myPeopleSoup",querySpec,
                                        onSuccessQuerySoup, 
                                        onErrorQuerySoup
                                                 );
 }
     
 function onSuccessRegSoup(param) {
-    SFHybridApp.logToConsole("onSuccessRegSoup: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessRegSoup: " + param);
 }
 
 function onErrorRegSoup(param) {
-    SFHybridApp.logToConsole("onErrorRegSoup: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onErrorRegSoup: " + param);
 }
 
 function onSuccessUpsert(param) {
-    SFHybridApp.logToConsole("onSuccessUpsert: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessUpsert: " + param);
 }
 
 
 function onErrorUpsert(param) {
-    SFHybridApp.logToConsole("onErrorUpsert: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onErrorUpsert: " + param);
 }
 
 
     
 function onSuccessQuerySoup(cursor) {
 
-    SFHybridApp.logToConsole("onSuccessQuerySoup totalPages: " + cursor.totalPages);
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessQuerySoup totalPages: " + cursor.totalPages);
     lastSoupCursor = cursor;
 
     $("#div_sfdc_soup_entry_list").html("")
@@ -189,21 +175,21 @@ function onSuccessQuerySoup(cursor) {
 
 
 function onErrorQuerySoup(param) {
-    SFHybridApp.logToConsole("onErrorQuerySoup: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onErrorQuerySoup: " + param);
 }
 
 
 function onSuccessRemoveSoup(param) {
-    SFHybridApp.logToConsole("onSuccessRemoveSoup: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessRemoveSoup: " + param);
 }
 function onErrorRemoveSoup(param) {
-    SFHybridApp.logToConsole("onErrorRemoveSoup: " + param);
+    cordova.require("salesforce/util/logger").logToConsole("onErrorRemoveSoup: " + param);
 }
 
 
 
 function onSuccessDevice(contacts) {
-    SFHybridApp.logToConsole("onSuccessDevice: received " + contacts.length + " contacts");
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessDevice: received " + contacts.length + " contacts");
     $("#div_device_contact_list").html("")
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
     $("#div_device_contact_list").append(ul);
@@ -223,12 +209,12 @@ function onSuccessDevice(contacts) {
 }
 
 function onErrorDevice(error) {
-    SFHybridApp.logToConsole("onErrorDevice: " + JSON.stringify(error) );
+    cordova.require("salesforce/util/logger").logToConsole("onErrorDevice: " + JSON.stringify(error) );
     alert('Error getting device contacts!');
 }
 
 function onSuccessSfdcContacts(response) {
-    SFHybridApp.logToConsole("onSuccessSfdcContacts: received " + response.totalSize + " contacts");
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessSfdcContacts: received " + response.totalSize + " contacts");
     
     var entries = new Array();
     
@@ -246,13 +232,13 @@ function onSuccessSfdcContacts(response) {
     $("#div_sfdc_contact_list").trigger( "create" );
     
     if (entries.length > 0) {
-        navigator.smartstore.upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
+        cordova.require("salesforce/plugin/smartstore").upsertSoupEntries("myPeopleSoup",entries,onSuccessUpsert,onErrorUpsert);
     }
     
 }
 
 function onSuccessSfdcAccounts(response) {
-    SFHybridApp.logToConsole("onSuccessSfdcAccounts: received " + response.totalSize + " accounts");
+    cordova.require("salesforce/util/logger").logToConsole("onSuccessSfdcAccounts: received " + response.totalSize + " accounts");
     
     $("#div_sfdc_account_list").html("")
     var ul = $('<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="a"></ul>');
@@ -268,6 +254,6 @@ function onSuccessSfdcAccounts(response) {
 }
 
 function onErrorSfdc(error) {
-    SFHybridApp.logToConsole("onErrorSfdc: " + JSON.stringify(error));
+    cordova.require("salesforce/util/logger").logToConsole("onErrorSfdc: " + JSON.stringify(error));
     alert('Error getting sfdc contacts!');
 }

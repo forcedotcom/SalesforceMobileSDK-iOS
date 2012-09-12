@@ -27,11 +27,20 @@
 
 	<target name="ensureDependencies"
 		description="Build all of the libraries a native SDK app could possibly depend upon"
-		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth, iOSShared.dependency.sdk"
+		depends="iOSShared.dependency.restkit,
+                 iOSShared.dependency.oauth,
+                 iOSShared.dependency.salesforcecommonutils,
+                 iOSShared.dependency.openssl,
+                 iOSShared.dependency.sqlcipher,
+                 iOSShared.dependency.sdk"
 		/>
 		
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sdk.clean"
+		depends="iOSShared.dependency.restkit.clean,
+                 iOSShared.dependency.oauth.clean,
+                 iOSShared.dependency.salesforcecommonutils.clean,
+                 iOSShared.dependency.sqlcipher.clean,
+                 iOSShared.dependency.sdk.clean"
 		>
 	</target>
 		

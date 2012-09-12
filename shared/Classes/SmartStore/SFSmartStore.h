@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -86,21 +85,23 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 + (void)removeSharedStoreWithName:(NSString*)storeName;
 
-
 /**
- @param storeName The name of the store.
- @return The filesystem diretory containing for the given store name
+ Removes all of the stores from this app.
  */
-+ (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
-
-
-
++ (void)removeAllStores;
 
 /**
  @param storeName The name of the store (excluding paths)
  @return Does this store already exist in persistent storage (ignoring cache) ?
  */
 + (BOOL)persistentStoreExists:(NSString*)storeName;
+
+/**
+ Changes the encryption key for all of the stores associated with the app.
+ @param oldKey The original encryption key.
+ @param newKey The new encryption key.
+ */
++ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
 
 #pragma mark - Soup manipulation methods
 
@@ -227,8 +228,6 @@ extern NSString * const kSFSmartStoreErrorDomain;
  @return Are we sure that file data protection (full passcode-based encryption) is available?
  */
 - (BOOL)isFileDataProtectionActive;
-
-
 
 
 @end

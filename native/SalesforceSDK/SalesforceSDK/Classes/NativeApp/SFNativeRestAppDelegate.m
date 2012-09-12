@@ -34,6 +34,7 @@
 #import "SFNativeRootViewController.h"
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFOAuthInfo.h"
 
 
 
@@ -42,9 +43,9 @@ static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
 #if defined(DEBUG)
-static SFLogLevel const kAppLogLevel = Debug;
+static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 #else
-static SFLogLevel const kAppLogLevel = Info;
+static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFNativeRestAppDelegate () {
@@ -141,7 +142,8 @@ static SFLogLevel const kAppLogLevel = Info;
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
         [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
         [SFAccountManager setScopes:[[self class] oauthScopes]];
-        _accountMgr = [SFAccountManager sharedInstanceForAccount:[self userAccountIdentifier]];
+        [SFAccountManager setCurrentAccountIdentifier:[self userAccountIdentifier]];
+        _accountMgr = [SFAccountManager sharedInstance];
         
         // Strictly for internal tracking, assume we've got our initial credentials, until
         // OAuth tells us otherwise.  E.g. we only want to call the identity service after
@@ -227,7 +229,7 @@ static SFLogLevel const kAppLogLevel = Info;
 
 - (void)login {
     //kickoff authentication
-    _accountMgr.coordinator.delegate = self;
+    _accountMgr.oauthDelegate = self;
     [_accountMgr.coordinator authenticate];
 }
 
@@ -239,13 +241,10 @@ static SFLogLevel const kAppLogLevel = Info;
 }
 
 - (void)loggedIn {
-    // Update the shared credentials.
-    _accountMgr.credentials = _accountMgr.coordinator.credentials;
-    
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
     if (_isInitialLogin || _accountMgr.idData == nil) {
-        _accountMgr.idCoordinator.delegate = self;
+        _accountMgr.idDelegate = self;
         [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
@@ -256,9 +255,7 @@ static SFLogLevel const kAppLogLevel = Info;
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert(_accountMgr.idCoordinator != nil, @"Identity coordinator should be populated at this point.");
-    NSAssert(_accountMgr.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    _accountMgr.idData = _accountMgr.idCoordinator.idData;
+    NSAssert(_accountMgr.idData != nil, @"Identity data should not be nil/empty at this point.");
     
     if ([_accountMgr mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
@@ -280,9 +277,6 @@ static SFLogLevel const kAppLogLevel = Info;
 
 - (void)postIdentityRetrievalProcesses
 {
-    // Provide the Rest API with a reference to the coordinator we used for login.
-    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
-    
     if (_isAppInitialization) {
         // We'll ask for a passcode every time the application is initialized, regardless of activity.
         // But, if the user just went through credentials initialization, she's already just created
@@ -443,21 +437,38 @@ static SFLogLevel const kAppLogLevel = Info;
     [self presentAuthViewController:view];
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@", coordinator.credentials.userId);
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info);
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
-    if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
-        //restart the login process asynchronously
-        NSLog(@"Logging out because oauth failed with error code: %d",error.code);
-        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    BOOL fatal = YES;
+    if (info.authType == SFOAuthTypeRefresh) {
+        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
+            // Restart the login process asynchronously.
+            fatal = NO;
+            NSLog(@"Logging out because oauth failed with error code: %d",error.code);
+            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
+            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
+            fatal = NO;
+            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+            
+            // If this is app startup, we need to go through the bootstrapping of the root view controller,
+            // etc.
+            if (_isAppInitialization) {
+                [self loggedIn];
+                return;
+            }
+        }
     }
-    else {
+    
+    if (fatal) {
         // show alert and retry
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
                                                         message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]

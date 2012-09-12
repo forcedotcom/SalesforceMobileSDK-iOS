@@ -25,13 +25,15 @@
 
 #import "SFSmartStorePlugin.h"
 
-#import "NSDictionary+NullHandling.h"
+#import "NSDictionary+SFAdditions.h"
 
 #import "SFContainerAppDelegate.h"
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
+#import "SFHybridViewController.h"
+#import <Cordova/CDVPluginResult.h>
 
-//NOTE: must match value in PhoneGap.plist file
+//NOTE: must match value in Cordova.plist file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
@@ -49,8 +51,8 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 @interface SFSmartStorePlugin() 
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
@@ -72,13 +74,13 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 + (void)resetSharedStore {
     SFContainerAppDelegate *myApp = (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
-    SFSmartStorePlugin *myInstance = (SFSmartStorePlugin*)[myApp getCommandInstance:kSmartStorePluginIdentifier];
+    SFSmartStorePlugin *myInstance = (SFSmartStorePlugin*)[myApp.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
     [[myInstance cursorCache] removeAllObjects];
     myInstance.store = nil; 
     myInstance.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
-- (PGPlugin*) initWithWebView:(UIWebView*)theWebView 
+- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
 {
     self = [super initWithWebView:theWebView];
     
@@ -97,22 +99,22 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     [super dealloc];
 }
 
-#pragma mark - PhoneGap plugin support
+#pragma mark - Cordova plugin support
 
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
 {
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsArray:array];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:array];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
 
 - (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
 {
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsDictionary:dict];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
-- (void)writeSuccessResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {    
     NSString *jsString = [result toSuccessCallbackString:callbackId];
     
@@ -121,7 +123,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     }
 }
 
-- (void)writeErrorResultToJsRealm:(PluginResult*)result callbackId:(NSString*)callbackId
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {
     NSString *jsString = [result toErrorCallbackString:callbackId];
 	if (jsString){
@@ -157,7 +159,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     
     BOOL exists = [self.store soupExists:soupName];
-    PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsBool:exists];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:exists];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
 //    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
@@ -172,10 +174,10 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
-        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:soupName];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     } else {
-        PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
@@ -190,7 +192,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     [self.store removeSoup:soupName];
     
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
 //    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
@@ -213,7 +215,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         NSLog(@"pgQuerySoup retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
     } else {
         NSLog(@"No cursor for query: %@", querySpec);
-        PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
 }
@@ -244,15 +246,15 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     NSError *error = nil;
     NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
-    PluginResult *result;
+    CDVPluginResult *result;
     if (nil != resultEntries) {
         //resultEntries
         [self writeSuccessArrayToJsRealm:resultEntries callbackId:callbackId];
     } else {
         if (error == nil) {
-            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR ];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
         } else {
-            result = [PluginResult resultWithStatus:PGCommandStatus_ERROR messageAsString:[error localizedDescription]];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         }
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
@@ -270,7 +272,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     [self.store removeEntries:entryIds fromSoup:soupName];
     
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
 //    NSLog(@"pgRemoveFromSoup took: %f", [startTime timeIntervalSinceNow]);
@@ -284,7 +286,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     [self closeCursorWithId:cursorId];
     
-    PluginResult *result = [PluginResult resultWithStatus:PGCommandStatus_OK ];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 

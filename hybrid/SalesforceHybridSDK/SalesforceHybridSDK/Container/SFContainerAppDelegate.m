@@ -24,7 +24,7 @@
  */
 
 #import "SFContainerAppDelegate.h"
-#import <PhoneGap/PhoneGapViewController.h>
+#import "SFHybridViewController.h"
 #import "SalesforceSDKConstants.h"
 #import "SalesforceOAuthPlugin.h"
 #import "SFAccountManager.h"
@@ -32,9 +32,11 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
+#import <Cordova/CDVURLProtocol.h>
+#import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.2.4";
+NSString * const kSFMobileSDKVersion = @"1.3.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -42,28 +44,23 @@ NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 // Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
+NSString * const kDefaultHybridAccountIdentifier = @"Default";
 
 // The default logging level of the app.
 #if defined(DEBUG)
-static SFLogLevel const kAppLogLevel = Debug;
+static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 #else
-static SFLogLevel const kAppLogLevel = Info;
+static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFContainerAppDelegate ()
+{
+    NSString *_invokeString;
+}
 
-/**
- * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
- */
-+ (NSString *)startPageUrlString;
-
-/**
- * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
- * in determining the app's ultimate home page.
- * @param url The URL to test.
- * @return YES if the value is one of the reserved URLs, NO otherwise.
- */
-+ (BOOL)isReservedUrlValue:(NSURL *)url;
+- (void)setupUi;
+- (void)resetUi;
+- (void)setupViewController;
 
 /**
  * Removes any cookies from the cookie store.  All app cookies are reset with
@@ -80,8 +77,9 @@ static SFLogLevel const kAppLogLevel = Info;
 
 @implementation SFContainerAppDelegate
 
-@synthesize invokeString;
 @synthesize appLogLevel = _appLogLevel;
+@synthesize window = _window;
+@synthesize viewController = _viewController;
 
 #pragma mark - init/dealloc
 
@@ -101,17 +99,22 @@ static SFLogLevel const kAppLogLevel = Info;
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
         [dictionary release];
         
-        _foundHomeUrl = NO;
         _isAppStartup = YES;
+        [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
+        
+        // Cordova
+        [CDVURLProtocol registerURLProtocol];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    SFRelease(_invokeString);
     SFRelease(_oauthPlugin);
-    SFRelease(invokeString);
+    SFRelease(_viewController);
+    SFRelease(_window);
     
 	[ super dealloc ];
 }
@@ -123,19 +126,19 @@ static SFLogLevel const kAppLogLevel = Info;
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	NSArray *keyArray = [launchOptions allKeys];
-	if ([launchOptions objectForKey:[keyArray objectAtIndex:0]]!=nil) 
-	{
-		NSURL *url = [launchOptions objectForKey:[keyArray objectAtIndex:0]];
-		self.invokeString = [url absoluteString];
-		NSLog(@"app launchOptions = %@",url);
-	}
-    
     [SFLogger setLogLevel:self.appLogLevel];
+    
+    // Cordova
+    NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    if (url && [url isKindOfClass:[NSURL class]]) {
+        _invokeString = [url absoluteString];
+        NSLog(@"Hybrid app launch options = %@", url);
+    }
+    [self setupUi];
     
     // Reset app state if necessary (login settings have changed).  We have to do this in
     // both didFinishLaunchedWithOptions and applicationDidBecomeActive, because the latter
-    // will conflict with PhoneGap's page launch process when the app starts.
+    // will conflict with Cordova's page launch process when the app starts.
     BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
     BOOL loginHostChanged = [SFAccountManager updateLoginHost];
     if (shouldLogout) {
@@ -144,16 +147,25 @@ static SFLogLevel const kAppLogLevel = Info;
         [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
     
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES;
 }
 
 // this happens while we are running ( in the background, or from within our own app )
-// only valid if App.plist specifies a protocol to handle
+// only valid if App-Info.plist specifies a protocol to handle
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
 {
-    // must call super so all plugins will get the notification, and their handlers will be called 
-	// super also calls into javascript global function 'handleOpenURL'
-    return [super application:application handleOpenURL:url];
+    if (!url) { 
+        return NO; 
+    }
+    
+	// calls into javascript global function 'handleOpenURL'
+    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
+    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    // all plugins will get the notification, and their handlers will be called 
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+    
+    return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {   
@@ -161,7 +173,7 @@ static SFLogLevel const kAppLogLevel = Info;
     // These actions only need to be taken when the app is coming back to the foreground, i.e. not when the app is first starting,
     // which has a separate bootstrapping process.
     if (!_isAppStartup) {
-        SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self getCommandInstance:kSFOAuthPluginName];
+        SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
         [oauthPlugin clearPeriodicRefreshState];
         BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
         BOOL loginHostChanged = [SFAccountManager updateLoginHost];
@@ -169,15 +181,15 @@ static SFLogLevel const kAppLogLevel = Info;
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self loadStartPageIntoWebView];
+            [self.viewController loadStartPageIntoWebView];
+//            [self resetUi];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
             }];
             [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
                 [oauthPlugin autoRefresh];
-                [self getCommandInstance:kSFSmartStorePluginName];
-                [super applicationDidBecomeActive:application];
+                [self.viewController.commandDelegate getCommandInstance:kSFSmartStorePluginName];
             }];
             [SFSecurityLockout validateTimer];
         }
@@ -185,9 +197,6 @@ static SFLogLevel const kAppLogLevel = Info;
         // Actions to take place exclusively when the app starts up.
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
             [self clearAppState:YES];
-        }];
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [super applicationDidBecomeActive:application];
         }];
         [SFSecurityLockout lock];
     }
@@ -205,27 +214,39 @@ static SFLogLevel const kAppLogLevel = Info;
     [self prepareToShutDown];
 }
 
-#pragma mark - PhoneGap helpers
+#pragma mark - Cordova helpers
 
-/**
- We override startPage to load the bootstrap.html page, which will handle
- the app bootstrapping process from client code.
- */
-+ (NSString *)startPage {
-    return @"bootstrap.html";
+- (void)setupUi
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+    self.window.autoresizesSubviews = YES;
+    
+    [self setupViewController];
+    [self.window makeKeyAndVisible];
 }
 
--(id) getCommandInstance:(NSString*)className
+- (void)resetUi
 {
-	/** You can catch your own commands here, if you wanted to extend the gap: protocol, or add your
-	 *  own app specific protocol to it. -jm
-	 **/
-	return [super getCommandInstance:className];
+    [self.viewController.view removeFromSuperview];
+    self.viewController.view = nil;
+    self.window.rootViewController = nil;
+    SFRelease(_viewController);
+    
+    [self setupViewController];
 }
 
-- (BOOL) execute:(InvokedUrlCommand*)command
+- (void)setupViewController
 {
-	return [ super execute:command];
+    CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
+    self.viewController = [[[SFHybridViewController alloc] init] autorelease];
+    self.viewController.useSplashScreen = YES;
+    self.viewController.wwwFolderName = @"www";
+    self.viewController.startPage = @"bootstrap.html";
+    self.viewController.invokeString = _invokeString;
+    self.viewController.view.frame = viewBounds;
+    
+    self.window.rootViewController = self.viewController;
 }
 
 + (BOOL) isIPad {
@@ -235,101 +256,6 @@ static SFLogLevel const kAppLogLevel = Info;
     return NO;
 #endif
 }
-
-+ (NSString *)startPageUrlString
-{
-    NSString *startPageFilePath = [self pathForResource:[self startPage]];
-    NSURL *startPageFileUrl = [NSURL fileURLWithPath:startPageFilePath];
-    NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
-                                                                                       withString:@"file:///"];
-    return urlString;
-}
-
-+ (BOOL)isReservedUrlValue:(NSURL *)url
-{
-    static NSArray *reservedUrlStrings = nil;
-    if (reservedUrlStrings == nil) {
-        reservedUrlStrings = [[NSArray arrayWithObjects:
-                              [[self class] startPageUrlString],
-                              @"/secur/frontdoor.jsp",
-                              @"/secur/contentDoor",
-                              nil] retain];
-    }
-    
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
-        return NO;
-    
-    NSString *inputUrlString = [url absoluteString];
-    for (int i = 0; i < [reservedUrlStrings count]; i++) {
-        NSString *reservedString = [reservedUrlStrings objectAtIndex:i];
-        NSRange range = [[inputUrlString lowercaseString] rangeOfString:[reservedString lowercaseString]];
-        if (range.location != NSNotFound)
-            return YES;
-    }
-    
-    return NO;
-}
-
-
-#pragma mark - UIWebViewDelegate
-
-/**
- Called when the webview finishes loading.  This stops the activity view and closes the imageview
- */
-- (void)webViewDidFinishLoad:(UIWebView *)theWebView 
-{
-    NSURL *requestUrl = theWebView.request.URL;
-    NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
-    NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
-    NSLog(@"webViewDidFinishLoad: Loaded %@", redactedUrl);
-    
-    // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
-    // this app's infrastructure is responsible for) will be considered the "app home URL", which can
-    // be loaded directly in the event that the app is offline.
-    if (_foundHomeUrl == NO) {
-        NSLog(@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl);
-        if (![[self class] isReservedUrlValue:requestUrl]) {
-            NSLog(@"Setting %@ as the 'home page' URL for this app.", redactedUrl);
-            [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
-            _foundHomeUrl = YES;
-        }
-    }
-    
-	// only valid if App.plist specifies a protocol to handle
-	if(self.invokeString)
-	{
-		// this is passed before the deviceready event is fired, so you can access it in js when you receive deviceready
-		NSString* jsString = [NSString stringWithFormat:@"var invokeString = \"%@\";", self.invokeString];
-		[theWebView stringByEvaluatingJavaScriptFromString:jsString];
-	}
-    
-    return [ super webViewDidFinishLoad:theWebView ];
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)theWebView 
-{
-	return [ super webViewDidStartLoad:theWebView ];
-}
-
-/**
- * Fail Loading With Error
- * Error - If the webpage failed to load display an error with the reason.
- */
-- (void)webView:(UIWebView *)theWebView didFailLoadWithError:(NSError *)error 
-{
-	return [ super webView:theWebView didFailLoadWithError:error ];
-}
-
-/**
- * Start Loading Request
- * This is where most of the magic happens... We take the request(s) and process the response.
- * From here we can re direct links and other protocalls to different internal methods.
- */
-- (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-	return [ super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType ];
-}
-
 
 #pragma mark - Salesforce.com helpers
 
@@ -399,12 +325,10 @@ static SFLogLevel const kAppLogLevel = Info;
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setURL:nil forKey:kAppHomeUrlPropKey];
     [defs synchronize];
-
-    // Clear smartstore
-    [[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName] removeAllSoups];
     
     if (restartAuthentication)
-        [self loadStartPageIntoWebView];
+        [self.viewController loadStartPageIntoWebView];
+//        [self resetUi];
 }
 
 + (void)removeCookies
