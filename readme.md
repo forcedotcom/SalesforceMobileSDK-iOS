@@ -25,13 +25,13 @@ Introduction
 __What's New in 1.3__
 
 **Cordova Library Updates**
-The Salesforce Hybrid SDK has updated its PhoneGap/Cordova support, to Cordova 1.8.1.  All plugins and infrastructure have been updated to Cordova patterns.
+The Salesforce Hybrid SDK has updated its PhoneGap/Cordova support to Cordova 1.8.1.  All plugins and infrastructure have been updated to Cordova patterns.
 
 **Default SmartStore Encryption**
-Apps that do not implement a user-provided passcode will have their SmartStore data stores protected with a default encryption scheme.
+If an app does not implement user passcodes, its SmartStore data will be protected with a default encryption scheme.
 
 **Better Offline Support for Authentication in Native Apps**
-Native apps built using the Mobile SDK will be able to function offline, presuming the user has authenticated at some point.  Once the device comes back online, the app should be able to resume communications with the user's existing credentials.  The hybrid SDK already has this capability.
+Native apps can now function offline if the user has authenticated at some point.  Once the device comes back online, the app will reconnect with the user's existing credentials.  (Hybrid apps already have this capability.)
 
 __Version 1.2__
 
