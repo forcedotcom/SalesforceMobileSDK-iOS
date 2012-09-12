@@ -132,22 +132,30 @@ static dispatch_once_t _sharedInstanceGuard;
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
- SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion
+ SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion Native [Current User Agent]
  */
 + (NSString *)userAgentString {
+    
+    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+    // really doesn't want you to know about its HTTP headers.
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    [webView release];
+    
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
     
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
                              [curDevice model],
                              appName,
                              appVersion,
-                             kSFMobileSDKNativeDesignator
+                             kSFMobileSDKNativeDesignator,
+                             currentUserAgent
                              ];
     
     return myUserAgent;
