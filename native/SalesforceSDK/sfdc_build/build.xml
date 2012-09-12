@@ -30,12 +30,17 @@
     </target>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.restkit, iOSShared.dependency.oauth"
-		/>
+		depends="iOSShared.dependency.restkit,
+                 iOSShared.dependency.oauth,
+                 iOSShared.dependency.salesforcecommonutils,
+                 iOSShared.dependency.openssl,
+                 iOSShared.dependency.sqlcipher" />
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.restkit.clean, iOSShared.dependency.oauth.clean"
-		>
+		depends="iOSShared.dependency.restkit.clean,
+                 iOSShared.dependency.oauth.clean,
+                 iOSShared.dependency.salesforcecommonutils.clean,
+                 iOSShared.dependency.sqlcipher.clean">
 		<delete dir="${dependency.dir}"/>
 	</target>
 	
@@ -104,7 +109,7 @@
  
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=${artifacts.dir}/BuildProducts -sdk iphonesimulator build" />
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target SalesforceSDKTests -configuration Debug CONFIGURATION_BUILD_DIR=&quot;${artifacts.dir}/BuildProducts&quot; -sdk iphonesimulator build" />
         </exec>
        		
 		<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
@@ -181,9 +186,10 @@
             <param name="action" value="install"/>
         </antcall>
 
-        <!-- Generate the documentation -->
-        <antcall target="documentation.generate" />
-	<antcall target="documentation.archive" />
+        <!-- Copy the documentation -->
+        <copy todir="${artifacts.dir}/${target.name}/Documentation">
+            <fileset dir="${project.dir}/Documentation" />
+        </copy>
 
         <antcall target="iOSShared.compress">
             <param name="destfile" value="${artifacts.dir}/${target.name}-Release.zip"/>

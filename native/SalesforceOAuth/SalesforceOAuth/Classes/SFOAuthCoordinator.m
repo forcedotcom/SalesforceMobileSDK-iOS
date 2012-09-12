@@ -25,6 +25,7 @@
 #import <Security/Security.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFOAuthInfo.h"
 
 // Public constants
 
@@ -79,6 +80,7 @@ static NSString * const kSFOAuthErrorTypeInactiveUser               = @"inactive
 static NSString * const kSFOAuthErrorTypeInactiveOrg                = @"inactive_org";
 static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_limit_exceeded";
 static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
+static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -96,12 +98,14 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 // private
 
-@synthesize authenticating       = _authenticating;
-@synthesize connection           = _connection;
-@synthesize responseData         = _responseData;
-@synthesize initialRequestLoaded = _initialRequestLoaded;
-@synthesize approvalCode         = _approvalCode;
-@synthesize scopes               = _scopes;
+@synthesize authenticating             = _authenticating;
+@synthesize connection                 = _connection;
+@synthesize responseData               = _responseData;
+@synthesize initialRequestLoaded       = _initialRequestLoaded;
+@synthesize approvalCode               = _approvalCode;
+@synthesize scopes                     = _scopes;
+@synthesize refreshFlowConnectionTimer = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread         = _refreshTimerThread;
 
 
 - (id)init {
@@ -128,6 +132,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_credentials release];     _credentials = nil;
     [_responseData release];    _responseData = nil;
     [_scopes release];          _scopes = nil;
+    [self stopRefreshFlowConnectionTimer];
     
     _view.delegate = nil;
     [_view release]; _view = nil;
@@ -157,7 +162,6 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
-        [self.credentials revokeAccessToken];
         [self beginTokenRefreshFlow];
     } else {
         [self beginUserAgentFlow];
@@ -177,6 +181,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [_view stopLoading];
     [self.connection cancel];
     self.connection = nil;
+    [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
 
@@ -187,14 +192,24 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 #pragma mark - Private Methods
 
-- (void)notifyDelegateOfFailure:(NSError*)error {
+- (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
+{
     self.authenticating = NO;
-    [self.delegate oauthCoordinator:self didFailWithError:error];
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
+        [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
+    } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
+        [self.delegate oauthCoordinator:self didFailWithError:error];
+    }
 }
 
-- (void)notifyDelegateOfSuccess {
+- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
+{
     self.authenticating = NO;
-    [self.delegate oauthCoordinatorDidAuthenticate:self];                    
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
+        [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
+    } else if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:)]) {
+        [self.delegate oauthCoordinatorDidAuthenticate:self];
+    }
 }
 
 - (void)beginUserAgentFlow {
@@ -273,7 +288,6 @@ static NSString * const kHttpPostContentType                    = @"application/
                                                             timeoutInterval:self.timeout];
 	[request setHTTPMethod:kHttpMethodPost];
 	[request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-	[request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
 	[url release];
     
@@ -305,8 +319,13 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 	NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
 	[params release];
-	
 	[request setHTTPBody:encodedBody];
+    
+    // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
+    // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
+    // the timeout with an NSTimer, which gets started here.
+    [self startRefreshFlowConnectionTimer];
+    
 	NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
 	[request release];
@@ -325,6 +344,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)handleRefreshResponse {
+    [self stopRefreshFlowConnectionTimer];
+    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;
@@ -362,7 +383,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSDictionary *dict = (NSDictionary *)json;
         if (nil != [dict objectForKey:kSFOAuthError]) {
             NSError *error = [[self class] errorWithType:[dict objectForKey:kSFOAuthError] description:[dict objectForKey:kSFOAuthErrorDescription]];
-            [self notifyDelegateOfFailure:error];
+            [self notifyDelegateOfFailure:error authInfo:authInfo];
         } else {
             if ([dict objectForKey:kSFOAuthRefreshToken]) {
                 // Refresh token is available. This happens when the IP bypass flow is used.
@@ -375,7 +396,7 @@ static NSString * const kHttpPostContentType                    = @"application/
             self.credentials.instanceUrl    = [NSURL URLWithString:[dict objectForKey:kSFOAuthInstanceUrl]];
             self.credentials.issuedAt       = [[self class] timestampStringToDate:[dict objectForKey:kSFOAuthIssuedAt]];
 
-            [self notifyDelegateOfSuccess];
+            [self notifyDelegateOfSuccess:authInfo];
         }
     } else {
         // failed to parse JSON
@@ -389,9 +410,52 @@ static NSString * const kHttpPostContentType                    = @"application/
             [errorDict setObject:error forKey:NSUnderlyingErrorKey];
         }
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
-        [self notifyDelegateOfFailure:finalError];
+        [self notifyDelegateOfFailure:finalError authInfo:authInfo];
     }
     [responseString release];
+}
+
+- (void)startRefreshFlowConnectionTimer
+{
+    self.refreshTimerThread = [NSThread currentThread];
+    self.refreshFlowConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
+                                                                       target:self
+                                                                     selector:@selector(refreshFlowConnectionTimerFired:)
+                                                                     userInfo:nil
+                                                                      repeats:NO];
+}
+
+- (void)stopRefreshFlowConnectionTimer
+{
+    if (self.refreshFlowConnectionTimer != nil && self.refreshTimerThread != nil) {
+        [self performSelector:@selector(invalidateRefreshTimer) onThread:self.refreshTimerThread withObject:nil waitUntilDone:YES];
+        [self cleanupRefreshTimer];
+    }
+}
+
+- (void)invalidateRefreshTimer
+{
+    [self.refreshFlowConnectionTimer invalidate];
+}
+
+- (void)cleanupRefreshTimer
+{
+    self.refreshFlowConnectionTimer = nil;
+    self.refreshTimerThread = nil;
+}
+
+- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer
+{
+    // If this timer fired, the timeout period for the refresh flow has expired, without the
+    // refresh flow completing.
+    
+    [self cleanupRefreshTimer];
+    NSLog(@"Refresh attempt timed out after %f seconds.", self.timeout);
+    [self stopAuthentication];
+    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
+                                     description:@"The token refresh process timed out."];
+    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
+    [self notifyDelegateOfFailure:error authInfo:authInfo];
 }
 
 #pragma mark - UIWebViewDelegate (User-Agent Token Flow)
@@ -403,6 +467,7 @@ static NSString * const kHttpPostContentType                    = @"application/
               navigationType, request.URL.host, request.URL.path);
     }
     
+    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent] autorelease];
     BOOL result = YES;
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
@@ -422,7 +487,7 @@ static NSString * const kHttpPostContentType                    = @"application/
             NSLog(@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: Error: response has no payload: %@", requestUrlString);
             
             NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
-            [self notifyDelegateOfFailure:error];
+            [self notifyDelegateOfFailure:error authInfo:authInfo];
             response = nil;
         }
         
@@ -442,7 +507,7 @@ static NSString * const kHttpPostContentType                    = @"application/
                     [self beginTokenRefreshFlow];
                 } else {
                     // Otherwise, we are done with the authentication.
-                    [self notifyDelegateOfSuccess];
+                    [self notifyDelegateOfSuccess:authInfo];
                 }
             } else {
                 NSError *finalError;
@@ -458,7 +523,7 @@ static NSString * const kHttpPostContentType                    = @"application/
                 } else {
                     finalError = error;
                 }
-                [self notifyDelegateOfFailure:finalError];
+                [self notifyDelegateOfFailure:finalError authInfo:authInfo];
             }
         }
 	}
@@ -510,7 +575,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         NSLog(@"SFOAuthCoordinator:didFailLoadWithError %@ on URL: %@", error, webView.request.URL);
-        [self notifyDelegateOfFailure:error];
+        SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent] autorelease];
+        [self notifyDelegateOfFailure:error authInfo:authInfo];
     }
 }
 
@@ -518,7 +584,9 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
-    [self notifyDelegateOfFailure:error];
+    [self stopRefreshFlowConnectionTimer];
+    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
+    [self notifyDelegateOfFailure:error authInfo:authInfo];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection 
@@ -592,7 +660,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorRateLimitExceeded;
     }  else if ([type isEqualToString:kSFOAuthErrorTypeUnsupportedResponseType]) {
         code = kSFOAuthErrorUnsupportedResponseType;
-    }
+    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout])
+        code = kSFOAuthErrorTimeout;
     
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
                                                                     description, kSFOAuthErrorDescription,

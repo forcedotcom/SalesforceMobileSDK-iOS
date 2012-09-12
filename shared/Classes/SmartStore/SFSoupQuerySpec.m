@@ -1,6 +1,5 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,7 +24,7 @@
 
 #import "SFSoupQuerySpec.h"
 
-#import "NSDictionary+NullHandling.h"
+#import "NSDictionary+SFAdditions.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";
@@ -41,6 +40,7 @@ NSString * const kQuerySpecParamQueryType = @"queryType";
 NSString * const kQuerySpecParamIndexPath = @"indexPath";
 NSString * const kQuerySpecParamOrder = @"order";
 NSString * const kQuerySpecParamPageSize = @"pageSize";
+NSUInteger const kQuerySpecDefaultPageSize = 10;
 
 NSString * const kQuerySpecParamMatchKey = @"matchKey";
 NSString * const kQuerySpecParamBeginKey = @"beginKey";
@@ -91,7 +91,7 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
             }
             
             NSNumber *pageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
-            self.pageSize = [pageSize integerValue];
+            self.pageSize = ([pageSize integerValue] > 0 ? [pageSize integerValue] : kQuerySpecDefaultPageSize);
         }
                 
     }
@@ -158,7 +158,7 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupQuerySpec: 0x%x> { \n  queryType:\"%d\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
+    return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
                         self,self.queryType, self.path,self.beginKey,self.endKey,self.order,self.pageSize];
 }
 

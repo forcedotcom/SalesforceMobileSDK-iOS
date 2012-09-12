@@ -46,6 +46,8 @@
 	
 	<option value="//api/name/applyLogLevelFromPreferences">&nbsp;&nbsp;&nbsp;&nbsp;+ applyLogLevelFromPreferences</option>
 	
+	<option value="//api/name/assertionRecordedAndClear">&nbsp;&nbsp;&nbsp;&nbsp;+ assertionRecordedAndClear</option>
+	
 	<option value="//api/name/log:level:msg:">&nbsp;&nbsp;&nbsp;&nbsp;+ log:level:msg:</option>
 	
 	<option value="//api/name/logAssertionFailureInMethod:object:file:lineNumber:description:">&nbsp;&nbsp;&nbsp;&nbsp;+ logAssertionFailureInMethod:object:file:lineNumber:description:</option>
@@ -55,6 +57,8 @@
 	<option value="//api/name/logToFile:">&nbsp;&nbsp;&nbsp;&nbsp;+ logToFile:</option>
 	
 	<option value="//api/name/setLogLevel:">&nbsp;&nbsp;&nbsp;&nbsp;+ setLogLevel:</option>
+	
+	<option value="//api/name/setRecordAssertionEnabled:">&nbsp;&nbsp;&nbsp;&nbsp;+ setRecordAssertionEnabled:</option>
 	
 	
 	
@@ -88,6 +92,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applyLogLevelFromPreferences">applyLogLevelFromPreferences</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/assertionRecordedAndClear">assertionRecordedAndClear</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/log:level:msg:">log:level:msg:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logAssertionFailureInMethod:object:file:lineNumber:description:">logAssertionFailureInMethod:object:file:lineNumber:description:</a></span></li>
@@ -97,6 +103,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/logToFile:">logToFile:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setLogLevel:">setLogLevel:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setRecordAssertionEnabled:">setRecordAssertionEnabled:</a></span></li>
 	
 </ul></li>
 
@@ -203,6 +211,22 @@ log from.</p></span>
 	</span>
 	
 	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setRecordAssertionEnabled:">+&nbsp;setRecordAssertionEnabled:</a></code>
+		<span class="tooltip"><p>Use this method to enable the recording of the assertion instead of aborting the
+program when an assertion is triggered. This is usually used by the
+unit tests.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/assertionRecordedAndClear">+&nbsp;assertionRecordedAndClear</a></code>
+		<span class="tooltip"><p>Returns YES if an assertion was recorded and clear the flag.</p></span>
+	</span>
+	
+	
 </li>
 						</ul>
 						
@@ -284,6 +308,52 @@ log from.</p></span>
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>Sets the log level based on the user preferences.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFLogger.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/assertionRecordedAndClear" title="assertionRecordedAndClear"></a>
+	<h3 class="subsubtitle method-title">assertionRecordedAndClear</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns YES if an assertion was recorded and clear the flag.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)assertionRecordedAndClear</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if an assertion was recorded, NO otherwise.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Returns YES if an assertion was recorded and clear the flag.</p>
 	</div>
 	
 	
@@ -582,6 +652,61 @@ log from.</p>
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/setRecordAssertionEnabled:" title="setRecordAssertionEnabled:"></a>
+	<h3 class="subsubtitle method-title">setRecordAssertionEnabled:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Use this method to enable the recording of the assertion instead of aborting the
+program when an assertion is triggered. This is usually used by the
+unit tests.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setRecordAssertionEnabled:(BOOL)<em>enabled</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>enabled</em></dt>
+			<dd><p>Whether or not to enable assertion recording.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Use this method to enable the recording of the assertion instead of aborting the
+program when an assertion is triggered. This is usually used by the
+unit tests.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFLogger.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
@@ -597,7 +722,7 @@ log from.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-06-18)</span><br />
+						<p><span class="copyright">&copy; 2012 Salesforce.com. All rights reserved. (Last updated: 2012-07-09)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
 						

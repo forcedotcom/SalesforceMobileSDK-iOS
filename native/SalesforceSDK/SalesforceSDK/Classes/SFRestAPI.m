@@ -27,11 +27,11 @@
 #import "RKRequestDelegateWrapper.h"
 #import "RestKit.h"
 #import "SFJsonUtils.h"
-#import "SFOAuthCoordinator.h"
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
+#import "SFAccountManager.h"
 
-static NSString * const kSFMobileSDKVersion = @"1.2.4";
+NSString * const kSFMobileSDKVersion = @"1.3.0";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -42,15 +42,9 @@ NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static SFRestAPI *_instance;
 static dispatch_once_t _sharedInstanceGuard;
 
-@interface SFRestAPI (private)
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-@end
-
 @implementation SFRestAPI
 
-@synthesize coordinator=_coordinator;
 @synthesize apiVersion=_apiVersion;
-@synthesize rkClient=_rkClient;
 @synthesize activeRequests=_activeRequests;
 @synthesize sessionRefresher = _sessionRefresher;
 
@@ -62,16 +56,16 @@ static dispatch_once_t _sharedInstanceGuard;
         _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
+        _accountMgr = [SFAccountManager sharedInstance];
         
-        //note that rkClient is initially nil until we get a coordinator set
+        // Note that rkClient is created on demand.
     }
     return self;
 }
 
 - (void)dealloc {
-    self.coordinator = nil;
     [_sessionRefresher release]; _sessionRefresher = nil;
-    self.rkClient = nil;
+    [_rkClient release]; _rkClient = nil;
     [_activeRequests release]; _activeRequests = nil;
     [super dealloc];
 }
@@ -85,16 +79,6 @@ static dispatch_once_t _sharedInstanceGuard;
                       _instance = [[SFRestAPI alloc] init];
                   });
     return _instance;
-}
-
-+ (void)clearSharedInstance {
-    //subverts dispatch_once by clearing _sharedInstanceGuard
-    //This should really only be used for unit testing.
-    @synchronized(self) {
-        [_instance release];
-        _instance = nil;
-        _sharedInstanceGuard = 0; 
-    }
 }
 
 #pragma mark - Internal
@@ -129,52 +113,53 @@ static dispatch_once_t _sharedInstanceGuard;
 
 - (RKClient *)rkClient {    
     if (nil == _rkClient) {
-        if (nil != _coordinator) {
-            _rkClient = [[RKClient alloc] initWithBaseURL:_coordinator.credentials.instanceUrl];
+        if (nil != _accountMgr.credentials.instanceUrl) {
+            _rkClient = [[RKClient alloc] initWithBaseURL:_accountMgr.credentials.instanceUrl];
             _rkClient.cachePolicy = RKRequestCachePolicyNone;
             [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
             [_rkClient setValue:[[self class] userAgentString] forHTTPHeaderField:@"User-Agent"];
 
-            //Authorization header (access token) is now set the moment before we actually send the request
+            // Authorization header (access token) is now set the moment before we actually send the request.
         }
+    } else {
+        // Make sure the instance URL is up-to-date.
+        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:_accountMgr.credentials.instanceUrl];
+        _rkClient.baseURL = freshBaseUrl;
     }
     return _rkClient;
 }
 
-
-- (void)setCoordinator:(SFOAuthCoordinator *)coordinator {
-    if (![coordinator isEqual:_coordinator]) {
-        [_coordinator release];
-        _coordinator = [coordinator retain];
-    }
-    
-    if (nil != _coordinator) {
-        //touch rkClient to instantiate if needed, AND update the base url
-        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:_coordinator.credentials.instanceUrl];
-        [[self rkClient] setBaseURL:freshBaseUrl]; 
-    } 
-}
-
-
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
- SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion
+ SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion Native [Current User Agent]
  */
 + (NSString *)userAgentString {
+    
+    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+    // really doesn't want you to know about its HTTP headers.
+#ifndef UNIT_TESTS
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    [webView release];
+#else
+    NSString *currentUserAgent = @"Unit test runner";
+#endif
+    
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
-    
+
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
                              [curDevice systemVersion],
                              [curDevice model],
                              appName,
                              appVersion,
-                             kSFMobileSDKNativeDesignator
+                             kSFMobileSDKNativeDesignator,
+                             currentUserAgent
                              ];
     
     return myUserAgent;

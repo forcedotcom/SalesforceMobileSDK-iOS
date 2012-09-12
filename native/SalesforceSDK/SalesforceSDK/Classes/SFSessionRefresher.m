@@ -26,8 +26,12 @@
 
 #import "RKRequestDelegateWrapper.h"
 #import "SFRestAPI.h"
+#import "SFAccountManager.h"
 
-@interface SFSessionRefresher (Private)
+@interface SFSessionRefresher ()
+{
+    SFAccountManager *_accountMgr;
+}
 
 - (void)refreshAccessToken;
 
@@ -63,6 +67,7 @@
         _refreshLock = [[NSLock alloc] init];
         self.isRefreshing = NO;
         _queuedRequests = [[NSMutableSet alloc] initWithCapacity:5];
+        _accountMgr = [SFAccountManager sharedInstance];
     }
     
     return self;
@@ -88,7 +93,7 @@
 
 - (void)restoreOAuthDelegate {
     if (nil != self.previousOAuthDelegate) {
-        [SFRestAPI sharedInstance].coordinator.delegate = self.previousOAuthDelegate;
+        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
         self.previousOAuthDelegate = nil;
     }
 }
@@ -99,14 +104,12 @@
         //we now own the lock and can go crazy
         self.isRefreshing = YES;
         NSLog(@"Refreshing access token");
-        SFOAuthCoordinator *coord = [SFRestAPI sharedInstance].coordinator;
 
         // let's refresh the token
         // but first, let's save the previous delegate
-        self.previousOAuthDelegate = coord.delegate;
-        coord.credentials.accessToken = nil;
-        coord.delegate = self;
-        [coord authenticate];
+        self.previousOAuthDelegate = _accountMgr.oauthDelegate;
+        _accountMgr.oauthDelegate = self;
+        [_accountMgr.coordinator authenticate];
     } 
     //else somebody else owns the lock and will unlock once refresh completes
 
@@ -132,19 +135,18 @@
     [tempView addSubview:view];    
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    NSLog(@"oauthCoordinatorDidAuthenticate");
+- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinatorDidAuthenticate, user: %@, authInfo: %@", coordinator.credentials.userId, info);
     
-    //re-set to ensure we are sharing the same coordinator (and update credentials)
-    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
-    
-    // the token exchange worked.
+    // The token exchange worked.
     [self restoreOAuthDelegate];
     [self replayQueuedRequests];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    NSLog(@"oauthCoordinator:didFailWithError: %@", error);
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
     // oauth error
     [self restoreOAuthDelegate];

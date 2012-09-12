@@ -24,6 +24,8 @@
 
 #import "SFOAuthCoordinator.h"
 
+@class SFOAuthInfo;
+
 @interface SFOAuthCoordinator ()
 
 @property (assign) BOOL authenticating;
@@ -31,19 +33,26 @@
 @property (nonatomic, retain) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;
+@property (nonatomic, retain) NSTimer *refreshFlowConnectionTimer;
+@property (nonatomic, retain) NSThread *refreshTimerThread;
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;
 - (void)handleRefreshResponse;
+- (void)startRefreshFlowConnectionTimer;
+- (void)stopRefreshFlowConnectionTimer;
+- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;
+- (void)invalidateRefreshTimer;
+- (void)cleanupRefreshTimer;
 
 /**
  Notify our delegate that we could not log in, and clear authenticating flag
  */
-- (void)notifyDelegateOfFailure:(NSError*)error;
+- (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info;
 /**
  Notify our delegate that login succeeded, and clear authenticating flag
  */
-- (void)notifyDelegateOfSuccess;
+- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo;
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;

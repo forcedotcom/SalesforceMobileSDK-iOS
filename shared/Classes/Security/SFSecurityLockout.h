@@ -25,9 +25,7 @@
 #import <Foundation/Foundation.h>
 
 static const NSUInteger kMaxNumberofAttempts = 10;
-static NSString * const kRemainingAttemptsKey = @"remainingAttempts"; 
-
-extern NSString * const kKeychainIdentifierPasscode;
+static NSString * const kRemainingAttemptsKey = @"remainingAttempts";
 
 typedef void (^SFLockScreenCallbackBlock)(void);
 
@@ -93,14 +91,6 @@ typedef void (^SFLockScreenCallbackBlock)(void);
  */
 + (BOOL)isPasscodeValid;
 
-/** Reset the passcode in the keychain
- */
-+ (void)resetPasscode;
-
-/** Get the hashed passcode from the keychain
- */
-+ (NSString *)hashedPasscode;
-
 /** Set the passcode
  @param passcode The passcode to set.
  */
@@ -110,11 +100,6 @@ typedef void (^SFLockScreenCallbackBlock)(void);
  @param passcodeLength The required length of the passcode.
  */
 + (void)setPasscodeLength:(NSInteger)passcodeLength;
-
-/** Verify the passcode
- @param passcode The passcode to verify.
- */
-+ (BOOL)verifyPasscode:(NSString *)passcode;
 
 /** Show the passcode view. Used by unit tests.
  */

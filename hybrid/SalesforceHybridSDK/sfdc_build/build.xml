@@ -26,11 +26,11 @@
     </target>
 
 	<target name="ensureDependencies"
-		depends="iOSShared.dependency.callback-ios, iOSShared.dependency.oauth, iOSShared.dependency.openssl, iOSShared.dependency.sqlcipher"
+		depends="iOSShared.dependency.cordova, iOSShared.dependency.oauth, iOSShared.dependency.openssl, iOSShared.dependency.salesforcecommonutils, iOSShared.dependency.sqlcipher"
 		/>
 
 	<target name="cleanDependencies"
-		depends="iOSShared.dependency.callback-ios.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sqlcipher.clean, iOSShared.dependency.openssl.clean"
+		depends="iOSShared.dependency.cordova.clean, iOSShared.dependency.oauth.clean, iOSShared.dependency.sqlcipher.clean, iOSShared.dependency.salesforcecommonutils.clean"
 		/>
 	
 	<target name="all" depends="pre,utest,buildDist" description="do it all">
@@ -103,7 +103,7 @@
 		
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project ${project.dir}/${target.name}.xcodeproj -target TestPluginsTests -configuration ${covConfig}  -sdk iphonesimulator build" />
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target TestPluginsTests -configuration ${covConfig}  -sdk iphonesimulator build" />
         </exec>
 
         <echo message="Stopping securityd ..."/>

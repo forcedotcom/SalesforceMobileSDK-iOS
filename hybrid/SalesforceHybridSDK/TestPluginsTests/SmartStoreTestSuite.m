@@ -49,6 +49,13 @@
     
 }
 
+- (void)tearDown
+{
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    
+    [super tearDown];
+}
+
 
 
 - (void)testRegisterRemoveSoup {

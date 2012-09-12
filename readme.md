@@ -22,7 +22,18 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-__What's New in 1.2__
+__What's New in 1.3__
+
+**Cordova Library Updates**
+The Salesforce Hybrid SDK has updated its PhoneGap/Cordova support to Cordova 1.8.1.  All plugins and infrastructure have been updated to Cordova patterns.
+
+**Default SmartStore Encryption**
+If an app does not implement user passcodes, its SmartStore data will be protected with a default encryption scheme.
+
+**Better Offline Support for Authentication in Native Apps**
+Native apps can now function offline if the user has authenticated at some point.  Once the device comes back online, the app will reconnect with the user's existing credentials.  (Hybrid apps already have this capability.)
+
+__Version 1.2__
 
 **Connected Apps Pilot**
 * Apps implemented with the Mobile SDK will now respect Connected Apps policies.  Rules defined by administrators for PIN code protection and session timeout intervals will now be enforced by native and hybrid app implementations. (This feature requires the Connected Apps Pilot be turned on.)

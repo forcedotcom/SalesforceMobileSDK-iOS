@@ -1,0 +1,587 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
+		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
+		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
+		825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F715C3513E00F3A529 /* CoreGraphics.framework */; };
+		825071FA15C3513E00F3A529 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F915C3513E00F3A529 /* CoreLocation.framework */; };
+		825071FC15C3513E00F3A529 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FB15C3513E00F3A529 /* CoreMedia.framework */; };
+		825071FE15C3513E00F3A529 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FD15C3513E00F3A529 /* QuartzCore.framework */; };
+		8250720015C3513E00F3A529 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FF15C3513E00F3A529 /* Security.framework */; };
+		8250720215C3513E00F3A529 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720115C3513E00F3A529 /* MobileCoreServices.framework */; };
+		8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720315C3513E00F3A529 /* AddressBook.framework */; };
+		8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720515C3513E00F3A529 /* AddressBookUI.framework */; };
+		8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720715C3513E00F3A529 /* AudioToolbox.framework */; };
+		8250720A15C3513E00F3A529 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720915C3513E00F3A529 /* AVFoundation.framework */; };
+		8250720C15C3513E00F3A529 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720B15C3513E00F3A529 /* MediaPlayer.framework */; };
+		8250720E15C3513E00F3A529 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720D15C3513E00F3A529 /* SystemConfiguration.framework */; };
+		8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8250721215C3513E00F3A529 /* InfoPlist.strings */; };
+		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
+		8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */; };
+		8250723915C3514100F3A529 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250723815C3514100F3A529 /* libz.dylib */; };
+		8250723D15C3514100F3A529 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250723C15C3514100F3A529 /* icon-72.png */; };
+		8250723F15C3514100F3A529 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250723E15C3514100F3A529 /* icon.png */; };
+		8250724115C3514100F3A529 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724015C3514100F3A529 /* icon@2x.png */; };
+		8250724415C3514100F3A529 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724315C3514100F3A529 /* Default-Landscape~ipad.png */; };
+		8250724615C3514100F3A529 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724515C3514100F3A529 /* Default-Portrait~ipad.png */; };
+		8250724815C3514100F3A529 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724715C3514100F3A529 /* Default.png */; };
+		8250724A15C3514100F3A529 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724915C3514100F3A529 /* Default@2x.png */; };
+		8250724C15C3514100F3A529 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724B15C3514100F3A529 /* Default~iPad.png */; };
+		8250725215C3514100F3A529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250725115C3514100F3A529 /* AppDelegate.m */; };
+		8250725915C3514100F3A529 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8250725815C3514100F3A529 /* Settings.bundle */; };
+		8250726215C3515900F3A529 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 8250726115C3515900F3A529 /* www */; };
+		825072A115C3591300F3A529 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825072A015C3591300F3A529 /* SalesforceHybridSDK.framework */; };
+		825072A315C3592E00F3A529 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 825072A215C3592E00F3A529 /* CordovaResources.bundle */; };
+		825072A515C3595200F3A529 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 825072A415C3595200F3A529 /* Cordova.plist */; };
+		825072BA15C36B0F00F3A529 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B615C35B2300F3A529 /* index.html */; };
+		825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B715C35B2300F3A529 /* smartstoreexplorer.js */; };
+		825072BC15C36B7300F3A529 /* cordova-1.8.1.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072A715C3599000F3A529 /* cordova-1.8.1.js */; };
+		825072BD15C36B7600F3A529 /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B315C35AAE00F3A529 /* bootstrap.html */; };
+		825072BE15C36B7B00F3A529 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B115C35A9300F3A529 /* forcetk.js */; };
+		825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */; };
+		825072C115C36B8800F3A529 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072AB15C35A4200F3A529 /* SFHybridApp.js */; };
+		825072C215C36B9300F3A529 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */; };
+		825072C415C36FC400F3A529 /* jquery-1.6.2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726D15C351E000F3A529 /* jquery-1.6.2.js */; };
+		825072C515C36FC800F3A529 /* jquery-1.6.2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */; };
+		825072C615C36FD200F3A529 /* jquery.mobile-1.0b2.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */; };
+		825072C715C36FD800F3A529 /* jquery.mobile-1.0b2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */; };
+		825072C815C36FDD00F3A529 /* jquery.mobile-1.0b2.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */; };
+		825072C915C36FE200F3A529 /* jquery.mobile-1.0b2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */; };
+		825072CB15C3712C00F3A529 /* ajax-loader.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726715C351E000F3A529 /* ajax-loader.png */; };
+		825072CC15C3712F00F3A529 /* icon-search-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726815C351E000F3A529 /* icon-search-black.png */; };
+		825072CD15C3713200F3A529 /* icons-18-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726915C351E000F3A529 /* icons-18-black.png */; };
+		825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726A15C351E000F3A529 /* icons-18-white.png */; };
+		825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726B15C351E000F3A529 /* icons-36-black.png */; };
+		825072D015C3714100F3A529 /* icons-36-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726C15C351E000F3A529 /* icons-36-white.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		825071EB15C3513E00F3A529 /* Copy sfdc-shared */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				825072C115C36B8800F3A529 /* SFHybridApp.js in Copy sfdc-shared */,
+				825072BA15C36B0F00F3A529 /* index.html in Copy sfdc-shared */,
+				825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy sfdc-shared */,
+				825072BC15C36B7300F3A529 /* cordova-1.8.1.js in Copy sfdc-shared */,
+				825072BD15C36B7600F3A529 /* bootstrap.html in Copy sfdc-shared */,
+				825072BE15C36B7B00F3A529 /* forcetk.js in Copy sfdc-shared */,
+				825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */,
+				825072C215C36B9300F3A529 /* SFSmartStorePlugin.js in Copy sfdc-shared */,
+			);
+			name = "Copy sfdc-shared";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		825072C315C36FAE00F3A529 /* Copy jquery */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/jquery;
+			dstSubfolderSpec = 7;
+			files = (
+				825072C415C36FC400F3A529 /* jquery-1.6.2.js in Copy jquery */,
+				825072C515C36FC800F3A529 /* jquery-1.6.2.min.js in Copy jquery */,
+				825072C615C36FD200F3A529 /* jquery.mobile-1.0b2.css in Copy jquery */,
+				825072C715C36FD800F3A529 /* jquery.mobile-1.0b2.js in Copy jquery */,
+				825072C815C36FDD00F3A529 /* jquery.mobile-1.0b2.min.css in Copy jquery */,
+				825072C915C36FE200F3A529 /* jquery.mobile-1.0b2.min.js in Copy jquery */,
+			);
+			name = "Copy jquery";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		825072CA15C36FE900F3A529 /* Copy jquery images */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/jquery/images;
+			dstSubfolderSpec = 7;
+			files = (
+				825072CB15C3712C00F3A529 /* ajax-loader.png in Copy jquery images */,
+				825072CC15C3712F00F3A529 /* icon-search-black.png in Copy jquery images */,
+				825072CD15C3713200F3A529 /* icons-18-black.png in Copy jquery images */,
+				825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */,
+				825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */,
+				825072D015C3714100F3A529 /* icons-36-white.png in Copy jquery images */,
+			);
+			name = "Copy jquery images";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		825071F315C3513E00F3A529 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		825071F515C3513E00F3A529 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		825071F715C3513E00F3A529 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		825071F915C3513E00F3A529 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		825071FB15C3513E00F3A529 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		825071FD15C3513E00F3A529 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		825071FF15C3513E00F3A529 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8250720115C3513E00F3A529 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		8250720315C3513E00F3A529 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		8250720515C3513E00F3A529 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		8250720715C3513E00F3A529 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8250720915C3513E00F3A529 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8250720B15C3513E00F3A529 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		8250720D15C3513E00F3A529 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8250721115C3513E00F3A529 /* SmartStoreExplorer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SmartStoreExplorer-Info.plist"; sourceTree = "<group>"; };
+		8250721315C3513E00F3A529 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8250721515C3513E00F3A529 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartStoreExplorer-Prefix.pch"; sourceTree = "<group>"; };
+		8250723815C3514100F3A529 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		8250723C15C3514100F3A529 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		8250723E15C3514100F3A529 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		8250724015C3514100F3A529 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		8250724315C3514100F3A529 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		8250724515C3514100F3A529 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		8250724715C3514100F3A529 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		8250724915C3514100F3A529 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		8250724B15C3514100F3A529 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
+		8250724D15C3514100F3A529 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
+		8250725015C3514100F3A529 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		8250725115C3514100F3A529 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		8250725415C3514100F3A529 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		8250725815C3514100F3A529 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		8250726115C3515900F3A529 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		8250726715C351E000F3A529 /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
+		8250726815C351E000F3A529 /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
+		8250726915C351E000F3A529 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		8250726A15C351E000F3A529 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		8250726B15C351E000F3A529 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		8250726C15C351E000F3A529 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		8250726D15C351E000F3A529 /* jquery-1.6.2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
+		8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
+		8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
+		8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
+		8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
+		8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
+		825072A015C3591300F3A529 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		825072A215C3592E00F3A529 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
+		825072A415C3595200F3A529 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Cordova.plist; path = ../../../../shared/hybrid/Cordova.plist; sourceTree = "<group>"; };
+		825072A715C3599000F3A529 /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../../dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
+		825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
+		825072AB15C35A4200F3A529 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = ../../../../external/shared/PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
+		825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
+		825072B115C35A9300F3A529 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../../../../external/shared/forcetk.js; sourceTree = "<group>"; };
+		825072B315C35AAE00F3A529 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
+		825072B615C35B2300F3A529 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		825072B715C35B2300F3A529 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartstoreexplorer.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		825071E815C3513E00F3A529 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */,
+				825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */,
+				825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */,
+				825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */,
+				825071FA15C3513E00F3A529 /* CoreLocation.framework in Frameworks */,
+				825071FC15C3513E00F3A529 /* CoreMedia.framework in Frameworks */,
+				825071FE15C3513E00F3A529 /* QuartzCore.framework in Frameworks */,
+				8250720015C3513E00F3A529 /* Security.framework in Frameworks */,
+				8250720215C3513E00F3A529 /* MobileCoreServices.framework in Frameworks */,
+				8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */,
+				8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */,
+				8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */,
+				8250720A15C3513E00F3A529 /* AVFoundation.framework in Frameworks */,
+				8250720C15C3513E00F3A529 /* MediaPlayer.framework in Frameworks */,
+				8250720E15C3513E00F3A529 /* SystemConfiguration.framework in Frameworks */,
+				8250723915C3514100F3A529 /* libz.dylib in Frameworks */,
+				825072A115C3591300F3A529 /* SalesforceHybridSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		825071E015C3513E00F3A529 = {
+			isa = PBXGroup;
+			children = (
+				8250726515C351E000F3A529 /* jquery */,
+				8250720F15C3513E00F3A529 /* SmartStoreExplorer */,
+				825071F015C3513E00F3A529 /* Frameworks */,
+				825071EE15C3513E00F3A529 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		825071EE15C3513E00F3A529 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		825071F015C3513E00F3A529 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				825071F115C3513E00F3A529 /* Foundation.framework */,
+				825071F315C3513E00F3A529 /* UIKit.framework */,
+				825071F515C3513E00F3A529 /* CFNetwork.framework */,
+				825071F715C3513E00F3A529 /* CoreGraphics.framework */,
+				825071F915C3513E00F3A529 /* CoreLocation.framework */,
+				825071FB15C3513E00F3A529 /* CoreMedia.framework */,
+				825071FD15C3513E00F3A529 /* QuartzCore.framework */,
+				825071FF15C3513E00F3A529 /* Security.framework */,
+				8250720115C3513E00F3A529 /* MobileCoreServices.framework */,
+				8250720315C3513E00F3A529 /* AddressBook.framework */,
+				8250720515C3513E00F3A529 /* AddressBookUI.framework */,
+				8250720715C3513E00F3A529 /* AudioToolbox.framework */,
+				8250720915C3513E00F3A529 /* AVFoundation.framework */,
+				8250720B15C3513E00F3A529 /* MediaPlayer.framework */,
+				8250720D15C3513E00F3A529 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8250720F15C3513E00F3A529 /* SmartStoreExplorer */ = {
+			isa = PBXGroup;
+			children = (
+				825072B515C35B2300F3A529 /* smartstoreexplorer */,
+				825072A015C3591300F3A529 /* SalesforceHybridSDK.framework */,
+				8250726115C3515900F3A529 /* www */,
+				825072A615C3595E00F3A529 /* sfdc-shared */,
+				8250723815C3514100F3A529 /* libz.dylib */,
+				8250724D15C3514100F3A529 /* readme.md */,
+				8250725815C3514100F3A529 /* Settings.bundle */,
+				825072A215C3592E00F3A529 /* CordovaResources.bundle */,
+				8250723A15C3514100F3A529 /* Resources */,
+				8250724F15C3514100F3A529 /* Classes */,
+				8250725315C3514100F3A529 /* Plugins */,
+				8250721015C3513E00F3A529 /* Supporting Files */,
+			);
+			path = SmartStoreExplorer;
+			sourceTree = "<group>";
+		};
+		8250721015C3513E00F3A529 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				825072A415C3595200F3A529 /* Cordova.plist */,
+				8250721115C3513E00F3A529 /* SmartStoreExplorer-Info.plist */,
+				8250721215C3513E00F3A529 /* InfoPlist.strings */,
+				8250721515C3513E00F3A529 /* main.m */,
+				8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8250723A15C3514100F3A529 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8250723B15C3514100F3A529 /* icons */,
+				8250724215C3514100F3A529 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8250723B15C3514100F3A529 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				8250723C15C3514100F3A529 /* icon-72.png */,
+				8250723E15C3514100F3A529 /* icon.png */,
+				8250724015C3514100F3A529 /* icon@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		8250724215C3514100F3A529 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				8250724315C3514100F3A529 /* Default-Landscape~ipad.png */,
+				8250724515C3514100F3A529 /* Default-Portrait~ipad.png */,
+				8250724715C3514100F3A529 /* Default.png */,
+				8250724915C3514100F3A529 /* Default@2x.png */,
+				8250724B15C3514100F3A529 /* Default~iPad.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		8250724F15C3514100F3A529 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8250725015C3514100F3A529 /* AppDelegate.h */,
+				8250725115C3514100F3A529 /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		8250725315C3514100F3A529 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				8250725415C3514100F3A529 /* README */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		8250726515C351E000F3A529 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				8250726615C351E000F3A529 /* images */,
+				8250726D15C351E000F3A529 /* jquery-1.6.2.js */,
+				8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */,
+				8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */,
+				8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */,
+				8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */,
+				8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */,
+			);
+			name = jquery;
+			path = ../../../external/shared/jquery;
+			sourceTree = "<group>";
+		};
+		8250726615C351E000F3A529 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				8250726715C351E000F3A529 /* ajax-loader.png */,
+				8250726815C351E000F3A529 /* icon-search-black.png */,
+				8250726915C351E000F3A529 /* icons-18-black.png */,
+				8250726A15C351E000F3A529 /* icons-18-white.png */,
+				8250726B15C351E000F3A529 /* icons-36-black.png */,
+				8250726C15C351E000F3A529 /* icons-36-white.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		825072A615C3595E00F3A529 /* sfdc-shared */ = {
+			isa = PBXGroup;
+			children = (
+				825072A715C3599000F3A529 /* cordova-1.8.1.js */,
+				825072B315C35AAE00F3A529 /* bootstrap.html */,
+				825072B115C35A9300F3A529 /* forcetk.js */,
+				825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */,
+				825072AB15C35A4200F3A529 /* SFHybridApp.js */,
+				825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */,
+			);
+			name = "sfdc-shared";
+			sourceTree = "<group>";
+		};
+		825072B515C35B2300F3A529 /* smartstoreexplorer */ = {
+			isa = PBXGroup;
+			children = (
+				825072B615C35B2300F3A529 /* index.html */,
+				825072B715C35B2300F3A529 /* smartstoreexplorer.js */,
+			);
+			name = smartstoreexplorer;
+			path = ../../../../external/shared/PhoneGap/smartstoreexplorer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		825071EC15C3513E00F3A529 /* SmartStoreExplorer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8250725E15C3514100F3A529 /* Build configuration list for PBXNativeTarget "SmartStoreExplorer" */;
+			buildPhases = (
+				825071E715C3513E00F3A529 /* Sources */,
+				825071E815C3513E00F3A529 /* Frameworks */,
+				825071E915C3513E00F3A529 /* Resources */,
+				825071EB15C3513E00F3A529 /* Copy sfdc-shared */,
+				825072C315C36FAE00F3A529 /* Copy jquery */,
+				825072CA15C36FE900F3A529 /* Copy jquery images */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartStoreExplorer;
+			productName = SmartStoreExplorer;
+			productReference = 825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		825071E215C3513E00F3A529 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = salesforce.com;
+			};
+			buildConfigurationList = 825071E515C3513E00F3A529 /* Build configuration list for PBXProject "SmartStoreExplorer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 825071E015C3513E00F3A529;
+			productRefGroup = 825071EE15C3513E00F3A529 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				825071EC15C3513E00F3A529 /* SmartStoreExplorer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		825071E915C3513E00F3A529 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */,
+				8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */,
+				8250723D15C3514100F3A529 /* icon-72.png in Resources */,
+				8250723F15C3514100F3A529 /* icon.png in Resources */,
+				8250724115C3514100F3A529 /* icon@2x.png in Resources */,
+				8250724415C3514100F3A529 /* Default-Landscape~ipad.png in Resources */,
+				8250724615C3514100F3A529 /* Default-Portrait~ipad.png in Resources */,
+				8250724815C3514100F3A529 /* Default.png in Resources */,
+				8250724A15C3514100F3A529 /* Default@2x.png in Resources */,
+				8250724C15C3514100F3A529 /* Default~iPad.png in Resources */,
+				8250725915C3514100F3A529 /* Settings.bundle in Resources */,
+				8250726215C3515900F3A529 /* www in Resources */,
+				825072A315C3592E00F3A529 /* CordovaResources.bundle in Resources */,
+				825072A515C3595200F3A529 /* Cordova.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		825071E715C3513E00F3A529 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8250721615C3513E00F3A529 /* main.m in Sources */,
+				8250725215C3514100F3A529 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8250721215C3513E00F3A529 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8250721315C3513E00F3A529 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8250725C15C3514100F3A529 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8250725D15C3514100F3A529 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8250725F15C3514100F3A529 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStoreExplorer\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartStoreExplorer/SmartStoreExplorer-Prefix.pch";
+				INFOPLIST_FILE = "SmartStoreExplorer/SmartStoreExplorer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8250726015C3514100F3A529 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SmartStoreExplorer\"",
+					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartStoreExplorer/SmartStoreExplorer-Prefix.pch";
+				INFOPLIST_FILE = "SmartStoreExplorer/SmartStoreExplorer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		825071E515C3513E00F3A529 /* Build configuration list for PBXProject "SmartStoreExplorer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8250725C15C3514100F3A529 /* Debug */,
+				8250725D15C3514100F3A529 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8250725E15C3514100F3A529 /* Build configuration list for PBXNativeTarget "SmartStoreExplorer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8250725F15C3514100F3A529 /* Debug */,
+				8250726015C3514100F3A529 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 825071E215C3513E00F3A529 /* Project object */;
+}
