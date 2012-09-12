@@ -53,6 +53,7 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
 {
     self = [super init];
     if (self != nil) {
+        NSLog(@"Setting up auth credentials.");
         [[self class] populateAuthCredentialsFromConfigFile];
     }
     
@@ -96,11 +97,11 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
         NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
     }
     
+    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
     [SFAccountManager setLoginHost:loginDomain];
     [SFAccountManager setClientId:clientID];
     [SFAccountManager setRedirectUri:redirectUri];
     [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
-    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
     
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     SFOAuthCredentials *credentials = accountMgr.credentials;
@@ -127,10 +128,12 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     return result;
 }
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    _oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
-    
     [super applicationDidBecomeActive:application];
     
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
@@ -138,7 +141,6 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     
     BOOL runningOctest = [self isRunningOctest];
     NSLog(@"octest running: %d",runningOctest);
-    
 }
 
 
