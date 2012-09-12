@@ -1847,7 +1847,10 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DUNIT_TESTS",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					SenTestingKit,
@@ -1883,7 +1886,10 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DUNIT_TESTS",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					SenTestingKit,
