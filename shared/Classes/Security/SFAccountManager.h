@@ -76,6 +76,13 @@
 
 /**
  * Sets a new value for the login host for the app.
+ *
+ * NOTE: Be careful using this method.  The default behavior of the app is to make a determination
+ * about login host from the app settings of the application, based on the user's configuration.
+ * There are normally many changes around app state that happen on the boundary of changing to a
+ * different login host, and if you use this method, you're responsible for managing that state
+ * change.  Make sure you know what you're doing before calling this method.
+ *
  * @param newLoginHost The new host value to set.
  */
 + (void)setLoginHost:(NSString *)newLoginHost;

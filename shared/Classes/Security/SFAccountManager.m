@@ -401,8 +401,24 @@ static NSString *CurrentAccountIdentifier;
 
 + (void)setLoginHost:(NSString *)newLoginHost
 {
-    [[NSUserDefaults standardUserDefaults] setObject:newLoginHost forKey:kLoginHost];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSAssert(newLoginHost != nil && [newLoginHost length] > 0, @"For setLoginHost: login host must have a value.");
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:newLoginHost forKey:kLoginHost];
+    
+    // Set/sync the app settings login host value too.
+    newLoginHost = [newLoginHost lowercaseString];
+    newLoginHost = [newLoginHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (![newLoginHost isEqualToString:@"login.salesforce.com"]
+        && ![newLoginHost isEqualToString:@"test.salesforce.com"]) {
+        // Custom login host.
+        [userDefaults setObject:kAppSettingsLoginHostIsCustom forKey:kAppSettingsLoginHost];
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHostCustomValue];
+    } else {
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHost];
+    }
+    
+    [userDefaults synchronize];
 }
 
 + (BOOL)updateLoginHost
