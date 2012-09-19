@@ -11,11 +11,11 @@ See the setup.md file for additional instructions. Xcode 4.2 or greater is a pre
 
 We have updated our libraries to support iOS 6.  If you do not want to update your Xcode environment to 4.5 yet, you'll need to remove support for armv6 in your app's configuration:
 
-1) In Xcode, click on your Project at the top of the Project Navigator view.
-2) Under the Project header, click your project/app name.
-3) Select the Build Settings tab.
-4) In the Architectures section at the top, double-click the "armv6 armv7" option in Valid Architectures.
-5) Click on the armv6 item in the list, then click the '-' button at the bottom of the list.
+1. In Xcode, click on your Project at the top of the Project Navigator view.
+2. Under the Project header, click your project/app name.
+3. Select the Build Settings tab.
+4. In the Architectures section at the top, double-click the "armv6 armv7" option in Valid Architectures.
+5. Click on the armv6 item in the list, then click the '-' button at the bottom of the list.
 
 You should now be compatible with the iOS 6 library builds.  Note that you're not losing anything by removing support for armv6 anyway, as that class of devices was never compatible with iOS 5, our baseline supported iOS SDK in the Salesforce Mobile SDK.
 
