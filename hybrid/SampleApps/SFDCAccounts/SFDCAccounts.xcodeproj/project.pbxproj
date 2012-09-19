@@ -46,6 +46,7 @@
 		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
 		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
+		82DF2005160955C8008C8CB2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DF2004160955C8008C8CB2 /* MessageUI.framework */; };
 		CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
 		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
 		CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
@@ -167,6 +168,7 @@
 		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82DF2004160955C8008C8CB2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CEDF50C0158BD46B00618949 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
 		CEDF50C1158BD46B00618949 /* editopportunity.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editopportunity.html; sourceTree = "<group>"; };
 		CEDF50C2158BD46B00618949 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82DF2005160955C8008C8CB2 /* MessageUI.framework in Frameworks */,
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
 				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
 				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
@@ -231,6 +234,7 @@
 		7DBD0750149AA9620043A9E0 = {
 			isa = PBXGroup;
 			children = (
+				82DF2004160955C8008C8CB2 /* MessageUI.framework */,
 				CEDF50CF158BD53D00618949 /* jquery */,
 				7DBD077E149AA9620043A9E0 /* SFDCAccounts */,
 				7DBD075F149AA9620043A9E0 /* Frameworks */,

@@ -59,6 +59,7 @@
 		82C68F5215CC9F0100A2E9FB /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F2F15CC9DA400A2E9FB /* icons-18-white.png */; };
 		82C68F5315CC9F0100A2E9FB /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F3015CC9DA400A2E9FB /* icons-36-black.png */; };
 		82C68F5415CC9F0100A2E9FB /* icons-36-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F3115CC9DA400A2E9FB /* icons-36-white.png */; };
+		82DF1FFE160955B1008C8CB2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DF1FFD160955B1008C8CB2 /* MessageUI.framework */; };
 		82E9A047160589000038C7B4 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 82E9A043160588AD0038C7B4 /* index.html */; };
 		82E9A048160589060038C7B4 /* inline.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 82E9A044160588AD0038C7B4 /* inline.js */; };
 /* End PBXBuildFile section */
@@ -174,6 +175,7 @@
 		82C68F3515CC9DA400A2E9FB /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
 		82C68F3615CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
 		82C68F3715CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
+		82DF1FFD160955B1008C8CB2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		82E9A043160588AD0038C7B4 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		82E9A044160588AD0038C7B4 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = inline.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82DF1FFE160955B1008C8CB2 /* MessageUI.framework in Frameworks */,
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
 				7D72612214C74DAC00CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
@@ -224,6 +227,7 @@
 		7DBD0750149AA9620043A9E0 = {
 			isa = PBXGroup;
 			children = (
+				82DF1FFD160955B1008C8CB2 /* MessageUI.framework */,
 				82C68F2A15CC9DA400A2E9FB /* jquery */,
 				7DBD077E149AA9620043A9E0 /* ContactExplorer */,
 				7DBD075F149AA9620043A9E0 /* Frameworks */,
