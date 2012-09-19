@@ -196,6 +196,16 @@
 			<key>Path</key>
 			<string>Resources/icons/icon-72.png</string>
 		</dict>
+		<key>Resources/icons/icon-72@2x.png</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Resources</string>
+				<string>icons</string>
+			</array>
+			<key>Path</key>
+			<string>Resources/icons/icon-72@2x.png</string>
+		</dict>
 		<key>Resources/icons/icon.png</key>
 		<dict>
 			<key>Group</key>
@@ -226,6 +236,16 @@
 			<key>Path</key>
 			<string>Resources/splash/Default-Portrait~ipad.png</string>
 		</dict>
+		<key>Resources/splash/Default-Portrait@2x~ipad.png</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Resources</string>
+				<string>splash</string>
+			</array>
+			<key>Path</key>
+			<string>Resources/splash/Default-Portrait@2x~ipad.png</string>
+		</dict>
 		<key>Resources/splash/Default-Landscape~ipad.png</key>
 		<dict>
 			<key>Group</key>
@@ -235,6 +255,16 @@
 			</array>
 			<key>Path</key>
 			<string>Resources/splash/Default-Landscape~ipad.png</string>
+		</dict>
+		<key>Resources/splash/Default-Landscape@2x~ipad.png</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Resources</string>
+				<string>splash</string>
+			</array>
+			<key>Path</key>
+			<string>Resources/splash/Default-Landscape@2x~ipad.png</string>
 		</dict>
 		<key>Resources/splash/Default.png</key>
 		<dict>
@@ -256,6 +286,16 @@
 			<key>Path</key>
 			<string>Resources/splash/Default@2x.png</string>
 		</dict>
+		<key>Resources/splash/Default-568h@2x.png</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Resources</string>
+				<string>splash</string>
+			</array>
+			<key>Path</key>
+			<string>Resources/splash/Default-568h@2x.png</string>
+		</dict>
 		<key>Resources/splash/Default~iPad.png</key>
 		<dict>
 			<key>Group</key>
@@ -273,12 +313,16 @@
 		<string>SalesforceHybridSDK.framework</string>
 		<string>libz.dylib</string>
 		<string>Resources/icons/icon-72.png</string>
+		<string>Resources/icons/icon-72@2x.png</string>
 		<string>Resources/icons/icon.png</string>
 		<string>Resources/icons/icon@2x.png</string>
 		<string>Resources/splash/Default-Landscape~ipad.png</string>
+		<string>Resources/splash/Default-Landscape@2x~ipad.png</string>
 		<string>Resources/splash/Default-Portrait~ipad.png</string>
+		<string>Resources/splash/Default-Portrait@2x~ipad.png</string>
 		<string>Resources/splash/Default.png</string>
 		<string>Resources/splash/Default@2x.png</string>
+		<string>Resources/splash/Default-568h@2x.png</string>
 		<string>Resources/splash/Default~iPad.png</string>
 		<string>readme.md</string>
 		<string>Classes/AppDelegate.h</string>
