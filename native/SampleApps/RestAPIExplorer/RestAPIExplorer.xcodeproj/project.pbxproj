@@ -43,7 +43,6 @@
 		82AE413F15FDA41200FD5FA9 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AE413E15FDA41200FD5FA9 /* libSalesforceOAuth.a */; };
 		82AE434915FDB5C800FD5FA9 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AE434815FDB5C800FD5FA9 /* libSalesforceSDK.a */; };
 		82B979BB15ED3D65006867AE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B979BA15ED3D65006867AE /* libsqlite3.dylib */; };
-		82DF1FF11609546E008C8CB2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DF1FF01609546E008C8CB2 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -218,7 +217,6 @@
 		82AE434715FDB5C800FD5FA9 /* SFSoupQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupQuerySpec.h; sourceTree = "<group>"; };
 		82AE434815FDB5C800FD5FA9 /* libSalesforceSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDK.a; sourceTree = "<group>"; };
 		82B979BA15ED3D65006867AE /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		82DF1FF01609546E008C8CB2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,7 +224,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82DF1FF11609546E008C8CB2 /* MessageUI.framework in Frameworks */,
 				82B979BB15ED3D65006867AE /* libsqlite3.dylib in Frameworks */,
 				8271F4A01562BB1C00C261CF /* libz.dylib in Frameworks */,
 				7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */,
@@ -363,7 +360,6 @@
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
-				82DF1FF01609546E008C8CB2 /* MessageUI.framework */,
 				8242E0C915AB823400E9E6AF /* QuartzCore.framework */,
 				7DF4D2EE1472E238005CE144 /* RestAPIExplorer */,
 				7DF4D2DD1472E238005CE144 /* Frameworks */,

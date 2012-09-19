@@ -60,7 +60,6 @@
 		825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726A15C351E000F3A529 /* icons-18-white.png */; };
 		825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726B15C351E000F3A529 /* icons-36-black.png */; };
 		825072D015C3714100F3A529 /* icons-36-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726C15C351E000F3A529 /* icons-36-white.png */; };
-		82DF200C160955E4008C8CB2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DF200B160955E4008C8CB2 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -175,7 +174,6 @@
 		825072B315C35AAE00F3A529 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		825072B615C35B2300F3A529 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		825072B715C35B2300F3A529 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartstoreexplorer.js; sourceTree = "<group>"; };
-		82DF200B160955E4008C8CB2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,7 +181,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82DF200C160955E4008C8CB2 /* MessageUI.framework in Frameworks */,
 				825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */,
 				825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */,
 				825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */,
@@ -210,7 +207,6 @@
 		825071E015C3513E00F3A529 = {
 			isa = PBXGroup;
 			children = (
-				82DF200B160955E4008C8CB2 /* MessageUI.framework */,
 				8250726515C351E000F3A529 /* jquery */,
 				8250720F15C3513E00F3A529 /* SmartStoreExplorer */,
 				825071F015C3513E00F3A529 /* Frameworks */,

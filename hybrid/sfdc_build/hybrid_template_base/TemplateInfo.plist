@@ -388,7 +388,6 @@
 				<string>AVFoundation</string>
 				<string>MediaPlayer</string>
 				<string>SystemConfiguration</string>
-				<string>MessageUI</string>
 			</array>
 		</dict>
 	</array>

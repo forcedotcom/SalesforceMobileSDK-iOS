@@ -48,7 +48,6 @@
 		826ED6C81582D97800321962 /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C21582D92800321962 /* SFHybridApp.js */; };
 		826ED6C91582D97F00321962 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C41582D93400321962 /* SFSmartStorePlugin.js */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
-		82DF2013160955FF008C8CB2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DF2012160955FF008C8CB2 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -114,7 +113,6 @@
 		826ED6C21582D92800321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		826ED6C41582D93400321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		82DF2012160955FF008C8CB2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +120,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82DF2013160955FF008C8CB2 /* MessageUI.framework in Frameworks */,
 				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
 				7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
@@ -163,7 +160,6 @@
 		7DBD06B9149AA8420043A9E0 = {
 			isa = PBXGroup;
 			children = (
-				82DF2012160955FF008C8CB2 /* MessageUI.framework */,
 				7DBD06E7149AA8420043A9E0 /* VFConnector */,
 				7DBD06C8149AA8420043A9E0 /* Frameworks */,
 				7DBD06C6149AA8420043A9E0 /* Products */,
