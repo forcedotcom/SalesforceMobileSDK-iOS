@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F5DEF7C161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4FE0C083161A452F0062EFEC /* SFAbstractSmartStoreTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4FE0C085161A45300062EFEC /* SFAbstractSmartStoreTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		7D20FBB314ED7DBD00A86731 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
 		7D20FBB414ED7DBD00A86731 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
 		7D20FBB514ED7DBD00A86731 /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
@@ -427,6 +432,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F71582DCAE00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F81582DCAE00321962 /* qunit.css in Copy shared-www files */,
 				826ED6F91582DCAE00321962 /* qunit.js in Copy shared-www files */,
@@ -449,6 +455,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6ED1582DBA100321962 /* SFTestSuite.js in Copy shared-www files */,
 				826ED6EC1582DB9100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				826ED6EB1582DB8A00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
@@ -488,6 +495,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFAbstractSmartStoreTestSuite.js; path = test/SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		7D20FBF914ED7DBD00A86731 /* StressPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
@@ -1159,6 +1167,7 @@
 		7DBB14B614C0F09E00CCDBE0 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */,
 				826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */,
 				826ED6E11582DAAB00321962 /* qunit.css */,
 				826ED6DF1582DAA300321962 /* qunit.js */,
@@ -2069,6 +2078,7 @@
 				82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610C15FFD4030064B877 /* SFPasscodeManager.m in Sources */,
 				8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
+				4FE0C085161A45300062EFEC /* SFAbstractSmartStoreTestSuite.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2121,6 +2131,7 @@
 				7DBB148114C0ECF700CCDBE0 /* main.m in Sources */,
 				7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */,
 				7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */,
+				4F5DEF7C161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2166,6 +2177,7 @@
 				82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610915FFD37B0064B877 /* SFPasscodeManager.m in Sources */,
 				8287610B15FFD3960064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
+				4FE0C083161A452F0062EFEC /* SFAbstractSmartStoreTestSuite.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
