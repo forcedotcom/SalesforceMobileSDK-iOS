@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		7D20FBB314ED7DBD00A86731 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
@@ -474,6 +475,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */,
 				826ED6F41582DC7600321962 /* qunit.js in Copy shared-www files */,
