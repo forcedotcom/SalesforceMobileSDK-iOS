@@ -7,19 +7,17 @@ After cloning the SalesforceMobileSDK-iOS project from github, run the install s
 This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
 See the setup.md file for additional instructions. Xcode 4.2 or greater is a prerequisite for building the Salesforce Mobile SDK.  install.sh will check for this, and exit if the installed version of Xcode is incorrect. In addition, the Salesforce Mobile SDK requires iOS 5.0 or greater.  Building from the command line has been tested using ant 1.8.  Older versions may work, but we recommend using the latest version of ant.
 
-**Xcode 4.5 (iOS 6) Users:** The iOS 6 development environment introduces a new processor architecture (armv7s), while removing support for another (armv6).  This makes older libraries not built for iOS 6 incompatible with Xcode 4.5, without some further steps on the developer's part.
+**Users of Xcode earlier than 4.5 (iOS 6):** The iOS 6 development environment introduces a new processor architecture (armv7s), while removing support for another (armv6).  This makes libraries built for iOS 6 incompatible with earlier Xcode dev environments, without some further steps on the developer's part.
 
-We have not yet updated our libraries to build for iOS 6, in our master branch.  We will be updating the libraries in our unstable branch shortly.  If you want to update your Xcode environment to 4.5, you have a couple of options.  Your first option is to switch over to the unstable branch, once we've pushed the library updates.  Otherwise, if you want to stay on the master branch, for the time being you'll need to remove support for armv7s in your app's configuration:
+We have updated our libraries to support iOS 6.  If you do not want to update your Xcode environment to 4.5 yet, you'll need to remove support for armv6 (if it exists) in the SalesforceHybridSDK project (hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj), as well as your app's project configuration:
 
-1. In Xcode, click on your Project at the top of the Project Navigator view.
-2. Under the Project header, click your project/app name.
+1. In Xcode, click on the Project at the top of the Project Navigator view.
+2. Under the Project header, click the project/app name.
 3. Select the Build Settings tab.
-4. In the Architectures section at the top, double-click the "armv7 armv7s" option in Valid Architectures.
-5. Click on the armv7s item in the list, then click the '-' button at the bottom of the list.
+4. In the Architectures section at the top, if **armv6** is not listed in Valid Architectures, there are no further actions on your part.  Otherwise, double-click the "armv6 armv7" option in Valid Architectures.
+5. Click on the armv6 item in the list, then click the '-' button at the bottom of the list.
 
-You should now be able to use the existing library builds.
-
-We will likely be pushing the iOS 6 libraries to the *master* branch in the not-too-distant future, as our default offering.  The march of progress dictates that developers are going to want to target their apps for the iPhone 5, and it's not really possible without Xcode 4.5.  Once we make the transition, you will still be able to use older versions of Xcode, following a similar set of steps to the ones above.  We will post those compatibility steps once we make the transition.
+You should now be compatible with the iOS 6 library builds.  Note that you're not losing anything by removing support for armv6 anyway, as that class of devices was never compatible with iOS 5, our baseline supported iOS SDK in the Salesforce Mobile SDK.
 
 **Xcode 4.3 Users:** If you have not used the `xcode-select` tool to choose your version of Xcode at the command line, you may encounter the following error when running the install script:
 

@@ -15,6 +15,7 @@
 		<string>icon.png</string>
 		<string>icon@2x.png</string>
 		<string>icon-72.png</string>
+		<string>icon-72@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>___VARIABLE_bundleIdentifier___</string>
