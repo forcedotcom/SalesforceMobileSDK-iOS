@@ -28,7 +28,6 @@
 #import "SalesforceOAuthPlugin.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
-#import "SFContainerAppDelegate+Internal.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 #import "SFIdentityCoordinator.h"
