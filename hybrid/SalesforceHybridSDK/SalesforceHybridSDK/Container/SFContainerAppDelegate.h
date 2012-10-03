@@ -86,6 +86,15 @@ extern NSString * const kSFSmartStorePluginName;
  */
 @property (assign) SFLogLevel appLogLevel;
 
+/**
+ @return filename that needs to be loaded in the webview
+ */
++ (NSString *) startPage;
+
+/**
+ * Sets the view controller for the app.
+ */
+- (void)initViewController;
 
 /**
  @return YES if this device is an iPad
