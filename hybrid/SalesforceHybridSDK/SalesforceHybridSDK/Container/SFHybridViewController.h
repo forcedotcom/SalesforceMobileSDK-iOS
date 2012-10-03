@@ -24,7 +24,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <Cordova/CDVViewController.h>
+#import "CDVViewController.h"
 
 /**
  * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
