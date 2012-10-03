@@ -23,7 +23,6 @@
  */
 
 #import <Cordova/NSMutableArray+QueueAdditions.h>
-#import <Cordova/CDVConnection.h>
 #import <Cordova/CDVPluginResult.h>
 
 #import "SalesforceOAuthPlugin.h"
@@ -398,24 +397,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)login
 {
-    //verify that we have a network connection
-    CDVConnection *connectionPlugin = (CDVConnection *)[self.commandDelegate getCommandInstance:@"NetworkStatus"];
-    NSString *connType = connectionPlugin.connectionType;
+    [self cleanupRetryAlert];
     
-    if ((nil != connType) && 
-        ![connType isEqualToString:@"unknown"] && 
-        ![connType isEqualToString:@"none"]) {
-        
-        [self cleanupRetryAlert];
-         
-        // Kick off authentication.
-        [SFAccountManager sharedInstance].oauthDelegate = self;
-        [[SFAccountManager sharedInstance].coordinator authenticate];
-    } else {
-        //TODO some kinda dialog here?
-        NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
-    }
-
+    // Kick off authentication.
+    [SFAccountManager sharedInstance].oauthDelegate = self;
+    [[SFAccountManager sharedInstance].coordinator authenticate];
 }
 
 - (void)logout
@@ -618,16 +604,25 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
-    // Clear account state before continuing.
-    [[SFAccountManager sharedInstance] clearAccountState:NO];
-    
-    if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
-        // Restart the login process asynchronously.
-        NSLog(@"Logging out because oauth failed with error code: %d", error.code);
-        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    BOOL fatal = YES;
+    if (info.authType == SFOAuthTypeRefresh) {
+        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
+            // Restart the login process asynchronously.
+            fatal = NO;
+            NSLog(@"Logging out because oauth failed with error code: %d", error.code);
+            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
+            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
+            fatal = NO;
+            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+            
+            [self loggedIn];
+        }
     }
-    else {
-        // show alert and allow retry
+    
+    if (fatal) {
+        // show alert and retry
+        [[SFAccountManager sharedInstance] clearAccountState:NO];
         [self showRetryAlertForAuthError:error alertTag:kOAuthAlertViewTag];
     }
 }
