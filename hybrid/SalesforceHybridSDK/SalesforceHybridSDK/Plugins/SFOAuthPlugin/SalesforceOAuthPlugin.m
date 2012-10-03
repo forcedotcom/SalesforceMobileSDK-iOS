@@ -617,11 +617,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             fatal = NO;
             NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
             
-            // If this is app startup, we need to continue through the bootstrapping process.
-            if ([_appDelegate isAppStartup]) {
-                [self loggedIn];
-                return;
-            }
+            [self loggedIn];
         }
     }
     
