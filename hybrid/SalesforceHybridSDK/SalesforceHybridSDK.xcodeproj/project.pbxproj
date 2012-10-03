@@ -357,6 +357,7 @@
 		82BB231315FAA18F0071DE14 /* CDVViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230E15FAA18F0071DE14 /* CDVViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BB239E15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BB239F15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82C001C2161BCDD800D3E4B3 /* SFContainerAppDelegate+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C001C1161BCDD800D3E4B3 /* SFContainerAppDelegate+Internal.h */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
@@ -753,6 +754,7 @@
 		82BB230E15FAA18F0071DE14 /* CDVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVViewController.h; path = Cordova.framework/Headers/CDVViewController.h; sourceTree = "<group>"; };
 		82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInvokedUrlCommand.h; path = Cordova.framework/Headers/CDVInvokedUrlCommand.h; sourceTree = "<group>"; };
 		82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+QueueAdditions.h"; path = "Cordova.framework/Headers/NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		82C001C1161BCDD800D3E4B3 /* SFContainerAppDelegate+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFContainerAppDelegate+Internal.h"; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
@@ -1017,6 +1019,7 @@
 			isa = PBXGroup;
 			children = (
 				7D45E31C14BFB394002C4A27 /* SFContainerAppDelegate.h */,
+				82C001C1161BCDD800D3E4B3 /* SFContainerAppDelegate+Internal.h */,
 				7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */,
 				828C07D315A39A47002523B2 /* SFHybridViewController.h */,
 				828C07D415A39A47002523B2 /* SFHybridViewController.m */,
@@ -1656,6 +1659,7 @@
 				8220A36115FE939500B040C0 /* JSONKit.h in Headers */,
 				8220A36415FE941300B040C0 /* CDVWhitelist.h in Headers */,
 				8220A36515FE9B9D00B040C0 /* NSDictionary+SFAdditions.h in Headers */,
+				82C001C2161BCDD800D3E4B3 /* SFContainerAppDelegate+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

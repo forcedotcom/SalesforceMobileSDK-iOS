@@ -24,6 +24,7 @@
  */
 
 #import "SFContainerAppDelegate.h"
+#import "SFContainerAppDelegate+Internal.h"
 #import "SFHybridViewController.h"
 #import "SalesforceSDKConstants.h"
 #import "SalesforceOAuthPlugin.h"
@@ -36,7 +37,7 @@
 #import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.3.1";
+NSString * const kSFMobileSDKVersion = @"1.3.2";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -53,33 +54,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
 static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
-@interface SFContainerAppDelegate ()
-{
-    NSString *_invokeString;
-}
-
-- (void)setupUi;
-- (void)resetUi;
-- (void)setupViewController;
-
-/**
- * Removes any cookies from the cookie store.  All app cookies are reset with
- * new authentication.
- */
-+ (void)removeCookies;
-
-/**
- * Tasks to run when the app is backgrounding or terminating.
- */
-- (void)prepareToShutDown;
-
-@end
-
 @implementation SFContainerAppDelegate
 
 @synthesize appLogLevel = _appLogLevel;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize isAppStartup = _isAppStartup;
 
 #pragma mark - init/dealloc
 

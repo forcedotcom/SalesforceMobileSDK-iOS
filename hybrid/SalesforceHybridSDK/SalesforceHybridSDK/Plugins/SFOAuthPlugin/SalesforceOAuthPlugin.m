@@ -29,6 +29,7 @@
 #import "SalesforceOAuthPlugin.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
+#import "SFContainerAppDelegate+Internal.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 #import "SFIdentityCoordinator.h"
@@ -618,16 +619,29 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
     
-    // Clear account state before continuing.
-    [[SFAccountManager sharedInstance] clearAccountState:NO];
-    
-    if (error.code == kSFOAuthErrorInvalidGrant) {  // Invalid cached refresh token.
-        // Restart the login process asynchronously.
-        NSLog(@"Logging out because oauth failed with error code: %d", error.code);
-        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    BOOL fatal = YES;
+    if (info.authType == SFOAuthTypeRefresh) {
+        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
+            // Restart the login process asynchronously.
+            fatal = NO;
+            NSLog(@"Logging out because oauth failed with error code: %d", error.code);
+            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
+            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
+            fatal = NO;
+            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+            
+            // If this is app startup, we need to continue through the bootstrapping process.
+            if ([_appDelegate isAppStartup]) {
+                [self loggedIn];
+                return;
+            }
+        }
     }
-    else {
-        // show alert and allow retry
+    
+    if (fatal) {
+        // show alert and retry
+        [[SFAccountManager sharedInstance] clearAccountState:NO];
         [self showRetryAlertForAuthError:error alertTag:kOAuthAlertViewTag];
     }
 }
