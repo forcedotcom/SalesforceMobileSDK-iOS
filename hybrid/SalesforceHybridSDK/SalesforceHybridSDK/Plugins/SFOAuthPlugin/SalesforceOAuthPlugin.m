@@ -23,7 +23,6 @@
  */
 
 #import <Cordova/NSMutableArray+QueueAdditions.h>
-#import <Cordova/CDVConnection.h>
 #import <Cordova/CDVPluginResult.h>
 
 #import "SalesforceOAuthPlugin.h"
@@ -399,24 +398,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)login
 {
-    //verify that we have a network connection
-    CDVConnection *connectionPlugin = (CDVConnection *)[self.commandDelegate getCommandInstance:@"NetworkStatus"];
-    NSString *connType = connectionPlugin.connectionType;
+    [self cleanupRetryAlert];
     
-    if ((nil != connType) && 
-        ![connType isEqualToString:@"unknown"] && 
-        ![connType isEqualToString:@"none"]) {
-        
-        [self cleanupRetryAlert];
-         
-        // Kick off authentication.
-        [SFAccountManager sharedInstance].oauthDelegate = self;
-        [[SFAccountManager sharedInstance].coordinator authenticate];
-    } else {
-        //TODO some kinda dialog here?
-        NSLog(@"Invalid network connection (%@) -- cannot authenticate",connType);
-    }
-
+    // Kick off authentication.
+    [SFAccountManager sharedInstance].oauthDelegate = self;
+    [[SFAccountManager sharedInstance].coordinator authenticate];
 }
 
 - (void)logout
