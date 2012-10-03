@@ -36,7 +36,7 @@
 #import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.3.2";
+NSString * const kSFMobileSDKVersion = @"2.0.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
