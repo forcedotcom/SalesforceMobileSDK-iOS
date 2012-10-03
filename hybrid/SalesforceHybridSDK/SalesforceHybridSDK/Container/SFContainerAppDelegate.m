@@ -36,7 +36,7 @@
 #import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.4.0";
+NSString * const kSFMobileSDKVersion = @"2.0.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -216,6 +216,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 #pragma mark - Cordova helpers
 
++ (NSString *) startPage
+{
+    return @"bootstrap.html";
+}
+
 - (void)setupUi
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
@@ -236,13 +241,18 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self setupViewController];
 }
 
+- (void)initViewController 
+{
+    self.viewController = [[[SFHybridViewController alloc] init] autorelease];
+}
+
 - (void)setupViewController
 {
     CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
-    self.viewController = [[[SFHybridViewController alloc] init] autorelease];
+    [self initViewController];
     self.viewController.useSplashScreen = YES;
     self.viewController.wwwFolderName = @"www";
-    self.viewController.startPage = @"bootstrap.html";
+    self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
     self.viewController.view.frame = viewBounds;
     
