@@ -92,9 +92,10 @@ extern NSString * const kSFSmartStorePluginName;
 + (NSString *) startPage;
 
 /**
- * Sets the view controller for the app.
+ * Initializes the view controller for the app.  Override this method if you want to initialize your
+ * own class for `SFContainerAppDelegate.viewController`.
  */
-- (void)initViewController;
+- (void)configureHybridViewController;
 
 /**
  @return YES if this device is an iPad

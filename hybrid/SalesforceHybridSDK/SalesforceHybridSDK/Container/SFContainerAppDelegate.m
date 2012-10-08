@@ -241,7 +241,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self setupViewController];
 }
 
-- (void)initViewController 
+- (void)configureHybridViewController
 {
     self.viewController = [[[SFHybridViewController alloc] init] autorelease];
 }
@@ -249,7 +249,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)setupViewController
 {
     CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
-    [self initViewController];
+    [self configureHybridViewController];
     self.viewController.useSplashScreen = YES;
     self.viewController.wwwFolderName = @"www";
     self.viewController.startPage = [[self class] startPage];
