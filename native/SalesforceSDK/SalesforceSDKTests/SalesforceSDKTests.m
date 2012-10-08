@@ -918,6 +918,33 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     [[[RKClient sharedClient] requestQueue] cancelAllRequests];
 }
 
+#pragma mark - SFRestAPI utility tests
+
+- (void)testSFRestAPICoordinatorProperty
+{
+    // [SFRestAPI sharedInstance].coordinator tracks [SFAccountManager sharedInstance].coordinator by default.
+    SFOAuthCoordinator *acctMgrCoord = _accountMgr.coordinator;
+    SFOAuthCoordinator *restApiCoord = [SFRestAPI sharedInstance].coordinator;
+    STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
+    
+    // Updating [SFRestAPI sharedInstance].coordinator updates [SFAccountManager sharedInstance].coordinator as well.
+    SFOAuthCredentials *creds = _accountMgr.credentials;
+    SFOAuthCoordinator *newRestApiCoord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    STAssertFalse(newRestApiCoord == _accountMgr.coordinator, @"Object references shouldn't be equal with new object.");
+    [SFRestAPI sharedInstance].coordinator = newRestApiCoord;
+    acctMgrCoord = _accountMgr.coordinator;
+    restApiCoord = [SFRestAPI sharedInstance].coordinator;
+    STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
+    [newRestApiCoord release];
+    
+    // After updating [SFRestAPI sharedInstance].coordinator, REST calls still work.
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus,
+                         kTestRequestStatusDidLoad,
+                         @"Request failed with updated value for [SFRestAPI sharedInstance].coordinator");
+}
+
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
