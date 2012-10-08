@@ -27,11 +27,12 @@
 #import "RKRequestDelegateWrapper.h"
 #import "RestKit.h"
 #import "SFJsonUtils.h"
+#import "SFOAuthCoordinator.h"
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 #import "SFAccountManager.h"
 
-NSString * const kSFMobileSDKVersion = @"1.3.2";
+NSString * const kSFMobileSDKVersion = @"1.3.3";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -127,6 +128,22 @@ static dispatch_once_t _sharedInstanceGuard;
         _rkClient.baseURL = freshBaseUrl;
     }
     return _rkClient;
+}
+
+- (SFOAuthCoordinator *)coordinator
+{
+    return _accountMgr.coordinator;
+}
+
+- (void)setCoordinator:(SFOAuthCoordinator *)coordinator
+{
+    _accountMgr.coordinator = coordinator;
+    
+    if (nil != coordinator) {
+        //touch rkClient to instantiate if needed, AND update the base url
+        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:coordinator.credentials.instanceUrl];
+        [[self rkClient] setBaseURL:freshBaseUrl];
+    }
 }
 
 /**

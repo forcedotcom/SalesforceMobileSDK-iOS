@@ -36,7 +36,7 @@
 #import <Cordova/CDVCommandDelegate.h>
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.3.2";
+NSString * const kSFMobileSDKVersion = @"1.3.3";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -241,7 +241,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self setupViewController];
 }
 
-- (void)initViewController 
+- (void)configureHybridViewController
 {
     self.viewController = [[[SFHybridViewController alloc] init] autorelease];
 }
@@ -249,7 +249,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)setupViewController
 {
     CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
-    [self initViewController];
+    [self configureHybridViewController];
     self.viewController.useSplashScreen = YES;
     self.viewController.wwwFolderName = @"www";
     self.viewController.startPage = [[self class] startPage];
