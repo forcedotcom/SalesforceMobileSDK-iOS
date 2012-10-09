@@ -67,7 +67,11 @@
 {
     // Make sure the view uses the entire application frame.  User's app can override this
     // behavior if he/she wants to change the footprint of the hybrid UI.
-    self.view.frame = [[UIScreen mainScreen] applicationFrame];
+    UIView *rootView =[[[[UIApplication sharedApplication] keyWindow] rootViewController] view];
+    CGRect webViewFrame = [[[rootView subviews] objectAtIndex:0] frame];  // first subview is the UIWebView
+    if (CGRectEqualToRect(webViewFrame, CGRectZero)) { // UIWebView is sized according to its parent, here it hasn't been sized yet
+        self.view.frame = [[UIScreen mainScreen] applicationFrame]; // size UIWebView's parent according to application frame, which will in turn resize the UIWebView
+    }
     
     [super viewWillAppear:animated];
 }
