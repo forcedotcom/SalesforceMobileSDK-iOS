@@ -53,6 +53,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 extern NSString * const kSFMobileSDKVersion;
 
+@class SFOAuthCoordinator;
 @class RKClient;
 
 /**
@@ -143,6 +144,17 @@ extern NSString * const kSFMobileSDKVersion;
     NSString *_apiVersion;
 }
 
+/**
+ * Gets or sets the value of the `SFOAuthCoordinator` instance associated with SFRestAPI requests.
+ * Note: If your app inherits from `SFNativeRestAppDelegate`, or you otherwise manage the account
+ * configuration of your app through `SFAccountManager`, you should not need to set/configure this
+ * property, as it's closely aligned with SFAccountManager already.
+ */
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+
+/**
+ * Property exposing the RestKit `RKClient` instance associated with this object.
+ */
 @property (nonatomic, readonly) RKClient *rkClient;
 
 /**
