@@ -519,6 +519,14 @@ static NSString *CurrentAccountIdentifier;
             default:
                 break;
         }
+    } else if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
+        switch (error.code) {
+            case kSFOAuthErrorTimeout:
+                isNetworkFailure = YES;
+                break;
+            default:
+                break;
+        }
     }
     
     return isNetworkFailure;
