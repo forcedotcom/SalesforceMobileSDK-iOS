@@ -90,7 +90,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  */
 - (void)populateOAuthProperties:(NSString *)propsJsonString;
 
-/**
+/**7
  Broadcast a document event to js that we've updated the Salesforce session.
  @param creds  OAuth credentials as a dictionary
  */
