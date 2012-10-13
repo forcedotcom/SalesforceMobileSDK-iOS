@@ -10,6 +10,7 @@
 
 // From Cordova.framework
 #import <Cordova/CDVPlugin.h>
+#import "SFForcePlugin.h"
 
 
 extern NSString * const kSFTestRunnerPluginName;
@@ -33,7 +34,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 
 
-@interface SFTestRunnerPlugin : CDVPlugin {
+@interface SFTestRunnerPlugin : SFForcePlugin {
     
     NSMutableArray *_testResults;
 }
@@ -45,7 +46,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 #pragma mark - Plugin methods called from js
 
-- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)onReadyForTests:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)onTestComplete:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
 
 @end

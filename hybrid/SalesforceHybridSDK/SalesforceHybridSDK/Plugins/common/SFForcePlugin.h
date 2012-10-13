@@ -23,14 +23,17 @@
  */
 
 #import <Cordova/CDVPlugin.h>
-#import "SFVersionedArguments.h"
+
 
 @interface SFForcePlugin : CDVPlugin
 
 /**
- Check for a version argument
- @return actual arguments
+ Check first element of arguments
+ If it's a version, removes it
+ @param action
+ @param arguments
+ @return version found or nil
  */
--(NSMutableArray*)getActualArguments:(NSMutableArray*)arguments;
+-(NSString*)popVersion:(NSString*)action withArguments:(NSMutableArray *)arguments;
 
 @end

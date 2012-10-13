@@ -152,10 +152,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 #pragma mark - SmartStore plugin methods
 
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgSoupExists:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
-//    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
+    //    NSDate *startTime = [NSDate date];
+    NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgSoupExists" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     
     BOOL exists = [self.store soupExists:soupName];
@@ -165,10 +166,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRegisterSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
-//    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
+    //    NSDate *startTime = [NSDate date];
+    NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgRegisterSoup" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSArray *indexes = [options nonNullObjectForKey:kIndexesArg];
     
@@ -184,10 +186,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRemoveSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
 //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [arguments objectAtIndex:0];
+    NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgRemoveSoup" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     
     [self.store removeSoup:soupName];
@@ -198,10 +201,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)pgQuerySoup:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgQuerySoup" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSDictionary *querySpec = [options nonNullObjectForKey:kQuerySpecArg];
     
@@ -220,10 +224,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     }
 }
 
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRetrieveSoupEntries:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
     NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgRetrieveSoupEntries" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSArray *rawIds = [options nonNullObjectForKey:kEntryIdsArg];
     //make entry Ids unique
@@ -236,10 +241,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgUpsertSoupEntries:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
 //    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgUpsertSoupEntries" withArguments:arguments];
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
     NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
@@ -262,11 +268,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRemoveFromSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
 //    NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgRemoveFromSoup" withArguments:arguments];    
     NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
     NSArray *entryIds = [options nonNullObjectForKey:kEntryIdsArg];
     
@@ -279,9 +285,10 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
 }
 
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgCloseCursor:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
-	NSString* callbackId = [arguments objectAtIndex:0];
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgCloseCursor" withArguments:arguments];    
     NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
     
     [self closeCursorWithId:cursorId];
@@ -290,11 +297,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
-- (void)pgMoveCursorToPageIndex:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgMoveCursorToPageIndex:(NSMutableArray*)arguments withDict:(NSDictionary*)options
 {
     NSDate *startTime = [NSDate date];
-	NSString* callbackId = [arguments objectAtIndex:0];
-    
+	NSString* callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"pgMoveCursorToPageIndex" withArguments:arguments];
     NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
     NSNumber *newPageIndex = [options nonNullObjectForKey:kIndexArg];
     NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);

@@ -184,11 +184,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
 {
-    NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
-    
-    NSString *callbackId = [arguments objectAtIndex:0];
+    NSString *callbackId = [arguments pop];
     NSLog(@"callbackId: %@", callbackId);
-    
+    /* NSString* jsVersionStr = */[self popVersion:@"getAuthCredentials" withArguments:arguments];
     NSDictionary *authDict = [self credentialsAsDictionary];
     
     if (nil != self.lastRefreshCompleted) {
@@ -203,14 +201,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
-            [self authenticate:arguments withDict:nil];
+            [self authenticateInternal:arguments withDict:nil];
         }
         
     } else {
         //If authdict is not nil and we have a refresh token then we can ask for a refresh.
         NSLog(@"We have not authenticated during app lifetime! ");
         if (nil != authDict) {
-            [self authenticate:arguments withDict:nil];
+            [self authenticateInternal:arguments withDict:nil];
         } else {
             NSString *errorMessage = @"No auth info available.";
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -220,13 +218,17 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
 }
 
-- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options 
 {
-    NSLog(@"authenticate:withDict:");
     NSString *callbackId = [arguments pop];
-    
     _authCallbackId = [callbackId copy];
-    
+    /* NSString* jsVersionStr = */[self popVersion:@"authenticate" withArguments:arguments];
+
+    [self authenticateInternal:arguments withDict:options];
+}
+
+- (void)authenticateInternal:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+{
     NSString *argsString = [arguments pop];
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {
@@ -242,14 +244,15 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSLog(@"logoutCurrentUser");
+    [arguments pop]; // callbackId
+    /* NSString* jsVersionStr = */[self popVersion:@"logoutCurrentUser" withArguments:arguments];
     [self logout];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSLog(@"getAppHomeUrl:withDict:");
     NSString *callbackId = [arguments pop];
+    /* NSString* jsVersionStr = */[self popVersion:@"getAppHomeUrl" withArguments:arguments];
     
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);

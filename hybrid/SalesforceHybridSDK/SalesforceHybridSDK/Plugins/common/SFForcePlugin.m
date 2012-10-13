@@ -24,15 +24,25 @@
 
 #import "SFForcePlugin.h"
 
+#define VERSION_KEY @"pluginSDKVersion"
+
 @implementation SFForcePlugin
 
--(NSMutableArray*)getActualArguments:(NSMutableArray *)arguments
+-(NSString*)popVersion:(NSString*)action withArguments:(NSMutableArray *)arguments
 {
-    SFVersionedArguments* versionedArguments = [[SFVersionedArguments alloc] initWithArguments:arguments];
+    NSString* jsVersionStr = nil;
+    if ([arguments count] > 0) {
+        NSObject* firstElt = [arguments objectAtIndex:0];
+        NSLog(@"arguments = %@", arguments);
+        if ([firstElt isKindOfClass:[NSString class]] && [(NSString*) firstElt hasPrefix:VERSION_KEY]) {
+            jsVersionStr = [(NSString*) firstElt substringFromIndex:1 + [VERSION_KEY length]];
+            [arguments removeObjectAtIndex:0]; // shift arguments
+        }
+    }
     
-    // TODO log warning if jsVersion doesn't match sdk version
-    
-    return versionedArguments.actualArguments;
+    NSLog(@"%@ jsVersion:%@ ", action, (jsVersionStr ? jsVersionStr : @""));
+    return jsVersionStr;
 }
+
 
 @end
