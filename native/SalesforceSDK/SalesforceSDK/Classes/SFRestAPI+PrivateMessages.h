@@ -27,7 +27,6 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
-#import "SFRestAPI+Blocks.h"
 
 static NSInteger const kMaxCharactersPerMessage = 10000;
 
