@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E591C1E162A408500F2EB9F /* SFRestAPI+PrivateMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E591C1C162A408500F2EB9F /* SFRestAPI+PrivateMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E591C1F162A408500F2EB9F /* SFRestAPI+PrivateMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E591C1D162A408500F2EB9F /* SFRestAPI+PrivateMessages.m */; };
 		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
@@ -171,6 +173,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E591C1C162A408500F2EB9F /* SFRestAPI+PrivateMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+PrivateMessages.h"; sourceTree = "<group>"; };
+		5E591C1D162A408500F2EB9F /* SFRestAPI+PrivateMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+PrivateMessages.m"; sourceTree = "<group>"; };
 		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+QueryBuilder.m"; sourceTree = "<group>"; };
 		5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -722,6 +726,8 @@
 				C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */,
 				5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */,
 				5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */,
+				5E591C1C162A408500F2EB9F /* SFRestAPI+PrivateMessages.h */,
+				5E591C1D162A408500F2EB9F /* SFRestAPI+PrivateMessages.m */,
 				5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */,
 				5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */,
 				C2C92E3413D9EBC7008833A4 /* RKRequestDelegateWrapper.h */,
@@ -757,6 +763,7 @@
 			files = (
 				C26713EF13D6B8DB001FE0B8 /* SFRestAPI.h in Headers */,
 				C2C92E6713DE10A0008833A4 /* SFRestRequest.h in Headers */,
+				5E591C1E162A408500F2EB9F /* SFRestAPI+PrivateMessages.h in Headers */,
 				C2C92E3613D9EBC7008833A4 /* RKRequestDelegateWrapper.h in Headers */,
 				7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */,
 				7D8968E4142A819300F3FB19 /* SFSessionRefresher.h in Headers */,
@@ -997,6 +1004,7 @@
 				7D8ECED914EB2642004F241C /* SqliteAdditions.c in Sources */,
 				7D8ECEDD14EB270C004F241C /* NSDictionary+NullHandling.m in Sources */,
 				5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */,
+				5E591C1F162A408500F2EB9F /* SFRestAPI+PrivateMessages.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
