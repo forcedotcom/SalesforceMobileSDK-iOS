@@ -29,8 +29,6 @@
 
 @implementation SFRestAPI (PrivateMessages)
 
-static NSString * const kAPIVersion =                               @"v25.0";
-
 static NSString * const kMyConversationsPath =                      @"/chatter/users/me/conversations";
 static NSString * const kConversationUnreadCountPath =              @"/chatter/users/me/conversations/unread-count";
 static NSString * const kPathForConversationStatusChange =          @"/chatter/users/me/conversations/%@/mark-read";
@@ -47,7 +45,7 @@ static NSString * const kPathForUserMessages =                      @"/chatter/u
 #pragma mark - creating SFRestRequests
 
 + (NSString *) serviceEndPointForPath:(NSString *)path {
-    return [kAPIVersion stringByAppendingString:path];
+    return [[[SFRestAPI sharedInstance] apiVersion] stringByAppendingString:path];
 }
 
 + (SFRestRequest *)requestForConversationsWithSearchTerm:(NSString *)searchTerm pageToken:(NSString *)pageToken {
