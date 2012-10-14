@@ -71,7 +71,7 @@ static NSInteger const kMaxCharactersPerMessage = 10000;
 /**
  * Returns an SFRestRequest for changing the read/unread status of a particular conversation thread.
  * @param conversationId - required. the conversation Id to change
- * @param markAsRead - required. the unread status to set
+ * @param markAsRead - required. the read status to set (yes = read, no = unread)
  * @return a prepared SFRestRequest
  */
 + (SFRestRequest *) requestToChangeStatusWithConversationId:(NSString *)conversationId
