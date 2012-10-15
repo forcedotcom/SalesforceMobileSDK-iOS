@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
-#import "CDVPlugin+Extras.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
 

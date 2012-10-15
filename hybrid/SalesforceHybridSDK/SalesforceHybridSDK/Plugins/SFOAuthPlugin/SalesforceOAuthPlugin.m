@@ -26,6 +26,7 @@
 #import <Cordova/CDVPluginResult.h>
 
 #import "SalesforceOAuthPlugin.h"
+#import "CDVPlugin+SFAdditions.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
@@ -201,14 +202,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
-            [self authenticateInternal:arguments withDict:nil];
+            [self authenticateInternal:arguments withDict:nil withCallbackId:callbackId];
         }
         
     } else {
         //If authdict is not nil and we have a refresh token then we can ask for a refresh.
         NSLog(@"We have not authenticated during app lifetime! ");
         if (nil != authDict) {
-            [self authenticateInternal:arguments withDict:nil];
+            [self authenticateInternal:arguments withDict:nil withCallbackId:callbackId];
         } else {
             NSString *errorMessage = @"No auth info available.";
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -221,14 +222,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options 
 {
     NSString *callbackId = [arguments pop];
-    _authCallbackId = [callbackId copy];
     /* NSString* jsVersionStr = */[self popVersion:@"authenticate" withArguments:arguments];
 
-    [self authenticateInternal:arguments withDict:options];
+    [self authenticateInternal:arguments withDict:options withCallbackId:callbackId];
 }
 
-- (void)authenticateInternal:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)authenticateInternal:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options withCallbackId:(NSString*) callbackId
 {
+    _authCallbackId = [callbackId copy];
     NSString *argsString = [arguments pop];
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {

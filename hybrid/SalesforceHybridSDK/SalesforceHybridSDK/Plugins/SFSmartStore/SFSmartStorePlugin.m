@@ -24,7 +24,7 @@
  */
 
 #import "SFSmartStorePlugin.h"
-
+#import "CDVPlugin+SFAdditions.h"
 #import "NSDictionary+SFAdditions.h"
 
 #import "SFContainerAppDelegate.h"

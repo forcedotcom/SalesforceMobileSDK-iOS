@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CDVPlugin+Extras.h"
+#import "CDVPlugin+SFAdditions.h"
 
 // Public constants
 NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 
-@implementation CDVPlugin (Extras)
+@implementation CDVPlugin (SFAdditions)
 
 #pragma mark - Cordova plugin support
 

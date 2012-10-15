@@ -23,6 +23,7 @@
  */
 
 #import "SFSDKInfoPlugin.h"
+#import "CDVPlugin+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 
 // Keys in sdk info map
@@ -30,6 +31,14 @@ NSString * const kSDKVersionKey = @"sdkVersion";
 NSString * const kAppNameKey = @"appName";
 NSString * const kAppVersionKey = @"appVersion";
 NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
+
+// Other constants
+NSString * const kCordova = @"Cordova";
+NSString * const kPlugins = @"Plugins";
+NSString * const kForcePluginPrefix = @"com.salesforce.";
+
+// Static member
+NSArray * forcePlugins = nil;
 
 @implementation SFSDKInfoPlugin
 
@@ -42,6 +51,48 @@ NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
     return [super initWithWebView:theWebView];
 }
 
+#pragma mark - Methods to get force plugins
+
++ (NSArray*) getForcePlugins
+{
+    if (!forcePlugins) {
+        forcePlugins = [SFSDKInfoPlugin getForcePluginsFromPList];
+    }
+    return forcePlugins;
+}
+
++ (NSArray*)getForcePluginsFromPList
+{
+    NSMutableArray* services = [NSMutableArray array];
+
+    NSDictionary* cordovaPlist = [SFSDKInfoPlugin getBundlePlist:kCordova];
+    if (cordovaPlist) {
+        NSDictionary* pluginsDict = [cordovaPlist objectForKey:kPlugins];
+        if (pluginsDict) {
+            for (NSString* key in [pluginsDict allKeys]) {
+                key = [key lowercaseString];
+                if ([key hasPrefix:kForcePluginPrefix]) {
+                    [services addObject:key];
+                }
+            }
+        }
+    }
+    
+    return services;
+}
+
++ (NSDictionary*)getBundlePlist:(NSString *)plistName
+{
+    NSString *errorDesc = nil;
+    NSPropertyListFormat format;
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
+    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+    NSDictionary *temp = (NSDictionary *)[NSPropertyListSerialization
+                                          propertyListFromData:plistXML
+                                          mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                          format:&format errorDescription:&errorDesc];
+    return temp;
+}
 
 #pragma mark - Plugin methods called from js
 
@@ -53,14 +104,16 @@ NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
 
-    NSDictionary *sdkInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+    NSDictionary *sdkInfo = [[[NSDictionary alloc] initWithObjectsAndKeys:
                              kSFMobileSDKVersion, kSDKVersionKey,
                              appName, kAppNameKey,
                              appVersion, kAppVersionKey,
-                             nil];
+                             [SFSDKInfoPlugin getForcePlugins], kForcePluginsAvailableKey,
+                             nil] autorelease];
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }
+
 
 
 @end

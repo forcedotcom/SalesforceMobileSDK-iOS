@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +23,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <Cordova/CDVPlugin.h>
 
-@interface SFSDKInfoPlugin : CDVPlugin
+#import "SFPluginTestSuite.h"
 
-#pragma mark - Plugin methods called from js
-- (void)getInfo:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+
+@interface SDKInfoTestSuite : SFPluginTestSuite {
+
+}
 
 @end

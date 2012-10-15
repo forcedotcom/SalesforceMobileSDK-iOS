@@ -25,7 +25,7 @@
 #import <Cordova/CDVPlugin.h>
 
 
-@interface CDVPlugin (Extras)
+@interface CDVPlugin (SFAdditions)
 
 #pragma mark - Cordova plugin support
 
