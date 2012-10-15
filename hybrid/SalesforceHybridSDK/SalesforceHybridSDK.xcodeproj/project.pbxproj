@@ -8,19 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4F3793EA162CD0070094E5C7 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		4F3793EB162CD0080094E5C7 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		4F3793EC162CD0440094E5C7 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
 		4FA1DA47162C821A00BC1B52 /* SFSDKInfoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1DA45162C821A00BC1B52 /* SFSDKInfoPlugin.h */; };
 		4FA1DA48162C821A00BC1B52 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
-		4FA1DA49162C8BFA00BC1B52 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
-		4FA1DA4A162C8BFB00BC1B52 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
 		4FA1DA55162CB6A000BC1B52 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */; };
 		4FA1DA57162CB6B000BC1B52 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */; };
 		4FA1DA5A162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1DA58162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h */; };
 		4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
 		4FA1DA5D162CB6CE00BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
 		4FA1DA5E162CB6D800BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
-		4FA1DA60162CB80600BC1B52 /* SFSDKInfoTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
 		4FA1DA61162CB85600BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
-		4FA1DA62162CBE4A00BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
 		4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		7D20FBB314ED7DBD00A86731 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
@@ -489,7 +488,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				4FA1DA62162CBE4A00BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
+				4F3793EC162CD0440094E5C7 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
 				4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */,
@@ -2124,8 +2123,8 @@
 				82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610C15FFD4030064B877 /* SFPasscodeManager.m in Sources */,
 				8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
-				4FA1DA4A162C8BFB00BC1B52 /* SFSDKInfoPlugin.m in Sources */,
 				4FA1DA5E162CB6D800BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				4F3793EB162CD0080094E5C7 /* SFSDKInfoPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2180,7 +2179,6 @@
 				7DBB148114C0ECF700CCDBE0 /* main.m in Sources */,
 				7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */,
 				7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */,
-				4FA1DA60162CB80600BC1B52 /* SFSDKInfoTestSuite.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2227,8 +2225,8 @@
 				82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610915FFD37B0064B877 /* SFPasscodeManager.m in Sources */,
 				8287610B15FFD3960064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
-				4FA1DA49162C8BFA00BC1B52 /* SFSDKInfoPlugin.m in Sources */,
 				4FA1DA5D162CB6CE00BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				4F3793EA162CD0070094E5C7 /* SFSDKInfoPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

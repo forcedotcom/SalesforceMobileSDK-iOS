@@ -90,20 +90,20 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 #pragma mark - Plugin methods called from js
 
-- (void)onReadyForTests:(NSMutableArray*)arguments withDict:(NSDictionary*)options
+- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSString* callbackId = [arguments pop];
-    /* NSString* jsVersionStr = */[self popVersion:@"onReadyForTests" withArguments:arguments];
+    NSString* callbackId = [self getCallbackId:@"onReadyForTests" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"onReadyForTests" withArguments:arguments];
     [self writeCommandOKResultToJsRealm:callbackId];
 
     self.readyToStartTests = YES;
 }
 
-- (void)onTestComplete:(NSMutableArray*)arguments withDict:(NSDictionary*)options
+- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options
 {
     NSLog(@"arguments = %@", arguments);
-    NSString* callbackId = [arguments pop];
-    /* NSString* jsVersionStr = */[self popVersion:@"onTestComplete" withArguments:arguments];
+    NSString* callbackId = [self getCallbackId:@"onTestComplete" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:arguments];
     NSString *testName = [options objectForKey:@"testName"];
     BOOL success = [(NSNumber *)[options valueForKey:@"success"] boolValue];
     NSString *message = [options valueForKey:@"message"];

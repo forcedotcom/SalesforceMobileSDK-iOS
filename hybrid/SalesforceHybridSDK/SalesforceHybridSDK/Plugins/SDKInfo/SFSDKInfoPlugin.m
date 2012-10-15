@@ -71,6 +71,7 @@ NSArray * forcePlugins = nil;
         if (pluginsDict) {
             for (NSString* key in [pluginsDict allKeys]) {
                 key = [key lowercaseString];
+                NSLog(@"key=%@", key);
                 if ([key hasPrefix:kForcePluginPrefix]) {
                     [services addObject:key];
                 }
@@ -96,10 +97,10 @@ NSArray * forcePlugins = nil;
 
 #pragma mark - Plugin methods called from js
 
-- (void)getInfo:(NSMutableArray*)arguments withDict:(NSDictionary*)options
+- (void)getInfo:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSString *callbackId = [arguments pop];
-    /* NSString* jsVersionStr = */[self popVersion:@"getInfo" withArguments:arguments];
+    NSString* callbackId = [self getCallbackId:@"getInfo" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:arguments];
 
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];

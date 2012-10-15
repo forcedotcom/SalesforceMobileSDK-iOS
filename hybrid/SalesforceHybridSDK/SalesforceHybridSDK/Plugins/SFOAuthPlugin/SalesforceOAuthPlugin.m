@@ -183,11 +183,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 #pragma mark - Cordova plugin methods
 
 
-- (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+- (void)getAuthCredentials:(NSArray *)arguments withDict:(NSMutableDictionary *)options
 {
-    NSString *callbackId = [arguments pop];
-    NSLog(@"callbackId: %@", callbackId);
-    /* NSString* jsVersionStr = */[self popVersion:@"getAuthCredentials" withArguments:arguments];
+    NSString* callbackId = [self getCallbackId:@"getAuthCredentials" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:arguments];
     NSDictionary *authDict = [self credentialsAsDictionary];
     
     if (nil != self.lastRefreshCompleted) {
@@ -202,14 +201,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
-            [self authenticateInternal:arguments withDict:nil withCallbackId:callbackId];
+            [self authenticate:arguments withDict:nil];
         }
         
     } else {
         //If authdict is not nil and we have a refresh token then we can ask for a refresh.
         NSLog(@"We have not authenticated during app lifetime! ");
         if (nil != authDict) {
-            [self authenticateInternal:arguments withDict:nil withCallbackId:callbackId];
+            [self authenticate:arguments withDict:nil];
         } else {
             NSString *errorMessage = @"No auth info available.";
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -219,18 +218,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
 }
 
-- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options 
+- (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSString *callbackId = [arguments pop];
-    /* NSString* jsVersionStr = */[self popVersion:@"authenticate" withArguments:arguments];
-
-    [self authenticateInternal:arguments withDict:options withCallbackId:callbackId];
-}
-
-- (void)authenticateInternal:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options withCallbackId:(NSString*) callbackId
-{
+    NSString* callbackId = [self getCallbackId:@"authenticate" withArguments:arguments];
     _authCallbackId = [callbackId copy];
-    NSString *argsString = [arguments pop];
+    NSString* jsVersionStr = [self getVersion:@"authenticate" withArguments:arguments];
+
+    int argsStringIdx = (jsVersionStr ? 2 : 1);
+    NSString *argsString = ([arguments count] > argsStringIdx ? [arguments objectAtIndex:argsStringIdx] : nil);
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {
         // Build the OAuth args from the JSON object string argument.
@@ -243,17 +238,16 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [self login];
 }
 
-- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    [arguments pop]; // callbackId
-    /* NSString* jsVersionStr = */[self popVersion:@"logoutCurrentUser" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:arguments];
     [self logout];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSString *callbackId = [arguments pop];
-    /* NSString* jsVersionStr = */[self popVersion:@"getAppHomeUrl" withArguments:arguments];
+    NSString* callbackId = [self getCallbackId:@"getAppHomeUrl" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:arguments];
     
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);

@@ -68,7 +68,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName".
  *
  */
-- (void)pgSoupExists:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 /**
  * Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].
@@ -79,7 +79,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName" and "indexSpecs".
  *
  */
-- (void)pgRegisterSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
@@ -91,7 +91,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName".
  *
  */
-- (void)pgRemoveSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
@@ -103,7 +103,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName" and "querySpec".
  *
  */
-- (void)pgQuerySoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
@@ -115,7 +115,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName" and "soupEntryIds".
  *
  */
-- (void)pgRetrieveSoupEntries:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
@@ -127,7 +127,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName" and "entries".
  *
  */
-- (void)pgUpsertSoupEntries:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 /**
  * Closes a cursor associated with soup data.
@@ -136,7 +136,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  *
  * @param options NSDictionary containing "cursorId".
  */
-- (void)pgCloseCursor:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 /**
@@ -148,7 +148,7 @@ extern NSString * const kSmartStorePluginIdentifier;
  * @param options NSDictionary containing "soupName" and "soupEntryIds".
  *
  */
-- (void)pgRemoveFromSoup:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 
 

@@ -44,7 +44,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 #pragma mark - Plugin methods called from js
 
-- (void)onReadyForTests:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
-- (void)onTestComplete:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 @end

@@ -24,7 +24,7 @@
 
 #import "CDVPlugin+SFAdditions.h"
 
-// Public constants
+NSString * const kCallbackIdPrefix = @"com.salesforce.";
 NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 
 @implementation CDVPlugin (SFAdditions)
@@ -66,18 +66,30 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
+#pragma mark - Callback id extraction
+-(NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments
+{
+    NSString* callbackId = nil;
+    if ([arguments count] >= 1) {
+        NSObject* elt = [arguments objectAtIndex:0];
+        if ([elt isKindOfClass:[NSString class]] && [(NSString*) elt hasPrefix:kCallbackIdPrefix]) {
+            callbackId = (NSString*) elt;
+        }
+    }
+    
+    NSLog(@"%@ callbackId:%@ ", action, callbackId);
+    return callbackId;
+}
 
 #pragma mark - Versioning support
 
--(NSString*)popVersion:(NSString*)action withArguments:(NSMutableArray *)arguments
+-(NSString*)getVersion:(NSString*)action withArguments:(NSMutableArray *)arguments
 {
     NSString* jsVersionStr = nil;
-    if ([arguments count] > 0) {
-        NSObject* firstElt = [arguments objectAtIndex:0];
-        NSLog(@"arguments = %@", arguments);
-        if ([firstElt isKindOfClass:[NSString class]] && [(NSString*) firstElt hasPrefix:kPluginSDKVersion]) {
-            jsVersionStr = [(NSString*) firstElt substringFromIndex:1 + [kPluginSDKVersion length]];
-            [arguments removeObjectAtIndex:0]; // shift arguments
+    if ([arguments count] >= 2) {
+        NSObject* elt = [arguments objectAtIndex:1];
+        if ([elt isKindOfClass:[NSString class]] && [(NSString*) elt hasPrefix:kPluginSDKVersion]) {
+            jsVersionStr = [(NSString*) elt substringFromIndex:1 + [kPluginSDKVersion length]];
         }
     }
     

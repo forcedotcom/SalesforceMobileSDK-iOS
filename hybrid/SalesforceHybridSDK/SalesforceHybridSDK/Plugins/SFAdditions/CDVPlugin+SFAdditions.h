@@ -35,15 +35,12 @@
 - (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
 - (void)writeCommandOKResultToJsRealm:(NSString*)callbackId;
 
+#pragma mark - Callback id extraction
+
+-(NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments;
+
 #pragma mark - Versioning support
 
-/**
- Check first element of arguments
- If it's a version, removes it
- @param action
- @param arguments
- @return version found or nil
- */
--(NSString*)popVersion:(NSString*)action withArguments:(NSMutableArray *)arguments;
+-(NSString*)getVersion:(NSString*)action withArguments:(NSArray *)arguments;
 
 @end

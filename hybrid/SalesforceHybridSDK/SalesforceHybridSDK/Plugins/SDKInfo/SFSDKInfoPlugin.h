@@ -28,6 +28,6 @@
 @interface SFSDKInfoPlugin : CDVPlugin
 
 #pragma mark - Plugin methods called from js
-- (void)getInfo:(NSMutableArray*)arguments withDict:(NSDictionary*)options;
+- (void)getInfo:(NSArray*)arguments withDict:(NSDictionary*)options;
 
 @end
