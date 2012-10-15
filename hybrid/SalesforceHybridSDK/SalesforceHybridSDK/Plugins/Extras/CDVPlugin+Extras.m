@@ -22,11 +22,52 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFForcePlugin.h"
+#import "CDVPlugin+Extras.h"
 
-#define VERSION_KEY @"pluginSDKVersion"
+// Public constants
+NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 
-@implementation SFForcePlugin
+@implementation CDVPlugin (Extras)
+
+#pragma mark - Cordova plugin support
+
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
+{
+    NSString *jsString = [result toSuccessCallbackString:callbackId];
+    
+	if (jsString){
+		[self writeJavascript:jsString];
+    }
+}
+
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
+{
+    NSString *jsString = [result toErrorCallbackString:callbackId];
+	if (jsString){
+		[self writeJavascript:jsString];
+    }
+}
+
+- (void)writeCommandOKResultToJsRealm:(NSString*)callbackId
+{
+    [self writeSuccessResultToJsRealm:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:callbackId];
+}
+
+- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId
+{
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:array];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+
+- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
+{
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+
+#pragma mark - Versioning support
 
 -(NSString*)popVersion:(NSString*)action withArguments:(NSMutableArray *)arguments
 {
@@ -34,8 +75,8 @@
     if ([arguments count] > 0) {
         NSObject* firstElt = [arguments objectAtIndex:0];
         NSLog(@"arguments = %@", arguments);
-        if ([firstElt isKindOfClass:[NSString class]] && [(NSString*) firstElt hasPrefix:VERSION_KEY]) {
-            jsVersionStr = [(NSString*) firstElt substringFromIndex:1 + [VERSION_KEY length]];
+        if ([firstElt isKindOfClass:[NSString class]] && [(NSString*) firstElt hasPrefix:kPluginSDKVersion]) {
+            jsVersionStr = [(NSString*) firstElt substringFromIndex:1 + [kPluginSDKVersion length]];
             [arguments removeObjectAtIndex:0]; // shift arguments
         }
     }

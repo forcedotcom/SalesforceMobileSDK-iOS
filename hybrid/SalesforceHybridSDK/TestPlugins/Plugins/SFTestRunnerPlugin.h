@@ -10,8 +10,7 @@
 
 // From Cordova.framework
 #import <Cordova/CDVPlugin.h>
-#import "SFForcePlugin.h"
-
+#import "CDVPlugin+Extras.h"
 
 extern NSString * const kSFTestRunnerPluginName;
 
@@ -34,7 +33,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 
 
-@interface SFTestRunnerPlugin : SFForcePlugin {
+@interface SFTestRunnerPlugin : CDVPlugin {
     
     NSMutableArray *_testResults;
 }

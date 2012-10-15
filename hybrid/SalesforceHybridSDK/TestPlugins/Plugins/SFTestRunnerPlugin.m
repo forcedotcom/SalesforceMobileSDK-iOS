@@ -8,8 +8,6 @@
 
 #import "SFTestRunnerPlugin.h"
 
-
-
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 @implementation SFTestResult
@@ -42,15 +40,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 @end
 
 
-@interface SFTestRunnerPlugin (Private)
-
-- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
-- (void)writeCommandOKResultToJsRealm:(NSString*)callbackId;
-
-@end
-
 @implementation SFTestRunnerPlugin
 
 
@@ -81,38 +70,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     return ([self.testResults count] > 0);
 }
 
-
-
-#pragma mark - Cordova plugin support
-
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId
-{
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-}
-
-- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
-{    
-    NSString *jsString = [result toSuccessCallbackString:callbackId];
-    
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
-}
-
-- (void)writeCommandOKResultToJsRealm:(NSString*)callbackId
-{
-    [self writeSuccessResultToJsRealm:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:callbackId];
-}
-
-- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId
-{
-    NSString *jsString = [result toErrorCallbackString:callbackId];
-    
-	if (jsString){
-		[self writeJavascript:jsString];
-    }
-}
 
 #pragma mark - Plugin methods called from js
 

@@ -25,8 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SFForcePlugin.h"
-
+#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin+Extras.h"
 
 /**
  String used with Cordova to uniquely identify this plugin
@@ -37,7 +37,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 @class SFSoupCursor;
 @class SFSmartStore;
 
-@interface SFSmartStorePlugin : SFForcePlugin {
+@interface SFSmartStorePlugin : CDVPlugin {
     //a convenient ref to the shared app delegate
     SFContainerAppDelegate *_appDelegate;
 

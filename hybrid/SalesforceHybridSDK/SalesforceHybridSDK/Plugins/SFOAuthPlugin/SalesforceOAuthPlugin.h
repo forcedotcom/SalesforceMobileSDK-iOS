@@ -23,9 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin+Extras.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
-#import "SFForcePlugin.h"
 
 @class SFContainerAppDelegate;
 @class SFIdentityData;
@@ -33,7 +34,7 @@
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : SFForcePlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : CDVPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
     NSString *_remoteAccessConsumerKey;

@@ -25,7 +25,17 @@
 #import <Cordova/CDVPlugin.h>
 
 
-@interface SFForcePlugin : CDVPlugin
+@interface CDVPlugin (Extras)
+
+#pragma mark - Cordova plugin support
+
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
+- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
+- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
+- (void)writeCommandOKResultToJsRealm:(NSString*)callbackId;
+
+#pragma mark - Versioning support
 
 /**
  Check first element of arguments
