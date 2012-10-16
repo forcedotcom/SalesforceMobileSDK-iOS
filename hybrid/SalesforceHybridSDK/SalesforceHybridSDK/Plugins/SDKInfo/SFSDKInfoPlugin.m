@@ -40,7 +40,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
 
-@property(nonatomic, readonly, retain) NSArray* forcePlugins;
+@property(nonatomic, readonly) NSArray* forcePlugins;
 
 + (NSArray*)getForcePluginsFromPList;
 + (NSDictionary*)getBundlePlist:(NSString *)plistName;
