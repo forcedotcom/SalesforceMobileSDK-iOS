@@ -26,6 +26,7 @@
 #import <Cordova/CDVPluginResult.h>
 
 #import "SalesforceOAuthPlugin.h"
+#import "CDVPlugin+SFAdditions.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
@@ -182,13 +183,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 #pragma mark - Cordova plugin methods
 
 
-- (void)getAuthCredentials:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+- (void)getAuthCredentials:(NSArray *)arguments withDict:(NSMutableDictionary *)options
 {
     NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
-    
-    NSString *callbackId = [arguments objectAtIndex:0];
-    NSLog(@"callbackId: %@", callbackId);
-    
+    NSString* callbackId = [self getCallbackId:@"getAuthCredentials" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:arguments];
     NSDictionary *authDict = [self credentialsAsDictionary];
     
     if (nil != self.lastRefreshCompleted) {
@@ -220,14 +219,15 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
 }
 
-- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSLog(@"authenticate:withDict:");
-    NSString *callbackId = [arguments pop];
-    
+    NSLog(@"authenticate:withDict:");    
+    NSString* callbackId = [self getCallbackId:@"authenticate" withArguments:arguments];
     _authCallbackId = [callbackId copy];
-    
-    NSString *argsString = [arguments pop];
+    NSString* jsVersionStr = [self getVersion:@"authenticate" withArguments:arguments];
+
+    int argsStringIdx = (jsVersionStr ? 2 : 1);
+    NSString *argsString = ([arguments count] > argsStringIdx ? [arguments objectAtIndex:argsStringIdx] : nil);
     //if we are refreshing, there will be no options: just reuse the known options
     if (nil != argsString) {
         // Build the OAuth args from the JSON object string argument.
@@ -240,16 +240,18 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [self login];
 }
 
-- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSLog(@"logoutCurrentUser");
+    /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:arguments];
     [self logout];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     NSLog(@"getAppHomeUrl:withDict:");
-    NSString *callbackId = [arguments pop];
+    NSString* callbackId = [self getCallbackId:@"getAppHomeUrl" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:arguments];
     
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);

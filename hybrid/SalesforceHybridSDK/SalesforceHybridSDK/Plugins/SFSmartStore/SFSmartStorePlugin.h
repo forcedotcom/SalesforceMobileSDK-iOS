@@ -25,8 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Cordova/CDVPlugin.h>
 
+#import <Cordova/CDVPlugin.h>
 
 /**
  String used with Cordova to uniquely identify this plugin
