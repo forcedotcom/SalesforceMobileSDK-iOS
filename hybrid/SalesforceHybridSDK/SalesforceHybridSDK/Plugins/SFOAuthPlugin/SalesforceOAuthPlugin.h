@@ -121,27 +121,27 @@
  * @param arguments Cordova arguments array, containing the OAuth configuration properties.
  * @param options Name/value pair options from Cordova, not used in this method.
  */
-- (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAuthCredentials:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  * Cordova plug-in method to authenticate a user to the application.
  * @param arguments Cordova arguments array, containing the OAuth configuration properties.
  * @param options Name/value pair options from Cordova, not used in this method.
  */
-- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  * Clear the current user's authentication credentials.
  * @param arguments Standard Cordova plugin arguments, not used in this method.
  * @param options Name/value pair options from Cordova, not used in this method.
  */
-- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
 
 /**
  * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
  * @param arguments Standard Cordova plugin arguments, nominally used in this method.
  * @param options Name/value pair options from Cordova, not used in this method.
  */
-- (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAppHomeUrl:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
 
 @end

@@ -27,6 +27,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>com.salesforce.sdkinfo</key>
+		<string>SFSDKInfoPlugin</string>
 		<key>com.salesforce.testrunner</key>
 		<string>SFTestRunnerPlugin</string>
 		<key>com.salesforce.oauth</key>
