@@ -27,8 +27,5 @@
 #import "SFPluginTestSuite.h"
 
 
-@interface SDKInfoTestSuite : SFPluginTestSuite {
-
-}
-
+@interface SDKInfoTestSuite : SFPluginTestSuite
 @end
