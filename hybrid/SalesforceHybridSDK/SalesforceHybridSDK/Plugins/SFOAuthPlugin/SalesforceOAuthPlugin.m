@@ -185,6 +185,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)getAuthCredentials:(NSArray *)arguments withDict:(NSMutableDictionary *)options
 {
+    NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
     NSString* callbackId = [self getCallbackId:@"getAuthCredentials" withArguments:arguments];
     /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:arguments];
     NSDictionary *authDict = [self credentialsAsDictionary];
@@ -220,6 +221,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    NSLog(@"authenticate:withDict:");    
     NSString* callbackId = [self getCallbackId:@"authenticate" withArguments:arguments];
     _authCallbackId = [callbackId copy];
     NSString* jsVersionStr = [self getVersion:@"authenticate" withArguments:arguments];
@@ -240,12 +242,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    NSLog(@"logoutCurrentUser");
     /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:arguments];
     [self logout];
 }
 
 - (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    NSLog(@"getAppHomeUrl:withDict:");
     NSString* callbackId = [self getCallbackId:@"getAppHomeUrl" withArguments:arguments];
     /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:arguments];
     

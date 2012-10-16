@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <Cordova/CDVPlugin.h>
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
+#import <Cordova/CDVPlugin.h>
 
 @class SFContainerAppDelegate;
 @class SFIdentityData;

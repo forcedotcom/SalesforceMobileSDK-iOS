@@ -31,7 +31,6 @@
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
-#import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVPluginResult.h>
 
 //NOTE: must match value in Cordova.plist file

@@ -101,7 +101,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 - (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options
 {
-    NSLog(@"arguments = %@", arguments);
     NSString* callbackId = [self getCallbackId:@"onTestComplete" withArguments:arguments];
     /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:arguments];
     NSString *testName = [options objectForKey:@"testName"];

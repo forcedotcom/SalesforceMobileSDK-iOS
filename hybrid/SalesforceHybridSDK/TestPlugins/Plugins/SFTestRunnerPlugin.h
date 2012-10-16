@@ -11,6 +11,7 @@
 // From Cordova.framework
 #import <Cordova/CDVPlugin.h>
 
+
 extern NSString * const kSFTestRunnerPluginName;
 
 
