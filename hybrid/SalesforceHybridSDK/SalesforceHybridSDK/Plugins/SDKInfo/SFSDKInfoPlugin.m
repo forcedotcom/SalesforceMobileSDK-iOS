@@ -39,38 +39,31 @@ NSString * const kPlugins = @"Plugins";
 NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
-{
-    NSArray* _forcePlugins;
-}
+
+@property(nonatomic, readonly, retain) NSArray* forcePlugins;
+
++ (NSArray*)getForcePluginsFromPList;
++ (NSDictionary*)getBundlePlist:(NSString *)plistName;
 
 @end
 
 @implementation SFSDKInfoPlugin
+
+@synthesize forcePlugins = _forcePlugins;
 
 /**
  This is Cordova's default initializer for plugins.
  */
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
-    _forcePlugins = nil;
-    return [super initWithWebView:theWebView];
-}
-
-- (void) dealloc
-{
-    SFRelease(_forcePlugins);
-    [super dealloc];
+    self = [super initWithWebView:theWebView];
+    if (self) {
+        _forcePlugins = [[SFSDKInfoPlugin getForcePluginsFromPList] retain];
+    }
+    return self;
 }
 
 #pragma mark - Methods to get force plugins
-
-- (NSArray*) getForcePlugins
-{
-    if (!_forcePlugins) {
-        _forcePlugins = [[SFSDKInfoPlugin getForcePluginsFromPList] retain];
-    }
-    return _forcePlugins;
-}
 
 + (NSArray*)getForcePluginsFromPList
 {
@@ -120,7 +113,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
                              kSFMobileSDKVersion, kSDKVersionKey,
                              appName, kAppNameKey,
                              appVersion, kAppVersionKey,
-                             [self getForcePlugins], kForcePluginsAvailableKey,
+                             self.forcePlugins, kForcePluginsAvailableKey,
                              nil] autorelease];
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
