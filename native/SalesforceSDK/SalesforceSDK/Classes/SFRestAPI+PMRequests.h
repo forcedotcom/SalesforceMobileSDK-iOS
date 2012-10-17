@@ -89,7 +89,6 @@ static NSInteger const kMaxCharactersPerMessage = 10000;
 + (SFRestRequest *) requestToPostNewMessageThreadWithRecipients:(NSArray *)recipients
                                                            body:(NSString *)body;
 
-// Message Id is (any?) id of a message in a conversation. NOT the conversation Id
 /**
  * Returns an SFRestRequest for sending a reply to an existing private message conversation thread.
  * @param messageId - required. This is the ID of (any?) message in the conversation thread, ** NOT **
