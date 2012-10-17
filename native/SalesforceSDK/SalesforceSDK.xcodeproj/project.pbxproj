@@ -24,6 +24,8 @@
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
 		4F9EF4FC158FED9300E35E90 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */; };
 		4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEB514EB2642004F241C /* SFSmartStore.h */; };
+		5E3CD72C162F139200522029 /* SFRestAPI+PMRequests.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E3CD72A162F139200522029 /* SFRestAPI+PMRequests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5E3CD72D162F139200522029 /* SFRestAPI+PMRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3CD72B162F139200522029 /* SFRestAPI+PMRequests.m */; };
 		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
@@ -326,6 +328,8 @@
 /* Begin PBXFileReference section */
 		4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreTests.m; sourceTree = "<group>"; };
 		4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreTests.h; sourceTree = "<group>"; };
+		5E3CD72A162F139200522029 /* SFRestAPI+PMRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+PMRequests.h"; sourceTree = "<group>"; };
+		5E3CD72B162F139200522029 /* SFRestAPI+PMRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+PMRequests.m"; sourceTree = "<group>"; };
 		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+QueryBuilder.m"; sourceTree = "<group>"; };
 		5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -1239,6 +1243,8 @@
 				C26713EE13D6B8DB001FE0B8 /* SFRestAPI.m */,
 				5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */,
 				5ECED62D14B4C93300A19357 /* SFRestAPI+Blocks.m */,
+				5E3CD72A162F139200522029 /* SFRestAPI+PMRequests.h */,
+				5E3CD72B162F139200522029 /* SFRestAPI+PMRequests.m */,
 				5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */,
 				5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */,
 				C2C92E3413D9EBC7008833A4 /* RKRequestDelegateWrapper.h */,
@@ -1279,6 +1285,7 @@
 				C26713EF13D6B8DB001FE0B8 /* SFRestAPI.h in Headers */,
 				C2C92E6713DE10A0008833A4 /* SFRestRequest.h in Headers */,
 				5ECED62E14B4C93400A19357 /* SFRestAPI+Blocks.h in Headers */,
+				5E3CD72C162F139200522029 /* SFRestAPI+PMRequests.h in Headers */,
 				C2C92E3613D9EBC7008833A4 /* RKRequestDelegateWrapper.h in Headers */,
 				5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */,
 				7D6CD83E14294F260025F733 /* SFRestAPI+Internal.h in Headers */,
@@ -1643,6 +1650,7 @@
 				82289FC61584049F00A01903 /* FMResultSet.m in Sources */,
 				82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
 				8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
+				5E3CD72D162F139200522029 /* SFRestAPI+PMRequests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
