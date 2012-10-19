@@ -170,6 +170,16 @@ static NSString *         passcodeInvalidError              = @"The passcode you
  */
 - (void)addPasscodeVerificationNav;
 
+/**
+ * Adds the 'Forgot Passcode' button to the view.
+ */
+- (void)addForgotPasscodeButton;
+
+/**
+ * Action performed when the 'Forgot Passcode' button is clicked.
+ */
+- (void)forgotPassAction;
+
 @end
 
 @implementation SFPasscodeViewController
@@ -261,21 +271,43 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     self.instructionsLabel.textAlignment = UITextAlignmentCenter;
     self.instructionsLabel.accessibilityLabel = @"Instructions";
     [self.view addSubview:self.instructionsLabel];
-    
-    
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+    [self addForgotPasscodeButton];
     NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate)
         [self updateInstructionsLabel:passcodeCreateInstructions];
     else
         [self updateInstructionsLabel:passcodeVerifyInstructions];
+}
+
+- (void)addForgotPasscodeButton
+{
+    UIButton *forgotPassButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+    forgotPassButton.frame = CGRectMake(110.0, 360.0, 100.0, 30.0);
+    [forgotPassButton setTitle:@"Forgot Passcode?" forState:UIControlStateNormal];
+    forgotPassButton.backgroundColor = [UIColor blueColor];
+    [forgotPassButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [forgotPassButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:forgotPassButton];
+    /*
+     * TODO: Style, placement, and size of 'Forgot Passcode' button, click listener and logout functionality of 'Logout' button.
+     */
+    NSLog(@"SFPasscodeViewController addForgotPasscodeButton");
+}
+
+- (void)forgotPassAction
+{
+    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Forgot Passcode?" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
+    NSLog(@"SFPasscodeViewController forgotPassAction");
+    [logoutAlert show];
+    [logoutAlert release];
 }
 
 - (void)viewWillLayoutSubviews {
