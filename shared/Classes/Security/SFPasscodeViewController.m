@@ -26,7 +26,6 @@
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFPasscodeManager.h"
-#import "SFNativeRestAppDelegate.h"
 
 // Private view layout constants
 
@@ -42,6 +41,7 @@ static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 75.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
+static NSUInteger   const kPasscodeDialogTag                = 111;
 
 // TODO: These messages should be localized.  This work will be covered when we make an auxilliary
 // bundle for the SDK.
@@ -305,6 +305,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 - (void)forgotPassAction
 {
     UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Forgot Passcode?" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    logoutAlert.tag = kPasscodeDialogTag;
     NSLog(@"SFPasscodeViewController forgotPassAction");
     [logoutAlert show];
     [logoutAlert release];
@@ -312,14 +313,16 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (buttonIndex == 0) {
-		NSLog(@"User pressed No");
-	} else {
-        NSLog(@"User pressed Yes");
-        [self setRemainingAttempts:kMaxNumberofAttempts];
-        [[SFPasscodeManager sharedManager] resetPasscode];
-        [SFSecurityLockout unlock:NO];
-	}
+    if (alertView.tag == kPasscodeDialogTag) {
+        if (buttonIndex == 0) {
+            NSLog(@"User pressed No");
+        } else {
+            NSLog(@"User pressed Yes");
+            [self setRemainingAttempts:kMaxNumberofAttempts];
+            [[SFPasscodeManager sharedManager] resetPasscode];
+            [SFSecurityLockout unlock:NO];
+        }
+    }
 }
 
 - (void)viewWillLayoutSubviews
