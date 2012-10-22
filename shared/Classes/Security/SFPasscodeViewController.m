@@ -292,6 +292,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 {
     UIButton *forgotPassButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
     forgotPassButton.frame = CGRectMake(110.0, 360.0, 150.0, 40.0);
+    forgotPassButton.center = self.view.center;
     [forgotPassButton setTitle:@"Forgot Passcode?" forState:UIControlStateNormal];
     forgotPassButton.backgroundColor = [UIColor blueColor];
     [forgotPassButton.titleLabel setTextAlignment:UITextAlignmentCenter];
