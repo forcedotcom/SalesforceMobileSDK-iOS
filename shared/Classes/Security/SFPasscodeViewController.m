@@ -298,9 +298,6 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     [forgotPassButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [forgotPassButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:forgotPassButton];
-    /*
-     * TODO: Style, placement, and size of 'Forgot Passcode' button, click listener and logout functionality of 'Logout' button.
-     */
     NSLog(@"SFPasscodeViewController addForgotPasscodeButton");
 }
 
@@ -318,8 +315,9 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 		NSLog(@"User pressed No");
 	} else {
         NSLog(@"User pressed Yes");
-        SFNativeRestAppDelegate *nativeAppDelegate = [[SFNativeRestAppDelegate alloc] init];
-        [nativeAppDelegate logout];
+        [self setRemainingAttempts:kMaxNumberofAttempts];
+        [[SFPasscodeManager sharedManager] resetPasscode];
+        [SFSecurityLockout unlock:NO];
 	}
 }
 
