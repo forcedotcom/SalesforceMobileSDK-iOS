@@ -26,6 +26,7 @@
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFPasscodeManager.h"
+#import "SFNativeRestAppDelegate.h"
 
 // Private view layout constants
 
@@ -290,10 +291,11 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 - (void)addForgotPasscodeButton
 {
     UIButton *forgotPassButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-    forgotPassButton.frame = CGRectMake(110.0, 360.0, 100.0, 30.0);
+    forgotPassButton.frame = CGRectMake(110.0, 360.0, 150.0, 40.0);
     [forgotPassButton setTitle:@"Forgot Passcode?" forState:UIControlStateNormal];
     forgotPassButton.backgroundColor = [UIColor blueColor];
-    [forgotPassButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [forgotPassButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+    [forgotPassButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [forgotPassButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:forgotPassButton];
     /*
@@ -304,13 +306,25 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 
 - (void)forgotPassAction
 {
-    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Forgot Passcode?" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Logout", nil];
+    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Forgot Passcode?" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     NSLog(@"SFPasscodeViewController forgotPassAction");
     [logoutAlert show];
     [logoutAlert release];
 }
 
-- (void)viewWillLayoutSubviews {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (buttonIndex == 0) {
+		NSLog(@"User pressed No");
+	} else {
+        NSLog(@"User pressed Yes");
+        SFNativeRestAppDelegate *nativeAppDelegate = [[SFNativeRestAppDelegate alloc] init];
+        [nativeAppDelegate logout];
+	}
+}
+
+- (void)viewWillLayoutSubviews
+{
     [self layoutSubviews];
     [super viewWillLayoutSubviews];
 }
@@ -322,7 +336,8 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     // e.g. self.myOutlet = nil;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [self layoutPasscodeField];
     [self layoutErrorLabel];
     [self layoutInstructionsLabel];
