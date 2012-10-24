@@ -293,6 +293,7 @@ static NSString *         logoutYes                         = @"Yes";
     [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.forgotPasscodeButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
     self.forgotPasscodeButton.accessibilityLabel = @"Forgot Passcode?";
+    [self.forgotPasscodeButton setHidden:TRUE];
     [self.view addSubview:self.forgotPasscodeButton];
 }
 
@@ -301,10 +302,12 @@ static NSString *         logoutYes                         = @"Yes";
     [super viewDidLoad];
     NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
-    if (self.mode == SFPasscodeControllerModeCreate)
+    if (self.mode == SFPasscodeControllerModeCreate) {
         [self updateInstructionsLabel:passcodeCreateInstructions];
-    else
+    } else {
         [self updateInstructionsLabel:passcodeVerifyInstructions];
+        [self.forgotPasscodeButton setHidden:FALSE];
+    }
 }
 
 - (void)forgotPassAction
