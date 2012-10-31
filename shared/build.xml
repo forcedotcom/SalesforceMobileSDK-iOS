@@ -246,7 +246,7 @@
     <property name="subproject.cordova.dir" value="${iOSShared.basedir}/../external/incubator-cordova-ios"/>
     <target name="dependency.cordova.check">
         <condition property="dependency.cordova.present">
-            <available file="${dependency.dir}/Cordova.framework" type="dir"/>
+            <available file="${dependency.dir}/Cordova" type="dir"/>
         </condition>
     </target>
     
@@ -268,7 +268,7 @@
     
     <target name="dependency.cordova.clean">
         <ant dir="${subproject.cordova.dir}/sfdc_build" target="clean" inheritAll="false"/>
-		<delete dir="${dependency.dir}/Cordova.framework" />
+		<delete dir="${dependency.dir}/Cordova" />
     </target>
     
     <!-- dependency: openssl -->

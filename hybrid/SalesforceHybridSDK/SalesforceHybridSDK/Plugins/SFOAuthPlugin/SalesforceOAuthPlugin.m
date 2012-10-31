@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cordova/NSMutableArray+QueueAdditions.h>
-#import <Cordova/CDVPluginResult.h>
+#import "NSMutableArray+QueueAdditions.h"
+#import "CDVPluginResult.h"
 
 #import "SalesforceOAuthPlugin.h"
 #import "CDVPlugin+SFAdditions.h"

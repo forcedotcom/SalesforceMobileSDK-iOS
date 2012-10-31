@@ -32,8 +32,8 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
-#import <Cordova/CDVURLProtocol.h>
-#import <Cordova/CDVCommandDelegate.h>
+#import "CDVURLProtocol.h"
+#import "CDVCommandDelegate.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.4.0";
