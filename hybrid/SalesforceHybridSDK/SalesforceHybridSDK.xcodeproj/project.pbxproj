@@ -408,11 +408,16 @@
 		828E7B7B1641E22B00F8D8AF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		828E7B7C1641E23A00F8D8AF /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
 		828E7B7D1641E24B00F8D8AF /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
-		828E7B7F1641E28800F8D8AF /* cordova-2.2.0.js in Sources */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
 		828E7B831641E2A000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
 		828E7B841641E2AE00F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
 		828E7B851641E2C000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
 		828E7B861641E30B00F8D8AF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
+		828E7BAC1641FA9200F8D8AF /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		828E7BB31642003100F8D8AF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
+		828E7BB51642004E00F8D8AF /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
+		828E7BB6164202FD00F8D8AF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
+		828E7BBB1642044C00F8D8AF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
 		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
 		82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
 		82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */; };
@@ -2312,7 +2317,6 @@
 				82599EE115EC284000AAACF7 /* SFSmartStoreDatabaseManager.m in Sources */,
 				4FA1DA48162C821A00BC1B52 /* SFSDKInfoPlugin.m in Sources */,
 				4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
-				828E7B7F1641E28800F8D8AF /* cordova-2.2.0.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2341,6 +2345,12 @@
 				828E7B7C1641E23A00F8D8AF /* SFPasscodeViewController.m in Sources */,
 				828E7B7D1641E24B00F8D8AF /* FMResultSet.m in Sources */,
 				828E7B861641E30B00F8D8AF /* SFSmartStorePlugin.m in Sources */,
+				828E7BAC1641FA9200F8D8AF /* NSURL+SFStringUtils.m in Sources */,
+				828E7BB31642003100F8D8AF /* SalesforceOAuthPlugin.m in Sources */,
+				828E7BB51642004E00F8D8AF /* SFUserActivityMonitor.m in Sources */,
+				828E7BB6164202FD00F8D8AF /* CDVPlugin+SFAdditions.m in Sources */,
+				828E7BBB1642044C00F8D8AF /* SFSDKInfoPlugin.m in Sources */,
+				828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

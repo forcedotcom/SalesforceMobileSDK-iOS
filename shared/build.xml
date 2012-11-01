@@ -2,6 +2,7 @@
     <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
     <dirname property="iOSCommon.basedir" file="${ant.file.iOSShared}/../common/build/tools" />
     <property name="iOSShared.distdir" location="${iOSShared.basedir}/../dist"/>
+    <property name="iOSShared.cdv.js.version" value="2.2.0" />
     
     <!--[target] compress: 
      Compress the given contents in a way that plays nice with Apple's iTunesConnect.

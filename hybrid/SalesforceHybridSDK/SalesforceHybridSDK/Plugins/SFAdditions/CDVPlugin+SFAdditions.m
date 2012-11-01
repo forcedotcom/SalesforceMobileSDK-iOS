@@ -67,7 +67,8 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 }
 
 #pragma mark - Callback id extraction
--(NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments
+
+- (NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments
 {
     NSString* callbackId = nil;
     if ([arguments count] >= 1) {

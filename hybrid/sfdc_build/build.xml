@@ -118,7 +118,7 @@
         </copy>
         
         <!-- iOS-specific hybrid artifacts for the template. -->
-        <copy file="${dependency.dir}/Cordova.framework/www/cordova-1.8.1.js" todir="${xcodetemplate.www.dir}" />
+        <copy file="${xcodetemplate.ios.hybridcommon.dir}/cordova-${iOSShared.cdv.js.version}.js" todir="${xcodetemplate.www.dir}" />
         <copy todir="${xcodetemplate.dir}/CordovaResources.bundle">
 			<fileset dir="${xcodetemplate.ios.hybridcommon.dir}/CordovaResources.bundle" />
 		</copy>

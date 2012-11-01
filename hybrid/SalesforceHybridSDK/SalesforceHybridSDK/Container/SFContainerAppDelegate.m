@@ -102,9 +102,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
-        
-        // Cordova
-        [CDVURLProtocol registerURLProtocol];
     }
     return self;
 }
@@ -128,7 +125,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [SFLogger setLogLevel:self.appLogLevel];
     
-    // Cordova
+    // Cordova.  NB: invokeString is deprecated in Cordova 2.2.  We will ditch it when they do.
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     if (url && [url isKindOfClass:[NSURL class]]) {
         _invokeString = [url absoluteString];
@@ -181,8 +178,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self.viewController loadStartPageIntoWebView];
-//            [self resetUi];
+            [self resetUi];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
@@ -337,8 +333,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [defs synchronize];
     
     if (restartAuthentication)
-        [self.viewController loadStartPageIntoWebView];
-//        [self resetUi];
+        [self resetUi];
 }
 
 + (void)removeCookies

@@ -14,14 +14,13 @@
     <property id="SDK" name="SDK" value="Latest"/>
 
     <property id="target.name" name="target.name" value="${ant.project.name}" />
-    <property name="cdv.js.version" value="2.2.0" />
     <property name="cdv.repo.dir" location="../incubator-cordova-ios" />
     <property name="project.dir" location="${cdv.repo.dir}/CordovaLib" />
     <property name="cdv.js.src.dir" location="${cdv.repo.dir}/bin/templates/project/www" />
     <property name="project.build_output.dir" location="${project.dir}/build" />
     <property name="artifacts.dir" location="./artifacts" />
     <property name="dist.dir" location="${iOSShared.distdir}/Cordova" />
-    <property name="cdv.js.dest.file" location="${iOSShared.basedir}/hybrid/cordova-${cdv.js.version}.js" />
+    <property name="cdv.js.dest.file" location="${iOSShared.basedir}/hybrid/cordova-${iOSShared.cdv.js.version}.js" />
 
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
