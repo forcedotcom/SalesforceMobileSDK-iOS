@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin.h"
 
 
 @interface CDVPlugin (SFAdditions)

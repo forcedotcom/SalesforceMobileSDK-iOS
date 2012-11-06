@@ -25,10 +25,11 @@
 #import <Foundation/Foundation.h>
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
-#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin.h"
 
 @class SFContainerAppDelegate;
 @class SFIdentityData;
+@class SFAuthorizingViewController;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
@@ -86,6 +87,11 @@
  while the app is running.
  */
 @property (nonatomic, assign) BOOL autoRefreshPeriodically;
+
+/**
+ The view controller used to present the authentication dialog.
+ */
+@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

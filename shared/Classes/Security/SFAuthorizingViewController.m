@@ -53,7 +53,7 @@
 - (void)setOauthView:(UIView *)oauthView {
     if (![oauthView isEqual:_oauthView]) {
         [_oauthView removeFromSuperview];
-        [_oauthView release];
+        [_oauthView release]; _oauthView = nil;
         _oauthView = [oauthView retain];
         
         if (nil != _oauthView) {

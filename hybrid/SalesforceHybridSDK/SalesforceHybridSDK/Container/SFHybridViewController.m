@@ -45,6 +45,13 @@
  */
 - (NSString *)startPageUrlString;
 
+/**
+ * The Cordova view doesn't resize properly when a modal view controller gets dismissed.
+ * This method seeks to "manually" correct that, until we can figure out what's going wrong in
+ * Cordova itself.
+ */
+- (CGRect)rationalizeViewFrame;
+
 @end
 
 @implementation SFHybridViewController
@@ -65,15 +72,31 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // Make sure the view uses the entire application frame.  User's app can override this
-    // behavior if he/she wants to change the footprint of the hybrid UI.
-    UIView *rootView =[[[[UIApplication sharedApplication] keyWindow] rootViewController] view];
-    CGRect webViewFrame = [[[rootView subviews] objectAtIndex:0] frame];  // first subview is the UIWebView
-    if (CGRectEqualToRect(webViewFrame, CGRectZero)) { // UIWebView is sized according to its parent, here it hasn't been sized yet
-        self.view.frame = [[UIScreen mainScreen] applicationFrame]; // size UIWebView's parent according to application frame, which will in turn resize the UIWebView
+    CGRect viewFrame = [self rationalizeViewFrame];
+    self.view.frame = viewFrame;
+    [super viewWillAppear:animated];
+}
+
+- (CGRect)rationalizeViewFrame
+{
+    CGRect viewFrame = [[UIScreen mainScreen] applicationFrame];
+    switch ([[UIApplication sharedApplication] statusBarOrientation]) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            if (viewFrame.size.width < viewFrame.size.height) {
+                viewFrame = CGRectMake(viewFrame.origin.y, viewFrame.origin.x, viewFrame.size.height, viewFrame.size.width);
+            }
+            break;
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            if (viewFrame.size.width > viewFrame.size.height) {
+                viewFrame = CGRectMake(viewFrame.origin.y, viewFrame.origin.x, viewFrame.size.height, viewFrame.size.width);
+            }
+        default:
+            break;
     }
     
-    [super viewWillAppear:animated];
+    return viewFrame;
 }
 
 #pragma mark - UIWebViewDelegate

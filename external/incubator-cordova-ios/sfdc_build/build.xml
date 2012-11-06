@@ -14,9 +14,13 @@
     <property id="SDK" name="SDK" value="Latest"/>
 
     <property id="target.name" name="target.name" value="${ant.project.name}" />
-    <property name="project.dir" location="../incubator-cordova-ios/CordovaLib" />
+    <property name="cdv.repo.dir" location="../incubator-cordova-ios" />
+    <property name="project.dir" location="${cdv.repo.dir}/CordovaLib" />
+    <property name="cdv.js.src.dir" location="${cdv.repo.dir}/bin/templates/project/www" />
+    <property name="project.build_output.dir" location="${project.dir}/build" />
     <property name="artifacts.dir" location="./artifacts" />
     <property name="dist.dir" location="${iOSShared.distdir}/Cordova" />
+    <property name="cdv.js.dest.file" location="${iOSShared.basedir}/hybrid/cordova-${iOSShared.cdv.js.version}.js" />
 
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
@@ -34,33 +38,66 @@
     </target>
 
    <target name="build">
-	<antcall target="compileRelease" />
+       <antcall target="compileRelease" />
    </target>
 	
-    <target name="compileRelease" depends="pre" >
+    <target name="compileRelease" depends="pre">
         <property name="configuration" value="${configuration.release}" />
         <property name="dist.file" value="Cordova-${configuration}.zip" />
+        <property name="cdv.lib.name" value="libCordova.a" />
+        
+        <!-- Device -->
         <antcall target="iOSShared.compile">
             <param name="install_path" value="${artifacts.dir}/${target.name}"/>
             <param name="configuration" value="${configuration}"/>
             <param name="sdk" refid="platform.iphoneos"/>
-            <param name="target" value="UniversalFramework"/>
+            <param name="target" value="CordovaLib"/>
             <param name="action" value="install"/>
         </antcall>
-		<antcall target="iOSShared.compress">
-            <param name="destfile" value="${artifacts.dir}/${dist.file}"/>
-            <param name="basedir" value="${project.dir}/build/Release-universal/Cordova.framework"/>
+        <move file="${project.build_output.dir}/UninstalledProducts" tofile="${artifacts.dir}/Cordova" />
+        
+        <!-- Simulator -->
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/${target.name}"/>
+            <param name="configuration" value="${configuration}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="CordovaLib"/>
+            <param name="action" value="install"/>
         </antcall>
+        <move file="${project.build_output.dir}/UninstalledProducts" tofile="${artifacts.dir}/Cordova-Simulator" />
+        
+        <!-- Lipo device and simulator libraries -->
+        <antcall target="iOSShared.lipo">
+            <param name="libname" value="${cdv.lib.name}"/>
+            <param name="device" value="${artifacts.dir}/Cordova/${cdv.lib.name}"/>
+            <param name="simulator" value="${artifacts.dir}/Cordova-Simulator/${cdv.lib.name}"/>
+        </antcall>
+        
+        <antcall target="iOSShared.compress">
+            <param name="destfile" value="${artifacts.dir}/${dist.file}"/>
+            <param name="basedir" value="${artifacts.dir}/Cordova"/>
+        </antcall>
+        
 		<move todir="${dist.dir}">
 		  <filelist dir="${artifacts.dir}">
 		    <file name="${dist.file}"/>
 		  </filelist>
 		</move>
+        
+        <!-- Copy the JS file to a common location. -->
+        <path id="cdv.js.file.path">
+            <fileset dir="${cdv.js.src.dir}">
+                <include name="cordova-*.js"/>
+            </fileset>
+        </path>
+        <echo>Copying ${toString:cdv.js.file.path} to ${cdv.js.dest.file}</echo>
+        <copy file="${toString:cdv.js.file.path}" tofile="${cdv.js.dest.file}" />
     </target>
-
+    
     <target name="clean">
-		<delete dir="${project.dir}/build" />
+		<delete dir="${project.build_output.dir}" />
         <delete dir="${artifacts.dir}"/>
         <delete dir="${dist.dir}"/>
+        <delete file="${cdv.js.dest.file}" />
     </target>
 </project>
