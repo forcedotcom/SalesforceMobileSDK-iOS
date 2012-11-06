@@ -229,10 +229,16 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)resetUi
 {
-    [self.viewController.view removeFromSuperview];
-    self.viewController.view = nil;
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resetUi];
+        });
+        return;
+    }
+    
+    self.viewController = nil;
+    [self.window.rootViewController dismissViewControllerAnimated:NO completion:NULL];  // If the auth view is presented.
     self.window.rootViewController = nil;
-    SFRelease(_viewController);
     
     [self setupViewController];
 }
@@ -244,13 +250,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)setupViewController
 {
-    CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
     [self configureHybridViewController];
-    self.viewController.useSplashScreen = YES;
+    self.viewController.useSplashScreen = NO;
     self.viewController.wwwFolderName = @"www";
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
-    self.viewController.view.frame = viewBounds;
     
     self.window.rootViewController = self.viewController;
 }

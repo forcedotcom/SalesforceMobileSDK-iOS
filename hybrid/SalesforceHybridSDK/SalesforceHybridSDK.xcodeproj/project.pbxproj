@@ -424,6 +424,8 @@
 		82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
+		82CD5BEE164823600070BD3D /* SFAuthorizingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */; };
+		82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
@@ -859,6 +861,8 @@
 		82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSecurityLockout+Internal.h"; path = "../../../shared/Classes/Security/SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
 		82B9FD1615E45C7600BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAuthorizingViewController.h; path = ../../../shared/Classes/Security/SFAuthorizingViewController.h; sourceTree = "<group>"; };
+		82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthorizingViewController.m; path = ../../../shared/Classes/Security/SFAuthorizingViewController.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
@@ -1463,6 +1467,8 @@
 			children = (
 				822AC0BA1577EF57007C20B9 /* SFAccountManager.h */,
 				822AC0BB1577EF57007C20B9 /* SFAccountManager.m */,
+				82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */,
+				82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */,
 				82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */,
 				82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */,
 				822AC0BC1577EF57007C20B9 /* SFPasscodeViewController.h */,
@@ -1858,6 +1864,7 @@
 				828E7B5E1641DF9500F8D8AF /* NSDictionary+Extensions.h in Headers */,
 				828E7B5F1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h in Headers */,
 				828E7B601641DF9500F8D8AF /* UIDevice+Extensions.h in Headers */,
+				82CD5BEE164823600070BD3D /* SFAuthorizingViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2317,6 +2324,7 @@
 				82599EE115EC284000AAACF7 /* SFSmartStoreDatabaseManager.m in Sources */,
 				4FA1DA48162C821A00BC1B52 /* SFSDKInfoPlugin.m in Sources */,
 				4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

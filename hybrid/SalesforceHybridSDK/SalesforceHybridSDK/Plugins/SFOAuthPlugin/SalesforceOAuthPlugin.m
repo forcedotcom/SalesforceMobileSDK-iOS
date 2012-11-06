@@ -36,6 +36,7 @@
 #import "SFSecurityLockout.h"
 #import "SFUserActivityMonitor.h"
 #import "SFOAuthInfo.h"
+#import "SFAuthorizingViewController.h"
 
 // ------------------------------------------
 // Private constants
@@ -118,6 +119,20 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 - (void)logout:(BOOL)restartAuthentication;
 
 /**
+ Method to present the authorizing view controller with the given auth webView.
+ @param webView The auth webView to present.
+ */
+- (void)presentAuthViewController:(UIWebView *)webView;
+
+/**
+ Dismisses the auth view controller, taking the dismissal action once the view has
+ been dismissed.
+ @param postDismissalAction The selector representing the action to take once the view
+ has been dismissed.
+ */
+- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction;
+
+/**
  Periodic check for auto refresh
  */
 - (void)startSessionAutoRefreshTimer;
@@ -140,6 +155,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 @synthesize lastRefreshCompleted = _lastRefreshCompleted;
 @synthesize autoRefreshOnForeground = _autoRefreshOnForeground;
 @synthesize autoRefreshPeriodically = _autoRefreshPeriodically;
+@synthesize authViewController = _authViewController;
 
 #pragma mark - init/dealloc
 
@@ -176,6 +192,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     SFRelease(_oauthRedirectURI);
     SFRelease(_oauthLoginDomain);
     SFRelease(_oauthScopes);
+    [self.authViewController.presentingViewController dismissViewControllerAnimated:NO completion:NULL];
+    SFRelease(_authViewController);
     
     [super dealloc];
 }
@@ -514,6 +532,44 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     _isInitialLogin = NO;
 }
 
+- (void)presentAuthViewController:(UIWebView *)webView
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentAuthViewController:webView];
+        });
+        return;
+    }
+    
+    // TODO: This is another NIB file that's delivered as part of the app templates, and should be
+    // moved into a bundle (along with the root vc NIB file mentioned above.
+    NSLog(@"Presenting auth view controller.");
+    self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    [self.authViewController setOauthView:webView];
+    [self.viewController presentViewController:self.authViewController animated:YES completion:NULL];
+}
+
+- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self dismissAuthViewControllerIfPresent:postDismissalAction];
+        });
+        return;
+    }
+    
+    if (self.authViewController != nil) {
+        NSLog(@"Dismissing the auth view controller.");
+        [self.authViewController.presentingViewController dismissViewControllerAnimated:YES
+                                                           completion:^{
+                                                               self.authViewController = nil;
+                                                               [self performSelector:postDismissalAction];
+                                                           }];
+    } else {
+        [self performSelector:postDismissalAction];
+    }
+}
+
 - (void)populateOAuthProperties:(NSString *)propsJsonString
 {
     NSDictionary *propsDict = [SFJsonUtils objectFromJSONString:propsJsonString];
@@ -592,14 +648,13 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
     _isInitialLogin = YES;
-    [_appDelegate addOAuthViewToMainView:view];
+    [self presentAuthViewController:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, authInfo: %@", coordinator.credentials.userId, info);
-    [coordinator.view removeFromSuperview];
-    [self loggedIn];
+    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info);
+    [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
@@ -648,7 +703,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     if (alertView == _statusAlert) {
         NSLog(@"clickedButtonAtIndex: %d",buttonIndex);
         if (alertView.tag == kOAuthAlertViewTag) {
-            [self login];    
+            [self dismissAuthViewControllerIfPresent:@selector(login)];
         } else if (alertView.tag == kIdentityAlertViewTag) {
             [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
         }
