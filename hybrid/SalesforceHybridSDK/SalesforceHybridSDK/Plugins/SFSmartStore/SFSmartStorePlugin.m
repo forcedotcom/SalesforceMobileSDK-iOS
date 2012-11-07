@@ -31,7 +31,7 @@
 #import "SFSoupCursor.h"
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
-#import <Cordova/CDVPluginResult.h>
+#import "CDVPluginResult.h"
 
 //NOTE: must match value in Cordova.plist file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";

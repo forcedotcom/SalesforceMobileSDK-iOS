@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 // From Cordova.framework
-#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin.h"
 
 
 extern NSString * const kSFTestRunnerPluginName;

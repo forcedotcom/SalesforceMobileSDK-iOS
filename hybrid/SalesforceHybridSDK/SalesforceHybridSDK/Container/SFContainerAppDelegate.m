@@ -32,8 +32,8 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
-#import <Cordova/CDVURLProtocol.h>
-#import <Cordova/CDVCommandDelegate.h>
+#import "CDVURLProtocol.h"
+#import "CDVCommandDelegate.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"1.4.0";
@@ -102,9 +102,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
-        
-        // Cordova
-        [CDVURLProtocol registerURLProtocol];
     }
     return self;
 }
@@ -128,7 +125,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [SFLogger setLogLevel:self.appLogLevel];
     
-    // Cordova
+    // Cordova.  NB: invokeString is deprecated in Cordova 2.2.  We will ditch it when they do.
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     if (url && [url isKindOfClass:[NSURL class]]) {
         _invokeString = [url absoluteString];
@@ -181,8 +178,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self.viewController loadStartPageIntoWebView];
-//            [self resetUi];
+            [self resetUi];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
@@ -233,10 +229,16 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)resetUi
 {
-    [self.viewController.view removeFromSuperview];
-    self.viewController.view = nil;
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resetUi];
+        });
+        return;
+    }
+    
+    self.viewController = nil;
+    [self.window.rootViewController dismissViewControllerAnimated:NO completion:NULL];  // If the auth view is presented.
     self.window.rootViewController = nil;
-    SFRelease(_viewController);
     
     [self setupViewController];
 }
@@ -248,13 +250,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)setupViewController
 {
-    CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
     [self configureHybridViewController];
-    self.viewController.useSplashScreen = YES;
+    self.viewController.useSplashScreen = NO;
     self.viewController.wwwFolderName = @"www";
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
-    self.viewController.view.frame = viewBounds;
     
     self.window.rootViewController = self.viewController;
 }
@@ -337,8 +337,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [defs synchronize];
     
     if (restartAuthentication)
-        [self.viewController loadStartPageIntoWebView];
-//        [self resetUi];
+        [self resetUi];
 }
 
 + (void)removeCookies
