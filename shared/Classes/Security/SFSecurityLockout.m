@@ -111,7 +111,10 @@ static BOOL _showPasscode = YES;
             // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
         }
 		[SFSecurityLockout unlock:YES];
-		[[SFPasscodeManager sharedManager] resetPasscode];
+        
+        //Call setPassword to trigger extra clean up logic
+		[SFSecurityLockout setPasscode:nil];
+        
 		[SFInactivityTimerCenter removeTimer:kTimerSecurity];
 	} else { 
 		if (![SFSecurityLockout isPasscodeValid]) {
@@ -368,6 +371,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     NSString *newHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
     if (newHashedPasscode == nil) newHashedPasscode = @"";
+    
+    if (![oldHashedPasscode isEqualToString:newHashedPasscode]) {
+        //Passcode changed, post the notification
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:oldHashedPasscode, SFPasscodeResetOldPasscodeKey, newHashedPasscode, SFPasscodeResetNewPasscodeKey, nil]];
+    }
     
     [SFSmartStore changeKeyForStores:oldHashedPasscode newKey:newHashedPasscode];
 }

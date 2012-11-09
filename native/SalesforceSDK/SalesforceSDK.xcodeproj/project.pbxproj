@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1009022B164D7BA300B39A53 /* NSMutableAttributedString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 10090225164D7BA300B39A53 /* NSMutableAttributedString+SFAdditions.h */; };
+		1009022C164D7BA300B39A53 /* NSURL+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 10090226164D7BA300B39A53 /* NSURL+SFAdditions.h */; };
+		1009022D164D7BA300B39A53 /* SalesforceCommonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 10090227164D7BA300B39A53 /* SalesforceCommonUtils.h */; };
+		1009022E164D7BA300B39A53 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 10090228164D7BA300B39A53 /* SFCrypto.h */; };
+		1009022F164D7BA300B39A53 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 10090229164D7BA300B39A53 /* SFInactivityTimerCenter.h */; };
+		10090230164D7BA300B39A53 /* SFUIUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1009022A164D7BA300B39A53 /* SFUIUtils.h */; };
 		4F028B75158FF03300F89AD4 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEB614EB2642004F241C /* SFSmartStore.m */; };
 		4F028B77158FF03600F89AD4 /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEB814EB2642004F241C /* SFSoupCursor.m */; };
 		4F028B78158FF03800F89AD4 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEBA14EB2642004F241C /* SFSoupIndex.m */; };
@@ -18,7 +24,6 @@
 		4F028B7E158FF04700F89AD4 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FBC1584049F00A01903 /* FMResultSet.m */; };
 		4F028B7F158FF04A00F89AD4 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECEC714EB2642004F241C /* SqliteAdditions.c */; };
 		4F028B80158FF0D700F89AD4 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
-		4F028B81158FF11800F89AD4 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */; };
 		4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822B2D20157D1B92001EB677 /* SFAccountManager.m */; };
 		4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
@@ -287,8 +292,6 @@
 		82B9FD1415E45BF400BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1315E45BF400BE8822 /* test_credentials.json */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
-		82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */; };
-		82FF1AD1155D8053007ADAF2 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
 		C26713C613D6B845001FE0B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713C513D6B845001FE0B8 /* UIKit.framework */; };
 		C26713C713D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -324,6 +327,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10090225164D7BA300B39A53 /* NSMutableAttributedString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+SFAdditions.h"; sourceTree = "<group>"; };
+		10090226164D7BA300B39A53 /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
+		10090227164D7BA300B39A53 /* SalesforceCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceCommonUtils.h; sourceTree = "<group>"; };
+		10090228164D7BA300B39A53 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
+		10090229164D7BA300B39A53 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		1009022A164D7BA300B39A53 /* SFUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUIUtils.h; sourceTree = "<group>"; };
 		4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreTests.m; sourceTree = "<group>"; };
 		4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreTests.h; sourceTree = "<group>"; };
 		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
@@ -606,8 +615,6 @@
 		82B9FD1315E45BF400BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
-		82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
-		82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26713BA13D6B845001FE0B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C26713BE13D6B845001FE0B8 /* SalesforceSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -911,8 +918,6 @@
 				8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */,
 				8207C82F155C4F000076916C /* SFApplication.h */,
 				8207C830155C4F000076916C /* SFApplication.m */,
-				82FF1ACE155D8053007ADAF2 /* SFInactivityTimerCenter.h */,
-				82FF1ACF155D8053007ADAF2 /* SFInactivityTimerCenter.m */,
 				82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */,
 				82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */,
 			);
@@ -949,6 +954,12 @@
 		82229B4415AA9D8F006D8266 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				10090225164D7BA300B39A53 /* NSMutableAttributedString+SFAdditions.h */,
+				10090226164D7BA300B39A53 /* NSURL+SFAdditions.h */,
+				10090227164D7BA300B39A53 /* SalesforceCommonUtils.h */,
+				10090228164D7BA300B39A53 /* SFCrypto.h */,
+				10090229164D7BA300B39A53 /* SFInactivityTimerCenter.h */,
+				1009022A164D7BA300B39A53 /* SFUIUtils.h */,
 				82229B4515AA9D8F006D8266 /* NSData+SFAdditions.h */,
 				82229B4615AA9D8F006D8266 /* NSDictionary+SFAdditions.h */,
 				82229B4715AA9D8F006D8266 /* NSObject+SFBlocks.h */,
@@ -1377,7 +1388,6 @@
 				7D8ECECF14EB2642004F241C /* SFSoupQuerySpec.h in Headers */,
 				7D8ECEDA14EB2642004F241C /* SqliteAdditions.h in Headers */,
 				82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */,
-				82FF1AD0155D8053007ADAF2 /* SFInactivityTimerCenter.h in Headers */,
 				8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */,
 				829EF7DE15629D33002F376C /* SFIdentityCoordinator+Internal.h in Headers */,
 				8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */,
@@ -1495,6 +1505,12 @@
 				8229960915FBFF4C0009A616 /* SFOAuthCoordinator.h in Headers */,
 				8229960A15FBFF4C0009A616 /* SFOAuthCredentials.h in Headers */,
 				8229960B15FBFF4C0009A616 /* SFOAuthInfo.h in Headers */,
+				1009022B164D7BA300B39A53 /* NSMutableAttributedString+SFAdditions.h in Headers */,
+				1009022C164D7BA300B39A53 /* NSURL+SFAdditions.h in Headers */,
+				1009022D164D7BA300B39A53 /* SalesforceCommonUtils.h in Headers */,
+				1009022E164D7BA300B39A53 /* SFCrypto.h in Headers */,
+				1009022F164D7BA300B39A53 /* SFInactivityTimerCenter.h in Headers */,
+				10090230164D7BA300B39A53 /* SFUIUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1627,7 +1643,6 @@
 				5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */,
 				8207C832155C4F000076916C /* SFApplication.m in Sources */,
 				82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */,
-				82FF1AD1155D8053007ADAF2 /* SFInactivityTimerCenter.m in Sources */,
 				8207C840155DB57A0076916C /* SFSecurityLockout.m in Sources */,
 				8200B1031561A38B006BAD3B /* SFPasscodeViewController.m in Sources */,
 				829EF7DD15629D33002F376C /* SFIdentityCoordinator.m in Sources */,
@@ -1675,7 +1690,6 @@
 				4F028B7E158FF04700F89AD4 /* FMResultSet.m in Sources */,
 				4F028B7F158FF04A00F89AD4 /* SqliteAdditions.c in Sources */,
 				4F028B80158FF0D700F89AD4 /* SFSecurityLockout.m in Sources */,
-				4F028B81158FF11800F89AD4 /* SFInactivityTimerCenter.m in Sources */,
 				4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */,
 				4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */,
 				82A9FF2215DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
