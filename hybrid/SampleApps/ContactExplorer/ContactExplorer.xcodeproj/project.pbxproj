@@ -40,6 +40,7 @@
 		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
 		7DBD07E6149AA98E0043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07E5149AA98E0043A9E0 /* www */; };
 		7DFBB72414C8963000D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */; };
+		820275F9165178B200DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F8165178B200DB814C /* MessageUI.framework */; };
 		82031D6D15B4E7CE00073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D6C15B4E7CE00073595 /* CordovaResources.bundle */; };
 		82031D6F15B4E7E900073595 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82031D6E15B4E7E900073595 /* Cordova.plist */; };
 		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
@@ -155,6 +156,7 @@
 		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD07E5149AA98E0043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		820275F8165178B200DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		82031D6C15B4E7CE00073595 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		82031D6E15B4E7E900073595 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Cordova.plist; path = ../../../../shared/hybrid/Cordova.plist; sourceTree = "<group>"; };
 		826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
 				7D72612214C74DAC00CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
+				820275F9165178B200DB814C /* MessageUI.framework in Frameworks */,
 				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
 				7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */,
 				7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */,
@@ -245,6 +248,7 @@
 				7D72612114C74DAC00CFD63C /* libsqlite3.dylib */,
 				82707BFF157C498B00B50291 /* libz.dylib */,
 				7DBD0760149AA9620043A9E0 /* Foundation.framework */,
+				820275F8165178B200DB814C /* MessageUI.framework */,
 				7DBD0762149AA9620043A9E0 /* UIKit.framework */,
 				7DBD0764149AA9620043A9E0 /* CFNetwork.framework */,
 				7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */,
