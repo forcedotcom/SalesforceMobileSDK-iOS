@@ -1572,6 +1572,18 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</key>
 	<dict>
@@ -1608,6 +1620,30 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</key>
 	<dict>
@@ -1619,6 +1655,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</key>
@@ -1667,6 +1715,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</key>
@@ -1763,6 +1823,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</key>
@@ -2069,14 +2141,19 @@
 
 	<string>dependencies/SalesforceCommonUtils/Headers/NSData+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFDeviceInfo.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFEncryptionManager.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFLogger.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFMD5.h</string>
@@ -2085,6 +2162,7 @@
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIAlertView+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIBarButtonItem+SFAddtions.h</string>
@@ -2185,6 +2263,7 @@
     <key>Frameworks</key>
     <array>
         <string>CoreData</string>
+        <string>MessageUI</string>
         <string>QuartzCore</string>
         <string>SystemConfiguration</string>
         <string>Security</string>
