@@ -22,7 +22,7 @@
 		4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
 		4F9EF4FC158FED9300E35E90 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */; };
-		4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEB514EB2642004F241C /* SFSmartStore.h */; };
+		4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEB514EB2642004F241C /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
@@ -136,7 +136,7 @@
 		7DD88EF414DA07D000C0D0A0 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */; };
 		8200B1021561A38B006BAD3B /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8200B1001561A38B006BAD3B /* SFPasscodeViewController.h */; };
 		8200B1031561A38B006BAD3B /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
-		8201F34B15DEED4000976EC3 /* SFSmartStoreDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */; };
+		8201F34B15DEED4000976EC3 /* SFSmartStoreDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F34915DEED4000976EC3 /* SFSmartStoreDatabaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */; };
 		8201F34D15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F34A15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m */; };
 		820275AB165170F700DB814C /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202758C165170F700DB814C /* NSData+SFAdditions.h */; };
@@ -182,7 +182,7 @@
 		82289FC01584049F00A01903 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FB61584049F00A01903 /* FMDatabaseAdditions.m */; };
 		82289FC11584049F00A01903 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 82289FB71584049F00A01903 /* FMDatabasePool.h */; };
 		82289FC21584049F00A01903 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FB81584049F00A01903 /* FMDatabasePool.m */; };
-		82289FC31584049F00A01903 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 82289FB91584049F00A01903 /* FMDatabaseQueue.h */; };
+		82289FC31584049F00A01903 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 82289FB91584049F00A01903 /* FMDatabaseQueue.h */; settings = {ATTRIBUTES = (); }; };
 		82289FC41584049F00A01903 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FBA1584049F00A01903 /* FMDatabaseQueue.m */; };
 		82289FC51584049F00A01903 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 82289FBB1584049F00A01903 /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82289FC61584049F00A01903 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 82289FBC1584049F00A01903 /* FMResultSet.m */; };
