@@ -84,7 +84,7 @@ NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey"
 
 
 // Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
-NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey";
 
 static NSMutableDictionary *AccountManagerDict;
 static NSString *CurrentAccountIdentifier;
