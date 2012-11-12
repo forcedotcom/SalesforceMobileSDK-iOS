@@ -176,19 +176,6 @@
 	</dict>
 	
 	
-	<!-- libsqlite is required by some SmartStore classes currently -->
-	<key>dependencies/libsqlite3.dylib</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-		</array>
-		<key>Path</key>
-		<string>/usr/lib/libsqlite3.dylib</string>
-		<key>PathType</key>
-		<string>CurrentSDK</string>
-	</dict>
-
 	<!-- libz is required by NSData extensions currently -->
 	<key>dependencies/libz.dylib</key>
 	<dict>
@@ -1909,6 +1896,155 @@
 		<string>dependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a</string>
 	</dict>
 
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</string>
+	</dict>
+
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+	</dict>
+
+
+	<key>dependencies/sqlcipher/libsqlcipher.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>sqlcipher</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/sqlcipher/libsqlcipher.a</string>
+	</dict>
+
+	<key>dependencies/sqlcipher/LICENSE</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>sqlcipher</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/sqlcipher/LICENSE</string>
+	</dict>
+
+	<key>dependencies/openssl/libcrypto.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/libcrypto.a</string>
+	</dict>
+
+	<key>dependencies/openssl/libssl.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/libssl.a</string>
+	</dict>
+
+	<key>dependencies/openssl/openssl_license.txt</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/openssl_license.txt</string>
+	</dict>
+
+
 	<key>Resources/icons/icon-72.png</key>
 	<dict>
 		<key>Group</key>			
@@ -2190,6 +2326,19 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+	<string>dependencies/sqlcipher/libsqlcipher.a</string>
+	<string>dependencies/sqlcipher/LICENSE</string>
+	<string>dependencies/openssl/libcrypto.a</string>
+	<string>dependencies/openssl/libssl.a</string>
+	<string>dependencies/openssl/openssl_license.txt</string>
+
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon-72@2x.png</string>
 	<string>Resources/icons/icon.png</string>
@@ -2225,7 +2374,6 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
-	<string>dependencies/libsqlite3.dylib</string>
 	<string>dependencies/libz.dylib</string>
 	
 
