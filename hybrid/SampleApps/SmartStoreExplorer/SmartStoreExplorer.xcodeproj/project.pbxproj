@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
 		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
@@ -116,6 +117,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		825071F315C3513E00F3A529 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -182,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */,
+				820276071651792100DB814C /* MessageUI.framework in Frameworks */,
 				825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */,
 				825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */,
 				825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */,
@@ -226,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				825071F115C3513E00F3A529 /* Foundation.framework */,
+				820276061651792100DB814C /* MessageUI.framework */,
 				825071F315C3513E00F3A529 /* UIKit.framework */,
 				825071F515C3513E00F3A529 /* CFNetwork.framework */,
 				825071F715C3513E00F3A529 /* CoreGraphics.framework */,
