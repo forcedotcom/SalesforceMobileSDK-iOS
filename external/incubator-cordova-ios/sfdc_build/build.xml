@@ -16,10 +16,10 @@
     <property id="target.name" name="target.name" value="${ant.project.name}" />
     <property name="cdv.repo.dir" location="../incubator-cordova-ios" />
     <property name="project.dir" location="${cdv.repo.dir}/CordovaLib" />
-    <property name="cdv.js.src.dir" location="${cdv.repo.dir}/bin/templates/project/www" />
     <property name="project.build_output.dir" location="${project.dir}/build" />
     <property name="artifacts.dir" location="./artifacts" />
     <property name="dist.dir" location="${iOSShared.distdir}/Cordova" />
+    <property name="cdv.js.src.file" location="${project.dir}/cordova.ios.js" />
     <property name="cdv.js.dest.file" location="${iOSShared.basedir}/hybrid/cordova-${iOSShared.cdv.js.version}.js" />
 
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
@@ -85,13 +85,8 @@
 		</move>
         
         <!-- Copy the JS file to a common location. -->
-        <path id="cdv.js.file.path">
-            <fileset dir="${cdv.js.src.dir}">
-                <include name="cordova-*.js"/>
-            </fileset>
-        </path>
-        <echo>Copying ${toString:cdv.js.file.path} to ${cdv.js.dest.file}</echo>
-        <copy file="${toString:cdv.js.file.path}" tofile="${cdv.js.dest.file}" />
+        <echo>Copying ${cdv.js.src.file} to ${cdv.js.dest.file}</echo>
+        <copy file="${cdv.js.src.file}" tofile="${cdv.js.dest.file}" />
     </target>
     
     <target name="clean">

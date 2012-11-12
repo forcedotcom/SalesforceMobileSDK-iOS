@@ -45,13 +45,6 @@
  */
 - (NSString *)startPageUrlString;
 
-/**
- * The Cordova view doesn't resize properly when a modal view controller gets dismissed.
- * This method seeks to "manually" correct that, until we can figure out what's going wrong in
- * Cordova itself.
- */
-- (CGRect)rationalizeViewFrame;
-
 @end
 
 @implementation SFHybridViewController
@@ -66,37 +59,6 @@
     }
     
     return self;
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    CGRect viewFrame = [self rationalizeViewFrame];
-    self.view.frame = viewFrame;
-    [super viewWillAppear:animated];
-}
-
-- (CGRect)rationalizeViewFrame
-{
-    CGRect viewFrame = [[UIScreen mainScreen] applicationFrame];
-    switch ([[UIApplication sharedApplication] statusBarOrientation]) {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-            if (viewFrame.size.width < viewFrame.size.height) {
-                viewFrame = CGRectMake(viewFrame.origin.y, viewFrame.origin.x, viewFrame.size.height, viewFrame.size.width);
-            }
-            break;
-        case UIInterfaceOrientationPortrait:
-        case UIInterfaceOrientationPortraitUpsideDown:
-            if (viewFrame.size.width > viewFrame.size.height) {
-                viewFrame = CGRectMake(viewFrame.origin.y, viewFrame.origin.x, viewFrame.size.height, viewFrame.size.width);
-            }
-        default:
-            break;
-    }
-    
-    return viewFrame;
 }
 
 #pragma mark - UIWebViewDelegate
