@@ -374,6 +374,7 @@
 			<key>Frameworks</key>
 			<array>
 				<string>Foundation</string>
+				<string>MessageUI</string>
 				<string>UIKit</string>
 				<string>CFNetwork</string>
 				<string>CoreGraphics</string>

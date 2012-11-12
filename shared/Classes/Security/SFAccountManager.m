@@ -75,6 +75,17 @@ NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
 // account-specific information to ensure uniqueness across accounts.
 NSString * const kOAuthCredentialsDataKeyPrefix = @"oauth_credentials_data";
 
+
+// Notification that will be sent out when passcode is reset
+NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
+NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
 static NSMutableDictionary *AccountManagerDict;
 static NSString *CurrentAccountIdentifier;
 

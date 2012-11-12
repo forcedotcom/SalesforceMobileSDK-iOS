@@ -29,6 +29,23 @@
 @class SFOAuthCredentials;
 @class SFIdentityData;
 
+/** Notification that will be posted when passcode is reset. This notification will have userInfo populated with old hashed passcode stored with `SFPasscodeResetOldPasscodeKey` key and new hashed passcode stored with `SFPasscodeResetNewPasscodeKey` key
+*/
+extern NSString *const SFPasscodeResetNotification;
+
+/** Key in userInfo published by `SFPasscodeResetNotification`. 
+ 
+ The value of this key is the old hashed passcode before the passcode reset
+ */
+extern NSString *const SFPasscodeResetOldPasscodeKey;
+
+
+/** Key in userInfo published by `SFPasscodeResetNotification`.
+ 
+ The value of this key is the new hashed passcode that triggers the new passcode reset
+ */
+extern NSString *const SFPasscodeResetNewPasscodeKey;
+
 /**
  * Class used to manage a common account functions used across the app.
  */
