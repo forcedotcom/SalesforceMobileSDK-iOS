@@ -203,6 +203,15 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 #pragma mark - Cordova plugin methods
 
+- (void)killSession:(CDVInvokedUrlCommand *)command
+{
+    NSLog(@"Killing the session.  Callback ID: %@", command.callbackId);
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self writeJavascript:[result toSuccessCallbackString:command.callbackId]];
+}
+
 
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
 {

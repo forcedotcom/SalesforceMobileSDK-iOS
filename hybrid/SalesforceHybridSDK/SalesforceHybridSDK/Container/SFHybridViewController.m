@@ -63,6 +63,12 @@
 
 #pragma mark - UIWebViewDelegate
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+{
+    NSLog(@"webView:shouldStartLoadWithRequest: Loading URL '%@'", request.URL.absoluteString);
+    return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView 
 {
     NSURL *requestUrl = theWebView.request.URL;
