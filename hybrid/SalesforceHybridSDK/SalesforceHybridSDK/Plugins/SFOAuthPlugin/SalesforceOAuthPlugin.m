@@ -24,6 +24,7 @@
 
 #import "NSMutableArray+QueueAdditions.h"
 #import "CDVPluginResult.h"
+#import "CDVInvokedUrlCommand.h"
 
 #import "SalesforceOAuthPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
@@ -37,6 +38,7 @@
 #import "SFUserActivityMonitor.h"
 #import "SFOAuthInfo.h"
 #import "SFAuthorizingViewController.h"
+#import "NSDictionary+SFAdditions.h"
 
 // ------------------------------------------
 // Private constants
@@ -89,8 +91,9 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 /**
  Converts the OAuth properties JSON input string into an object, and populates
  the OAuth properties of the plug-in with the values.
+ @param propsDict The NSDictionary containing the OAuth properties.
  */
-- (void)populateOAuthProperties:(NSString *)propsJsonString;
+- (void)populateOAuthProperties:(NSDictionary *)propsDict;
 
 /**
  Broadcast a document event to js that we've updated the Salesforce session.
@@ -201,11 +204,11 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 #pragma mark - Cordova plugin methods
 
 
-- (void)getAuthCredentials:(NSArray *)arguments withDict:(NSMutableDictionary *)options
+- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
 {
-    NSLog(@"getAuthCredentials:withDict: arguments: %@ options: %@",arguments,options);
-    NSString* callbackId = [self getCallbackId:@"getAuthCredentials" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:arguments];
+    NSLog(@"getAuthCredentials: arguments: %@", command.arguments);
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:command.arguments];
     NSDictionary *authDict = [self credentialsAsDictionary];
     
     if (nil != self.lastRefreshCompleted) {
@@ -220,14 +223,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
             [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
         } else {
-            [self authenticate:arguments withDict:nil];
+            [self authenticate:command];
         }
         
     } else {
         //If authdict is not nil and we have a refresh token then we can ask for a refresh.
         NSLog(@"We have not authenticated during app lifetime! ");
         if (nil != authDict) {
-            [self authenticate:arguments withDict:nil];
+            [self authenticate:command];
         } else {
             NSString *errorMessage = @"No auth info available.";
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -237,19 +240,19 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
 }
 
-- (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)authenticate:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"authenticate:withDict:");    
-    NSString* callbackId = [self getCallbackId:@"authenticate" withArguments:arguments];
+    NSLog(@"authenticate:");
+    NSString* callbackId = command.callbackId;
     _authCallbackId = [callbackId copy];
-    NSString* jsVersionStr = [self getVersion:@"authenticate" withArguments:arguments];
-
-    int argsStringIdx = (jsVersionStr ? 2 : 1);
-    NSString *argsString = ([arguments count] > argsStringIdx ? [arguments objectAtIndex:argsStringIdx] : nil);
-    //if we are refreshing, there will be no options: just reuse the known options
-    if (nil != argsString) {
+    /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSDictionary *oauthPropertiesDict = [argsDict nonNullObjectForKey:@"oauthProperties"];
+    
+    // If we are refreshing, there will be no options/properties: just reuse the known options.
+    if (nil != oauthPropertiesDict) {
         // Build the OAuth args from the JSON object string argument.
-        [self populateOAuthProperties:argsString];
+        [self populateOAuthProperties:oauthPropertiesDict];
         [SFAccountManager setClientId:self.remoteAccessConsumerKey];
         [SFAccountManager setRedirectUri:self.oauthRedirectURI];
         [SFAccountManager setScopes:self.oauthScopes];
@@ -258,18 +261,19 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     [self login];
 }
 
-- (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"logoutCurrentUser");
-    /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
     [self logout];
 }
 
-- (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
 {
-    NSLog(@"getAppHomeUrl:withDict:");
-    NSString* callbackId = [self getCallbackId:@"getAppHomeUrl" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:arguments];
+    NSLog(@"getAppHomeUrl:");
+    NSString* callbackId = command.callbackId;
+    
+    /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
     
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
@@ -570,10 +574,8 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     }
 }
 
-- (void)populateOAuthProperties:(NSString *)propsJsonString
+- (void)populateOAuthProperties:(NSDictionary *)propsDict
 {
-    NSDictionary *propsDict = [SFJsonUtils objectFromJSONString:propsJsonString];
-
     if (nil != propsDict) {
         self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
         self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];

@@ -30,6 +30,7 @@
 @class SFContainerAppDelegate;
 @class SFIdentityData;
 @class SFAuthorizingViewController;
+@class CDVInvokedUrlCommand;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
@@ -124,30 +125,26 @@
 
 /**
  * Cordova plug-in method to obtain the current login credentials, authenticating if needed.
- * @param arguments Cordova arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Cordova plugin command object, containing input parameters.
  */
-- (void)getAuthCredentials:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command;
 
 /**
  * Cordova plug-in method to authenticate a user to the application.
- * @param arguments Cordova arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Cordova plugin command object, containing the OAuth configuration properties.
  */
-- (void)authenticate:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)authenticate:(CDVInvokedUrlCommand *)command;
 
 /**
  * Clear the current user's authentication credentials.
- * @param arguments Standard Cordova plugin arguments, not used in this method.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Standard Cordova plugin arguments, not used in this method.
  */
-- (void)logoutCurrentUser:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command;
 
 /**
  * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
- * @param arguments Standard Cordova plugin arguments, nominally used in this method.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Standard Cordova plugin arguments, nominally used in this method.
  */
-- (void)getAppHomeUrl:(NSArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command;
 
 @end
