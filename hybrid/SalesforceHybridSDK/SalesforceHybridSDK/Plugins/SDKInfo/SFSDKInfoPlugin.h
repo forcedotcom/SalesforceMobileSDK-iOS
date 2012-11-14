@@ -25,9 +25,11 @@
 #import <Foundation/Foundation.h>
 #import "CDVPlugin.h"
 
+@class CDVInvokedUrlCommand;
+
 @interface SFSDKInfoPlugin : CDVPlugin
 
 #pragma mark - Plugin methods called from js
-- (void)getInfo:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)getInfo:(CDVInvokedUrlCommand *)command;
 
 @end

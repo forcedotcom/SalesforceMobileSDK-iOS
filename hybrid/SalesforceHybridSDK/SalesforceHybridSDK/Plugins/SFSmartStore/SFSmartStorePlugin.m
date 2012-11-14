@@ -32,6 +32,7 @@
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
 #import "CDVPluginResult.h"
+#import "CDVInvokedUrlCommand.h"
 
 //NOTE: must match value in Cordova.plist file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
@@ -113,12 +114,13 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 #pragma mark - SmartStore plugin methods
 
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgSoupExists:(CDVInvokedUrlCommand *)command
 {
     //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgSoupExists" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgSoupExists" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgSoupExists" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     
     BOOL exists = [self.store soupExists:soupName];
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:exists];
@@ -127,13 +129,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgSoupExists took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRegisterSoup:(CDVInvokedUrlCommand *)command
 {
     //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgRegisterSoup" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRegisterSoup" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
-    NSArray *indexes = [options nonNullObjectForKey:kIndexesArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRegisterSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexes = [argsDict nonNullObjectForKey:kIndexesArg];
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
@@ -147,12 +150,13 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgRegisterSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRemoveSoup:(CDVInvokedUrlCommand *)command
 {
 //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgRemoveSoup" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveSoup" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     
     [self.store removeSoup:soupName];
     
@@ -162,13 +166,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgRemoveSoup took: %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)pgQuerySoup:(CDVInvokedUrlCommand *)command
 {
     NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgQuerySoup" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgQuerySoup" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
-    NSDictionary *querySpec = [options nonNullObjectForKey:kQuerySpecArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgQuerySoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     
     SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
     NSLog(@"pgQuerySoup returning: %@",cursor);
@@ -185,13 +190,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     }
 }
 
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command
 {
     NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgRetrieveSoupEntries" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRetrieveSoupEntries" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
-    NSArray *rawIds = [options nonNullObjectForKey:kEntryIdsArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRetrieveSoupEntries" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *rawIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
     //make entry Ids unique
     NSSet *entryIdSet = [NSSet setWithArray:rawIds];
     NSArray *entryIds = [entryIdSet allObjects];
@@ -202,14 +208,15 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSLog(@"pgRetrieveSoupEntries in %f", [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgUpsertSoupEntries:(CDVInvokedUrlCommand *)command
 {
 //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgUpsertSoupEntries" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgUpsertSoupEntries" withArguments:arguments];
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
-    NSArray *entries = [options nonNullObjectForKey:kEntriesArg];
-    NSString *externalIdPath = [options nonNullObjectForKey:kExternalIdPathArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgUpsertSoupEntries" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *entries = [argsDict nonNullObjectForKey:kEntriesArg];
+    NSString *externalIdPath = [argsDict nonNullObjectForKey:kExternalIdPathArg];
     
     NSError *error = nil;
     NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
@@ -229,13 +236,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 //    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f",[entries count], [startTime timeIntervalSinceNow]);
 }
 
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgRemoveFromSoup:(CDVInvokedUrlCommand *)command
 {
 //    NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgRemoveFromSoup" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveFromSoup" withArguments:arguments];    
-    NSString *soupName = [options nonNullObjectForKey:kSoupNameArg];
-    NSArray *entryIds = [options nonNullObjectForKey:kEntryIdsArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveFromSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
     
     [self.store removeEntries:entryIds fromSoup:soupName];
     
@@ -246,11 +254,12 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
 }
 
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgCloseCursor:(CDVInvokedUrlCommand *)command
 {
-    NSString* callbackId = [self getCallbackId:@"pgCloseCursor" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:arguments];    
-    NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     
     [self closeCursorWithId:cursorId];
     
@@ -258,13 +267,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
-- (void)pgMoveCursorToPageIndex:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)pgMoveCursorToPageIndex:(CDVInvokedUrlCommand *)command
 {
     NSDate *startTime = [NSDate date];
-    NSString* callbackId = [self getCallbackId:@"pgMoveCursorToPageIndex" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"pgMoveCursorToPageIndex" withArguments:arguments];
-    NSString *cursorId = [options nonNullObjectForKey:kCursorIdArg];
-    NSNumber *newPageIndex = [options nonNullObjectForKey:kIndexArg];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgMoveCursorToPageIndex" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
+    NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
     NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
     
     SFSoupCursor *cursor = [self cursorByCursorId:cursorId];

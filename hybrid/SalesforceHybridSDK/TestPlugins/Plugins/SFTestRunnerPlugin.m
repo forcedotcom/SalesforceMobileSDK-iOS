@@ -24,6 +24,7 @@
 
 #import "SFTestRunnerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
+#import "CDVInvokedUrlCommand.h"
 
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
@@ -90,23 +91,24 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 #pragma mark - Plugin methods called from js
 
-- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)onReadyForTests:(CDVInvokedUrlCommand *)command
 {
-    NSString* callbackId = [self getCallbackId:@"onReadyForTests" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"onReadyForTests" withArguments:arguments];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"onReadyForTests" withArguments:command.arguments];
     [self writeCommandOKResultToJsRealm:callbackId];
 
     self.readyToStartTests = YES;
 }
 
-- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)onTestComplete:(CDVInvokedUrlCommand *)command
 {
-    NSString* callbackId = [self getCallbackId:@"onTestComplete" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:arguments];
-    NSString *testName = [options objectForKey:@"testName"];
-    BOOL success = [(NSNumber *)[options valueForKey:@"success"] boolValue];
-    NSString *message = [options valueForKey:@"message"];
-    NSDictionary *testStatus = [options valueForKey:@"testStatus"];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *testName = [argsDict objectForKey:@"testName"];
+    BOOL success = [[argsDict valueForKey:@"success"] boolValue];
+    NSString *message = [argsDict valueForKey:@"message"];
+    NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
     
     NSLog(@"testName: %@ success: %d message: %@",testName,success,message);
     if (!success) {
