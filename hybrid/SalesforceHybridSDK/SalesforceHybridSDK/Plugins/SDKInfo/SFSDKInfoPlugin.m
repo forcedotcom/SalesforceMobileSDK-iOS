@@ -24,6 +24,7 @@
 
 #import "SFSDKInfoPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
+#import "CDVInvokedUrlCommand.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 
@@ -40,7 +41,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
 
-@property(nonatomic, readonly) NSArray* forcePlugins;
+@property (nonatomic, readonly) NSArray *forcePlugins;
 
 + (NSArray*)getForcePluginsFromPList;
 + (NSDictionary*)getBundlePlist:(NSString *)plistName;
@@ -101,10 +102,10 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 #pragma mark - Plugin methods called from js
 
-- (void)getInfo:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)getInfo:(CDVInvokedUrlCommand *)command
 {
-    NSString* callbackId = [self getCallbackId:@"getInfo" withArguments:arguments];
-    /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:arguments];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:command.arguments];
 
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];

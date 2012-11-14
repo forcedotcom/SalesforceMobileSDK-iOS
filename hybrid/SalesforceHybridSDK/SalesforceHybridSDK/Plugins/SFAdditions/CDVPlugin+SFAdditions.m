@@ -66,36 +66,43 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
-#pragma mark - Callback id extraction
-
-- (NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments
-{
-    NSString* callbackId = nil;
-    if ([arguments count] >= 1) {
-        NSObject* elt = [arguments objectAtIndex:0];
-        if ([elt isKindOfClass:[NSString class]] && [(NSString*) elt hasPrefix:kCallbackIdPrefix]) {
-            callbackId = (NSString*) elt;
-        }
-    }
-    
-    NSLog(@"%@ callbackId:%@ ", action, callbackId);
-    return callbackId;
-}
-
 #pragma mark - Versioning support
 
--(NSString*)getVersion:(NSString*)action withArguments:(NSMutableArray *)arguments
+- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments
 {
-    NSString* jsVersionStr = nil;
-    if ([arguments count] >= 2) {
-        NSObject* elt = [arguments objectAtIndex:1];
-        if ([elt isKindOfClass:[NSString class]] && [(NSString*) elt hasPrefix:kPluginSDKVersion]) {
-            jsVersionStr = [(NSString*) elt substringFromIndex:1 + [kPluginSDKVersion length]];
+    NSString *jsVersionStr = nil;
+    if ([self hasVersion:arguments]) {
+        jsVersionStr = [[arguments objectAtIndex:0] substringFromIndex:([kPluginSDKVersion length] + 1)];
+    }
+    
+    NSLog(@"%@ jsVersion:%@ ", action, jsVersionStr);
+    return jsVersionStr;
+}
+
+- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex
+{
+    if ([self hasVersion:arguments]) {
+        argIndex++;
+    }
+    
+    if ([arguments count] > argIndex) {
+        return [arguments objectAtIndex:argIndex];
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)hasVersion:(NSArray *)arguments
+{
+    BOOL versionExists = NO;
+    if ([arguments count] > 0) {
+        id elt = [arguments objectAtIndex:0];
+        if ([elt isKindOfClass:[NSString class]] && [elt hasPrefix:kPluginSDKVersion]) {
+            versionExists = YES;
         }
     }
     
-    NSLog(@"%@ jsVersion:%@ ", action, (jsVersionStr ? jsVersionStr : @""));
-    return jsVersionStr;
+    return versionExists;
 }
 
 

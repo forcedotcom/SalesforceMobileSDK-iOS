@@ -29,18 +29,16 @@
 
 #pragma mark - Cordova plugin support
 
-- (void)writeSuccessResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeErrorResultToJsRealm:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-- (void)writeSuccessDictToJsRealm:(NSDictionary*)dict callbackId:(NSString*)callbackId;
-- (void)writeSuccessArrayToJsRealm:(NSArray*)array callbackId:(NSString*)callbackId;
-- (void)writeCommandOKResultToJsRealm:(NSString*)callbackId;
-
-#pragma mark - Callback id extraction
-
--(NSString*)getCallbackId:(NSString*)action withArguments:(NSArray*)arguments;
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult *)result callbackId:(NSString *)callbackId;
+- (void)writeErrorResultToJsRealm:(CDVPluginResult *)result callbackId:(NSString *)callbackId;
+- (void)writeSuccessDictToJsRealm:(NSDictionary *)dict callbackId:(NSString *)callbackId;
+- (void)writeSuccessArrayToJsRealm:(NSArray *)array callbackId:(NSString *)callbackId;
+- (void)writeCommandOKResultToJsRealm:(NSString *)callbackId;
 
 #pragma mark - Versioning support
 
--(NSString*)getVersion:(NSString*)action withArguments:(NSArray *)arguments;
+- (BOOL)hasVersion:(NSArray *)arguments;
+- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
+- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
 
 @end
