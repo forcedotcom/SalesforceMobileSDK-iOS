@@ -35,6 +35,7 @@
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFOAuthInfo.h"
+#import "SFPushNotification.h"
 
 
 
@@ -225,6 +226,18 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 }
 
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+    NSLog(@"device token recieved");
+    NSString* token = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    NSLog(@"Token recieved is %@", token);
+    [token release];
+    [SFPushNotification sharedInstance].PNSToken = deviceToken;
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
+    NSLog(@"Unable to register remote push notifications with apple. Error %@", error);
+}
+
 #pragma mark - Salesforce.com login helpers
 
 - (void)login {
@@ -235,6 +248,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 
 - (void)logout {
+    [[SFPushNotification sharedInstance]unregisterSFDCNotifications];
     [_accountMgr clearAccountState:YES];
     [self clearDataModel];
     [self login];
@@ -243,6 +257,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)loggedIn {
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
+    [[SFPushNotification sharedInstance] registerForSFDCNotifications];
     if (_isInitialLogin || _accountMgr.idData == nil) {
         _accountMgr.idDelegate = self;
         [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
