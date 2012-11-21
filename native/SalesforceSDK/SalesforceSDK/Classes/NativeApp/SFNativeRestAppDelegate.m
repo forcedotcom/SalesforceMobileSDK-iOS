@@ -257,7 +257,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)loggedIn {
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
-    [[SFPushNotification sharedInstance] registerForSFDCNotifications];
     if (_isInitialLogin || _accountMgr.idData == nil) {
         _accountMgr.idDelegate = self;
         [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
@@ -338,6 +337,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
     _isAppInitialization = NO;
     _isInitialLogin = NO;
+    [[SFPushNotification sharedInstance] registerForSFDCNotifications];
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView
