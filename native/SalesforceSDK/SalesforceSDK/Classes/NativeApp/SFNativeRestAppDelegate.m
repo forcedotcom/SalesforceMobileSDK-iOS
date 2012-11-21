@@ -42,6 +42,7 @@
 static NSString * const kUserAgentPropKey     = @"UserAgent";
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
+NSString* const kSFDCPushNotifications = @"SFDCEnablePushNotifications";
 
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
@@ -248,7 +249,9 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 
 - (void)logout {
-    [[SFPushNotification sharedInstance]unregisterSFDCNotifications];
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications] boolValue]) {
+        [[SFPushNotification sharedInstance]unregisterSFDCNotifications];
+    }
     [_accountMgr clearAccountState:YES];
     [self clearDataModel];
     [self login];
@@ -337,7 +340,13 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
     _isAppInitialization = NO;
     _isInitialLogin = NO;
-    [[SFPushNotification sharedInstance] registerForSFDCNotifications];
+    NSLog(@"Object value : %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications]);
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications] boolValue]) {
+        NSLog(@"Push Notifications Enabled.");
+        [[SFPushNotification sharedInstance] registerForSFDCNotifications];
+    } else {
+        NSLog(@"Push Notifications Disabled");
+    }
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView

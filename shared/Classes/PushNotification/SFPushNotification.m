@@ -24,19 +24,22 @@
 
 #import "SFPushNotification.h"
 #import "NSString+SFAdditions.h"
+
 @interface SFPushNotification()
-
-@property (nonatomic, strong) NSString* applicationName;
-@property (nonatomic, strong) NSString* namespacePrefix;
-
+/**
+ * This method is used to assert the minimum required API for using the SFDC Push Notification Framework.
+ * The minimum required API version is v27.0
+ */
+- (void)assertMinimumApi;
 @end
 
 @implementation SFPushNotification
 
+NSString* const kApplicationName = @"SFDCConnectedAppName";
+NSString* const kNamespacePrefix = @"SFDCConnectedAppNamespacePrefix";
+
 @synthesize PNSToken;
 @synthesize pushObjectEntity;
-@synthesize applicationName;
-@synthesize namespacePrefix;
 
 + (SFPushNotification *) sharedInstance {
     static dispatch_once_t _singletonPredicate;
@@ -51,21 +54,20 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
 }
 
-- (void)configureWithAppName:(NSString*)appName namespacePrefix:(NSString*)namespace {
-    NSLog(@"putting in namespace and app name");
-    [SFPushNotification sharedInstance].namespacePrefix = namespace;
-    [SFPushNotification sharedInstance].applicationName = appName;
-    NSLog(@"DONE putting in namespace and app name");
-}
-
 - (BOOL)registerForSFDCNotifications {
-    [SFRestAPI sharedInstance].apiVersion = @"v27.0";
+    [self assertMinimumApi];
+    NSString* applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:kApplicationName];
+    NSLog(@"Connected App name is %@", applicationName);
+    NSString* namespacePrefix = [[NSBundle mainBundle] objectForInfoDictionaryKey:kNamespacePrefix];
+    NSLog(@"Connected App Namespace Prefix is %@", namespacePrefix);
+    NSAssert(applicationName != nil && !([applicationName isEmptyOrWhitespaceAndNewlines]), @"SFDCConnectedAppName name cannot be nil. This should be set in the info.plist");
+    NSAssert(namespacePrefix != nil && !([namespacePrefix isEmptyOrWhitespaceAndNewlines]), @"SFDCConnectedAppNamespacePrefix name cannot be nil. This should be set in the info.plist");
     if ([SFPushNotification sharedInstance].PNSToken != nil) {
         NSString *tokenString = [NSString stringWithHexData:[SFPushNotification sharedInstance].PNSToken];
         NSLog(@"tokenstring is %@", tokenString);
         NSArray* propertiesArray = [[NSArray alloc]initWithObjects:@"ApplicationName", @"ConnectionToken", @"NamespacePrefix", @"Vendor", nil];
-        NSArray* valuesArray = [[NSArray alloc]initWithObjects:[SFPushNotification sharedInstance].applicationName, tokenString,
-                                [SFPushNotification sharedInstance].namespacePrefix, @"Apple", nil];
+        NSArray* valuesArray = [[NSArray alloc]initWithObjects:applicationName, tokenString,
+                                namespacePrefix, @"Apple", nil];
         NSDictionary* requestDictionary = [[NSDictionary alloc] initWithObjects:valuesArray forKeys:propertiesArray];
         NSLog(@"Registering with SFDC with token : %@", tokenString);
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"MobilePushServiceDevice" fields:requestDictionary];
@@ -90,6 +92,12 @@
     return NO;
 }
 
+- (void)assertMinimumApi {
+    NSString* api = [[SFRestAPI sharedInstance].apiVersion substringFromIndex:1];
+    int version = [api integerValue];
+    NSLog(@"Version value is : %d", version);
+    NSAssert(version >= 27, @"For push notifications to work, API version must be minimum of v27.0");
+}
 #pragma mark - SFRequestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {

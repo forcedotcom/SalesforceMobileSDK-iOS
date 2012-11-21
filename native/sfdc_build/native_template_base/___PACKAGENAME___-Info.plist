@@ -51,5 +51,14 @@
 	</array>
 	<key>SFDCOAuthLoginHost</key>
 	<string>login.salesforce.com</string>
+	<key>SFDCEnablePushNotifications</key>
+	<false/>
+	<key>SFDCPushNotificationParams</key>
+	<dict>
+		<key>SFDCConnectedAppNamespacePrefix</key>
+		<string></string>
+		<key>SFDCConnectedAppName</key>
+		<string></string>
+	</dict>
 </dict>
 </plist>

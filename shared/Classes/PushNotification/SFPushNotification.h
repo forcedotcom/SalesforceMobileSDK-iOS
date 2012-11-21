@@ -41,7 +41,6 @@
  */
 - (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types;
 - (BOOL)registerForSFDCNotifications;
-- (void)configureWithAppName:(NSString*)appName namespacePrefix:(NSString*)namespace;
 - (BOOL)unregisterSFDCNotifications;
 
 @end
