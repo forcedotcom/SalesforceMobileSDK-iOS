@@ -89,7 +89,7 @@
     }
     
     //make sure we have the latest access token at the moment we send the request
-    [rkClient setValue:[NSString stringWithFormat:@"OAuth %@", _accountMgr.credentials.accessToken]
+    [rkClient setValue:[NSString stringWithFormat:@"Bearer %@", _accountMgr.credentials.accessToken]
          forHTTPHeaderField:@"Authorization"];
     
     if (_request.method == SFRestMethodGET) {
