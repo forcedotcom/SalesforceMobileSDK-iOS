@@ -35,8 +35,8 @@
 
 @implementation SFPushNotification
 
-NSString* const kApplicationName = @"SFDCConnectedAppName";
-NSString* const kNamespacePrefix = @"SFDCConnectedAppNamespacePrefix";
+static NSString* const kApplicationName = @"SFDCConnectedAppName";
+static NSString* const kNamespacePrefix = @"SFDCConnectedAppNamespacePrefix";
 
 @synthesize PNSToken;
 @synthesize pushObjectEntity;
@@ -95,7 +95,7 @@ NSString* const kNamespacePrefix = @"SFDCConnectedAppNamespacePrefix";
 - (void)assertMinimumApi {
     NSString* api = [[SFRestAPI sharedInstance].apiVersion substringFromIndex:1];
     int version = [api integerValue];
-    NSLog(@"Version value is : %d", version);
+    NSLog(@"REST API Version value is : %d", version);
     NSAssert(version >= 27, @"For push notifications to work, API version must be minimum of v27.0");
 }
 #pragma mark - SFRequestDelegate

@@ -228,10 +228,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
-    NSLog(@"device token recieved");
-    NSString* token = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
-    NSLog(@"Token recieved is %@", token);
-    [token release];
     [SFPushNotification sharedInstance].PNSToken = deviceToken;
 }
 
@@ -340,7 +336,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
     _isAppInitialization = NO;
     _isInitialLogin = NO;
-    NSLog(@"Object value : %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications]);
     if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications] boolValue]) {
         NSLog(@"Push Notifications Enabled.");
         [[SFPushNotification sharedInstance] registerForSFDCNotifications];
