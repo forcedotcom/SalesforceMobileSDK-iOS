@@ -42,7 +42,7 @@
 static NSString * const kUserAgentPropKey     = @"UserAgent";
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
-NSString* const kSFDCPushNotifications = @"SFDCEnablePushNotifications";
+static NSString * const kSFDCPushNotifications = @"SFDCEnablePushNotifications";
 
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
