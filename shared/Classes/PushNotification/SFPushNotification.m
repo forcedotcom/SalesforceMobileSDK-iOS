@@ -111,7 +111,7 @@ static NSString* const kNamespacePrefix = @"SFDCConnectedAppNamespacePrefix";
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog([error description]);
+    NSLog(@"error %@", error);
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {

@@ -40,7 +40,16 @@
  * @param types UIRemoteNotificationType that defines the type of notifications to register for.
  */
 - (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types;
+/**
+ * Registers for Notifications with the SFDC servers. This should be called after successful registeration with Apple.
+ * It uses the DeviceToken received from Apple (PNSToken). On successful registeration with SFDC, the pushObjectEntity is populated.
+ * @return YES for successful registration call made.
+ */
 - (BOOL)registerForSFDCNotifications;
+/**
+ * Unregisters for Notifications with the SFDC servers. This should be done when the user logs out.
+ * @return YES for successful unregistration call being made.
+ */
 - (BOOL)unregisterSFDCNotifications;
 
 @end
