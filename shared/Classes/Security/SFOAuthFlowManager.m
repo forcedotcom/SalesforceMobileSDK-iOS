@@ -7,6 +7,7 @@
 //
 
 #import "SFOAuthFlowManager.h"
+#import "SFOAuthInfo.h"
 #import "SFAccountManager.h"
 #import "SalesforceSDKConstants.h"
 #import "SFAuthorizingViewController.h"
@@ -27,6 +28,9 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 @property (nonatomic, copy) SFOAuthFlowCallbackBlock completionBlock;
 @property (nonatomic, copy) SFOAuthFlowCallbackBlock failureBlock;
 
+/**
+ Dismisses the authentication retry alert box, if present.
+ */
 - (void)cleanupRetryAlert;
 
 /**
@@ -47,12 +51,6 @@ static NSInteger  const kIdentityAlertViewTag = 555;
  Called after identity data is retrieved from the service.
  */
 - (void)retrievedIdentityData;
-
-/**
- The method to call at the end of the auth bootstrapping process.  Any processes that
- should run prior to launching the app should be called here.
- */
-- (void)finalizeBootstrap;
 
 - (void)login;
 
@@ -79,6 +77,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 - (void)dealloc
 {
+    [self cleanupRetryAlert];
     SFRelease(_statusAlert);
     SFRelease(_authViewController);
     SFRelease(_viewController);
@@ -93,7 +92,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
    completion:(SFOAuthFlowCallbackBlock)completionBlock
       failure:(SFOAuthFlowCallbackBlock)failureBlock
 {
-    NSAssert(presentingViewController != nil, "Presenting view controller cannot be nil.");
+    NSAssert(presentingViewController != nil, @"Presenting view controller cannot be nil.");
     self.viewController = presentingViewController;
     self.completionBlock = completionBlock;
     self.failureBlock = failureBlock;
@@ -141,7 +140,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
         [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Just go directly to the post-processing step.
-        [self finalizeBootstrap];
+        [self execCompletionBlock];
     }
 }
 
@@ -198,7 +197,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [self finalizeBootstrap];
+            [self execCompletionBlock];
         }];
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
             [self execFailureBlock];
@@ -209,39 +208,8 @@ static NSInteger  const kIdentityAlertViewTag = 555;
         [SFSecurityLockout setLockoutTime:([SFAccountManager sharedInstance].idData.mobileAppScreenLockTimeout * 60)];
     } else {
         // No additional mobile policies.  So no passcode.
-        [self finalizeBootstrap];
+        [self execCompletionBlock];
     }
-}
-
-- (void)finalizeBootstrap
-{
-    // First, remove any session cookies associated with the app.
-    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
-    
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (nil != _authCallbackId) {
-        // Call back to the client with the authentication credentials.
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
-        
-        SFRelease(_authCallbackId);
-    } else {
-        //fire a notification that the session has been refreshed
-        [self fireSessionRefreshEvent:authDict];
-    }
-    
-    if (self.autoRefreshPeriodically) {
-        [self startSessionAutoRefreshTimer];
-    }
-    
-    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
-        [[SFUserActivityMonitor sharedInstance] startMonitoring];
-    }
-    
-    _isInitialLogin = NO;
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag

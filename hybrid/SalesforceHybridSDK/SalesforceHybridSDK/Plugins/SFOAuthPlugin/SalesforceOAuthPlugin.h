@@ -66,20 +66,10 @@
 @property (nonatomic, retain) NSSet *oauthScopes;
 
 /**
- Sent whenever the user has been logged in using current settings.
- Be sure to call super if you override this.
+ Forces a logout from the current account, redirecting the user to the login process.
+ This throws out the OAuth refresh token.
  */
-- (void)loggedIn;
-
-/**
- Resets the processes that perform periodic session refreshing.
- */
-- (void)clearPeriodicRefreshState;
-
-/**
- If auto refresh is configured, refresh the existing OAuth session.
- */
-- (void)autoRefresh;
+- (void)logout;
 
 #pragma mark - Plugin exported to javascript
 

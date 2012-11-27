@@ -35,4 +35,10 @@ typedef void (^SFOAuthFlowCallbackBlock)(void);
    completion:(SFOAuthFlowCallbackBlock)completionBlock
       failure:(SFOAuthFlowCallbackBlock)failureBlock;
 
+/**
+ Sent whenever the user has been logged in using current settings.
+ Be sure to call super if you override this.
+ */
+- (void)loggedIn;
+
 @end

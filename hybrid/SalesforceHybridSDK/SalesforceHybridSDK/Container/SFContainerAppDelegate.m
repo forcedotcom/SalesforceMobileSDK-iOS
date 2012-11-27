@@ -170,8 +170,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     // These actions only need to be taken when the app is coming back to the foreground, i.e. not when the app is first starting,
     // which has a separate bootstrapping process.
     if (!_isAppStartup) {
-        SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
-        [oauthPlugin clearPeriodicRefreshState];
         BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
         BOOL loginHostChanged = [SFAccountManager updateLoginHost];
         if (shouldLogout) {
@@ -184,7 +182,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
                 [self clearAppState:YES];
             }];
             [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-                [oauthPlugin autoRefresh];
                 [self.viewController.commandDelegate getCommandInstance:kSFSmartStorePluginName];
             }];
             [SFSecurityLockout validateTimer];

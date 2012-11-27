@@ -54,8 +54,6 @@ static NSString * const kLoginUrlCredentialsDictKey     = @"loginUrl";
 static NSString * const kInstanceUrlCredentialsDictKey  = @"instanceUrl";
 static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
-NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
-
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
@@ -63,6 +61,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 {
     
 }
+
+@property (nonatomic, retain) SFOAuthFlowManager *oauthFlowManager;
+
+- (void)authenticationSuccess;
 
 /**
  Revokes the current user's credentials for the app, optionally redirecting her to the
@@ -102,20 +104,6 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
  */
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
-/**
- Dismisses the authentication retry alert box, if present.
- */
-- (void)cleanupRetryAlert;
-
-/**
- Periodic check for auto refresh
- */
-- (void)startSessionAutoRefreshTimer;
-- (void)clearSessionAutoRefreshTimer;
-
-- (void)sendSessionKeepaliveRequest;
-- (void)cleanupSessionKeepaliveRequest;
-
 @end
 
 // ------------------------------------------
@@ -127,6 +115,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
 @synthesize oauthScopes=_oauthScopes;
+@synthesize oauthFlowManager=_oauthFlowManager;
 
 #pragma mark - init/dealloc
 
@@ -147,16 +136,14 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 - (void)dealloc
 {
-    [self clearPeriodicRefreshState];
-    
     [[SFAccountManager sharedInstance] clearAccountState:NO];
-    [self cleanupRetryAlert];
     
     SFRelease(_authCallbackId);
     SFRelease(_remoteAccessConsumerKey);
     SFRelease(_oauthRedirectURI);
     SFRelease(_oauthLoginDomain);
     SFRelease(_oauthScopes);
+    SFRelease(_oauthFlowManager);
     
     [super dealloc];
 }
@@ -210,7 +197,10 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         [SFAccountManager setScopes:self.oauthScopes];
     }
     
-    [self login];
+    self.oauthFlowManager = [[[SFOAuthFlowManager alloc] init] autorelease];
+    SFOAuthFlowCallbackBlock completionBlock = ^{ [self authenticationSuccess]; };
+    SFOAuthFlowCallbackBlock failureBlock = ^{ [self logout]; };
+    [self.oauthFlowManager login:self.viewController completion:completionBlock failure:failureBlock];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
@@ -268,8 +258,21 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
 
 #pragma mark - Salesforce.com login helpers
 
+- (void)logout
+{
+    SFRelease(_oauthFlowManager);
+    [self logout:YES];
+}
+
+- (void)logout:(BOOL)restartAuthentication
+{
+    [_appDelegate clearAppState:restartAuthentication];
+}
+
 - (void)authenticationSuccess
 {
+    SFRelease(_oauthFlowManager);
+    
     // First, remove any session cookies associated with the app.
     // All cookies should be reset with any new authentication (user agent, refresh, etc.).
     [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
@@ -290,6 +293,7 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
     
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
 }
 
 - (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
@@ -344,6 +348,16 @@ NSTimeInterval kSessionAutoRefreshInterval = 10*60.0; //  10 minutes
         self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
         self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     }
+}
+
+- (void)fireSessionRefreshEvent:(NSDictionary*)creds
+{
+    
+    NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
+    NSString *eventStr = [[NSString alloc] initWithFormat:@"cordova.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
+                          credsStr];
+    [super writeJavascript:eventStr];
+    [eventStr release];
 }
 
 @end
