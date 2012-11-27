@@ -70,6 +70,8 @@ static NSString *const OAuthRedirectURI = @"Put your callback url here";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //RestAPI version should be a minumum of v27.0
     [[SFRestAPI sharedInstance]setApiVersion:@"v27.0"];
+    NSAssert([RemoteAccessConsumerKey compare:@"Your Consumer Key Here"] != NSOrderedSame, @"You should put your own consumer key here");
+    NSAssert([OAuthRedirectURI compare:@"Put your callback url here"] != NSOrderedSame, @"You should put your OAuth RedirectURL here");
     [[SFPushNotification sharedInstance] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

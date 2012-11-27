@@ -16,6 +16,8 @@
 		B98AD5401663ED6F00AF28D6 /* libSalesforceSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98AD5361663ED6F00AF28D6 /* libSalesforceSDK.a */; };
 		B98AD5411663ED6F00AF28D6 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98AD5381663ED6F00AF28D6 /* libsqlcipher.a */; };
 		B98AD5421663ED7000AF28D6 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B98AD5391663ED6F00AF28D6 /* LICENSE */; };
+		B98AD570166454DF00AF28D6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B98AD56F166454DF00AF28D6 /* libz.dylib */; };
+		B98AD573166454EE00AF28D6 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B98AD572166454EE00AF28D6 /* libxml2.dylib */; };
 		B9F71F06165AFCB2003F3744 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F71F05165AFCB2003F3744 /* CoreData.framework */; };
 		B9F71F08165AFCB2003F3744 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F71F07165AFCB2003F3744 /* MessageUI.framework */; };
 		B9F71F0A165AFCB2003F3744 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F71F09165AFCB2003F3744 /* QuartzCore.framework */; };
@@ -273,6 +275,8 @@
 		B98AD5381663ED6F00AF28D6 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
 		B98AD5391663ED6F00AF28D6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		B98AD5431663EE4000AF28D6 /* SFPushNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFPushNotification.h; sourceTree = "<group>"; };
+		B98AD56F166454DF00AF28D6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B98AD572166454EE00AF28D6 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		B9F71F01165AFCB2003F3744 /* pushtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9F71F05165AFCB2003F3744 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B9F71F07165AFCB2003F3744 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -315,6 +319,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B98AD573166454EE00AF28D6 /* libxml2.dylib in Frameworks */,
+				B98AD570166454DF00AF28D6 /* libz.dylib in Frameworks */,
 				B9F71F06165AFCB2003F3744 /* CoreData.framework in Frameworks */,
 				B9F71F08165AFCB2003F3744 /* MessageUI.framework in Frameworks */,
 				B9F71F0A165AFCB2003F3744 /* QuartzCore.framework in Frameworks */,
@@ -705,6 +711,8 @@
 		B9F71EF5165AFCB2003F3744 = {
 			isa = PBXGroup;
 			children = (
+				B98AD572166454EE00AF28D6 /* libxml2.dylib */,
+				B98AD56F166454DF00AF28D6 /* libz.dylib */,
 				B9F71F19165AFCB2003F3744 /* pushtest */,
 				B9F71F04165AFCB2003F3744 /* Frameworks */,
 				B9F71F02165AFCB2003F3744 /* Products */,
