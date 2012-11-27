@@ -18,7 +18,7 @@
 		<string>icon-72@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>___VARIABLE_bundleIdentifier___</string>
+	<string>com.salesforce.mobilesdk.pushtest</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -31,10 +31,16 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainNibFile</key>
-	<string></string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
+	<key>SFDCConnectedAppName</key>
+	<string></string>
+	<key>SFDCConnectedAppNamespacePrefix</key>
+	<string></string>
+	<key>SFDCEnablePushNotifications</key>
+	<true/>
+	<key>SFDCOAuthLoginHost</key>
+	<string>login.salesforce.com</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -49,16 +55,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>SFDCOAuthLoginHost</key>
-	<string>login.salesforce.com</string>
-	<key>SFDCEnablePushNotifications</key>
-	<false/>
-	<key>SFDCPushNotificationParams</key>
-	<dict>
-		<key>SFDCConnectedAppNamespacePrefix</key>
-		<string></string>
-		<key>SFDCConnectedAppName</key>
-		<string></string>
-	</dict>
 </dict>
 </plist>

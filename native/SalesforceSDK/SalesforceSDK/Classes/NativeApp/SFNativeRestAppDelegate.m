@@ -35,12 +35,14 @@
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFOAuthInfo.h"
+#import "SFPushNotification.h"
 
 
 
 static NSString * const kUserAgentPropKey     = @"UserAgent";
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
+static NSString * const kSFDCPushNotifications = @"SFDCEnablePushNotifications";
 
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
@@ -225,6 +227,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 }
 
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+    [SFPushNotification sharedInstance].PNSToken = deviceToken;
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
+    NSLog(@"Unable to register remote push notifications with apple. Error %@", error);
+}
+
 #pragma mark - Salesforce.com login helpers
 
 - (void)login {
@@ -235,6 +245,9 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 
 - (void)logout {
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications] boolValue]) {
+        [[SFPushNotification sharedInstance]unregisterSFDCNotifications];
+    }
     [_accountMgr clearAccountState:YES];
     [self clearDataModel];
     [self login];
@@ -323,6 +336,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
     _isAppInitialization = NO;
     _isInitialLogin = NO;
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFDCPushNotifications] boolValue]) {
+        NSLog(@"Push Notifications Enabled.");
+        [[SFPushNotification sharedInstance] registerForSFDCNotifications];
+    } else {
+        NSLog(@"Push Notifications Disabled");
+    }
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView
