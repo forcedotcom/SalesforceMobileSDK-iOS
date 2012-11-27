@@ -26,6 +26,7 @@
 #import "SFHybridViewController.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFContainerAppDelegate.h"
+#import "SFAccountManager.h"
 
 @interface SFHybridViewController()
 {
@@ -39,6 +40,8 @@
  * @return YES if the value is one of the reserved URLs, NO otherwise.
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
+
+- (BOOL)isLoginRedirectUrl:(NSURL *)url;
 
 /**
  * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
@@ -66,6 +69,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {
     NSLog(@"webView:shouldStartLoadWithRequest: Loading URL '%@'", request.URL.absoluteString);
+    if ([self isLoginRedirectUrl:request.URL]) {
+        NSLog(@"Caught login redirect from session timeout.  Re-authenticating.");
+    }
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
@@ -99,7 +105,7 @@
     [super webViewDidFinishLoad:theWebView];
 }
 
-#pragma mark - Home page helpers
+#pragma mark - URL evaluation helpers
 
 - (BOOL)isReservedUrlValue:(NSURL *)url
 {
@@ -133,6 +139,40 @@
     NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
                                                                                        withString:@"file:///"];
     return urlString;
+}
+
+- (BOOL)isLoginRedirectUrl:(NSURL *)url
+{
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
+        return NO;
+    
+    // Sanity check the components of the login host.  If they're not present, don't bother to
+    // interpret; just skip this check.
+    if ([SFAccountManager loginHost] == nil
+        || [[SFAccountManager loginHost] length] == 0
+        || [SFAccountManager sharedInstance].credentials.protocol == nil
+        || [[SFAccountManager sharedInstance].credentials.protocol length] == 0)
+        return NO;
+    
+    
+    NSString *origUrlString = [url absoluteString];
+    NSMutableString *compareStringRegexPattern = [NSMutableString string];
+    [compareStringRegexPattern appendFormat:@"^%@://%@/\\?ec=302(&startURL=[^&]+)?$",
+     [SFAccountManager sharedInstance].credentials.protocol,
+     [NSRegularExpression escapedPatternForString:[SFAccountManager loginHost]]];
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:compareStringRegexPattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    if (error != NULL) {
+        NSLog(@"isLoginRedirectUrl: Error comparing URLs.  Domain: %@, Code: %d, Description: %@",
+              [error domain], [error code], [error localizedDescription]);
+        return NO;
+    }
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:origUrlString
+                                                        options:0
+                                                          range:NSMakeRange(0, [origUrlString length])];
+    return (numberOfMatches > 0);
 }
 
 @end
