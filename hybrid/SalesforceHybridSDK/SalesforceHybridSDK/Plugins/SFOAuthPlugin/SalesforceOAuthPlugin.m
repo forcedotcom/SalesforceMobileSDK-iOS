@@ -22,22 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSMutableArray+QueueAdditions.h"
-#import "CDVPluginResult.h"
-#import "CDVInvokedUrlCommand.h"
-
 #import "SalesforceOAuthPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
-#import "SFIdentityCoordinator.h"
-#import "SFIdentityData.h"
-#import "SFSecurityLockout.h"
 #import "SFUserActivityMonitor.h"
-#import "SFOAuthInfo.h"
-#import "SFAuthorizingViewController.h"
 #import "NSDictionary+SFAdditions.h"
 #import "SFOAuthFlowManager.h"
 
@@ -59,12 +50,17 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 // ------------------------------------------
 @interface SalesforceOAuthPlugin ()
 {
-    
 }
 
+/**
+ The OAuth flow manager instance used to authenticate.
+ */
 @property (nonatomic, retain) SFOAuthFlowManager *oauthFlowManager;
 
-- (void)authenticationSuccess;
+/**
+ Method to be called when the OAuth process completes.
+ */
+- (void)authenticationCompletion;
 
 /**
  Revokes the current user's credentials for the app, optionally redirecting her to the
@@ -198,8 +194,14 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     }
     
     self.oauthFlowManager = [[[SFOAuthFlowManager alloc] init] autorelease];
-    SFOAuthFlowCallbackBlock completionBlock = ^{ [self authenticationSuccess]; };
-    SFOAuthFlowCallbackBlock failureBlock = ^{ [self logout]; };
+    SFOAuthFlowCallbackBlock completionBlock = ^{
+        SFRelease(_oauthFlowManager);
+        [self authenticationCompletion];
+    };
+    SFOAuthFlowCallbackBlock failureBlock = ^{
+        SFRelease(_oauthFlowManager);
+        [self logout];
+    };
     [self.oauthFlowManager login:self.viewController completion:completionBlock failure:failureBlock];
 }
 
@@ -254,13 +256,10 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     return credentialsDict;
 }
 
-
-
 #pragma mark - Salesforce.com login helpers
 
 - (void)logout
 {
-    SFRelease(_oauthFlowManager);
     [self logout:YES];
 }
 
@@ -269,9 +268,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     [_appDelegate clearAppState:restartAuthentication];
 }
 
-- (void)authenticationSuccess
+- (void)authenticationCompletion
 {
-    SFRelease(_oauthFlowManager);
+    NSLog(@"authenticationCompletion: Authentication flow succeeded.  Initiating post-auth configuration.");
     
     // First, remove any session cookies associated with the app.
     // All cookies should be reset with any new authentication (user agent, refresh, etc.).

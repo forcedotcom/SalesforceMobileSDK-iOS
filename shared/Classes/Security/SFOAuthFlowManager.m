@@ -14,6 +14,8 @@
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
 
+// Private constants
+
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
@@ -25,7 +27,15 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     BOOL _isInitialLogin;
 }
 
+/**
+ The block to be called when the OAuth process completes.
+ */
 @property (nonatomic, copy) SFOAuthFlowCallbackBlock completionBlock;
+
+/**
+ The block to be called if the OAuth process fails.  Note: failure is currently defined as
+ a scenario where there are no valid credentials in the refresh flow.
+ */
 @property (nonatomic, copy) SFOAuthFlowCallbackBlock failureBlock;
 
 /**
@@ -52,9 +62,19 @@ static NSInteger  const kIdentityAlertViewTag = 555;
  */
 - (void)retrievedIdentityData;
 
+/**
+ Kick off the login process (post-configuration in the public method).
+ */
 - (void)login;
 
+/**
+ Execute the configured completion block, if in fact configured.
+ */
 - (void)execCompletionBlock;
+
+/**
+ Execute the configured failure block, if in fact configured.
+ */
 - (void)execFailureBlock;
 
 /**

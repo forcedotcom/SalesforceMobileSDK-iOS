@@ -27,8 +27,6 @@
 #import "CDVPlugin.h"
 
 @class SFContainerAppDelegate;
-@class SFIdentityData;
-@class SFAuthorizingViewController;
 @class CDVInvokedUrlCommand;
 
 /**
@@ -38,11 +36,6 @@
 {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
-    NSString *_remoteAccessConsumerKey;
-    NSString *_oauthRedirectURI;
-    NSString *_oauthLoginDomain;
-    NSSet *_oauthScopes;
-    NSDate *_lastRefreshCompleted;
 }
 
 /**

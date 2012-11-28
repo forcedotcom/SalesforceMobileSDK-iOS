@@ -12,10 +12,16 @@
 
 @class SFAuthorizingViewController;
 
+/**
+ Callback block definition for OAuth completion/failure callbacks.
+ */
 typedef void (^SFOAuthFlowCallbackBlock)(void);
 
 @interface SFOAuthFlowManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
+/**
+ The view controller that will be used to "host" an OAuth view, if necessary.
+ */
 @property (nonatomic, retain) UIViewController *viewController;
 
 /**
@@ -30,6 +36,10 @@ typedef void (^SFOAuthFlowCallbackBlock)(void);
 
 /**
  Kick off the login process.
+ @param presentingViewController The view controller that will be used to display an OAuth view, where
+ required.
+ @param completionBlock The block of code to execute when the OAuth process completes.
+ @param failureBlock The block of code to execute when OAuth fails due to revoked/expired credentials.
  */
 - (void)login:(UIViewController *)presentingViewController
    completion:(SFOAuthFlowCallbackBlock)completionBlock
