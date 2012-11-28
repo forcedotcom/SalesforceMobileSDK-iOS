@@ -24,14 +24,21 @@
  */
 
 #import "SFHybridViewController.h"
+#import "SalesforceSDKConstants.h"
+#import "SFContainerAppDelegate.h"
+#import "SalesforceOAuthPlugin.h"
 #import "NSURL+SFStringUtils.h"
+#import "NSURL+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 #import "SFAccountManager.h"
+#import "SFOAuthFlowManager.h"
 
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
 }
+
+@property (nonatomic, retain) SFOAuthFlowManager *oauthFlowManager;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -52,6 +59,8 @@
 
 @implementation SFHybridViewController
 
+@synthesize oauthFlowManager = _oauthFlowManager;
+
 #pragma mark - Init / dealloc / etc.
 
 - (id)init
@@ -64,6 +73,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    SFRelease(_oauthFlowManager);
+    [super dealloc];
+}
+
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
@@ -71,7 +86,19 @@
     NSLog(@"webView:shouldStartLoadWithRequest: Loading URL '%@'", request.URL.absoluteString);
     if ([self isLoginRedirectUrl:request.URL]) {
         NSLog(@"Caught login redirect from session timeout.  Re-authenticating.");
+        self.oauthFlowManager = [[[SFOAuthFlowManager alloc] init] autorelease];
+        [self.oauthFlowManager login:self
+                          completion:^{
+                              SFRelease(_oauthFlowManager);
+                              [self authenticationCompletion];
+                          }
+                             failure:^{
+                                 SFRelease(_oauthFlowManager);
+                                 
+                             }
+         ];
     }
+    
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
@@ -154,25 +181,49 @@
         || [[SFAccountManager sharedInstance].credentials.protocol length] == 0)
         return NO;
     
-    
-    NSString *origUrlString = [url absoluteString];
-    NSMutableString *compareStringRegexPattern = [NSMutableString string];
-    [compareStringRegexPattern appendFormat:@"^%@://%@/\\?ec=302(&startURL=[^&]+)?$",
-     [SFAccountManager sharedInstance].credentials.protocol,
-     [NSRegularExpression escapedPatternForString:[SFAccountManager loginHost]]];
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:compareStringRegexPattern
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-    if (error != NULL) {
-        NSLog(@"isLoginRedirectUrl: Error comparing URLs.  Domain: %@, Code: %d, Description: %@",
-              [error domain], [error code], [error localizedDescription]);
-        return NO;
+    BOOL urlMatchesLoginRedirectPattern = NO;
+    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
+        && [[url path] isEqualToString:@"/"]
+        && [url query] != nil) {
+        // NSURL componentizes its path components, but not its query?  Erm, okay.
+        NSArray *queryParams = [[url query] componentsSeparatedByString:@"&"];
+        BOOL foundStartURL = NO;
+        BOOL foundValidEcValue = NO;
+        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+        
+        for (NSString *queryParam in queryParams) {
+            NSArray *queryParamSplit = [queryParam componentsSeparatedByString:@"="];
+            NSString *paramName = [queryParamSplit objectAtIndex:0];
+            NSString *paramValue = ([queryParamSplit count] > 1 ? [queryParamSplit objectAtIndex:1] : @"");
+            if ([[paramName lowercaseString] isEqualToString:@"ec"]
+                && ([paramValue isEqualToString:@"301"] || [paramValue isEqualToString:@"302"])) {
+                foundValidEcValue = YES;
+            } else if ([[paramName lowercaseString] isEqualToString:@"starturl"]) {
+                foundStartURL = YES;
+            }
+        }
+        
+        urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
     }
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:origUrlString
-                                                        options:0
-                                                          range:NSMakeRange(0, [origUrlString length])];
-    return (numberOfMatches > 0);
+    
+    return urlMatchesLoginRedirectPattern;
+    
+}
+
+#pragma mark - OAuth flow helpers
+
+- (void)authenticationCompletion
+{
+    NSLog(@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration.");
+    
+    SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.commandDelegate getCommandInstance:kSFOAuthPluginName];
+    [oauthPlugin resetSessionCookie];
+    
+    
+    
+    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
 }
 
 @end

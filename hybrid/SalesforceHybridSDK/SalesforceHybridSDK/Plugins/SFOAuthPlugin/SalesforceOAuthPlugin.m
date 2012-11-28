@@ -272,11 +272,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 {
     NSLog(@"authenticationCompletion: Authentication flow succeeded.  Initiating post-auth configuration.");
     
-    // First, remove any session cookies associated with the app.
-    // All cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
+    // First, remove any session cookies associated with the app, and reset the primary sid.
+    // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
+    [self resetSessionCookie];
     
     NSDictionary *authDict = [self credentialsAsDictionary];
     if (nil != _authCallbackId) {
@@ -293,6 +291,13 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
+}
+
+- (void)resetSessionCookie
+{
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
+    [self addSidCookieForDomain:@".salesforce.com"];
 }
 
 - (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames

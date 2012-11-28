@@ -40,10 +40,10 @@ NSString * const kSFMobileSDKVersion = @"1.4.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-
-// Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
+
+// Private constants
 NSString * const kDefaultHybridAccountIdentifier = @"Default";
 
 // The default logging level of the app.

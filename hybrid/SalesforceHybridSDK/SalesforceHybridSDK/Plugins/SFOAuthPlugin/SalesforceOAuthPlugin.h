@@ -64,6 +64,8 @@
  */
 - (void)logout;
 
+- (void)resetSessionCookie;
+
 #pragma mark - Plugin exported to javascript
 
 /**

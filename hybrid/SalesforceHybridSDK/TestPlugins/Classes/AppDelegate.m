@@ -103,11 +103,11 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     [SFAccountManager setRedirectUri:redirectUri];
     [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
     
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    SFOAuthCredentials *credentials = accountMgr.credentials;
-    credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
-    credentials.accessToken = accessToken;
-    credentials.refreshToken = refreshToken;
+//    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+//    SFOAuthCredentials *credentials = accountMgr.credentials;
+//    credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
+//    credentials.accessToken = accessToken;
+//    credentials.refreshToken = refreshToken;
 }
 
 
