@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
-#import "SFOAuthFlowManager.h"
+#import "SFAuthenticationManager.h"
 #import "SFOAuthInfo.h"
 #import "SFAccountManager.h"
 #import "SalesforceSDKConstants.h"
@@ -14,12 +14,14 @@
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
 
+static SFAuthenticationManager *sharedInstance = nil;
+
 // Private constants
 
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
-@interface SFOAuthFlowManager ()
+@interface SFAuthenticationManager ()
 {
     /**
      Whether this is the initial login to the application (i.e. no previous credentials).
@@ -86,12 +88,54 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 @end
 
-@implementation SFOAuthFlowManager
+@implementation SFAuthenticationManager
 
 @synthesize viewController = _viewController;
 @synthesize authViewController = _authViewController;
 @synthesize statusAlert = _statusAlert;
 @synthesize completionBlock = _completionBlock, failureBlock = _failureBlock;
+
+#pragma mark - Singleton initialization / management
+
++ (SFAuthenticationManager *)sharedManager
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedInstance = [[super allocWithZone:NULL] init];
+    });
+    
+    return sharedInstance;
+}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self sharedManager] retain];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (oneway void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
+}
 
 #pragma mark - Init / dealloc / etc.
 

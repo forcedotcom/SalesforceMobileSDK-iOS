@@ -30,7 +30,7 @@
 #import "SFAccountManager.h"
 #import "SFUserActivityMonitor.h"
 #import "NSDictionary+SFAdditions.h"
-#import "SFOAuthFlowManager.h"
+#import "SFAuthenticationManager.h"
 
 // ------------------------------------------
 // Private constants
@@ -51,11 +51,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 @interface SalesforceOAuthPlugin ()
 {
 }
-
-/**
- The OAuth flow manager instance used to authenticate.
- */
-@property (nonatomic, retain) SFOAuthFlowManager *oauthFlowManager;
 
 /**
  Method to be called when the OAuth process completes.
@@ -111,7 +106,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 @synthesize oauthRedirectURI=_oauthRedirectURI;
 @synthesize oauthLoginDomain=_oauthLoginDomain;
 @synthesize oauthScopes=_oauthScopes;
-@synthesize oauthFlowManager=_oauthFlowManager;
 
 #pragma mark - init/dealloc
 
@@ -139,7 +133,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     SFRelease(_oauthRedirectURI);
     SFRelease(_oauthLoginDomain);
     SFRelease(_oauthScopes);
-    SFRelease(_oauthFlowManager);
     
     [super dealloc];
 }
@@ -166,7 +159,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     NSDictionary *authDict = [self credentialsAsDictionary];
     if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
         || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
-        // TODO: Make this call the OAuthFlowManager too?
         [self authenticate:command];
     } else {
         // Send the credentials we've cached.
@@ -193,16 +185,13 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
         [SFAccountManager setScopes:self.oauthScopes];
     }
     
-    self.oauthFlowManager = [[[SFOAuthFlowManager alloc] init] autorelease];
     SFOAuthFlowCallbackBlock completionBlock = ^{
-        SFRelease(_oauthFlowManager);
         [self authenticationCompletion];
     };
     SFOAuthFlowCallbackBlock failureBlock = ^{
-        SFRelease(_oauthFlowManager);
         [self logout];
     };
-    [self.oauthFlowManager login:self.viewController completion:completionBlock failure:failureBlock];
+    [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command

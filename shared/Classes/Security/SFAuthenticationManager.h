@@ -17,7 +17,7 @@
  */
 typedef void (^SFOAuthFlowCallbackBlock)(void);
 
-@interface SFOAuthFlowManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
+@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
  The view controller that will be used to "host" an OAuth view, if necessary.
@@ -33,6 +33,8 @@ typedef void (^SFOAuthFlowCallbackBlock)(void);
  The view controller used to present the authentication dialog.
  */
 @property (nonatomic, retain) SFAuthorizingViewController *authViewController;
+
++ (SFAuthenticationManager *)sharedManager;
 
 /**
  Kick off the login process.

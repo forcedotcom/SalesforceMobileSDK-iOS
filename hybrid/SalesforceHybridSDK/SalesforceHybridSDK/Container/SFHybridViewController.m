@@ -31,14 +31,12 @@
 #import "NSURL+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 #import "SFAccountManager.h"
-#import "SFOAuthFlowManager.h"
+#import "SFAuthenticationManager.h"
 
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
 }
-
-@property (nonatomic, retain) SFOAuthFlowManager *oauthFlowManager;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -55,11 +53,11 @@
  */
 - (NSString *)startPageUrlString;
 
+- (void)authenticationCompletion;
+
 @end
 
 @implementation SFHybridViewController
-
-@synthesize oauthFlowManager = _oauthFlowManager;
 
 #pragma mark - Init / dealloc / etc.
 
@@ -73,12 +71,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    SFRelease(_oauthFlowManager);
-    [super dealloc];
-}
-
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
@@ -86,16 +78,13 @@
     NSLog(@"webView:shouldStartLoadWithRequest: Loading URL '%@'", request.URL.absoluteString);
     if ([self isLoginRedirectUrl:request.URL]) {
         NSLog(@"Caught login redirect from session timeout.  Re-authenticating.");
-        self.oauthFlowManager = [[[SFOAuthFlowManager alloc] init] autorelease];
-        [self.oauthFlowManager login:self
-                          completion:^{
-                              SFRelease(_oauthFlowManager);
-                              [self authenticationCompletion];
-                          }
-                             failure:^{
-                                 SFRelease(_oauthFlowManager);
-                                 
-                             }
+        [[SFAuthenticationManager sharedManager] login:self
+                                            completion:^{
+                                                [self authenticationCompletion];
+                                            }
+                                               failure:^{
+                                                   [self authenticationCompletion];
+                                               }
          ];
     }
     
@@ -185,23 +174,11 @@
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
         && [[url path] isEqualToString:@"/"]
         && [url query] != nil) {
-        // NSURL componentizes its path components, but not its query?  Erm, okay.
-        NSArray *queryParams = [[url query] componentsSeparatedByString:@"&"];
-        BOOL foundStartURL = NO;
-        BOOL foundValidEcValue = NO;
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
         
-        for (NSString *queryParam in queryParams) {
-            NSArray *queryParamSplit = [queryParam componentsSeparatedByString:@"="];
-            NSString *paramName = [queryParamSplit objectAtIndex:0];
-            NSString *paramValue = ([queryParamSplit count] > 1 ? [queryParamSplit objectAtIndex:1] : @"");
-            if ([[paramName lowercaseString] isEqualToString:@"ec"]
-                && ([paramValue isEqualToString:@"301"] || [paramValue isEqualToString:@"302"])) {
-                foundValidEcValue = YES;
-            } else if ([[paramName lowercaseString] isEqualToString:@"starturl"]) {
-                foundStartURL = YES;
-            }
-        }
+        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+        NSString *ecValue = [url valueForParameterName:@"ec"];
+        BOOL foundStartURL = (startUrlValue != nil);
+        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
         
         urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
     }
@@ -214,16 +191,16 @@
 
 - (void)authenticationCompletion
 {
-    NSLog(@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration.");
-    
-    SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.commandDelegate getCommandInstance:kSFOAuthPluginName];
-    [oauthPlugin resetSessionCookie];
-    
-    
-    
-    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
-        [[SFUserActivityMonitor sharedInstance] startMonitoring];
-    }
+//    NSLog(@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration.");
+//    
+//    SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.commandDelegate getCommandInstance:kSFOAuthPluginName];
+//    [oauthPlugin resetSessionCookie];
+//    
+//    
+//    
+//    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+//        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+//    }
 }
 
 @end
