@@ -24,7 +24,6 @@
 
 #import "SalesforceOAuthPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
@@ -56,24 +55,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
  Method to be called when the OAuth process completes.
  */
 - (void)authenticationCompletion;
-
-/**
- Revokes the current user's credentials for the app, optionally redirecting her to the
- login screen.
- @param restartAuthentication Whether or not to immediately restart the authentication
- process.
- */
-- (void)logout:(BOOL)restartAuthentication;
-
-/**
- Adds the access (session) token cookie to the web view, for authentication.
- */
-- (void)addSidCookieForDomain:(NSString*)domain;
-
-/**
- Remove any cookies with the given names from the given domains.
- */
-- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
 
 /**
  Convert the post-authentication credentials into a Dictionary, to return to
@@ -142,7 +123,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)killSession:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"Killing the session.  Callback ID: %@", command.callbackId);
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+    [SFAuthenticationManager removeCookies:[NSArray arrayWithObjects:@"sid", nil]
             fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self writeJavascript:[result toSuccessCallbackString:command.callbackId]];
@@ -189,7 +170,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
         [self authenticationCompletion];
     };
     SFOAuthFlowCallbackBlock failureBlock = ^{
-        [self logout];
+        [[SFAuthenticationManager sharedManager] logout];
     };
     [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];
 }
@@ -198,7 +179,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 {
     NSLog(@"logoutCurrentUser");
     /* NSString* jsVersionStr = */[self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
-    [self logout];
+    [[SFAuthenticationManager sharedManager] logout];
 }
 
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
@@ -249,12 +230,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (void)logout
 {
-    [self logout:YES];
-}
-
-- (void)logout:(BOOL)restartAuthentication
-{
-    [_appDelegate clearAppState:restartAuthentication];
+    [[SFAuthenticationManager sharedManager] logout];
 }
 
 - (void)authenticationCompletion
@@ -263,7 +239,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
-    [self resetSessionCookie];
+    [SFAuthenticationManager resetSessionCookie];
     
     NSDictionary *authDict = [self credentialsAsDictionary];
     if (nil != _authCallbackId) {
@@ -280,58 +256,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
-}
-
-- (void)resetSessionCookie
-{
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
-}
-
-- (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
-{
-    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
-    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
-                for (NSString *domainToRemoveName in domainNames) {
-                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
-                    {
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-        }
-    }
-}
-
-- (void)addSidCookieForDomain:(NSString*)domain
-{
-    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    NSLog(@"addSidCookieForDomain: %@", domain);
-    
-    // Set the session ID cookie to be used by the web view.
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                   domain, NSHTTPCookieDomain,
-                                                   @"/", NSHTTPCookiePath,
-                                                   [SFAccountManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
-                                                   @"sid", NSHTTPCookieName,
-                                                   @"TRUE", NSHTTPCookieDiscard,
-                                                   nil];
-    if ([[SFAccountManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
-        [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
-    }
-    
-    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
-    [cookieStorage setCookie:sidCookie0];
 }
 
 - (void)populateOAuthProperties:(NSDictionary *)propsDict

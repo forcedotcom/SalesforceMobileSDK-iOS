@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 #import "SFOAuthCoordinator.h"
 #import "CDVPlugin.h"
 
@@ -62,9 +63,7 @@
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
-- (void)logout;
-
-- (void)resetSessionCookie;
+- (void)logout SFSDK_DEPRECATED(1.4, "Use [SFAuthenticationManager logout] going forward.");
 
 #pragma mark - Plugin exported to javascript
 

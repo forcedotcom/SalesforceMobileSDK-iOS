@@ -26,12 +26,12 @@
 #import "SFHybridViewController.h"
 #import "SalesforceSDKConstants.h"
 #import "SFContainerAppDelegate.h"
-#import "SalesforceOAuthPlugin.h"
 #import "NSURL+SFStringUtils.h"
 #import "NSURL+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFLogger.h"
 
 @interface SFHybridViewController()
 {
@@ -46,14 +46,16 @@
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
 
-- (BOOL)isLoginRedirectUrl:(NSURL *)url;
-
 /**
  * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
  */
 - (NSString *)startPageUrlString;
 
-- (void)authenticationCompletion;
+/**
+ * Method called after re-authentication completes (after session timeout).
+ * @param originalUrl The original URL being called before the session timed out.
+ */
+- (void)authenticationCompletion:(NSURL *)originalUrl;
 
 @end
 
@@ -73,38 +75,40 @@
 
 #pragma mark - UIWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSLog(@"webView:shouldStartLoadWithRequest: Loading URL '%@'", request.URL.absoluteString);
-    if ([self isLoginRedirectUrl:request.URL]) {
-        NSLog(@"Caught login redirect from session timeout.  Re-authenticating.");
+    [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
+     [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
+    if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
+        [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
         [[SFAuthenticationManager sharedManager] login:self
                                             completion:^{
-                                                [self authenticationCompletion];
+                                                [self authenticationCompletion:request.URL];
                                             }
                                                failure:^{
-                                                   [self authenticationCompletion];
+                                                   [[SFAuthenticationManager sharedManager] logout];
                                                }
          ];
+        return NO;
     }
     
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)theWebView 
+- (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
     NSURL *requestUrl = theWebView.request.URL;
     NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
-    NSLog(@"webViewDidFinishLoad: Loaded %@", redactedUrl);
+    [self log:SFLogLevelDebug format:@"webViewDidFinishLoad: Loaded %@", redactedUrl];
     
     // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
     // this app's infrastructure is responsible for) will be considered the "app home URL", which can
     // be loaded directly in the event that the app is offline.
     if (_foundHomeUrl == NO) {
-        NSLog(@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl);
+        [self log:SFLogLevelInfo format:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl];
         if (![self isReservedUrlValue:requestUrl]) {
-            NSLog(@"Setting %@ as the 'home page' URL for this app.", redactedUrl);
+            [self log:SFLogLevelInfo format:@"Setting %@ as the 'home page' URL for this app.", redactedUrl];
             [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
             _foundHomeUrl = YES;
         }
@@ -157,50 +161,17 @@
     return urlString;
 }
 
-- (BOOL)isLoginRedirectUrl:(NSURL *)url
-{
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
-        return NO;
-    
-    // Sanity check the components of the login host.  If they're not present, don't bother to
-    // interpret; just skip this check.
-    if ([SFAccountManager loginHost] == nil
-        || [[SFAccountManager loginHost] length] == 0
-        || [SFAccountManager sharedInstance].credentials.protocol == nil
-        || [[SFAccountManager sharedInstance].credentials.protocol length] == 0)
-        return NO;
-    
-    BOOL urlMatchesLoginRedirectPattern = NO;
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [[url path] isEqualToString:@"/"]
-        && [url query] != nil) {
-        
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        
-        urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
-    }
-    
-    return urlMatchesLoginRedirectPattern;
-    
-}
-
 #pragma mark - OAuth flow helpers
 
-- (void)authenticationCompletion
+- (void)authenticationCompletion:(NSURL *)originalUrl
 {
-//    NSLog(@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration.");
-//    
-//    SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.commandDelegate getCommandInstance:kSFOAuthPluginName];
-//    [oauthPlugin resetSessionCookie];
-//    
-//    
-//    
-//    if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
-//        [[SFUserActivityMonitor sharedInstance] startMonitoring];
-//    }
+    [self log:SFLogLevelDebug msg:@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration."];
+    
+    [SFAuthenticationManager resetSessionCookie];
+    NSString *encodedStartUrlValue = [originalUrl valueForParameterName:@"startURL"];
+    NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];
+    NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
+    [self.webView loadRequest:newRequest];
 }
 
 @end

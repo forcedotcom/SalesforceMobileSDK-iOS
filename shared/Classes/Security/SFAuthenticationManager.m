@@ -6,13 +6,17 @@
 //  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
+#import "SFApplication.h"
 #import "SFAuthenticationManager.h"
+#import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
 #import "SFAccountManager.h"
 #import "SalesforceSDKConstants.h"
 #import "SFAuthorizingViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
+#import "SFLogger.h"
+#import "NSURL+SFAdditions.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -171,6 +175,117 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     [self login];
 }
 
+- (void)loggedIn
+{
+    // If this is the initial login, or there's no persisted identity data, get the data
+    // from the service.
+    if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
+        [SFAccountManager sharedInstance].idDelegate = self;
+        [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+    } else {
+        // Just go directly to the post-processing step.
+        [self execCompletionBlock];
+    }
+}
+
+- (void)logout
+{
+    id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
+    if ([appDelegate conformsToProtocol:@protocol(SFSDKAppDelegate)]) {
+        id<SFSDKAppDelegate> sdkAppDelegate = (id<SFSDKAppDelegate>)appDelegate;
+        [sdkAppDelegate logout];
+    } else {
+        [self log:SFLogLevelWarning msg:@"[SFAuthenticationManager logout]: App delegate does NOT implement SFSDKAppDelegate protocol.  No action taken.  Implement SFSDKAppDelegate if you wish to use this functionality."];
+    }
+}
+
++ (void)resetSessionCookie
+{
+    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
+    [self addSidCookieForDomain:@".salesforce.com"];
+}
+
++ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
+{
+    NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
+    NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
+    
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        for (NSString *cookieToRemoveName in cookieNames) {
+            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+                for (NSString *domainToRemoveName in domainNames) {
+                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
+                    {
+                        [cookieStorage deleteCookie:cookie];
+                    }
+                }
+            }
+        }
+    }
+}
+
++ (void)addSidCookieForDomain:(NSString*)domain
+{
+    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
+    NSLog(@"addSidCookieForDomain: %@", domain);
+    
+    // Set the session ID cookie to be used by the web view.
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    
+    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                   domain, NSHTTPCookieDomain,
+                                                   @"/", NSHTTPCookiePath,
+                                                   [SFAccountManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   @"sid", NSHTTPCookieName,
+                                                   @"TRUE", NSHTTPCookieDiscard,
+                                                   nil];
+    if ([[SFAccountManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
+        [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+    }
+    
+    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
+    [cookieStorage setCookie:sidCookie0];
+}
+
++ (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
+{
+    NSString *encodedUrl = (isEncoded ? returnUrl : [returnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].credentials;
+    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:[creds.instanceUrl absoluteString]];
+    if (![frontDoorUrl hasSuffix:@"/"])
+        [frontDoorUrl appendString:@"/"];
+    NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
+    
+    return [NSURL URLWithString:frontDoorUrl];
+}
+
++ (BOOL)isLoginRedirectUrl:(NSURL *)url
+{
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
+        return NO;
+    
+    BOOL urlMatchesLoginRedirectPattern = NO;
+    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
+        && [[url path] isEqualToString:@"/"]
+        && [url query] != nil) {
+        
+        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+        NSString *ecValue = [url valueForParameterName:@"ec"];
+        BOOL foundStartURL = (startUrlValue != nil);
+        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+        
+        urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
+    }
+    
+    return urlMatchesLoginRedirectPattern;
+    
+}
+
 #pragma mark - Private methods
 
 - (void)execCompletionBlock
@@ -193,19 +308,6 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     [SFAccountManager sharedInstance].oauthDelegate = self;
     [[SFAccountManager sharedInstance].coordinator authenticate];
-}
-
-- (void)loggedIn
-{
-    // If this is the initial login, or there's no persisted identity data, get the data
-    // from the service.
-    if (_isInitialLogin || [SFAccountManager sharedInstance].idData == nil) {
-        [SFAccountManager sharedInstance].idDelegate = self;
-        [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
-    } else {
-        // Just go directly to the post-processing step.
-        [self execCompletionBlock];
-    }
 }
 
 - (void)cleanupRetryAlert
