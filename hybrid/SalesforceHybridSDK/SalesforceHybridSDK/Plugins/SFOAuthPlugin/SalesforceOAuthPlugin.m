@@ -120,16 +120,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 #pragma mark - Cordova plugin methods
 
-- (void)killSession:(CDVInvokedUrlCommand *)command
-{
-    NSLog(@"Killing the session.  Callback ID: %@", command.callbackId);
-    [SFAuthenticationManager removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self writeJavascript:[result toSuccessCallbackString:command.callbackId]];
-}
-
-
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"getAuthCredentials: arguments: %@", command.arguments);
