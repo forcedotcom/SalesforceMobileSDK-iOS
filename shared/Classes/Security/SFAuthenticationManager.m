@@ -1,10 +1,27 @@
-//
-//  SFOAuthFlowManager.m
-//  SalesforceHybridSDK
-//
-//  Created by Kevin Hawkins on 11/15/12.
-//  Copyright (c) 2012 Salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SFApplication.h"
 #import "SFAuthenticationManager.h"
@@ -230,7 +247,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 + (void)addSidCookieForDomain:(NSString*)domain
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    NSLog(@"addSidCookieForDomain: %@", domain);
+    [self log:SFLogLevelDebug format:@"addSidCookieForDomain: %@", domain];
     
     // Set the session ID cookie to be used by the web view.
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -328,7 +345,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     
     // TODO: This is another NIB file that's delivered as part of the app templates, and should be
     // moved into a bundle (along with the root vc NIB file mentioned above.
-    NSLog(@"SFOAuthFlowManager: Presenting auth view controller.");
+    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: Presenting auth view controller."];
     self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     [self.authViewController setOauthView:webView];
     [self.viewController presentViewController:self.authViewController animated:YES completion:NULL];
@@ -344,7 +361,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     }
     
     if (self.authViewController != nil) {
-        NSLog(@"Dismissing the auth view controller.");
+        [self log:SFLogLevelDebug msg:@"Dismissing the auth view controller."];
         [self.authViewController.presentingViewController dismissViewControllerAnimated:YES
                                                                              completion:^{
                                                                                  self.authViewController = nil;
@@ -396,37 +413,37 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
 {
-    NSLog(@"SFOAuthFlowManager: oauthCoordinator:willBeginAuthenticationWithView");
+    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: oauthCoordinator:willBeginAuthenticationWithView"];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
-    NSLog(@"SFOAuthFlowManager: oauthCoordinator:didBeginAuthenticationWithView");
+    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: oauthCoordinator:didBeginAuthenticationWithView"];
     _isInitialLogin = YES;
     [self presentAuthViewController:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"SFOAuthFlowManager: oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info);
+    [self log:SFLogLevelDebug format:@"SFOAuthFlowManager: oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"SFOAuthFlowManager: oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
+    [self log:SFLogLevelDebug format:@"SFOAuthFlowManager: oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
     
     BOOL showAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {
         if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
             // Restart the login process asynchronously.
             showAlert = NO;
-            NSLog(@"OAuth refresh failed with error code: %d", error.code);
+            [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
             [self execFailureBlock];
         } else if ([SFAccountManager errorIsNetworkFailure:error]) {
             // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
             showAlert = NO;
-            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
+            [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
             
             [self loggedIn];
         }
@@ -456,7 +473,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (alertView == _statusAlert) {
-        NSLog(@"clickedButtonAtIndex: %d",buttonIndex);
+        [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
         if (alertView.tag == kOAuthAlertViewTag) {
             [self dismissAuthViewControllerIfPresent:@selector(login)];
         } else if (alertView.tag == kIdentityAlertViewTag) {
