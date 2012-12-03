@@ -24,7 +24,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+#import "SFApplication.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
 #import "SFLogger.h"
@@ -38,7 +38,7 @@
  
  */
 
-@interface SFNativeRestAppDelegate : NSObject <UIApplicationDelegate, SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SFNativeRestAppDelegate : NSObject <SFSDKAppDelegate, SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
     SFAuthorizingViewController *_authViewController;
 }
 
@@ -89,12 +89,6 @@
  Be sure to call super if you override this.
  */
 - (void)loggedIn;
-
-/**
- Forces a logout from the current account.
- This throws out the OAuth refresh token.
- */
-- (void)logout;
 
 /**
  This disposes of any current data.
