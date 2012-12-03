@@ -32,6 +32,7 @@
 #import "SFAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
+#import "SFAuthenticationManager.h"
 
 // Private constants
 
@@ -196,10 +197,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer {
     [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
-        if ([appDelegate respondsToSelector:@selector(logout)]) {
-            [appDelegate performSelector:@selector(logout)];
-        }
+        [[SFAuthenticationManager sharedManager] logout];
     }];
 	[SFSecurityLockout lock];
 }
