@@ -23,31 +23,20 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 #import "SFOAuthCoordinator.h"
-#import "SFIdentityCoordinator.h"
 #import "CDVPlugin.h"
 
 @class SFContainerAppDelegate;
-@class SFIdentityData;
-@class SFAuthorizingViewController;
 @class CDVInvokedUrlCommand;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : CDVPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : CDVPlugin
+{
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
-    NSString *_remoteAccessConsumerKey;
-    NSString *_oauthRedirectURI;
-    NSString *_oauthLoginDomain;
-    NSSet *_oauthScopes;
-    NSDate *_lastRefreshCompleted;
-    BOOL _autoRefreshOnForeground;
-    UIAlertView *_statusAlert;
-    BOOL _autoRefreshPeriodically;
-    NSTimer *_autoRefreshTimer;
-    NSURLConnection *_sessionKeepaliveConnection;
 }
 
 /**
@@ -70,56 +59,11 @@
  */
 @property (nonatomic, retain) NSSet *oauthScopes;
 
-
-/**
- The timestamp at which the last oauth refresh completed.
- */
-@property (nonatomic, retain) NSDate *lastRefreshCompleted;
-
-
-/**
- Whether the app should automatically refresh oauth session when foregrounded
- */
-@property (nonatomic, assign) BOOL autoRefreshOnForeground;
-
-
-/**
- Whether the app should automatically refresh oauth session every ~15 minutes
- while the app is running.
- */
-@property (nonatomic, assign) BOOL autoRefreshPeriodically;
-
-/**
- The view controller used to present the authentication dialog.
- */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
-
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
-- (void)logout;
-
-/**
- Kick off the login process.
- */
-- (void)login;
-
-/**
- Sent whenever the user has been logged in using current settings.
- Be sure to call super if you override this.
- */
-- (void)loggedIn;
-
-/**
- Resets the processes that perform periodic session refreshing.
- */
-- (void)clearPeriodicRefreshState;
-
-/**
- If auto refresh is configured, refresh the existing OAuth session.
- */
-- (void)autoRefresh;
+- (void)logout SFSDK_DEPRECATED(1.4, "Use [SFAuthenticationManager logout] going forward.");
 
 #pragma mark - Plugin exported to javascript
 
