@@ -25,6 +25,19 @@
 #import <UIKit/UIKit.h>
 
 /**
+ * Protocol defining an SDK-based app delegate.
+ */
+@protocol SFSDKAppDelegate <UIApplicationDelegate>
+
+/**
+ * Forces a logout from the current account.
+ * This throws out the OAuth refresh token.
+ */
+- (void)logout;
+
+@end
+
+/**
  * Mobile SDK extension of the UIApplication object.  Currently just gathers
  * date/time information about user events.
  */
