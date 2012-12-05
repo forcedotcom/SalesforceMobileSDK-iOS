@@ -46,6 +46,11 @@ static NSString * const kSecurityIsLockedKey                 = @"security.islock
 
 // Public constants
 
+NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
+NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
+
+// Static vars
+
 static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
 static SFLockScreenCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
@@ -113,7 +118,7 @@ static BOOL _showPasscode = YES;
         }
 		[SFSecurityLockout unlock:YES];
         
-        //Call setPassword to trigger extra clean up logic
+        // Call setPasscode to trigger extra clean up logic.
 		[SFSecurityLockout setPasscode:nil];
         
 		[SFInactivityTimerCenter removeTimer:kTimerSecurity];
@@ -170,6 +175,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     
 	if ([self locked]) {
+        [self sendPasscodeFlowCompletedNotification:success];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
             if (success) {
@@ -237,6 +243,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [self setIsLocked:YES];
     if (_showPasscode) {
+        [self sendPasscodeFlowWillBeginNotification:modeValue];
         [self log:SFLogLevelInfo msg:@"Setting window to key window."];
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
@@ -254,6 +261,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             presentingViewController = topWindow.rootViewController;
         [presentingViewController presentViewController:nc animated:YES completion:NULL];
     }
+}
+
++ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode
+{
+    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %d", mode];
+    NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
+                                                      object:[NSNumber numberWithInt:mode]
+                                                    userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
+}
+
++ (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess
+{
+    [self log:SFLogLevelDebug
+       format:@"Sending passcode flow completed notification with validation success = %d", validationSuccess];
+    NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowCompleted
+                                                      object:[NSNumber numberWithBool:validationSuccess]
+                                                    userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
 + (void)setIsLocked:(BOOL)locked {

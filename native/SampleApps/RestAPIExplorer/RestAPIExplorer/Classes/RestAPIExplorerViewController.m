@@ -30,16 +30,23 @@
 #import "SFJsonUtils.h"
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
+#import "SFSecurityLockout.h"
 
-@interface RestAPIExplorerViewController (private)
+@interface RestAPIExplorerViewController ()
+
+@property (nonatomic, retain) UIActionSheet *logoutActionSheet;
+
 - (NSString *)formatRequest:(SFRestRequest *)request;
 - (void)hideKeyboard;
+- (void)clearPopovers:(NSNotification *)note;
+
 @end
 
 @implementation RestAPIExplorerViewController
 
 // action based query
 @synthesize popoverController=__popoverController;
+@synthesize toolBar = _toolBar;
 @synthesize tfObjectType = _tfObjectType;
 @synthesize tfObjectId = _tfObjectId;
 @synthesize tfExternalId = _tfExternalId;
@@ -48,6 +55,7 @@
 @synthesize tfExternalFieldId = _tfExternalFieldId;
 @synthesize tfFieldList = _tfFieldList;
 @synthesize tvFields = _tvFields;
+@synthesize logoutActionSheet = _logoutActionSheet;
 // manual query
 @synthesize tfPath=_tfPath;
 @synthesize tvParams=_tvParams;
@@ -60,8 +68,12 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     // action based query
     [__popoverController release];
+    [_toolBar release];
+    [_logoutActionSheet release];
     [_tfObjectType release];
     [_tfObjectId release];
     [_tfExternalId release];
@@ -87,6 +99,10 @@
 {
     [super viewDidLoad];
     self.title = @"Salesforce API Explorer";
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearPopovers:)
+                                                 name:kSFPasscodeFlowWillBegin
+                                               object:nil];
 }
 
 
@@ -94,6 +110,8 @@
 {
     // action based query
     self.popoverController = nil;
+    self.toolBar = nil;
+    self.logoutActionSheet = nil;
     self.tfObjectType = nil;
     self.tfObjectId = nil;
     self.tfExternalId = nil;
@@ -300,8 +318,12 @@
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
     else if ([text isEqualToString:kActionLogout]) {
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate logout];
+        self.logoutActionSheet = [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
+                                                              delegate:self
+                                                     cancelButtonTitle:nil
+                                                destructiveButtonTitle:@"Confirm Logout"
+                                                     otherButtonTitles:nil] autorelease];
+        [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
     } 
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {
@@ -319,12 +341,38 @@
     }
 }
 
+#pragma mark - Passcode handling
+
+- (void)clearPopovers:(NSNotification *)note
+{
+    NSLog(@"Passcode screen loading.  Clearing popovers.");
+    if (self.popoverController) {
+        [self.popoverController dismissPopoverAnimated:NO];
+    }
+    if (self.logoutActionSheet) {
+        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
+    }
+}
+
 
 #pragma mark - UITextFieldDelegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self btnGoPressed:nil];
     return NO;
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ([actionSheet isEqual:self.logoutActionSheet]) {
+        self.logoutActionSheet = nil;
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate logout];
+        }
+    }
 }
 
 #pragma mark - SFRestDelegate

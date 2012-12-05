@@ -27,6 +27,14 @@
 static const NSUInteger kMaxNumberofAttempts = 10;
 static NSString * const kRemainingAttemptsKey = @"remainingAttempts";
 
+/** Notification sent when the passcode screen will be displayed.
+ */
+extern NSString * const kSFPasscodeFlowWillBegin;
+
+/** Notification sent when the passcode flow has completed.
+ */
+extern NSString * const kSFPasscodeFlowCompleted;
+
 typedef void (^SFLockScreenCallbackBlock)(void);
 
 @class SFOAuthCredentials;
