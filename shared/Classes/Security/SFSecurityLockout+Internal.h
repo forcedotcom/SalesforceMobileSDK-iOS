@@ -45,6 +45,18 @@
 + (void)unlockFailurePostProcessing;
 
 /**
+ * Generate the notification for the beginning of the passcode flow.
+ * @param mode The controller mode (create vs. verify) associated with the passcode flow.
+ */
++ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode;
+
+/**
+ * Generate the notification for the completion of the passcode flow.
+ * @param validationSuccess Whether the passcode validation was successful or not.
+ */
++ (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess;
+
+/**
  * FOR UNIT TESTS ONLY: Sets the lockout time directly, without accompanying business logic.
  * @param seconds The number of seconds for the lockout time.
  */
