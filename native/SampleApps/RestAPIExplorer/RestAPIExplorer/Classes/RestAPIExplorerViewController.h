@@ -26,7 +26,8 @@
 #import <UIKit/UIKit.h>
 #import "SFRestAPI.h"
 
-@interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate> {
+@interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+{
     // action based query
     UIPopoverController *__popoverController;
     UITextField *_tfObjectType;
@@ -55,6 +56,7 @@
 
 // action based query
 @property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
 @property (nonatomic, retain) IBOutlet UITextField *tfObjectType;
 @property (nonatomic, retain) IBOutlet UITextField *tfObjectId;
 @property (nonatomic, retain) IBOutlet UITextField *tfExternalId;
