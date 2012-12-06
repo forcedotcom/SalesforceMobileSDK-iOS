@@ -34,7 +34,26 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-__What's New in 1.3__
+__What's New in 1.4__
+
+**Updated iOS SDK to Cordova 2.2**
+Make sure to update to the latest cordova.js and associated SDK JS plugin files when you upgrade.  These can either be taken from the repo, or from a newly-generated hybrid template app.
+
+**API Versioning**
+Cordova JavaScript libraries are now versioned to benefit hybrid apps that deploy multiple versions at the same time. 
+See “Versioning and Javascript Library Compatibility” in the “Introduction to Hybrid Development” chapter of the Mobile SDK Developer Guide. 
+
+**Reactive Session Management for Hybrid Apps** 
+Developers get more control over managing web sessions inside the hybrid container. Apps that previously relied on proactive session management will require some modification. Please upgrade with caution. (forcetk.js clients should not be affected.)
+
+**Passcode Reset**
+Added option for users to logout from the passcode screen
+
+**Other**
+* SmartStore for native apps Xcode template
+* Mobile Components for Visualforce updated to provide session management* 
+
+__Version 1.3__
 
 **Cordova Library Updates**
 The Salesforce Hybrid SDK has updated its PhoneGap/Cordova support to Cordova 1.8.1.  All plugins and infrastructure have been updated to Cordova patterns.
