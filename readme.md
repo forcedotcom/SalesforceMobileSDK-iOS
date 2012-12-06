@@ -51,7 +51,7 @@ Added option for users to logout from the passcode screen
 
 **Other**
 * SmartStore for native apps Xcode template
-* Mobile Components for Visualforce updated to provide session management* 
+* Mobile Components for Visualforce updated to provide session management
 
 __Version 1.3__
 
