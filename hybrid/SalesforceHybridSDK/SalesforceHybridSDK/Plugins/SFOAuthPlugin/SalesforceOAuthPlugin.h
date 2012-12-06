@@ -23,29 +23,20 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 #import "SFOAuthCoordinator.h"
-#import "SFIdentityCoordinator.h"
-#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin.h"
 
 @class SFContainerAppDelegate;
-@class SFIdentityData;
+@class CDVInvokedUrlCommand;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : CDVPlugin <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
+@interface SalesforceOAuthPlugin : CDVPlugin
+{
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
-    NSString *_remoteAccessConsumerKey;
-    NSString *_oauthRedirectURI;
-    NSString *_oauthLoginDomain;
-    NSSet *_oauthScopes;
-    NSDate *_lastRefreshCompleted;
-    BOOL _autoRefreshOnForeground;
-    UIAlertView *_statusAlert;
-    BOOL _autoRefreshPeriodically;
-    NSTimer *_autoRefreshTimer;
-    NSURLConnection *_sessionKeepaliveConnection;
 }
 
 /**
@@ -68,80 +59,36 @@
  */
 @property (nonatomic, retain) NSSet *oauthScopes;
 
-
-/**
- The timestamp at which the last oauth refresh completed.
- */
-@property (nonatomic, retain) NSDate *lastRefreshCompleted;
-
-
-/**
- Whether the app should automatically refresh oauth session when foregrounded
- */
-@property (nonatomic, assign) BOOL autoRefreshOnForeground;
-
-
-/**
- Whether the app should automatically refresh oauth session every ~15 minutes
- while the app is running.
- */
-@property (nonatomic, assign) BOOL autoRefreshPeriodically;
-
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
-- (void)logout;
-
-/**
- Kick off the login process.
- */
-- (void)login;
-
-/**
- Sent whenever the user has been logged in using current settings.
- Be sure to call super if you override this.
- */
-- (void)loggedIn;
-
-/**
- Resets the processes that perform periodic session refreshing.
- */
-- (void)clearPeriodicRefreshState;
-
-/**
- If auto refresh is configured, refresh the existing OAuth session.
- */
-- (void)autoRefresh;
+- (void)logout SFSDK_DEPRECATED(1.4, "Use [SFAuthenticationManager logout] going forward.");
 
 #pragma mark - Plugin exported to javascript
 
 /**
  * Cordova plug-in method to obtain the current login credentials, authenticating if needed.
- * @param arguments Cordova arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Cordova plugin command object, containing input parameters.
  */
-- (void)getAuthCredentials:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command;
 
 /**
  * Cordova plug-in method to authenticate a user to the application.
- * @param arguments Cordova arguments array, containing the OAuth configuration properties.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Cordova plugin command object, containing the OAuth configuration properties.
  */
-- (void)authenticate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)authenticate:(CDVInvokedUrlCommand *)command;
 
 /**
  * Clear the current user's authentication credentials.
- * @param arguments Standard Cordova plugin arguments, not used in this method.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Standard Cordova plugin arguments, not used in this method.
  */
-- (void)logoutCurrentUser:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command;
 
 /**
  * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
- * @param arguments Standard Cordova plugin arguments, nominally used in this method.
- * @param options Name/value pair options from Cordova, not used in this method.
+ * @param command Standard Cordova plugin arguments, nominally used in this method.
  */
-- (void)getAppHomeUrl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command;
 
 @end

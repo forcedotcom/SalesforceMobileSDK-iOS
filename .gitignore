@@ -15,7 +15,7 @@ artifacts
 /native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
 
 /hybrid/dependencies/PhoneGap.framework/
-/hybrid/dependencies/Cordova.framework/
+/hybrid/dependencies/Cordova/
 /hybrid/dependencies/SalesforceHybridSDK/
 /hybrid/dependencies/SalesforceOAuth/
 /hybrid/dependencies/openssl/

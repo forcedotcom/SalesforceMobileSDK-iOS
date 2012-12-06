@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,30 +23,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 
-/**
- * Protocol defining an SDK-based app delegate.
- */
-@protocol SFSDKAppDelegate <UIApplicationDelegate>
+#import "SFPluginTestSuite.h"
 
-/**
- * Forces a logout from the current account.
- * This throws out the OAuth refresh token.
- */
-- (void)logout;
 
-@end
-
-/**
- * Mobile SDK extension of the UIApplication object.  Currently just gathers
- * date/time information about user events.
- */
-@interface SFApplication : UIApplication
-
-/**
- * The date of the last user event in the application.
- */
-@property (nonatomic, readonly) NSDate *lastEventDate;
-
+@interface SDKInfoTestSuite : SFPluginTestSuite
 @end

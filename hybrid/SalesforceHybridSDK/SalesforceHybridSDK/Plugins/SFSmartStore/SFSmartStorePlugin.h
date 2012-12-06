@@ -25,8 +25,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Cordova/CDVPlugin.h>
 
+#import "CDVPlugin.h"
+@class CDVInvokedUrlCommand;
 
 /**
  String used with Cordova to uniquely identify this plugin
@@ -62,94 +63,63 @@ extern NSString * const kSmartStorePluginIdentifier;
 
 /**
  * Does the given soup exist in the store?  See see [SFSmartStore soupExists:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error 
- *
- * @param options NSDictionary containing "soupName".
+ * @param command Cordova arguments object containing "soupName".
  *
  */
-- (void)pgSoupExists:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgSoupExists:(CDVInvokedUrlCommand *)command;
 
 /**
  * Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error 
- *
- * @param options NSDictionary containing "soupName" and "indexSpecs".
+ * @param command Cordova arguments object containing "soupName" and "indexSpecs".
  *
  */
-- (void)pgRegisterSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRegisterSoup:(CDVInvokedUrlCommand *)command;
 
 
 /**
  * Removes a soup from the store.  See [SFSmartStore removeSoup:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error 
- *
- * @param options NSDictionary containing "soupName".
+ * @param command Cordova arguments object containing "soupName".
  *
  */
-- (void)pgRemoveSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRemoveSoup:(CDVInvokedUrlCommand *)command;
 
 
 /**
  * Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
- *
- * @param options NSDictionary containing "soupName" and "querySpec".
+ * @param command Cordova arguments object containing "soupName" and "querySpec".
  *
  */
-- (void)pgQuerySoup:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgQuerySoup:(CDVInvokedUrlCommand *)command;
 
 
 /**
  * Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
- *
- * @param options NSDictionary containing "soupName" and "soupEntryIds".
+ * @param command Cordova arguments object containing "soupName" and "soupEntryIds".
  *
  */
-- (void)pgRetrieveSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command;
 
 
 /**
  * Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
- *
- * @param options NSDictionary containing "soupName" and "entries".
+ * @param command Cordova arguments object containing "soupName" and "entries".
  *
  */
-- (void)pgUpsertSoupEntries:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgUpsertSoupEntries:(CDVInvokedUrlCommand *)command;
 
 /**
  * Closes a cursor associated with soup data.
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *
- * @param options NSDictionary containing "cursorId".
+ * @param command Cordova arguments object containing "cursorId".
  */
-- (void)pgCloseCursor:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgCloseCursor:(CDVInvokedUrlCommand *)command;
 
 
 /**
  * Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].
- * @param arguments Standard cordova arguments array, containing:
- *   1: successCB - this is the javascript function that will be called on success
- *   2: errorCB - optional javascript function to be called in the event of an error with an error code.
- *
- * @param options NSDictionary containing "soupName" and "soupEntryIds".
+ * @param command Cordova arguments object containing "soupName" and "soupEntryIds".
  *
  */
-- (void)pgRemoveFromSoup:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)pgRemoveFromSoup:(CDVInvokedUrlCommand *)command;
 
 
 

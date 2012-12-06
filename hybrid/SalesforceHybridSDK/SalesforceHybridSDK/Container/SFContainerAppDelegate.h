@@ -25,6 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SFApplication.h"
 #import "SFLogger.h"
 
 @class SalesforceOAuthPlugin;
@@ -67,7 +68,7 @@ extern NSString * const kSFOAuthPluginName;
  */
 extern NSString * const kSFSmartStorePluginName;
 
-@interface SFContainerAppDelegate : NSObject <UIApplicationDelegate> {
+@interface SFContainerAppDelegate : NSObject <SFSDKAppDelegate> {
     SalesforceOAuthPlugin *_oauthPlugin;
     BOOL _isAppStartup;
 }
@@ -114,13 +115,6 @@ extern NSString * const kSFSmartStorePluginName;
  * @param restartAuthentication Whether or not to restart authentication after the app is reset.
  */
 - (void)clearAppState:(BOOL)restartAuthentication;
-
-/**
- * Essentially a call to clearAppState:YES.  The pin code functionality requires a logout function
- * on the app, in the event of pin verification failure.
- */
-- (void)logout;
-
 
 /**
  The currently running app delegate

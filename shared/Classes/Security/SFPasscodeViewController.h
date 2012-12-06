@@ -35,7 +35,7 @@ typedef enum {
 /**
  * The view controller for managing the passcode screen.
  */
-@interface SFPasscodeViewController : UIViewController <UITextFieldDelegate>
+@interface SFPasscodeViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 
 /**
  * The minimum passcode length, which this view controller will enforce.

@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4F3793EA162CD0070094E5C7 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		4F3793EB162CD0080094E5C7 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		4F3793EC162CD0440094E5C7 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
+		4FA1DA47162C821A00BC1B52 /* SFSDKInfoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1DA45162C821A00BC1B52 /* SFSDKInfoPlugin.h */; };
+		4FA1DA48162C821A00BC1B52 /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		4FA1DA55162CB6A000BC1B52 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */; };
+		4FA1DA57162CB6B000BC1B52 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */; };
+		4FA1DA5A162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA1DA58162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h */; };
+		4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
+		4FA1DA5D162CB6CE00BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
+		4FA1DA5E162CB6D800BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
+		4FA1DA61162CB85600BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
+		4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
+		4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		7D20FBB314ED7DBD00A86731 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
 		7D20FBB414ED7DBD00A86731 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB14AB14C0EFE400CCDBE0 /* AppDelegate.m */; };
 		7D20FBB514ED7DBD00A86731 /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCEF4FA14D0812700BB3F3E /* SFTestRunnerPlugin.m */; };
@@ -64,7 +79,6 @@
 		7D8ECEAC14EB246B004F241C /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE8F14EB246B004F241C /* SFSoupIndex.h */; settings = {ATTRIBUTES = (); }; };
 		7D8ECEAD14EB246B004F241C /* SFSoupCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE9014EB246B004F241C /* SFSoupCursor.h */; settings = {ATTRIBUTES = (); }; };
 		7D8ECEAE14EB246B004F241C /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECE9114EB246B004F241C /* SFSmartStore.h */; settings = {ATTRIBUTES = (); }; };
-		7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D38A6FE14D3774400F51851 /* SalesforceHybridSDK.framework */; };
 		7DBB147914C0ECF700CCDBE0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */; };
 		7DBB147F14C0ECF700CCDBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBB147D14C0ECF700CCDBE0 /* InfoPlist.strings */; };
 		7DBB148114C0ECF700CCDBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB148014C0ECF700CCDBE0 /* main.m */; };
@@ -123,6 +137,45 @@
 		7DE73A4414F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
 		7DE73A4614F6B6E600D489DE /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */; };
+		820273D61649E73F00DB814C /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */; };
+		820273D81649E74000DB814C /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */; };
+		820273D91649E74200DB814C /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */; };
+		8202753316516A6200DB814C /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751416516A6200DB814C /* NSData+SFAdditions.h */; };
+		8202753416516A6200DB814C /* NSDictionary+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751516516A6200DB814C /* NSDictionary+SFAdditions.h */; };
+		8202753516516A6200DB814C /* NSMutableAttributedString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751616516A6200DB814C /* NSMutableAttributedString+SFAdditions.h */; };
+		8202753616516A6200DB814C /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751716516A6200DB814C /* NSObject+SFBlocks.h */; };
+		8202753716516A6200DB814C /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751816516A6200DB814C /* NSString+SFAdditions.h */; };
+		8202753816516A6200DB814C /* NSString+SFPathAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751916516A6200DB814C /* NSString+SFPathAdditions.h */; };
+		8202753916516A6200DB814C /* NSURL+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751A16516A6200DB814C /* NSURL+SFAdditions.h */; };
+		8202753A16516A6200DB814C /* SalesforceCommonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751B16516A6200DB814C /* SalesforceCommonUtils.h */; };
+		8202753B16516A6200DB814C /* SFCoverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751C16516A6200DB814C /* SFCoverView.h */; };
+		8202753C16516A6200DB814C /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751D16516A6200DB814C /* SFCrypto.h */; };
+		8202753D16516A6200DB814C /* SFDateUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751E16516A6200DB814C /* SFDateUtil.h */; };
+		8202753E16516A6200DB814C /* SFDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202751F16516A6200DB814C /* SFDeviceInfo.h */; };
+		8202753F16516A6200DB814C /* SFEncryptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752016516A6200DB814C /* SFEncryptionManager.h */; };
+		8202754016516A6200DB814C /* SFGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752116516A6200DB814C /* SFGradientView.h */; };
+		8202754116516A6200DB814C /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752216516A6200DB814C /* SFInactivityTimerCenter.h */; };
+		8202754216516A6200DB814C /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752316516A6200DB814C /* SFKeychainItemWrapper.h */; };
+		8202754316516A6200DB814C /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752416516A6200DB814C /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8202754416516A6200DB814C /* SFMD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752516516A6200DB814C /* SFMD5.h */; };
+		8202754516516A6200DB814C /* SFPadPickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752616516A6200DB814C /* SFPadPickListViewController.h */; };
+		8202754616516A6200DB814C /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752716516A6200DB814C /* SFPathUtil.h */; };
+		8202754716516A6200DB814C /* SFPhonePickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752816516A6200DB814C /* SFPhonePickListViewController.h */; };
+		8202754816516A6200DB814C /* SFPickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752916516A6200DB814C /* SFPickListViewController.h */; };
+		8202754916516A6200DB814C /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752A16516A6200DB814C /* SFTestContext.h */; };
+		8202754A16516A6200DB814C /* SFUIUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752B16516A6200DB814C /* SFUIUtils.h */; };
+		8202754B16516A6200DB814C /* UIActionSheet+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752C16516A6200DB814C /* UIActionSheet+SFBlocks.h */; };
+		8202754C16516A6200DB814C /* UIAlertView+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752D16516A6200DB814C /* UIAlertView+SFBlocks.h */; };
+		8202754D16516A6200DB814C /* UIBarButtonItem+SFAddtions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752E16516A6200DB814C /* UIBarButtonItem+SFAddtions.h */; };
+		8202754E16516A6200DB814C /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202752F16516A6200DB814C /* UIDevice+SFHardware.h */; };
+		8202754F16516A6200DB814C /* UILabel+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8202753016516A6200DB814C /* UILabel+SFAdditions.h */; };
+		8202755016516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202753216516A6200DB814C /* libSalesforceCommonUtils.a */; };
+		8202755116516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202753216516A6200DB814C /* libSalesforceCommonUtils.a */; };
+		8202755216516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202753216516A6200DB814C /* libSalesforceCommonUtils.a */; };
+		8202755316516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202753216516A6200DB814C /* libSalesforceCommonUtils.a */; };
+		820275E61651759400DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275E51651759400DB814C /* MessageUI.framework */; };
+		820275E81651761C00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275E51651759400DB814C /* MessageUI.framework */; };
+		820275E91651766700DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275E51651759400DB814C /* MessageUI.framework */; };
 		82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
 		82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
 		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
@@ -153,40 +206,9 @@
 		821D1CC915B204FB00D05F8E /* SalesforceHybridSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 821D1CC815B204FB00D05F8E /* SalesforceHybridSDKTests.m */; };
 		821D1CD215B2066D00D05F8E /* UtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 821D1CD115B2066D00D05F8E /* UtilsTests.m */; };
 		821D1CD315B206A300D05F8E /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
-		8220A36115FE939500B040C0 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8220A36015FE939500B040C0 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8220A36415FE941300B040C0 /* CDVWhitelist.h in Headers */ = {isa = PBXBuildFile; fileRef = 8220A36315FE941300B040C0 /* CDVWhitelist.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8220A36515FE9B9D00B040C0 /* NSDictionary+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC015AAA2D4006D8266 /* NSDictionary+SFAdditions.h */; };
-		82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
-		82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
-		82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 82229AA015A66917006D8266 /* cordova-1.8.1.js */; };
-		82229BD815AAA2D4006D8266 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BBF15AAA2D4006D8266 /* NSData+SFAdditions.h */; };
-		82229BDA15AAA2D4006D8266 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC115AAA2D4006D8266 /* NSObject+SFBlocks.h */; };
-		82229BDB15AAA2D4006D8266 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC215AAA2D4006D8266 /* NSString+SFAdditions.h */; };
-		82229BDC15AAA2D4006D8266 /* NSString+SFPathAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC315AAA2D4006D8266 /* NSString+SFPathAdditions.h */; };
-		82229BDD15AAA2D4006D8266 /* SFCoverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC415AAA2D4006D8266 /* SFCoverView.h */; };
-		82229BDE15AAA2D4006D8266 /* SFDateUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC515AAA2D4006D8266 /* SFDateUtil.h */; };
-		82229BDF15AAA2D4006D8266 /* SFDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC615AAA2D4006D8266 /* SFDeviceInfo.h */; };
-		82229BE015AAA2D4006D8266 /* SFEncryptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC715AAA2D4006D8266 /* SFEncryptionManager.h */; };
-		82229BE115AAA2D4006D8266 /* SFGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC815AAA2D4006D8266 /* SFGradientView.h */; };
-		82229BE215AAA2D4006D8266 /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BC915AAA2D4006D8266 /* SFKeychainItemWrapper.h */; };
-		82229BE315AAA2D4006D8266 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCA15AAA2D4006D8266 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82229BE415AAA2D4006D8266 /* SFMD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCB15AAA2D4006D8266 /* SFMD5.h */; };
-		82229BE515AAA2D4006D8266 /* SFPadPickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCC15AAA2D4006D8266 /* SFPadPickListViewController.h */; };
-		82229BE615AAA2D4006D8266 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCD15AAA2D4006D8266 /* SFPathUtil.h */; };
-		82229BE715AAA2D4006D8266 /* SFPhonePickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCE15AAA2D4006D8266 /* SFPhonePickListViewController.h */; };
-		82229BE815AAA2D4006D8266 /* SFPickListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BCF15AAA2D4006D8266 /* SFPickListViewController.h */; };
-		82229BE915AAA2D4006D8266 /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD015AAA2D4006D8266 /* SFTestContext.h */; };
-		82229BEA15AAA2D4006D8266 /* UIActionSheet+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD115AAA2D4006D8266 /* UIActionSheet+SFBlocks.h */; };
-		82229BEB15AAA2D4006D8266 /* UIAlertView+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD215AAA2D4006D8266 /* UIAlertView+SFBlocks.h */; };
-		82229BEC15AAA2D4006D8266 /* UIBarButtonItem+SFAddtions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD315AAA2D4006D8266 /* UIBarButtonItem+SFAddtions.h */; };
-		82229BED15AAA2D4006D8266 /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD415AAA2D4006D8266 /* UIDevice+SFHardware.h */; };
-		82229BEE15AAA2D4006D8266 /* UILabel+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82229BD515AAA2D4006D8266 /* UILabel+SFAdditions.h */; };
-		82229BEF15AAA2D4006D8266 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
 		822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */; };
 		822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A11577DCCC007C20B9 /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
-		822AC0B01577DCCC007C20B9 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */; };
-		822AC0B11577DCCC007C20B9 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
 		822AC0B41577DCCC007C20B9 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */; };
 		822AC0B51577DCCC007C20B9 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
 		822AC0C01577EF57007C20B9 /* SFAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0BA1577EF57007C20B9 /* SFAccountManager.h */; };
@@ -200,9 +222,6 @@
 		822AC0CE1577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0C91577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h */; };
 		822AC0CF1577EFCF007C20B9 /* SFIdentityData.h in Headers */ = {isa = PBXBuildFile; fileRef = 822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */; };
 		822AC0D01577EFCF007C20B9 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
-		822ADCEF15A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
-		822ADCF015A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
-		822ADCF115A36D2600387CCE /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822ADCEE15A36D2600387CCE /* Cordova.framework */; };
 		823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */; };
 		823819401587FA2F007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
 		823819411587FA2F007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
@@ -294,8 +313,6 @@
 		8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
 		8248E069157D103000A7FE69 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
 		8248E06A157D103100A7FE69 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
-		8248E06C157D103F00A7FE69 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
-		8248E06D157D104100A7FE69 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */; };
 		8248E06F157D105500A7FE69 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
 		8248E070157D105700A7FE69 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
 		8248E072157D106700A7FE69 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */; };
@@ -344,24 +361,89 @@
 		8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */; };
 		828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 828C07D315A39A47002523B2 /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
+		828E7B3E1641DF9500F8D8AF /* CDV.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1A1641DF9500F8D8AF /* CDV.h */; };
+		828E7B3F1641DF9500F8D8AF /* CDVAccelerometer.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1B1641DF9500F8D8AF /* CDVAccelerometer.h */; };
+		828E7B401641DF9500F8D8AF /* CDVAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1C1641DF9500F8D8AF /* CDVAvailability.h */; };
+		828E7B411641DF9500F8D8AF /* CDVBattery.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1D1641DF9500F8D8AF /* CDVBattery.h */; };
+		828E7B421641DF9500F8D8AF /* CDVCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1E1641DF9500F8D8AF /* CDVCamera.h */; };
+		828E7B431641DF9500F8D8AF /* CDVCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1F1641DF9500F8D8AF /* CDVCapture.h */; };
+		828E7B441641DF9500F8D8AF /* CDVCommandDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B201641DF9500F8D8AF /* CDVCommandDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B451641DF9500F8D8AF /* CDVConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B211641DF9500F8D8AF /* CDVConnection.h */; };
+		828E7B461641DF9500F8D8AF /* CDVContact.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B221641DF9500F8D8AF /* CDVContact.h */; };
+		828E7B471641DF9500F8D8AF /* CDVContacts.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B231641DF9500F8D8AF /* CDVContacts.h */; };
+		828E7B481641DF9500F8D8AF /* CDVCordovaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B241641DF9500F8D8AF /* CDVCordovaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B491641DF9500F8D8AF /* CDVDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B251641DF9500F8D8AF /* CDVDebug.h */; };
+		828E7B4A1641DF9500F8D8AF /* CDVDebugConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B261641DF9500F8D8AF /* CDVDebugConsole.h */; };
+		828E7B4B1641DF9500F8D8AF /* CDVDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B271641DF9500F8D8AF /* CDVDevice.h */; };
+		828E7B4C1641DF9500F8D8AF /* CDVFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B281641DF9500F8D8AF /* CDVFile.h */; };
+		828E7B4D1641DF9500F8D8AF /* CDVFileTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B291641DF9500F8D8AF /* CDVFileTransfer.h */; };
+		828E7B4E1641DF9500F8D8AF /* CDVInvokedUrlCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2A1641DF9500F8D8AF /* CDVInvokedUrlCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B4F1641DF9500F8D8AF /* CDVLocalStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2B1641DF9500F8D8AF /* CDVLocalStorage.h */; };
+		828E7B501641DF9500F8D8AF /* CDVLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2C1641DF9500F8D8AF /* CDVLocation.h */; };
+		828E7B511641DF9500F8D8AF /* CDVLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2D1641DF9500F8D8AF /* CDVLogger.h */; };
+		828E7B521641DF9500F8D8AF /* CDVNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2E1641DF9500F8D8AF /* CDVNotification.h */; };
+		828E7B531641DF9500F8D8AF /* CDVPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B2F1641DF9500F8D8AF /* CDVPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B541641DF9500F8D8AF /* CDVPluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B301641DF9500F8D8AF /* CDVPluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B551641DF9500F8D8AF /* CDVReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B311641DF9500F8D8AF /* CDVReachability.h */; };
+		828E7B561641DF9500F8D8AF /* CDVSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B321641DF9500F8D8AF /* CDVSound.h */; };
+		828E7B571641DF9500F8D8AF /* CDVSplashScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B331641DF9500F8D8AF /* CDVSplashScreen.h */; };
+		828E7B581641DF9500F8D8AF /* CDVURLProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B341641DF9500F8D8AF /* CDVURLProtocol.h */; };
+		828E7B591641DF9500F8D8AF /* CDVViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B351641DF9500F8D8AF /* CDVViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B5A1641DF9500F8D8AF /* CDVWhitelist.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B361641DF9500F8D8AF /* CDVWhitelist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B5B1641DF9500F8D8AF /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B371641DF9500F8D8AF /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B5C1641DF9500F8D8AF /* NSArray+Comparisons.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B381641DF9500F8D8AF /* NSArray+Comparisons.h */; };
+		828E7B5D1641DF9500F8D8AF /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B391641DF9500F8D8AF /* NSData+Base64.h */; };
+		828E7B5E1641DF9500F8D8AF /* NSDictionary+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B3A1641DF9500F8D8AF /* NSDictionary+Extensions.h */; };
+		828E7B5F1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B3B1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		828E7B601641DF9500F8D8AF /* UIDevice+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B3C1641DF9500F8D8AF /* UIDevice+Extensions.h */; };
+		828E7B611641DF9500F8D8AF /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E7B3D1641DF9500F8D8AF /* libCordova.a */; };
+		828E7B621641DF9500F8D8AF /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E7B3D1641DF9500F8D8AF /* libCordova.a */; };
+		828E7B631641DF9500F8D8AF /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E7B3D1641DF9500F8D8AF /* libCordova.a */; };
+		828E7B641641DF9500F8D8AF /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E7B3D1641DF9500F8D8AF /* libCordova.a */; };
+		828E7B6B1641E0F000F8D8AF /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
+		828E7B6C1641E11800F8D8AF /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825DF4EE15FE526C003FB016 /* libSalesforceOAuth.a */; };
+		828E7B6D1641E12E00F8D8AF /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE7E14EB246B004F241C /* SFSmartStore.m */; };
+		828E7B6E1641E13D00F8D8AF /* SFSoupQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8014EB246B004F241C /* SFSoupQuerySpec.m */; };
+		828E7B6F1641E14F00F8D8AF /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E31D14BFB394002C4A27 /* SFContainerAppDelegate.m */; };
+		828E7B701641E15F00F8D8AF /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */; };
+		828E7B711641E16E00F8D8AF /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */; };
+		828E7B721641E19200F8D8AF /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
+		828E7B731641E1A200F8D8AF /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE7F14EB246B004F241C /* SFSoupIndex.m */; };
+		828E7B741641E1B500F8D8AF /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0C81577EFCF007C20B9 /* SFIdentityCoordinator.m */; };
+		828E7B751641E1C600F8D8AF /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
+		828E7B761641E1D600F8D8AF /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
+		828E7B791641E20900F8D8AF /* SFSoupCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8ECE8114EB246B004F241C /* SFSoupCursor.m */; };
+		828E7B7A1641E21900F8D8AF /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */; };
+		828E7B7B1641E22B00F8D8AF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
+		828E7B7C1641E23A00F8D8AF /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
+		828E7B7D1641E24B00F8D8AF /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
+		828E7B831641E2A000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
+		828E7B841641E2AE00F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
+		828E7B851641E2C000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
+		828E7B861641E30B00F8D8AF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
+		828E7BAC1641FA9200F8D8AF /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		828E7BB31642003100F8D8AF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
+		828E7BB51642004E00F8D8AF /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */; };
+		828E7BB6164202FD00F8D8AF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
+		828E7BBB1642044C00F8D8AF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
+		828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
 		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
 		82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
 		82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */; };
 		82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
 		82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
-		82BB230F15FAA18F0071DE14 /* CDVCommandDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB231015FAA18F0071DE14 /* CDVCordovaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB231115FAA18F0071DE14 /* CDVPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230C15FAA18F0071DE14 /* CDVPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB231215FAA18F0071DE14 /* CDVPluginResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB231315FAA18F0071DE14 /* CDVViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB230E15FAA18F0071DE14 /* CDVViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB239E15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BB239F15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82CD5BEE164823600070BD3D /* SFAuthorizingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */; };
+		82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */; };
+		82CEB3B71656CFF2005C66E7 /* SFAuthenticationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82CEB3B51656CFF2005C66E7 /* SFAuthenticationManager.h */; };
+		82CEB3B81656CFF2005C66E7 /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
+		82D8B3771665760500A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
+		82D8B3791665760600A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
+		82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
 		82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
-		82F3022615B07AC400A6EB5F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
 		82F593D215B083BE00C7E033 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82F593D415B083BF00C7E033 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		82F593D515B083E900C7E033 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
@@ -379,7 +461,6 @@
 		82F593EA15B0D77A00C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
 		82F593EB15B0D7B100C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
 		82F593EC15B0D7BC00C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
-		82F593ED15B0D7D000C7E033 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */; };
 		82F593EE15B0D7DD00C7E033 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B4E26157D21E50017229C /* libz.dylib */; };
 		82F593EF15B0D7FF00C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
 		82F593F015B0D80600C7E033 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
@@ -427,6 +508,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F71582DCAE00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F81582DCAE00321962 /* qunit.css in Copy shared-www files */,
 				826ED6F91582DCAE00321962 /* qunit.js in Copy shared-www files */,
@@ -438,7 +520,7 @@
 				826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
 				7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */,
 				7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */,
-				82229AA515A66925006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
+				828E7B851641E2C000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +531,8 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FA1DA61162CB85600BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
+				4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6ED1582DBA100321962 /* SFTestSuite.js in Copy shared-www files */,
 				826ED6EC1582DB9100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				826ED6EB1582DB8A00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
@@ -459,7 +543,7 @@
 				826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */,
 				7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
-				82229AA815A66975006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
+				828E7B831641E2A000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,6 +554,8 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4F3793EC162CD0440094E5C7 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
+				4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F31582DC7600321962 /* qunit.css in Copy shared-www files */,
 				826ED6F41582DC7600321962 /* qunit.js in Copy shared-www files */,
@@ -480,7 +566,7 @@
 				826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */,
 				7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */,
-				82229AA615A6692D006D8266 /* cordova-1.8.1.js in Copy shared-www files */,
+				828E7B841641E2AE00F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +574,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFAbstractSmartStoreTestSuite.js; path = test/SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
+		4FA1DA45162C821A00BC1B52 /* SFSDKInfoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKInfoPlugin.h; path = SDKInfo/SFSDKInfoPlugin.h; sourceTree = "<group>"; };
+		4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKInfoPlugin.m; path = SDKInfo/SFSDKInfoPlugin.m; sourceTree = "<group>"; };
+		4FA1DA53162CB6A000BC1B52 /* SDKInfoTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKInfoTestSuite.h; sourceTree = "<group>"; };
+		4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDKInfoTestSuite.m; sourceTree = "<group>"; };
+		4FA1DA58162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CDVPlugin+SFAdditions.h"; path = "SFAdditions/CDVPlugin+SFAdditions.h"; sourceTree = "<group>"; };
+		4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CDVPlugin+SFAdditions.m"; path = "SFAdditions/CDVPlugin+SFAdditions.m"; sourceTree = "<group>"; };
+		4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSDKInfoTestSuite.js; path = test/SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
 		7D20FBF914ED7DBD00A86731 /* StressPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
@@ -577,6 +671,37 @@
 		7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
 		7DE73A4014F6B6E600D489DE /* SFPluginTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPluginTestSuite.h; sourceTree = "<group>"; };
 		7DE73A4114F6B6E600D489DE /* SFPluginTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPluginTestSuite.m; sourceTree = "<group>"; };
+		8202751416516A6200DB814C /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		8202751516516A6200DB814C /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
+		8202751616516A6200DB814C /* NSMutableAttributedString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+SFAdditions.h"; sourceTree = "<group>"; };
+		8202751716516A6200DB814C /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
+		8202751816516A6200DB814C /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
+		8202751916516A6200DB814C /* NSString+SFPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFPathAdditions.h"; sourceTree = "<group>"; };
+		8202751A16516A6200DB814C /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
+		8202751B16516A6200DB814C /* SalesforceCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceCommonUtils.h; sourceTree = "<group>"; };
+		8202751C16516A6200DB814C /* SFCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCoverView.h; sourceTree = "<group>"; };
+		8202751D16516A6200DB814C /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
+		8202751E16516A6200DB814C /* SFDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDateUtil.h; sourceTree = "<group>"; };
+		8202751F16516A6200DB814C /* SFDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDeviceInfo.h; sourceTree = "<group>"; };
+		8202752016516A6200DB814C /* SFEncryptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionManager.h; sourceTree = "<group>"; };
+		8202752116516A6200DB814C /* SFGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFGradientView.h; sourceTree = "<group>"; };
+		8202752216516A6200DB814C /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		8202752316516A6200DB814C /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		8202752416516A6200DB814C /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		8202752516516A6200DB814C /* SFMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMD5.h; sourceTree = "<group>"; };
+		8202752616516A6200DB814C /* SFPadPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPadPickListViewController.h; sourceTree = "<group>"; };
+		8202752716516A6200DB814C /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
+		8202752816516A6200DB814C /* SFPhonePickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPhonePickListViewController.h; sourceTree = "<group>"; };
+		8202752916516A6200DB814C /* SFPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPickListViewController.h; sourceTree = "<group>"; };
+		8202752A16516A6200DB814C /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
+		8202752B16516A6200DB814C /* SFUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUIUtils.h; sourceTree = "<group>"; };
+		8202752C16516A6200DB814C /* UIActionSheet+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+SFBlocks.h"; sourceTree = "<group>"; };
+		8202752D16516A6200DB814C /* UIAlertView+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+SFBlocks.h"; sourceTree = "<group>"; };
+		8202752E16516A6200DB814C /* UIBarButtonItem+SFAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+SFAddtions.h"; sourceTree = "<group>"; };
+		8202752F16516A6200DB814C /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
+		8202753016516A6200DB814C /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
+		8202753216516A6200DB814C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		820275E51651759400DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		82031D9B15B4EF4500073595 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		821C5E7E1583FBA000433F92 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../external/fmdb/fmdb/LICENSE.txt; sourceTree = "<group>"; };
 		821C5E801583FBBF00433F92 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/fmdb/src/FMDatabase.h; sourceTree = "<group>"; };
@@ -597,38 +722,9 @@
 		821D1CCA15B204FB00D05F8E /* SalesforceHybridSDKTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDKTests-Prefix.pch"; sourceTree = "<group>"; };
 		821D1CD015B2066D00D05F8E /* UtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTests.h; sourceTree = "<group>"; };
 		821D1CD115B2066D00D05F8E /* UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTests.m; sourceTree = "<group>"; };
-		8220A36015FE939500B040C0 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Cordova.framework/Headers/JSONKit.h; sourceTree = "<group>"; };
-		8220A36315FE941300B040C0 /* CDVWhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVWhitelist.h; path = Cordova.framework/Headers/CDVWhitelist.h; sourceTree = "<group>"; };
-		82229AA015A66917006D8266 /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../../hybrid/dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
-		82229BBF15AAA2D4006D8266 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
-		82229BC015AAA2D4006D8266 /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
-		82229BC115AAA2D4006D8266 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
-		82229BC215AAA2D4006D8266 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
-		82229BC315AAA2D4006D8266 /* NSString+SFPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFPathAdditions.h"; sourceTree = "<group>"; };
-		82229BC415AAA2D4006D8266 /* SFCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCoverView.h; sourceTree = "<group>"; };
-		82229BC515AAA2D4006D8266 /* SFDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDateUtil.h; sourceTree = "<group>"; };
-		82229BC615AAA2D4006D8266 /* SFDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDeviceInfo.h; sourceTree = "<group>"; };
-		82229BC715AAA2D4006D8266 /* SFEncryptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionManager.h; sourceTree = "<group>"; };
-		82229BC815AAA2D4006D8266 /* SFGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFGradientView.h; sourceTree = "<group>"; };
-		82229BC915AAA2D4006D8266 /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeychainItemWrapper.h; sourceTree = "<group>"; };
-		82229BCA15AAA2D4006D8266 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
-		82229BCB15AAA2D4006D8266 /* SFMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMD5.h; sourceTree = "<group>"; };
-		82229BCC15AAA2D4006D8266 /* SFPadPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPadPickListViewController.h; sourceTree = "<group>"; };
-		82229BCD15AAA2D4006D8266 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
-		82229BCE15AAA2D4006D8266 /* SFPhonePickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPhonePickListViewController.h; sourceTree = "<group>"; };
-		82229BCF15AAA2D4006D8266 /* SFPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPickListViewController.h; sourceTree = "<group>"; };
-		82229BD015AAA2D4006D8266 /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
-		82229BD115AAA2D4006D8266 /* UIActionSheet+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+SFBlocks.h"; sourceTree = "<group>"; };
-		82229BD215AAA2D4006D8266 /* UIAlertView+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+SFBlocks.h"; sourceTree = "<group>"; };
-		82229BD315AAA2D4006D8266 /* UIBarButtonItem+SFAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+SFAddtions.h"; sourceTree = "<group>"; };
-		82229BD415AAA2D4006D8266 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
-		82229BD515AAA2D4006D8266 /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
-		82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKConstants.h; path = ../../../shared/Classes/Common/SalesforceSDKConstants.h; sourceTree = "<group>"; };
 		822AC0A11577DCCC007C20B9 /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFApplication.h; path = ../../../shared/Classes/Common/SFApplication.h; sourceTree = "<group>"; };
 		822AC0A21577DCCC007C20B9 /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFApplication.m; path = ../../../shared/Classes/Common/SFApplication.m; sourceTree = "<group>"; };
-		822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
-		822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = ../../../shared/Classes/Common/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
 		822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		822AC0BA1577EF57007C20B9 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManager.h; path = ../../../shared/Classes/Security/SFAccountManager.h; sourceTree = "<group>"; };
@@ -642,7 +738,6 @@
 		822AC0C91577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFIdentityCoordinator+Internal.h"; path = "../../../shared/Classes/Identity/SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
 		822AC0CA1577EFCF007C20B9 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFIdentityData.h; path = ../../../shared/Classes/Identity/SFIdentityData.h; sourceTree = "<group>"; };
 		822AC0CB1577EFCF007C20B9 /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFIdentityData.m; path = ../../../shared/Classes/Identity/SFIdentityData.m; sourceTree = "<group>"; };
-		822ADCEE15A36D2600387CCE /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cordova.framework; sourceTree = "<group>"; };
 		823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSmartStore+Internal.h"; path = "../../../../../shared/Classes/SmartStore/SFSmartStore+Internal.h"; sourceTree = "<group>"; };
 		823818F11587FA2E007C0D86 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		823818F21587FA2E007C0D86 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
@@ -742,17 +837,51 @@
 		826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		828C07D315A39A47002523B2 /* SFHybridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewController.h; sourceTree = "<group>"; };
 		828C07D415A39A47002523B2 /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
+		828E7B1A1641DF9500F8D8AF /* CDV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDV.h; sourceTree = "<group>"; };
+		828E7B1B1641DF9500F8D8AF /* CDVAccelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAccelerometer.h; sourceTree = "<group>"; };
+		828E7B1C1641DF9500F8D8AF /* CDVAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAvailability.h; sourceTree = "<group>"; };
+		828E7B1D1641DF9500F8D8AF /* CDVBattery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVBattery.h; sourceTree = "<group>"; };
+		828E7B1E1641DF9500F8D8AF /* CDVCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVCamera.h; sourceTree = "<group>"; };
+		828E7B1F1641DF9500F8D8AF /* CDVCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVCapture.h; sourceTree = "<group>"; };
+		828E7B201641DF9500F8D8AF /* CDVCommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVCommandDelegate.h; sourceTree = "<group>"; };
+		828E7B211641DF9500F8D8AF /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVConnection.h; sourceTree = "<group>"; };
+		828E7B221641DF9500F8D8AF /* CDVContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVContact.h; sourceTree = "<group>"; };
+		828E7B231641DF9500F8D8AF /* CDVContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVContacts.h; sourceTree = "<group>"; };
+		828E7B241641DF9500F8D8AF /* CDVCordovaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVCordovaView.h; sourceTree = "<group>"; };
+		828E7B251641DF9500F8D8AF /* CDVDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDebug.h; sourceTree = "<group>"; };
+		828E7B261641DF9500F8D8AF /* CDVDebugConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDebugConsole.h; sourceTree = "<group>"; };
+		828E7B271641DF9500F8D8AF /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
+		828E7B281641DF9500F8D8AF /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFile.h; sourceTree = "<group>"; };
+		828E7B291641DF9500F8D8AF /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFileTransfer.h; sourceTree = "<group>"; };
+		828E7B2A1641DF9500F8D8AF /* CDVInvokedUrlCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVInvokedUrlCommand.h; sourceTree = "<group>"; };
+		828E7B2B1641DF9500F8D8AF /* CDVLocalStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLocalStorage.h; sourceTree = "<group>"; };
+		828E7B2C1641DF9500F8D8AF /* CDVLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLocation.h; sourceTree = "<group>"; };
+		828E7B2D1641DF9500F8D8AF /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
+		828E7B2E1641DF9500F8D8AF /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
+		828E7B2F1641DF9500F8D8AF /* CDVPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVPlugin.h; sourceTree = "<group>"; };
+		828E7B301641DF9500F8D8AF /* CDVPluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVPluginResult.h; sourceTree = "<group>"; };
+		828E7B311641DF9500F8D8AF /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVReachability.h; sourceTree = "<group>"; };
+		828E7B321641DF9500F8D8AF /* CDVSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVSound.h; sourceTree = "<group>"; };
+		828E7B331641DF9500F8D8AF /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVSplashScreen.h; sourceTree = "<group>"; };
+		828E7B341641DF9500F8D8AF /* CDVURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVURLProtocol.h; sourceTree = "<group>"; };
+		828E7B351641DF9500F8D8AF /* CDVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVViewController.h; sourceTree = "<group>"; };
+		828E7B361641DF9500F8D8AF /* CDVWhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWhitelist.h; sourceTree = "<group>"; };
+		828E7B371641DF9500F8D8AF /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		828E7B381641DF9500F8D8AF /* NSArray+Comparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Comparisons.h"; sourceTree = "<group>"; };
+		828E7B391641DF9500F8D8AF /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		828E7B3A1641DF9500F8D8AF /* NSDictionary+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Extensions.h"; sourceTree = "<group>"; };
+		828E7B3B1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		828E7B3C1641DF9500F8D8AF /* UIDevice+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Extensions.h"; sourceTree = "<group>"; };
+		828E7B3D1641DF9500F8D8AF /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = "<group>"; };
+		828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.2.0.js"; path = "../../../shared/hybrid/cordova-2.2.0.js"; sourceTree = "<group>"; };
 		82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeManager.h; path = ../../../shared/Classes/Security/SFPasscodeManager.h; sourceTree = "<group>"; };
 		82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSecurityLockout+Internal.h"; path = "../../../shared/Classes/Security/SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
 		82B9FD1615E45C7600BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
-		82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCommandDelegate.h; path = Cordova.framework/Headers/CDVCommandDelegate.h; sourceTree = "<group>"; };
-		82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVCordovaView.h; path = Cordova.framework/Headers/CDVCordovaView.h; sourceTree = "<group>"; };
-		82BB230C15FAA18F0071DE14 /* CDVPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVPlugin.h; path = Cordova.framework/Headers/CDVPlugin.h; sourceTree = "<group>"; };
-		82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVPluginResult.h; path = Cordova.framework/Headers/CDVPluginResult.h; sourceTree = "<group>"; };
-		82BB230E15FAA18F0071DE14 /* CDVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVViewController.h; path = Cordova.framework/Headers/CDVViewController.h; sourceTree = "<group>"; };
-		82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInvokedUrlCommand.h; path = Cordova.framework/Headers/CDVInvokedUrlCommand.h; sourceTree = "<group>"; };
-		82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+QueueAdditions.h"; path = "Cordova.framework/Headers/NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAuthorizingViewController.h; path = ../../../shared/Classes/Security/SFAuthorizingViewController.h; sourceTree = "<group>"; };
+		82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthorizingViewController.m; path = ../../../shared/Classes/Security/SFAuthorizingViewController.m; sourceTree = "<group>"; };
+		82CEB3B51656CFF2005C66E7 /* SFAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAuthenticationManager.h; path = ../../../shared/Classes/Security/SFAuthenticationManager.h; sourceTree = "<group>"; };
+		82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthenticationManager.m; path = ../../../shared/Classes/Security/SFAuthenticationManager.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
 		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
@@ -764,6 +893,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820275E91651766700DB814C /* MessageUI.framework in Frameworks */,
 				82F593EC15B0D7BC00C7E033 /* UIKit.framework in Frameworks */,
 				82F593EB15B0D7B100C7E033 /* Foundation.framework in Frameworks */,
 				7D20FBC914ED7DBD00A86731 /* CFNetwork.framework in Frameworks */,
@@ -779,13 +909,13 @@
 				7D20FBD314ED7DBD00A86731 /* AVFoundation.framework in Frameworks */,
 				7D20FBD414ED7DBD00A86731 /* MediaPlayer.framework in Frameworks */,
 				7D20FBD514ED7DBD00A86731 /* SystemConfiguration.framework in Frameworks */,
-				82F593ED15B0D7D000C7E033 /* libSalesforceCommonUtils.a in Frameworks */,
+				8202755316516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */,
 				825DF4F415FE52F6003FB016 /* libSalesforceOAuth.a in Frameworks */,
 				82381A201587FE7E007C0D86 /* libsqlcipher.a in Frameworks */,
 				82381A211587FE83007C0D86 /* libcrypto.a in Frameworks */,
 				82381A221587FE86007C0D86 /* libssl.a in Frameworks */,
 				82F593EE15B0D7DD00C7E033 /* libz.dylib in Frameworks */,
-				822ADCF115A36D2600387CCE /* Cordova.framework in Frameworks */,
+				828E7B641641DF9500F8D8AF /* libCordova.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,8 +937,8 @@
 				823819401587FA2F007C0D86 /* libcrypto.a in Frameworks */,
 				823819411587FA2F007C0D86 /* libssl.a in Frameworks */,
 				82381A141587FAAE007C0D86 /* libsqlcipher.a in Frameworks */,
-				82229BEF15AAA2D4006D8266 /* libSalesforceCommonUtils.a in Frameworks */,
-				822ADCEF15A36D2600387CCE /* Cordova.framework in Frameworks */,
+				8202755016516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */,
+				828E7B611641DF9500F8D8AF /* libCordova.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,6 +946,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820275E61651759400DB814C /* MessageUI.framework in Frameworks */,
 				82F5941015B11E6B00C7E033 /* UIKit.framework in Frameworks */,
 				82F5940E15B11E6200C7E033 /* Foundation.framework in Frameworks */,
 				7DBB14F814C0F70000CCDBE0 /* AudioToolbox.framework in Frameworks */,
@@ -832,10 +963,12 @@
 				7DBB14E214C0F58400CCDBE0 /* AddressBook.framework in Frameworks */,
 				7DBB14E314C0F58400CCDBE0 /* AddressBookUI.framework in Frameworks */,
 				824B4E27157D21E50017229C /* libz.dylib in Frameworks */,
-				7D98807714D742F600371B7F /* SalesforceHybridSDK.framework in Frameworks */,
 				82381A161587FC8C007C0D86 /* libsqlcipher.a in Frameworks */,
 				82381A171587FC90007C0D86 /* libcrypto.a in Frameworks */,
 				82381A181587FC94007C0D86 /* libssl.a in Frameworks */,
+				828E7B621641DF9500F8D8AF /* libCordova.a in Frameworks */,
+				828E7B6C1641E11800F8D8AF /* libSalesforceOAuth.a in Frameworks */,
+				8202755116516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,6 +986,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820275E81651761C00DB814C /* MessageUI.framework in Frameworks */,
 				82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */,
 				82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */,
 				7DBD162614D85C3400A17E6A /* CFNetwork.framework in Frameworks */,
@@ -868,13 +1002,13 @@
 				7DBD163014D85C3400A17E6A /* AVFoundation.framework in Frameworks */,
 				7DBD163114D85C3400A17E6A /* MediaPlayer.framework in Frameworks */,
 				7DBD163214D85C3400A17E6A /* SystemConfiguration.framework in Frameworks */,
-				82F3022615B07AC400A6EB5F /* libSalesforceCommonUtils.a in Frameworks */,
+				8202755216516A6200DB814C /* libSalesforceCommonUtils.a in Frameworks */,
 				825DF4F315FE52DE003FB016 /* libSalesforceOAuth.a in Frameworks */,
-				822ADCF015A36D2600387CCE /* Cordova.framework in Frameworks */,
 				82F593D515B083E900C7E033 /* libsqlcipher.a in Frameworks */,
 				82F593D615B083FE00C7E033 /* libz.dylib in Frameworks */,
 				82F593D715B0845100C7E033 /* libcrypto.a in Frameworks */,
 				82F593D815B0845600C7E033 /* libssl.a in Frameworks */,
+				828E7B631641DF9500F8D8AF /* libCordova.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +1035,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4FA1DA43162C81FF00BC1B52 /* SFAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				4FA1DA58162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h */,
+				4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */,
+			);
+			name = SFAdditions;
+			sourceTree = "<group>";
+		};
+		4FA1DA44162C820B00BC1B52 /* SDKInfo */ = {
+			isa = PBXGroup;
+			children = (
+				4FA1DA45162C821A00BC1B52 /* SFSDKInfoPlugin.h */,
+				4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */,
+			);
+			name = SDKInfo;
+			sourceTree = "<group>";
+		};
 		7D20FC0414ED80CC00A86731 /* StressPlugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -984,6 +1136,7 @@
 			children = (
 				7DBB14F714C0F70000CCDBE0 /* AudioToolbox.framework */,
 				7D45E38E14BFB8AC002C4A27 /* Foundation.framework */,
+				820275E51651759400DB814C /* MessageUI.framework */,
 				7D45E2FA14BFB259002C4A27 /* SenTestingKit.framework */,
 				7DBB147814C0ECF700CCDBE0 /* CoreGraphics.framework */,
 				7D7626CA14D33BBE0064B5B2 /* CFNetwork.framework */,
@@ -1027,6 +1180,8 @@
 		7D45E31E14BFB394002C4A27 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				4FA1DA44162C820B00BC1B52 /* SDKInfo */,
+				4FA1DA43162C81FF00BC1B52 /* SFAdditions */,
 				7D45E32114BFB394002C4A27 /* SFOAuthPlugin */,
 				7D45E32414BFB394002C4A27 /* SFSmartStore */,
 			);
@@ -1066,9 +1221,8 @@
 		7D45E35314BFB3FD002C4A27 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				82BB230815FAA0810071DE14 /* CDVPublicHeaders */,
-				82229BBD15AAA2D4006D8266 /* SalesforceCommonUtils */,
-				822ADCEE15A36D2600387CCE /* Cordova.framework */,
+				828E7B171641DF9500F8D8AF /* Cordova */,
+				8202751216516A6200DB814C /* SalesforceCommonUtils */,
 				82381A111587FAAE007C0D86 /* sqlcipher */,
 				823818F01587FA2E007C0D86 /* openssl */,
 				825DF4E715FE526C003FB016 /* SalesforceOAuth */,
@@ -1129,6 +1283,8 @@
 		7DBB149A14C0ECF800CCDBE0 /* TestPluginsTests */ = {
 			isa = PBXGroup;
 			children = (
+				4FA1DA53162CB6A000BC1B52 /* SDKInfoTestSuite.h */,
+				4FA1DA54162CB6A000BC1B52 /* SDKInfoTestSuite.m */,
 				7DBB14A014C0ECF800CCDBE0 /* SmartStoreTestSuite.h */,
 				7DBB14A114C0ECF800CCDBE0 /* SmartStoreTestSuite.m */,
 				7DBB149B14C0ECF800CCDBE0 /* Supporting Files */,
@@ -1159,6 +1315,8 @@
 		7DBB14B614C0F09E00CCDBE0 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */,
+				4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */,
 				826ED6E31582DAB900321962 /* SFSmartStorePlugin.js */,
 				826ED6E11582DAAB00321962 /* qunit.css */,
 				826ED6DF1582DAA300321962 /* qunit.js */,
@@ -1170,7 +1328,7 @@
 				826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
 				7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */,
-				82229AA015A66917006D8266 /* cordova-1.8.1.js */,
+				828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */,
 			);
 			name = "shared-www";
 			path = ../../../external/shared/PhoneGap;
@@ -1244,6 +1402,59 @@
 			path = ../../../shared/Classes/util;
 			sourceTree = "<group>";
 		};
+		8202751216516A6200DB814C /* SalesforceCommonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				8202751316516A6200DB814C /* Headers */,
+				8202753116516A6200DB814C /* Libraries */,
+			);
+			path = SalesforceCommonUtils;
+			sourceTree = "<group>";
+		};
+		8202751316516A6200DB814C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8202751416516A6200DB814C /* NSData+SFAdditions.h */,
+				8202751516516A6200DB814C /* NSDictionary+SFAdditions.h */,
+				8202751616516A6200DB814C /* NSMutableAttributedString+SFAdditions.h */,
+				8202751716516A6200DB814C /* NSObject+SFBlocks.h */,
+				8202751816516A6200DB814C /* NSString+SFAdditions.h */,
+				8202751916516A6200DB814C /* NSString+SFPathAdditions.h */,
+				8202751A16516A6200DB814C /* NSURL+SFAdditions.h */,
+				8202751B16516A6200DB814C /* SalesforceCommonUtils.h */,
+				8202751C16516A6200DB814C /* SFCoverView.h */,
+				8202751D16516A6200DB814C /* SFCrypto.h */,
+				8202751E16516A6200DB814C /* SFDateUtil.h */,
+				8202751F16516A6200DB814C /* SFDeviceInfo.h */,
+				8202752016516A6200DB814C /* SFEncryptionManager.h */,
+				8202752116516A6200DB814C /* SFGradientView.h */,
+				8202752216516A6200DB814C /* SFInactivityTimerCenter.h */,
+				8202752316516A6200DB814C /* SFKeychainItemWrapper.h */,
+				8202752416516A6200DB814C /* SFLogger.h */,
+				8202752516516A6200DB814C /* SFMD5.h */,
+				8202752616516A6200DB814C /* SFPadPickListViewController.h */,
+				8202752716516A6200DB814C /* SFPathUtil.h */,
+				8202752816516A6200DB814C /* SFPhonePickListViewController.h */,
+				8202752916516A6200DB814C /* SFPickListViewController.h */,
+				8202752A16516A6200DB814C /* SFTestContext.h */,
+				8202752B16516A6200DB814C /* SFUIUtils.h */,
+				8202752C16516A6200DB814C /* UIActionSheet+SFBlocks.h */,
+				8202752D16516A6200DB814C /* UIAlertView+SFBlocks.h */,
+				8202752E16516A6200DB814C /* UIBarButtonItem+SFAddtions.h */,
+				8202752F16516A6200DB814C /* UIDevice+SFHardware.h */,
+				8202753016516A6200DB814C /* UILabel+SFAdditions.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		8202753116516A6200DB814C /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				8202753216516A6200DB814C /* libSalesforceCommonUtils.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		821D1CC115B204FB00D05F8E /* SalesforceHybridSDKTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,61 +1477,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		82229BBD15AAA2D4006D8266 /* SalesforceCommonUtils */ = {
-			isa = PBXGroup;
-			children = (
-				82229BBE15AAA2D4006D8266 /* Headers */,
-				82229BD615AAA2D4006D8266 /* Libraries */,
-			);
-			path = SalesforceCommonUtils;
-			sourceTree = "<group>";
-		};
-		82229BBE15AAA2D4006D8266 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				82229BBF15AAA2D4006D8266 /* NSData+SFAdditions.h */,
-				82229BC015AAA2D4006D8266 /* NSDictionary+SFAdditions.h */,
-				82229BC115AAA2D4006D8266 /* NSObject+SFBlocks.h */,
-				82229BC215AAA2D4006D8266 /* NSString+SFAdditions.h */,
-				82229BC315AAA2D4006D8266 /* NSString+SFPathAdditions.h */,
-				82229BC415AAA2D4006D8266 /* SFCoverView.h */,
-				82229BC515AAA2D4006D8266 /* SFDateUtil.h */,
-				82229BC615AAA2D4006D8266 /* SFDeviceInfo.h */,
-				82229BC715AAA2D4006D8266 /* SFEncryptionManager.h */,
-				82229BC815AAA2D4006D8266 /* SFGradientView.h */,
-				82229BC915AAA2D4006D8266 /* SFKeychainItemWrapper.h */,
-				82229BCA15AAA2D4006D8266 /* SFLogger.h */,
-				82229BCB15AAA2D4006D8266 /* SFMD5.h */,
-				82229BCC15AAA2D4006D8266 /* SFPadPickListViewController.h */,
-				82229BCD15AAA2D4006D8266 /* SFPathUtil.h */,
-				82229BCE15AAA2D4006D8266 /* SFPhonePickListViewController.h */,
-				82229BCF15AAA2D4006D8266 /* SFPickListViewController.h */,
-				82229BD015AAA2D4006D8266 /* SFTestContext.h */,
-				82229BD115AAA2D4006D8266 /* UIActionSheet+SFBlocks.h */,
-				82229BD215AAA2D4006D8266 /* UIAlertView+SFBlocks.h */,
-				82229BD315AAA2D4006D8266 /* UIBarButtonItem+SFAddtions.h */,
-				82229BD415AAA2D4006D8266 /* UIDevice+SFHardware.h */,
-				82229BD515AAA2D4006D8266 /* UILabel+SFAdditions.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		82229BD615AAA2D4006D8266 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				82229BD715AAA2D4006D8266 /* libSalesforceCommonUtils.a */,
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
 		822AC09F1577DC6F007C20B9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				822AC0A01577DCCC007C20B9 /* SalesforceSDKConstants.h */,
 				822AC0A11577DCCC007C20B9 /* SFApplication.h */,
 				822AC0A21577DCCC007C20B9 /* SFApplication.m */,
-				822AC0A51577DCCC007C20B9 /* SFInactivityTimerCenter.h */,
-				822AC0A61577DCCC007C20B9 /* SFInactivityTimerCenter.m */,
 				822AC0A91577DCCC007C20B9 /* SFUserActivityMonitor.h */,
 				822AC0AA1577DCCC007C20B9 /* SFUserActivityMonitor.m */,
 			);
@@ -1332,8 +1494,12 @@
 			children = (
 				822AC0BA1577EF57007C20B9 /* SFAccountManager.h */,
 				822AC0BB1577EF57007C20B9 /* SFAccountManager.m */,
+				82CD5BEC164823600070BD3D /* SFAuthorizingViewController.h */,
+				82CD5BED164823600070BD3D /* SFAuthorizingViewController.m */,
 				82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */,
 				82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */,
+				82CEB3B51656CFF2005C66E7 /* SFAuthenticationManager.h */,
+				82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */,
 				822AC0BC1577EF57007C20B9 /* SFPasscodeViewController.h */,
 				822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */,
 				822AC0BE1577EF57007C20B9 /* SFSecurityLockout.h */,
@@ -1492,20 +1658,63 @@
 			path = Libraries;
 			sourceTree = "<group>";
 		};
-		82BB230815FAA0810071DE14 /* CDVPublicHeaders */ = {
+		828E7B171641DF9500F8D8AF /* Cordova */ = {
 			isa = PBXGroup;
 			children = (
-				82BB230A15FAA18F0071DE14 /* CDVCommandDelegate.h */,
-				82BB230B15FAA18F0071DE14 /* CDVCordovaView.h */,
-				82BB239C15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h */,
-				82BB230C15FAA18F0071DE14 /* CDVPlugin.h */,
-				82BB230D15FAA18F0071DE14 /* CDVPluginResult.h */,
-				82BB230E15FAA18F0071DE14 /* CDVViewController.h */,
-				8220A36315FE941300B040C0 /* CDVWhitelist.h */,
-				8220A36015FE939500B040C0 /* JSONKit.h */,
-				82BB239D15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h */,
+				828E7B181641DF9500F8D8AF /* include */,
+				828E7B3D1641DF9500F8D8AF /* libCordova.a */,
 			);
-			name = CDVPublicHeaders;
+			path = Cordova;
+			sourceTree = "<group>";
+		};
+		828E7B181641DF9500F8D8AF /* include */ = {
+			isa = PBXGroup;
+			children = (
+				828E7B191641DF9500F8D8AF /* Cordova */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		828E7B191641DF9500F8D8AF /* Cordova */ = {
+			isa = PBXGroup;
+			children = (
+				828E7B1A1641DF9500F8D8AF /* CDV.h */,
+				828E7B1B1641DF9500F8D8AF /* CDVAccelerometer.h */,
+				828E7B1C1641DF9500F8D8AF /* CDVAvailability.h */,
+				828E7B1D1641DF9500F8D8AF /* CDVBattery.h */,
+				828E7B1E1641DF9500F8D8AF /* CDVCamera.h */,
+				828E7B1F1641DF9500F8D8AF /* CDVCapture.h */,
+				828E7B201641DF9500F8D8AF /* CDVCommandDelegate.h */,
+				828E7B211641DF9500F8D8AF /* CDVConnection.h */,
+				828E7B221641DF9500F8D8AF /* CDVContact.h */,
+				828E7B231641DF9500F8D8AF /* CDVContacts.h */,
+				828E7B241641DF9500F8D8AF /* CDVCordovaView.h */,
+				828E7B251641DF9500F8D8AF /* CDVDebug.h */,
+				828E7B261641DF9500F8D8AF /* CDVDebugConsole.h */,
+				828E7B271641DF9500F8D8AF /* CDVDevice.h */,
+				828E7B281641DF9500F8D8AF /* CDVFile.h */,
+				828E7B291641DF9500F8D8AF /* CDVFileTransfer.h */,
+				828E7B2A1641DF9500F8D8AF /* CDVInvokedUrlCommand.h */,
+				828E7B2B1641DF9500F8D8AF /* CDVLocalStorage.h */,
+				828E7B2C1641DF9500F8D8AF /* CDVLocation.h */,
+				828E7B2D1641DF9500F8D8AF /* CDVLogger.h */,
+				828E7B2E1641DF9500F8D8AF /* CDVNotification.h */,
+				828E7B2F1641DF9500F8D8AF /* CDVPlugin.h */,
+				828E7B301641DF9500F8D8AF /* CDVPluginResult.h */,
+				828E7B311641DF9500F8D8AF /* CDVReachability.h */,
+				828E7B321641DF9500F8D8AF /* CDVSound.h */,
+				828E7B331641DF9500F8D8AF /* CDVSplashScreen.h */,
+				828E7B341641DF9500F8D8AF /* CDVURLProtocol.h */,
+				828E7B351641DF9500F8D8AF /* CDVViewController.h */,
+				828E7B361641DF9500F8D8AF /* CDVWhitelist.h */,
+				828E7B371641DF9500F8D8AF /* JSONKit.h */,
+				828E7B381641DF9500F8D8AF /* NSArray+Comparisons.h */,
+				828E7B391641DF9500F8D8AF /* NSData+Base64.h */,
+				828E7B3A1641DF9500F8D8AF /* NSDictionary+Extensions.h */,
+				828E7B3B1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h */,
+				828E7B3C1641DF9500F8D8AF /* UIDevice+Extensions.h */,
+			);
+			path = Cordova;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1528,7 +1737,6 @@
 				82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */,
 				822AC0AB1577DCCC007C20B9 /* SalesforceSDKConstants.h in Headers */,
 				822AC0AC1577DCCC007C20B9 /* SFApplication.h in Headers */,
-				822AC0B01577DCCC007C20B9 /* SFInactivityTimerCenter.h in Headers */,
 				822AC0B41577DCCC007C20B9 /* SFUserActivityMonitor.h in Headers */,
 				822AC0C01577EF57007C20B9 /* SFAccountManager.h in Headers */,
 				822AC0C21577EF57007C20B9 /* SFPasscodeViewController.h in Headers */,
@@ -1616,46 +1824,82 @@
 				8238198A1587FA2F007C0D86 /* x509.h in Headers */,
 				8238198B1587FA2F007C0D86 /* x509_vfy.h in Headers */,
 				8238198C1587FA2F007C0D86 /* x509v3.h in Headers */,
-				82229BD815AAA2D4006D8266 /* NSData+SFAdditions.h in Headers */,
-				82229BDA15AAA2D4006D8266 /* NSObject+SFBlocks.h in Headers */,
-				82229BDB15AAA2D4006D8266 /* NSString+SFAdditions.h in Headers */,
-				82229BDC15AAA2D4006D8266 /* NSString+SFPathAdditions.h in Headers */,
-				82229BDD15AAA2D4006D8266 /* SFCoverView.h in Headers */,
-				82229BDE15AAA2D4006D8266 /* SFDateUtil.h in Headers */,
-				82229BDF15AAA2D4006D8266 /* SFDeviceInfo.h in Headers */,
-				82229BE015AAA2D4006D8266 /* SFEncryptionManager.h in Headers */,
-				82229BE115AAA2D4006D8266 /* SFGradientView.h in Headers */,
-				82229BE215AAA2D4006D8266 /* SFKeychainItemWrapper.h in Headers */,
-				82229BE315AAA2D4006D8266 /* SFLogger.h in Headers */,
-				82229BE415AAA2D4006D8266 /* SFMD5.h in Headers */,
-				82229BE515AAA2D4006D8266 /* SFPadPickListViewController.h in Headers */,
-				82229BE615AAA2D4006D8266 /* SFPathUtil.h in Headers */,
-				82229BE715AAA2D4006D8266 /* SFPhonePickListViewController.h in Headers */,
-				82229BE815AAA2D4006D8266 /* SFPickListViewController.h in Headers */,
-				82229BE915AAA2D4006D8266 /* SFTestContext.h in Headers */,
-				82229BEA15AAA2D4006D8266 /* UIActionSheet+SFBlocks.h in Headers */,
-				82229BEB15AAA2D4006D8266 /* UIAlertView+SFBlocks.h in Headers */,
-				82229BEC15AAA2D4006D8266 /* UIBarButtonItem+SFAddtions.h in Headers */,
-				82229BED15AAA2D4006D8266 /* UIDevice+SFHardware.h in Headers */,
-				82229BEE15AAA2D4006D8266 /* UILabel+SFAdditions.h in Headers */,
 				828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */,
 				82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */,
 				82599EE015EC284000AAACF7 /* SFSmartStoreDatabaseManager.h in Headers */,
 				823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 				82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */,
-				82BB230F15FAA18F0071DE14 /* CDVCommandDelegate.h in Headers */,
-				82BB231015FAA18F0071DE14 /* CDVCordovaView.h in Headers */,
-				82BB231115FAA18F0071DE14 /* CDVPlugin.h in Headers */,
-				82BB231215FAA18F0071DE14 /* CDVPluginResult.h in Headers */,
-				82BB231315FAA18F0071DE14 /* CDVViewController.h in Headers */,
-				82BB239E15FAAA6B0071DE14 /* CDVInvokedUrlCommand.h in Headers */,
-				82BB239F15FAAA6B0071DE14 /* NSMutableArray+QueueAdditions.h in Headers */,
 				825DF4EF15FE526C003FB016 /* SFOAuthCoordinator.h in Headers */,
 				825DF4F015FE526C003FB016 /* SFOAuthCredentials.h in Headers */,
 				825DF4F115FE526C003FB016 /* SFOAuthInfo.h in Headers */,
-				8220A36115FE939500B040C0 /* JSONKit.h in Headers */,
-				8220A36415FE941300B040C0 /* CDVWhitelist.h in Headers */,
-				8220A36515FE9B9D00B040C0 /* NSDictionary+SFAdditions.h in Headers */,
+				4FA1DA47162C821A00BC1B52 /* SFSDKInfoPlugin.h in Headers */,
+				4FA1DA5A162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h in Headers */,
+				828E7B3E1641DF9500F8D8AF /* CDV.h in Headers */,
+				828E7B3F1641DF9500F8D8AF /* CDVAccelerometer.h in Headers */,
+				828E7B401641DF9500F8D8AF /* CDVAvailability.h in Headers */,
+				828E7B411641DF9500F8D8AF /* CDVBattery.h in Headers */,
+				828E7B421641DF9500F8D8AF /* CDVCamera.h in Headers */,
+				828E7B431641DF9500F8D8AF /* CDVCapture.h in Headers */,
+				828E7B441641DF9500F8D8AF /* CDVCommandDelegate.h in Headers */,
+				828E7B451641DF9500F8D8AF /* CDVConnection.h in Headers */,
+				828E7B461641DF9500F8D8AF /* CDVContact.h in Headers */,
+				828E7B471641DF9500F8D8AF /* CDVContacts.h in Headers */,
+				828E7B481641DF9500F8D8AF /* CDVCordovaView.h in Headers */,
+				828E7B491641DF9500F8D8AF /* CDVDebug.h in Headers */,
+				828E7B4A1641DF9500F8D8AF /* CDVDebugConsole.h in Headers */,
+				828E7B4B1641DF9500F8D8AF /* CDVDevice.h in Headers */,
+				828E7B4C1641DF9500F8D8AF /* CDVFile.h in Headers */,
+				828E7B4D1641DF9500F8D8AF /* CDVFileTransfer.h in Headers */,
+				828E7B4E1641DF9500F8D8AF /* CDVInvokedUrlCommand.h in Headers */,
+				828E7B4F1641DF9500F8D8AF /* CDVLocalStorage.h in Headers */,
+				828E7B501641DF9500F8D8AF /* CDVLocation.h in Headers */,
+				828E7B511641DF9500F8D8AF /* CDVLogger.h in Headers */,
+				828E7B521641DF9500F8D8AF /* CDVNotification.h in Headers */,
+				828E7B531641DF9500F8D8AF /* CDVPlugin.h in Headers */,
+				828E7B541641DF9500F8D8AF /* CDVPluginResult.h in Headers */,
+				828E7B551641DF9500F8D8AF /* CDVReachability.h in Headers */,
+				828E7B561641DF9500F8D8AF /* CDVSound.h in Headers */,
+				828E7B571641DF9500F8D8AF /* CDVSplashScreen.h in Headers */,
+				828E7B581641DF9500F8D8AF /* CDVURLProtocol.h in Headers */,
+				828E7B591641DF9500F8D8AF /* CDVViewController.h in Headers */,
+				828E7B5A1641DF9500F8D8AF /* CDVWhitelist.h in Headers */,
+				828E7B5B1641DF9500F8D8AF /* JSONKit.h in Headers */,
+				828E7B5C1641DF9500F8D8AF /* NSArray+Comparisons.h in Headers */,
+				828E7B5D1641DF9500F8D8AF /* NSData+Base64.h in Headers */,
+				828E7B5E1641DF9500F8D8AF /* NSDictionary+Extensions.h in Headers */,
+				828E7B5F1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h in Headers */,
+				828E7B601641DF9500F8D8AF /* UIDevice+Extensions.h in Headers */,
+				82CD5BEE164823600070BD3D /* SFAuthorizingViewController.h in Headers */,
+				8202753316516A6200DB814C /* NSData+SFAdditions.h in Headers */,
+				8202753416516A6200DB814C /* NSDictionary+SFAdditions.h in Headers */,
+				8202753516516A6200DB814C /* NSMutableAttributedString+SFAdditions.h in Headers */,
+				8202753616516A6200DB814C /* NSObject+SFBlocks.h in Headers */,
+				8202753716516A6200DB814C /* NSString+SFAdditions.h in Headers */,
+				8202753816516A6200DB814C /* NSString+SFPathAdditions.h in Headers */,
+				8202753916516A6200DB814C /* NSURL+SFAdditions.h in Headers */,
+				8202753A16516A6200DB814C /* SalesforceCommonUtils.h in Headers */,
+				8202753B16516A6200DB814C /* SFCoverView.h in Headers */,
+				8202753C16516A6200DB814C /* SFCrypto.h in Headers */,
+				8202753D16516A6200DB814C /* SFDateUtil.h in Headers */,
+				8202753E16516A6200DB814C /* SFDeviceInfo.h in Headers */,
+				8202753F16516A6200DB814C /* SFEncryptionManager.h in Headers */,
+				8202754016516A6200DB814C /* SFGradientView.h in Headers */,
+				8202754116516A6200DB814C /* SFInactivityTimerCenter.h in Headers */,
+				8202754216516A6200DB814C /* SFKeychainItemWrapper.h in Headers */,
+				8202754316516A6200DB814C /* SFLogger.h in Headers */,
+				8202754416516A6200DB814C /* SFMD5.h in Headers */,
+				8202754516516A6200DB814C /* SFPadPickListViewController.h in Headers */,
+				8202754616516A6200DB814C /* SFPathUtil.h in Headers */,
+				8202754716516A6200DB814C /* SFPhonePickListViewController.h in Headers */,
+				8202754816516A6200DB814C /* SFPickListViewController.h in Headers */,
+				8202754916516A6200DB814C /* SFTestContext.h in Headers */,
+				8202754A16516A6200DB814C /* SFUIUtils.h in Headers */,
+				8202754B16516A6200DB814C /* UIActionSheet+SFBlocks.h in Headers */,
+				8202754C16516A6200DB814C /* UIAlertView+SFBlocks.h in Headers */,
+				8202754D16516A6200DB814C /* UIBarButtonItem+SFAddtions.h in Headers */,
+				8202754E16516A6200DB814C /* UIDevice+SFHardware.h in Headers */,
+				8202754F16516A6200DB814C /* UILabel+SFAdditions.h in Headers */,
+				82CEB3B71656CFF2005C66E7 /* SFAuthenticationManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2054,7 +2298,6 @@
 				7D20FBC314ED7DBD00A86731 /* SqliteAdditions.c in Sources */,
 				8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */,
 				8248E06A157D103100A7FE69 /* SFSecurityLockout.m in Sources */,
-				8248E06D157D104100A7FE69 /* SFInactivityTimerCenter.m in Sources */,
 				8248E070157D105700A7FE69 /* SFUserActivityMonitor.m in Sources */,
 				8248E073157D106900A7FE69 /* SFIdentityCoordinator.m in Sources */,
 				8248E079157D109D00A7FE69 /* SFPasscodeViewController.m in Sources */,
@@ -2069,6 +2312,10 @@
 				82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610C15FFD4030064B877 /* SFPasscodeManager.m in Sources */,
 				8287610D15FFD4140064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
+				4FA1DA5E162CB6D800BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				4F3793EB162CD0080094E5C7 /* SFSDKInfoPlugin.m in Sources */,
+				820273D91649E74200DB814C /* SFAuthorizingViewController.m in Sources */,
+				82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2096,7 +2343,6 @@
 				7D8ECEA914EB246B004F241C /* SqliteAdditions.c in Sources */,
 				82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */,
 				822AC0AD1577DCCC007C20B9 /* SFApplication.m in Sources */,
-				822AC0B11577DCCC007C20B9 /* SFInactivityTimerCenter.m in Sources */,
 				822AC0B51577DCCC007C20B9 /* SFUserActivityMonitor.m in Sources */,
 				822AC0C11577EF57007C20B9 /* SFAccountManager.m in Sources */,
 				822AC0C31577EF57007C20B9 /* SFPasscodeViewController.m in Sources */,
@@ -2111,6 +2357,10 @@
 				828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */,
 				82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */,
 				82599EE115EC284000AAACF7 /* SFSmartStoreDatabaseManager.m in Sources */,
+				4FA1DA48162C821A00BC1B52 /* SFSDKInfoPlugin.m in Sources */,
+				4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */,
+				82CEB3B81656CFF2005C66E7 /* SFAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2121,6 +2371,31 @@
 				7DBB148114C0ECF700CCDBE0 /* main.m in Sources */,
 				7DBB14AC14C0EFE400CCDBE0 /* AppDelegate.m in Sources */,
 				7DCEF4FB14D0812700BB3F3E /* SFTestRunnerPlugin.m in Sources */,
+				828E7B6B1641E0F000F8D8AF /* SFAccountManager.m in Sources */,
+				828E7B6D1641E12E00F8D8AF /* SFSmartStore.m in Sources */,
+				828E7B6E1641E13D00F8D8AF /* SFSoupQuerySpec.m in Sources */,
+				828E7B6F1641E14F00F8D8AF /* SFContainerAppDelegate.m in Sources */,
+				828E7B701641E15F00F8D8AF /* SFJsonUtils.m in Sources */,
+				828E7B711641E16E00F8D8AF /* SFSmartStoreDatabaseManager.m in Sources */,
+				828E7B721641E19200F8D8AF /* FMDatabase.m in Sources */,
+				828E7B731641E1A200F8D8AF /* SFSoupIndex.m in Sources */,
+				828E7B741641E1B500F8D8AF /* SFIdentityCoordinator.m in Sources */,
+				828E7B751641E1C600F8D8AF /* SFSecurityLockout.m in Sources */,
+				828E7B761641E1D600F8D8AF /* SFPasscodeManager.m in Sources */,
+				828E7B791641E20900F8D8AF /* SFSoupCursor.m in Sources */,
+				828E7B7A1641E21900F8D8AF /* SFIdentityData.m in Sources */,
+				828E7B7B1641E22B00F8D8AF /* SFHybridViewController.m in Sources */,
+				828E7B7C1641E23A00F8D8AF /* SFPasscodeViewController.m in Sources */,
+				828E7B7D1641E24B00F8D8AF /* FMResultSet.m in Sources */,
+				828E7B861641E30B00F8D8AF /* SFSmartStorePlugin.m in Sources */,
+				828E7BAC1641FA9200F8D8AF /* NSURL+SFStringUtils.m in Sources */,
+				828E7BB31642003100F8D8AF /* SalesforceOAuthPlugin.m in Sources */,
+				828E7BB51642004E00F8D8AF /* SFUserActivityMonitor.m in Sources */,
+				828E7BB6164202FD00F8D8AF /* CDVPlugin+SFAdditions.m in Sources */,
+				828E7BBB1642044C00F8D8AF /* SFSDKInfoPlugin.m in Sources */,
+				828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */,
+				820273D61649E73F00DB814C /* SFAuthorizingViewController.m in Sources */,
+				82D8B3771665760500A34BAD /* SFAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2130,6 +2405,7 @@
 			files = (
 				7DBB14A214C0ECF800CCDBE0 /* SmartStoreTestSuite.m in Sources */,
 				7DE73A4414F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
+				4FA1DA55162CB6A000BC1B52 /* SDKInfoTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2151,7 +2427,6 @@
 				7D8ECEAA14EB246B004F241C /* SqliteAdditions.c in Sources */,
 				8248E063157D0CC400A7FE69 /* SFAccountManager.m in Sources */,
 				8248E069157D103000A7FE69 /* SFSecurityLockout.m in Sources */,
-				8248E06C157D103F00A7FE69 /* SFInactivityTimerCenter.m in Sources */,
 				8248E06F157D105500A7FE69 /* SFUserActivityMonitor.m in Sources */,
 				8248E072157D106700A7FE69 /* SFIdentityCoordinator.m in Sources */,
 				8248E078157D109C00A7FE69 /* SFPasscodeViewController.m in Sources */,
@@ -2166,6 +2441,10 @@
 				82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */,
 				8287610915FFD37B0064B877 /* SFPasscodeManager.m in Sources */,
 				8287610B15FFD3960064B877 /* SFSmartStoreDatabaseManager.m in Sources */,
+				4FA1DA5D162CB6CE00BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
+				4F3793EA162CD0070094E5C7 /* SFSDKInfoPlugin.m in Sources */,
+				820273D81649E74000DB814C /* SFAuthorizingViewController.m in Sources */,
+				82D8B3791665760600A34BAD /* SFAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2175,6 +2454,7 @@
 			files = (
 				7DBD16C014D85F6300A17E6A /* SmartStoreTestSuite.m in Sources */,
 				7DE73A4514F6B6E600D489DE /* SFPluginTestSuite.m in Sources */,
+				4FA1DA57162CB6B000BC1B52 /* SDKInfoTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2307,6 +2587,7 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -2342,6 +2623,8 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2404,6 +2687,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2467,6 +2751,7 @@
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2503,6 +2788,7 @@
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2540,6 +2826,7 @@
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2700,6 +2987,7 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -2737,6 +3025,7 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
@@ -2772,6 +3061,8 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				"OTHER_CFLAGS[arch=*]" = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
@@ -2806,6 +3097,8 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"OTHER_CFLAGS[arch=*]" = "-DSQLITE_HAS_CODEC";
@@ -2898,6 +3191,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
@@ -2935,6 +3229,7 @@
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/Cordova\"",
 				);
 				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = (
