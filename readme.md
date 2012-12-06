@@ -49,7 +49,7 @@ Developers get more control over managing web sessions inside the hybrid contain
 **Passcode Reset**
 Added option for users to logout from the passcode screen
 
-**Other**
+**Miscellaneous**
 * SmartStore for native apps Xcode template
 * Mobile Components for Visualforce updated to provide session management
 
