@@ -41,6 +41,7 @@ static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 75.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
+static NSUInteger   const kPasscodeDialogTag                = 111;
 
 // TODO: These messages should be localized.  This work will be covered when we make an auxilliary
 // bundle for the SDK.
@@ -55,6 +56,10 @@ static NSString *         passcodeVerifyInstructions        = @"Please enter you
 static NSString *         minPasscodeLengthError            = @"Your passcode must be at least %d characters long.";
 static NSString *         passcodesDoNotMatchError          = @"Passcodes do not match!";
 static NSString *         passcodeInvalidError              = @"The passcode you entered was invalid.";
+static NSString *         forgotPasscodeTitle               = @"Forgot Passcode?";
+static NSString *         logoutAlertViewTitle              = @"Are you sure you want to logout?";
+static NSString *         logoutNo                          = @"No";
+static NSString *         logoutYes                         = @"Yes";
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
@@ -75,6 +80,11 @@ static NSString *         passcodeInvalidError              = @"The passcode you
  * The label displaying instructions for a given section of the workflow.
  */
 @property (nonatomic, retain) UILabel *instructionsLabel;
+
+/**
+ * The 'Forgot Passcode' button.
+ */
+@property (nonatomic, retain) UIButton *forgotPasscodeButton;
 
 /**
  * Keeps a copy of the initial passcode of the passcode creation process.
@@ -129,6 +139,11 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 - (void)layoutInstructionsLabel;
 
 /**
+ * Lays out the 'Forgot Passcode' button on the screen.
+ */
+- (void)layoutForgotPasscodeButton;
+
+/**
  * Updates the instructions label with a new value.
  * @param newLabel The new text to be used for the instructions label.
  */
@@ -170,6 +185,11 @@ static NSString *         passcodeInvalidError              = @"The passcode you
  */
 - (void)addPasscodeVerificationNav;
 
+/**
+ * Action performed when the 'Forgot Passcode' button is clicked.
+ */
+- (void)forgotPassAction;
+
 @end
 
 @implementation SFPasscodeViewController
@@ -180,6 +200,7 @@ static NSString *         passcodeInvalidError              = @"The passcode you
 @synthesize errorLabel = _errorLabel;
 @synthesize instructionsLabel = _instructionsLabel;
 @synthesize initialPasscode = _initialPasscode;
+@synthesize forgotPasscodeButton = _forgotPasscodeButton;
 
 - (id)initForPasscodeVerification
 {
@@ -261,24 +282,59 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     self.instructionsLabel.textAlignment = UITextAlignmentCenter;
     self.instructionsLabel.accessibilityLabel = @"Instructions";
     [self.view addSubview:self.instructionsLabel];
-    
-    
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
+
+    // 'Forgot Passcode' button
+    self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.forgotPasscodeButton setTitle:forgotPasscodeTitle forState:UIControlStateNormal];
+    self.forgotPasscodeButton.backgroundColor = [UIColor blackColor];
+    [self.forgotPasscodeButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+    [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.forgotPasscodeButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
+    self.forgotPasscodeButton.accessibilityLabel = @"Forgot Passcode?";
+    [self.forgotPasscodeButton setHidden:YES];
+    [self.view addSubview:self.forgotPasscodeButton];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
     NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
-    if (self.mode == SFPasscodeControllerModeCreate)
+    if (self.mode == SFPasscodeControllerModeCreate) {
         [self updateInstructionsLabel:passcodeCreateInstructions];
-    else
+    } else {
         [self updateInstructionsLabel:passcodeVerifyInstructions];
+        [self.forgotPasscodeButton setHidden:NO];
+    }
 }
 
-- (void)viewWillLayoutSubviews {
+- (void)forgotPassAction
+{
+    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:forgotPasscodeTitle message:logoutAlertViewTitle delegate:self cancelButtonTitle:logoutNo otherButtonTitles:logoutYes, nil];
+    logoutAlert.tag = kPasscodeDialogTag;
+    NSLog(@"SFPasscodeViewController forgotPassAction");
+    [logoutAlert show];
+    [logoutAlert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == kPasscodeDialogTag) {
+        if (buttonIndex == 0) {
+            NSLog(@"User pressed No");
+        } else {
+            NSLog(@"User pressed Yes");
+            [self setRemainingAttempts:kMaxNumberofAttempts];
+            [[SFPasscodeManager sharedManager] resetPasscode];
+            [SFSecurityLockout unlock:NO];
+        }
+    }
+}
+
+- (void)viewWillLayoutSubviews
+{
     [self layoutSubviews];
     [super viewWillLayoutSubviews];
 }
@@ -290,10 +346,12 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     // e.g. self.myOutlet = nil;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [self layoutPasscodeField];
     [self layoutErrorLabel];
     [self layoutInstructionsLabel];
+    [self layoutForgotPasscodeButton];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -313,6 +371,12 @@ static NSString *         passcodeInvalidError              = @"The passcode you
     CGFloat y = kPaddingTop;
     CGRect passRect = CGRectMake(x, y, passcodeFieldSize.width, passcodeFieldSize.height);
     self.passcodeField.frame = passRect;
+}
+
+- (void)layoutForgotPasscodeButton
+{
+    self.forgotPasscodeButton.frame = CGRectMake(110.0, 360.0, 150.0, 40.0);
+    self.forgotPasscodeButton.center = self.view.center;
 }
 
 - (void)layoutErrorLabel

@@ -37,7 +37,7 @@ NSString * const     kSFIdentityErrorDomain                  = @"com.salesforce.
 
 static NSUInteger kSFIdentityReponseBufferLengthBytes        = 512;
 static NSString * const kHttpHeaderAuthorization             = @"Authorization";
-static NSString * const kHttpAuthHeaderFormatString          = @"OAuth %@";
+static NSString * const kHttpAuthHeaderFormatString          = @"Bearer %@";
 
 static NSString * const kSFIdentityError                     = @"error";
 static NSString * const kSFIdentityErrorDescription          = @"error_description";

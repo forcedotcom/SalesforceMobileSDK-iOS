@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
 		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
@@ -42,7 +43,6 @@
 		825072A515C3595200F3A529 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 825072A415C3595200F3A529 /* Cordova.plist */; };
 		825072BA15C36B0F00F3A529 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B615C35B2300F3A529 /* index.html */; };
 		825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B715C35B2300F3A529 /* smartstoreexplorer.js */; };
-		825072BC15C36B7300F3A529 /* cordova-1.8.1.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072A715C3599000F3A529 /* cordova-1.8.1.js */; };
 		825072BD15C36B7600F3A529 /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B315C35AAE00F3A529 /* bootstrap.html */; };
 		825072BE15C36B7B00F3A529 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072B115C35A9300F3A529 /* forcetk.js */; };
 		825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */; };
@@ -60,6 +60,7 @@
 		825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726A15C351E000F3A529 /* icons-18-white.png */; };
 		825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726B15C351E000F3A529 /* icons-36-black.png */; };
 		825072D015C3714100F3A529 /* icons-36-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726C15C351E000F3A529 /* icons-36-white.png */; };
+		828E7BD816420E3800F8D8AF /* cordova-2.2.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 828E7BD616420E3100F8D8AF /* cordova-2.2.0.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,10 +70,10 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				828E7BD816420E3800F8D8AF /* cordova-2.2.0.js in Copy sfdc-shared */,
 				825072C115C36B8800F3A529 /* SFHybridApp.js in Copy sfdc-shared */,
 				825072BA15C36B0F00F3A529 /* index.html in Copy sfdc-shared */,
 				825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy sfdc-shared */,
-				825072BC15C36B7300F3A529 /* cordova-1.8.1.js in Copy sfdc-shared */,
 				825072BD15C36B7600F3A529 /* bootstrap.html in Copy sfdc-shared */,
 				825072BE15C36B7B00F3A529 /* forcetk.js in Copy sfdc-shared */,
 				825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */,
@@ -116,6 +117,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		825071F315C3513E00F3A529 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -166,7 +168,6 @@
 		825072A015C3591300F3A529 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		825072A215C3592E00F3A529 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		825072A415C3595200F3A529 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Cordova.plist; path = ../../../../shared/hybrid/Cordova.plist; sourceTree = "<group>"; };
-		825072A715C3599000F3A529 /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../../dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
 		825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		825072AB15C35A4200F3A529 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = ../../../../external/shared/PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
@@ -174,6 +175,7 @@
 		825072B315C35AAE00F3A529 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		825072B615C35B2300F3A529 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		825072B715C35B2300F3A529 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartstoreexplorer.js; sourceTree = "<group>"; };
+		828E7BD616420E3100F8D8AF /* cordova-2.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.2.0.js"; path = "../../../../shared/hybrid/cordova-2.2.0.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */,
+				820276071651792100DB814C /* MessageUI.framework in Frameworks */,
 				825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */,
 				825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */,
 				825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */,
@@ -226,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				825071F115C3513E00F3A529 /* Foundation.framework */,
+				820276061651792100DB814C /* MessageUI.framework */,
 				825071F315C3513E00F3A529 /* UIKit.framework */,
 				825071F515C3513E00F3A529 /* CFNetwork.framework */,
 				825071F715C3513E00F3A529 /* CoreGraphics.framework */,
@@ -354,7 +358,7 @@
 		825072A615C3595E00F3A529 /* sfdc-shared */ = {
 			isa = PBXGroup;
 			children = (
-				825072A715C3599000F3A529 /* cordova-1.8.1.js */,
+				828E7BD616420E3100F8D8AF /* cordova-2.2.0.js */,
 				825072B315C35AAE00F3A529 /* bootstrap.html */,
 				825072B115C35A9300F3A529 /* forcetk.js */,
 				825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */,

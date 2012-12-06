@@ -22,48 +22,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "CDVPlugin.h"
 
-extern NSString *const kDefaultKeyLastActivity;
 
-/**
- * Class for managing timers that monitor user activity.
- */
-@interface SFInactivityTimerCenter : NSObject
+@interface CDVPlugin (SFAdditions)
 
-/*!
- * Register a timer.
- * @param timerName The key/name associated with the timer.
- * @param target The target object to be called when the timer fires.
- * @param aSelector The selector on the target object to call when the timer fires.
- * @param interval The amount of inactive time before the timer will fire.
- */
-+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval;
+#pragma mark - Cordova plugin support
 
-/*!
- * Remove a specific timer from monitoring.
- * @param timerName the key/name used to register the timer.
- */
-+ (void)removeTimer:(NSString *)timerName;
+- (void)writeSuccessResultToJsRealm:(CDVPluginResult *)result callbackId:(NSString *)callbackId;
+- (void)writeErrorResultToJsRealm:(CDVPluginResult *)result callbackId:(NSString *)callbackId;
+- (void)writeSuccessDictToJsRealm:(NSDictionary *)dict callbackId:(NSString *)callbackId;
+- (void)writeSuccessArrayToJsRealm:(NSArray *)array callbackId:(NSString *)callbackId;
+- (void)writeCommandOKResultToJsRealm:(NSString *)callbackId;
 
-/*!
- * Remove all timers from monitoring.
- */
-+ (void)removeAllTimers;
+#pragma mark - Versioning support
 
-/*!
- * Update last activity timestamp.
- */
-+ (void)updateActivityTimestamp;
-
-/*!
- * Return the timestamp for the latest activity.
- */
-+ (NSDate *)lastActivityTimestamp;
-
-/*!
- * Save the activity timestamp to persistant storage.
- */
-+ (void)saveActivityTimestamp;
+- (BOOL)hasVersion:(NSArray *)arguments;
+- (NSString *)getVersion:(NSString *)action withArguments:(NSArray *)arguments;
+- (NSDictionary *)getArgument:(NSArray *)arguments atIndex:(NSUInteger)argIndex;
 
 @end

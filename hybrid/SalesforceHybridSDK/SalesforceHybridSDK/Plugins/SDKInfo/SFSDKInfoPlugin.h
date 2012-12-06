@@ -22,30 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "CDVPlugin.h"
 
-/**
- * Protocol defining an SDK-based app delegate.
- */
-@protocol SFSDKAppDelegate <UIApplicationDelegate>
+@class CDVInvokedUrlCommand;
 
-/**
- * Forces a logout from the current account.
- * This throws out the OAuth refresh token.
- */
-- (void)logout;
+@interface SFSDKInfoPlugin : CDVPlugin
 
-@end
-
-/**
- * Mobile SDK extension of the UIApplication object.  Currently just gathers
- * date/time information about user events.
- */
-@interface SFApplication : UIApplication
-
-/**
- * The date of the last user event in the application.
- */
-@property (nonatomic, readonly) NSDate *lastEventDate;
+#pragma mark - Plugin methods called from js
+- (void)getInfo:(CDVInvokedUrlCommand *)command;
 
 @end

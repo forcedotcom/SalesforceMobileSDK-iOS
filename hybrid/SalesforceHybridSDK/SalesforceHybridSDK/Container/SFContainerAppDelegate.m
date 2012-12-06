@@ -32,18 +32,18 @@
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
-#import <Cordova/CDVURLProtocol.h>
-#import <Cordova/CDVCommandDelegate.h>
+#import "CDVURLProtocol.h"
+#import "CDVCommandDelegate.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.3.5";
+NSString * const kSFMobileSDKVersion = @"1.4.0";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-
-// Private constants
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
+
+// Private constants
 NSString * const kDefaultHybridAccountIdentifier = @"Default";
 
 // The default logging level of the app.
@@ -102,9 +102,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
-        
-        // Cordova
-        [CDVURLProtocol registerURLProtocol];
     }
     return self;
 }
@@ -128,7 +125,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [SFLogger setLogLevel:self.appLogLevel];
     
-    // Cordova
+    // Cordova.  NB: invokeString is deprecated in Cordova 2.2.  We will ditch it when they do.
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     if (url && [url isKindOfClass:[NSURL class]]) {
         _invokeString = [url absoluteString];
@@ -173,22 +170,18 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     // These actions only need to be taken when the app is coming back to the foreground, i.e. not when the app is first starting,
     // which has a separate bootstrapping process.
     if (!_isAppStartup) {
-        SalesforceOAuthPlugin *oauthPlugin = (SalesforceOAuthPlugin *)[self.viewController.commandDelegate getCommandInstance:kSFOAuthPluginName];
-        [oauthPlugin clearPeriodicRefreshState];
         BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
         BOOL loginHostChanged = [SFAccountManager updateLoginHost];
         if (shouldLogout) {
             [self clearAppState:YES];
         } else if (loginHostChanged) {
             [[SFAccountManager sharedInstance] clearAccountState:NO];
-            [self.viewController loadStartPageIntoWebView];
-//            [self resetUi];
+            [self resetUi];
         } else {
             [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                 [self clearAppState:YES];
             }];
             [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-                [oauthPlugin autoRefresh];
                 [self.viewController.commandDelegate getCommandInstance:kSFSmartStorePluginName];
             }];
             [SFSecurityLockout validateTimer];
@@ -233,10 +226,16 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)resetUi
 {
-    [self.viewController.view removeFromSuperview];
-    self.viewController.view = nil;
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resetUi];
+        });
+        return;
+    }
+    
+    self.viewController = nil;
+    [self.window.rootViewController dismissViewControllerAnimated:NO completion:NULL];  // If the auth view is presented.
     self.window.rootViewController = nil;
-    SFRelease(_viewController);
     
     [self setupViewController];
 }
@@ -248,13 +247,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)setupViewController
 {
-    CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
     [self configureHybridViewController];
-    self.viewController.useSplashScreen = YES;
+    self.viewController.useSplashScreen = NO;
     self.viewController.wwwFolderName = @"www";
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
-    self.viewController.view.frame = viewBounds;
     
     self.window.rootViewController = self.viewController;
 }
@@ -337,8 +334,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [defs synchronize];
     
     if (restartAuthentication)
-        [self.viewController loadStartPageIntoWebView];
-//        [self resetUi];
+        [self resetUi];
 }
 
 + (void)removeCookies

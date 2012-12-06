@@ -32,6 +32,7 @@
 #import "SFAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
+#import "SFAuthenticationManager.h"
 
 // Private constants
 
@@ -44,6 +45,11 @@ static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode scre
 static NSString * const kSecurityIsLockedKey                 = @"security.islocked";
 
 // Public constants
+
+NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
+NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
+
+// Static vars
 
 static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
@@ -111,7 +117,10 @@ static BOOL _showPasscode = YES;
             // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
         }
 		[SFSecurityLockout unlock:YES];
-		[[SFPasscodeManager sharedManager] resetPasscode];
+        
+        // Call setPasscode to trigger extra clean up logic.
+		[SFSecurityLockout setPasscode:nil];
+        
 		[SFInactivityTimerCenter removeTimer:kTimerSecurity];
 	} else { 
 		if (![SFSecurityLockout isPasscodeValid]) {
@@ -166,6 +175,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     
 	if ([self locked]) {
+        [self sendPasscodeFlowCompletedNotification:success];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
             if (success) {
@@ -193,10 +203,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer {
     [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
-        if ([appDelegate respondsToSelector:@selector(logout)]) {
-            [appDelegate performSelector:@selector(logout)];
-        }
+        [[SFAuthenticationManager sharedManager] logout];
     }];
 	[SFSecurityLockout lock];
 }
@@ -236,6 +243,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [self setIsLocked:YES];
     if (_showPasscode) {
+        [self sendPasscodeFlowWillBeginNotification:modeValue];
         [self log:SFLogLevelInfo msg:@"Setting window to key window."];
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
@@ -253,6 +261,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             presentingViewController = topWindow.rootViewController;
         [presentingViewController presentViewController:nc animated:YES completion:NULL];
     }
+}
+
++ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode
+{
+    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %d", mode];
+    NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
+                                                      object:[NSNumber numberWithInt:mode]
+                                                    userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
+}
+
++ (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess
+{
+    [self log:SFLogLevelDebug
+       format:@"Sending passcode flow completed notification with validation success = %d", validationSuccess];
+    NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowCompleted
+                                                      object:[NSNumber numberWithBool:validationSuccess]
+                                                    userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
 + (void)setIsLocked:(BOOL)locked {
@@ -368,6 +395,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     NSString *newHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
     if (newHashedPasscode == nil) newHashedPasscode = @"";
+    
+    if (![oldHashedPasscode isEqualToString:newHashedPasscode]) {
+        //Passcode changed, post the notification
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:oldHashedPasscode, SFPasscodeResetOldPasscodeKey, newHashedPasscode, SFPasscodeResetNewPasscodeKey, nil]];
+    }
     
     [SFSmartStore changeKeyForStores:oldHashedPasscode newKey:newHashedPasscode];
 }

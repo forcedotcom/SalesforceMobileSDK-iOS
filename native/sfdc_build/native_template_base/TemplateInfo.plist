@@ -176,19 +176,6 @@
 	</dict>
 	
 	
-	<!-- libsqlite is required by some SmartStore classes currently -->
-	<key>dependencies/libsqlite3.dylib</key>
-	<dict>
-		<key>Group</key>			
-		<array>
-			<string>dependencies</string>
-		</array>
-		<key>Path</key>
-		<string>/usr/lib/libsqlite3.dylib</string>
-		<key>PathType</key>
-		<string>CurrentSDK</string>
-	</dict>
-
 	<!-- libz is required by NSData extensions currently -->
 	<key>dependencies/libz.dylib</key>
 	<dict>
@@ -1538,6 +1525,19 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	</dict>
 	
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
+	</dict>
+	
 	<key>dependencies/SalesforceSDK/libSalesforceSDK.a</key>
 	<dict>
 		<key>Group</key>			
@@ -1571,6 +1571,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</key>
@@ -1608,6 +1620,30 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</key>
 	<dict>
@@ -1619,6 +1655,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</key>
@@ -1667,6 +1715,18 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</key>
@@ -1764,6 +1824,18 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</key>
 	<dict>
@@ -1836,6 +1908,155 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a</string>
 	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</string>
+	</dict>
+
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
+	</dict>
+
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+	</dict>
+
+
+	<key>dependencies/sqlcipher/libsqlcipher.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>sqlcipher</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/sqlcipher/libsqlcipher.a</string>
+	</dict>
+
+	<key>dependencies/sqlcipher/LICENSE</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>sqlcipher</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/sqlcipher/LICENSE</string>
+	</dict>
+
+	<key>dependencies/openssl/libcrypto.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/libcrypto.a</string>
+	</dict>
+
+	<key>dependencies/openssl/libssl.a</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/libssl.a</string>
+	</dict>
+
+	<key>dependencies/openssl/openssl_license.txt</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>openssl</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/openssl/openssl_license.txt</string>
+	</dict>
+
 
 	<key>Resources/icons/icon-72.png</key>
 	<dict>
@@ -2069,14 +2290,19 @@
 
 	<string>dependencies/SalesforceCommonUtils/Headers/NSData+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSDictionary+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSMutableAttributedString+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSObject+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFAdditions.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/NSString+SFPathAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/NSURL+SFAdditions.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFCoverView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFCrypto.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFDateUtil.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFDeviceInfo.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFEncryptionManager.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFGradientView.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFInactivityTimerCenter.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFKeychainItemWrapper.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFLogger.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFMD5.h</string>
@@ -2085,6 +2311,7 @@
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIAlertView+SFBlocks.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIBarButtonItem+SFAddtions.h</string>
@@ -2110,8 +2337,22 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+Blocks.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+QueryBuilder.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+	<string>dependencies/sqlcipher/libsqlcipher.a</string>
+	<string>dependencies/sqlcipher/LICENSE</string>
+	<string>dependencies/openssl/libcrypto.a</string>
+	<string>dependencies/openssl/libssl.a</string>
+	<string>dependencies/openssl/openssl_license.txt</string>
+
 	<string>Resources/icons/icon-72.png</string>
 	<string>Resources/icons/icon-72@2x.png</string>
 	<string>Resources/icons/icon.png</string>
@@ -2147,7 +2388,6 @@
     <string>en.lproj/InfoPlist.strings</string>
 
 	<string>dependencies/libxml2.dylib</string>
-	<string>dependencies/libsqlite3.dylib</string>
 	<string>dependencies/libz.dylib</string>
 	
 
@@ -2185,6 +2425,7 @@
     <key>Frameworks</key>
     <array>
         <string>CoreData</string>
+        <string>MessageUI</string>
         <string>QuartzCore</string>
         <string>SystemConfiguration</string>
         <string>Security</string>

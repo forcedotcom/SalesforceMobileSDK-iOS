@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 // From Cordova.framework
-#import <Cordova/CDVPlugin.h>
+#import "CDVPlugin.h"
+@class CDVInvokedUrlCommand;
 
 
 extern NSString * const kSFTestRunnerPluginName;
@@ -45,7 +46,7 @@ extern NSString * const kSFTestRunnerPluginName;
 
 #pragma mark - Plugin methods called from js
 
-- (void)onReadyForTests:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)onTestComplete:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)onReadyForTests:(CDVInvokedUrlCommand *)command;
+- (void)onTestComplete:(CDVInvokedUrlCommand *)command;
 
 @end

@@ -41,13 +41,14 @@
 		7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0745149AA8440043A9E0 /* Settings.bundle */; };
 		7DBD074F149AA8780043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD074E149AA8780043A9E0 /* www */; };
 		7DFBB71914C8955D00D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */; };
+		8202760E1651795300DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202760D1651795300DB814C /* MessageUI.framework */; };
 		82031D8815B4EBDD00073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D8715B4EBDD00073595 /* CordovaResources.bundle */; };
 		82031D8A15B4EBEF00073595 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82031D8915B4EBEF00073595 /* Cordova.plist */; };
-		821D1D1115B215F300D05F8E /* cordova-1.8.1.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 821D1D0B15B2158800D05F8E /* cordova-1.8.1.js */; };
 		826ED6C61582D96C00321962 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */; };
 		826ED6C81582D97800321962 /* SFHybridApp.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C21582D92800321962 /* SFHybridApp.js */; };
 		826ED6C91582D97F00321962 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 826ED6C41582D93400321962 /* SFSmartStorePlugin.js */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
+		828E7BE016420E9000F8D8AF /* cordova-2.2.0.js in Copy SFDC Shared WWW */ = {isa = PBXBuildFile; fileRef = 828E7BDE16420E8800F8D8AF /* cordova-2.2.0.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,7 +58,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				821D1D1115B215F300D05F8E /* cordova-1.8.1.js in Copy SFDC Shared WWW */,
+				828E7BE016420E9000F8D8AF /* cordova-2.2.0.js in Copy SFDC Shared WWW */,
 				826ED6C91582D97F00321962 /* SFSmartStorePlugin.js in Copy SFDC Shared WWW */,
 				826ED6C81582D97800321962 /* SFHybridApp.js in Copy SFDC Shared WWW */,
 				826ED6C61582D96C00321962 /* SalesforceOAuthPlugin.js in Copy SFDC Shared WWW */,
@@ -106,13 +107,14 @@
 		7DBD0745149AA8440043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD074E149AA8780043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		7DFBB71814C8955D00D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
+		8202760D1651795300DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		82031D8715B4EBDD00073595 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		82031D8915B4EBEF00073595 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Cordova.plist; path = ../../../../shared/hybrid/Cordova.plist; sourceTree = "<group>"; };
-		821D1D0B15B2158800D05F8E /* cordova-1.8.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-1.8.1.js"; path = "../../hybrid/dependencies/Cordova.framework/www/cordova-1.8.1.js"; sourceTree = "<group>"; };
 		826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
 		826ED6C21582D92800321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		826ED6C41582D93400321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		828E7BDE16420E8800F8D8AF /* cordova-2.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.2.0.js"; path = "../../shared/hybrid/cordova-2.2.0.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
 				7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
+				8202760E1651795300DB814C /* MessageUI.framework in Frameworks */,
 				7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */,
 				7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */,
 				7DBD06D0149AA8420043A9E0 /* CoreGraphics.framework in Frameworks */,
@@ -147,7 +150,7 @@
 		7D3FF05A14BE2A77004D3FF6 /* sfdc-shared */ = {
 			isa = PBXGroup;
 			children = (
-				821D1D0B15B2158800D05F8E /* cordova-1.8.1.js */,
+				828E7BDE16420E8800F8D8AF /* cordova-2.2.0.js */,
 				7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */,
 				826ED6BE1582D91400321962 /* SalesforceOAuthPlugin.js */,
 				826ED6C21582D92800321962 /* SFHybridApp.js */,
@@ -180,6 +183,7 @@
 				7D72611814C74B9700CFD63C /* libsqlite3.dylib */,
 				82707C11157C49EB00B50291 /* libz.dylib */,
 				7DBD06C9149AA8420043A9E0 /* Foundation.framework */,
+				8202760D1651795300DB814C /* MessageUI.framework */,
 				7DBD06CB149AA8420043A9E0 /* UIKit.framework */,
 				7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */,
 				7DBD06CF149AA8420043A9E0 /* CoreGraphics.framework */,
