@@ -29,7 +29,7 @@
 
 // Private view layout constants
 
-static CGFloat      const kPaddingTop                       = 75.0f;
+static CGFloat      const kPaddingTop                       = 25.0f;
 static NSString *   const kPasscodeTextFontName             = @"HelveticaNeue-Bold";
 static CGFloat      const kPasscodeTextFontSize             = 29.0f;
 static NSString *   const kPasscodeHelperTextFontName       = @"HelveticaNeue";
@@ -39,8 +39,10 @@ static CGFloat      const kControlPadding                   = 5.0f;
 static CGFloat      const kTextFieldWidthPadding            = 40.0f;
 static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
-static CGFloat      const kInstructionsLabelHeight          = 75.0f;
+static CGFloat      const kInstructionsLabelHeight          = 50.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
+static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
+static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
 
 // TODO: These messages should be localized.  This work will be covered when we make an auxilliary
@@ -375,8 +377,11 @@ static NSString *         logoutYes                         = @"Yes";
 
 - (void)layoutForgotPasscodeButton
 {
-    self.forgotPasscodeButton.frame = CGRectMake(110.0, 360.0, 150.0, 40.0);
-    self.forgotPasscodeButton.center = self.view.center;
+    CGFloat w = kForgotPasscodeButtonWidth;
+    CGFloat h = kForgotPasscodeButtonHeight;
+    CGFloat x = CGRectGetMidX(self.view.frame) - (self.forgotPasscodeButton.frame.size.width / 2.0);
+    CGFloat y = CGRectGetMaxY(self.instructionsLabel.frame) + kControlPadding;
+    self.forgotPasscodeButton.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)layoutErrorLabel
