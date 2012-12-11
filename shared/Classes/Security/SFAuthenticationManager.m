@@ -345,7 +345,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     
     // TODO: This is another NIB file that's delivered as part of the app templates, and should be
     // moved into a bundle (along with the root vc NIB file mentioned above.
-    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: Presenting auth view controller."];
+    [self log:SFLogLevelDebug msg:@"Presenting auth view controller."];
     self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     [self.authViewController setOauthView:webView];
     [self.viewController presentViewController:self.authViewController animated:YES completion:NULL];
@@ -413,25 +413,25 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
 {
-    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: oauthCoordinator:willBeginAuthenticationWithView"];
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView"];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
-    [self log:SFLogLevelDebug msg:@"SFOAuthFlowManager: oauthCoordinator:didBeginAuthenticationWithView"];
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
     _isInitialLogin = YES;
     [self presentAuthViewController:view];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    [self log:SFLogLevelDebug format:@"SFOAuthFlowManager: oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
+    [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    [self log:SFLogLevelDebug format:@"SFOAuthFlowManager: oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
+    [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
     
     BOOL showAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {
