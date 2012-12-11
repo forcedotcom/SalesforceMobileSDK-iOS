@@ -107,8 +107,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (void)dealloc
 {
-    [[SFAccountManager sharedInstance] clearAccountState:NO];
-    
     SFRelease(_authCallbackId);
     SFRelease(_remoteAccessConsumerKey);
     SFRelease(_oauthRedirectURI);
