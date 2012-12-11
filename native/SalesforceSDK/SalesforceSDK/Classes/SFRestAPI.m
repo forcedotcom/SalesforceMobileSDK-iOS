@@ -32,7 +32,7 @@
 #import "SFSessionRefresher.h"
 #import "SFAccountManager.h"
 
-NSString * const kSFMobileSDKVersion = @"1.4.1";
+NSString * const kSFMobileSDKVersion = @"1.4.2";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
