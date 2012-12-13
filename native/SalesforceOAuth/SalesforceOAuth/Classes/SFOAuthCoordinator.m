@@ -155,7 +155,10 @@ static NSString * const kHttpPostContentType                    = @"application/
               self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"), 
               self.credentials.protocol, self.credentials.domain);
     }
-    
+
+    //clear the webview cache
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+
     self.authenticating = YES;
     
     // TODO: reachability
@@ -219,7 +222,10 @@ static NSString * const kHttpPostContentType                    = @"application/
         _view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
     _view.delegate = self;
-    
+
+    // Ensure that the webview options match how our app wants to handle detected links
+    _view.dataDetectorTypes = UIDataDetectorTypeNone;
+
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
@@ -270,6 +276,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
 	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
+    [request setCachePolicy:NSURLCacheStorageNotAllowed]; // don't use cache
 	[approvalUrl release];
 	
 	[_view loadRequest:request];
