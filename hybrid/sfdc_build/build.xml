@@ -122,7 +122,7 @@
         <copy todir="${xcodetemplate.dir}/CordovaResources.bundle">
 			<fileset dir="${xcodetemplate.ios.hybridcommon.dir}/CordovaResources.bundle" />
 		</copy>
-        <copy file="${xcodetemplate.ios.hybridcommon.dir}/Cordova.plist" todir="${xcodetemplate.dir}"  />
+        <copy file="${xcodetemplate.ios.hybridcommon.dir}/config.xml" todir="${xcodetemplate.dir}"  />
 
     </target>
 

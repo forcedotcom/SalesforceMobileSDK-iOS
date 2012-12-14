@@ -2,7 +2,7 @@
     <dirname property="iOSShared.basedir" file="${ant.file.iOSShared}"/>
     <dirname property="iOSCommon.basedir" file="${ant.file.iOSShared}/../common/build/tools" />
     <property name="iOSShared.distdir" location="${iOSShared.basedir}/../dist"/>
-    <property name="iOSShared.cdv.js.version" value="2.2.0" />
+    <property name="iOSShared.cdv.js.version" value="2.3.0" />
     
     <!--[target] compress: 
      Compress the given contents in a way that plays nice with Apple's iTunesConnect.
@@ -244,7 +244,7 @@
     </target>
     
     <!-- dependency: Cordova -->
-    <property name="subproject.cordova.dir" value="${iOSShared.basedir}/../external/incubator-cordova-ios"/>
+    <property name="subproject.cordova.dir" value="${iOSShared.basedir}/../external/cordova-ios"/>
     <target name="dependency.cordova.check">
         <condition property="dependency.cordova.present">
             <available file="${dependency.dir}/Cordova" type="dir"/>
