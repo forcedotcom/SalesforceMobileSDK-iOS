@@ -14,7 +14,7 @@
     <property id="SDK" name="SDK" value="Latest"/>
 
     <property id="target.name" name="target.name" value="${ant.project.name}" />
-    <property name="cdv.repo.dir" location="../incubator-cordova-ios" />
+    <property name="cdv.repo.dir" location="../cordova-ios" />
     <property name="project.dir" location="${cdv.repo.dir}/CordovaLib" />
     <property name="project.build_output.dir" location="${project.dir}/build" />
     <property name="artifacts.dir" location="./artifacts" />
