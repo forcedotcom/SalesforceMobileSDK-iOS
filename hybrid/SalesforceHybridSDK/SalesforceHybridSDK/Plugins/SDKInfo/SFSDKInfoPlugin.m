@@ -23,6 +23,7 @@
  */
 
 #import "SFSDKInfoPlugin.h"
+#import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "CDVInvokedUrlCommand.h"
 #import "SalesforceSDKConstants.h"
@@ -35,16 +36,13 @@ NSString * const kAppVersionKey = @"appVersion";
 NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
 
 // Other constants
-NSString * const kCordova = @"Cordova";
-NSString * const kPlugins = @"Plugins";
 NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
 
 @property (nonatomic, readonly) NSArray *forcePlugins;
 
-+ (NSArray*)getForcePluginsFromPList;
-+ (NSDictionary*)getBundlePlist:(NSString *)plistName;
+- (NSArray *)getForcePluginsFromCordova;
 
 @end
 
@@ -59,45 +57,48 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 {
     self = [super initWithWebView:theWebView];
     if (self) {
-        _forcePlugins = [[SFSDKInfoPlugin getForcePluginsFromPList] retain];
+        
     }
     return self;
 }
 
-#pragma mark - Methods to get force plugins
-
-+ (NSArray*)getForcePluginsFromPList
+- (void)dealloc
 {
-    NSMutableArray* services = [NSMutableArray array];
-
-    NSDictionary* cordovaPlist = [SFSDKInfoPlugin getBundlePlist:kCordova];
-    if (cordovaPlist) {
-        NSDictionary* pluginsDict = [cordovaPlist objectForKey:kPlugins];
-        if (pluginsDict) {
-            for (NSString* key in [pluginsDict allKeys]) {
-                key = [key lowercaseString];
-                NSLog(@"key=%@", key);
-                if ([key hasPrefix:kForcePluginPrefix]) {
-                    [services addObject:key];
-                }
-            }
-        }
-    }
-    
-    return services;
+    SFRelease(_forcePlugins);
+    [super dealloc];
 }
 
-+ (NSDictionary*)getBundlePlist:(NSString *)plistName
+#pragma mark - Methods to get force plugins
+
+- (NSArray *)forcePlugins
 {
-    NSString *errorDesc = nil;
-    NSPropertyListFormat format;
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
-    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
-    NSDictionary *temp = (NSDictionary *)[NSPropertyListSerialization
-                                          propertyListFromData:plistXML
-                                          mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                          format:&format errorDescription:&errorDesc];
-    return temp;
+    if (_forcePlugins == nil) {
+        _forcePlugins = [[self getForcePluginsFromCordova] retain];
+    }
+    
+    return _forcePlugins;
+}
+
+- (NSArray *)getForcePluginsFromCordova
+{
+    NSMutableArray* services = [NSMutableArray array];
+    if ([self.viewController isKindOfClass:[CDVViewController class]]) {
+        CDVViewController *vc = (CDVViewController *)self.viewController;
+        NSDictionary *pluginsMap = vc.pluginsMap;
+        for (NSString *key in [pluginsMap allKeys]) {
+            key = [key lowercaseString];
+            [self log:SFLogLevelDebug format:@"key=%@", key];
+            if ([key hasPrefix:kForcePluginPrefix]) {
+                [services addObject:key];
+            }
+        }
+        return services;
+    } else {
+        [self log:SFLogLevelError
+           format:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.",
+         NSStringFromClass([self.viewController class])];
+        return nil;
+    }
 }
 
 #pragma mark - Plugin methods called from js
@@ -106,16 +107,16 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 {
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:command.arguments];
-
+    
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
-
+    
     NSDictionary *sdkInfo = [[[NSDictionary alloc] initWithObjectsAndKeys:
-                             kSFMobileSDKVersion, kSDKVersionKey,
-                             appName, kAppNameKey,
-                             appVersion, kAppVersionKey,
-                             self.forcePlugins, kForcePluginsAvailableKey,
-                             nil] autorelease];
+                              kSFMobileSDKVersion, kSDKVersionKey,
+                              appName, kAppNameKey,
+                              appVersion, kAppVersionKey,
+                              self.forcePlugins, kForcePluginsAvailableKey,
+                              nil] autorelease];
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }

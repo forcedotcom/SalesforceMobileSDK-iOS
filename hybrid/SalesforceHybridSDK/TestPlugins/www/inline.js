@@ -11,7 +11,8 @@ function regLinkClickHandlers() {
 
     
     $('#link_fetch_device_contacts').click(function() {
-                                           var options = cordova.require("cordova/plugin/ContactFindOptions");
+                                           var contactOptionsType = cordova.require("cordova/plugin/ContactFindOptions");
+                                           var options = new contactOptionsType();
                                            var fields = ["name"];
                                            logToConsole("link_fetch_device_contacts clicked");
                                            options.filter = ""; // empty search string returns all contacts
