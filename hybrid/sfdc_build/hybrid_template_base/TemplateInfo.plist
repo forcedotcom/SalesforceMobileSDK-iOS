@@ -103,12 +103,12 @@
 			<key>Path</key>
 			<string>main.m</string>
 		</dict>
-		<key>Cordova.plist</key>
+		<key>config.xml</key>
 		<dict>
 			<key>Group</key>
 			<string>Supporting Files</string>
 			<key>Path</key>
-			<string>Cordova.plist</string>
+			<string>config.xml</string>
 		</dict>
 		<key>en.lproj/InfoPlist.strings</key>
 		<dict>
@@ -331,7 +331,7 @@
 		<string>___PACKAGENAME___-Prefix.pch</string>
 		<string>___PACKAGENAME___-Info.plist</string>
 		<string>main.m</string>
-		<string>Cordova.plist</string>
+		<string>config.xml</string>
 		<string>en.lproj/InfoPlist.strings</string>
 		<string>Settings.bundle</string>
 		<string>CordovaResources.bundle</string>
