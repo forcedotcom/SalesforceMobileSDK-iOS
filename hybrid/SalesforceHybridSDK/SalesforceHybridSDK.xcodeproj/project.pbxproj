@@ -417,9 +417,6 @@
 		828E7B7B1641E22B00F8D8AF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		828E7B7C1641E23A00F8D8AF /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BD1577EF57007C20B9 /* SFPasscodeViewController.m */; };
 		828E7B7D1641E24B00F8D8AF /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E891583FBBF00433F92 /* FMResultSet.m */; };
-		828E7B831641E2A000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
-		828E7B841641E2AE00F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
-		828E7B851641E2C000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */; };
 		828E7B861641E30B00F8D8AF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D56F40314DC7F200013A60F /* SFSmartStorePlugin.m */; };
 		828E7BAC1641FA9200F8D8AF /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		828E7BB31642003100F8D8AF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D45E32314BFB394002C4A27 /* SalesforceOAuthPlugin.m */; };
@@ -427,6 +424,12 @@
 		828E7BB6164202FD00F8D8AF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
 		828E7BBB1642044C00F8D8AF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA46162C821A00BC1B52 /* SFSDKInfoPlugin.m */; };
 		828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E831583FBBF00433F92 /* FMDatabaseAdditions.m */; };
+		829545F7167A798400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 829545F6167A798400A0FC34 /* config.xml */; };
+		829545FA167A7B0600A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 829545F9167A7B0600A0FC34 /* config.xml */; };
+		829545FB167A7B0600A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 829545F9167A7B0600A0FC34 /* config.xml */; };
+		82954641167A83B300A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
+		82954642167A874000A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
+		82954643167A874800A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
 		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
 		82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
 		82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */; };
@@ -452,9 +455,6 @@
 		82F593D815B0845600C7E033 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
 		82F593DF15B0CA3100C7E033 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
 		82F593E015B0CA3300C7E033 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0A21577DCCC007C20B9 /* SFApplication.m */; };
-		82F593E215B0CEDD00C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E115B0CEDD00C7E033 /* Cordova.plist */; };
-		82F593E415B0D15400C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E315B0D15400C7E033 /* Cordova.plist */; };
-		82F593E515B0D16000C7E033 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82F593E315B0D15400C7E033 /* Cordova.plist */; };
 		82F593E715B0D2A600C7E033 /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F593E815B0D2A700C7E033 /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
 		82F593E915B0D77300C7E033 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
@@ -508,6 +508,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				82954643167A874800A0FC34 /* cordova-2.3.0.js in Copy shared-www files */,
 				4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F71582DCAE00321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
 				826ED6F81582DCAE00321962 /* qunit.css in Copy shared-www files */,
@@ -520,7 +521,6 @@
 				826ED7001582DCAE00321962 /* SFSmartStoreLoadTestSuite.js in Copy shared-www files */,
 				7D20FBEB14ED7DBD00A86731 /* forcetk.js in Copy shared-www files */,
 				7D20FBEE14ED7DBD00A86731 /* bootstrap.html in Copy shared-www files */,
-				828E7B851641E2C000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,6 +531,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				82954641167A83B300A0FC34 /* cordova-2.3.0.js in Copy shared-www files */,
 				4FA1DA61162CB85600BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
 				4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6ED1582DBA100321962 /* SFTestSuite.js in Copy shared-www files */,
@@ -543,7 +544,6 @@
 				826ED6E61582DB4600321962 /* SFHybridApp.js in Copy shared-www files */,
 				7DBB14D214C0F49800CCDBE0 /* bootstrap.html in Copy shared-www files */,
 				7DD5A13714CF9FB100D308B1 /* forcetk.js in Copy shared-www files */,
-				828E7B831641E2A000F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +554,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				82954642167A874000A0FC34 /* cordova-2.3.0.js in Copy shared-www files */,
 				4F3793EC162CD0440094E5C7 /* SFSDKInfoTestSuite.js in Copy shared-www files */,
 				4F03238E161B837400E2CD9B /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */,
 				826ED6F21582DC7600321962 /* SFSmartStorePlugin.js in Copy shared-www files */,
@@ -566,7 +567,6 @@
 				826ED6EE1582DC4100321962 /* SFTestRunnerPlugin.js in Copy shared-www files */,
 				7DBD169814D85D3100A17E6A /* forcetk.js in Copy shared-www files */,
 				7DBD169B14D85D3100A17E6A /* bootstrap.html in Copy shared-www files */,
-				828E7B841641E2AE00F8D8AF /* cordova-2.2.0.js in Copy shared-www files */,
 			);
 			name = "Copy shared-www files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,7 +873,9 @@
 		828E7B3B1641DF9500F8D8AF /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
 		828E7B3C1641DF9500F8D8AF /* UIDevice+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Extensions.h"; sourceTree = "<group>"; };
 		828E7B3D1641DF9500F8D8AF /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = "<group>"; };
-		828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.2.0.js"; path = "../../../shared/hybrid/cordova-2.2.0.js"; sourceTree = "<group>"; };
+		829545F6167A798400A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		829545F9167A7B0600A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeManager.h; path = ../../../shared/Classes/Security/SFPasscodeManager.h; sourceTree = "<group>"; };
 		82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeManager.m; path = ../../../shared/Classes/Security/SFPasscodeManager.m; sourceTree = "<group>"; };
 		82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSecurityLockout+Internal.h"; path = "../../../shared/Classes/Security/SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
@@ -884,8 +886,6 @@
 		82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthenticationManager.m; path = ../../../shared/Classes/Security/SFAuthenticationManager.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
-		82F593E115B0CEDD00C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
-		82F593E315B0D15400C7E033 /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1255,9 +1255,9 @@
 		7DBB147A14C0ECF700CCDBE0 /* TestPlugins */ = {
 			isa = PBXGroup;
 			children = (
+				829545F6167A798400A0FC34 /* config.xml */,
 				82B9FD1615E45C7600BE8822 /* test_credentials.json */,
 				82031D9B15B4EF4500073595 /* CordovaResources.bundle */,
-				82F593E115B0CEDD00C7E033 /* Cordova.plist */,
 				7DBD16D814D8625000A17E6A /* www */,
 				7DCEF4F714D0810200BB3F3E /* Plugins */,
 				7DBB14B614C0F09E00CCDBE0 /* shared-www */,
@@ -1328,7 +1328,7 @@
 				826ED6D11582DA5200321962 /* SFSmartStoreLoadTestSuite.js */,
 				7DD5A13314CF9F9C00D308B1 /* forcetk.js */,
 				7DBB14B814C0F09E00CCDBE0 /* bootstrap.html */,
-				828E7B7E1641E28800F8D8AF /* cordova-2.2.0.js */,
+				829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */,
 			);
 			name = "shared-www";
 			path = ../../../external/shared/PhoneGap;
@@ -1364,7 +1364,7 @@
 		7DBD163414D85C3400A17E6A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				82F593E315B0D15400C7E033 /* Cordova.plist */,
+				829545F9167A7B0600A0FC34 /* config.xml */,
 				7DBD163514D85C3400A17E6A /* DebugPlugins-Info.plist */,
 				7DBD163614D85C3400A17E6A /* InfoPlist.strings */,
 				7DBD163914D85C3400A17E6A /* main.m */,
@@ -2099,8 +2099,8 @@
 				7D20FBD914ED7DBD00A86731 /* DebugPlugins-Prefix.pch in Resources */,
 				7D20FBE314ED7DBD00A86731 /* Settings.bundle in Resources */,
 				7D20FC3314ED98F000A86731 /* www in Resources */,
-				82F593E515B0D16000C7E033 /* Cordova.plist in Resources */,
 				82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */,
+				829545FB167A7B0600A0FC34 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2130,9 +2130,9 @@
 				7DBB147F14C0ECF700CCDBE0 /* InfoPlist.strings in Resources */,
 				7DBB14B314C0EFFA00CCDBE0 /* Settings.bundle in Resources */,
 				7DBD16D914D8625000A17E6A /* www in Resources */,
-				82F593E215B0CEDD00C7E033 /* Cordova.plist in Resources */,
 				82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */,
 				82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */,
+				829545F7167A798400A0FC34 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2152,9 +2152,9 @@
 				7DBD163C14D85C3500A17E6A /* DebugPlugins-Prefix.pch in Resources */,
 				7DBD167D14D85C3600A17E6A /* Settings.bundle in Resources */,
 				7DBD16DA14D8625000A17E6A /* www in Resources */,
-				82F593E415B0D15400C7E033 /* Cordova.plist in Resources */,
 				82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */,
 				82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */,
+				829545FA167A7B0600A0FC34 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
