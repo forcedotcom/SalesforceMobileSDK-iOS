@@ -45,27 +45,24 @@ static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
 static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
 
-// TODO: These messages should be localized.  This work will be covered when we make an auxilliary
-// bundle for the SDK.
-static NSString *         nextScreenNavButtonTitle          = @"Next";
-static NSString *         prevScreenNavButtonTitle          = @"Back";
-static NSString *         createPasscodeNavTitle            = @"Create Passcode";
-static NSString *         confirmPasscodeNavTitle           = @"Confirm Passcode";
-static NSString *         verifyPasscodeNavTitle            = @"Verify Passcode";
-static NSString *         passcodeCreateInstructions        = @"For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
-static NSString *         passcodeConfirmInstructions       = @"Confirm the passcode you just entered.";
-static NSString *         passcodeVerifyInstructions        = @"Please enter your security passcode.";
-static NSString *         minPasscodeLengthError            = @"Your passcode must be at least %d characters long.";
-static NSString *         passcodesDoNotMatchError          = @"Passcodes do not match!";
-static NSString *         passcodeInvalidError              = @"The passcode you entered was invalid.";
-static NSString *         forgotPasscodeTitle               = @"Forgot Passcode?";
-static NSString *         logoutAlertViewTitle              = @"Are you sure you want to logout?";
-static NSString *         logoutNo                          = @"No";
-static NSString *         logoutYes                         = @"Yes";
-
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
     NSInteger _attempts;
+    NSString * _nextScreenNavButtonTitle;    
+    NSString * _prevScreenNavButtonTitle;    
+    NSString * _createPasscodeNavTitle;      
+    NSString * _confirmPasscodeNavTitle;     
+    NSString * _verifyPasscodeNavTitle;      
+    NSString * _passcodeCreateInstructions;  
+    NSString * _passcodeConfirmInstructions; 
+    NSString * _passcodeVerifyInstructions;  
+    NSString * _minPasscodeLengthError;      
+    NSString * _passcodesDoNotMatchError;    
+    NSString * _passcodeInvalidError;        
+    NSString * _forgotPasscodeTitle;         
+    NSString * _logoutAlertViewTitle;        
+    NSString * _logoutNo;                    
+    NSString * _logoutYes;                   
 }
 
 /**
@@ -220,6 +217,23 @@ static NSString *         logoutYes                         = @"Yes";
     if (self) {
         _mode = mode;
         _minPasscodeLength = minPasscodeLength;
+
+        _nextScreenNavButtonTitle         = NSLocalizedString(@"nextScreenNavButtonTitle", nil);
+        _prevScreenNavButtonTitle         = NSLocalizedString(@"prevScreenNavButtonTitle", nil);
+        _createPasscodeNavTitle           = NSLocalizedString(@"createPasscodeNavTitle", nil);
+        _confirmPasscodeNavTitle          = NSLocalizedString(@"confirmPasscodeNavTitle", nil);
+        _verifyPasscodeNavTitle           = NSLocalizedString(@"verifyPasscodeNavTitle", nil);
+        _passcodeCreateInstructions       = NSLocalizedString(@"passcodeCreateInstructions", nil);
+        _passcodeConfirmInstructions      = NSLocalizedString(@"passcodeConfirmInstructions", nil);
+        _passcodeVerifyInstructions       = NSLocalizedString(@"passcodeVerifyInstructions", nil);
+        _minPasscodeLengthError           = NSLocalizedString(@"minPasscodeLengthError", nil);
+        _passcodesDoNotMatchError         = NSLocalizedString(@"passcodesDoNotMatchError", nil);
+        _passcodeInvalidError             = NSLocalizedString(@"passcodeInvalidError", nil);
+        _forgotPasscodeTitle              = NSLocalizedString(@"forgotPasscodeTitle", nil);
+        _logoutAlertViewTitle             = NSLocalizedString(@"logoutAlertViewTitle", nil);
+        _logoutNo                         = NSLocalizedString(@"logoutNo", nil);
+        _logoutYes                        = NSLocalizedString(@"logoutYes", nil);
+
         if (mode == SFPasscodeControllerModeCreate) {
             NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
             
@@ -289,7 +303,7 @@ static NSString *         logoutYes                         = @"Yes";
 
     // 'Forgot Passcode' button
     self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.forgotPasscodeButton setTitle:forgotPasscodeTitle forState:UIControlStateNormal];
+    [self.forgotPasscodeButton setTitle:_forgotPasscodeTitle forState:UIControlStateNormal];
     self.forgotPasscodeButton.backgroundColor = [UIColor blackColor];
     [self.forgotPasscodeButton.titleLabel setTextAlignment:UITextAlignmentCenter];
     [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -305,16 +319,16 @@ static NSString *         logoutYes                         = @"Yes";
     NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
-        [self updateInstructionsLabel:passcodeCreateInstructions];
+        [self updateInstructionsLabel:_passcodeCreateInstructions];
     } else {
-        [self updateInstructionsLabel:passcodeVerifyInstructions];
+        [self updateInstructionsLabel:_passcodeVerifyInstructions];
         [self.forgotPasscodeButton setHidden:NO];
     }
 }
 
 - (void)forgotPassAction
 {
-    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:forgotPasscodeTitle message:logoutAlertViewTitle delegate:self cancelButtonTitle:logoutNo otherButtonTitles:logoutYes, nil];
+    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:_forgotPasscodeTitle message:_logoutAlertViewTitle delegate:self cancelButtonTitle:_logoutNo otherButtonTitles:_logoutYes, nil];
     logoutAlert.tag = kPasscodeDialogTag;
     NSLog(@"SFPasscodeViewController forgotPassAction");
     [logoutAlert show];
@@ -417,13 +431,13 @@ static NSString *         logoutYes                         = @"Yes";
 - (void)finishedInitialPasscode
 {
     if (self.passcodeField.text.length < self.minPasscodeLength) {
-        self.errorLabel.text = [NSString stringWithFormat:minPasscodeLengthError, self.minPasscodeLength];
+        self.errorLabel.text = [NSString stringWithFormat:_minPasscodeLengthError, self.minPasscodeLength];
     } else {
         self.initialPasscode = self.passcodeField.text;
         [self.passcodeField resignFirstResponder];
         self.passcodeField.text = @"";
         [self updateErrorLabel:@""];
-        [self updateInstructionsLabel:passcodeConfirmInstructions];
+        [self updateInstructionsLabel:_passcodeConfirmInstructions];
         _firstPasscodeValidated = YES;
         [self addPasscodeConfirmNav];
     }
@@ -432,10 +446,10 @@ static NSString *         logoutYes                         = @"Yes";
 - (void)finishedConfirmPasscode
 {
     if (self.passcodeField.text.length < self.minPasscodeLength) {
-        self.errorLabel.text = [NSString stringWithFormat:minPasscodeLengthError, self.minPasscodeLength];
+        self.errorLabel.text = [NSString stringWithFormat:_minPasscodeLengthError, self.minPasscodeLength];
     } else if (![self.passcodeField.text isEqualToString:self.initialPasscode]) {
         [self resetInitialCreateView];
-        [self updateErrorLabel:passcodesDoNotMatchError];
+        [self updateErrorLabel:_passcodesDoNotMatchError];
     } else {
         // Set new passcode.
         [self.passcodeField resignFirstResponder];
@@ -463,7 +477,7 @@ static NSString *         logoutYes                         = @"Yes";
             [SFSecurityLockout unlock:NO];
         } else {
             self.passcodeField.text = @"";
-            [self updateErrorLabel:passcodeInvalidError];
+            [self updateErrorLabel:_passcodeInvalidError];
         }
     }
 }
@@ -486,7 +500,7 @@ static NSString *         logoutYes                         = @"Yes";
     self.initialPasscode = nil;
     self.passcodeField.text = @"";
     [self.passcodeField resignFirstResponder];
-    [self updateInstructionsLabel:passcodeCreateInstructions];
+    [self updateInstructionsLabel:_passcodeCreateInstructions];
     [self updateErrorLabel:@""];
     [self addPasscodeCreationNav];
 }
@@ -502,14 +516,14 @@ static NSString *         logoutYes                         = @"Yes";
 
 - (void)addPasscodeCreationNav
 {
-    UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:nextScreenNavButtonTitle
+    UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:_nextScreenNavButtonTitle
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(finishedInitialPasscode)];
     [self.navigationItem setRightBarButtonItem:bbi];
     [bbi release];
     [self.navigationItem setLeftBarButtonItem:nil];
-    [self.navigationItem setTitle:createPasscodeNavTitle];
+    [self.navigationItem setTitle:_createPasscodeNavTitle];
 }
 
 - (void)addPasscodeConfirmNav
@@ -520,13 +534,13 @@ static NSString *         logoutYes                         = @"Yes";
     [self.navigationItem setRightBarButtonItem:bbi];
     [bbi release];
     
-    bbi = [[UIBarButtonItem alloc] initWithTitle:prevScreenNavButtonTitle
+    bbi = [[UIBarButtonItem alloc] initWithTitle:_prevScreenNavButtonTitle
                                            style:UIBarButtonItemStylePlain
                                           target:self
                                           action:@selector(resetInitialCreateView)];
     [self.navigationItem setLeftBarButtonItem:bbi];
     [bbi release];
-    [self.navigationItem setTitle:confirmPasscodeNavTitle];
+    [self.navigationItem setTitle:_confirmPasscodeNavTitle];
 }
 
 - (void)addPasscodeVerificationNav
@@ -537,7 +551,7 @@ static NSString *         logoutYes                         = @"Yes";
     [self.navigationItem setRightBarButtonItem:bbi];
     [bbi release];
     [self.navigationItem setLeftBarButtonItem:nil];
-    [self.navigationItem setTitle:verifyPasscodeNavTitle];
+    [self.navigationItem setTitle:_verifyPasscodeNavTitle];
 }
 
 #pragma mark - UITextFieldDelegate
