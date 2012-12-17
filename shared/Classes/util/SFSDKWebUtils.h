@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,35 +23,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 /**
- * Protocol defining an SDK-based app delegate.
+ * The property key used to designate the user agent, in the app's default properties.
  */
-@protocol SFSDKAppDelegate <UIApplicationDelegate>
+extern NSString * const kUserAgentPropKey;
 
 /**
- The User-Agent string presented by this application
+ * Class containing web-based utility/helper functionality for the SDK.
  */
-@property (nonatomic, readonly) NSString *userAgentString;
+@interface SFSDKWebUtils : NSObject
 
 /**
- * Forces a logout from the current account.
- * This throws out the OAuth refresh token.
+ * @return The user agent string configured by the SFSDKAppDelegate.
  */
-- (void)logout;
-
-@end
++ (NSString *)appDelegateUserAgentString;
 
 /**
- * Mobile SDK extension of the UIApplication object.  Currently just gathers
- * date/time information about user events.
+ * Configures the web user agent for the app.  Based ultimately on SFSDKAppDelegate's userAgentString
+ * property.
  */
-@interface SFApplication : UIApplication
++ (void)configureUserAgent;
 
 /**
- * The date of the last user event in the application.
+ * @return The current user agent that's configured for the application.
  */
-@property (nonatomic, readonly) NSDate *lastEventDate;
++ (NSString *)currentUserAgentForApp;
 
 @end
