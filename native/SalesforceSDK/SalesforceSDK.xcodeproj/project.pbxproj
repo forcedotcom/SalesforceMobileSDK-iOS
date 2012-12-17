@@ -297,6 +297,9 @@
 		82D8B3AB166D43F300A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D8B3A9166D43F300A34BAD /* SFAuthenticationManager.m */; };
 		82D8B3AC166D43F300A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D8B3A9166D43F300A34BAD /* SFAuthenticationManager.m */; };
 		82D8B3B1166D451900A34BAD /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B80FB15670DF90050465E /* SFAuthorizingViewController.m */; };
+		82F245CE167F9A370032B3D9 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F245CC167F9A370032B3D9 /* SFSDKWebUtils.h */; };
+		82F245CF167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245CD167F9A370032B3D9 /* SFSDKWebUtils.m */; };
+		82F245D0167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245CD167F9A370032B3D9 /* SFSDKWebUtils.m */; };
 		82FF1ACC155D6ADD007ADAF2 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */; };
 		82FF1ACD155D6ADD007ADAF2 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */; };
 		C26713BB13D6B845001FE0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26713BA13D6B845001FE0B8 /* Foundation.framework */; };
@@ -623,6 +626,8 @@
 		82B9FD1315E45BF400BE8822 /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		82D8B3A8166D43F300A34BAD /* SFAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAuthenticationManager.h; path = ../../../shared/Classes/Security/SFAuthenticationManager.h; sourceTree = "<group>"; };
 		82D8B3A9166D43F300A34BAD /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthenticationManager.m; path = ../../../shared/Classes/Security/SFAuthenticationManager.m; sourceTree = "<group>"; };
+		82F245CC167F9A370032B3D9 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
+		82F245CD167F9A370032B3D9 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
 		82FF1ACA155D6ADD007ADAF2 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFUserActivityMonitor.h; path = ../../../shared/Classes/Common/SFUserActivityMonitor.h; sourceTree = "<group>"; };
 		82FF1ACB155D6ADD007ADAF2 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserActivityMonitor.m; path = ../../../shared/Classes/Common/SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		C26713B713D6B845001FE0B8 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -855,6 +860,8 @@
 		7DD88EEF14DA051F00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				82F245CC167F9A370032B3D9 /* SFSDKWebUtils.h */,
+				82F245CD167F9A370032B3D9 /* SFSDKWebUtils.m */,
 				7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */,
 				7DD88EF114DA051F00C0D0A0 /* SFJsonUtils.m */,
 			);
@@ -1528,6 +1535,7 @@
 				820275C6165170F700DB814C /* UIDevice+SFHardware.h in Headers */,
 				820275C7165170F700DB814C /* UILabel+SFAdditions.h in Headers */,
 				82D8B3AA166D43F300A34BAD /* SFAuthenticationManager.h in Headers */,
+				82F245CE167F9A370032B3D9 /* SFSDKWebUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1676,6 +1684,7 @@
 				82A9FF2115DD6F7700AE37B9 /* SFPasscodeManager.m in Sources */,
 				8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 				82D8B3AB166D43F300A34BAD /* SFAuthenticationManager.m in Sources */,
+				82F245CF167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1714,6 +1723,7 @@
 				8201F34D15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 				82D8B3AC166D43F300A34BAD /* SFAuthenticationManager.m in Sources */,
 				82D8B3B1166D451900A34BAD /* SFAuthorizingViewController.m in Sources */,
+				82F245D0167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

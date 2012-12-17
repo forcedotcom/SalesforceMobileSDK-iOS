@@ -30,6 +30,7 @@
 #import "SFUserActivityMonitor.h"
 #import "NSDictionary+SFAdditions.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKWebUtils.h"
 
 // ------------------------------------------
 // Private constants
@@ -153,6 +154,10 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
         [SFAccountManager setRedirectUri:self.oauthRedirectURI];
         [SFAccountManager setScopes:self.oauthScopes];
     }
+    
+    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+    [SFSDKWebUtils configureUserAgent];
     
     SFOAuthFlowCallbackBlock completionBlock = ^{
         [self authenticationCompletion];
