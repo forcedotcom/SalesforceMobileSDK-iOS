@@ -20,7 +20,7 @@
 		4F028B80158FF0D700F89AD4 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8207C83E155DB57A0076916C /* SFSecurityLockout.m */; };
 		4F028B83158FF13600F89AD4 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822B2D20157D1B92001EB677 /* SFAccountManager.m */; };
 		4F028B84158FF13600F89AD4 /* SFPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1011561A38B006BAD3B /* SFPasscodeViewController.m */; };
-		4F44C7D3167BDB780070A6F5 /* SalesforceSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F44C7D2167BDB780070A6F5 /* SalesforceSDK.bundle */; };
+		4F6C80C4167FB92E0078E6AF /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F6C80C3167FB92E0078E6AF /* SalesforceSDKResources.bundle */; };
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
 		4F9EF4FC158FED9300E35E90 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */; };
 		4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEB514EB2642004F241C /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -336,6 +336,7 @@
 
 /* Begin PBXFileReference section */
 		4F44C7D2167BDB780070A6F5 /* SalesforceSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDK.bundle; path = ../../../shared/Resources/SalesforceSDK.bundle; sourceTree = "<group>"; };
+		4F6C80C3167FB92E0078E6AF /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreTests.m; sourceTree = "<group>"; };
 		4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreTests.h; sourceTree = "<group>"; };
 		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
@@ -695,6 +696,14 @@
 			isa = PBXGroup;
 			children = (
 				4F44C7D2167BDB780070A6F5 /* SalesforceSDK.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		4F6C80C1167FB8F70078E6AF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4F6C80C3167FB92E0078E6AF /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1182,6 +1191,7 @@
 		C26713AC13D6B845001FE0B8 = {
 			isa = PBXGroup;
 			children = (
+				4F6C80C1167FB8F70078E6AF /* Resources */,
 				7D7D1EA6147C57D2005CDD2C /* dependencies */,
 				C26713BC13D6B845001FE0B8 /* SalesforceSDK */,
 				C26713CD13D6B845001FE0B8 /* SalesforceSDKTests */,
@@ -1616,7 +1626,7 @@
 				C26713D213D6B845001FE0B8 /* InfoPlist.strings in Resources */,
 				C26713D513D6B845001FE0B8 /* SalesforceSDKTests.h in Resources */,
 				82B9FD1415E45BF400BE8822 /* test_credentials.json in Resources */,
-				4F44C7D3167BDB780070A6F5 /* SalesforceSDK.bundle in Resources */,
+				4F6C80C4167FB92E0078E6AF /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
