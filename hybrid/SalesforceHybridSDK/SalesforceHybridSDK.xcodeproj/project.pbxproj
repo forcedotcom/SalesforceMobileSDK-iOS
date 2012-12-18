@@ -363,7 +363,7 @@
 		828C07D615A39A47002523B2 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
 		828E7B3E1641DF9500F8D8AF /* CDV.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1A1641DF9500F8D8AF /* CDV.h */; };
 		828E7B3F1641DF9500F8D8AF /* CDVAccelerometer.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1B1641DF9500F8D8AF /* CDVAccelerometer.h */; };
-		828E7B401641DF9500F8D8AF /* CDVAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1C1641DF9500F8D8AF /* CDVAvailability.h */; };
+		828E7B401641DF9500F8D8AF /* CDVAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1C1641DF9500F8D8AF /* CDVAvailability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828E7B411641DF9500F8D8AF /* CDVBattery.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1D1641DF9500F8D8AF /* CDVBattery.h */; };
 		828E7B421641DF9500F8D8AF /* CDVCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1E1641DF9500F8D8AF /* CDVCamera.h */; };
 		828E7B431641DF9500F8D8AF /* CDVCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E7B1F1641DF9500F8D8AF /* CDVCapture.h */; };
