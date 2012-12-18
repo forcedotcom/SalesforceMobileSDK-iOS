@@ -445,6 +445,11 @@
 		82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
+		82F245C3167BDECE0032B3D9 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */; };
+		82F245C4167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
+		82F245C5167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
+		82F245C6167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
+		82F245C7167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
 		82F3022315B07A6D00A6EB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E38E14BFB8AC002C4A27 /* Foundation.framework */; };
 		82F3022515B07A7700A6EB5F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45E39014BFB8BA002C4A27 /* UIKit.framework */; };
 		82F593D215B083BE00C7E033 /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828C07D415A39A47002523B2 /* SFHybridViewController.m */; };
@@ -886,6 +891,8 @@
 		82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAuthenticationManager.m; path = ../../../shared/Classes/Security/SFAuthenticationManager.m; sourceTree = "<group>"; };
 		82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
 		82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtils.m"; sourceTree = "<group>"; };
+		82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
+		82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1397,6 +1404,8 @@
 				82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */,
 				7DD88EEA14DA044E00C0D0A0 /* SFJsonUtils.h */,
 				7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */,
+				82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */,
+				82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */,
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
@@ -1900,6 +1909,7 @@
 				8202754E16516A6200DB814C /* UIDevice+SFHardware.h in Headers */,
 				8202754F16516A6200DB814C /* UILabel+SFAdditions.h in Headers */,
 				82CEB3B71656CFF2005C66E7 /* SFAuthenticationManager.h in Headers */,
+				82F245C3167BDECE0032B3D9 /* SFSDKWebUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2316,6 +2326,7 @@
 				4F3793EB162CD0080094E5C7 /* SFSDKInfoPlugin.m in Sources */,
 				820273D91649E74200DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */,
+				82F245C7167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2361,6 +2372,7 @@
 				4FA1DA5B162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m in Sources */,
 				82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */,
 				82CEB3B81656CFF2005C66E7 /* SFAuthenticationManager.m in Sources */,
+				82F245C4167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2396,6 +2408,7 @@
 				828E7BBC1642050700F8D8AF /* FMDatabaseAdditions.m in Sources */,
 				820273D61649E73F00DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B3771665760500A34BAD /* SFAuthenticationManager.m in Sources */,
+				82F245C5167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2445,6 +2458,7 @@
 				4F3793EA162CD0070094E5C7 /* SFSDKInfoPlugin.m in Sources */,
 				820273D81649E74000DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B3791665760600A34BAD /* SFAuthenticationManager.m in Sources */,
+				82F245C6167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

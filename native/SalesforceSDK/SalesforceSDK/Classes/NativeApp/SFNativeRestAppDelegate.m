@@ -35,10 +35,8 @@
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFOAuthInfo.h"
+#import "SFSDKWebUtils.h"
 
-
-
-static NSString * const kUserAgentPropKey     = @"UserAgent";
 static NSInteger  const kOAuthAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 
@@ -132,12 +130,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {	
     self = [super init];
     if (nil != self) {
-        //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *uaString =  [SFRestAPI userAgentString];
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-        [dictionary release];
-        
         [SFAccountManager setLoginHost:[self oauthLoginDomain]];
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
         [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
@@ -174,6 +166,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     _isAppInitialization = YES;
     [SFLogger setLogLevel:self.appLogLevel];
+    
+    //Replace the app-wide HTTP User-Agent before the first UIWebView is created
+    [SFSDKWebUtils configureUserAgent];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     // TODO: The SFNativeRootViewController.xib file is currently shipped as part of the native app template.
@@ -226,6 +222,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 }
 
 #pragma mark - Salesforce.com login helpers
+
+- (NSString *)userAgentString
+{
+    return [SFRestAPI userAgentString];
+}
 
 - (void)login {
     //kickoff authentication
