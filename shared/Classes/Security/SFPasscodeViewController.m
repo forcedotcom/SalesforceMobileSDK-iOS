@@ -45,6 +45,9 @@ static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
 static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
 
+// Localization table and bundle
+static NSString *   const kLocTable                         = @"Localizable";
+
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
     NSInteger _attempts;
@@ -215,24 +218,28 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     self = [super init];
     if (self) {
+        // Localized strings
+        NSString* sdkBundlePath = [[NSBundle mainBundle] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
+        NSBundle* sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
+        _nextScreenNavButtonTitle         = NSLocalizedStringFromTableInBundle(@"nextScreenNavButtonTitle", kLocTable, sdkBundle, nil);
+        _prevScreenNavButtonTitle         = NSLocalizedStringFromTableInBundle(@"prevScreenNavButtonTitle", kLocTable, sdkBundle, nil);
+        _createPasscodeNavTitle           = NSLocalizedStringFromTableInBundle(@"createPasscodeNavTitle", kLocTable, sdkBundle, nil);
+        _confirmPasscodeNavTitle          = NSLocalizedStringFromTableInBundle(@"confirmPasscodeNavTitle", kLocTable, sdkBundle, nil);
+        _verifyPasscodeNavTitle           = NSLocalizedStringFromTableInBundle(@"verifyPasscodeNavTitle", kLocTable, sdkBundle, nil);
+        _passcodeCreateInstructions       = NSLocalizedStringFromTableInBundle(@"passcodeCreateInstructions", kLocTable, sdkBundle, nil);
+        _passcodeConfirmInstructions      = NSLocalizedStringFromTableInBundle(@"passcodeConfirmInstructions", kLocTable, sdkBundle, nil);
+        _passcodeVerifyInstructions       = NSLocalizedStringFromTableInBundle(@"passcodeVerifyInstructions", kLocTable, sdkBundle, nil);
+        _minPasscodeLengthError           = NSLocalizedStringFromTableInBundle(@"minPasscodeLengthError", kLocTable, sdkBundle, nil);
+        _passcodesDoNotMatchError         = NSLocalizedStringFromTableInBundle(@"passcodesDoNotMatchError", kLocTable, sdkBundle, nil);
+        _passcodeInvalidError             = NSLocalizedStringFromTableInBundle(@"passcodeInvalidError", kLocTable, sdkBundle, nil);
+        _forgotPasscodeTitle              = NSLocalizedStringFromTableInBundle(@"forgotPasscodeTitle", kLocTable, sdkBundle, nil);
+        _logoutAlertViewTitle             = NSLocalizedStringFromTableInBundle(@"logoutAlertViewTitle", kLocTable, sdkBundle, nil);
+        _logoutNo                         = NSLocalizedStringFromTableInBundle(@"logoutNo", kLocTable, sdkBundle, nil);
+        _logoutYes                        = NSLocalizedStringFromTableInBundle(@"logoutYes", kLocTable, sdkBundle, nil);
+
+        // Others
         _mode = mode;
         _minPasscodeLength = minPasscodeLength;
-
-        _nextScreenNavButtonTitle         = NSLocalizedString(@"nextScreenNavButtonTitle", nil);
-        _prevScreenNavButtonTitle         = NSLocalizedString(@"prevScreenNavButtonTitle", nil);
-        _createPasscodeNavTitle           = NSLocalizedString(@"createPasscodeNavTitle", nil);
-        _confirmPasscodeNavTitle          = NSLocalizedString(@"confirmPasscodeNavTitle", nil);
-        _verifyPasscodeNavTitle           = NSLocalizedString(@"verifyPasscodeNavTitle", nil);
-        _passcodeCreateInstructions       = NSLocalizedString(@"passcodeCreateInstructions", nil);
-        _passcodeConfirmInstructions      = NSLocalizedString(@"passcodeConfirmInstructions", nil);
-        _passcodeVerifyInstructions       = NSLocalizedString(@"passcodeVerifyInstructions", nil);
-        _minPasscodeLengthError           = NSLocalizedString(@"minPasscodeLengthError", nil);
-        _passcodesDoNotMatchError         = NSLocalizedString(@"passcodesDoNotMatchError", nil);
-        _passcodeInvalidError             = NSLocalizedString(@"passcodeInvalidError", nil);
-        _forgotPasscodeTitle              = NSLocalizedString(@"forgotPasscodeTitle", nil);
-        _logoutAlertViewTitle             = NSLocalizedString(@"logoutAlertViewTitle", nil);
-        _logoutNo                         = NSLocalizedString(@"logoutNo", nil);
-        _logoutYes                        = NSLocalizedString(@"logoutYes", nil);
 
         if (mode == SFPasscodeControllerModeCreate) {
             NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
