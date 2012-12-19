@@ -220,6 +220,16 @@
         <string>Default-Portrait~ipad.png</string>
     </dict>
 
+	<key>SalesforceSDKResources.bundle</key>
+	<dict>
+	  <key>PathType</key>
+	  <string>Group</string>
+	  <key>Path</key>
+	  <string>SalesforceSDKResources.bundle</string>
+	  <key>FileType</key>
+	  <string>wrapper.plug-in</string>
+	</dict>
+
 	<key>Settings.bundle</key>
 	<dict>
 		<key>PathType</key>
@@ -2390,9 +2400,8 @@
 	<string>dependencies/libxml2.dylib</string>
 	<string>dependencies/libz.dylib</string>
 	
-
-
 	<string>Settings.bundle</string>
+	<string>SalesforceSDKResources.bundle</string>
 
 </array>
 <key>Targets</key>

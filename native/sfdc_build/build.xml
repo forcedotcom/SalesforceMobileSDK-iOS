@@ -12,6 +12,7 @@
     <property name="xcodetemplate.dir" value="${project.dir}/${xcodetemplate.fullname}"/>
     <property name="xcodetemplate.install.dir" value="${env.HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/${xcodetemplate.fullname}"/>
     <property name="xcodetemplate.dependency.dir" value="${xcodetemplate.dir}/dependencies"/>
+    <property name="xcodetemplate.shared.resources.dir" value="../../shared/Resources"/>
   
     <property id="configuration.debug" name="configuration.debug" value="Debug"/>
     <property id="configuration.release" name="configuration.release" value="Release"/>
@@ -56,6 +57,9 @@
         <copy todir="${xcodetemplate.dependency.dir}">
             <fileset dir="${dependency.dir}"/>
         </copy>
+        <copy todir="${xcodetemplate.dir}/SalesforceSDKResources.bundle">
+			<fileset dir="${xcodetemplate.shared.resources.dir}/SalesforceSDKResources.bundle" />
+		</copy>
     </target>
 
     <target name="xcodetemplate.install" depends="xcodetemplate.create">
