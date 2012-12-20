@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */; };
 		7D0F1F4C14DB4FCF00E20F3D /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0F1F4B14DB4FCE00E20F3D /* libRestKit.a */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
@@ -47,6 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		7D0F1EF514DB4FCE00E20F3D /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
 		7D0F1EF614DB4FCE00E20F3D /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
 		7D0F1EF714DB4FCE00E20F3D /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMD5Hash.h; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				7DF4D3A71472E23A005CE144 /* readme.txt */,
+				4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */,
 				7DF4D3BB1472E23B005CE144 /* Settings.bundle */,
 				7DF4D2F81472E238005CE144 /* dependencies */,
 				7DF4D3941472E23A005CE144 /* Resources */,
@@ -697,6 +700,7 @@
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
 				820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */,
+				4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

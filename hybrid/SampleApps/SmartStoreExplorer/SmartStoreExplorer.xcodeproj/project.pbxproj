@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
@@ -117,6 +118,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -257,6 +259,7 @@
 				825072A615C3595E00F3A529 /* sfdc-shared */,
 				8250723815C3514100F3A529 /* libz.dylib */,
 				8250724D15C3514100F3A529 /* readme.md */,
+				4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */,
 				8250725815C3514100F3A529 /* Settings.bundle */,
 				825072A215C3592E00F3A529 /* CordovaResources.bundle */,
 				8250723A15C3514100F3A529 /* Resources */,
@@ -446,6 +449,7 @@
 				8250726215C3515900F3A529 /* www in Resources */,
 				825072A315C3592E00F3A529 /* CordovaResources.bundle in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
+				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

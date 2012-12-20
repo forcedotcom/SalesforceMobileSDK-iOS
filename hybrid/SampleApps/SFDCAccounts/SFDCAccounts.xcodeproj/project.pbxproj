@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF01814BE27B2004D3FF6 /* forcetk.js */; };
 		7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF02914BE27B2004D3FF6 /* bootstrap.html */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
@@ -123,6 +124,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		7D3FF01814BE27B2004D3FF6 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		7D3FF02914BE27B2004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		7D72612114C74DAC00CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -283,6 +285,7 @@
 				7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */,
 				7D3FF01614BE27B2004D3FF6 /* sfdc-shared */,
 				7DBD07CA149AA9640043A9E0 /* readme.md */,
+				4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */,
 				82031D7515B4EB1100073595 /* CordovaResources.bundle */,
 				7DBD07DC149AA9650043A9E0 /* Settings.bundle */,
 				7DBD07B7149AA9640043A9E0 /* Resources */,
@@ -460,6 +463,7 @@
 				7DBD07E6149AA98E0043A9E0 /* www in Resources */,
 				82031D7615B4EB1100073595 /* CordovaResources.bundle in Resources */,
 				8295461C167A7DC000A0FC34 /* config.xml in Resources */,
+				4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
