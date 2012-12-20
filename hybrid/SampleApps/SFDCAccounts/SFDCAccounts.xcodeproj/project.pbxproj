@@ -46,6 +46,10 @@
 		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
 		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
+		82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */; };
+		82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */; };
+		82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */; };
+		82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = 82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */; };
 		8295461C167A7DC000A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295461B167A7DC000A0FC34 /* config.xml */; };
 		8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 82954619167A7DA900A0FC34 /* cordova-2.3.0.js */; };
 		CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
@@ -53,14 +57,6 @@
 		CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
 		CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C3158BD46B00618949 /* sfdcaccounts.js */; };
 		CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */; };
-		CEDF50EA158BD5E800618949 /* jquery-1.6.2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */; };
-		CEDF50EB158BD5E800618949 /* jquery-1.6.2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */; };
-		CEDF50EC158BD5E800618949 /* jquery.mobile-1.0b2.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */; };
-		CEDF50ED158BD5E800618949 /* jquery.mobile-1.0b2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */; };
-		CEDF50EE158BD5E800618949 /* jquery.mobile-1.0b2.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */; };
-		CEDF50EF158BD5E800618949 /* jquery.mobile-1.0b2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */; };
-		CEDF50F1158BD61300618949 /* ajax-loader.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D1158BD53D00618949 /* ajax-loader.png */; };
-		CEDF50F2158BD61300618949 /* icon-search-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D2158BD53D00618949 /* icon-search-black.png */; };
 		CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D3158BD53D00618949 /* icons-18-black.png */; };
 		CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D4158BD53D00618949 /* icons-18-white.png */; };
 		CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D5158BD53D00618949 /* icons-36-black.png */; };
@@ -95,12 +91,9 @@
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				CEDF50EA158BD5E800618949 /* jquery-1.6.2.js in Copy jquery */,
-				CEDF50EB158BD5E800618949 /* jquery-1.6.2.min.js in Copy jquery */,
-				CEDF50EC158BD5E800618949 /* jquery.mobile-1.0b2.css in Copy jquery */,
-				CEDF50ED158BD5E800618949 /* jquery.mobile-1.0b2.js in Copy jquery */,
-				CEDF50EE158BD5E800618949 /* jquery.mobile-1.0b2.min.css in Copy jquery */,
-				CEDF50EF158BD5E800618949 /* jquery.mobile-1.0b2.min.js in Copy jquery */,
+				82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jquery */,
+				82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */,
+				82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */,
 			);
 			name = "Copy jquery";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,8 +104,7 @@
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				CEDF50F1158BD61300618949 /* ajax-loader.png in Copy jquery-images */,
-				CEDF50F2158BD61300618949 /* icon-search-black.png in Copy jquery-images */,
+				82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jquery-images */,
 				CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */,
 				CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */,
 				CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */,
@@ -169,6 +161,10 @@
 		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
+		82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
+		82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
 		82954619167A7DA900A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		8295461B167A7DC000A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		CEDF50C0158BD46B00618949 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
@@ -176,18 +172,10 @@
 		CEDF50C2158BD46B00618949 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CEDF50C3158BD46B00618949 /* sfdcaccounts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcaccounts.js; sourceTree = "<group>"; };
 		CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcsmartstore.js; sourceTree = "<group>"; };
-		CEDF50D1158BD53D00618949 /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
-		CEDF50D2158BD53D00618949 /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
 		CEDF50D3158BD53D00618949 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		CEDF50D4158BD53D00618949 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
 		CEDF50D5158BD53D00618949 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
 		CEDF50D6158BD53D00618949 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
-		CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
-		CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
-		CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
-		CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
-		CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,12 +360,9 @@
 			isa = PBXGroup;
 			children = (
 				CEDF50D0158BD53D00618949 /* images */,
-				CEDF50D7158BD53D00618949 /* jquery-1.6.2.js */,
-				CEDF50D8158BD53D00618949 /* jquery-1.6.2.min.js */,
-				CEDF50D9158BD53D00618949 /* jquery.mobile-1.0b2.css */,
-				CEDF50DA158BD53D00618949 /* jquery.mobile-1.0b2.js */,
-				CEDF50DB158BD53D00618949 /* jquery.mobile-1.0b2.min.css */,
-				CEDF50DC158BD53D00618949 /* jquery.mobile-1.0b2.min.js */,
+				82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */,
+				82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */,
+				82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */,
 			);
 			name = jquery;
 			path = ../../../external/shared/jquery;
@@ -386,8 +371,7 @@
 		CEDF50D0158BD53D00618949 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				CEDF50D1158BD53D00618949 /* ajax-loader.png */,
-				CEDF50D2158BD53D00618949 /* icon-search-black.png */,
+				82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */,
 				CEDF50D3158BD53D00618949 /* icons-18-black.png */,
 				CEDF50D4158BD53D00618949 /* icons-18-white.png */,
 				CEDF50D5158BD53D00618949 /* icons-36-black.png */,

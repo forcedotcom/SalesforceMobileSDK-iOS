@@ -48,18 +48,14 @@
 		825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */; };
 		825072C115C36B8800F3A529 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072AB15C35A4200F3A529 /* SFHybridApp.js */; };
 		825072C215C36B9300F3A529 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */; };
-		825072C415C36FC400F3A529 /* jquery-1.6.2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726D15C351E000F3A529 /* jquery-1.6.2.js */; };
-		825072C515C36FC800F3A529 /* jquery-1.6.2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */; };
-		825072C615C36FD200F3A529 /* jquery.mobile-1.0b2.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */; };
-		825072C715C36FD800F3A529 /* jquery.mobile-1.0b2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */; };
-		825072C815C36FDD00F3A529 /* jquery.mobile-1.0b2.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */; };
-		825072C915C36FE200F3A529 /* jquery.mobile-1.0b2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */; };
-		825072CB15C3712C00F3A529 /* ajax-loader.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726715C351E000F3A529 /* ajax-loader.png */; };
-		825072CC15C3712F00F3A529 /* icon-search-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726815C351E000F3A529 /* icon-search-black.png */; };
 		825072CD15C3713200F3A529 /* icons-18-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726915C351E000F3A529 /* icons-18-black.png */; };
 		825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726A15C351E000F3A529 /* icons-18-white.png */; };
 		825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726B15C351E000F3A529 /* icons-36-black.png */; };
 		825072D015C3714100F3A529 /* icons-36-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 8250726C15C351E000F3A529 /* icons-36-white.png */; };
+		82708BF61683D0E900A3FA66 /* jquery-1.8.3.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BF01683D0C400A3FA66 /* jquery-1.8.3.min.js */; };
+		82708BF71683D0EE00A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BF11683D0C400A3FA66 /* jquery.mobile-1.2.0.min.css */; };
+		82708BF81683D0F300A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BF21683D0C400A3FA66 /* jquery.mobile-1.2.0.min.js */; };
+		82708BF91683D10100A3FA66 /* ajax-loader.gif in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82708BEE1683D0AF00A3FA66 /* ajax-loader.gif */; };
 		82954626167A7E3400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82954625167A7E3400A0FC34 /* config.xml */; };
 		82954627167A7F0E00A0FC34 /* cordova-2.3.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 82954623167A7E1500A0FC34 /* cordova-2.3.0.js */; };
 /* End PBXBuildFile section */
@@ -89,12 +85,9 @@
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				825072C415C36FC400F3A529 /* jquery-1.6.2.js in Copy jquery */,
-				825072C515C36FC800F3A529 /* jquery-1.6.2.min.js in Copy jquery */,
-				825072C615C36FD200F3A529 /* jquery.mobile-1.0b2.css in Copy jquery */,
-				825072C715C36FD800F3A529 /* jquery.mobile-1.0b2.js in Copy jquery */,
-				825072C815C36FDD00F3A529 /* jquery.mobile-1.0b2.min.css in Copy jquery */,
-				825072C915C36FE200F3A529 /* jquery.mobile-1.0b2.min.js in Copy jquery */,
+				82708BF61683D0E900A3FA66 /* jquery-1.8.3.min.js in Copy jquery */,
+				82708BF71683D0EE00A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */,
+				82708BF81683D0F300A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */,
 			);
 			name = "Copy jquery";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,8 +98,7 @@
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				825072CB15C3712C00F3A529 /* ajax-loader.png in Copy jquery images */,
-				825072CC15C3712F00F3A529 /* icon-search-black.png in Copy jquery images */,
+				82708BF91683D10100A3FA66 /* ajax-loader.gif in Copy jquery images */,
 				825072CD15C3713200F3A529 /* icons-18-black.png in Copy jquery images */,
 				825072CE15C3713700F3A529 /* icons-18-white.png in Copy jquery images */,
 				825072CF15C3713C00F3A529 /* icons-36-black.png in Copy jquery images */,
@@ -155,18 +147,10 @@
 		8250725415C3514100F3A529 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		8250725815C3514100F3A529 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8250726115C3515900F3A529 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		8250726715C351E000F3A529 /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
-		8250726815C351E000F3A529 /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
 		8250726915C351E000F3A529 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		8250726A15C351E000F3A529 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
 		8250726B15C351E000F3A529 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
 		8250726C15C351E000F3A529 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		8250726D15C351E000F3A529 /* jquery-1.6.2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
-		8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
-		8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
-		8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
-		8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
-		8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
 		825072A015C3591300F3A529 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		825072A215C3592E00F3A529 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
 		825072A915C35A2300F3A529 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
@@ -176,6 +160,10 @@
 		825072B315C35AAE00F3A529 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		825072B615C35B2300F3A529 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		825072B715C35B2300F3A529 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartstoreexplorer.js; sourceTree = "<group>"; };
+		82708BEE1683D0AF00A3FA66 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		82708BF01683D0C400A3FA66 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
+		82708BF11683D0C400A3FA66 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
+		82708BF21683D0C400A3FA66 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
 		82954623167A7E1500A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		82954625167A7E3400A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -334,12 +322,9 @@
 			isa = PBXGroup;
 			children = (
 				8250726615C351E000F3A529 /* images */,
-				8250726D15C351E000F3A529 /* jquery-1.6.2.js */,
-				8250726E15C351E000F3A529 /* jquery-1.6.2.min.js */,
-				8250726F15C351E000F3A529 /* jquery.mobile-1.0b2.css */,
-				8250727015C351E000F3A529 /* jquery.mobile-1.0b2.js */,
-				8250727115C351E000F3A529 /* jquery.mobile-1.0b2.min.css */,
-				8250727215C351E000F3A529 /* jquery.mobile-1.0b2.min.js */,
+				82708BF01683D0C400A3FA66 /* jquery-1.8.3.min.js */,
+				82708BF11683D0C400A3FA66 /* jquery.mobile-1.2.0.min.css */,
+				82708BF21683D0C400A3FA66 /* jquery.mobile-1.2.0.min.js */,
 			);
 			name = jquery;
 			path = ../../../external/shared/jquery;
@@ -348,8 +333,7 @@
 		8250726615C351E000F3A529 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				8250726715C351E000F3A529 /* ajax-loader.png */,
-				8250726815C351E000F3A529 /* icon-search-black.png */,
+				82708BEE1683D0AF00A3FA66 /* ajax-loader.gif */,
 				8250726915C351E000F3A529 /* icons-18-black.png */,
 				8250726A15C351E000F3A529 /* icons-18-white.png */,
 				8250726B15C351E000F3A529 /* icons-36-black.png */,
