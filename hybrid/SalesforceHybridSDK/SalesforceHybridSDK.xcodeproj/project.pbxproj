@@ -406,7 +406,7 @@
 		82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CEB3B61656CFF2005C66E7 /* SFAuthenticationManager.m */; };
 		82D99FA3154DFDD200971B4D /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D99FA1154DFDD200971B4D /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (); }; };
 		82D99FA4154DFDD200971B4D /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D99FA2154DFDD200971B4D /* NSURL+SFStringUtils.m */; };
-		82F245C3167BDECE0032B3D9 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */; };
+		82F245C3167BDECE0032B3D9 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F245C4167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
 		82F245C5167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
 		82F245C6167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */; };
