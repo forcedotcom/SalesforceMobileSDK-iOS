@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */; };
 		7D72611914C74B9700CFD63C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D72611814C74B9700CFD63C /* libsqlite3.dylib */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
 		7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CB149AA8420043A9E0 /* UIKit.framework */; };
@@ -70,6 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		7D3FF06D14BE2A77004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		7D72611814C74B9700CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7DBD06C5149AA8420043A9E0 /* VFConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 				7DBD0735149AA8430043A9E0 /* Classes */,
 				7D3FF05A14BE2A77004D3FF6 /* sfdc-shared */,
 				7DBD0733149AA8430043A9E0 /* readme.md */,
+				4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */,
 				82031D8715B4EBDD00073595 /* CordovaResources.bundle */,
 				7DBD0745149AA8440043A9E0 /* Settings.bundle */,
 				7DBD0720149AA8430043A9E0 /* Resources */,
@@ -346,6 +349,7 @@
 				7DBD074F149AA8780043A9E0 /* www in Resources */,
 				82031D8815B4EBDD00073595 /* CordovaResources.bundle in Resources */,
 				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
+				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
