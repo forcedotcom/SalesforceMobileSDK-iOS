@@ -47,16 +47,12 @@
 		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
 		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
+		82708B421683C06100A3FA66 /* jquery-1.8.3.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708B3C1683BEC300A3FA66 /* jquery-1.8.3.min.js */; };
+		82708B431683C06500A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708B3E1683BED700A3FA66 /* jquery.mobile-1.2.0.min.css */; };
+		82708B441683C06900A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708B401683BEEB00A3FA66 /* jquery.mobile-1.2.0.min.js */; };
+		82708B451683C07300A3FA66 /* ajax-loader.gif in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82708B361683BD0200A3FA66 /* ajax-loader.gif */; };
 		8295460C167A7CE500A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295460B167A7CE500A0FC34 /* config.xml */; };
 		82954613167A7D5600A0FC34 /* cordova-2.3.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 8295460D167A7D1000A0FC34 /* cordova-2.3.0.js */; };
-		82C68F4815CC9EDE00A2E9FB /* jquery-1.6.2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3215CC9DA400A2E9FB /* jquery-1.6.2.js */; };
-		82C68F4915CC9EDE00A2E9FB /* jquery-1.6.2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3315CC9DA400A2E9FB /* jquery-1.6.2.min.js */; };
-		82C68F4A15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3415CC9DA400A2E9FB /* jquery.mobile-1.0b2.css */; };
-		82C68F4B15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3515CC9DA400A2E9FB /* jquery.mobile-1.0b2.js */; };
-		82C68F4C15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3615CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.css */; };
-		82C68F4D15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82C68F3715CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.js */; };
-		82C68F4F15CC9F0100A2E9FB /* ajax-loader.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F2C15CC9DA400A2E9FB /* ajax-loader.png */; };
-		82C68F5015CC9F0100A2E9FB /* icon-search-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F2D15CC9DA400A2E9FB /* icon-search-black.png */; };
 		82C68F5115CC9F0100A2E9FB /* icons-18-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F2E15CC9DA400A2E9FB /* icons-18-black.png */; };
 		82C68F5215CC9F0100A2E9FB /* icons-18-white.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F2F15CC9DA400A2E9FB /* icons-18-white.png */; };
 		82C68F5315CC9F0100A2E9FB /* icons-36-black.png in Copy jquery images */ = {isa = PBXBuildFile; fileRef = 82C68F3015CC9DA400A2E9FB /* icons-36-black.png */; };
@@ -90,12 +86,9 @@
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				82C68F4815CC9EDE00A2E9FB /* jquery-1.6.2.js in Copy jquery */,
-				82C68F4915CC9EDE00A2E9FB /* jquery-1.6.2.min.js in Copy jquery */,
-				82C68F4A15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.css in Copy jquery */,
-				82C68F4B15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.js in Copy jquery */,
-				82C68F4C15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.min.css in Copy jquery */,
-				82C68F4D15CC9EDE00A2E9FB /* jquery.mobile-1.0b2.min.js in Copy jquery */,
+				82708B421683C06100A3FA66 /* jquery-1.8.3.min.js in Copy jquery */,
+				82708B431683C06500A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */,
+				82708B441683C06900A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */,
 			);
 			name = "Copy jquery";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,11 +96,10 @@
 		82C68F4E15CC9EE500A2E9FB /* Copy jquery images */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
+			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				82C68F4F15CC9F0100A2E9FB /* ajax-loader.png in Copy jquery images */,
-				82C68F5015CC9F0100A2E9FB /* icon-search-black.png in Copy jquery images */,
+				82708B451683C07300A3FA66 /* ajax-loader.gif in Copy jquery images */,
 				82C68F5115CC9F0100A2E9FB /* icons-18-black.png in Copy jquery images */,
 				82C68F5215CC9F0100A2E9FB /* icons-18-white.png in Copy jquery images */,
 				82C68F5315CC9F0100A2E9FB /* icons-36-black.png in Copy jquery images */,
@@ -164,20 +156,16 @@
 		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82708B361683BD0200A3FA66 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		82708B3C1683BEC300A3FA66 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
+		82708B3E1683BED700A3FA66 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
+		82708B401683BEEB00A3FA66 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
 		8295460B167A7CE500A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		8295460D167A7D1000A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
-		82C68F2C15CC9DA400A2E9FB /* ajax-loader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ajax-loader.png"; sourceTree = "<group>"; };
-		82C68F2D15CC9DA400A2E9FB /* icon-search-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-search-black.png"; sourceTree = "<group>"; };
 		82C68F2E15CC9DA400A2E9FB /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		82C68F2F15CC9DA400A2E9FB /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
 		82C68F3015CC9DA400A2E9FB /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
 		82C68F3115CC9DA400A2E9FB /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		82C68F3215CC9DA400A2E9FB /* jquery-1.6.2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.js"; sourceTree = "<group>"; };
-		82C68F3315CC9DA400A2E9FB /* jquery-1.6.2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.2.min.js"; sourceTree = "<group>"; };
-		82C68F3415CC9DA400A2E9FB /* jquery.mobile-1.0b2.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.css"; sourceTree = "<group>"; };
-		82C68F3515CC9DA400A2E9FB /* jquery.mobile-1.0b2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.js"; sourceTree = "<group>"; };
-		82C68F3615CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.0b2.min.css"; sourceTree = "<group>"; };
-		82C68F3715CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.0b2.min.js"; sourceTree = "<group>"; };
 		82E9A043160588AD0038C7B4 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		82E9A044160588AD0038C7B4 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = inline.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -351,13 +339,10 @@
 		82C68F2A15CC9DA400A2E9FB /* jquery */ = {
 			isa = PBXGroup;
 			children = (
+				82708B3C1683BEC300A3FA66 /* jquery-1.8.3.min.js */,
+				82708B3E1683BED700A3FA66 /* jquery.mobile-1.2.0.min.css */,
+				82708B401683BEEB00A3FA66 /* jquery.mobile-1.2.0.min.js */,
 				82C68F2B15CC9DA400A2E9FB /* images */,
-				82C68F3215CC9DA400A2E9FB /* jquery-1.6.2.js */,
-				82C68F3315CC9DA400A2E9FB /* jquery-1.6.2.min.js */,
-				82C68F3415CC9DA400A2E9FB /* jquery.mobile-1.0b2.css */,
-				82C68F3515CC9DA400A2E9FB /* jquery.mobile-1.0b2.js */,
-				82C68F3615CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.css */,
-				82C68F3715CC9DA400A2E9FB /* jquery.mobile-1.0b2.min.js */,
 			);
 			name = jquery;
 			path = ../../../external/shared/jquery;
@@ -366,8 +351,7 @@
 		82C68F2B15CC9DA400A2E9FB /* images */ = {
 			isa = PBXGroup;
 			children = (
-				82C68F2C15CC9DA400A2E9FB /* ajax-loader.png */,
-				82C68F2D15CC9DA400A2E9FB /* icon-search-black.png */,
+				82708B361683BD0200A3FA66 /* ajax-loader.gif */,
 				82C68F2E15CC9DA400A2E9FB /* icons-18-black.png */,
 				82C68F2F15CC9DA400A2E9FB /* icons-18-white.png */,
 				82C68F3015CC9DA400A2E9FB /* icons-36-black.png */,
