@@ -56,5 +56,13 @@
     STAssertEqualObjects(instance1, instance2, @"There should be only one instance");
 }
 
+- (void) testConvertSmartSqlWithInsertUpdateDelete
+{
+    SFSmartSqlHelper* helper = [SFSmartSqlHelper sharedInstance];
+    STAssertNil([helper convertSmartSql:@"insert into {employees}" withDb:nil], @"Should have returned nil for a insert query");
+    STAssertNil([helper convertSmartSql:@"update {employees}" withDb:nil], @"Should have returned nil for a update query");
+    STAssertNil([helper convertSmartSql:@"delete from {employees}" withDb:nil], @"Should have returned nil for a delete query");
+    STAssertNotNil([helper convertSmartSql:@"select * from {employees}" withDb:nil], @"Should not have returned nil for a proper query");
+}
 
 @end

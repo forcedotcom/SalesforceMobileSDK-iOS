@@ -24,6 +24,11 @@
 		4F9EF4FA158FED8F00E35E90 /* SFSmartStoreTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */; };
 		4F9EF4FC158FED9300E35E90 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */; };
 		4F9EF4FD158FEDEF00E35E90 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8ECEB514EB2642004F241C /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FBC68CA16977D9E007DD735 /* SFSmartSqlHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FBC68C816977D9E007DD735 /* SFSmartSqlHelper.h */; settings = {ATTRIBUTES = (); }; };
+		4FBC68CB16977D9E007DD735 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC68C916977D9E007DD735 /* SFSmartSqlHelper.m */; };
+		4FBC68CF16977E24007DD735 /* SFSmartSqlHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC68CE16977E24007DD735 /* SFSmartSqlHelperTests.m */; };
+		4FBC68D016977E51007DD735 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC68C916977D9E007DD735 /* SFSmartSqlHelper.m */; };
+		4FBC68D116977E58007DD735 /* SFSmartSqlHelperTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FBC68CD16977E24007DD735 /* SFSmartSqlHelperTests.h */; };
 		5E7191241527A627007B8187 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
 		5E7B3B2D151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5E7B3B2E151ACC8C00CC2CAC /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */; };
@@ -341,6 +346,10 @@
 		4F6C80C3167FB92E0078E6AF /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreTests.m; sourceTree = "<group>"; };
 		4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreTests.h; sourceTree = "<group>"; };
+		4FBC68C816977D9E007DD735 /* SFSmartSqlHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSqlHelper.h; sourceTree = "<group>"; };
+		4FBC68C916977D9E007DD735 /* SFSmartSqlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlHelper.m; sourceTree = "<group>"; };
+		4FBC68CD16977E24007DD735 /* SFSmartSqlHelperTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSqlHelperTests.h; sourceTree = "<group>"; };
+		4FBC68CE16977E24007DD735 /* SFSmartSqlHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlHelperTests.m; sourceTree = "<group>"; };
 		5E7B3B2B151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		5E7B3B2C151ACC8B00CC2CAC /* SFRestAPI+QueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+QueryBuilder.m"; sourceTree = "<group>"; };
 		5ECED62C14B4C93200A19357 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -727,6 +736,8 @@
 		7D8ECEB414EB2642004F241C /* SmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				4FBC68C816977D9E007DD735 /* SFSmartSqlHelper.h */,
+				4FBC68C916977D9E007DD735 /* SFSmartSqlHelper.m */,
 				7D8ECEB514EB2642004F241C /* SFSmartStore.h */,
 				8230649515EEFE6F002AA5A0 /* SFSmartStore+Internal.h */,
 				7D8ECEB614EB2642004F241C /* SFSmartStore.m */,
@@ -1256,6 +1267,8 @@
 		C26713CD13D6B845001FE0B8 /* SalesforceSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				4FBC68CD16977E24007DD735 /* SFSmartSqlHelperTests.h */,
+				4FBC68CE16977E24007DD735 /* SFSmartSqlHelperTests.m */,
 				4F9EF4F8158FED8E00E35E90 /* SFSmartStoreTests.h */,
 				4F9EF4F7158FED8E00E35E90 /* SFSmartStoreTests.m */,
 				82146430154091E00096C16F /* SalesforceSDKIdentityTests.h */,
@@ -1555,6 +1568,8 @@
 				820275C7165170F700DB814C /* UILabel+SFAdditions.h in Headers */,
 				82D8B3AA166D43F300A34BAD /* SFAuthenticationManager.h in Headers */,
 				82F245CE167F9A370032B3D9 /* SFSDKWebUtils.h in Headers */,
+				4FBC68CA16977D9E007DD735 /* SFSmartSqlHelper.h in Headers */,
+				4FBC68D116977E58007DD735 /* SFSmartSqlHelperTests.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1705,6 +1720,7 @@
 				8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 				82D8B3AB166D43F300A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245CF167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBC68CB16977D9E007DD735 /* SFSmartSqlHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1744,6 +1760,8 @@
 				82D8B3AC166D43F300A34BAD /* SFAuthenticationManager.m in Sources */,
 				82D8B3B1166D451900A34BAD /* SFAuthorizingViewController.m in Sources */,
 				82F245D0167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBC68D016977E51007DD735 /* SFSmartSqlHelper.m in Sources */,
+				4FBC68CF16977E24007DD735 /* SFSmartSqlHelperTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,7 +41,20 @@ static SFSmartSqlHelper *sharedInstance = nil;
 
 - (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*) db 
 {
-    return nil;
+    NSLog(@"Smart sql: %@", smartSql);
+    
+    // Select's only
+    NSString* smartSqlLowerCase = [[smartSql lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([smartSqlLowerCase hasPrefix:@"insert"]
+        || [smartSqlLowerCase hasPrefix:@"update"]
+        || [smartSqlLowerCase hasPrefix:@"delete"])
+    {
+        NSLog(@"Only SELECT are supported");
+        return nil;
+    }
+    
+    return smartSql;
 }
 
 @end
