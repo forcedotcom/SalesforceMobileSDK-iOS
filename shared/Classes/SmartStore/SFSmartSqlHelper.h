@@ -25,7 +25,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class FMDatabase;
+@class SFSmartStore;
 
 @interface SFSmartSqlHelper : NSObject
 
@@ -37,10 +37,10 @@
 /**
  Converts a smart sql query to sql.
  @param smartSql The smart sql query to convert.
- @param db The DB behind the smart store.
+ @param store The smart store.
  @param The sql query.
  */
-- (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*) db;
+- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store;
 
 @end
 

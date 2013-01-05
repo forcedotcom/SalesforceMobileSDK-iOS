@@ -27,6 +27,10 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "SFSmartSqlHelper.h"
+#import "SFSmartStore.h"
 
-@interface SFSmartSqlHelperTests : SenTestCase 
+@interface SFSmartSqlHelperTests : SenTestCase {
+    SFSmartStore* _store;
+    SFSmartSqlHelper* _sqlHelper;
+}
 @end

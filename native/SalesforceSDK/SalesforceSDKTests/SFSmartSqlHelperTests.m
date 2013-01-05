@@ -27,9 +27,25 @@
 #import "SFSmartSqlHelper.h"
 
 @interface SFSmartSqlHelperTests ()
+- (NSDictionary*) createStringIndexSpec:(NSString*) path;
+- (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
+- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
 @end
 
 @implementation SFSmartSqlHelperTests
+
+NSString* const kTestStore            = @"testSmartSqlStore";
+NSString* const kEmployeesSoup        = @"employees";
+NSString* const kDepartmentsSoup      = @"departments";
+NSString* const kFirstName            = @"firstName";
+NSString* const kLastName             = @"lastName";
+NSString* const kDeptCode             = @"deptCode";
+NSString* const kEmployeeId           = @"employeeId";
+NSString* const kManagerId            = @"managerId";
+NSString* const kSalary               = @"salary";
+NSString* const kBudget               = @"budget";
+NSString* const kName                 = @"name";
+
 
 
 #pragma mark - setup and teardown
@@ -38,10 +54,34 @@
 - (void) setUp
 {
     [super setUp];
+    _store = [[SFSmartStore sharedStoreWithName:kTestStore] retain];
+    _sqlHelper = [SFSmartSqlHelper sharedInstance];
+    
+    // Employees soup
+    [_store registerSoup:kEmployeesSoup                              // should be TABLE_1
+          withIndexSpecs:[NSArray arrayWithObjects:
+                          [self createStringIndexSpec:kFirstName],  
+                          [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
+                          [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
+                          [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
+                          [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
+                          [self createIntegerIndexSpec:kSalary],     // should be TABLE_1_4
+                          nil]];
+
+    // Departments soup
+    [_store registerSoup:kDepartmentsSoup                            // should be TABLE_2
+          withIndexSpecs:[NSArray arrayWithObjects:
+                          [self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
+                          [self createStringIndexSpec:kName],        // should be TABLE_2_1
+                          [self createIntegerIndexSpec:kBudget],     // should be TABLE_2_2
+                          nil]];
 }
 
 - (void) tearDown
 {
+    [_store release]; // close underlying db
+    _store = nil;
+    [SFSmartStore removeSharedStoreWithName:kTestStore];
     [super tearDown];
 }
 
@@ -58,11 +98,84 @@
 
 - (void) testConvertSmartSqlWithInsertUpdateDelete
 {
-    SFSmartSqlHelper* helper = [SFSmartSqlHelper sharedInstance];
-    STAssertNil([helper convertSmartSql:@"insert into {employees}" withDb:nil], @"Should have returned nil for a insert query");
-    STAssertNil([helper convertSmartSql:@"update {employees}" withDb:nil], @"Should have returned nil for a update query");
-    STAssertNil([helper convertSmartSql:@"delete from {employees}" withDb:nil], @"Should have returned nil for a delete query");
-    STAssertNotNil([helper convertSmartSql:@"select * from {employees}" withDb:nil], @"Should not have returned nil for a proper query");
+    STAssertNil([_sqlHelper convertSmartSql:@"insert into {employees}" withStore:_store], @"Should have returned nil for a insert query");
+    STAssertNil([_sqlHelper convertSmartSql:@"update {employees}" withStore:_store], @"Should have returned nil for a update query");
+    STAssertNil([_sqlHelper convertSmartSql:@"delete from {employees}" withStore:_store], @"Should have returned nil for a delete query");
+    STAssertNotNil([_sqlHelper convertSmartSql:@"select * from {employees}" withStore:_store], @"Should not have returned nil for a proper query");
 }
+
+- (void) testSimpleConvertSmartSql
+{
+    STAssertEqualObjects(@"select TABLE_1_0, TABLE_1_1 from TABLE_1 order by TABLE_1_1",
+                         [_sqlHelper convertSmartSql:@"select {employees:firstName}, {employees:lastName} from {employees} order by {employees:lastName}" withStore:_store],
+                         @"Bad conversion");
+
+    STAssertEqualObjects(@"select TABLE_2_1 from TABLE_2 order by TABLE_2_0",
+                         [_sqlHelper convertSmartSql:@"select {departments:name} from {departments} order by {departments:deptCode}" withStore:_store],
+                         @"Bad conversion");
+}
+
+
+- (void) testConvertSmartSqlWithJoin
+{
+    STAssertEqualObjects(@"select TABLE_2_1, TABLE_1_0 || ' ' || TABLE_1_1 "
+                         "from TABLE_1, TABLE_2 "
+                         "where TABLE_2_0 = TABLE_1_2 "
+                         "order by TABLE_2_1, TABLE_1_1",
+                         [_sqlHelper convertSmartSql:@"select {departments:name}, {employees:firstName} || ' ' || {employees:lastName} "
+                          "from {employees}, {departments} "
+                          "where {departments:deptCode} = {employees:deptCode} "
+                          "order by {departments:name}, {employees:lastName}" withStore:_store],
+                         @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithSelfJoin
+{
+    STAssertEqualObjects(@"select mgr.TABLE_1_1, e.TABLE_1_1 "
+                         "from TABLE_1 as mgr, TABLE_1 as e "
+                         "where mgr.TABLE_1_3 = e.TABLE_1_4",
+                         [_sqlHelper convertSmartSql:@"select mgr.{employees:lastName}, e.{employees:lastName} "
+                          "from {employees} as mgr, {employees} as e "
+                          "where mgr.{employees:employeeId} = e.{employees:managerId}" withStore:_store],
+                         @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithSpecialColumns
+{
+    STAssertEqualObjects(@"select TABLE_1.id, TABLE_1.lastModified, TABLE_1.soup from TABLE_1", 
+                         [_sqlHelper convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}" withStore:_store], @"Bad conversion");
+}
+	
+- (void) testConvertSmartSqlWithSpecialColumnsAndJoin
+{
+    STAssertEqualObjects(@"select TABLE_1.id, TABLE_2.id from TABLE_1, TABLE_2", 
+                         [_sqlHelper convertSmartSql:@"select {employees:_soupEntryId}, {departments:_soupEntryId} from {employees}, {departments}" withStore:_store], @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin
+{
+    STAssertEqualObjects(@"select mgr.id, e.id from TABLE_1 as mgr, TABLE_1 as e", 
+                         [_sqlHelper convertSmartSql:@"select mgr.{employees:_soupEntryId}, e.{employees:_soupEntryId} from {employees} as mgr, {employees} as e" withStore:_store], @"Bad conversion");
+}
+
+
+#pragma mark - helper methods
+- (NSDictionary*) createIntegerIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:@"integer"];
+}
+
+- (NSDictionary*) createStringIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:@"string"];
+}
+
+- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:path, @"path", pathType, @"type", nil];
+}
+
+
+
 
 @end

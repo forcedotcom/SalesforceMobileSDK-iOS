@@ -23,7 +23,8 @@
  */
 
 #import "SFSmartSqlHelper.h"
-#import "FMDatabase.h"
+#import "SFSmartStore.h"
+#import "SFSmartStore+Internal.h"
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
@@ -39,7 +40,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
     return sharedInstance;
 }
 
-- (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*) db 
+- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store
 {
     NSLog(@"Smart sql: %@", smartSql);
     
@@ -48,13 +49,71 @@ static SFSmartSqlHelper *sharedInstance = nil;
     
     if ([smartSqlLowerCase hasPrefix:@"insert"]
         || [smartSqlLowerCase hasPrefix:@"update"]
-        || [smartSqlLowerCase hasPrefix:@"delete"])
-    {
+        || [smartSqlLowerCase hasPrefix:@"delete"]) {
+        
         NSLog(@"Only SELECT are supported");
         return nil;
     }
     
-    return smartSql;
+    // Replacing {soupName} and {soupName:path}
+    NSMutableString* sql = [NSMutableString string];
+    NSScanner* scanner = [NSScanner scannerWithString:smartSql];
+    [scanner setCharactersToBeSkipped:nil];
+    while(![scanner isAtEnd]) {
+        NSMutableString* foundString = [NSMutableString string];
+        if([scanner scanUpToString:@"{" intoString:&foundString]) {
+            [sql appendString:foundString];
+        }
+        if(![scanner isAtEnd]) {
+            NSUInteger position = [scanner scanLocation];
+            [scanner scanString:@"{" intoString:nil];
+            [scanner scanUpToString:@"}" intoString:&foundString];
+            
+            
+            NSArray* parts = [foundString componentsSeparatedByString:@":"];
+            NSString* soupName = [parts objectAtIndex:0];
+            NSString* soupTableName = [store tableNameForSoup:soupName];
+            BOOL tableQualified = [smartSql characterAtIndex:position-1] == '.';
+            NSString* tableQualifier = tableQualified ? @"" : [soupTableName stringByAppendingString:@"."];
+            
+            // {soupName}
+            if ([parts count] == 1) {
+                [sql appendString:soupTableName];
+            }
+            else if ([parts count] == 2) {
+                NSString* path = [parts objectAtIndex:1];
+                // {soupName:_soup}
+                if ([path isEqualToString:@"_soup"]) {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"soup"];
+                }
+                // {soupName:_soupEntryId}
+                else if ([path isEqualToString:@"_soupEntryId"]) {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"id"];
+                }
+                // {soupName:_soupLastModifiedDate}
+                else if ([path isEqualToString:@"_soupLastModifiedDate"]) {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"lastModified"];
+                }
+                // {soupName:path}
+                else {
+                    NSString* columnName = [store columnNameForPath:path inSoup:soupName];
+                    [sql appendString:columnName];
+                }
+            }
+            else if ([parts count] > 2) {
+                NSLog(@"Invalid soup/path reference: %@ at character: %u", foundString, position);
+                return nil;
+            }
+            
+            
+            [scanner scanString:@"}" intoString:nil];
+        }
+    }
+    
+    return sql;
 }
 
 @end
