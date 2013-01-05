@@ -30,6 +30,7 @@
 #import "SFJsonUtils.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
+#import "SFSmartSqlHelper.h"
 #import "SFSoupCursor.h"
 #import "SFSoupIndex.h"
 #import "SFSoupQuerySpec.h"
@@ -680,6 +681,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     return result;
 }
+
+- (NSString*) convertSmartSql:(NSString*)smartSql
+{
+    return [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self];
+}
+
 
 #pragma mark - Soup maniupulation methods
 

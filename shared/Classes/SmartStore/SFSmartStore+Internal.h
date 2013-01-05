@@ -228,4 +228,11 @@
                 whereClause:(NSString*)whereClause
                   whereArgs:(NSArray*)whereArgs;
 
+/**
+ Convert smart sql to sql.
+ @param smartSql The smart sql to convert.
+ @return The sql.
+ */
+- (NSString*) convertSmartSql:(NSString*)smartSql;
+
 @end
