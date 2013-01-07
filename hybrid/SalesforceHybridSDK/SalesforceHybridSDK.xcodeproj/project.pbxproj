@@ -20,6 +20,11 @@
 		4FA1DA5D162CB6CE00BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
 		4FA1DA5E162CB6D800BC1B52 /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */; };
 		4FA1DA61162CB85600BC1B52 /* SFSDKInfoTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */; };
+		4FBB0775169B6D0300E1D539 /* SFSmartSqlHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FBB0773169B6D0300E1D539 /* SFSmartSqlHelper.h */; };
+		4FBB0776169B6D0300E1D539 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */; };
+		4FBB0778169B6D1600E1D539 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */; };
+		4FBB0779169B6D1700E1D539 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */; };
+		4FBB077A169B6D1800E1D539 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */; };
 		4FE0C086161A470E0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		4FE0C087161A471D0062EFEC /* SFAbstractSmartStoreTestSuite.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 4F5DEF7B161A41610035AC1F /* SFAbstractSmartStoreTestSuite.js */; };
 		7D20FBB314ED7DBD00A86731 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD163914D85C3400A17E6A /* main.m */; };
@@ -593,6 +598,8 @@
 		4FA1DA58162CB6C500BC1B52 /* CDVPlugin+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CDVPlugin+SFAdditions.h"; path = "SFAdditions/CDVPlugin+SFAdditions.h"; sourceTree = "<group>"; };
 		4FA1DA59162CB6C500BC1B52 /* CDVPlugin+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CDVPlugin+SFAdditions.m"; path = "SFAdditions/CDVPlugin+SFAdditions.m"; sourceTree = "<group>"; };
 		4FA1DA5F162CB80600BC1B52 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSDKInfoTestSuite.js; path = test/SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
+		4FBB0773169B6D0300E1D539 /* SFSmartSqlHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSqlHelper.h; path = ../../../../../shared/Classes/SmartStore/SFSmartSqlHelper.h; sourceTree = "<group>"; };
+		4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSqlHelper.m; path = ../../../../../shared/Classes/SmartStore/SFSmartSqlHelper.m; sourceTree = "<group>"; };
 		7D20FBF914ED7DBD00A86731 /* StressPlugins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressPlugins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1D14ED815500A86731 /* StressPluginsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressPluginsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D20FC1E14ED815600A86731 /* StressPluginsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "StressPluginsTests-Info.plist"; path = "/Users/tstellanova/proj/got/ios-sdk-dev17/hybrid/SalesforceHybridSDK/StressPluginsTests-Info.plist"; sourceTree = "<absolute>"; };
@@ -1219,6 +1226,8 @@
 		7D45E32414BFB394002C4A27 /* SFSmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				4FBB0773169B6D0300E1D539 /* SFSmartSqlHelper.h */,
+				4FBB0774169B6D0300E1D539 /* SFSmartSqlHelper.m */,
 				823064A215EF1380002AA5A0 /* SFSmartStore+Internal.h */,
 				82599EDE15EC284000AAACF7 /* SFSmartStoreDatabaseManager.h */,
 				82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */,
@@ -1934,6 +1943,7 @@
 				82F3B51416825322005DA1BC /* NSDictionary+Extensions.h in Headers */,
 				82F3B51516825322005DA1BC /* NSMutableArray+QueueAdditions.h in Headers */,
 				82F3B51616825322005DA1BC /* UIDevice+Extensions.h in Headers */,
+				4FBB0775169B6D0300E1D539 /* SFSmartSqlHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2351,6 +2361,7 @@
 				820273D91649E74200DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C7167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBB077A169B6D1800E1D539 /* SFSmartSqlHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2397,6 +2408,7 @@
 				82CD5BEF164823600070BD3D /* SFAuthorizingViewController.m in Sources */,
 				82CEB3B81656CFF2005C66E7 /* SFAuthenticationManager.m in Sources */,
 				82F245C4167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBB0776169B6D0300E1D539 /* SFSmartSqlHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2433,6 +2445,7 @@
 				820273D61649E73F00DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B3771665760500A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C5167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBB0778169B6D1600E1D539 /* SFSmartSqlHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2483,6 +2496,7 @@
 				820273D81649E74000DB814C /* SFAuthorizingViewController.m in Sources */,
 				82D8B3791665760600A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C6167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
+				4FBB0779169B6D1700E1D539 /* SFSmartSqlHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
