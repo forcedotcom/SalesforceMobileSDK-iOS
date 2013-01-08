@@ -133,32 +133,30 @@ extern NSString * const kSFSmartStoreErrorDomain;
 /**
  Get the number of entries that would be returned with the given query spec
  
- @param soupName the name of the soup
  @param querySpec a native query spec
  */
-- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec;
+- (NSUInteger)countWithQuerySpec:(SFSoupQuerySpec*)querySpec;
 
 /**
- Search soup for entries matching the querySpec
+ Search for entries matching the querySpec
 
- @param soupName The name of the soup to query
  @param querySpec A querySpec as a dictionary
+ @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
 
  @return A cursor
  */
-- (SFSoupCursor*)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)querySpec;
+- (SFSoupCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName;
 
 
 /**
- Search soup for entries matching the querySpec
+ Search for entries matching the querySpec
  
- @param soupName The name of the soup to query
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
  
  @return A set of entries given the pageSize provided in the querySpec
  */
-- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
+- (NSArray *)queryWithQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
 
 /**
  Search soup for entries exactly matching the soup entry IDs

@@ -147,5 +147,13 @@
     [self runTest:@"testIntegerQuerySpec"];
 }
 
+- (void)testSmartQueryWithCount {
+    [self runTest:@"testSmartQueryWithCount"];
+}
+
+- (void)testSmartQueryWithSpecialFields {
+    [self runTest:@"testSmartQueryWithSpecialFields"];
+}
+
 
 @end

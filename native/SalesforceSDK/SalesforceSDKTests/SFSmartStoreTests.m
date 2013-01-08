@@ -183,7 +183,7 @@ NSString * const kTestSoupName   = @"testSoup";
                               @"a/path", kQuerySpecParamIndexPath,
                               nil];
     
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryNoPageSize];
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
     NSUInteger querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
     [querySpec release];
@@ -193,7 +193,7 @@ NSString * const kTestSoupName   = @"testSoup";
                                         @"a/path", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithInt:expectedPageSize], kQuerySpecParamPageSize,
                                         nil];
-    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryWithPageSize];
+    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
     querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
     [querySpec release];
@@ -210,8 +210,8 @@ NSString * const kTestSoupName   = @"testSoup";
                                           @"a/path", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithInt:evenDividePageSize], kQuerySpecParamPageSize,
                                           nil];
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
-    SFSoupCursor *cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
+    SFSoupCursor *cursor = [[SFSoupCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     int cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
     [querySpec release];
@@ -224,8 +224,8 @@ NSString * const kTestSoupName   = @"testSoup";
                               @"a/path", kQuerySpecParamIndexPath,
                               [NSNumber numberWithInt:unevenDividePageSize], kQuerySpecParamPageSize,
                               nil];
-    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
-    cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
+    cursor = [[SFSoupCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
     [querySpec release];

@@ -42,7 +42,6 @@
 
 @implementation SFSoupCursor
 
-@synthesize soupName = _soupName;
 @synthesize cursorId = _cursorId;
 @synthesize querySpec = _querySpec;
 
@@ -54,8 +53,7 @@
 
 
 
-- (id)initWithSoupName:(NSString*)soupName 
-                 store:(SFSmartStore*)store 
+- (id)initWithStore:(SFSmartStore*)store
              querySpec:(SFSoupQuerySpec*)querySpec  
           totalEntries:(NSUInteger)totalEntries
 {
@@ -65,7 +63,6 @@
         _store = [store retain];
         [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
         
-        self.soupName = soupName;
         self.querySpec = querySpec;
         
         NSInteger myPageSize = 10;
@@ -96,7 +93,6 @@
     NSLog(@"closing cursor id: %@",self.cursorId);
 
     [_store release]; _store = nil;
-    self.soupName = nil;
     self.cursorId = nil;
     self.querySpec = nil;
     
@@ -116,7 +112,7 @@
         if (nil != _currentPageIndex) {
             if ([self.totalPages integerValue] > 0) {
                 NSUInteger pageIdx = [_currentPageIndex integerValue];
-                NSArray *newEntries = [_store querySoup:self.soupName withQuerySpec:self.querySpec pageIndex:pageIdx];
+                NSArray *newEntries = [_store queryWithQuerySpec:self.querySpec pageIndex:pageIdx];
                 self.currentPageOrderedEntries = newEntries;
             } else {
                 self.currentPageOrderedEntries = [NSArray array];
@@ -130,11 +126,7 @@
 - (NSDictionary*)asDictionary
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    [result setObject:self.soupName forKey:@"soupName"];
     [result setObject:self.cursorId forKey:@"cursorId"];
-    if (nil != self.querySpec) {
-        [result setObject:[self.querySpec asDictionary] forKey:@"querySpec"];
-    }
     //note that we only encode the current page worth of entries
     [result setObject:self.currentPageOrderedEntries forKey:@"currentPageOrderedEntries"];
     [result setObject:self.currentPageIndex forKey:@"currentPageIndex"];
@@ -146,9 +138,8 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupCursor: %p> {\n cursorId: %@ \n soup: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
-            self,self.cursorId, 
-            self.soupName,
+    return [NSString stringWithFormat:@"<SFSoupCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+            self,self.cursorId,
             self.totalPages,
             self.currentPageIndex,
             [self.currentPageOrderedEntries count],

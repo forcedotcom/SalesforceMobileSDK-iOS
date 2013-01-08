@@ -105,19 +105,6 @@
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName;
 
 /**
- Generates range predicate from beginKey/endKey,likeKey, etc.
- @return The string representing the range predicate.
- */
-- (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString *)columnName;
-
-/**
- Creates the array of query bindings, based on the query spec.
- @param querySpec The query spec with the data used to create the bindings.
- @return An array of query bindings.
- */
-- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec *)querySpec;
-
-/**
  Upserts one entry into the soup.
  @param entry The entry to upsert.
  @param soupName The name of the soup to upsert into.
@@ -211,22 +198,22 @@
 + (void)clearSharedStoreMemoryState;
 
 /**
- Queries a table for the given column data, based on the given clauses.
- @param table The table to query.
- @param columns The columns to return.
- @param orderBy The column to order by.
- @param limit The limit on number of rows to return.
- @param whereClause The WHERE clause limiting the query.
- @param whereArgs The arguments associated with the WHERE clause.
+   Queries a table for the given column data, based on the given clauses.
+   @param table The table to query.
+   @param columns The columns to return.
+   @param orderBy The column to order by.
+   @param limit The limit on number of rows to return.
+   @param whereClause The WHERE clause limiting the query.
+   @param whereArgs The arguments associated with the WHERE clause.
  
- @return An FMResultSet with the rows matching the query.
- */
+   @return An FMResultSet with the rows matching the query.
+*/
 - (FMResultSet *)queryTable:(NSString*)table
-                 forColumns:(NSArray*)columns
-                    orderBy:(NSString*)orderBy
-                      limit:(NSString*)limit
-                whereClause:(NSString*)whereClause
-                  whereArgs:(NSArray*)whereArgs;
+forColumns:(NSArray*)columns
+orderBy:(NSString*)orderBy
+limit:(NSString*)limit
+whereClause:(NSString*)whereClause
+whereArgs:(NSArray*)whereArgs;
 
 /**
  Convert smart sql to sql.

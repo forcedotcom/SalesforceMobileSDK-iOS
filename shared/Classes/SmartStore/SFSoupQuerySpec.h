@@ -50,7 +50,8 @@ extern NSString * const kQuerySpecParamLikeKey;
 typedef enum {
     kSFSoupQueryTypeExact = 2,
     kSFSoupQueryTypeRange = 4,
-    kSFSoupQueryTypeLike = 8
+    kSFSoupQueryTypeLike = 8,
+    kSFSoupQueryTypeSmart = 16
 } SFSoupQueryType;
 
 typedef enum {
@@ -62,19 +63,39 @@ typedef enum {
  * Object containing the query specification for queries against a soup.
  */
 @interface SFSoupQuerySpec : NSObject {
+    // all
     SFSoupQueryType _queryType;
+    NSUInteger _pageSize;
+    NSString *_smartSql; // provided for smart queries, computed for all others.
+
+    // exact,range,like
+    NSString *soupName;
     NSString *_path;
     NSString *_beginKey;
     NSString *_endKey;
     SFSoupQuerySortOrder _order;
-    NSUInteger _pageSize;
-    
 }
 
 /**
  * The type of query to run (exact, range, like).
  */
 @property (nonatomic, assign) SFSoupQueryType queryType;
+
+/**
+ smartSql passed in for smart queries, computed for all others.
+ */
+@property (nonatomic, strong) NSString *smartSql;
+
+/**
+ * The number of entries per page to return.
+ */
+@property (nonatomic, assign) NSUInteger pageSize;
+
+
+/**
+ soupName is used for range, exact, and like queries.
+ */
+@property (nonatomic, strong) NSString *soupName;
 
 /**
  The indexPath to use for the query.  Compound paths must be dot-delimited ie parent.child.grandchild.field .
@@ -91,16 +112,11 @@ typedef enum {
  */
 @property (nonatomic, strong) NSString *endKey;
 
+
 /**
  * A sort order for the query (ascending, descending).
  */
 @property (nonatomic, assign) SFSoupQuerySortOrder order;
-
-/**
- * The number of entries per page to return.
- */
-@property (nonatomic, assign) NSUInteger pageSize;
-
 
 /**
  ASC or DESC
@@ -110,13 +126,20 @@ typedef enum {
 /**
  * Initializes the object with the given query spec.
  * @param querySpec the name/value pairs defining the query spec.
+ * @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
  * @return A new instance of the object.
  */
-- (id)initWithDictionary:(NSDictionary*)querySpec;
+- (id)initWithDictionary:(NSDictionary*)querySpec withSoupName:(NSString*) targetSoupName;
 
 /**
  * The NSDictionary representation of the query spec.
  */
 - (NSDictionary*)asDictionary;
+
+/**
+ * Return bind arguments for query.
+ * @return bind arguments.
+ */
+- (NSArray*) bindsForQuerySpec;
 
 @end

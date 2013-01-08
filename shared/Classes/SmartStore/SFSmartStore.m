@@ -617,74 +617,35 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 }
 
-- (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString*)columnName
-{
-    NSString *result = nil;
-    
-    switch (querySpec.queryType) {
-            
-        case kSFSoupQueryTypeRange: 
-            if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
-                result = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?",columnName,columnName];
-            else if (nil != querySpec.beginKey)
-                result = [NSString stringWithFormat:@"%@ >= ?",columnName];
-            else if (nil != querySpec.endKey)
-                result = [NSString stringWithFormat:@"%@ <= ?",columnName];
-            break;
-            
-        case kSFSoupQueryTypeLike:
-            if (nil != querySpec.beginKey)
-                result = [NSString stringWithFormat:@"%@ LIKE ? ",columnName]; 
-            else 
-                result = @"";
-            break;
-            
-        case kSFSoupQueryTypeExact:
-        default:
-            if (nil != querySpec.beginKey)
-                result = [NSString stringWithFormat:@"%@ == ?",columnName];
-            else 
-                result = @"";
-            break;
-    }
-    
-    return result;
-}
-
-
-- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec*)querySpec
-{
-    NSArray *result = nil;
-    
-    switch (querySpec.queryType) {
-        case kSFSoupQueryTypeRange:
-            if ((nil != querySpec.beginKey) && (nil != querySpec.endKey))
-                result = [NSArray arrayWithObjects:querySpec.beginKey,querySpec.endKey, nil];
-            else if (nil != querySpec.beginKey)
-                result = [NSArray arrayWithObject:querySpec.beginKey];
-            else if (nil != querySpec.endKey)
-                result = [NSArray arrayWithObject:querySpec.endKey];
-            break;
-            
-        case kSFSoupQueryTypeLike:
-            if (nil != querySpec.beginKey)
-                result = [NSArray arrayWithObject:querySpec.beginKey]; 
-            break;
-            
-        case kSFSoupQueryTypeExact:
-        default:
-            if (nil != querySpec.beginKey)
-                result = [NSArray arrayWithObject:querySpec.beginKey];
-            break;
-            
-    }
-    
-    return result;
-}
-
 - (NSString*) convertSmartSql:(NSString*)smartSql
 {
     return [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self];
+}
+
+- (FMResultSet *)queryTable:(NSString*)table 
+                 forColumns:(NSArray*)columns 
+                    orderBy:(NSString*)orderBy 
+                      limit:(NSString*)limit 
+                whereClause:(NSString*)whereClause 
+                  whereArgs:(NSArray*)whereArgs 
+{
+    NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
+    columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
+    
+    NSString *orderByStr = (nil == orderBy) ? 
+        @"" : 
+        [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
+    NSString *selectionStr = (nil == whereClause) ? 
+        @"" : 
+        [NSString stringWithFormat:@"WHERE %@",whereClause ];
+    NSString *limitStr = (nil == limit) ? 
+        @"" : 
+        [NSString stringWithFormat:@"LIMIT %@",limit ];
+
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", 
+                     columnsStr, table, selectionStr, orderByStr, limitStr];
+    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:whereArgs];
+    return frs;
 }
 
 
@@ -1032,84 +993,56 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return returnId;
 }
 
-- (FMResultSet *)queryTable:(NSString*)table 
-                 forColumns:(NSArray*)columns 
-                    orderBy:(NSString*)orderBy 
-                      limit:(NSString*)limit 
-                whereClause:(NSString*)whereClause 
-                  whereArgs:(NSArray*)whereArgs 
+- (NSUInteger)countWithQuerySpec:(SFSoupQuerySpec*)querySpec
 {
-
-    NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
-    columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
+    NSUInteger result;
     
-    NSString *orderByStr = (nil == orderBy) ? 
-        @"" : 
-        [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
-    NSString *selectionStr = (nil == whereClause) ? 
-        @"" : 
-        [NSString stringWithFormat:@"WHERE %@",whereClause ];
-    NSString *limitStr = (nil == limit) ? 
-        @"" : 
-        [NSString stringWithFormat:@"LIMIT %@",limit ];
+    // SQL
+    NSString* sql = [self convertSmartSql: querySpec.smartSql];
+    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+    
+    // Binds
+    NSArray* binds = [querySpec bindsForQuerySpec];
+    
+    // Executing query
+    FMResultSet *frs = [self.storeDb executeQuery:countSql withArgumentsInArray:binds];
+    if([frs next]) {
+        result = [frs intForColumnIndex:0];
+    }
+    [frs close];
 
-    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", 
-                     columnsStr, table, selectionStr, orderByStr, limitStr];
-    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:whereArgs];
-    return frs;
+    return result;
 }
 
-- (NSArray *)querySoup:(NSString*)soupName withQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
+
+
+- (NSArray *)queryWithQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
 {
-    NSString *soupTableName = [self tableNameForSoup:soupName];
-    if (nil == soupTableName) {
-        NSLog(@"Soup: '%@' does not exist",soupName);
-        return nil;
-    }
-    
-    FMResultSet *frs = nil;
-    NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
-    
-    NSMutableArray *result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
 
     // Page
     NSUInteger offsetRows = querySpec.pageSize * pageIndex;
     NSUInteger numberRows = querySpec.pageSize;
-    NSString *limit = [NSString stringWithFormat:@"%d,%d",offsetRows,numberRows];
-    NSString *orderBy = [NSString stringWithFormat:@"%@ %@",columnName,querySpec.sqlSortOrder];
-    NSArray *fetchCols = [NSArray arrayWithObject:SOUP_COL];
+    NSString* limit = [NSString stringWithFormat:@"%d,%d",offsetRows,numberRows];
+
+    // SQL
+    NSString* sql = [self convertSmartSql: querySpec.smartSql];
+    NSString* limitSql = [[NSArray arrayWithObjects:@"SELECT * FROM (", sql, @") LIMIT ", limit, nil] componentsJoinedByString:@""];
     
-    if ((nil == querySpec.beginKey) && (nil == querySpec.endKey)) {
-        // Get all the rows
-        frs = [self queryTable:soupTableName 
-                    forColumns:fetchCols 
-                       orderBy:orderBy 
-                         limit:limit 
-                   whereClause:nil 
-                     whereArgs:nil
-               ];
-    } else {
-        NSArray *binds = nil;
-        NSString *keyRangePredicate = [self keyRangePredicateForQuerySpec:querySpec columnName:columnName];
-        if ([keyRangePredicate length] > 0) {
-            binds = [self bindsForQuerySpec:querySpec];
-        }
-        // Get a range of rows (between beginKey and endKey)
-        frs = [self queryTable:soupTableName 
-                    forColumns:fetchCols 
-                       orderBy:orderBy 
-                         limit:limit 
-                   whereClause:keyRangePredicate 
-                     whereArgs:binds
-               ];
-    }
-    
+    // Binds
+    NSArray* binds = [querySpec bindsForQuerySpec];
+
+    // Executing query
+    FMResultSet *frs = [self.storeDb executeQuery:limitSql withArgumentsInArray:binds];
     while ([frs next]) {
-        NSString *rawJson = [frs stringForColumn:SOUP_COL];
-        //TODO we do not (yet?) support projections 
-        NSDictionary *soupElt = [SFJsonUtils objectFromJSONString:rawJson];
-        if (nil != soupElt) {
-            [result addObject:soupElt];
+        // Smart queries
+        if (querySpec.queryType == kSFSoupQueryTypeSmart) {
+            [result addObject:[self getDataFromRow:frs]];
+        }
+        // Exact/like/range queries
+        else {
+            NSString *rawJson = [frs stringForColumn:SOUP_COL];
+            [result addObject:[SFJsonUtils objectFromJSONString:rawJson]];
         }
     }
     [frs close];
@@ -1117,81 +1050,39 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-
-    
-- (SFSoupCursor *)querySoup:(NSString*)soupName withQuerySpec:(NSDictionary *)spec
+- (NSArray *) getDataFromRow:(FMResultSet*) frs
 {
-    if (![self soupExists:soupName]) {
-        NSLog(@"Soup: '%@' does not exist",soupName);
-        return nil;
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:frs.columnCount];
+    NSDictionary* valuesMap = [frs resultDictionary];
+    for(int i=0; i<frs.columnCount; i++) {
+        NSString* columnName = [frs columnNameForIndex:i];
+        NSObject* value = [valuesMap objectForKey:columnName];
+        if ([columnName hasSuffix:SOUP_COL]) {
+            [result addObject:[SFJsonUtils objectFromJSONString:(NSString*)value]];
+        }
+        else {
+            [result addObject:value];
+        }
     }
+    return result;
+}
     
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec];
+- (SFSoupCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName
+{
+    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
     if (nil == querySpec) {
         return nil;
     }
     
-    NSUInteger totalEntries = [self  countEntriesInSoup:soupName withQuerySpec:querySpec];
-    if ((0 == totalEntries) && (nil != querySpec.path)) {
-        NSString *columnName = [self columnNameForPath:querySpec.path inSoup:soupName];
-        if (nil == columnName) {
-            //asking for a query on an index that doesn't exist
-            [querySpec release];
-            return nil;
-        }
-    }
+    NSUInteger totalEntries = [self  countWithQuerySpec:querySpec];
     
-    SFSoupCursor *result = [[SFSoupCursor alloc] initWithSoupName:soupName store:self querySpec:querySpec totalEntries:totalEntries];
+    SFSoupCursor *result = [[SFSoupCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
     
     return [result autorelease];
 }
 
 
-- (NSUInteger)countEntriesInSoup:(NSString *)soupName withQuerySpec:(SFSoupQuerySpec*)querySpec 
-{
-    NSString *soupTableName = [self tableNameForSoup:soupName];
-    if (nil == soupTableName) {
-        NSLog(@"Soup: '%@' does not exist",soupName);
-        return 0;
-    }
-    
-    NSString *columnName = nil;
-    NSString *indexPath = [querySpec path];
-    
-    if (nil != indexPath) {
-        columnName = [self columnNameForPath:indexPath inSoup:soupName];
-        if (nil == columnName) {
-            //asking for a query on an index that doesn't exist
-            NSLog(@"soup '%@' has no index named '%@' ",soupName,indexPath);
-            return 0;
-        }
-    }
-
-    
-    NSString *querySql = nil;
-    FMResultSet *frs = nil;
-    NSArray *binds = nil;
-    NSString *keyRangePredicate = [self keyRangePredicateForQuerySpec:querySpec columnName:columnName];
-    NSString *whereClause = @"";
-    if ([keyRangePredicate length] > 0) {
-        whereClause = [NSString stringWithFormat:@"WHERE %@",keyRangePredicate];
-        binds = [self bindsForQuerySpec:querySpec];
-    }
-    querySql = [NSString stringWithFormat:@"SELECT count(*) FROM %@ %@", soupTableName, whereClause];
-    NSLog(@"countSql: \n %@ \n binds: %@",querySql,binds);
-    frs = [self.storeDb executeQuery:querySql withArgumentsInArray:binds];
-    
-    NSUInteger result = 0;
-
-    if([frs next]) {
-        result = [frs intForColumnIndex:0];
-    }
-    [frs close];
-    
-    NSLog(@"countEntriesInSoup '%@' result: %d",soupName,result);
-    return result;
-}
 
 
 - (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds {

@@ -91,6 +91,12 @@ extern NSString * const kSmartStorePluginIdentifier;
  */
 - (void)pgQuerySoup:(CDVInvokedUrlCommand *)command;
 
+/**
+ * Queries soups using smart sql. See [SFSmartStore querySoup:withQuerySpec:].
+ * @param command Cordova arguments object containing "querySpec".
+ *
+ */
+- (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command;
 
 /**
  * Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].
