@@ -62,7 +62,7 @@ typedef enum {
 /**
  * Object containing the query specification for queries against a soup.
  */
-@interface SFSoupQuerySpec : NSObject {
+@interface SFQuerySpec : NSObject {
     // all
     SFSoupQueryType _queryType;
     NSUInteger _pageSize;
@@ -122,6 +122,53 @@ typedef enum {
  ASC or DESC
  */
 @property (nonatomic, readonly) NSString *sqlSortOrder;
+
+
+/**
+ * Factory method to build an exact query spec
+ * Note: caller is responsible for releaseing the query spec
+ * @param soupName The target soup name.
+ * @param path The path to filter on.
+ * @param matchKey The exact value to match.
+ * @param order The sort order.
+ * @param pageSize The page size.
+ * @return A query spec object.
+ */
++ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
+
+/**
+ * Factory method to build an like query spec
+ * Note: caller is responsible for releaseing the query spec
+ * @param soupName The target soup name.
+ * @param path The path to filter on.
+ * @param likeKey The value to match on.
+ * @param order The sort order.
+ * @param pageSize The page size.
+ * @return A query spec object.
+ */
++ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
+
+/**
+ * Factory method to build an range query spec
+ * Note: caller is responsible for releaseing the query spec
+ * @param soupName The target soup name.
+ * @param path The path to filter on.
+ * @param beginKey The start of the range.
+ * @param endKey The end of the range.
+ * @param order The sort order.
+ * @param pageSize The page size.
+ * @return A query spec object.
+ */
++ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
+
+/**
+ * Factory method to build a smart query spec
+ * Note: caller is responsible for releaseing the query spec
+ * @param smartSql The smart sql query.
+ * @param pageSize The page size.
+ * @return A query spec object.
+ */
++ (SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize;
 
 /**
  * Initializes the object with the given query spec.

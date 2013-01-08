@@ -35,7 +35,7 @@
 extern NSString * const kSmartStorePluginIdentifier;
 
 @class SFContainerAppDelegate;
-@class SFSoupCursor;
+@class SFStoreCursor;
 @class SFSmartStore;
 
 @interface SFSmartStorePlugin : CDVPlugin {
@@ -135,8 +135,8 @@ extern NSString * const kSmartStorePluginIdentifier;
 /**
  * Gets a handle to a cursor, from its ID.
  * @param cursorId The unique ID of the cursor.
- * @return The cached SFSoupCursor isntance with the given ID, or nil.
+ * @return The cached SFStoreCursor isntance with the given ID, or nil.
  */
-- (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId;
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId;
 
 @end

@@ -42,8 +42,6 @@ static SFSmartSqlHelper *sharedInstance = nil;
 
 - (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store
 {
-    NSLog(@"Smart sql: %@", smartSql);
-    
     // Select's only
     NSString* smartSqlLowerCase = [[smartSql lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -68,7 +66,6 @@ static SFSmartSqlHelper *sharedInstance = nil;
             NSUInteger position = [scanner scanLocation];
             [scanner scanString:@"{" intoString:nil];
             [scanner scanUpToString:@"}" intoString:&foundString];
-            
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = [parts objectAtIndex:0];

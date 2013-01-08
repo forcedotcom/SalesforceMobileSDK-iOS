@@ -26,15 +26,15 @@
 
 
 @class SFSmartStore;
-@class SFSoupQuerySpec;
+@class SFQuerySpec;
 
 /**
  * Defines a cursor into data stored in a soup.
  */
-@interface SFSoupCursor : NSObject {
+@interface SFStoreCursor : NSObject {
     SFSmartStore *_store;
     NSString *_cursorId;
-    SFSoupQuerySpec *_querySpec;
+    SFQuerySpec *_querySpec;
     
     NSArray *_currentPageOrderedEntries;
     NSNumber *_currentPageIndex;
@@ -51,7 +51,7 @@
 /**
  * The query spec that generated this cursor.
  */
-@property (nonatomic, readonly, strong) SFSoupQuerySpec *querySpec;
+@property (nonatomic, readonly, strong) SFQuerySpec *querySpec;
 
 /**
  * The list of current page entries, ordered as requested in the querySpec.
@@ -80,7 +80,7 @@
  * @param querySpec The query used to retrieve the data.
  * @param totalEntries The total number of entries retrieved from the query.
  */
-- (id)initWithStore:(SFSmartStore*)store querySpec:(SFSoupQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries;
+- (id)initWithStore:(SFSmartStore*)store querySpec:(SFQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries;
 
 /**
  * The NSDictionary representation of this object.

@@ -38,8 +38,8 @@ extern NSString *const kDefaultSmartStoreName;
 extern NSString * const kSFSmartStoreErrorDomain;
 
 @class FMDatabase;
-@class SFSoupCursor;
-@class SFSoupQuerySpec;
+@class SFStoreCursor;
+@class SFQuerySpec;
 
 @interface SFSmartStore : NSObject {
 
@@ -135,7 +135,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
  
  @param querySpec a native query spec
  */
-- (NSUInteger)countWithQuerySpec:(SFSoupQuerySpec*)querySpec;
+- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec;
 
 /**
  Search for entries matching the querySpec
@@ -145,7 +145,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
 
  @return A cursor
  */
-- (SFSoupCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName;
+- (SFStoreCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName;
 
 
 /**
@@ -156,7 +156,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
  
  @return A set of entries given the pageSize provided in the querySpec
  */
-- (NSArray *)queryWithQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
 
 /**
  Search soup for entries exactly matching the soup entry IDs

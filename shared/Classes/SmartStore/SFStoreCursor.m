@@ -22,17 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSoupCursor.h"
+#import "SFStoreCursor.h"
 
 #import "SFSmartStore.h"
-#import "SFSoupQuerySpec.h"
+#import "SFQuerySpec.h"
 
-@interface SFSoupCursor ()
+@interface SFStoreCursor ()
 
 @property (nonatomic, readwrite, strong) NSString *cursorId;
 @property (nonatomic, readwrite, strong) NSString *soupName;
 
-@property (nonatomic, readwrite, strong) SFSoupQuerySpec *querySpec;
+@property (nonatomic, readwrite, strong) SFQuerySpec *querySpec;
 @property (nonatomic, readwrite, strong) NSArray *currentPageOrderedEntries;
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
@@ -40,7 +40,7 @@
 
 @end
 
-@implementation SFSoupCursor
+@implementation SFStoreCursor
 
 @synthesize cursorId = _cursorId;
 @synthesize querySpec = _querySpec;
@@ -54,7 +54,7 @@
 
 
 - (id)initWithStore:(SFSmartStore*)store
-             querySpec:(SFSoupQuerySpec*)querySpec  
+             querySpec:(SFQuerySpec*)querySpec  
           totalEntries:(NSUInteger)totalEntries
 {
     self = [super init];
@@ -138,7 +138,7 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFSoupCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
             self,self.cursorId,
             self.totalPages,
             self.currentPageIndex,

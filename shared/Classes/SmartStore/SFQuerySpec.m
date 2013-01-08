@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSoupQuerySpec.h"
+#import "SFQuerySpec.h"
 
 #import "NSDictionary+SFAdditions.h"
 
@@ -32,6 +32,7 @@ NSString * const kQuerySpecSortOrderDescending = @"descending";
 NSString * const kQuerySpecTypeExact = @"exact";
 NSString * const kQuerySpecTypeRange = @"range";
 NSString * const kQuerySpecTypeLike = @"like";
+
 NSString * const kQuerySpecTypeSmart = @"smart";
 
 
@@ -49,7 +50,7 @@ NSString * const kQuerySpecParamLikeKey = @"likeKey";
 NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 
-@implementation SFSoupQuerySpec
+@implementation SFQuerySpec
 
 @synthesize soupName = _soupName;
 @synthesize queryType= _queryType;
@@ -61,8 +62,8 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 @synthesize pageSize = _pageSize;
 
 
-+ (SFSoupQuerySpec*) buildExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
-    SFSoupQuerySpec* querySpec = [[super alloc] init];
++ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
+    SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {
         querySpec.queryType = kSFSoupQueryTypeExact;
         querySpec.path = path;
@@ -72,12 +73,13 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.order = order;
         querySpec.pageSize = pageSize;
         querySpec.smartSql = [querySpec computeSmartSql];
+        NSLog(@"newExactQuerySpec: %@", querySpec);
     }
     return querySpec;
 }
 
-+ (SFSoupQuerySpec*) buildLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
-    SFSoupQuerySpec* querySpec = [[super alloc] init];
++ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
+    SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {
         querySpec.queryType = kSFSoupQueryTypeLike;
         querySpec.soupName = soupName;
@@ -86,13 +88,12 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.order = order;
         querySpec.pageSize = pageSize;
         querySpec.smartSql = [querySpec computeSmartSql];
-        querySpec.smartSql = [querySpec computeSmartSql];
     }
     return querySpec;
 }
 
-+ (SFSoupQuerySpec*) buildRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
-    SFSoupQuerySpec* querySpec = [[super alloc] init];
++ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
+    SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {
         querySpec.queryType = kSFSoupQueryTypeRange;
         querySpec.soupName = soupName;
@@ -106,8 +107,8 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     return querySpec;
 }
 
-+ (SFSoupQuerySpec*) buildSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize {
-    SFSoupQuerySpec* querySpec = [[super alloc] init];
++ (SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize {
+    SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {
         querySpec.queryType = kSFSoupQueryTypeSmart;
         querySpec.smartSql = smartSql;
@@ -140,17 +141,18 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     
     
     if ([rawQueryType isEqualToString:kQuerySpecTypeRange]) {
-        self = [SFSoupQuerySpec buildRangeQuerySpec:targetSoupName withPath:path withBeginKey:beginKey withEndKey:endKey withOrder:order withPageSize:pageSize];
+        self = [SFQuerySpec newRangeQuerySpec:targetSoupName withPath:path withBeginKey:beginKey withEndKey:endKey withOrder:order withPageSize:pageSize];
     } else if ([rawQueryType isEqualToString:kQuerySpecTypeLike]) {
-        self = [SFSoupQuerySpec buildLikeQuerySpec:targetSoupName withPath:path withLikeKey:likeKey withOrder:order withPageSize:pageSize];
+        self = [SFQuerySpec newLikeQuerySpec:targetSoupName withPath:path withLikeKey:likeKey withOrder:order withPageSize:pageSize];
     } else if ([rawQueryType isEqualToString:kQuerySpecTypeExact]) {
-        self = [SFSoupQuerySpec buildExactQuerySpec:targetSoupName withPath:path withMatchKey:matchKey withOrder:order withPageSize:pageSize];
+        self = [SFQuerySpec newExactQuerySpec:targetSoupName withPath:path withMatchKey:matchKey withOrder:order withPageSize:pageSize];
     } else if ([rawQueryType isEqualToString:kQuerySpecTypeSmart]) {
-        self = [SFSoupQuerySpec buildSmartQuerySpec:smartSql withPageSize:pageSize];
+        self = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize];
     } else {
         NSLog(@"Invalid queryType: '%@'", rawQueryType);
         self = nil;
     }
+    
     return self;
 }
 
@@ -252,11 +254,13 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 }
 
 - (NSString*)computeFieldReference:(NSString*) field {
-    return [[NSArray arrayWithObjects:@"{", soupName, @":", field, @"}", nil] componentsJoinedByString:@""];
+    NSString* fieldRef = [[NSArray arrayWithObjects:@"{", self.soupName, @":", field, @"}", nil] componentsJoinedByString:@""];
+    NSLog(@"computeFieldReference: %@ --> %@", field, fieldRef);
+    return fieldRef;
 }
 
 - (NSString*)computeSoupReference {
-    return [[NSArray arrayWithObjects:@"{", soupName, @"}", nil] componentsJoinedByString:@""];
+    return [[NSArray arrayWithObjects:@"{", self.soupName, @"}", nil] componentsJoinedByString:@""];
 }
 
 
@@ -318,8 +322,8 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n smartSql:\"%@\" \n pageSize: %d}", self,self.queryType, self.smartSql,self.pageSize];
     }
     else {
-        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
-                self,self.queryType, self.path,self.beginKey,self.endKey,self.order,self.pageSize];
+        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n soupName:\"%@\" \n smartSql:\"%@\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %d}",
+                self,self.queryType, self.soupName, self.smartSql, self.path,self.beginKey,self.endKey,self.order,self.pageSize];
     }
 }
 

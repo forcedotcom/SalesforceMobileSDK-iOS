@@ -31,9 +31,9 @@
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSmartSqlHelper.h"
-#import "SFSoupCursor.h"
+#import "SFStoreCursor.h"
 #import "SFSoupIndex.h"
-#import "SFSoupQuerySpec.h"
+#import "SFQuerySpec.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStoreDatabaseManager.h"
 #import "UIDevice+SFHardware.h"
@@ -993,13 +993,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return returnId;
 }
 
-- (NSUInteger)countWithQuerySpec:(SFSoupQuerySpec*)querySpec
+- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
     NSUInteger result;
     
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+
+    NSLog(@"countWithQuerySpec: \nquerySpec:%@ \ncountSql:%@ \n", querySpec, countSql);
+    
     
     // Binds
     NSArray* binds = [querySpec bindsForQuerySpec];
@@ -1016,7 +1019,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 
-- (NSArray *)queryWithQuerySpec:(SFSoupQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
 {
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
 
@@ -1028,6 +1031,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* limitSql = [[NSArray arrayWithObjects:@"SELECT * FROM (", sql, @") LIMIT ", limit, nil] componentsJoinedByString:@""];
+    
+    NSLog(@"queryWithQuerySpec: \nquerySpec:%@ \npageIndex:%d \nlimitSql:%@ \n", querySpec, pageIndex, limitSql);
     
     // Binds
     NSArray* binds = [querySpec bindsForQuerySpec];
@@ -1067,16 +1072,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
     
-- (SFSoupCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName
+- (SFStoreCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName
 {
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
+    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
     if (nil == querySpec) {
         return nil;
     }
     
     NSUInteger totalEntries = [self  countWithQuerySpec:querySpec];
     
-    SFSoupCursor *result = [[SFSoupCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
+    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
     
     return [result autorelease];
