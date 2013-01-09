@@ -198,15 +198,15 @@
 + (void)clearSharedStoreMemoryState;
 
 /**
-   Queries a table for the given column data, based on the given clauses.
-   @param table The table to query.
-   @param columns The columns to return.
-   @param orderBy The column to order by.
-   @param limit The limit on number of rows to return.
-   @param whereClause The WHERE clause limiting the query.
-   @param whereArgs The arguments associated with the WHERE clause.
+ Queries a table for the given column data, based on the given clauses.
+ @param table The table to query.
+ @param columns The columns to return.
+ @param orderBy The column to order by.
+ @param limit The limit on number of rows to return.
+ @param whereClause The WHERE clause limiting the query.
+ @param whereArgs The arguments associated with the WHERE clause.
  
-   @return An FMResultSet with the rows matching the query.
+ @return An FMResultSet with the rows matching the query.
 */
 - (FMResultSet *)queryTable:(NSString*)table
 forColumns:(NSArray*)columns

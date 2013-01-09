@@ -70,6 +70,9 @@ static SFSmartSqlHelper *sharedInstance = nil;
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = [parts objectAtIndex:0];
             NSString* soupTableName = [store tableNameForSoup:soupName];
+            if (nil == soupTableName) {
+                return nil;
+            }
             BOOL tableQualified = [smartSql characterAtIndex:position-1] == '.';
             NSString* tableQualifier = tableQualified ? @"" : [soupTableName stringByAppendingString:@"."];
             
@@ -97,6 +100,9 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 // {soupName:path}
                 else {
                     NSString* columnName = [store columnNameForPath:path inSoup:soupName];
+                    if (nil == columnName) {
+                        return nil;
+                    }
                     [sql appendString:columnName];
                 }
             }

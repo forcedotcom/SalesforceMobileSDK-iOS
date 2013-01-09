@@ -122,6 +122,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
                 
         _indexSpecsBySoup = [[NSMutableDictionary alloc] init];
+        
+        _smartSqlToSql = [[NSMutableDictionary alloc] init];
 
         if (![self.class persistentStoreExists:name]) {
             if (![self firstTimeStoreDatabaseSetup]) {
@@ -148,6 +150,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     [self.storeDb close]; [_storeDb release]; _storeDb = nil;
     [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
+    [_smartSqlToSql release] ; _smartSqlToSql = nil;
     
     //remove data protection observer
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
@@ -619,7 +622,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*) convertSmartSql:(NSString*)smartSql
 {
-    return [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self];
+    NSLog(@"convertSmartSql:%@", smartSql);
+    NSObject* sql = [_smartSqlToSql objectForKey:smartSql];
+    
+    if (nil == sql) {
+        sql = [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self];
+        
+        // Conversion failed, putting the NULL in the cache so that we don't retry conversion
+        if (sql == nil) {
+            NSLog(@"convertSmartSql:putting NULL in cache");
+            [_smartSqlToSql setObject:[NSNull null] forKey:smartSql];
+        }
+        // Updating cache
+        else {
+            NSLog(@"convertSmartSql:putting %@ in cache", sql);
+            [_smartSqlToSql setObject:sql forKey:smartSql];
+        }
+    }
+    else if ([sql isEqual:[NSNull null]]) {
+        NSLog(@"convertSmartSql:found NULL in cache");
+        return nil;
+    }
+    
+    return (NSString*) sql;
 }
 
 - (FMResultSet *)queryTable:(NSString*)table 
@@ -892,8 +917,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 
-
 - (void)removeSoup:(NSString*)soupName {
+    NSLog(@"removeSoup: %@", soupName);
     NSString *soupTableName = [self tableNameForSoup:soupName];
     if (nil == soupTableName) 
         return;
@@ -914,10 +939,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [self.storeDb commit];
                     
         [_indexSpecsBySoup removeObjectForKey:soupName ];
-         
 
-        
-
+        // Cleanup _smartSqlToSql
+        NSString* soupRef = [[NSArray arrayWithObjects:@"{", soupName, @"@", nil] componentsJoinedByString:@""];
+        NSMutableArray* keysToRemove = [NSMutableArray array];
+        for (NSString* smartSql in [_smartSqlToSql allKeys]) {
+            if ([smartSql rangeOfString:soupRef].location != NSNotFound) {
+                [keysToRemove addObject:smartSql];
+                NSLog(@"removeSoup: removing cached sql for %@", smartSql);
+            }
+        }
+        [_smartSqlToSql removeObjectsForKeys:keysToRemove];
     }
     @catch (NSException *exception) {
         NSLog(@"exception removing soup: %@", exception);
@@ -995,20 +1027,19 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
+    NSLog(@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec);
     NSUInteger result;
-    
+
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+    NSLog(@"countWithQuerySpec: countSql:%@ \n", countSql);
 
-    NSLog(@"countWithQuerySpec: \nquerySpec:%@ \ncountSql:%@ \n", querySpec, countSql);
-    
-    
-    // Binds
-    NSArray* binds = [querySpec bindsForQuerySpec];
+    // Args
+    NSArray* args = [querySpec bindsForQuerySpec];
     
     // Executing query
-    FMResultSet *frs = [self.storeDb executeQuery:countSql withArgumentsInArray:binds];
+    FMResultSet *frs = [self.storeDb executeQuery:countSql withArgumentsInArray:args];
     if([frs next]) {
         result = [frs intForColumnIndex:0];
     }
@@ -1018,9 +1049,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
 {
+    NSLog(@"queryWithQuerySpec: \nquerySpec:%@ \n", querySpec);
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
 
     // Page
@@ -1031,14 +1062,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* limitSql = [[NSArray arrayWithObjects:@"SELECT * FROM (", sql, @") LIMIT ", limit, nil] componentsJoinedByString:@""];
-    
-    NSLog(@"queryWithQuerySpec: \nquerySpec:%@ \npageIndex:%d \nlimitSql:%@ \n", querySpec, pageIndex, limitSql);
-    
-    // Binds
-    NSArray* binds = [querySpec bindsForQuerySpec];
+    NSLog(@"queryWithQuerySpec: \nlimitSql:%@ \npageIndex:%d \n", limitSql, pageIndex);
 
+    // Args
+    NSArray* args = [querySpec bindsForQuerySpec];
+    
     // Executing query
-    FMResultSet *frs = [self.storeDb executeQuery:limitSql withArgumentsInArray:binds];
+    FMResultSet *frs = [self.storeDb executeQuery:limitSql withArgumentsInArray:args];
     while ([frs next]) {
         // Smart queries
         if (querySpec.queryType == kSFSoupQueryTypeSmart) {
@@ -1076,18 +1106,22 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
     if (nil == querySpec) {
+        // Problem already logged
+        return nil;
+    }
+    
+    NSString* sql = [self convertSmartSql:querySpec.smartSql];
+    if (nil == sql) {
+        // Problem already logged
         return nil;
     }
     
     NSUInteger totalEntries = [self  countWithQuerySpec:querySpec];
-    
     SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
     [querySpec release];
     
     return [result autorelease];
 }
-
-
 
 
 - (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds {

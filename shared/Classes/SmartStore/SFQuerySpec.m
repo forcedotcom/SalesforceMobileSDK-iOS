@@ -61,7 +61,6 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 @synthesize order = _order;
 @synthesize pageSize = _pageSize;
 
-
 + (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
     SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {

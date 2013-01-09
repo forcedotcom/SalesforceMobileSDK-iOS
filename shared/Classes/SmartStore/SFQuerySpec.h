@@ -66,7 +66,7 @@ typedef enum {
     // all
     SFSoupQueryType _queryType;
     NSUInteger _pageSize;
-    NSString *_smartSql; // provided for smart queries, computed for all others.
+    NSString* _smartSql; // provided for smart queries, computed for all others.
 
     // exact,range,like
     NSString *soupName;

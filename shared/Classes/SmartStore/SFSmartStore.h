@@ -52,7 +52,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
     NSString *_storeName;
     
     NSMutableDictionary *_indexSpecsBySoup;
-    
+    NSMutableDictionary *_smartSqlToSql;
 }
 
 /**
