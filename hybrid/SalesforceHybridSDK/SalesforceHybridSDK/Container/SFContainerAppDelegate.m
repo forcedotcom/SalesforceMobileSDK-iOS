@@ -36,7 +36,7 @@
 #import "CDVCommandDelegate.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.4.3";
+NSString * const kSFMobileSDKVersion = @"1.4.4";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
