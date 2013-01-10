@@ -44,12 +44,11 @@ static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 
-// TODO: Localized in the next release.
-static NSString * const kAlertErrorTitle = @"Salesforce Error";
-static NSString * const kAlertOkButton = @"OK";
-static NSString * const kAlertRetryButton = @"Retry";
-static NSString * const kAlertConnectionErrorFormatString = @"Can't connect to salesforce: %@";
-static NSString * const kAlertVersionMismatchError = @"Your app has been updated, and you will need to log in again to continue using the app.";
+static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
+static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
+static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
+static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
+static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
 @interface SFAuthenticationManager ()
 {
@@ -414,10 +413,10 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 {
     if (nil == _statusAlert) {
         // show alert and allow retry
-        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                  message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], error]
                                                  delegate:self
-                                        cancelButtonTitle:kAlertRetryButton
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
                                         otherButtonTitles: nil];
         _statusAlert.tag = tag;
         [_statusAlert show];
@@ -428,10 +427,10 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 {
     if (nil == _statusAlert) {
         // Show alert and execute failure block.
-        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                  message:kAlertVersionMismatchError
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
                                                  delegate:self
-                                        cancelButtonTitle:kAlertOkButton
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
                                         otherButtonTitles: nil];
         _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
         [_statusAlert show];
