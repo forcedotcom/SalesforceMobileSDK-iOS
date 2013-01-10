@@ -34,6 +34,7 @@
 #import "SFIdentityData.h"
 #import "SFLogger.h"
 #import "NSURL+SFAdditions.h"
+#import "SFSDKResourceUtils.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 

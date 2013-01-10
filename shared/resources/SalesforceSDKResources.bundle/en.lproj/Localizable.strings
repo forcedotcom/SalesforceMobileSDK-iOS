@@ -40,10 +40,6 @@
 "logoutNo" = "No";
 "logoutYes" = "Yes";
 
+// OAuth flow
 
-
-
-
-
-
-
+"authAlertErrorTitle" = "Salesforce Error";

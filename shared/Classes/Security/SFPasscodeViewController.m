@@ -26,6 +26,7 @@
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFPasscodeManager.h"
+#import "SFSDKResourceUtils.h"
 
 // Private view layout constants
 
@@ -44,9 +45,6 @@ static CGFloat      const kLabelPadding                     = 10.0f;
 static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
 static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
-
-// Localization table and bundle
-static NSString *   const kLocTable                         = @"Localizable";
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
@@ -219,17 +217,15 @@ static NSString *   const kLocTable                         = @"Localizable";
     self = [super init];
     if (self) {
         // Localized strings
-        NSString* sdkBundlePath = [[NSBundle mainBundle] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        NSBundle* sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-        _nextScreenNavButtonTitle         = NSLocalizedStringFromTableInBundle(@"nextScreenNavButtonTitle", kLocTable, sdkBundle, nil);
-        _prevScreenNavButtonTitle         = NSLocalizedStringFromTableInBundle(@"prevScreenNavButtonTitle", kLocTable, sdkBundle, nil);
-        _createPasscodeNavTitle           = NSLocalizedStringFromTableInBundle(@"createPasscodeNavTitle", kLocTable, sdkBundle, nil);
-        _confirmPasscodeNavTitle          = NSLocalizedStringFromTableInBundle(@"confirmPasscodeNavTitle", kLocTable, sdkBundle, nil);
-        _verifyPasscodeNavTitle           = NSLocalizedStringFromTableInBundle(@"verifyPasscodeNavTitle", kLocTable, sdkBundle, nil);
-        _passcodeCreateInstructions       = NSLocalizedStringFromTableInBundle(@"passcodeCreateInstructions", kLocTable, sdkBundle, nil);
-        _passcodeConfirmInstructions      = NSLocalizedStringFromTableInBundle(@"passcodeConfirmInstructions", kLocTable, sdkBundle, nil);
-        _passcodeVerifyInstructions       = NSLocalizedStringFromTableInBundle(@"passcodeVerifyInstructions", kLocTable, sdkBundle, nil);
-        _minPasscodeLengthError           = NSLocalizedStringFromTableInBundle(@"minPasscodeLengthError", kLocTable, sdkBundle, nil);
+        _nextScreenNavButtonTitle         = [[SFSDKResourceUtils localizedString:@"nextScreenNavButtonTitle"] copy];
+        _prevScreenNavButtonTitle         = [[SFSDKResourceUtils localizedString:@"prevScreenNavButtonTitle"] copy];
+        _createPasscodeNavTitle           = [[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"] copy];
+        _confirmPasscodeNavTitle          = [[SFSDKResourceUtils localizedString:@"confirmPasscodeNavTitle"] copy];
+        _verifyPasscodeNavTitle           = [[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"] copy];
+        _passcodeCreateInstructions       = [[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"] copy];
+        _passcodeConfirmInstructions      = [[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"] copy];
+        _passcodeVerifyInstructions       = [[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"] copy];
+        _minPasscodeLengthError           = [[SFSDKResourceUtils localizedString:@"minPasscodeLengthError"] copy];
         _passcodesDoNotMatchError         = NSLocalizedStringFromTableInBundle(@"passcodesDoNotMatchError", kLocTable, sdkBundle, nil);
         _passcodeInvalidError             = NSLocalizedStringFromTableInBundle(@"passcodeInvalidError", kLocTable, sdkBundle, nil);
         _forgotPasscodeTitle              = NSLocalizedStringFromTableInBundle(@"forgotPasscodeTitle", kLocTable, sdkBundle, nil);
