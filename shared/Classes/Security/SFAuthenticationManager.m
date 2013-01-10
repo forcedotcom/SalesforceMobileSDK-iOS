@@ -39,8 +39,16 @@ static SFAuthenticationManager *sharedInstance = nil;
 
 // Private constants
 
-static NSInteger  const kOAuthAlertViewTag    = 444;
+static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
+static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
+
+// TODO: Localized in the next release.
+static NSString * const kAlertErrorTitle = @"Salesforce Error";
+static NSString * const kAlertOkButton = @"OK";
+static NSString * const kAlertRetryButton = @"Retry";
+static NSString * const kAlertConnectionErrorFormatString = @"Can't connect to salesforce: %@";
+static NSString * const kAlertVersionMismatchError = @"Your app has been updated, and you will need to log in again to continue using the app.";
 
 @interface SFAuthenticationManager ()
 {
@@ -64,7 +72,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 /**
  Dismisses the authentication retry alert box, if present.
  */
-- (void)cleanupRetryAlert;
+- (void)cleanupStatusAlert;
 
 /**
  Method to present the authorizing view controller with the given auth webView.
@@ -106,6 +114,12 @@ static NSInteger  const kIdentityAlertViewTag = 555;
  @param tag The tag that identifies the process (OAuth or Identity).
  */
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag;
+
+/**
+ Displays an alert if the Connected App version on the server does not match the credentials of the client
+ app.
+ */
+- (void)showAlertForConnectedAppVersionMismatchError;
 
 @end
 
@@ -162,7 +176,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 - (void)dealloc
 {
-    [self cleanupRetryAlert];
+    [self cleanupStatusAlert];
     SFRelease(_statusAlert);
     SFRelease(_authViewController);
     SFRelease(_viewController);
@@ -327,7 +341,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     [[SFAccountManager sharedInstance].coordinator authenticate];
 }
 
-- (void)cleanupRetryAlert
+- (void)cleanupStatusAlert
 {
     [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
     [_statusAlert setDelegate:nil];
@@ -399,12 +413,26 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     if (nil == _statusAlert) {
         // show alert and allow retry
-        _statusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error"
-                                                  message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
+                                                  message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
                                                  delegate:self
-                                        cancelButtonTitle:@"Retry"
+                                        cancelButtonTitle:kAlertRetryButton
                                         otherButtonTitles: nil];
         _statusAlert.tag = tag;
+        [_statusAlert show];
+    }
+}
+
+- (void)showAlertForConnectedAppVersionMismatchError
+{
+    if (nil == _statusAlert) {
+        // Show alert and execute failure block.
+        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
+                                                  message:kAlertVersionMismatchError
+                                                 delegate:self
+                                        cancelButtonTitle:kAlertOkButton
+                                        otherButtonTitles: nil];
+        _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
         [_statusAlert show];
     }
 }
@@ -433,26 +461,30 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
     
-    BOOL showAlert = YES;
+    BOOL showRetryAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {
         if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
             // Restart the login process asynchronously.
-            showAlert = NO;
+            showRetryAlert = NO;
             [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
             [self execFailureBlock];
+        } else if (error.code == kSFOAuthErrorWrongVersion) {  // Connected App version mismatch.  Refresh token invalid.
+            showRetryAlert = NO;
+            [self log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+            [self showAlertForConnectedAppVersionMismatchError];
         } else if ([SFAccountManager errorIsNetworkFailure:error]) {
             // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
-            showAlert = NO;
+            showRetryAlert = NO;
             [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
             
             [self loggedIn];
         }
     }
     
-    if (showAlert) {
+    if (showRetryAlert) {
         // show alert and retry
         [[SFAccountManager sharedInstance] clearAccountState:NO];
-        [self showRetryAlertForAuthError:error alertTag:kOAuthAlertViewTag];
+        [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
     }
 }
 
@@ -474,11 +506,16 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     if (alertView == _statusAlert) {
         [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
-        if (alertView.tag == kOAuthAlertViewTag) {
+        if (alertView.tag == kOAuthGenericAlertViewTag) {
             [self dismissAuthViewControllerIfPresent:@selector(login)];
         } else if (alertView.tag == kIdentityAlertViewTag) {
             [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+        } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
+            // The OAuth failure block should be followed, after acknowledging the version mismatch.
+            [self execFailureBlock];
         }
+        
+        SFRelease(_statusAlert);
     }
 }
 
