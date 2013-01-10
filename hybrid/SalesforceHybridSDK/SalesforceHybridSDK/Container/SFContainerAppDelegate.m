@@ -257,7 +257,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [self configureHybridViewController];
     self.viewController.useSplashScreen = NO;
-    self.viewController.wwwFolderName = @"www";
+    self.viewController.wwwFolderName = [[self class] wwwFolderName;
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
     
