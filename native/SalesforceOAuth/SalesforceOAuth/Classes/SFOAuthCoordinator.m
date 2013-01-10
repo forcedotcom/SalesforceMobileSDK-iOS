@@ -81,6 +81,7 @@ static NSString * const kSFOAuthErrorTypeInactiveOrg                = @"inactive
 static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_limit_exceeded";
 static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
 static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
+static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -660,9 +661,12 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorRateLimitExceeded;
     }  else if ([type isEqualToString:kSFOAuthErrorTypeUnsupportedResponseType]) {
         code = kSFOAuthErrorUnsupportedResponseType;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout])
+    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout]) {
         code = kSFOAuthErrorTimeout;
-    
+    } else if ([type isEqualToString:kSFOAuthErrorTypeWrongVersion]) {
+        code = kSFOAuthErrorWrongVersion;
+    }
+
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
                                                                     description, kSFOAuthErrorDescription,
                                                                     localized,   NSLocalizedDescriptionKey,
