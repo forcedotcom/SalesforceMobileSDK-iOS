@@ -46,6 +46,9 @@ NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 // Private constants
 NSString * const kDefaultHybridAccountIdentifier = @"Default";
 
+NSString * const kDefaultWWW_FolderName = @"www";
+NSString * const kDefaultStartPage = @"bootstrap.html";
+
 // The default logging level of the app.
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
@@ -211,7 +214,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 + (NSString *) startPage
 {
-    return @"bootstrap.html";
+    return kDefaultStartPage;
+}
+
++ (NSString *) wwwFolderName
+{
+	return kDefaultWWW_FolderName;
 }
 
 - (void)setupUi
@@ -249,7 +257,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [self configureHybridViewController];
     self.viewController.useSplashScreen = NO;
-    self.viewController.wwwFolderName = @"www";
+    self.viewController.wwwFolderName = [[self class] wwwFolderName;
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
     
