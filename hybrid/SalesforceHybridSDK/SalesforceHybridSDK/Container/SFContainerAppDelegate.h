@@ -93,6 +93,11 @@ extern NSString * const kSFSmartStorePluginName;
 + (NSString *) startPage;
 
 /**
+ @return web folder for the hybrid application
+ */
++ (NSString *) wwwFolderName;
+
+/**
  * Initializes the view controller for the app.  Override this method if you want to initialize your
  * own class for `SFContainerAppDelegate.viewController`.
  */
