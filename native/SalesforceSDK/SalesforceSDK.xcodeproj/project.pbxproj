@@ -278,6 +278,8 @@
 		825C80B41562A01C00F94599 /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7D815629D33002F376C /* SFIdentityCoordinator.m */; };
 		825C80B61562A02100F94599 /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 829EF7DB15629D33002F376C /* SFIdentityData.m */; };
 		8266CB7F1562D80A0094D0BD /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8269D4B7169F7441005CF49E /* SFSDKResourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 8269D4B5169F7441005CF49E /* SFSDKResourceUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8269D4B8169F7441005CF49E /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8269D4B6169F7441005CF49E /* SFSDKResourceUtils.m */; };
 		829B80F615670CF40050465E /* SFNativeRestAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829B80F715670CF40050465E /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */; };
 		829B80F815670CF40050465E /* SFNativeRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 829B80F415670CF40050465E /* SFNativeRootViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -611,6 +613,8 @@
 		8243CF6015EC7C4200DC26A1 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
 		8243CF6115EC7C4200DC26A1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8266CB7E1562D80A0094D0BD /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKConstants.h; path = ../../../shared/Classes/Common/SalesforceSDKConstants.h; sourceTree = "<group>"; };
+		8269D4B5169F7441005CF49E /* SFSDKResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKResourceUtils.h; sourceTree = "<group>"; };
+		8269D4B6169F7441005CF49E /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		829B80F215670CF40050465E /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestAppDelegate.h; path = NativeApp/SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
 		829B80F315670CF40050465E /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestAppDelegate.m; path = NativeApp/SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
 		829B80F415670CF40050465E /* SFNativeRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRootViewController.h; path = NativeApp/SFNativeRootViewController.h; sourceTree = "<group>"; };
@@ -877,6 +881,8 @@
 		7DD88EEF14DA051F00C0D0A0 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				8269D4B5169F7441005CF49E /* SFSDKResourceUtils.h */,
+				8269D4B6169F7441005CF49E /* SFSDKResourceUtils.m */,
 				82F245CC167F9A370032B3D9 /* SFSDKWebUtils.h */,
 				82F245CD167F9A370032B3D9 /* SFSDKWebUtils.m */,
 				7DD88EF014DA051F00C0D0A0 /* SFJsonUtils.h */,
@@ -1555,6 +1561,7 @@
 				820275C7165170F700DB814C /* UILabel+SFAdditions.h in Headers */,
 				82D8B3AA166D43F300A34BAD /* SFAuthenticationManager.h in Headers */,
 				82F245CE167F9A370032B3D9 /* SFSDKWebUtils.h in Headers */,
+				8269D4B7169F7441005CF49E /* SFSDKResourceUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1705,6 +1712,7 @@
 				8201F34C15DEED4000976EC3 /* SFSmartStoreDatabaseManager.m in Sources */,
 				82D8B3AB166D43F300A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245CF167F9A370032B3D9 /* SFSDKWebUtils.m in Sources */,
+				8269D4B8169F7441005CF49E /* SFSDKResourceUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

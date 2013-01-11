@@ -313,7 +313,7 @@
 		823B009B169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
 		823B009C169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
 		823B009D169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
-		823B0130169E547C004CFBF9 /* SFSDKResourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 823B012E169E547C004CFBF9 /* SFSDKResourceUtils.h */; };
+		823B0130169E547C004CFBF9 /* SFSDKResourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 823B012E169E547C004CFBF9 /* SFSDKResourceUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		823B0131169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
 		823B0132169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
 		823B0133169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
