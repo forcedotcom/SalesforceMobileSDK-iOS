@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,29 +23,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Passcode view controller
+#import "SFSDKResourceUtils.h"
 
-"nextScreenNavButtonTitle" = "Next";
-"prevScreenNavButtonTitle" = "Back";
-"createPasscodeNavTitle" = "Create Passcode";
-"confirmPasscodeNavTitle" = "Confirm Passcode";
-"verifyPasscodeNavTitle" = "Verify Passcode";
-"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
-"passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
-"passcodeVerifyInstructions" = "Please enter your security passcode.";
-"minPasscodeLengthError" = "Your passcode must be at least %d characters long.";
-"passcodesDoNotMatchError" = "Passcodes do not match!";
-"passcodeInvalidError" = "The passcode you entered was invalid.";
-"forgotPasscodeTitle" = "Forgot Passcode?";
-"logoutAlertViewTitle" = "Are you sure you want to logout?";
-"logoutNo" = "No";
-"logoutYes" = "Yes";
+@implementation SFSDKResourceUtils
 
-// OAuth flow
++ (NSBundle *)mainSdkBundle
+{
+    // One instance.  This won't change during the lifetime of the app process.
+    static NSBundle *sdkBundle = nil;
+    if (sdkBundle == nil) {
+        NSString *sdkBundlePath = [[NSBundle mainBundle] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
+        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
+    }
+    
+    return sdkBundle;
+}
 
-"authAlertErrorTitle" = "Salesforce Error";
-"authAlertOkButton" = "OK";
-"authAlertRetryButton" = "Retry";
-"authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
-"authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
++ (NSString *)localizedString:(NSString *)localizationKey
+{
+    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
+    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
+    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
+}
 
+@end

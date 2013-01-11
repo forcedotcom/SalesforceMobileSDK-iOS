@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,29 +23,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Passcode view controller
+#import <Foundation/Foundation.h>
 
-"nextScreenNavButtonTitle" = "Next";
-"prevScreenNavButtonTitle" = "Back";
-"createPasscodeNavTitle" = "Create Passcode";
-"confirmPasscodeNavTitle" = "Confirm Passcode";
-"verifyPasscodeNavTitle" = "Verify Passcode";
-"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
-"passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
-"passcodeVerifyInstructions" = "Please enter your security passcode.";
-"minPasscodeLengthError" = "Your passcode must be at least %d characters long.";
-"passcodesDoNotMatchError" = "Passcodes do not match!";
-"passcodeInvalidError" = "The passcode you entered was invalid.";
-"forgotPasscodeTitle" = "Forgot Passcode?";
-"logoutAlertViewTitle" = "Are you sure you want to logout?";
-"logoutNo" = "No";
-"logoutYes" = "Yes";
+@interface SFSDKResourceUtils : NSObject
 
-// OAuth flow
+/**
+ * @return The main bundle associated with the SDK.
+ */
++ (NSBundle *)mainSdkBundle;
 
-"authAlertErrorTitle" = "Salesforce Error";
-"authAlertOkButton" = "OK";
-"authAlertRetryButton" = "Retry";
-"authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
-"authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
+/**
+ * Gets a localized string from the main bundle of the SDK.
+ * @param localizationKey The localization key used to look up the localized string.
+ * @return The localized string associated with the key.
+ */
++ (NSString *)localizedString:(NSString *)localizationKey;
 
+@end
