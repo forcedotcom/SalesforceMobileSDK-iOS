@@ -36,7 +36,7 @@
 #import "CDVCommandDelegate.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.4.4";
+NSString * const kSFMobileSDKVersion = @"1.4.5";
 NSString * const kUserAgentPropKey = @"UserAgent";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -257,7 +257,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     [self configureHybridViewController];
     self.viewController.useSplashScreen = NO;
-    self.viewController.wwwFolderName = [[self class] wwwFolderName;
+    self.viewController.wwwFolderName = [[self class] wwwFolderName];
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
     
