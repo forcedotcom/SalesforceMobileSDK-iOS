@@ -63,11 +63,4 @@
     [super sendEvent:event];
 }
 
-- (UIView*)createSnapshotView
-{
-    UIView* view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    view.backgroundColor = [UIColor whiteColor];
-    return view;
-}
-
 @end

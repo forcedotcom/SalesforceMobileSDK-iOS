@@ -40,6 +40,11 @@
  */
 - (void)logout;
 
+/**
+ * Creates a snapshot view.
+ */
+- (UIView*)createSnapshotView;
+
 @end
 
 /**
@@ -52,10 +57,5 @@
  * The date of the last user event in the application.
  */
 @property (nonatomic, readonly) NSDate *lastEventDate;
-
-/**
- * Creates a snapshot view.
- */
-- (UIView*)createSnapshotView;
 
 @end

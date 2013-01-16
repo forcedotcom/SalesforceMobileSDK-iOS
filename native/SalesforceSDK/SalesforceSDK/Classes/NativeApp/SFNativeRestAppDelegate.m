@@ -197,7 +197,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
-    self.snapshotView = [[SFApplication alloc] createSnapshotView];
+    self.snapshotView = [self createSnapshotView];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -221,6 +221,13 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         // refresh session or login for the first time
         [self login];
     }
+}
+
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
