@@ -1972,7 +1972,7 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</key>
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFStoreCursor.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -1982,7 +1982,7 @@
 			<string>SalesforceSDK</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFStoreCursor.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</key>
@@ -1998,7 +1998,7 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
 	</dict>
 
-	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</key>
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFQuerySpec.h</key>
 	<dict>
 		<key>Group</key>			
 		<array>
@@ -2008,9 +2008,21 @@
 			<string>SalesforceSDK</string>
 		</array>
 		<key>Path</key>
-		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFQuerySpec.h</string>
 	</dict>
 
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartSqlHelper.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartSqlHelper.h</string>
+	</dict>
 
 	<key>dependencies/sqlcipher/libsqlcipher.a</key>
 	<dict>
@@ -2354,9 +2366,10 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMResultSet.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStoreDatabaseManager.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartStore.h</string>
-	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupCursor.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFStoreCursor.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupIndex.h</string>
-	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSoupQuerySpec.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFQuerySpec.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSmartSqlHelper.h</string>
 	<string>dependencies/sqlcipher/libsqlcipher.a</string>
 	<string>dependencies/sqlcipher/LICENSE</string>
 	<string>dependencies/openssl/libcrypto.a</string>

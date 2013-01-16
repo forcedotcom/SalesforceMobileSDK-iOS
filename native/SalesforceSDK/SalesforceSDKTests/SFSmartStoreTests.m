@@ -26,8 +26,8 @@
 #import "SFJsonUtils.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
-#import "SFSoupQuerySpec.h"
-#import "SFSoupCursor.h"
+#import "SFQuerySpec.h"
+#import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
@@ -41,9 +41,6 @@ NSString * const kTestSmartStoreName   = @"testSmartStore";
 NSString * const kTestSoupName   = @"testSoup";
 
 @interface SFSmartStoreTests ()
-- (void) assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString*)message;
-- (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*)actual message:(NSString*)message;
-- (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*)actual message:(NSString*)message;
 - (BOOL) hasTable:(NSString*)tableName;
 - (void)createDbDir:(NSString *)dbName;
 - (FMDatabase *)openDatabase:(NSString *)dbName key:(NSString *)key openShouldFail:(BOOL)openShouldFail;
@@ -183,7 +180,7 @@ NSString * const kTestSoupName   = @"testSoup";
                               @"a/path", kQuerySpecParamIndexPath,
                               nil];
     
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryNoPageSize];
+    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
     NSUInteger querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
     [querySpec release];
@@ -193,7 +190,7 @@ NSString * const kTestSoupName   = @"testSoup";
                                         @"a/path", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithInt:expectedPageSize], kQuerySpecParamPageSize,
                                         nil];
-    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQueryWithPageSize];
+    querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
     querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
     [querySpec release];
@@ -210,8 +207,8 @@ NSString * const kTestSoupName   = @"testSoup";
                                           @"a/path", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithInt:evenDividePageSize], kQuerySpecParamPageSize,
                                           nil];
-    SFSoupQuerySpec *querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
-    SFSoupCursor *cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
+    SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     int cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
     [querySpec release];
@@ -224,8 +221,8 @@ NSString * const kTestSoupName   = @"testSoup";
                               @"a/path", kQuerySpecParamIndexPath,
                               [NSNumber numberWithInt:unevenDividePageSize], kQuerySpecParamPageSize,
                               nil];
-    querySpec = [[SFSoupQuerySpec alloc] initWithDictionary:allQuery];
-    cursor = [[SFSoupCursor alloc] initWithSoupName:@"test" store:nil querySpec:querySpec totalEntries:totalEntries];
+    querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
+    cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
     [querySpec release];
@@ -486,61 +483,6 @@ NSString * const kTestSoupName   = @"testSoup";
 }
 
 #pragma mark - helper methods
-
-- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message
-{
-    // At least one nil
-    if (expected == nil || actual == nil) {
-        // Both nil
-        if (expected == nil && actual == nil) {
-            return;
-        }
-        else {
-           STFail(message);
-        }
-    }
-    // Both arrays
-    else if ([expected isKindOfClass:[NSArray class]] && [actual isKindOfClass:[NSArray class]]) {
-        [self  assertSameJSONArrayWithExpected:(NSArray*) expected actual:(NSArray*) actual message:message];
-    }
-    // Both maps
-    else if ([expected isKindOfClass:[NSDictionary class]] && [actual isKindOfClass:[NSDictionary class]]) {
-        [self  assertSameJSONMapWithExpected:(NSDictionary*) expected actual:(NSDictionary*) actual message:message];        
-    }
-    // Strings/numbers/booleans
-    else {
-        STAssertEqualObjects(expected, actual, message);
-    }
-    
-}
-
-- (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message 
-{
-    // First compare length
-    NSUInteger expectedCount = [expected count];
-    NSUInteger actualCount = [actual count];
-    STAssertEquals(expectedCount, actualCount, message);
- 
-    // Compare values in array
-    for (int i=0; i<expectedCount; i++) {
-        [self assertSameJSONWithExpected:[expected objectAtIndex:i] actual:[actual objectAtIndex:i] message:message];
-    }
-}
-
-- (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*) actual message:(NSString*) message
-{
-    // First compare length
-    NSUInteger expectedCount = [expected count];
-    NSUInteger actualCount = [actual count];
-    STAssertEquals(expectedCount, actualCount, message);
-    
-    // Compare values in array
-    NSEnumerator* enumator = [expected keyEnumerator];
-    id key;
-    while (key = [enumator nextObject]) {
-        [self assertSameJSONWithExpected:[expected objectForKey:key] actual:[actual objectForKey:key] message:message];
-    }
-}
 
 - (BOOL) hasTable:(NSString*)tableName
 {

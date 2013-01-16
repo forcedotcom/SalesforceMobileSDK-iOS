@@ -105,19 +105,6 @@
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName;
 
 /**
- Generates range predicate from beginKey/endKey,likeKey, etc.
- @return The string representing the range predicate.
- */
-- (NSString *)keyRangePredicateForQuerySpec:(SFSoupQuerySpec*)querySpec columnName:(NSString *)columnName;
-
-/**
- Creates the array of query bindings, based on the query spec.
- @param querySpec The query spec with the data used to create the bindings.
- @return An array of query bindings.
- */
-- (NSArray *)bindsForQuerySpec:(SFSoupQuerySpec *)querySpec;
-
-/**
  Upserts one entry into the soup.
  @param entry The entry to upsert.
  @param soupName The name of the soup to upsert into.
@@ -220,12 +207,19 @@
  @param whereArgs The arguments associated with the WHERE clause.
  
  @return An FMResultSet with the rows matching the query.
- */
+*/
 - (FMResultSet *)queryTable:(NSString*)table
-                 forColumns:(NSArray*)columns
-                    orderBy:(NSString*)orderBy
-                      limit:(NSString*)limit
-                whereClause:(NSString*)whereClause
-                  whereArgs:(NSArray*)whereArgs;
+forColumns:(NSArray*)columns
+orderBy:(NSString*)orderBy
+limit:(NSString*)limit
+whereClause:(NSString*)whereClause
+whereArgs:(NSArray*)whereArgs;
+
+/**
+ Convert smart sql to sql.
+ @param smartSql The smart sql to convert.
+ @return The sql.
+ */
+- (NSString*) convertSmartSql:(NSString*)smartSql;
 
 @end
