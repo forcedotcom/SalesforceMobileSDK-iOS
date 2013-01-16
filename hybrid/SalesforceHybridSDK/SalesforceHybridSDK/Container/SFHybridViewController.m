@@ -88,10 +88,10 @@
         [SFSDKWebUtils configureUserAgent];
         
         [[SFAuthenticationManager sharedManager] login:self
-                                            completion:^{
+                                            completion:^(SFOAuthInfo *authInfo) {
                                                 [self authenticationCompletion:request.URL];
                                             }
-                                               failure:^{
+                                               failure:^(SFOAuthInfo *authInfo, NSError *error) {
                                                    [[SFAuthenticationManager sharedManager] logout];
                                                }
          ];
