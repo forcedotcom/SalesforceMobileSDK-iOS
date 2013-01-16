@@ -28,6 +28,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
 #import "SFLogger.h"
+#import "SalesforceSDKConstants.h"
 
 @class SFAuthorizingViewController;
 @class SFIdentityData;
@@ -38,8 +39,9 @@
  
  */
 
-@interface SFNativeRestAppDelegate : NSObject <SFSDKAppDelegate, SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, UIAlertViewDelegate> {
-    SFAuthorizingViewController *_authViewController;
+@interface SFNativeRestAppDelegate : NSObject <SFSDKAppDelegate>
+{
+    
 }
 
 /**
@@ -54,8 +56,9 @@
 
 /**
  View controller that gives the app some view state while authorizing.
+ Note: This property is deprecated.  You should override [SFAuthenticationManager sharedManager].authViewController instead.
  */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
+@property (nonatomic, retain) SFAuthorizingViewController *authViewController SFSDK_DEPRECATED(1.5, "Override [SFAuthenticationManager sharedManager].authViewController instead.");
 
 /**
  The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release
