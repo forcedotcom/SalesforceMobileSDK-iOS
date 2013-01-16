@@ -34,13 +34,21 @@
 #import "SFIdentityData.h"
 #import "SFLogger.h"
 #import "NSURL+SFAdditions.h"
+#import "SFSDKResourceUtils.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
 // Private constants
 
-static NSInteger  const kOAuthAlertViewTag    = 444;
+static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
+static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
+
+static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
+static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
+static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
+static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
+static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
 @interface SFAuthenticationManager ()
 {
@@ -53,18 +61,29 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 /**
  The block to be called when the OAuth process completes.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock completionBlock;
+@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock completionBlock;
 
 /**
  The block to be called if the OAuth process fails.  Note: failure is currently defined as
  a scenario where there are no valid credentials in the refresh flow.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock failureBlock;
+@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock failureBlock;
+
+/**
+ The auth info that gets sent back from OAuth.  This will be sent back to the login consumer.
+ */
+@property (nonatomic, retain) SFOAuthInfo *authInfo;
+
+/**
+ Any OAuth error information will get populated in this property and sent back to the consumer,
+ in the event of an OAuth failure.
+ */
+@property (nonatomic, retain) NSError *authError;
 
 /**
  Dismisses the authentication retry alert box, if present.
  */
-- (void)cleanupRetryAlert;
+- (void)cleanupStatusAlert;
 
 /**
  Method to present the authorizing view controller with the given auth webView.
@@ -107,6 +126,12 @@ static NSInteger  const kIdentityAlertViewTag = 555;
  */
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag;
 
+/**
+ Displays an alert if the Connected App version on the server does not match the credentials of the client
+ app.
+ */
+- (void)showAlertForConnectedAppVersionMismatchError;
+
 @end
 
 @implementation SFAuthenticationManager
@@ -115,6 +140,8 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 @synthesize authViewController = _authViewController;
 @synthesize statusAlert = _statusAlert;
 @synthesize completionBlock = _completionBlock, failureBlock = _failureBlock;
+@synthesize authInfo = _authInfo;
+@synthesize authError = _authError;
 
 #pragma mark - Singleton initialization / management
 
@@ -162,20 +189,22 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 
 - (void)dealloc
 {
-    [self cleanupRetryAlert];
+    [self cleanupStatusAlert];
     SFRelease(_statusAlert);
     SFRelease(_authViewController);
     SFRelease(_viewController);
     SFRelease(_completionBlock);
     SFRelease(_failureBlock);
+    SFRelease(_authInfo);
+    SFRelease(_authError);
     [super dealloc];
 }
 
 #pragma mark - Public methods
 
 - (void)login:(UIViewController *)presentingViewController
-   completion:(SFOAuthFlowCallbackBlock)completionBlock
-      failure:(SFOAuthFlowCallbackBlock)failureBlock
+   completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+      failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     NSAssert(presentingViewController != nil, @"Presenting view controller cannot be nil.");
     self.viewController = presentingViewController;
@@ -308,17 +337,21 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 - (void)execCompletionBlock
 {
     if (self.completionBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowSuccessCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
+        copiedBlock(self.authInfo);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)execFailureBlock
 {
     if (self.failureBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowFailureCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
+        copiedBlock(self.authInfo, self.authError);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)login
@@ -327,7 +360,7 @@ static NSInteger  const kIdentityAlertViewTag = 555;
     [[SFAccountManager sharedInstance].coordinator authenticate];
 }
 
-- (void)cleanupRetryAlert
+- (void)cleanupStatusAlert
 {
     [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
     [_statusAlert setDelegate:nil];
@@ -399,12 +432,26 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     if (nil == _statusAlert) {
         // show alert and allow retry
-        _statusAlert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error"
-                                                  message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], error]
                                                  delegate:self
-                                        cancelButtonTitle:@"Retry"
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
                                         otherButtonTitles: nil];
         _statusAlert.tag = tag;
+        [_statusAlert show];
+    }
+}
+
+- (void)showAlertForConnectedAppVersionMismatchError
+{
+    if (nil == _statusAlert) {
+        // Show alert and execute failure block.
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
+                                                 delegate:self
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
+                                        otherButtonTitles: nil];
+        _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
         [_statusAlert show];
     }
 }
@@ -426,33 +473,40 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
+    self.authInfo = info;
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
+    self.authInfo = info;
+    self.authError = error;
     
-    BOOL showAlert = YES;
+    BOOL showRetryAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {
         if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
             // Restart the login process asynchronously.
-            showAlert = NO;
+            showRetryAlert = NO;
             [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
             [self execFailureBlock];
+        } else if (error.code == kSFOAuthErrorWrongVersion) {  // Connected App version mismatch.  Refresh token invalid.
+            showRetryAlert = NO;
+            [self log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+            [self showAlertForConnectedAppVersionMismatchError];
         } else if ([SFAccountManager errorIsNetworkFailure:error]) {
             // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
-            showAlert = NO;
+            showRetryAlert = NO;
             [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
             
             [self loggedIn];
         }
     }
     
-    if (showAlert) {
+    if (showRetryAlert) {
         // show alert and retry
         [[SFAccountManager sharedInstance] clearAccountState:NO];
-        [self showRetryAlertForAuthError:error alertTag:kOAuthAlertViewTag];
+        [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
     }
 }
 
@@ -474,11 +528,16 @@ static NSInteger  const kIdentityAlertViewTag = 555;
 {
     if (alertView == _statusAlert) {
         [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
-        if (alertView.tag == kOAuthAlertViewTag) {
+        if (alertView.tag == kOAuthGenericAlertViewTag) {
             [self dismissAuthViewControllerIfPresent:@selector(login)];
         } else if (alertView.tag == kIdentityAlertViewTag) {
             [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+        } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
+            // The OAuth failure block should be followed, after acknowledging the version mismatch.
+            [self execFailureBlock];
         }
+        
+        SFRelease(_statusAlert);
     }
 }
 
