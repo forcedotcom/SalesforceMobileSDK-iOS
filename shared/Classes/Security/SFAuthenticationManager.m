@@ -61,13 +61,24 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 /**
  The block to be called when the OAuth process completes.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock completionBlock;
+@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock completionBlock;
 
 /**
  The block to be called if the OAuth process fails.  Note: failure is currently defined as
  a scenario where there are no valid credentials in the refresh flow.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock failureBlock;
+@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock failureBlock;
+
+/**
+ The auth info that gets sent back from OAuth.  This will be sent back to the login consumer.
+ */
+@property (nonatomic, retain) SFOAuthInfo *authInfo;
+
+/**
+ Any OAuth error information will get populated in this property and sent back to the consumer,
+ in the event of an OAuth failure.
+ */
+@property (nonatomic, retain) NSError *authError;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -129,6 +140,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize authViewController = _authViewController;
 @synthesize statusAlert = _statusAlert;
 @synthesize completionBlock = _completionBlock, failureBlock = _failureBlock;
+@synthesize authInfo = _authInfo;
+@synthesize authError = _authError;
 
 #pragma mark - Singleton initialization / management
 
@@ -182,14 +195,16 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     SFRelease(_viewController);
     SFRelease(_completionBlock);
     SFRelease(_failureBlock);
+    SFRelease(_authInfo);
+    SFRelease(_authError);
     [super dealloc];
 }
 
 #pragma mark - Public methods
 
 - (void)login:(UIViewController *)presentingViewController
-   completion:(SFOAuthFlowCallbackBlock)completionBlock
-      failure:(SFOAuthFlowCallbackBlock)failureBlock
+   completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+      failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     NSAssert(presentingViewController != nil, @"Presenting view controller cannot be nil.");
     self.viewController = presentingViewController;
@@ -322,17 +337,21 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execCompletionBlock
 {
     if (self.completionBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowSuccessCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
+        copiedBlock(self.authInfo);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)execFailureBlock
 {
     if (self.failureBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowFailureCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
+        copiedBlock(self.authInfo, self.authError);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)login
@@ -454,12 +473,15 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
+    self.authInfo = info;
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
+    self.authInfo = info;
+    self.authError = error;
     
     BOOL showRetryAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {
