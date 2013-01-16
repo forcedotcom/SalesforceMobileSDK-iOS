@@ -159,10 +159,10 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
     [SFSDKWebUtils configureUserAgent];
     
-    SFOAuthFlowCallbackBlock completionBlock = ^{
+    SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
         [self authenticationCompletion];
     };
-    SFOAuthFlowCallbackBlock failureBlock = ^{
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         [[SFAuthenticationManager sharedManager] logout];
     };
     [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];
