@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,45 +23,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFApplication.h"
-#import "SalesforceSDKConstants.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFApplication
+@interface SFSDKResourceUtils : NSObject
 
-@synthesize lastEventDate = _lastEventDate;
+/**
+ * @return The main bundle associated with the SDK.
+ */
++ (NSBundle *)mainSdkBundle;
 
-#pragma mark - init / dealloc / etc.
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _lastEventDate = [[NSDate alloc] init];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    SFRelease(_lastEventDate);
-    
-    [super dealloc];
-}
-
-#pragma mark - Event handling
-
-- (void)sendEvent:(UIEvent *)event
-{
-    NSSet *allTouches = [event allTouches];
-    if ([allTouches count] > 0) {
-        UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
-        if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
-            [_lastEventDate release];
-            _lastEventDate = [[NSDate alloc] init];
-        }
-    }
-    
-    [super sendEvent:event];
-}
+/**
+ * Gets a localized string from the main bundle of the SDK.
+ * @param localizationKey The localization key used to look up the localized string.
+ * @return The localized string associated with the key.
+ */
++ (NSString *)localizedString:(NSString *)localizationKey;
 
 @end

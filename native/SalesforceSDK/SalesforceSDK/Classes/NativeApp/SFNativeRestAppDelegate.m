@@ -23,7 +23,6 @@
  */
 
 #import "SFNativeRestAppDelegate.h"
-
 #import "SFOAuthCredentials.h"
 #import "SFAuthorizingViewController.h"
 #import "SFRestAPI.h"
@@ -37,8 +36,16 @@
 #import "SFOAuthInfo.h"
 #import "SFSDKWebUtils.h"
 
-static NSInteger  const kOAuthAlertViewTag    = 444;
+static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
+static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
+
+// TODO: Localized in the next release.
+static NSString * const kAlertErrorTitle = @"Salesforce Error";
+static NSString * const kAlertOkButton = @"OK";
+static NSString * const kAlertRetryButton = @"Retry";
+static NSString * const kAlertConnectionErrorFormatString = @"Can't connect to salesforce: %@";
+static NSString * const kAlertVersionMismatchError = @"Your app has been updated, and you will need to log in again to continue using the app.";
 
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
@@ -68,6 +75,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  page when the app is reset in situ.
  */
 @property (nonatomic, retain) UIView *baseView;
+
+/**
+ Snapshot view for the app.
+ */
+@property (nonatomic, retain) UIView *snapshotView;
 
 /**
  Present the authentication view and controller modally, for the User Agent flow.
@@ -114,15 +126,22 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  */
 - (void)finalizeAppBootstrap;
 
+/**
+ Displays an alert if the Connected App version on the server does not match the credentials of the client
+ app.
+ */
+- (void)showAlertForConnectedAppVersionMismatchError;
+
 @end
 
 @implementation SFNativeRestAppDelegate
 
-@synthesize authViewController=_authViewController;
-@synthesize  viewController = _viewController;
-@synthesize  window = _window;
+@synthesize authViewController= _authViewController;
+@synthesize viewController = _viewController;
+@synthesize window = _window;
 @synthesize baseView = _baseView;
 @synthesize appLogLevel = _appLogLevel;
+@synthesize snapshotView = _snapshotView;
 
 #pragma mark - init/dealloc
 
@@ -153,9 +172,9 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [_accountMgr clearAccountState:NO];
     SFRelease(_authViewController);
     SFRelease(_baseView);
+    SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
-    
 	[super dealloc];
 }
 
@@ -178,6 +197,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
+    self.snapshotView = [self createSnapshotView];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -203,9 +223,22 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
 }
 
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.viewController.view addSubview:self.snapshotView];
     [self prepareToShutDown];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self.snapshotView removeFromSuperview];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -411,6 +444,19 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
 }
 
+- (void)showAlertForConnectedAppVersionMismatchError
+{
+    // Show alert and execute failure block.
+    UIAlertView *statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
+                                                          message:kAlertVersionMismatchError
+                                                         delegate:self
+                                                cancelButtonTitle:kAlertOkButton
+                                                otherButtonTitles: nil];
+    statusAlert.tag = kConnectedAppVersionMismatchViewTag;
+    [statusAlert show];
+    [statusAlert release];
+}
+
 + (NSSet *)oauthScopes {
     return [NSSet setWithObjects:@"web",@"api",nil] ; 
 }
@@ -455,6 +501,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
             fatal = NO;
             NSLog(@"Logging out because oauth failed with error code: %d",error.code);
             [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+        } else if (error.code == kSFOAuthErrorWrongVersion) {  // Connected App version mismatch.  Refresh token invalid.
+            fatal = NO;
+            NSLog(@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code);
+            [self showAlertForConnectedAppVersionMismatchError];
         } else if ([SFAccountManager errorIsNetworkFailure:error]) {
             // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
             fatal = NO;
@@ -471,12 +521,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     
     if (fatal) {
         // show alert and retry
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                        message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
+                                                        message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
                                                        delegate:self
-                                              cancelButtonTitle:@"Retry"
+                                              cancelButtonTitle:kAlertRetryButton
                                               otherButtonTitles: nil];
-        alert.tag = kOAuthAlertViewTag;
+        alert.tag = kOAuthGenericAlertViewTag;
         [alert show];
         [alert release];
     }
@@ -491,10 +541,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Salesforce Error" 
-                                                    message:[NSString stringWithFormat:@"Can't connect to salesforce: %@", error]
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
+                                                    message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
                                                    delegate:self
-                                          cancelButtonTitle:@"Retry"
+                                          cancelButtonTitle:kAlertRetryButton
                                           otherButtonTitles: nil];
     alert.tag = kIdentityAlertViewTag;
     [alert show];
@@ -504,15 +554,18 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kOAuthAlertViewTag) {
+    if (alertView.tag == kOAuthGenericAlertViewTag) {
         [self dismissAuthViewControllerIfPresent:@selector(login)];
-    }
-    else if (alertView.tag == kIdentityAlertViewTag)
+    } else if (alertView.tag == kIdentityAlertViewTag) {
         [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
+    } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
+        // The logout flow should be followed, after acknowledging the version mismatch.
+        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
+    }
 }
 
 
-#pragma mark - Public 
+#pragma mark - Public
 
 - (NSString*)remoteAccessConsumerKey {
     NSLog(@"You must override this method in your subclass");
