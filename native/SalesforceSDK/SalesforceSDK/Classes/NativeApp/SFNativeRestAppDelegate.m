@@ -167,13 +167,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     return self;
 }
 
-- (UIView*)createSnapshotView
-{
-    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
-    view.backgroundColor = [UIColor whiteColor];
-    return view;
-}
-
 - (void)dealloc
 {
     [_accountMgr clearAccountState:NO];
@@ -204,7 +197,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
-    self.snapshotView = [self createSnapshotView];
+    self.snapshotView = [[SFApplication alloc] createSnapshotView];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -106,13 +106,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     return self;
 }
 
-- (UIView*)createSnapshotView
-{
-    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
-    view.backgroundColor = [UIColor whiteColor];
-    return view;
-}
-
 - (void)dealloc
 {
     SFRelease(_invokeString);
@@ -152,7 +145,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     } else if (loginHostChanged) {
         [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
-    self.snapshotView = [self createSnapshotView];
+    self.snapshotView = [[SFApplication alloc] createSnapshotView];
     return YES;
 }
 
@@ -272,7 +265,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController.wwwFolderName = [[self class] wwwFolderName];
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
-    
     self.window.rootViewController = self.viewController;
 }
 
