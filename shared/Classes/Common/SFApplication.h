@@ -53,4 +53,9 @@
  */
 @property (nonatomic, readonly) NSDate *lastEventDate;
 
+/**
+ * Creates a snapshot view.
+ */
+- (UIView*)createSnapshotView;
+
 @end

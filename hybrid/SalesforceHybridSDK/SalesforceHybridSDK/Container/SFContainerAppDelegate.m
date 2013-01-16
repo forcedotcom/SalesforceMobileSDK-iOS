@@ -76,6 +76,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  */
 - (void)prepareToShutDown;
 
+/**
+ Snapshot view for the app.
+ */
+@property (nonatomic, retain) UIView *snapshotView;
+
 @end
 
 @implementation SFContainerAppDelegate
@@ -83,6 +88,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 @synthesize appLogLevel = _appLogLevel;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize snapshotView = _snapshotView;
 
 #pragma mark - init/dealloc
 
@@ -100,12 +106,19 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     return self;
 }
 
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
 - (void)dealloc
 {
     SFRelease(_invokeString);
+    SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
-    
 	[ super dealloc ];
 }
 
@@ -139,7 +152,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     } else if (loginHostChanged) {
         [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
-    
+    self.snapshotView = [self createSnapshotView];
     return YES;
 }
 
@@ -195,7 +208,13 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.viewController.view addSubview:self.snapshotView];
     [self prepareToShutDown];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self.snapshotView removeFromSuperview];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

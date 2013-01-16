@@ -23,7 +23,6 @@
  */
 
 #import "SFNativeRestAppDelegate.h"
-
 #import "SFOAuthCredentials.h"
 #import "SFAuthorizingViewController.h"
 #import "SFRestAPI.h"
@@ -36,8 +35,6 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWebUtils.h"
-
-
 
 static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
@@ -78,6 +75,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  page when the app is reset in situ.
  */
 @property (nonatomic, retain) UIView *baseView;
+
+/**
+ Snapshot view for the app.
+ */
+@property (nonatomic, retain) UIView *snapshotView;
 
 /**
  Present the authentication view and controller modally, for the User Agent flow.
@@ -134,11 +136,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 @implementation SFNativeRestAppDelegate
 
-@synthesize authViewController=_authViewController;
-@synthesize  viewController = _viewController;
-@synthesize  window = _window;
+@synthesize authViewController= _authViewController;
+@synthesize viewController = _viewController;
+@synthesize window = _window;
 @synthesize baseView = _baseView;
 @synthesize appLogLevel = _appLogLevel;
+@synthesize snapshotView = _snapshotView;
 
 #pragma mark - init/dealloc
 
@@ -164,14 +167,21 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     return self;
 }
 
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
 - (void)dealloc
 {
     [_accountMgr clearAccountState:NO];
     SFRelease(_authViewController);
     SFRelease(_baseView);
+    SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
-    
 	[super dealloc];
 }
 
@@ -194,6 +204,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
+    self.snapshotView = [self createSnapshotView];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -221,7 +232,13 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.viewController.view addSubview:self.snapshotView];
     [self prepareToShutDown];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self.snapshotView removeFromSuperview];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
