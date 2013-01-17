@@ -39,8 +39,7 @@
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
-
-
+#import "SFLogger.h"
 
 static NSMutableDictionary *_allSharedStores;
 
@@ -95,7 +94,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     self = [super init];
     
     if (nil != self)  {
-        NSLog(@"SFSmartStore initWithStoreName: %@",name);
+        [self log:SFLogLevelDebug format:@"SFSmartStore initWithStoreName: %@",name];
         
          _storeName = [name retain];
         //Setup listening for data protection available / unavailable
@@ -107,7 +106,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                           object:nil
                                           queue:nil 
                                           usingBlock:^(NSNotification *note) {
-                                              NSLog(@"SFSmartStore UIApplicationProtectedDataDidBecomeAvailable");
+                                              [self log:SFLogLevelDebug format:@"SFSmartStore UIApplicationProtectedDataDidBecomeAvailable"];
                                               this->_dataProtectionKnownAvailable = YES;
                                           }];
         
@@ -116,7 +115,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                             object:nil
                                             queue:nil 
                                             usingBlock:^(NSNotification *note) {
-                                                NSLog(@"SFSmartStore UIApplicationProtectedDataWillBecomeUnavailable");
+                                                [self log:SFLogLevelDebug format:@"SFSmartStore UIApplicationProtectedDataWillBecomeUnavailable"];
                                                 this->_dataProtectionKnownAvailable = NO;
                                             }];
         
@@ -146,7 +145,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (void)dealloc {    
-    NSLog(@"dealloc store: '%@'",_storeName);
+    [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
     
     [self.storeDb close]; [_storeDb release]; _storeDb = nil;
     [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
@@ -170,7 +169,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
     if (![self isFileDataProtectionActive]) {
         //This is expected on simulator and when user does not have unlock passcode set 
-        NSLog(@"WARNING file data protection inactive when creating store db.");
+        [self log:SFLogLevelDebug format:@"WARNING file data protection inactive when creating store db."];
     }
     
     // Ensure that the store directory exists.
@@ -182,7 +181,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 [self.storeDb close]; [_storeDb release]; _storeDb = nil; // Need to close before setting encryption.
                 [[SFSmartStoreDatabaseManager sharedManager] protectStoreDir:self.storeName error:&protectErr];
                 if (protectErr != nil) {
-                    NSLog(@"Couldn't protect store: %@", protectErr);
+                    [self log:SFLogLevelDebug format:@"Couldn't protect store: %@", protectErr];
                 } else {
                     //reopen the storeDb now that it's protected
                     result = [self openStoreDatabase:NO];
@@ -192,7 +191,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     } 
     
     if (!result) {
-        NSLog(@"Deleting store dir since we can't set it up properly: %@", self.storeName);
+        [self log:SFLogLevelDebug format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
         [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:self.storeName];
         [self.class setUsesDefaultKey:NO forStore:self.storeName];
     }
@@ -218,7 +217,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             self.storeDb = db;
             result = YES;
         } else {
-            NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
+            [self log:SFLogLevelError format:kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]];
         }
     } else if (forCreation) {
         // For creation, we can just set the default key from the start.
@@ -229,7 +228,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             [self.class setUsesDefaultKey:YES forStore:self.storeName];
             result = YES;
         } else {
-            NSLog(kCreateDatabaseError, self.storeName, [openDbError localizedDescription]);
+            [self log:SFLogLevelError format:kCreateDatabaseError, self.storeName, [openDbError localizedDescription]];
         }
     } else {
         // For existing databases, we may need to update to the default encryption, if not updated already.
@@ -238,12 +237,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             // This DB is unencrypted.  Encrypt it before proceeding.
             db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:@"" error:&openDbError];
             if (!db) {
-                NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
+                [self log:SFLogLevelError format:kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]];
             } else {
                 NSError *encryptDbError = nil;
                 db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:self.storeName key:key error:&encryptDbError];
                 if (encryptDbError) {
-                    NSLog(kEncryptDatabaseError, self.storeName, [encryptDbError localizedDescription]);
+                    [self log:SFLogLevelError format:kEncryptDatabaseError, self.storeName, [encryptDbError localizedDescription]];
                 } else {
                     self.storeDb = db;
                     [self.class setUsesDefaultKey:YES forStore:self.storeName];
@@ -257,7 +256,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 self.storeDb = db;
                 result = YES;
             } else {
-                NSLog(kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]);
+                [self log:SFLogLevelError format:kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]];
             }
         }
     }
@@ -290,7 +289,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 + (void)removeSharedStoreWithName:(NSString*)storeName {
-    NSLog(@"removeSharedStoreWithName: %@", storeName);
+    [self log:SFLogLevelDebug format:@"removeSharedStoreWithName: %@", storeName];
     SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
     if (nil != existingStore) {
         [existingStore.storeDb close];
@@ -326,12 +325,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
         if (currentStore != nil) {
             // Existing store (whose DB should be initialized and open, if it's in _allSharedStores).
-            NSLog(@"Updating key for opened store '%@'", storeName);
+            [self log:SFLogLevelDebug format:@"Updating key for opened store '%@'", storeName];
             FMDatabase *updatedDb = [self changeKeyForDb:currentStore.storeDb name:storeName oldKey:oldKey newKey:newKey];
             currentStore.storeDb = updatedDb;
         } else {
             // Store database is not resident in memory.  Open it long enough to make the change, then close it.
-            NSLog(@"Updating key for store '%@' on filesystem", storeName);
+            [self log:SFLogLevelDebug format:@"Updating key for store '%@' on filesystem", storeName];
             NSString *keyUsedToOpen;
             if ([oldKey length] == 0) {
                 // No old key.  Are we using the default key?
@@ -349,7 +348,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                                                                                         key:keyUsedToOpen
                                                                                                       error:&openError];
             if (nonStoreDb == nil || openError != nil) {
-                NSLog(@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]);
+                [self log:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]];
             } else {
                 nonStoreDb = [self changeKeyForDb:nonStoreDb name:storeName oldKey:oldKey newKey:newKey];
             }
@@ -370,7 +369,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         if ([self usesDefaultKey:storeName]) {
             BOOL rekeyResult = [db rekey:newKey];
             if (!rekeyResult) {
-                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+                [self log:SFLogLevelError format:kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]];
             } else {
                 [self setUsesDefaultKey:NO forStore:storeName];
             }
@@ -380,7 +379,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSError *encryptDbError = nil;
             db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:storeName key:newKey error:&encryptDbError];
             if (encryptDbError != nil) {
-                NSLog(kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]);
+                [self log:SFLogLevelError format:kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]];
             }
             return db;
         }
@@ -390,7 +389,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             // User-defined new key.
             BOOL rekeyResult = [db rekey:newKey];
             if (!rekeyResult) {
-                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+                [self log:SFLogLevelError format:kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]];
             }
             return db;
         } else {
@@ -398,7 +397,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *defaultKey = [self defaultKey];
             BOOL rekeyResult = [db rekey:defaultKey];
             if (!rekeyResult) {
-                NSLog(kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]);
+                [self log:SFLogLevelError format:kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]];
             } else {
                 [self setUsesDefaultKey:YES forStore:storeName];
             }
@@ -419,7 +418,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                     COLUMN_TYPE_COL
                                     ];
     
-    NSLog(@"createSoupIndexTableSql: %@",createSoupIndexTableSql);
+    [self log:SFLogLevelDebug format:@"createSoupIndexTableSql: %@",createSoupIndexTableSql];
             
     
     // Create SOUP_NAMES_TABLE 
@@ -432,13 +431,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                     ];
 
     
-    NSLog(@"createSoupNamesTableSql: %@",createSoupNamesTableSql);
+    [self log:SFLogLevelDebug format:@"createSoupNamesTableSql: %@",createSoupNamesTableSql];
     
     // Create an index for SOUP_NAME_COL in SOUP_NAMES_TABLE
     NSString *createSoupNamesIndexSql = [NSString stringWithFormat:
                                         @"CREATE INDEX %@_0 on %@ ( %@ )", 
                                          SOUP_NAMES_TABLE, SOUP_NAMES_TABLE, SOUP_NAME_COL];
-    NSLog(@"createSoupNamesIndexSql: %@",createSoupNamesIndexSql);
+    [self log:SFLogLevelDebug format:@"createSoupNamesIndexSql: %@",createSoupNamesIndexSql];
     
     
     BOOL result = NO;
@@ -454,13 +453,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"Exception creating meta tables: %@", exception);
+        [self log:SFLogLevelError format:@"Exception creating meta tables: %@", exception];
     }
     @finally {
         if (!result) {
-            NSLog(@"ERROR %d creating meta tables: '%@'", 
+            [self log:SFLogLevelError format:@"ERROR %d creating meta tables: '%@'", 
             [self.storeDb lastErrorCode], 
-            [self.storeDb lastErrorMessage] );
+            [self.storeDb lastErrorMessage]];
         }
     }
     
@@ -552,7 +551,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", 
                            tableName, fieldNames, fieldValueMarkers];
-    //NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+    //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
     [fieldNames release]; [fieldValueMarkers release];
     BOOL result = [self.storeDb executeUpdate:insertSql withArgumentsInArray:binds];
     [binds release];
@@ -585,7 +584,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@ = ?",
                            tableName, fieldEntries, ID_COL];
-    //NSLog(@"upsertSql: %@ binds: %@",upsertSql,binds);
+    //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
     [fieldEntries release];
     BOOL result = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
     [binds release];
@@ -614,7 +613,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [frs close];
           
     if (nil == result) {
-        NSLog(@"Unknown index path '%@' in soup '%@' ",path,soupName);
+        [self log:SFLogLevelDebug format:@"Unknown index path '%@' in soup '%@' ",path,soupName];
     }
     return result;
 
@@ -622,7 +621,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*) convertSmartSql:(NSString*)smartSql
 {
-    NSLog(@"convertSmartSql:%@", smartSql);
+    [self log:SFLogLevelDebug format:@"convertSmartSQl:%@", smartSql];
     NSObject* sql = [_smartSqlToSql objectForKey:smartSql];
     
     if (nil == sql) {
@@ -630,17 +629,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
         // Conversion failed, putting the NULL in the cache so that we don't retry conversion
         if (sql == nil) {
-            NSLog(@"convertSmartSql:putting NULL in cache");
+            [self log:SFLogLevelDebug format:@"convertSmartSql:putting NULL in cache"];
             [_smartSqlToSql setObject:[NSNull null] forKey:smartSql];
         }
         // Updating cache
         else {
-            NSLog(@"convertSmartSql:putting %@ in cache", sql);
+            [self log:SFLogLevelDebug format:@"convertSmartSql:putting %@ in cache", sql];
             [_smartSqlToSql setObject:sql forKey:smartSql];
         }
     }
     else if ([sql isEqual:[NSNull null]]) {
-        NSLog(@"convertSmartSql:found NULL in cache");
+        [self log:SFLogLevelDebug format:@"convertSmartSql:found NULL in cache"];
         return nil;
     }
     
@@ -681,7 +680,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *result  = nil;
     
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_NAMES_TABLE,SOUP_NAME_COL];
-//    NSLog(@"tableName query: %@",sql);
+//    [self log:SFLogLevelDebug format:@"tableName query: %@",sql];
     FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
     
     if ([frs next]) {
@@ -689,7 +688,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         long soupId = [frs longForColumnIndex:colIdx];
         result = [self tableNameBySoupId:soupId];
     } else {
-        NSLog(@"No table for: '%@'",soupName);
+        [self log:SFLogLevelDebug format:@"No table for: '%@'",soupName];
     }
     [frs close];
     
@@ -729,7 +728,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                               PATH_COL, COLUMN_NAME_COL, COLUMN_TYPE_COL,
                               SOUP_INDEX_MAP_TABLE,
                               SOUP_NAME_COL];
-        NSLog(@"indices sql: %@",querySql);
+        [self log:SFLogLevelDebug format:@"indices sql: %@",querySql];
         FMResultSet *frs = [self.storeDb executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
         
         while([frs next]) {
@@ -748,7 +747,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     if (!(result.count > 0)) {
-        NSLog(@"no indices for '%@'",soupName);
+        [self log:SFLogLevelDebug format:@"no indices for '%@'",soupName];
     }
     return result;
 }
@@ -799,7 +798,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [self.storeDb rollback];
     
     if (nil == soupTableName) {
-        NSLog(@"couldn't properly register soupName: '%@' ",soupName);
+        [self log:SFLogLevelDebug format:@"couldn't properly register soupName: '%@' ",soupName];
     }
     
     return soupTableName;
@@ -811,12 +810,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     //verify soupName
     if (!([soupName length] > 0)) {
-        NSLog(@"Bogus soupName: '%@'",soupName);
+        [self log:SFLogLevelDebug format:@"Bogus soupName: '%@'",soupName];
         return result;
     }
     //verify indexSpecs
     if (!([indexSpecs count] > 0)) {
-        NSLog(@"Bogus indexSpecs: '%@'",indexSpecs);
+        [self log:SFLogLevelDebug format:@"Bogus indexSpecs: '%@'",indexSpecs];
         return result;
     }
     
@@ -830,7 +829,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil == soupTableName) {
         return result;
     } else {
-        NSLog(@"==== Creating %@ ('%@') ====",soupTableName,soupName);
+        [self log:SFLogLevelDebug format:@"==== Creating %@ ('%@') ====",soupTableName,soupName];
     }
     
     NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
@@ -851,7 +850,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString *columnName = [NSString stringWithFormat:@"%@_%d",soupTableName,i];
         NSString * columnType = [indexSpec columnType];
         [createTableStmt appendFormat:@", %@ %@ ",columnName,columnType];
-        NSLog(@"adding indexPath: %@ %@  ('%@')",columnName, columnType, [indexSpec path]);
+        [self log:SFLogLevelDebug format:@"adding indexPath: %@ %@  ('%@')",columnName, columnType, [indexSpec path]];
         
         // for inserting into meta mapping table
         NSMutableDictionary *values = [[NSMutableDictionary alloc] init ];
@@ -871,25 +870,25 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     [createTableStmt appendString:@")"];
-    NSLog(@"createTableStmt:\n %@",createTableStmt);
+    [self log:SFLogLevelDebug format:@"createTableStmt:\n %@",createTableStmt];
 
     if ([self.storeDb beginTransaction]) {
         // create the main soup table
         BOOL runOk = [self.storeDb  executeUpdate:createTableStmt];
         if (!runOk) {
-            NSLog(@"ERROR creating soup table  %d %@ stmt: %@", 
+            [self log:SFLogLevelError format:@"ERROR creating soup table  %d %@ stmt: %@", 
                   [self.storeDb lastErrorCode], 
                   [self.storeDb lastErrorMessage],
-                  createTableStmt);
+                  createTableStmt];
         } else {
             // create indices for this soup
             for (NSString *createIndexStmt in createIndexStmts) {
-                NSLog(@"createIndexStmt: %@",createIndexStmt);
+                [self log:SFLogLevelDebug format:@"createIndexStmt: %@",createIndexStmt];
                 runOk = [self.storeDb  executeUpdate:createIndexStmt];
                 if (!runOk) {
-                    NSLog(@"ERROR creating soup index  %d %@", 
+                    [self log:SFLogLevelError format:@"ERROR creating soup index  %d %@", 
                           [self.storeDb lastErrorCode], 
-                          [self.storeDb lastErrorMessage] );
+                          [self.storeDb lastErrorMessage]];
                     break;
                 }
             }
@@ -918,7 +917,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 
 - (void)removeSoup:(NSString*)soupName {
-    NSLog(@"removeSoup: %@", soupName);
+    [self log:SFLogLevelDebug format:@"removeSoup: %@", soupName];
     NSString *soupTableName = [self tableNameForSoup:soupName];
     if (nil == soupTableName) 
         return;
@@ -941,18 +940,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [_indexSpecsBySoup removeObjectForKey:soupName ];
 
         // Cleanup _smartSqlToSql
-        NSString* soupRef = [[NSArray arrayWithObjects:@"{", soupName, @"@", nil] componentsJoinedByString:@""];
+        NSString* soupRef = [[NSArray arrayWithObjects:@"{", soupName, @"}", nil] componentsJoinedByString:@""];
         NSMutableArray* keysToRemove = [NSMutableArray array];
         for (NSString* smartSql in [_smartSqlToSql allKeys]) {
             if ([smartSql rangeOfString:soupRef].location != NSNotFound) {
                 [keysToRemove addObject:smartSql];
-                NSLog(@"removeSoup: removing cached sql for %@", smartSql);
+                [self log:SFLogLevelDebug format:@"removeSoup: removing cached sql for %@", smartSql];
             }
         }
         [_smartSqlToSql removeObjectsForKeys:keysToRemove];
     }
     @catch (NSException *exception) {
-        NSLog(@"exception removing soup: %@", exception);
+        [self log:SFLogLevelDebug format:@"exception removing soup: %@", exception];
         [self.storeDb rollback];
     }
 
@@ -1027,13 +1026,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
-    NSLog(@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec);
+    [self log:SFLogLevelDebug format:@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec];
     NSUInteger result;
 
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
-    NSLog(@"countWithQuerySpec: countSql:%@ \n", countSql);
+    [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
 
     // Args
     NSArray* args = [querySpec bindsForQuerySpec];
@@ -1051,7 +1050,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
 {
-    NSLog(@"queryWithQuerySpec: \nquerySpec:%@ \n", querySpec);
+    [self log:SFLogLevelDebug format:@"queryWithQuerySpec: \nquerySpec:%@ \n", querySpec];
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
 
     // Page
@@ -1062,7 +1061,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];
     NSString* limitSql = [[NSArray arrayWithObjects:@"SELECT * FROM (", sql, @") LIMIT ", limit, nil] componentsJoinedByString:@""];
-    NSLog(@"queryWithQuerySpec: \nlimitSql:%@ \npageIndex:%d \n", limitSql, pageIndex);
+    [self log:SFLogLevelDebug format:@"queryWithQuerySpec: \nlimitSql:%@ \npageIndex:%d \n", limitSql, pageIndex];
 
     // Args
     NSArray* args = [querySpec bindsForQuerySpec];
@@ -1091,7 +1090,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSDictionary* valuesMap = [frs resultDictionary];
     for(int i=0; i<frs.columnCount; i++) {
         NSString* columnName = [frs columnNameForIndex:i];
-        NSObject* value = [valuesMap objectForKey:columnName];
+        id value = [valuesMap objectForKey:columnName];
         if ([columnName hasSuffix:SOUP_COL]) {
             [result addObject:[SFJsonUtils objectFromJSONString:(NSString*)value]];
         }
@@ -1137,7 +1136,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
     NSString *soupTableName = [self tableNameForSoup:soupName];
     if (nil == soupTableName) {
-        NSLog(@"Soup: '%@' does not exist",soupName);
+        [self log:SFLogLevelDebug format:@"Soup: '%@' does not exist",soupName];
         return result;
     }
     
@@ -1198,7 +1197,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                       newEntryId,
                       nil];
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupTableName, SOUP_COL, ID_COL];
-//    NSLog(@"updateSql: \n %@ \n binds: %@",updateSql,binds);
+//    [self log:SFLogLevelDebug format:@"updateSql: \n %@ \n binds: %@",updateSql,binds];
                 
     BOOL updateOk = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
     if (!updateOk) {
@@ -1282,7 +1281,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             if (error != nil && *error != nil) {
                 NSString *errorMsg = [NSString stringWithFormat:kSFSmartStoreExtIdLookupError,
                                       externalIdPath, fieldValue, [*error localizedDescription]];
-                NSLog(@"%@", errorMsg);
+                [self log:SFLogLevelDebug format:@"%@", errorMsg];
                 return nil;
             }
         }
@@ -1360,9 +1359,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                               soupTableName,pred];
         BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
         if (!ranOK) {
-            NSLog(@"ERROR %d deleting entries: '%@'", 
+            [self log:SFLogLevelError format:@"ERROR %d deleting entries: '%@'", 
                   [self.storeDb lastErrorCode], 
-                  [self.storeDb lastErrorMessage] );
+                  [self.storeDb lastErrorMessage]];
         }
     }
     
