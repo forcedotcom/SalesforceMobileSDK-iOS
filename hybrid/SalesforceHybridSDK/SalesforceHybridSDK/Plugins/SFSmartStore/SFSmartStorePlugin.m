@@ -28,7 +28,7 @@
 #import "NSDictionary+SFAdditions.h"
 
 #import "SFContainerAppDelegate.h"
-#import "SFSoupCursor.h"
+#import "SFStoreCursor.h"
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
 #import "CDVPluginResult.h"
@@ -97,7 +97,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 #pragma mark - Object bridging helpers
 
 
-- (SFSoupCursor*)cursorByCursorId:(NSString*)cursorId
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId
 {
     return [_cursorCache objectForKey:cursorId];
 }
@@ -105,7 +105,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 - (void)closeCursorWithId:(NSString *)cursorId
 {
-    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
     if (nil != cursor) {
         [cursor close];
         [self.cursorCache removeObjectForKey:cursorId];
@@ -175,7 +175,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     
-    SFSoupCursor *cursor =  [self.store querySoup:soupName withQuerySpec:querySpec];    
+    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:soupName];
     NSLog(@"pgQuerySoup returning: %@",cursor);
 
     if (nil != cursor) {
@@ -189,6 +189,30 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
 }
+
+- (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command
+{
+    NSDate *startTime = [NSDate date];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRunSmartQuery" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
+    
+    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil];
+    NSLog(@"pgRunSmartQuery returning: %@",cursor);
+    
+    if (nil != cursor) {
+        //cache this cursor for later paging
+        [self.cursorCache setObject:cursor forKey:cursor.cursorId];
+        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
+        NSLog(@"pgRunSmartQuery retrieved %d pages in %f",[cursor.totalPages integerValue], [startTime timeIntervalSinceNow]);
+    } else {
+        NSLog(@"No cursor for query: %@", querySpec);
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
+}
+
 
 - (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command
 {
@@ -277,7 +301,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
     NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
     
-    SFSoupCursor *cursor = [self cursorByCursorId:cursorId];
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
     [cursor setCurrentPageIndex:newPageIndex];
     
     [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];    
