@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 #import "SFSmartStoreTestCase.h"
 #import "SFSmartStore.h"
 
-@interface SFSmartStoreTests : SFSmartStoreTestCase {
+@interface SFSmartSqlTests : SFSmartStoreTestCase {
     SFSmartStore* _store;
 }
 @end
