@@ -316,6 +316,15 @@
 		82381A201587FE7E007C0D86 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82381A121587FAAE007C0D86 /* libsqlcipher.a */; };
 		82381A211587FE83007C0D86 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F11587FA2E007C0D86 /* libcrypto.a */; };
 		82381A221587FE86007C0D86 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 823818F21587FA2E007C0D86 /* libssl.a */; };
+		823B009A169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
+		823B009B169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
+		823B009C169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
+		823B009D169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */; };
+		823B0130169E547C004CFBF9 /* SFSDKResourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 823B012E169E547C004CFBF9 /* SFSDKResourceUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		823B0131169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
+		823B0132169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
+		823B0133169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
+		823B0134169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */; };
 		8248E063157D0CC400A7FE69 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
 		8248E064157D0CC500A7FE69 /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BB1577EF57007C20B9 /* SFAccountManager.m */; };
 		8248E069157D103000A7FE69 /* SFSecurityLockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 822AC0BF1577EF57007C20B9 /* SFSecurityLockout.m */; };
@@ -837,6 +846,9 @@
 		8238193F1587FA2F007C0D86 /* openssl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openssl_license.txt; sourceTree = "<group>"; };
 		82381A121587FAAE007C0D86 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
 		82381A131587FAAE007C0D86 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		823B012E169E547C004CFBF9 /* SFSDKResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKResourceUtils.h; sourceTree = "<group>"; };
+		823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		824B4E26157D21E50017229C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82599EDE15EC284000AAACF7 /* SFSmartStoreDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreDatabaseManager.h; path = ../../../../../shared/Classes/SmartStore/SFSmartStoreDatabaseManager.h; sourceTree = "<group>"; };
 		82599EDF15EC284000AAACF7 /* SFSmartStoreDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreDatabaseManager.m; path = ../../../../../shared/Classes/SmartStore/SFSmartStoreDatabaseManager.m; sourceTree = "<group>"; };
@@ -1140,6 +1152,7 @@
 				7D45E35314BFB3FD002C4A27 /* dependencies */,
 				822AC0C61577EF9F007C20B9 /* Identity */,
 				7D45E31E14BFB394002C4A27 /* Plugins */,
+				823B0098169E4D1B004CFBF9 /* Resources */,
 				822AC0B91577EF06007C20B9 /* Security */,
 				7DD88EE914DA044E00C0D0A0 /* util */,
 				7D45E2ED14BFB259002C4A27 /* Supporting Files */,
@@ -1427,6 +1440,8 @@
 				7DD88EEB14DA044E00C0D0A0 /* SFJsonUtils.m */,
 				82F245C1167BDECE0032B3D9 /* SFSDKWebUtils.h */,
 				82F245C2167BDECE0032B3D9 /* SFSDKWebUtils.m */,
+				823B012E169E547C004CFBF9 /* SFSDKResourceUtils.h */,
+				823B012F169E547C004CFBF9 /* SFSDKResourceUtils.m */,
 			);
 			name = util;
 			path = ../../../shared/Classes/util;
@@ -1651,6 +1666,14 @@
 				82381A131587FAAE007C0D86 /* LICENSE */,
 			);
 			path = sqlcipher;
+			sourceTree = "<group>";
+		};
+		823B0098169E4D1B004CFBF9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				823B0099169E4D4C004CFBF9 /* SalesforceSDKResources.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		825DF4E715FE526C003FB016 /* SalesforceOAuth */ = {
@@ -1944,6 +1967,7 @@
 				4FBB0775169B6D0300E1D539 /* SFSmartSqlHelper.h in Headers */,
 				4FBB0798169CC47300E1D539 /* SFQuerySpec.h in Headers */,
 				4FBB079A169CC47300E1D539 /* SFStoreCursor.h in Headers */,
+				823B0130169E547C004CFBF9 /* SFSDKResourceUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2145,6 +2169,7 @@
 				7D20FC3314ED98F000A86731 /* www in Resources */,
 				82B9FD1915E45C7600BE8822 /* test_credentials.json in Resources */,
 				829545FB167A7B0600A0FC34 /* config.xml in Resources */,
+				823B009D169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2164,6 +2189,7 @@
 				821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */,
 				8238198D1587FA2F007C0D86 /* openssl_license.txt in Resources */,
 				82381A151587FAAE007C0D86 /* LICENSE in Resources */,
+				823B009A169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2177,6 +2203,7 @@
 				82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */,
 				82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */,
 				829545F7167A798400A0FC34 /* config.xml in Resources */,
+				823B009B169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2199,6 +2226,7 @@
 				82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */,
 				82B9FD1815E45C7600BE8822 /* test_credentials.json in Resources */,
 				829545FA167A7B0600A0FC34 /* config.xml in Resources */,
+				823B009C169E4D4C004CFBF9 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2362,6 +2390,7 @@
 				4FBB077A169B6D1800E1D539 /* SFSmartSqlHelper.m in Sources */,
 				4FBB079E169CC48700E1D539 /* SFQuerySpec.m in Sources */,
 				4FBB07A1169CC48C00E1D539 /* SFStoreCursor.m in Sources */,
+				823B0134169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2409,6 +2438,7 @@
 				4FBB0776169B6D0300E1D539 /* SFSmartSqlHelper.m in Sources */,
 				4FBB0799169CC47300E1D539 /* SFQuerySpec.m in Sources */,
 				4FBB079B169CC47300E1D539 /* SFStoreCursor.m in Sources */,
+				823B0131169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2446,6 +2476,7 @@
 				4FBB0778169B6D1600E1D539 /* SFSmartSqlHelper.m in Sources */,
 				4FBB079C169CC48500E1D539 /* SFQuerySpec.m in Sources */,
 				4FBB079F169CC48A00E1D539 /* SFStoreCursor.m in Sources */,
+				823B0132169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2497,6 +2528,7 @@
 				4FBB0779169B6D1700E1D539 /* SFSmartSqlHelper.m in Sources */,
 				4FBB079D169CC48600E1D539 /* SFQuerySpec.m in Sources */,
 				4FBB07A0169CC48B00E1D539 /* SFStoreCursor.m in Sources */,
+				823B0133169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

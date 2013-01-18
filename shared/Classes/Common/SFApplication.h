@@ -40,6 +40,11 @@
  */
 - (void)logout;
 
+/**
+ * Creates a snapshot view.
+ */
+- (UIView*)createSnapshotView;
+
 @end
 
 /**

@@ -40,10 +40,11 @@
 "logoutNo" = "No";
 "logoutYes" = "Yes";
 
+// OAuth flow
 
-
-
-
-
-
+"authAlertErrorTitle" = "Salesforce Error";
+"authAlertOkButton" = "OK";
+"authAlertRetryButton" = "Retry";
+"authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
+"authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 

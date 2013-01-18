@@ -1,5 +1,6 @@
 /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,45 +23,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFApplication.h"
-#import "SalesforceSDKConstants.h"
+#import "SFSDKResourceUtils.h"
 
-@implementation SFApplication
+@implementation SFSDKResourceUtils
 
-@synthesize lastEventDate = _lastEventDate;
-
-#pragma mark - init / dealloc / etc.
-
-- (id)init
++ (NSBundle *)mainSdkBundle
 {
-    self = [super init];
-    if (self) {
-        _lastEventDate = [[NSDate alloc] init];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    SFRelease(_lastEventDate);
-    
-    [super dealloc];
-}
-
-#pragma mark - Event handling
-
-- (void)sendEvent:(UIEvent *)event
-{
-    NSSet *allTouches = [event allTouches];
-    if ([allTouches count] > 0) {
-        UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
-        if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
-            [_lastEventDate release];
-            _lastEventDate = [[NSDate alloc] init];
-        }
+    // One instance.  This won't change during the lifetime of the app process.
+    static NSBundle *sdkBundle = nil;
+    if (sdkBundle == nil) {
+        NSString *sdkBundlePath = [[NSBundle mainBundle] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
+        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
     }
     
-    [super sendEvent:event];
+    return sdkBundle;
+}
+
++ (NSString *)localizedString:(NSString *)localizationKey
+{
+    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
+    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
+    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
 }
 
 @end
