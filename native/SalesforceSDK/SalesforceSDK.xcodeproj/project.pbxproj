@@ -106,9 +106,9 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		826FB8BB16B35574001AAEF9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 0;
 			files = (
 				826FB96916B35BFA001AAEF9 /* SFApplication.h in CopyFiles */,
 				826FB96A16B35C02001AAEF9 /* SFIdentityCoordinator.h in CopyFiles */,
@@ -133,7 +133,7 @@
 				826FB97E16B35DAE001AAEF9 /* SFSmartStoreDatabaseManager.h in CopyFiles */,
 				826FB97F16B35DC1001AAEF9 /* SFSDKResourceUtils.h in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -1203,6 +1203,97 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8269D56916B46FD3005CF49E /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Test;
+		};
+		8269D56A16B46FD3005CF49E /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_LOCATION = NO;
+				DSTROOT = /tmp/SalesforceSDK.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"UNIT_TESTS=1",
+					"$(inherited)",
+				);
+				INSTALL_PATH = /;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/RestKit\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				SKIP_INSTALL = NO;
+			};
+			name = Test;
+		};
+		8269D56B16B46FD3005CF49E /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../dependencies/RestKit\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/SalesforceOAuth/Libraries\"",
+					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../dependencies/openssl\"",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				OTHER_TEST_FLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				TEST_AFTER_BUILD = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Test;
+		};
 		826FB8E016B35574001AAEF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1251,9 +1342,11 @@
 		826FB8E316B35574001AAEF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
@@ -1262,18 +1355,23 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
 		826FB8E416B35574001AAEF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../dependencies/SalesforceCommonUtils/Libraries\"",
@@ -1282,9 +1380,11 @@
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 				);
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -1297,6 +1397,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceSDK/SalesforceSDK-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "SalesforceSDKTests/SalesforceSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1306,15 +1410,15 @@
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
-				OTHER_CFLAGS = (
-					"-DSQLITE_HAS_CODEC",
-					"-DUNIT_TESTS",
-				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
+				OTHER_TEST_FLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -1337,15 +1441,15 @@
 					"\"$(SRCROOT)/../dependencies/sqlcipher\"",
 					"\"$(SRCROOT)/../dependencies/openssl\"",
 				);
-				OTHER_CFLAGS = (
-					"-DSQLITE_HAS_CODEC",
-					"-DUNIT_TESTS",
-				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
+				OTHER_TEST_FLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceSDK;
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -1357,6 +1461,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				826FB8E016B35574001AAEF9 /* Debug */,
+				8269D56916B46FD3005CF49E /* Test */,
 				826FB8E116B35574001AAEF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1366,17 +1471,21 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				826FB8E316B35574001AAEF9 /* Debug */,
+				8269D56A16B46FD3005CF49E /* Test */,
 				826FB8E416B35574001AAEF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		826FB8E516B35574001AAEF9 /* Build configuration list for PBXNativeTarget "SalesforceSDKTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				826FB8E616B35574001AAEF9 /* Debug */,
+				8269D56B16B46FD3005CF49E /* Test */,
 				826FB8E716B35574001AAEF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
