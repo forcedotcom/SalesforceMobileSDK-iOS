@@ -109,7 +109,7 @@
  
         <!-- build and run the actual test target -->
         <exec executable="xcodebuild" failonerror="false" resultproperty="utestResult" >
-            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target SalesforceSDKTests -configuration Test CONFIGURATION_BUILD_DIR=&quot;${artifacts.dir}/BuildProducts&quot; -sdk iphonesimulator build" />
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target SalesforceSDKTests -configuration ${configuration.debug} CONFIGURATION_BUILD_DIR=&quot;${artifacts.dir}/BuildProducts&quot; -sdk iphonesimulator build" />
         </exec>
        		
 		<!-- gcda coverage files are now output to i${artifacts.dir}/BuildProducts/coverage -->
