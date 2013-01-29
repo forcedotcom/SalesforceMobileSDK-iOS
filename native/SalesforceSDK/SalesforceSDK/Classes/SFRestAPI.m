@@ -156,11 +156,7 @@ static dispatch_once_t _sharedInstanceGuard;
     
     // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
     // really doesn't want you to know about its HTTP headers.
-#ifndef UNIT_TESTS
     NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
-#else
-    NSString *currentUserAgent = @"Unit test runner";
-#endif
     
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
