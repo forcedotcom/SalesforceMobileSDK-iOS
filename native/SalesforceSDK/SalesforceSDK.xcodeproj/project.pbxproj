@@ -100,6 +100,8 @@
 		82DB7E7316B7311700FE9F21 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FBA0816B35EB1001AAEF9 /* libcrypto.a */; };
 		82DB7E7416B7311C00FE9F21 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FBA0916B35EB1001AAEF9 /* libssl.a */; };
 		82DB7E7516B7312400FE9F21 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB9A116B35E34001AAEF9 /* libSalesforceCommonUtils.a */; };
+		82DB7EDF16B87C7F00FE9F21 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DB7EDE16B87C7F00FE9F21 /* SFSDKCryptoUtils.m */; };
+		82DB7EE316B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -471,6 +473,10 @@
 		82DB7E5916B72FB900FE9F21 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		82DB7E5C16B72FB900FE9F21 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		82DB7E5F16B72FB900FE9F21 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		82DB7EDD16B87C7F00FE9F21 /* SFSDKCryptoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKCryptoUtils.h; sourceTree = "<group>"; };
+		82DB7EDE16B87C7F00FE9F21 /* SFSDKCryptoUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtils.m; sourceTree = "<group>"; };
+		82DB7EE116B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKCryptoUtilsTests.h; sourceTree = "<group>"; };
+		82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtilsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -592,6 +598,8 @@
 				826FB95C16B35A81001AAEF9 /* SalesforceSDKIdentityTests.m */,
 				826FB8DD16B35574001AAEF9 /* SalesforceSDKTests.h */,
 				826FB8DE16B35574001AAEF9 /* SalesforceSDKTests.m */,
+				82DB7EE116B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.h */,
+				82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */,
 				826FB95D16B35A81001AAEF9 /* SFSmartStoreTests.h */,
 				826FB95E16B35A81001AAEF9 /* SFSmartStoreTests.m */,
 				826FB95F16B35A81001AAEF9 /* TestRequestListener.h */,
@@ -715,6 +723,8 @@
 				826FB93516B359F8001AAEF9 /* NSURL+SFStringUtils.m */,
 				826FB93616B359F8001AAEF9 /* SFJsonUtils.h */,
 				826FB93716B359F8001AAEF9 /* SFJsonUtils.m */,
+				82DB7EDD16B87C7F00FE9F21 /* SFSDKCryptoUtils.h */,
+				82DB7EDE16B87C7F00FE9F21 /* SFSDKCryptoUtils.m */,
 				826FB93816B359F8001AAEF9 /* SFSDKResourceUtils.h */,
 				826FB93916B359F8001AAEF9 /* SFSDKResourceUtils.m */,
 				826FB93A16B359F8001AAEF9 /* SFSDKWebUtils.h */,
@@ -1265,6 +1275,7 @@
 				826FB95816B35A35001AAEF9 /* SFRestAPI.m in Sources */,
 				826FB95916B35A35001AAEF9 /* SFRestRequest.m in Sources */,
 				826FB95A16B35A35001AAEF9 /* SFSessionRefresher.m in Sources */,
+				82DB7EDF16B87C7F00FE9F21 /* SFSDKCryptoUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1277,6 +1288,7 @@
 				826FB96416B35A81001AAEF9 /* SFSmartStoreTests.m in Sources */,
 				826FB96516B35A81001AAEF9 /* TestRequestListener.m in Sources */,
 				826FB96616B35A81001AAEF9 /* TestSetupUtils.m in Sources */,
+				82DB7EE316B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
