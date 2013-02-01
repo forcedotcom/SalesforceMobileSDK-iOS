@@ -102,6 +102,7 @@
 		82DB7E7516B7312400FE9F21 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB9A116B35E34001AAEF9 /* libSalesforceCommonUtils.a */; };
 		82DB7EDF16B87C7F00FE9F21 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DB7EDE16B87C7F00FE9F21 /* SFSDKCryptoUtils.m */; };
 		82DB7EE316B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */; };
+		82FE223D16BB2EF400C4AEDD /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FE223C16BB2EF400C4AEDD /* SFPBKDFData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -477,6 +478,8 @@
 		82DB7EDE16B87C7F00FE9F21 /* SFSDKCryptoUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtils.m; sourceTree = "<group>"; };
 		82DB7EE116B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKCryptoUtilsTests.h; sourceTree = "<group>"; };
 		82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtilsTests.m; sourceTree = "<group>"; };
+		82FE223B16BB2EF400C4AEDD /* SFPBKDFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPBKDFData.h; sourceTree = "<group>"; };
+		82FE223C16BB2EF400C4AEDD /* SFPBKDFData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPBKDFData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -658,6 +661,8 @@
 				826FB8FD16B358F3001AAEF9 /* SFSecurityLockout+Internal.h */,
 				826FB8FE16B358F3001AAEF9 /* SFSecurityLockout.h */,
 				826FB8FF16B358F3001AAEF9 /* SFSecurityLockout.m */,
+				82FE223B16BB2EF400C4AEDD /* SFPBKDFData.h */,
+				82FE223C16BB2EF400C4AEDD /* SFPBKDFData.m */,
 			);
 			name = Security;
 			path = ../../../shared/Classes/Security;
@@ -1276,6 +1281,7 @@
 				826FB95916B35A35001AAEF9 /* SFRestRequest.m in Sources */,
 				826FB95A16B35A35001AAEF9 /* SFSessionRefresher.m in Sources */,
 				82DB7EDF16B87C7F00FE9F21 /* SFSDKCryptoUtils.m in Sources */,
+				82FE223D16BB2EF400C4AEDD /* SFPBKDFData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
