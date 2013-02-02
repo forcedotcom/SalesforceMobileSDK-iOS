@@ -12,6 +12,8 @@
 
 @property (nonatomic, retain) NSData *derivedKey;
 @property (nonatomic, retain) NSData *salt;
-@property (nonatomic, assign) NSUInteger *numDerivationRounds;
+@property (nonatomic, assign) NSUInteger numDerivationRounds;
+
+- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds;
 
 @end

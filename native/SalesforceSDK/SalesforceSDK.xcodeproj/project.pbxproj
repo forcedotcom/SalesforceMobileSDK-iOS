@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		823DF85A16BCA8AC0049620A /* SFPasscodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 823DF85916BCA8AC0049620A /* SFPasscodeTests.m */; };
 		826FB8C116B35574001AAEF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8C016B35574001AAEF9 /* Foundation.framework */; };
 		826FB8D016B35574001AAEF9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8CF16B35574001AAEF9 /* SenTestingKit.framework */; };
 		826FB8DC16B35574001AAEF9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 826FB8DA16B35574001AAEF9 /* InfoPlist.strings */; };
@@ -157,6 +158,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		823DF85816BCA8AC0049620A /* SFPasscodeTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeTests.h; sourceTree = "<group>"; };
+		823DF85916BCA8AC0049620A /* SFPasscodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeTests.m; sourceTree = "<group>"; };
 		826FB8BD16B35574001AAEF9 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		826FB8C016B35574001AAEF9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		826FB8C416B35574001AAEF9 /* SalesforceSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -610,6 +613,8 @@
 				826FB96116B35A81001AAEF9 /* TestSetupUtils.h */,
 				826FB96216B35A81001AAEF9 /* TestSetupUtils.m */,
 				826FB8D816B35574001AAEF9 /* Supporting Files */,
+				823DF85816BCA8AC0049620A /* SFPasscodeTests.h */,
+				823DF85916BCA8AC0049620A /* SFPasscodeTests.m */,
 			);
 			path = SalesforceSDKTests;
 			sourceTree = "<group>";
@@ -1295,6 +1300,7 @@
 				826FB96516B35A81001AAEF9 /* TestRequestListener.m in Sources */,
 				826FB96616B35A81001AAEF9 /* TestSetupUtils.m in Sources */,
 				82DB7EE316B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m in Sources */,
+				823DF85A16BCA8AC0049620A /* SFPasscodeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
