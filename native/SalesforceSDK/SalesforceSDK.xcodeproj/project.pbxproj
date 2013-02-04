@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8208EB0616BDF75200025C5D /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */; };
+		8208EB0916BE093E00025C5D /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */; };
+		8208EB1A16BF18FB00025C5D /* SFPasscodeProviderManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */; };
 		823DF85A16BCA8AC0049620A /* SFPasscodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 823DF85916BCA8AC0049620A /* SFPasscodeTests.m */; };
 		826FB8C116B35574001AAEF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8C016B35574001AAEF9 /* Foundation.framework */; };
 		826FB8D016B35574001AAEF9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8CF16B35574001AAEF9 /* SenTestingKit.framework */; };
@@ -152,12 +155,17 @@
 				826FB97D16B35DA7001AAEF9 /* SFSmartStore.h in CopyFiles */,
 				826FB97E16B35DAE001AAEF9 /* SFSmartStoreDatabaseManager.h in CopyFiles */,
 				826FB97F16B35DC1001AAEF9 /* SFSDKResourceUtils.h in CopyFiles */,
+				8208EB1A16BF18FB00025C5D /* SFPasscodeProviderManager.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8208EB0416BDF75200025C5D /* SFSHA256PasscodeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSHA256PasscodeProvider.h; sourceTree = "<group>"; };
+		8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSHA256PasscodeProvider.m; sourceTree = "<group>"; };
+		8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
+		8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeProviderManager.m; sourceTree = "<group>"; };
 		823DF85816BCA8AC0049620A /* SFPasscodeTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeTests.h; sourceTree = "<group>"; };
 		823DF85916BCA8AC0049620A /* SFPasscodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeTests.m; sourceTree = "<group>"; };
 		826FB8BD16B35574001AAEF9 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -668,6 +676,10 @@
 				826FB8FF16B358F3001AAEF9 /* SFSecurityLockout.m */,
 				82FE223B16BB2EF400C4AEDD /* SFPBKDFData.h */,
 				82FE223C16BB2EF400C4AEDD /* SFPBKDFData.m */,
+				8208EB0416BDF75200025C5D /* SFSHA256PasscodeProvider.h */,
+				8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */,
+				8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */,
+				8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */,
 			);
 			name = Security;
 			path = ../../../shared/Classes/Security;
@@ -1287,6 +1299,8 @@
 				826FB95A16B35A35001AAEF9 /* SFSessionRefresher.m in Sources */,
 				82DB7EDF16B87C7F00FE9F21 /* SFSDKCryptoUtils.m in Sources */,
 				82FE223D16BB2EF400C4AEDD /* SFPBKDFData.m in Sources */,
+				8208EB0616BDF75200025C5D /* SFSHA256PasscodeProvider.m in Sources */,
+				8208EB0916BE093E00025C5D /* SFPasscodeProviderManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

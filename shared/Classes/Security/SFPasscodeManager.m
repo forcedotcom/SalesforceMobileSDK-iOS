@@ -23,16 +23,24 @@
  */
 
 #import "SFPasscodeManager.h"
-#import "SFKeychainItemWrapper.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFLogger.h"
 
 static SFPasscodeManager *sharedInstance = nil;
 
-// Public constants
+@interface SFPasscodeManager ()
 
-NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.security.passcode";
+/**
+ Set a value for the encryption key.
+ @param newEncryptionKey The new value for the encryption key.
+ */
+- (void)setEncryptionKey:(NSString *)newEncryptionKey;
+
+@end
 
 @implementation SFPasscodeManager
+
+@synthesize encryptionKey = _encryptionKey;
 
 #pragma mark - Singleton initialization / management
 
@@ -78,31 +86,59 @@ NSString * const kKeychainIdentifierPasscode            = @"com.salesforce.secur
 
 #pragma mark - Passcode management
 
-- (NSString *)hashedPasscode
+- (void)setEncryptionKey:(NSString *)newEncryptionKey
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
-    return [passcodeWrapper passcode];
+    id old = _encryptionKey;
+    _encryptionKey = [newEncryptionKey copy];
+    [old release];
+}
+
+- (BOOL)passcodeIsSet
+{
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot determine passcode status."];
+        return NO;
+    }
+    return [currentProvider verificationPasscodeIsSet];
 }
 
 - (void)resetPasscode
 {
     [self log:SFLogLevelInfo msg:@"Resetting passcode upon logout."];
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper resetKeychainItem];
-    [passcodeWrapper release];
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  No reset action taken."];
+    } else {
+        [currentProvider resetPasscodeData];
+    }
+    [self setEncryptionKey:nil];
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
-    return [passcodeWrapper verifyPasscode:passcode];
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot verify passcode."];
+        return NO;
+    } else if (![currentProvider verificationPasscodeIsSet]) {
+        [self log:SFLogLevelWarning msg:@"Verification passcode is not set.  Cannot verify passcode."];
+        return NO;
+    } else {
+        return [currentProvider verifyPasscode:passcode];
+    }
 }
 
 - (void)setPasscode:(NSString *)newPasscode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper setPasscode:newPasscode];
-    [passcodeWrapper release];
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set new passcode."];
+    } else {
+        [currentProvider setVerificationPasscode:newPasscode];
+        NSString *encryptionKey = [currentProvider generateEncryptionPasscode:newPasscode];
+        [self setEncryptionKey:encryptionKey];
+    }
 }
 
 @end

@@ -53,7 +53,6 @@ NSString * const kTestSoupName   = @"testSoup";
 - (BOOL)canReadDatabase:(FMDatabase *)db;
 - (NSArray *)variedStores:(NSString *)passcode;
 - (void)clearAllStores;
-- (NSString *)hashedKey:(NSString *)key;
 @end
 
 @implementation SFSmartStoreTests
@@ -452,9 +451,9 @@ NSString * const kTestSoupName   = @"testSoup";
     NSString *newPasscode = @"blah";
     NSArray *storeNames = [self variedStores:@""];
     [SFSecurityLockout setPasscode:newPasscode];
-    NSString *hashedPasscode = [self hashedKey:newPasscode];
+    NSString *encryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
     for (NSString *storeName in storeNames) {
-        FMDatabase *db = [self openDatabase:storeName key:hashedPasscode openShouldFail:NO];
+        FMDatabase *db = [self openDatabase:storeName key:encryptionKey openShouldFail:NO];
         BOOL canReadDb = [self canReadDatabase:db];
         STAssertTrue(canReadDb, @"Cannot read DB of store with store name '%@'", storeName);
         [db close];
@@ -663,11 +662,6 @@ NSString * const kTestSoupName   = @"testSoup";
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     int allStoreCount = [allStoreNames count];
     STAssertEquals(allStoreCount, 0, @"Should not be any stores after removing them all.");
-}
-
-- (NSString *)hashedKey:(NSString *)key
-{
-    return [[key sha256] base64Encode];
 }
 
 @end
