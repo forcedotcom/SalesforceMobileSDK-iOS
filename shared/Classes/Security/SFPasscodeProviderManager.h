@@ -69,7 +69,7 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * @param passcode The (plaintext) passcode used to generate the encryption key.
  * @return The encryption key generated from the passcode.
  */
-- (NSString *)generateEncryptionPasscode:(NSString *)passcode;
+- (NSString *)generateEncryptionKey:(NSString *)passcode;
 
 @optional
 

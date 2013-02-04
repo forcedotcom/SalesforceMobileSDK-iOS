@@ -136,7 +136,7 @@ static SFPasscodeManager *sharedInstance = nil;
         [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set new passcode."];
     } else {
         [currentProvider setVerificationPasscode:newPasscode];
-        NSString *encryptionKey = [currentProvider generateEncryptionPasscode:newPasscode];
+        NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
         [self setEncryptionKey:encryptionKey];
     }
 }

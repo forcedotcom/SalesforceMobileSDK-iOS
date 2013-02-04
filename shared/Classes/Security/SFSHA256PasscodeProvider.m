@@ -67,7 +67,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
     [passcodeWrapper release];
 }
 
-- (NSString *)generateEncryptionPasscode:(NSString *)passcode
+- (NSString *)generateEncryptionKey:(NSString *)passcode
 {
     if (![self verificationPasscodeIsSet]) {
         [self log:SFLogLevelError msg:@"Verification passcode is not set.  Call setVerificationPasscode before calling this method."];
