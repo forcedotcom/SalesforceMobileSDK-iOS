@@ -26,26 +26,11 @@
 #import "SFKeychainItemWrapper.h"
 #import "SFLogger.h"
 
-@interface SFSHA256PasscodeProvider ()
-
-/**
- * @return The hashed verification passcode.
- */
-- (NSString *)getVerificationPasscode;
-
-@end
-
 @implementation SFSHA256PasscodeProvider
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 
 #pragma mark - SFPasscodeProvider
-
-- (BOOL)verificationPasscodeIsSet
-{
-    NSString *verificationPasscode = [self getVerificationPasscode];
-    return (verificationPasscode != nil);
-}
 
 - (void)resetPasscodeData
 {
@@ -60,6 +45,12 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
     return [passcodeWrapper verifyPasscode:passcode];
 }
 
+- (NSString *)hashedVerificationPasscode
+{
+    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
+    return [passcodeWrapper passcode];
+}
+
 - (void)setVerificationPasscode:(NSString *)newPasscode
 {
     SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
@@ -69,8 +60,8 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 
 - (NSString *)generateEncryptionKey:(NSString *)passcode
 {
-    if (![self verificationPasscodeIsSet]) {
-        [self log:SFLogLevelError msg:@"Verification passcode is not set.  Call setVerificationPasscode before calling this method."];
+    if ([self hashedVerificationPasscode] == nil) {
+        [self log:SFLogLevelError msg:@"Verification passcode is not set.  Set the verificationPasscode property before calling this method."];
         return nil;
     }
     
@@ -79,16 +70,8 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
         return nil;
     }
     
-    return [self getVerificationPasscode];
+    return [self hashedVerificationPasscode];
     
-}
-
-#pragma mark - Private methods
-
-- (NSString *)getVerificationPasscode
-{
-    SFKeychainItemWrapper *passcodeWrapper = [[[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil] autorelease];
-    return [passcodeWrapper passcode];
 }
 
 @end

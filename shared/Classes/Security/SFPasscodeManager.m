@@ -23,20 +23,11 @@
  */
 
 #import "SFPasscodeManager.h"
+#import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFLogger.h"
 
 static SFPasscodeManager *sharedInstance = nil;
-
-@interface SFPasscodeManager ()
-
-/**
- Set a value for the encryption key.
- @param newEncryptionKey The new value for the encryption key.
- */
-- (void)setEncryptionKey:(NSString *)newEncryptionKey;
-
-@end
 
 @implementation SFPasscodeManager
 
@@ -86,9 +77,21 @@ static SFPasscodeManager *sharedInstance = nil;
 
 #pragma mark - Passcode management
 
+- (void)setEncryptionKeyForPasscode:(NSString *)passcode
+{
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set encryption key."];
+        return;
+    }
+    
+    NSString *encryptionKey = [currentProvider generateEncryptionKey:passcode];
+    [self setEncryptionKey:encryptionKey];
+}
+
 - (void)setEncryptionKey:(NSString *)newEncryptionKey
 {
-    id old = _encryptionKey;
+    NSString *old = _encryptionKey;
     _encryptionKey = [newEncryptionKey copy];
     [old release];
 }
@@ -100,7 +103,7 @@ static SFPasscodeManager *sharedInstance = nil;
         [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot determine passcode status."];
         return NO;
     }
-    return [currentProvider verificationPasscodeIsSet];
+    return ([currentProvider hashedVerificationPasscode] != nil);
 }
 
 - (void)resetPasscode
@@ -121,7 +124,7 @@ static SFPasscodeManager *sharedInstance = nil;
     if (currentProvider == nil) {
         [self log:SFLogLevelWarning msg:@"Current passcode provider is not set.  Cannot verify passcode."];
         return NO;
-    } else if (![currentProvider verificationPasscodeIsSet]) {
+    } else if (![self passcodeIsSet]) {
         [self log:SFLogLevelWarning msg:@"Verification passcode is not set.  Cannot verify passcode."];
         return NO;
     } else {

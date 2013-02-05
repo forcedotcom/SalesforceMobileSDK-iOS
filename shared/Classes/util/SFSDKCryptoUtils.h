@@ -25,48 +25,27 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonKeyDerivation.h>
 
+@class SFPBKDFData;
+
 /**
  * The default number of PBKDF derivation rounds that will be used to generate a key.
- * This can be overridden by calling [SFSDKCryptoUtils setNumPBKDFDerivationRounds:].
  */
 extern NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds;
 
 /**
- * The default length of a PDKDF derived key, in bytes.  This value can be overridden
- * by calling [SFSDKCryptoUtils 
+ * The default length of a PDKDF derived key, in bytes.
  */
 extern NSUInteger const kSFPBKDFDefaultDerivedKeyByteLength;
+
+/**
+ * The default length in bytes for random-generated salt data.
+ */
+extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
 
 /**
  * Various utility methods in support of cryptographic operations.
  */
 @interface SFSDKCryptoUtils : NSObject
-
-/**
- * @return The number of derivation rounds used to generate keys with PBKDF.
- */
-+ (NSUInteger)numPBKDFDerivationRounds;
-
-/**
- * Sets/overrides the number of derivation rounds that PBKDF functions will use to generate keys.
- * NOTE: Changing this value will change the value of a generated key.  If you have existing
- * keys that were generated with a different value, you need to make allowances for these changes.
- * @param numDerivationRounds The number of derivation rounds to use for key generation.
- */
-+ (void)setNumPBKDFDerivationRounds:(NSUInteger)numDerivationRounds;
-
-/**
- * @return The length of a PBKDF derived key, in bytes.
- */
-+ (NSUInteger)pbkdfDerivedKeyByteLength;
-
-/**
- * Sets/overrides the length of a PBKDF derived key, in bytes.
- * NOTE: Changing this value will change the value of a generated key.  If you have existing keys
- * that were generated with a different value, you need to make allowances for these changes.
- * @param derivedKeyByteLength The desired length of the derived key.
- */
-+ (void)setPBKDFDerivedKeyByteLength:(NSUInteger)derivedKeyByteLength;
 
 /**
  * Creates a random string of bytes (based on arc4random() generation) and returns
@@ -77,13 +56,26 @@ extern NSUInteger const kSFPBKDFDefaultDerivedKeyByteLength;
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes;
 
 /**
- * Creates a PBKDF2 derived key from an input key (string) and a salt.
- * Note: Uses the values from [SFSDKCryptoUtils numPBKDFDerivationRounds] and
- * [SFSDKCryptoUtils pbkdfDerivedKeyByteLength] to configure the key generation.
+ * Creates a PBKDF2 derived key from an input key (string), using default values for the
+ * random-generated salt data and its length, the number of derivation rounds, and the
+ * derived key length.
+ * @param stringToHash The plaintext string used to generate the key.
+ * @return An SFPBKDFData object representing the derived key.
+ */
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash;
+
+/**
+ * Creates a PBKDF2 derived key from an input key (string), a salt, number of derivation
+ * rounds, and desired derived key length.
  * @param stringToHash The base string to use for the derived key.
  * @param salt The salt to append to the string.
- * @return An NSData object represnting the derived key in bytes.
+ * @param derivationRounds The number of derivation rounds used to generate the key.
+ * @param keyLength The desired derived key length.
+ * @return An SFPBKDFData object representing the derived key.
  */
-+ (NSData *)pbkdf2DerivedKey:(NSString *)stringToHash salt:(NSData *)salt;
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
+                                   salt:(NSData *)salt
+                       derivationRounds:(NSUInteger)numDerivationRounds
+                              keyLength:(NSUInteger)derivedKeyLength;
 
 @end

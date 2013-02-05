@@ -40,11 +40,6 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
 @protocol SFPasscodeProvider <NSObject>
 
 /**
- * @return Whether or not a verification passcode has been set in the app.
- */
-- (BOOL)verificationPasscodeIsSet;
-
-/**
  * Reset (unset) the passcode and any persisted data associated with it.
  */
 - (void)resetPasscodeData;
@@ -55,6 +50,11 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * @return YES if the passcode is verified, NO otherwise.
  */
 - (BOOL)verifyPasscode:(NSString *)passcode;
+
+/**
+ * @return The hashed verification passcode, or nil if not configured.
+ */
+- (NSString *)hashedVerificationPasscode;
 
 /**
  * Set/persist the verification passcode, based on the input passcode.

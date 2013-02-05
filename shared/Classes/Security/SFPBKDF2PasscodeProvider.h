@@ -23,42 +23,32 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFPasscodeProviderManager.h"
+
+@interface SFPBKDF2PasscodeProvider : NSObject <SFPasscodeProvider>
 
 /**
- * Data class for PBKDF-generated keys.
+ * The length in bytes to use for the random-generated salt.  This value defaults to
+ * kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+ * NOTE: Differences in this value affect the generated key.  You must keep track of
+ * this value if you wish to generate the same key at a future date.
  */
-@interface SFPBKDFData : NSObject <NSCoding>
+@property (nonatomic, assign) NSUInteger saltLengthInBytes;
 
 /**
- * The PBKDF-derived key.
- */
-@property (nonatomic, retain) NSData *derivedKey;
-
-/**
- * The salt used in conjunction with the plaintext input for creating the key.
- */
-@property (nonatomic, retain) NSData *salt;
-
-/**
- * The number of derivation rounds used when generating the key.
+ * The number of derivation rounds to use when generating a key.  This value defaults
+ * to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+ * NOTE: Differences in this value affect the generated key.  You must keep track of
+ * this value if you wish to generate the same key at a future date.
  */
 @property (nonatomic, assign) NSUInteger numDerivationRounds;
 
 /**
- * The length, in bytes, of the derived key.
+ * The desired length in bytes of the derived key to use when generating a key.  This
+ * value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+ * NOTE: Differences in this value affect the generated key.  You must keep track of
+ * this value if you wish to generate the same key at a future date.
  */
-@property (nonatomic, assign) NSUInteger derivedKeyLength;
-
-/**
- * Initializes the data object with its core components.
- * @param key The derived key.
- * @param salt The salt used with the input value to create the key.
- * @param derivationRounds The number of derivation rounds used to generate the key.
- * @param derivedKeyLength The length of the derived key, in bytes.
- */
-- (id)initWithKey:(NSData *)key
-             salt:(NSData *)salt
- derivationRounds:(NSUInteger)derivationRounds
- derivedKeyLength:(NSUInteger)derivedKeyLength;
+@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes;
 
 @end

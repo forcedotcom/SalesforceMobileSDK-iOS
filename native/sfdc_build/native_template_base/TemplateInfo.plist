@@ -1822,6 +1822,42 @@
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
 	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</string>
+	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</key>
 	<dict>
@@ -2320,6 +2356,9 @@
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPathUtil.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>

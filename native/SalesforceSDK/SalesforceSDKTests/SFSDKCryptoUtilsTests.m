@@ -24,28 +24,9 @@
 
 #import "SFSDKCryptoUtilsTests.h"
 #import "SFSDKCryptoUtils.h"
+#import "SFPBKDFData.h"
 
 @implementation SFSDKCryptoUtilsTests
-
-- (void)testDefaultStaticProperties
-{
-    STAssertEquals([SFSDKCryptoUtils numPBKDFDerivationRounds], kSFPBKDFDefaultNumberOfDerivationRounds, @"Expected default value for number of PBKDF key derivation rounds.");
-    STAssertEquals([SFSDKCryptoUtils pbkdfDerivedKeyByteLength], kSFPBKDFDefaultDerivedKeyByteLength, @"Expected default value for default derived key length.");
-}
-
-- (void)testPropertyGettersSetters
-{
-    NSUInteger newDerivationRounds = arc4random();
-    NSUInteger newDerivedKeyByteLength = arc4random();
-    
-    [SFSDKCryptoUtils setNumPBKDFDerivationRounds:newDerivationRounds];
-    STAssertEquals([SFSDKCryptoUtils numPBKDFDerivationRounds], newDerivationRounds, @"Expected updated value for number of derivation rounds.");
-    [SFSDKCryptoUtils setNumPBKDFDerivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds];
-    
-    [SFSDKCryptoUtils setPBKDFDerivedKeyByteLength:newDerivedKeyByteLength];
-    STAssertEquals([SFSDKCryptoUtils pbkdfDerivedKeyByteLength], newDerivedKeyByteLength, @"Expected updated value for derived key byte length.");
-    [SFSDKCryptoUtils setPBKDFDerivedKeyByteLength:kSFPBKDFDefaultDerivedKeyByteLength];
-}
 
 - (void)testRandomDataGenerator
 {
@@ -64,58 +45,95 @@
     }
 }
 
+- (void)testDefaultPBKDFKeyGenerationProperties
+{
+    NSString *myString = @"HelloWorld321";
+    SFPBKDFData *origData = [SFSDKCryptoUtils createPBKDF2DerivedKey:myString];
+    STAssertEquals(origData.numDerivationRounds, kSFPBKDFDefaultNumberOfDerivationRounds, @"Expected default number of key generation rounds.");
+    STAssertEquals([origData.salt length], kSFPBKDFDefaultSaltByteLength, @"Expected default salt length.");
+    STAssertEquals(origData.derivedKeyLength, kSFPBKDFDefaultDerivedKeyByteLength, @"Expected default derived key length.");
+}
+
 - (void)testSamePBKDFKeysWithSameInputs
 {
     NSString *initialPasscode = @"Hello123";
     NSString *verifyPasscode = @"Hello123";
-    NSUInteger saltByteLength = 32;
+    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:32];
+    NSUInteger numDerivationRounds = 100;
+    NSUInteger derivedKeyLength = 128;
     
-    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:saltByteLength];
-    NSData *initialPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:initialPasscode salt:salt];
-    NSData *verifyPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:verifyPasscode salt:salt];
-    STAssertTrue([initialPBKDFData isEqualToData:verifyPBKDFData], @"Generated keys with same input parameters should be equal.");
+    SFPBKDFData *initialPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:initialPasscode
+                                                                        salt:salt
+                                                            derivationRounds:numDerivationRounds
+                                                                   keyLength:derivedKeyLength];
+    SFPBKDFData *verifyPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:verifyPasscode
+                                                                       salt:salt
+                                                           derivationRounds:numDerivationRounds
+                                                                  keyLength:derivedKeyLength];
+    STAssertTrue([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with same input parameters should be equal.");
+    STAssertTrue([initialPBKDFData.salt isEqualToData:verifyPBKDFData.salt], @"Salt data with the same input parameters should be equal.");
+    STAssertEquals(initialPBKDFData.numDerivationRounds, verifyPBKDFData.numDerivationRounds, @"Number of derivation rounds with the same input parameters should be equal.");
+    STAssertEquals(initialPBKDFData.derivedKeyLength, verifyPBKDFData.derivedKeyLength, @"Derived key length values with the same input parameters should be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentSalt
 {
     NSString *passcode = @"Hello123";
     NSUInteger saltByteLength = 32;
+    NSUInteger numDerivationRounds = 100;
+    NSUInteger derivedKeyLength = 128;
     
     NSData *initialSalt = [SFSDKCryptoUtils randomByteDataWithLength:saltByteLength];
     NSData *newSalt = [SFSDKCryptoUtils randomByteDataWithLength:saltByteLength];
-    NSData *initialPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:initialSalt];
-    NSData *verifyPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:newSalt];
-    STAssertFalse([initialPBKDFData isEqualToData:verifyPBKDFData], @"Generated keys with different salts should not be equal.");
+    SFPBKDFData *initialPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                        salt:initialSalt
+                                                            derivationRounds:numDerivationRounds
+                                                                   keyLength:derivedKeyLength];
+    SFPBKDFData *verifyPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                       salt:newSalt
+                                                           derivationRounds:numDerivationRounds
+                                                                  keyLength:derivedKeyLength];
+    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different salts should not be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentDerivationRounds
 {
     NSString *passcode = @"Hello123";
-    NSUInteger saltByteLength = 32;
+    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:32];
+    NSUInteger derivedKeyLength = 128;
     
-    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:saltByteLength];
-    NSData *initialPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:salt];
+    NSUInteger initialNumDerivationRounds = 100;
+    SFPBKDFData *initialPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                        salt:salt
+                                                            derivationRounds:initialNumDerivationRounds
+                                                                   keyLength:derivedKeyLength];
     
-    [SFSDKCryptoUtils setNumPBKDFDerivationRounds:([SFSDKCryptoUtils numPBKDFDerivationRounds] + 1)];
-    NSData *verifyPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:salt];
-    STAssertFalse([initialPBKDFData isEqualToData:verifyPBKDFData], @"Generated keys with different derivation rounds should not be equal.");
-    
-    [SFSDKCryptoUtils setNumPBKDFDerivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds];
+    NSUInteger newNumDerivationRounds = initialNumDerivationRounds + 1;
+    SFPBKDFData *verifyPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                       salt:salt
+                                                           derivationRounds:newNumDerivationRounds
+                                                                  keyLength:derivedKeyLength];
+    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derivation rounds should not be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentDerivedKeyLength
 {
     NSString *passcode = @"Hello123";
-    NSUInteger saltByteLength = 32;
+    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:32];
+    NSUInteger numDerivationRounds = 100;
     
-    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:saltByteLength];
-    NSData *initialPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:salt];
+    NSUInteger initialDerivedKeyLength = 128;
+    SFPBKDFData *initialPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                        salt:salt
+                                                            derivationRounds:numDerivationRounds
+                                                                   keyLength:initialDerivedKeyLength];
     
-    [SFSDKCryptoUtils setPBKDFDerivedKeyByteLength:([SFSDKCryptoUtils pbkdfDerivedKeyByteLength] + 1)];
-    NSData *verifyPBKDFData = [SFSDKCryptoUtils pbkdf2DerivedKey:passcode salt:salt];
-    STAssertFalse([initialPBKDFData isEqualToData:verifyPBKDFData], @"Generated keys with different derived key lengths should not be equal.");
-    
-    [SFSDKCryptoUtils setPBKDFDerivedKeyByteLength:kSFPBKDFDefaultDerivedKeyByteLength];
+    NSUInteger newDerivedKeyLength = initialDerivedKeyLength + 1;
+    SFPBKDFData *verifyPBKDFData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
+                                                                       salt:salt
+                                                           derivationRounds:numDerivationRounds
+                                                                  keyLength:newDerivedKeyLength];
+    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derived key lengths should not be equal.");
 }
 
 @end

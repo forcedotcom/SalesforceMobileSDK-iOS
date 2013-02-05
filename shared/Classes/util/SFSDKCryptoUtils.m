@@ -23,34 +23,14 @@
  */
 
 #import "SFSDKCryptoUtils.h"
+#import "SFPBKDFData.h"
 
+// Public constants
 NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds = 4000;
 NSUInteger const kSFPBKDFDefaultDerivedKeyByteLength = 128;
-
-static NSUInteger NumPBKDFDerivationRounds = kSFPBKDFDefaultNumberOfDerivationRounds;
-static NSUInteger PBKDFDerivedKeyByteLength = kSFPBKDFDefaultDerivedKeyByteLength;
+NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 
 @implementation SFSDKCryptoUtils
-
-+ (NSUInteger)numPBKDFDerivationRounds
-{
-    return NumPBKDFDerivationRounds;
-}
-
-+ (void)setNumPBKDFDerivationRounds:(NSUInteger)numDerivationRounds
-{
-    NumPBKDFDerivationRounds = numDerivationRounds;
-}
-
-+ (NSUInteger)pbkdfDerivedKeyByteLength
-{
-    return PBKDFDerivedKeyByteLength;
-}
-
-+ (void)setPBKDFDerivedKeyByteLength:(NSUInteger)derivedKeyByteLength
-{
-    PBKDFDerivedKeyByteLength = derivedKeyByteLength;
-}
 
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes
 {
@@ -62,15 +42,32 @@ static NSUInteger PBKDFDerivedKeyByteLength = kSFPBKDFDefaultDerivedKeyByteLengt
     return [NSData dataWithBytes:str length:lengthInBytes];
 }
 
-+ (NSData *)pbkdf2DerivedKey:(NSString *)stringToHash salt:(NSData *)salt
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
+{
+    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:kSFPBKDFDefaultSaltByteLength];
+    return [SFSDKCryptoUtils createPBKDF2DerivedKey:stringToHash
+                                               salt:salt
+                                   derivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds
+                                          keyLength:kSFPBKDFDefaultDerivedKeyByteLength];
+}
+
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
+                                   salt:(NSData *)salt
+                       derivationRounds:(NSUInteger)numDerivationRounds
+                              keyLength:(NSUInteger)derivedKeyLength
 {
     NSData *stringToHashAsData = [stringToHash dataUsingEncoding:NSUTF8StringEncoding];
-    NSUInteger numDerivationRounds = [SFSDKCryptoUtils numPBKDFDerivationRounds];
-    NSUInteger derivedKeyByteLength = [SFSDKCryptoUtils pbkdfDerivedKeyByteLength];
-    unsigned char key[derivedKeyByteLength];
-    int result = CCKeyDerivationPBKDF(kCCPBKDF2, [stringToHashAsData bytes], [stringToHashAsData length], [salt bytes], [salt length], kCCPRFHmacAlgSHA256, numDerivationRounds, key, derivedKeyByteLength);
+    unsigned char key[derivedKeyLength];
+    int result = CCKeyDerivationPBKDF(kCCPBKDF2, [stringToHashAsData bytes], [stringToHashAsData length], [salt bytes], [salt length], kCCPRFHmacAlgSHA256, numDerivationRounds, key, derivedKeyLength);
     
-    return (result == 0 ? [NSData dataWithBytes:key length:derivedKeyByteLength] : nil);
+    if (result != 0) {
+        // Error
+        return nil;
+    } else {
+        NSData *keyData = [NSData dataWithBytes:key length:derivedKeyLength];
+        SFPBKDFData *returnPBKDFData = [[SFPBKDFData alloc] initWithKey:keyData salt:salt derivationRounds:numDerivationRounds derivedKeyLength:derivedKeyLength];
+        return [returnPBKDFData autorelease];
+    }
 }
 
 

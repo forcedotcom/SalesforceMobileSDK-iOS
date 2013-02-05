@@ -22,43 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@interface SFPasscodeManager ()
 
 /**
- * Data class for PBKDF-generated keys.
+ Set a value for the encryption key.
+ @param newEncryptionKey The new value for the encryption key.
  */
-@interface SFPBKDFData : NSObject <NSCoding>
+- (void)setEncryptionKey:(NSString *)newEncryptionKey;
 
 /**
- * The PBKDF-derived key.
+ Set the value of the encryption key, based on the input passcode.
+ @param passcode The passcode to convert into an encryption key.
  */
-@property (nonatomic, retain) NSData *derivedKey;
-
-/**
- * The salt used in conjunction with the plaintext input for creating the key.
- */
-@property (nonatomic, retain) NSData *salt;
-
-/**
- * The number of derivation rounds used when generating the key.
- */
-@property (nonatomic, assign) NSUInteger numDerivationRounds;
-
-/**
- * The length, in bytes, of the derived key.
- */
-@property (nonatomic, assign) NSUInteger derivedKeyLength;
-
-/**
- * Initializes the data object with its core components.
- * @param key The derived key.
- * @param salt The salt used with the input value to create the key.
- * @param derivationRounds The number of derivation rounds used to generate the key.
- * @param derivedKeyLength The length of the derived key, in bytes.
- */
-- (id)initWithKey:(NSData *)key
-             salt:(NSData *)salt
- derivationRounds:(NSUInteger)derivationRounds
- derivedKeyLength:(NSUInteger)derivedKeyLength;
+- (void)setEncryptionKeyForPasscode:(NSString *)passcode;
 
 @end

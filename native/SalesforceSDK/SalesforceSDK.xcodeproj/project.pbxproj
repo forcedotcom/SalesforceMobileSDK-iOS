@@ -10,6 +10,7 @@
 		8208EB0616BDF75200025C5D /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */; };
 		8208EB0916BE093E00025C5D /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */; };
 		8208EB1A16BF18FB00025C5D /* SFPasscodeProviderManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */; };
+		8208EB1D16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB1C16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m */; };
 		823DF85A16BCA8AC0049620A /* SFPasscodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 823DF85916BCA8AC0049620A /* SFPasscodeTests.m */; };
 		826FB8C116B35574001AAEF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8C016B35574001AAEF9 /* Foundation.framework */; };
 		826FB8D016B35574001AAEF9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8CF16B35574001AAEF9 /* SenTestingKit.framework */; };
@@ -166,6 +167,12 @@
 		8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSHA256PasscodeProvider.m; sourceTree = "<group>"; };
 		8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
 		8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeProviderManager.m; sourceTree = "<group>"; };
+		8208EB1B16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPBKDF2PasscodeProvider.h; sourceTree = "<group>"; };
+		8208EB1C16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPBKDF2PasscodeProvider.m; sourceTree = "<group>"; };
+		8208EB1E16BF792000025C5D /* SFPasscodeManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeManager+Internal.h"; sourceTree = "<group>"; };
+		8208EB1F16BF8C0500025C5D /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
+		8208EB2016BF8C0500025C5D /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
+		8208EB2116BF8C0500025C5D /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
 		823DF85816BCA8AC0049620A /* SFPasscodeTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeTests.h; sourceTree = "<group>"; };
 		823DF85916BCA8AC0049620A /* SFPasscodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeTests.m; sourceTree = "<group>"; };
 		826FB8BD16B35574001AAEF9 /* libSalesforceSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -612,6 +619,8 @@
 				826FB95C16B35A81001AAEF9 /* SalesforceSDKIdentityTests.m */,
 				826FB8DD16B35574001AAEF9 /* SalesforceSDKTests.h */,
 				826FB8DE16B35574001AAEF9 /* SalesforceSDKTests.m */,
+				823DF85816BCA8AC0049620A /* SFPasscodeTests.h */,
+				823DF85916BCA8AC0049620A /* SFPasscodeTests.m */,
 				82DB7EE116B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.h */,
 				82DB7EE216B9ABA400FE9F21 /* SFSDKCryptoUtilsTests.m */,
 				826FB95D16B35A81001AAEF9 /* SFSmartStoreTests.h */,
@@ -621,8 +630,6 @@
 				826FB96116B35A81001AAEF9 /* TestSetupUtils.h */,
 				826FB96216B35A81001AAEF9 /* TestSetupUtils.m */,
 				826FB8D816B35574001AAEF9 /* Supporting Files */,
-				823DF85816BCA8AC0049620A /* SFPasscodeTests.h */,
-				823DF85916BCA8AC0049620A /* SFPasscodeTests.m */,
 			);
 			path = SalesforceSDKTests;
 			sourceTree = "<group>";
@@ -668,6 +675,7 @@
 				826FB8F716B358F3001AAEF9 /* SFAuthorizingViewController.h */,
 				826FB8F816B358F3001AAEF9 /* SFAuthorizingViewController.m */,
 				826FB8F916B358F3001AAEF9 /* SFPasscodeManager.h */,
+				8208EB1E16BF792000025C5D /* SFPasscodeManager+Internal.h */,
 				826FB8FA16B358F3001AAEF9 /* SFPasscodeManager.m */,
 				826FB8FB16B358F3001AAEF9 /* SFPasscodeViewController.h */,
 				826FB8FC16B358F3001AAEF9 /* SFPasscodeViewController.m */,
@@ -680,6 +688,8 @@
 				8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */,
 				8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */,
 				8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */,
+				8208EB1B16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.h */,
+				8208EB1C16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m */,
 			);
 			name = Security;
 			path = ../../../shared/Classes/Security;
@@ -835,6 +845,9 @@
 				826FB99616B35E34001AAEF9 /* SFPathUtil.h */,
 				826FB99716B35E34001AAEF9 /* SFPhonePickListViewController.h */,
 				826FB99816B35E34001AAEF9 /* SFPickListViewController.h */,
+				8208EB1F16BF8C0500025C5D /* SFSoqlBuilder.h */,
+				8208EB2016BF8C0500025C5D /* SFSoslBuilder.h */,
+				8208EB2116BF8C0500025C5D /* SFSoslReturningBuilder.h */,
 				826FB99916B35E34001AAEF9 /* SFTestContext.h */,
 				826FB99A16B35E34001AAEF9 /* SFUIUtils.h */,
 				826FB99B16B35E34001AAEF9 /* UIActionSheet+SFBlocks.h */,
@@ -1301,6 +1314,7 @@
 				82FE223D16BB2EF400C4AEDD /* SFPBKDFData.m in Sources */,
 				8208EB0616BDF75200025C5D /* SFSHA256PasscodeProvider.m in Sources */,
 				8208EB0916BE093E00025C5D /* SFPasscodeProviderManager.m in Sources */,
+				8208EB1D16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
