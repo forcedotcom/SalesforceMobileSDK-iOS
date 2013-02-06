@@ -8,6 +8,7 @@
 
 #import "SFPasscodeTests.h"
 #import "SFPBKDFData.h"
+#import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
@@ -35,6 +36,7 @@
 {
     [super setUp];
     
+    [[SFPasscodeManager sharedManager] resetPasscode];
     [SFPasscodeProviderManager resetCurrentPasscodeProviderName];
 }
 
