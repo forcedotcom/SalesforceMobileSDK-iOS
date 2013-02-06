@@ -25,13 +25,18 @@
 @interface SFPasscodeManager ()
 
 /**
- Set a value for the encryption key.
+ Set a value for the encryption key.  Note: this is just the internal setter for
+ the encryptionKey property.  I.e. the value you set should be the end-result
+ encryption key value.  Call setEncryptionKeyForPasscode if you want validation
+ and encryption based on a plain-text passcode value.
  @param newEncryptionKey The new value for the encryption key.
  */
 - (void)setEncryptionKey:(NSString *)newEncryptionKey;
 
 /**
- Set the value of the encryption key, based on the input passcode.
+ Set the value of the encryption key, based on the input passcode.  Note: this method
+ will not set the encryption key if a verification passcode is not set and valid, in
+ the interests of maintaining a consistent passcode state.
  @param passcode The passcode to convert into an encryption key.
  */
 - (void)setEncryptionKeyForPasscode:(NSString *)passcode;

@@ -9,6 +9,7 @@
 #import "SFPasscodeTests.h"
 #import "SFPBKDFData.h"
 #import "SFPasscodeManager.h"
+#import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
@@ -110,6 +111,107 @@
     [SFPasscodeProviderManager removePasscodeProviderWithName:mockProviderName];
     nonConfiguredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:mockProviderName];
     STAssertNil(nonConfiguredProvider, @"Passcode provider '%@' should no longer be configured.", mockProviderName);
+}
+
+- (void)testPasscodeSetReset
+{
+    NSString *passcodeToSet = @"MyNewPasscode";
+    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+        STAssertFalse([[SFPasscodeManager sharedManager] passcodeIsSet], @"For '%@': No passcode should be set at this point.", passcodeProviderName);
+        
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToSet];
+        STAssertTrue([[SFPasscodeManager sharedManager] passcodeIsSet], @"For '%@': Passcode should now be set.", passcodeProviderName);
+        STAssertNotNil([SFPasscodeManager sharedManager].encryptionKey, @"For '%@': Encryption key should have been set as part of setPasscode.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] resetPasscode];
+        STAssertFalse([[SFPasscodeManager sharedManager] passcodeIsSet], @"For '%@': Passcode should no longer be set.", passcodeProviderName);
+        STAssertNil([SFPasscodeManager sharedManager].encryptionKey, @"For '%@': Encryption key should no longer bet set.", passcodeProviderName);
+    }
+}
+
+- (void)testEncryptionKeyRepeatabilityForSetPasscode
+{
+    NSString *passcodeToSet = @"WOoHooPasscode!";
+    NSString *passcodeToVerify = @"WOoHooPasscode!";
+    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToSet];
+        STAssertTrue([[SFPasscodeManager sharedManager] passcodeIsSet], @"For '%@': Passcode should now be set.", passcodeProviderName);
+        NSString *initialEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertNotNil(initialEncryptionKey, @"For '%@': Encryption key should have been set as part of setPasscode.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToVerify];
+        NSString *encryptionKeyToVerify = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertTrue([initialEncryptionKey isEqualToString:encryptionKeyToVerify], @"For '%@': Encryption keys are not the same for same passcode.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    }
+}
+
+- (void)testEncryptionKeyDifferenceForSetPasscode
+{
+    NSString *passcodeToSet = @"WOoHooPasscode!";
+    NSString *passcodeToVerify = @"SchmooSchmooPasscode!";
+    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToSet];
+        STAssertTrue([[SFPasscodeManager sharedManager] passcodeIsSet], @"For '%@': Passcode should now be set.", passcodeProviderName);
+        NSString *initialEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertNotNil(initialEncryptionKey, @"For '%@': Encryption key should have been set as part of setPasscode.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToVerify];
+        NSString *encryptionKeyToVerify = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertFalse([initialEncryptionKey isEqualToString:encryptionKeyToVerify], @"For '%@': Encryption keys should not be the same for different passcodes.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    }
+}
+
+- (void)testEncryptionKeyRepeatabilityForSetEncryptionKeyForPasscode
+{
+    NSString *passcodeToSet = @"WOoHooPasscode!";
+    NSString *passcodeToVerify = @"WOoHooPasscode!";
+    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+        // Set the verification passcode first.
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToSet];  // Encryption key is set now too.
+        NSString *initialEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertNotNil(initialEncryptionKey, @"For '%@': Encryption key should have been set as part of setting the passcode.", passcodeProviderName);
+        
+        // Clear the encryption passcode (it's only in memory), to simulate re-staging on the
+        // app restart boundary.
+        [[SFPasscodeManager sharedManager] setEncryptionKey:nil];
+        
+        [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:passcodeToVerify];
+        NSString *encryptionKeyToVerify = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertTrue([initialEncryptionKey isEqualToString:encryptionKeyToVerify], @"For '%@': Encryption keys are not the same for same passcode.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    }
+}
+
+- (void)testEncryptionKeyDifferenceForSetEncryptionKeyForPasscode
+{
+    NSString *passcodeToSet = @"WOoHooPasscode!";
+    NSString *passcodeToVerify = @"SchmooSchmooPasscode!";
+    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+        // Set the verification passcode first.
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
+        [[SFPasscodeManager sharedManager] setPasscode:passcodeToSet];  // Encryption key is set now too.
+        NSString *initialEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertNotNil(initialEncryptionKey, @"For '%@': Encryption key should have been set as part of setting the passcode.", passcodeProviderName);
+        
+        // Clear the encryption passcode (it's only in memory), to simulate re-staging on the
+        // app restart boundary.
+        [[SFPasscodeManager sharedManager] setEncryptionKey:nil];
+        
+        [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:passcodeToVerify];
+        NSString *encryptionKeyToVerify = [SFPasscodeManager sharedManager].encryptionKey;
+        STAssertFalse([initialEncryptionKey isEqualToString:encryptionKeyToVerify], @"For '%@': Encryption keys should not be the same for different passcodes.", passcodeProviderName);
+        
+        [[SFPasscodeManager sharedManager] resetPasscode];
+    }
 }
 
 @end

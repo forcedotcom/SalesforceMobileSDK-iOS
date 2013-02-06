@@ -65,10 +65,10 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 - (void)resetPasscodeData
 {
     SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscodeVerify account:nil];
-    [keychainWrapper setValueData:nil];
+    [keychainWrapper resetKeychainItem];
     [keychainWrapper release];
     keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscodeEncrypt account:nil];
-    [keychainWrapper setValueData:nil];
+    [keychainWrapper resetKeychainItem];
     [keychainWrapper release];
 }
 
