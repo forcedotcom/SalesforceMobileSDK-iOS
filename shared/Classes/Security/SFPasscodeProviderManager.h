@@ -118,5 +118,12 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  */
 + (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider name:(NSString *)providerName;
 
+/**
+ * Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
+ * the current provider will be reset to the default value.
+ * @param providerName The name of the provider to remove.
+ */
++ (void)removePasscodeProviderWithName:(NSString *)providerName;
+
 
 @end

@@ -478,6 +478,7 @@
 		826FBA7816B36F97001AAEF9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		826FBA7A16B36FAF001AAEF9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		826FBA7C16B36FF1001AAEF9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		82C94C1616C1D166000318A1 /* SFPasscodeProviderManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeProviderManager+Internal.h"; sourceTree = "<group>"; };
 		82DB7E4116B72FB900FE9F21 /* SalesforceSDKUnitTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKUnitTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82DB7E4816B72FB900FE9F21 /* SalesforceSDKUnitTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceSDKUnitTestApp-Info.plist"; sourceTree = "<group>"; };
 		82DB7E4A16B72FB900FE9F21 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -687,6 +688,7 @@
 				8208EB0416BDF75200025C5D /* SFSHA256PasscodeProvider.h */,
 				8208EB0516BDF75200025C5D /* SFSHA256PasscodeProvider.m */,
 				8208EB0716BE093E00025C5D /* SFPasscodeProviderManager.h */,
+				82C94C1616C1D166000318A1 /* SFPasscodeProviderManager+Internal.h */,
 				8208EB0816BE093E00025C5D /* SFPasscodeProviderManager.m */,
 				8208EB1B16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.h */,
 				8208EB1C16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m */,

@@ -23,7 +23,9 @@
  */
 
 #import "SFPasscodeProviderManager.h"
+#import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
+#import "SFPBKDF2PasscodeProvider.h"
 #import "SFLogger.h"
 
 // Public constants
@@ -40,10 +42,14 @@ static NSMutableDictionary *PasscodeProviderMap;
 + (void)initialize
 {
     SFSHA256PasscodeProvider *sha256Prov = [[SFSHA256PasscodeProvider alloc] init];
+    SFPBKDF2PasscodeProvider *pbkdf2Prov = [[SFPBKDF2PasscodeProvider alloc] init];
+    
     PasscodeProviderMap = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                     sha256Prov, kSFPasscodeProviderSHA256,
-                                     nil];
+                           sha256Prov, kSFPasscodeProviderSHA256,
+                           pbkdf2Prov, kSFPasscodeProviderPBKDF2,
+                           nil];
     [sha256Prov release];
+    [pbkdf2Prov release];
 }
 
 + (NSString *)currentPasscodeProviderName
@@ -75,6 +81,13 @@ static NSMutableDictionary *PasscodeProviderMap;
     }
 }
 
++ (void)resetCurrentPasscodeProviderName
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs removeObjectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
+    [defs synchronize];
+}
+
 + (id<SFPasscodeProvider>)currentPasscodeProvider
 {
     return [SFPasscodeProviderManager passcodeProviderForProviderName:[SFPasscodeProviderManager currentPasscodeProviderName]];
@@ -97,6 +110,27 @@ static NSMutableDictionary *PasscodeProviderMap;
                   msg:[NSString stringWithFormat:@"A passcode provider is already configured for '%@'.  Will not overwrite the current provider.", providerName]];
     } else {
         [PasscodeProviderMap setObject:provider forKey:providerName];
+    }
+}
+
++ (void)removePasscodeProviderWithName:(NSString *)providerName
+{
+    NSAssert(providerName != nil, @"providerName must not be nil.");
+    id<SFPasscodeProvider> existingProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:providerName];
+    if (existingProvider == nil) {
+        [SFLogger log:[SFPasscodeProviderManager class]
+                level:SFLogLevelWarning
+                  msg:[NSString stringWithFormat:@"Passcode provider with name '%@' does not exist.  No action will be taken.", providerName]];
+        return;
+    }
+    
+    [PasscodeProviderMap removeObjectForKey:providerName];
+    NSString *currentProviderName = [SFPasscodeProviderManager currentPasscodeProviderName];
+    if ([currentProviderName isEqualToString:providerName]) {
+        [SFLogger log:[SFPasscodeProviderManager class]
+                level:SFLogLevelInfo
+                  msg:[NSString stringWithFormat:@"Passcode provider with name '%@' was configured as the current provider.  Current provider will be reset to the default.", providerName]];
+        [SFPasscodeProviderManager resetCurrentPasscodeProviderName];
     }
 }
 
