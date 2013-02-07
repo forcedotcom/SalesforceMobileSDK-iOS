@@ -173,6 +173,9 @@
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
+		822F804A16C32469008516DD /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
+		822F804B16C32469008516DD /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
+		822F804C16C32469008516DD /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8269D58C16B62528005CF49E /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		8269D58D16B62528005CF49E /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
@@ -801,6 +804,9 @@
 				82BA26EB165189C7000B7D43 /* SFPathUtil.h */,
 				82BA26EC165189C7000B7D43 /* SFPhonePickListViewController.h */,
 				82BA26ED165189C7000B7D43 /* SFPickListViewController.h */,
+				822F804A16C32469008516DD /* SFSoqlBuilder.h */,
+				822F804B16C32469008516DD /* SFSoslBuilder.h */,
+				822F804C16C32469008516DD /* SFSoslReturningBuilder.h */,
 				82BA26EE165189C7000B7D43 /* SFTestContext.h */,
 				82BA26EF165189C7000B7D43 /* SFUIUtils.h */,
 				82BA26F0165189C7000B7D43 /* UIActionSheet+SFBlocks.h */,

@@ -113,7 +113,7 @@ static BOOL _showPasscode = YES;
 	NSNumber *n = [NSNumber numberWithInt:securityLockoutTime];
 	[[NSUserDefaults standardUserDefaults] setObject:n forKey:kSecurityTimeoutKey];
 	if (securityLockoutTime == 0) {  // 0 = security code is removed.
-        if ([[SFPasscodeManager sharedManager] hashedPasscode] != nil) {
+        if ([[SFPasscodeManager sharedManager] passcodeIsSet]) {
             // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
         }
 		[SFSecurityLockout unlock:YES];
@@ -220,7 +220,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-	if([[SFPasscodeManager sharedManager] hashedPasscode] == nil) {
+	if(![[SFPasscodeManager sharedManager] passcodeIsSet]) {
 		[SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
 	} else {
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
@@ -293,7 +293,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)isPasscodeValid {
 	if(securityLockoutTime == 0) return YES; // no passcode is required.
-    return([[SFPasscodeManager sharedManager] hashedPasscode] != nil);
+    return([[SFPasscodeManager sharedManager] passcodeIsSet]);
 }
 
 + (BOOL)isLockoutEnabled {
@@ -380,9 +380,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)setPasscode:(NSString *)passcode
 {
-    // Get the old passcode, before changing.
-    NSString *oldHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
-    if (oldHashedPasscode == nil) oldHashedPasscode = @"";
+    // Get the old encryption key, before changing.
+    NSString *oldEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+    if (oldEncryptionKey == nil) oldEncryptionKey = @"";
     
     if (passcode == nil || [passcode length] == 0) {
         [[SFPasscodeManager sharedManager] resetPasscode];
@@ -393,15 +393,15 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [[SFPasscodeManager sharedManager] setPasscode:passcode];
     }
     
-    NSString *newHashedPasscode = [[SFPasscodeManager sharedManager] hashedPasscode];
-    if (newHashedPasscode == nil) newHashedPasscode = @"";
+    NSString *newEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+    if (newEncryptionKey == nil) newEncryptionKey = @"";
     
-    if (![oldHashedPasscode isEqualToString:newHashedPasscode]) {
+    if (![oldEncryptionKey isEqualToString:newEncryptionKey]) {
         //Passcode changed, post the notification
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:oldHashedPasscode, SFPasscodeResetOldPasscodeKey, newHashedPasscode, SFPasscodeResetNewPasscodeKey, nil]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:oldEncryptionKey, SFPasscodeResetOldPasscodeKey, newEncryptionKey, SFPasscodeResetNewPasscodeKey, nil]];
     }
     
-    [SFSmartStore changeKeyForStores:oldHashedPasscode newKey:newHashedPasscode];
+    [SFSmartStore changeKeyForStores:oldEncryptionKey newKey:newEncryptionKey];
 }
 
 + (void)setCanShowPasscode:(BOOL)showPasscode {
