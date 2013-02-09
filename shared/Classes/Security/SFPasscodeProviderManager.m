@@ -41,8 +41,8 @@ static NSMutableDictionary *PasscodeProviderMap;
 
 + (void)initialize
 {
-    SFSHA256PasscodeProvider *sha256Prov = [[SFSHA256PasscodeProvider alloc] init];
-    SFPBKDF2PasscodeProvider *pbkdf2Prov = [[SFPBKDF2PasscodeProvider alloc] init];
+    SFSHA256PasscodeProvider *sha256Prov = [[SFSHA256PasscodeProvider alloc] initWithProviderName:kSFPasscodeProviderSHA256];
+    SFPBKDF2PasscodeProvider *pbkdf2Prov = [[SFPBKDF2PasscodeProvider alloc] initWithProviderName:kSFPasscodeProviderPBKDF2];
     
     PasscodeProviderMap = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                            sha256Prov, kSFPasscodeProviderSHA256,
@@ -73,7 +73,7 @@ static NSMutableDictionary *PasscodeProviderMap;
     if (provider == nil) {
         [SFLogger log:[SFPasscodeProviderManager class]
                 level:SFLogLevelError
-                  msg:[NSString stringWithFormat:@"No passcode provider exists for provider '%@'.  Use [SFPasscodeProviderManager addPasscodeProvider:name:] to configure a new provider.", providerName]];
+                  msg:[NSString stringWithFormat:@"No passcode provider exists for provider '%@'.  Use [SFPasscodeProviderManager addPasscodeProvider:] to configure a new provider.", providerName]];
     } else {
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setObject:providerName forKey:kSFCurrentPasscodeProviderUserDefaultsKey];
@@ -95,21 +95,20 @@ static NSMutableDictionary *PasscodeProviderMap;
 
 + (id<SFPasscodeProvider>)passcodeProviderForProviderName:(NSString *)providerName
 {
-    NSAssert(providerName != nil, @"providerName must not be nil.");
     return (id<SFPasscodeProvider>)[PasscodeProviderMap objectForKey:providerName];
 }
 
-+ (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider name:(NSString *)providerName
++ (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider
 {
     NSAssert(provider != nil, @"provider must not be nil.");
-    NSAssert(providerName != nil, @"providerName must not be nil.");
-    id<SFPasscodeProvider> existingProvider = [PasscodeProviderMap objectForKey:providerName];
+    NSString *newProviderName = provider.providerName;
+    id<SFPasscodeProvider> existingProvider = [PasscodeProviderMap objectForKey:newProviderName];
     if (existingProvider != nil) {
         [SFLogger log:[SFPasscodeProviderManager class]
                 level:SFLogLevelError
-                  msg:[NSString stringWithFormat:@"A passcode provider is already configured for '%@'.  Will not overwrite the current provider.", providerName]];
+                  msg:[NSString stringWithFormat:@"A passcode provider is already configured for '%@'.  Will not overwrite the current provider.", newProviderName]];
     } else {
-        [PasscodeProviderMap setObject:provider forKey:providerName];
+        [PasscodeProviderMap setObject:provider forKey:newProviderName];
     }
 }
 

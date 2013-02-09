@@ -226,7 +226,7 @@
 		822F802516C31EC1008516DD /* SFSoslBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802216C31EC1008516DD /* SFSoslBuilder.h */; };
 		822F802616C31EC1008516DD /* SFSoslReturningBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802316C31EC1008516DD /* SFSoslReturningBuilder.h */; };
 		822F803216C31EFB008516DD /* SFPasscodeManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802816C31EFB008516DD /* SFPasscodeManager+Internal.h */; };
-		822F803316C31EFB008516DD /* SFPasscodeProviderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802916C31EFB008516DD /* SFPasscodeProviderManager.h */; };
+		822F803316C31EFB008516DD /* SFPasscodeProviderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802916C31EFB008516DD /* SFPasscodeProviderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822F803416C31EFB008516DD /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802A16C31EFB008516DD /* SFPasscodeProviderManager.m */; };
 		822F803516C31EFB008516DD /* SFPasscodeProviderManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802B16C31EFB008516DD /* SFPasscodeProviderManager+Internal.h */; };
 		822F803616C31EFB008516DD /* SFPBKDF2PasscodeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 822F802C16C31EFB008516DD /* SFPBKDF2PasscodeProvider.h */; };
@@ -415,7 +415,7 @@
 		82954641167A83B300A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
 		82954642167A874000A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
 		82954643167A874800A0FC34 /* cordova-2.3.0.js in Copy shared-www files */ = {isa = PBXBuildFile; fileRef = 829545FC167A7B7200A0FC34 /* cordova-2.3.0.js */; };
-		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; };
+		82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A9FF2A15DD76E800AE37B9 /* SFPasscodeManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A9FF2D15DD76E800AE37B9 /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A9FF2B15DD76E800AE37B9 /* SFPasscodeManager.m */; };
 		82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC0C15F580D30054B066 /* SFSecurityLockout+Internal.h */; };
 		82B9FD1715E45C7600BE8822 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82B9FD1615E45C7600BE8822 /* test_credentials.json */; };
@@ -1822,6 +1822,7 @@
 				7D45E33914BFB394002C4A27 /* SFContainerAppDelegate.h in Headers */,
 				7D45E33D14BFB394002C4A27 /* SalesforceOAuthPlugin.h in Headers */,
 				7DD88EEC14DA044E00C0D0A0 /* SFJsonUtils.h in Headers */,
+				822F803316C31EFB008516DD /* SFPasscodeProviderManager.h in Headers */,
 				7D56F40414DC7F200013A60F /* SFSmartStorePlugin.h in Headers */,
 				7D8ECE9A14EB246B004F241C /* SFSoupQuerySpec.h in Headers */,
 				7D8ECEAB14EB246B004F241C /* SqliteAdditions.h in Headers */,
@@ -1836,6 +1837,7 @@
 				822AC0C01577EF57007C20B9 /* SFAccountManager.h in Headers */,
 				822AC0C21577EF57007C20B9 /* SFPasscodeViewController.h in Headers */,
 				822AC0C41577EF57007C20B9 /* SFSecurityLockout.h in Headers */,
+				82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */,
 				822AC0CC1577EFCF007C20B9 /* SFIdentityCoordinator.h in Headers */,
 				822AC0CE1577EFCF007C20B9 /* SFIdentityCoordinator+Internal.h in Headers */,
 				822AC0CF1577EFCF007C20B9 /* SFIdentityData.h in Headers */,
@@ -1920,7 +1922,6 @@
 				8238198B1587FA2F007C0D86 /* x509_vfy.h in Headers */,
 				8238198C1587FA2F007C0D86 /* x509v3.h in Headers */,
 				828C07D515A39A47002523B2 /* SFHybridViewController.h in Headers */,
-				82A9FF2C15DD76E800AE37B9 /* SFPasscodeManager.h in Headers */,
 				82599EE015EC284000AAACF7 /* SFSmartStoreDatabaseManager.h in Headers */,
 				823064A315EF1380002AA5A0 /* SFSmartStore+Internal.h in Headers */,
 				82B0FC0D15F580D30054B066 /* SFSecurityLockout+Internal.h in Headers */,
@@ -2007,7 +2008,6 @@
 				822F802516C31EC1008516DD /* SFSoslBuilder.h in Headers */,
 				822F802616C31EC1008516DD /* SFSoslReturningBuilder.h in Headers */,
 				822F803216C31EFB008516DD /* SFPasscodeManager+Internal.h in Headers */,
-				822F803316C31EFB008516DD /* SFPasscodeProviderManager.h in Headers */,
 				822F803516C31EFB008516DD /* SFPasscodeProviderManager+Internal.h in Headers */,
 				822F803616C31EFB008516DD /* SFPBKDF2PasscodeProvider.h in Headers */,
 				822F803816C31EFB008516DD /* SFPBKDFData.h in Headers */,

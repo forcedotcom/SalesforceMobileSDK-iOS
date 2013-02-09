@@ -24,13 +24,33 @@
 
 #import "SFSHA256PasscodeProvider.h"
 #import "SFKeychainItemWrapper.h"
+#import "SalesforceSDKConstants.h"
 #import "SFLogger.h"
-
-@implementation SFSHA256PasscodeProvider
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 
+@implementation SFSHA256PasscodeProvider
+
+@synthesize providerName = _providerName;
+
 #pragma mark - SFPasscodeProvider
+
+- (id)initWithProviderName:(NSString *)providerName
+{
+    self = [super init];
+    if (self) {
+        NSAssert(providerName != nil, @"providerName cannot be nil.");
+        _providerName = [providerName copy];
+    }
+    
+    return self;
+}
+
+- (void)dealloc
+{
+    SFRelease(_providerName);
+    [super dealloc];
+}
 
 - (void)resetPasscodeData
 {

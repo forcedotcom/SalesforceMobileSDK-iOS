@@ -39,6 +39,10 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  */
 @protocol SFPasscodeProvider <NSObject>
 
+@property (nonatomic, readonly) NSString *providerName;
+
+- (id)initWithProviderName:(NSString *)providerName;
+
 /**
  * Reset (unset) the passcode and any persisted data associated with it.
  */
@@ -114,9 +118,8 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * Note: custom providers are not persisted across app restarts.  You should call this method
  * to add your provider in your app's initialization logic.
  * @param provider The passcode provider implementation.
- * @param providerName The name associated with the provider.
  */
-+ (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider name:(NSString *)providerName;
++ (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider;
 
 /**
  * Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
