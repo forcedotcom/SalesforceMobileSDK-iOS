@@ -14,6 +14,7 @@
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
 #import "SFPBKDF2PasscodeProvider.h"
+#import "SalesforceSDKConstants.h"
 
 #pragma mark - MockPasscodeProvider
 
@@ -22,6 +23,16 @@
 @end
 
 @implementation MockPasscodeProvider
+@synthesize providerName = _providerName;
+- (id)initWithProviderName:(NSString *)providerName
+{
+    self = [super init];
+    if (self) {
+        _providerName = [providerName copy];
+    }
+    return self;
+}
+- (void)dealloc { SFRelease(_providerName); [super dealloc]; }
 - (void)resetPasscodeData { /* Not implemented. */ }
 - (BOOL)verifyPasscode:(NSString *)passcode { /* Not implemented. */ return YES; }
 - (NSString *)hashedVerificationPasscode { /* Not implemented. */ return @""; }
@@ -102,8 +113,8 @@
     id<SFPasscodeProvider> nonConfiguredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:mockProviderName];
     STAssertNil(nonConfiguredProvider, @"Passcode provider '%@' should not be configured.", mockProviderName);
     
-    MockPasscodeProvider *mpp = [[MockPasscodeProvider alloc] init];
-    [SFPasscodeProviderManager addPasscodeProvider:mpp name:mockProviderName];
+    MockPasscodeProvider *mpp = [[MockPasscodeProvider alloc] initWithProviderName:mockProviderName];
+    [SFPasscodeProviderManager addPasscodeProvider:mpp];
     [mpp release];
     id<SFPasscodeProvider> configuredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:mockProviderName];
     STAssertNotNil(configuredProvider, @"Passcode provider '%@' should be configured.", mockProviderName);

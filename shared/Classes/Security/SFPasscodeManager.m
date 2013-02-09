@@ -32,6 +32,7 @@ static SFPasscodeManager *sharedInstance = nil;
 @implementation SFPasscodeManager
 
 @synthesize encryptionKey = _encryptionKey;
+@synthesize preferredPasscodeProvider = _preferredPasscodeProvider;
 
 #pragma mark - Singleton initialization / management
 
@@ -135,13 +136,28 @@ static SFPasscodeManager *sharedInstance = nil;
 - (void)setPasscode:(NSString *)newPasscode
 {
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    id<SFPasscodeProvider> preferredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:self.preferredPasscodeProvider];
     if (currentProvider == nil) {
         [self log:SFLogLevelError msg:@"Current passcode provider is not set.  Cannot set new passcode."];
-    } else {
-        [currentProvider setVerificationPasscode:newPasscode];
-        NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
-        [self setEncryptionKey:encryptionKey];
+        return;
     }
+    
+    if (preferredProvider == nil) {
+        [self log:SFLogLevelWarning format:@"Could not load preferred passcode provider '%@'.  Defaulting to current provider ('%@') as the preferred provider.", preferredProvider.providerName, currentProvider.providerName];
+        preferredProvider = currentProvider;
+    }
+    
+    // If the current and preferred providers are not the same, we need to unconfigure the current, and
+    // configure the preferred as the new current.
+    if (![currentProvider isEqual:preferredProvider]) {
+        [currentProvider resetPasscodeData];
+        [SFPasscodeProviderManager setCurrentPasscodeProviderByName:preferredProvider.providerName];
+        currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    }
+    
+    [currentProvider setVerificationPasscode:newPasscode];
+    NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
+    [self setEncryptionKey:encryptionKey];
 }
 
 @end

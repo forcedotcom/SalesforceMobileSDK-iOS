@@ -173,6 +173,8 @@
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
+		821A8BEC16C5E15A00979E88 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
+		821A8BED16C5E15A00979E88 /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
 		822F804A16C32469008516DD /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
 		822F804B16C32469008516DD /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
 		822F804C16C32469008516DD /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
@@ -757,6 +759,8 @@
 				82AE433E15FDB5C800FD5FA9 /* SFJsonUtils.h */,
 				82AE433F15FDB5C800FD5FA9 /* SFNativeRestAppDelegate.h */,
 				82AE434015FDB5C800FD5FA9 /* SFNativeRootViewController.h */,
+				821A8BEC16C5E15A00979E88 /* SFPasscodeManager.h */,
+				821A8BED16C5E15A00979E88 /* SFPasscodeProviderManager.h */,
 				82AE434115FDB5C800FD5FA9 /* SFRestAPI+Blocks.h */,
 				82AE434215FDB5C800FD5FA9 /* SFRestAPI+QueryBuilder.h */,
 				82AE434315FDB5C800FD5FA9 /* SFRestAPI.h */,

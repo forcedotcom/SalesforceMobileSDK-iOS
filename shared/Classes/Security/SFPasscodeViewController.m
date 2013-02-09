@@ -440,6 +440,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
         [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:checkPasscode];
+        [SFSecurityLockout setPasscode:checkPasscode];
         [SFSecurityLockout unlock:YES];
         [SFSecurityLockout setupTimer];
         [self setRemainingAttempts:kMaxNumberofAttempts];

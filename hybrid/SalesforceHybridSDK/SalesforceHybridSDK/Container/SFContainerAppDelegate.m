@@ -29,6 +29,8 @@
 #import "SalesforceOAuthPlugin.h"
 #import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFSDKWebUtils.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
@@ -102,6 +104,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
+        
+        // Our preferred passcode provider as of this release.
+        // NOTE: If you wanted to set a different provider (or your own), you would do the
+        // following in your app delegate's init method:
+        //   id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+        //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+        //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
+        [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
     }
     return self;
 }

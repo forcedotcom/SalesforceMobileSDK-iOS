@@ -36,6 +36,8 @@
 #import "SFOAuthInfo.h"
 #import "SFSDKWebUtils.h"
 #import "SFAuthenticationManager.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFLogger.h"
 
 #if defined(DEBUG)
@@ -122,6 +124,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [SFAccountManager setScopes:[[self class] oauthScopes]];
         [SFAccountManager setCurrentAccountIdentifier:[self userAccountIdentifier]];
         _accountMgr = [SFAccountManager sharedInstance];
+        
+        // Our preferred passcode provider as of this release.
+        // NOTE: If you wanted to set a different provider (or your own), you would do the
+        // following in your app delegate's init method:
+        //   id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+        //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+        //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
+        [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         
         // Set up the authentication callback blocks.
         self.authSuccessBlock = ^(SFOAuthInfo *authInfo) {
