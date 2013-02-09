@@ -39,8 +39,15 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  */
 @protocol SFPasscodeProvider <NSObject>
 
+/**
+ * The canonical name of this passcode provider.
+ */
 @property (nonatomic, readonly) NSString *providerName;
 
+/**
+ * Designated initializer for an SFPasscodeProvider.
+ * @param providerName The canonical name of the provider.
+ */
 - (id)initWithProviderName:(NSString *)providerName;
 
 /**
