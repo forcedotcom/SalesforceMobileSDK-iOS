@@ -26,6 +26,7 @@
 #import "SFSecurityLockout.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFPasscodeManager.h"
+#import "SFPasscodeManager+Internal.h"
 #import "SFSDKResourceUtils.h"
 
 // Private view layout constants
@@ -438,6 +439,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
+        [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:checkPasscode];
         [SFSecurityLockout unlock:YES];
         [SFSecurityLockout setupTimer];
         [self setRemainingAttempts:kMaxNumberofAttempts];

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,41 +25,40 @@
 #import <Foundation/Foundation.h>
 
 /**
- Class for managing storage, retrieval, and verification of passcodes.
+ * Data class for PBKDF-generated keys.
  */
-@interface SFPasscodeManager : NSObject
+@interface SFPBKDFData : NSObject <NSCoding>
 
 /**
- @return The shared instance of the passcode manager.
+ * The PBKDF-derived key.
  */
-+ (SFPasscodeManager *)sharedManager;
+@property (nonatomic, retain) NSData *derivedKey;
 
 /**
- The encryption key associated with the app.
+ * The salt used in conjunction with the plaintext input for creating the key.
  */
-@property (nonatomic, readonly) NSString *encryptionKey;
+@property (nonatomic, retain) NSData *salt;
 
 /**
- @return Whether or not a passcode has been set.
+ * The number of derivation rounds used when generating the key.
  */
-- (BOOL)passcodeIsSet;
+@property (nonatomic, assign) NSUInteger numDerivationRounds;
 
 /**
- Reset the passcode in the keychain.
+ * The length, in bytes, of the derived key.
  */
-- (void)resetPasscode;
+@property (nonatomic, assign) NSUInteger derivedKeyLength;
 
 /**
- Verify the passcode.
- @param passcode The passcode to verify.
- @return YES if the passcode verifies, NO otherwise.
+ * Initializes the data object with its core components.
+ * @param key The derived key.
+ * @param salt The salt used with the input value to create the key.
+ * @param derivationRounds The number of derivation rounds used to generate the key.
+ * @param derivedKeyLength The length of the derived key, in bytes.
  */
-- (BOOL)verifyPasscode:(NSString *)passcode;
-
-/**
- Set the passcode.
- @param newPasscode The passcode to set.
- */
-- (void)setPasscode:(NSString *)newPasscode;
+- (id)initWithKey:(NSData *)key
+             salt:(NSData *)salt
+ derivationRounds:(NSUInteger)derivationRounds
+ derivedKeyLength:(NSUInteger)derivedKeyLength;
 
 @end

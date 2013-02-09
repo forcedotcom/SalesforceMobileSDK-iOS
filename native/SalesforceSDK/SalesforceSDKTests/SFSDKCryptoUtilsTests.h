@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,44 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <SenTestingKit/SenTestingKit.h>
 
-/**
- Class for managing storage, retrieval, and verification of passcodes.
- */
-@interface SFPasscodeManager : NSObject
-
-/**
- @return The shared instance of the passcode manager.
- */
-+ (SFPasscodeManager *)sharedManager;
-
-/**
- The encryption key associated with the app.
- */
-@property (nonatomic, readonly) NSString *encryptionKey;
-
-/**
- @return Whether or not a passcode has been set.
- */
-- (BOOL)passcodeIsSet;
-
-/**
- Reset the passcode in the keychain.
- */
-- (void)resetPasscode;
-
-/**
- Verify the passcode.
- @param passcode The passcode to verify.
- @return YES if the passcode verifies, NO otherwise.
- */
-- (BOOL)verifyPasscode:(NSString *)passcode;
-
-/**
- Set the passcode.
- @param newPasscode The passcode to set.
- */
-- (void)setPasscode:(NSString *)newPasscode;
+@interface SFSDKCryptoUtilsTests : SenTestCase
 
 @end
