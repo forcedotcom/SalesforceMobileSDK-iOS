@@ -178,6 +178,18 @@
 		820275E91651766700DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275E51651759400DB814C /* MessageUI.framework */; };
 		82031D9C15B4EF4500073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
 		82031D9D15B4EF6100073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D9B15B4EF4500073595 /* CordovaResources.bundle */; };
+		821A8BFD16C5E50200979E88 /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802A16C31EFB008516DD /* SFPasscodeProviderManager.m */; };
+		821A8BFF16C5E50200979E88 /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802A16C31EFB008516DD /* SFPasscodeProviderManager.m */; };
+		821A8C0016C5E50300979E88 /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802A16C31EFB008516DD /* SFPasscodeProviderManager.m */; };
+		821A8C0116C5E50D00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802D16C31EFB008516DD /* SFPBKDF2PasscodeProvider.m */; };
+		821A8C0216C5E50E00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802D16C31EFB008516DD /* SFPBKDF2PasscodeProvider.m */; };
+		821A8C0316C5E50F00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802D16C31EFB008516DD /* SFPBKDF2PasscodeProvider.m */; };
+		821A8C0416C5E51300979E88 /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802F16C31EFB008516DD /* SFPBKDFData.m */; };
+		821A8C0516C5E51400979E88 /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802F16C31EFB008516DD /* SFPBKDFData.m */; };
+		821A8C0616C5E51500979E88 /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F802F16C31EFB008516DD /* SFPBKDFData.m */; };
+		821A8C0716C5E51A00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
+		821A8C0816C5E51B00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
+		821A8C0916C5E51C00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
 		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
 		821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E801583FBBF00433F92 /* FMDatabase.h */; settings = {ATTRIBUTES = (); }; };
 		821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
@@ -2435,6 +2447,10 @@
 				82D8B37A1665760700A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C7167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 				823B0134169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
+				821A8C0016C5E50300979E88 /* SFPasscodeProviderManager.m in Sources */,
+				821A8C0316C5E50F00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
+				821A8C0616C5E51500979E88 /* SFPBKDFData.m in Sources */,
+				821A8C0916C5E51C00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2524,6 +2540,10 @@
 				82D8B3771665760500A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C5167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 				823B0132169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
+				821A8BFD16C5E50200979E88 /* SFPasscodeProviderManager.m in Sources */,
+				821A8C0116C5E50D00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
+				821A8C0416C5E51300979E88 /* SFPBKDFData.m in Sources */,
+				821A8C0716C5E51A00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2575,6 +2595,10 @@
 				82D8B3791665760600A34BAD /* SFAuthenticationManager.m in Sources */,
 				82F245C6167BDECE0032B3D9 /* SFSDKWebUtils.m in Sources */,
 				823B0133169E547C004CFBF9 /* SFSDKResourceUtils.m in Sources */,
+				821A8BFF16C5E50200979E88 /* SFPasscodeProviderManager.m in Sources */,
+				821A8C0216C5E50E00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
+				821A8C0516C5E51400979E88 /* SFPBKDFData.m in Sources */,
+				821A8C0816C5E51B00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
