@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,51 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFPasscodeProviderManager.h"
+
+@interface SFPasscodeProviderManager ()
 
 /**
- Class for managing storage, retrieval, and verification of passcodes.
+ * Clears the persisted value for the passcode provider name.
  */
-@interface SFPasscodeManager : NSObject
-
-/**
- @return The shared instance of the passcode manager.
- */
-+ (SFPasscodeManager *)sharedManager;
-
-/**
- The encryption key associated with the app.
- */
-@property (nonatomic, readonly) NSString *encryptionKey;
-
-/**
- The preferred passcode provider for the app.  If another provider was previously configured,
- the passcode manager will automatically update to the preferred provider at the next passcode
- update or verification.
- */
-@property (nonatomic, copy) NSString *preferredPasscodeProvider;
-
-/**
- @return Whether or not a passcode has been set.
- */
-- (BOOL)passcodeIsSet;
-
-/**
- Reset the passcode in the keychain.
- */
-- (void)resetPasscode;
-
-/**
- Verify the passcode.
- @param passcode The passcode to verify.
- @return YES if the passcode verifies, NO otherwise.
- */
-- (BOOL)verifyPasscode:(NSString *)passcode;
-
-/**
- Set the passcode.
- @param newPasscode The passcode to set.
- */
-- (void)setPasscode:(NSString *)newPasscode;
++ (void)resetCurrentPasscodeProviderName;
 
 @end

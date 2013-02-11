@@ -31,6 +31,7 @@
 #import "SalesforceSDKConstants.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
+#import "SFAuthenticationManager.h"
 
 // ------------------------------------------
 // Private constants
@@ -368,6 +369,8 @@ static NSString *CurrentAccountIdentifier;
     if (self.coordinator.view) {
         [self.coordinator.view removeFromSuperview];
     }
+    
+    [SFAuthenticationManager removeAllCookies];
     [_coordinator setDelegate:nil];
     [_idCoordinator setDelegate:nil];
     SFRelease(_idCoordinator);
