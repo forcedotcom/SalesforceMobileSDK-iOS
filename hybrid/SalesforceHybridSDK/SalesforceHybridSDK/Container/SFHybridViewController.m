@@ -89,6 +89,9 @@
         
         [[SFAuthenticationManager sharedManager] login:self
                                             completion:^(SFOAuthInfo *authInfo) {
+                                                // Reset the user agent back to Cordova.
+                                                [SFSDKWebUtils configureUserAgent:self.userAgent];
+                                                
                                                 [self authenticationCompletion:request.URL];
                                             }
                                                failure:^(SFOAuthInfo *authInfo, NSError *error) {

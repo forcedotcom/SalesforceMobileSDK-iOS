@@ -115,6 +115,11 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 + (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
 
 /**
+ Remove all cookies from the cookie store.
+ */
++ (void)removeAllCookies;
+
+/**
  Adds the access (session) token cookie to the web view, for authentication.
  @param domain The domain on which to set the cookie.
  */
