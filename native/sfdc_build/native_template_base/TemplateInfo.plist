@@ -1548,6 +1548,32 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
 	</dict>
 	
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</string>
+	</dict>
+	
 	<key>dependencies/SalesforceSDK/libSalesforceSDK.a</key>
 	<dict>
 		<key>Group</key>			
@@ -2387,6 +2413,8 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+QueryBuilder.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>

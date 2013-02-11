@@ -26,6 +26,7 @@
 #import "SFKeychainItemWrapper.h"
 #import "SFPBKDFData.h"
 #import "SFSDKCryptoUtils.h"
+#import "SalesforceSDKConstants.h"
 #import "SFLogger.h"
 #import "NSData+SFAdditions.h"
 
@@ -45,13 +46,16 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 @synthesize saltLengthInBytes = _saltLengthInBytes;
 @synthesize numDerivationRounds = _numDerivationRounds;
 @synthesize derivedKeyLengthInBytes = _derivedKeyLengthInBytes;
+@synthesize providerName = _providerName;
 
-#pragma mark - init / dealloc / etc.
+#pragma mark - SFPasscodeProvider
 
-- (id)init
+- (id)initWithProviderName:(NSString *)providerName
 {
     self = [super init];
     if (self) {
+        NSAssert(providerName != nil, @"providerName cannot be nil.");
+        _providerName = [providerName copy];
         self.saltLengthInBytes = kSFPBKDFDefaultSaltByteLength;
         self.numDerivationRounds = kSFPBKDFDefaultNumberOfDerivationRounds;
         self.derivedKeyLengthInBytes = kSFPBKDFDefaultDerivedKeyByteLength;
@@ -60,7 +64,11 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     return self;
 }
 
-#pragma mark - SFPasscodeProvider
+- (void)dealloc
+{
+    SFRelease(_providerName);
+    [super dealloc];
+}
 
 - (void)resetPasscodeData
 {

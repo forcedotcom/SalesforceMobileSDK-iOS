@@ -40,6 +40,13 @@
 @property (nonatomic, readonly) NSString *encryptionKey;
 
 /**
+ The preferred passcode provider for the app.  If another provider was previously configured,
+ the passcode manager will automatically update to the preferred provider at the next passcode
+ update or verification.
+ */
+@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+
+/**
  @return Whether or not a passcode has been set.
  */
 - (BOOL)passcodeIsSet;
