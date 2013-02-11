@@ -23,6 +23,7 @@
  */
 
 #import "SalesforceOAuthPlugin.h"
+#import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
@@ -160,6 +161,10 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     [SFSDKWebUtils configureUserAgent];
     
     SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
+        // Reset the user agent back to Cordova.
+        CDVViewController *cdvVc = (CDVViewController *)self.viewController;
+        [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
+        
         [self authenticationCompletion];
     };
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {

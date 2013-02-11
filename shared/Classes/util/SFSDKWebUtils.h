@@ -42,10 +42,16 @@ extern NSString * const kUserAgentPropKey;
 + (NSString *)appDelegateUserAgentString;
 
 /**
- * Configures the web user agent for the app.  Based ultimately on SFSDKAppDelegate's userAgentString
+ * Configures the default web user agent for the app.  Based ultimately on SFSDKAppDelegate's userAgentString
  * property.
  */
 + (void)configureUserAgent;
+
+/**
+ * Configures a user agent for the app.
+ * @param userAgentString The string to configure as the user agent.
+ */
++ (void)configureUserAgent:(NSString *)userAgentString;
 
 /**
  * @return The current user agent that's configured for the application.
