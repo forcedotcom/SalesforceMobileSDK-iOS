@@ -273,6 +273,15 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
 }
 
++ (void)removeAllCookies
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        [cookieStorage deleteCookie:cookie];
+    }
+}
+
 + (void)addSidCookieForDomain:(NSString*)domain
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
