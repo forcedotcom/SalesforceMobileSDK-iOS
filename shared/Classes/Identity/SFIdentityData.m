@@ -37,9 +37,6 @@ NSString * const kSFIdentityDisplayNameKey                = @"display_name";
 NSString * const kSFIdentityEmailKey                      = @"email";
 NSString * const kSFIdentityFirstNameKey                  = @"first_name";
 NSString * const kSFIdentityLastNameKey                   = @"last_name";
-NSString * const kSFIdentityStatusKey                     = @"status";
-NSString * const kSFIdentityStatusBodyKey                 = @"body";
-NSString * const kSFIdentityStatusCreationDateKey         = @"created_date";
 NSString * const kSFIdentityPhotosKey                     = @"photos";
 NSString * const kSFIdentityPictureUrlKey                 = @"picture";
 NSString * const kSFIdentityThumbnailUrlKey               = @"thumbnail";
@@ -91,6 +88,16 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
  *         does not exist.
  */
 - (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey;
+
+/**
+ * Returns the NSString configured in the sub-object of the parent, or nil if the parent
+ * object does not exist.
+ * @param parentKey The data key associated with the parent object.
+ * @param childKey The data key associated with the child object where the string is configured.
+ * @return The NSString representation configured in the child object, or nil if the parent
+ *         does not exist.
+ */
+- (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey;
 
 @end
 
@@ -178,24 +185,6 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     return [self.dictRepresentation objectForKey:kSFIdentityLastNameKey];
 }
 
-- (NSString *)statusBody
-{
-    NSDictionary *idStatus = [self.dictRepresentation objectForKey:kSFIdentityStatusKey];
-    if (idStatus != nil)
-        return [idStatus objectForKey:kSFIdentityStatusBodyKey];
-    else
-        return nil;
-}
-
-- (NSDate *)statusCreationDate
-{
-    NSDictionary *idStatus = [self.dictRepresentation objectForKey:kSFIdentityStatusKey];
-    if (idStatus != nil && [idStatus objectForKey:kSFIdentityStatusCreationDateKey] != nil)
-        return [[self class] dateFromRfc822String:[idStatus objectForKey:kSFIdentityStatusCreationDateKey]];
-    else
-        return nil;
-}
-
 - (NSURL *)pictureUrl
 {
     return [self parentExistsOrNilForUrl:kSFIdentityPhotosKey childKey:kSFIdentityPictureUrlKey];
@@ -206,44 +195,44 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     return [self parentExistsOrNilForUrl:kSFIdentityPhotosKey childKey:kSFIdentityThumbnailUrlKey];
 }
 
-- (NSURL *)enterpriseSoapUrl
+- (NSString *)enterpriseSoapUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityEnterpriseSoapUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityEnterpriseSoapUrlKey];
 }
 
-- (NSURL *)metadataSoapUrl
+- (NSString *)metadataSoapUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityMetadataSoapUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityMetadataSoapUrlKey];
 }
 
-- (NSURL *)partnerSoapUrl
+- (NSString *)partnerSoapUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityPartnerSoapUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityPartnerSoapUrlKey];
 }
 
-- (NSURL *)restUrl
+- (NSString *)restUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityRestUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityRestUrlKey];
 }
 
-- (NSURL *)restSObjectsUrl
+- (NSString *)restSObjectsUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityRestSObjectsUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityRestSObjectsUrlKey];
 }
 
-- (NSURL *)restSearchUrl
+- (NSString *)restSearchUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityRestSearchUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityRestSearchUrlKey];
 }
 
-- (NSURL *)restQueryUrl
+- (NSString *)restQueryUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityRestQueryUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityRestQueryUrlKey];
 }
 
-- (NSURL *)restRecentUrl
+- (NSString *)restRecentUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityRestRecentUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityRestRecentUrlKey];
 }
 
 - (NSURL *)profileUrl
@@ -251,24 +240,24 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityProfileUrlKey];
 }
 
-- (NSURL *)chatterFeedsUrl
+- (NSString *)chatterFeedsUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityChatterFeedsUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityChatterFeedsUrlKey];
 }
 
-- (NSURL *)chatterGroupsUrl
+- (NSString *)chatterGroupsUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityChatterGroupsUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityChatterGroupsUrlKey];
 }
 
-- (NSURL *)chatterUsersUrl
+- (NSString *)chatterUsersUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityChatterUsersUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityChatterUsersUrlKey];
 }
 
-- (NSURL *)chatterFeedItemsUrl
+- (NSString *)chatterFeedItemsUrl
 {
-    return [self parentExistsOrNilForUrl:kSFIdentityUrlsKey childKey:kSFIdentityChatterFeedItemsUrlKey];
+    return [self parentExistsOrNilForString:kSFIdentityUrlsKey childKey:kSFIdentityChatterFeedItemsUrlKey];
 }
 
 - (BOOL)isActive
@@ -344,6 +333,15 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     NSDictionary *parentDict = [self.dictRepresentation objectForKey:parentKey];
     if (parentDict != nil)
         return [NSURL URLWithString:[parentDict objectForKey:childKey]];
+    else
+        return nil;
+}
+
+- (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey
+{
+    NSDictionary *parentDict = [self.dictRepresentation objectForKey:parentKey];
+    if (parentDict != nil)
+        return [parentDict objectForKey:childKey];
     else
         return nil;
 }

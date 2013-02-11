@@ -29,6 +29,8 @@
 #import "SalesforceOAuthPlugin.h"
 #import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFSDKWebUtils.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
@@ -66,12 +68,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)setupViewController;
 
 /**
- * Removes any cookies from the cookie store.  All app cookies are reset with
- * new authentication.
- */
-+ (void)removeCookies;
-
-/**
  * Tasks to run when the app is backgrounding or terminating.
  */
 - (void)prepareToShutDown;
@@ -102,6 +98,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
+        
+        // Our preferred passcode provider as of this release.
+        // NOTE: If you wanted to set a different provider (or your own), you would do the
+        // following in your app delegate's init method:
+        //   id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+        //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+        //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
+        [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
     }
     return self;
 }
@@ -342,9 +346,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)clearAppState:(BOOL)restartAuthentication
 {
-    // Clear any cookies set by the app.
-    [[self class] removeCookies];
-    
     // Revoke all stored OAuth authentication.
     [[SFAccountManager sharedInstance] clearAccountState:YES];
     
@@ -355,15 +356,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     
     if (restartAuthentication)
         [self resetUi];
-}
-
-+ (void)removeCookies
-{
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
-    }
 }
 
 - (void)prepareToShutDown {
