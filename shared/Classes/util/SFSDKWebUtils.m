@@ -49,9 +49,13 @@ NSString * const kUserAgentPropKey = @"UserAgent";
 
 + (void)configureUserAgent
 {
-    NSString *uaString = [self appDelegateUserAgentString];
-    if (uaString != nil) {
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
+    [self configureUserAgent:[self appDelegateUserAgentString]];
+}
+
++ (void)configureUserAgent:(NSString *)userAgentString
+{
+    if (userAgentString != nil) {
+        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:userAgentString, kUserAgentPropKey, nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
         [dictionary release];
     }

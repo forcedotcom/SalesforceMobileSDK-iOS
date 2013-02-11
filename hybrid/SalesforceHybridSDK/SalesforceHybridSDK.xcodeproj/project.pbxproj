@@ -190,6 +190,9 @@
 		821A8C0716C5E51A00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
 		821A8C0816C5E51B00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
 		821A8C0916C5E51C00979E88 /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803116C31EFB008516DD /* SFSHA256PasscodeProvider.m */; };
+		821A8CC016C9A2BF00979E88 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803D16C31F97008516DD /* SFSDKCryptoUtils.m */; };
+		821A8CC216C9A2C000979E88 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803D16C31F97008516DD /* SFSDKCryptoUtils.m */; };
+		821A8CC316C9A2C200979E88 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 822F803D16C31F97008516DD /* SFSDKCryptoUtils.m */; };
 		821C5E7F1583FBA000433F92 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 821C5E7E1583FBA000433F92 /* LICENSE.txt */; };
 		821C5E8A1583FBBF00433F92 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C5E801583FBBF00433F92 /* FMDatabase.h */; settings = {ATTRIBUTES = (); }; };
 		821C5E8B1583FBBF00433F92 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 821C5E811583FBBF00433F92 /* FMDatabase.m */; };
@@ -2451,6 +2454,7 @@
 				821A8C0316C5E50F00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
 				821A8C0616C5E51500979E88 /* SFPBKDFData.m in Sources */,
 				821A8C0916C5E51C00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
+				821A8CC316C9A2C200979E88 /* SFSDKCryptoUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2544,6 +2548,7 @@
 				821A8C0116C5E50D00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
 				821A8C0416C5E51300979E88 /* SFPBKDFData.m in Sources */,
 				821A8C0716C5E51A00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
+				821A8CC016C9A2BF00979E88 /* SFSDKCryptoUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2599,6 +2604,7 @@
 				821A8C0216C5E50E00979E88 /* SFPBKDF2PasscodeProvider.m in Sources */,
 				821A8C0516C5E51400979E88 /* SFPBKDFData.m in Sources */,
 				821A8C0816C5E51B00979E88 /* SFSHA256PasscodeProvider.m in Sources */,
+				821A8CC216C9A2C000979E88 /* SFSDKCryptoUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
