@@ -25,14 +25,20 @@
 
 #import <Foundation/Foundation.h>
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthInfo.h"
 #import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;
 
 /**
- Callback block definition for OAuth completion/failure callbacks.
+ Callback block definition for OAuth completion callback.
  */
-typedef void (^SFOAuthFlowCallbackBlock)(void);
+typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *);
+
+/**
+ Callback block definition for OAuth failure callback.
+ */
+typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
@@ -64,8 +70,8 @@ typedef void (^SFOAuthFlowCallbackBlock)(void);
  @param failureBlock The block of code to execute when OAuth fails due to revoked/expired credentials.
  */
 - (void)login:(UIViewController *)presentingViewController
-   completion:(SFOAuthFlowCallbackBlock)completionBlock
-      failure:(SFOAuthFlowCallbackBlock)failureBlock;
+   completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+      failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Sent whenever the user has been logged in using current settings.
@@ -107,6 +113,11 @@ typedef void (^SFOAuthFlowCallbackBlock)(void);
  @param domainNames The names of the domains where the cookies are set.
  */
 + (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
+
+/**
+ Remove all cookies from the cookie store.
+ */
++ (void)removeAllCookies;
 
 /**
  Adds the access (session) token cookie to the web view, for authentication.

@@ -34,7 +34,7 @@
 #import "CDVPluginResult.h"
 #import "CDVInvokedUrlCommand.h"
 
-//NOTE: must match value in Cordova.plist file
+//NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants

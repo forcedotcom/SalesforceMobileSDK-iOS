@@ -103,12 +103,12 @@
 			<key>Path</key>
 			<string>main.m</string>
 		</dict>
-		<key>Cordova.plist</key>
+		<key>config.xml</key>
 		<dict>
 			<key>Group</key>
 			<string>Supporting Files</string>
 			<key>Path</key>
-			<string>Cordova.plist</string>
+			<string>config.xml</string>
 		</dict>
 		<key>en.lproj/InfoPlist.strings</key>
 		<dict>
@@ -156,6 +156,15 @@
 			<string>Group</string>
 			<key>Path</key>
 			<string>CordovaResources.bundle</string>
+			<key>FileType</key>
+			<string>wrapper.plug-in</string>
+		</dict>
+		<key>SalesforceSDKResources.bundle</key>
+		<dict>
+			<key>PathType</key>
+			<string>Group</string>
+			<key>Path</key>
+			<string>SalesforceSDKResources.bundle</string>
 			<key>FileType</key>
 			<string>wrapper.plug-in</string>
 		</dict>
@@ -331,10 +340,11 @@
 		<string>___PACKAGENAME___-Prefix.pch</string>
 		<string>___PACKAGENAME___-Info.plist</string>
 		<string>main.m</string>
-		<string>Cordova.plist</string>
+		<string>config.xml</string>
 		<string>en.lproj/InfoPlist.strings</string>
 		<string>Settings.bundle</string>
 		<string>CordovaResources.bundle</string>
+		<string>SalesforceSDKResources.bundle</string>
 	</array>
 	<key>Targets</key>
 	<array>

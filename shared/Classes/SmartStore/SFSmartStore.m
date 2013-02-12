@@ -498,7 +498,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (NSString *)encKey
 {
-    NSString *key = [[SFPasscodeManager sharedManager] hashedPasscode];
+    NSString *key = [SFPasscodeManager sharedManager].encryptionKey;
     return (key == nil ? @"" : key);
 }
 

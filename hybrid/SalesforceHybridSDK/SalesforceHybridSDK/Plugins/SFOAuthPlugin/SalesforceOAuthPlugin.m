@@ -23,6 +23,7 @@
  */
 
 #import "SalesforceOAuthPlugin.h"
+#import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
@@ -30,6 +31,7 @@
 #import "SFUserActivityMonitor.h"
 #import "NSDictionary+SFAdditions.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKWebUtils.h"
 
 // ------------------------------------------
 // Private constants
@@ -154,10 +156,18 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
         [SFAccountManager setScopes:self.oauthScopes];
     }
     
-    SFOAuthFlowCallbackBlock completionBlock = ^{
+    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+    [SFSDKWebUtils configureUserAgent];
+    
+    SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
+        // Reset the user agent back to Cordova.
+        CDVViewController *cdvVc = (CDVViewController *)self.viewController;
+        [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
+        
         [self authenticationCompletion];
     };
-    SFOAuthFlowCallbackBlock failureBlock = ^{
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         [[SFAuthenticationManager sharedManager] logout];
     };
     [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];

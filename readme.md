@@ -34,6 +34,20 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
+__What's New in 1.5__
+
+**Updated iOS and Android SDKs to Cordova 2.3**
+Make sure to change all the older cordova-xx.js references to cordova-2.3.0.js in your projects
+
+**Security Enhancements**
+Snapshots of the app screen sent to the background can be substituted to a white screen to prevent capture of sensitive information
+
+**iOS SQLCipher Versioning**
+Enhanced passcode security and configuration are now available options for the secure offline database
+
+**String Localization**
+Both the iOS and Android SDK now support localized strings in an external resource
+
 __What's New in 1.4__
 
 **Updated iOS SDK to Cordova 2.2**

@@ -43,11 +43,6 @@
 extern NSString * const kSFMobileSDKVersion;
 
 /*
- * The property key used to designate the user agent, in the app's default properties.
- */
-extern NSString * const kUserAgentPropKey;
-
-/*
  * The property key used to designate the "home" URL of the app, to be used if the app is
  * offline and supports HTML5 offline caching.
  */
@@ -76,10 +71,6 @@ extern NSString * const kSFSmartStorePluginName;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) SFHybridViewController *viewController;
-/**
- The User-Agent string presented by this application
- */
-@property (nonatomic, readonly) NSString *userAgentString;
 
 /**
  The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release

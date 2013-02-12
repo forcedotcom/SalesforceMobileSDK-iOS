@@ -34,6 +34,7 @@
 #import "SFIdentityData.h"
 #import "SFLogger.h"
 #import "NSURL+SFAdditions.h"
+#import "SFSDKResourceUtils.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -43,12 +44,11 @@ static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 
-// TODO: Localized in the next release.
-static NSString * const kAlertErrorTitle = @"Salesforce Error";
-static NSString * const kAlertOkButton = @"OK";
-static NSString * const kAlertRetryButton = @"Retry";
-static NSString * const kAlertConnectionErrorFormatString = @"Can't connect to salesforce: %@";
-static NSString * const kAlertVersionMismatchError = @"Your app has been updated, and you will need to log in again to continue using the app.";
+static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
+static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
+static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
+static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
+static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
 @interface SFAuthenticationManager ()
 {
@@ -61,13 +61,24 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 /**
  The block to be called when the OAuth process completes.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock completionBlock;
+@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock completionBlock;
 
 /**
  The block to be called if the OAuth process fails.  Note: failure is currently defined as
  a scenario where there are no valid credentials in the refresh flow.
  */
-@property (nonatomic, copy) SFOAuthFlowCallbackBlock failureBlock;
+@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock failureBlock;
+
+/**
+ The auth info that gets sent back from OAuth.  This will be sent back to the login consumer.
+ */
+@property (nonatomic, retain) SFOAuthInfo *authInfo;
+
+/**
+ Any OAuth error information will get populated in this property and sent back to the consumer,
+ in the event of an OAuth failure.
+ */
+@property (nonatomic, retain) NSError *authError;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -129,6 +140,8 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 @synthesize authViewController = _authViewController;
 @synthesize statusAlert = _statusAlert;
 @synthesize completionBlock = _completionBlock, failureBlock = _failureBlock;
+@synthesize authInfo = _authInfo;
+@synthesize authError = _authError;
 
 #pragma mark - Singleton initialization / management
 
@@ -182,14 +195,16 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
     SFRelease(_viewController);
     SFRelease(_completionBlock);
     SFRelease(_failureBlock);
+    SFRelease(_authInfo);
+    SFRelease(_authError);
     [super dealloc];
 }
 
 #pragma mark - Public methods
 
 - (void)login:(UIViewController *)presentingViewController
-   completion:(SFOAuthFlowCallbackBlock)completionBlock
-      failure:(SFOAuthFlowCallbackBlock)failureBlock
+   completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+      failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     NSAssert(presentingViewController != nil, @"Presenting view controller cannot be nil.");
     self.viewController = presentingViewController;
@@ -258,6 +273,15 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
     }
 }
 
++ (void)removeAllCookies
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
+    for (NSHTTPCookie *cookie in fullCookieList) {
+        [cookieStorage deleteCookie:cookie];
+    }
+}
+
 + (void)addSidCookieForDomain:(NSString*)domain
 {
     NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
@@ -322,17 +346,21 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 - (void)execCompletionBlock
 {
     if (self.completionBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowSuccessCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
+        copiedBlock(self.authInfo);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)execFailureBlock
 {
     if (self.failureBlock) {
-        SFOAuthFlowCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
-        copiedBlock();
+        SFOAuthFlowFailureCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
+        copiedBlock(self.authInfo, self.authError);
     }
+    self.authInfo = nil;
+    self.authError = nil;
 }
 
 - (void)login
@@ -413,10 +441,10 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 {
     if (nil == _statusAlert) {
         // show alert and allow retry
-        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                  message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], error]
                                                  delegate:self
-                                        cancelButtonTitle:kAlertRetryButton
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
                                         otherButtonTitles: nil];
         _statusAlert.tag = tag;
         [_statusAlert show];
@@ -427,10 +455,10 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 {
     if (nil == _statusAlert) {
         // Show alert and execute failure block.
-        _statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                  message:kAlertVersionMismatchError
+        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                                                  message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
                                                  delegate:self
-                                        cancelButtonTitle:kAlertOkButton
+                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
                                         otherButtonTitles: nil];
         _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
         [_statusAlert show];
@@ -454,12 +482,15 @@ static NSString * const kAlertVersionMismatchError = @"Your app has been updated
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
+    self.authInfo = info;
     [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
+    self.authInfo = info;
+    self.authError = error;
     
     BOOL showRetryAlert = YES;
     if (info.authType == SFOAuthTypeRefresh) {

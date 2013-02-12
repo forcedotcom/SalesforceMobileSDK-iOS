@@ -32,6 +32,7 @@
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFLogger.h"
+#import "SFSDKWebUtils.h"
 
 @interface SFHybridViewController()
 {
@@ -81,11 +82,19 @@
      [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
     if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
         [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
+        
+        // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+        // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+        [SFSDKWebUtils configureUserAgent];
+        
         [[SFAuthenticationManager sharedManager] login:self
-                                            completion:^{
+                                            completion:^(SFOAuthInfo *authInfo) {
+                                                // Reset the user agent back to Cordova.
+                                                [SFSDKWebUtils configureUserAgent:self.userAgent];
+                                                
                                                 [self authenticationCompletion:request.URL];
                                             }
-                                               failure:^{
+                                               failure:^(SFOAuthInfo *authInfo, NSError *error) {
                                                    [[SFAuthenticationManager sharedManager] logout];
                                                }
          ];
@@ -172,6 +181,15 @@
     NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];
     NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
     [self.webView loadRequest:newRequest];
+}
+
+#pragma mark - Cordova overrides
+
++ (NSString *)originalUserAgent
+{
+    // Overriding Cordova's method because we don't want the chance of our user agent not being
+    // configured first, and thus overwritten with a bad value.
+    return [SFSDKWebUtils appDelegateUserAgentString];
 }
 
 @end

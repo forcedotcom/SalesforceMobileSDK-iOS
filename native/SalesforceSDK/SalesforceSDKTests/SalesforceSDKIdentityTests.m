@@ -28,6 +28,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
 #import "SFAccountManager.h"
+#import "SFIdentityData.h"
 
 /**
  * Private interface for this tests module.
@@ -44,6 +45,11 @@
  * valid access token and identity URL.
  */
 - (void)bootstrapAuthCredentials;
+
+/**
+ * Does a cursory pass on the identity data, to sanity check values.
+ */
+- (void)validateIdentityData;
 @end
 
 @implementation SalesforceSDKIdentityTests
@@ -55,7 +61,7 @@
     // Set-up code here.
     [_requestListener release]; _requestListener = nil;
     [self bootstrapAuthCredentials];
-
+    
     [super setUp];
 }
 
@@ -102,6 +108,8 @@
 {
     [self sendSyncIdentityRequest];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
+    [self validateIdentityData];
+    [SFAccountManager sharedInstance].idData = nil;
 }
 
 /**
@@ -120,6 +128,46 @@
     STAssertTrue(error.code == kSFIdentityErrorBadHttpResponse, [NSString stringWithFormat:@"Expected error code %d.  Got %d", kSFIdentityErrorBadHttpResponse, error.code]);
     idCoord.credentials.accessToken = origAccessToken;
     [origAccessToken release];
+}
+
+#pragma mark - Private helper methods
+
+- (void)validateIdentityData
+{
+    SFIdentityData *idData = [SFAccountManager sharedInstance].idData;
+    STAssertNotNil(idData, @"Identity data is nil.");
+    STAssertNotNil(idData.dictRepresentation, @"idData.dictRepresentation should not be nil.");
+    STAssertNotNil(idData.idUrl, @"idUrl should not be nil.");
+    STAssertTrue(idData.assertedUser, @"assertedUser should be true.");
+    STAssertNotNil(idData.userId, @"userId should not be nil.");
+    STAssertNotNil(idData.orgId, @"orgId should not be nil.");
+    STAssertNotNil(idData.username, @"username should not be nil.");
+    STAssertNotNil(idData.nickname, @"nickname should not be nil.");
+    STAssertNotNil(idData.displayName, @"displayName should not be nil.");
+    STAssertNotNil(idData.email, @"email should not be nil.");
+    STAssertNotNil(idData.firstName, @"firstName should not be nil.");
+    STAssertNotNil(idData.lastName, @"lastName should not be nil.");
+    STAssertNotNil(idData.pictureUrl, @"pictureUrl should not be nil.");
+    STAssertNotNil(idData.thumbnailUrl, @"thumbnailUrl should not be nil.");
+    STAssertNotNil(idData.enterpriseSoapUrl, @"enterpriseSoapUrl should not be nil.");
+    STAssertNotNil(idData.metadataSoapUrl, @"metadataSoapUrl should not be nil.");
+    STAssertNotNil(idData.partnerSoapUrl, @"partnerSoapUrl should not be nil.");
+    STAssertNotNil(idData.restUrl, @"restUrl should not be nil.");
+    STAssertNotNil(idData.restSObjectsUrl, @"restSObjectsUrl should not be nil.");
+    STAssertNotNil(idData.restSearchUrl, @"restSearchUrl should not be nil.");
+    STAssertNotNil(idData.restQueryUrl, @"restQueryUrl should not be nil.");
+    STAssertNotNil(idData.restRecentUrl, @"restRecentUrl should not be nil.");
+    STAssertNotNil(idData.profileUrl, @"profileUrl should not be nil.");
+    STAssertNotNil(idData.chatterFeedsUrl, @"chatterFeedsUrl should not be nil.");
+    STAssertNotNil(idData.chatterGroupsUrl, @"chatterGroupsUrl should not be nil.");
+    STAssertNotNil(idData.chatterUsersUrl, @"chatterUsersUrl should not be nil.");
+    STAssertNotNil(idData.chatterFeedItemsUrl, @"chatterFeedItemsUrl should not be nil.");
+    STAssertTrue(idData.isActive, @"isActive should be true.");
+    STAssertNotNil(idData.userType, @"userType should not be nil.");
+    STAssertNotNil(idData.language, @"language should not be nil.");
+    STAssertNotNil(idData.locale, @"locale should not be nil.");
+    STAssertFalse(idData.utcOffset == -1, @"No value determined for utcOffset.");
+    STAssertNotNil(idData.lastModifiedDate, @"lastModifiedDate should not be nil.");
 }
 
 @end

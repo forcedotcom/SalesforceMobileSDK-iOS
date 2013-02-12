@@ -23,7 +23,6 @@
  */
 
 #import "SFNativeRestAppDelegate.h"
-
 #import "SFOAuthCredentials.h"
 #import "SFAuthorizingViewController.h"
 #import "SFRestAPI.h"
@@ -35,20 +34,11 @@
 #import "SFUserActivityMonitor.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFOAuthInfo.h"
-
-
-
-static NSString * const kUserAgentPropKey     = @"UserAgent";
-static NSInteger  const kOAuthGenericAlertViewTag    = 444;
-static NSInteger  const kIdentityAlertViewTag = 555;
-static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
-
-// TODO: Localized in the next release.
-static NSString * const kAlertErrorTitle = @"Salesforce Error";
-static NSString * const kAlertOkButton = @"OK";
-static NSString * const kAlertRetryButton = @"Retry";
-static NSString * const kAlertConnectionErrorFormatString = @"Can't connect to salesforce: %@";
-static NSString * const kAlertVersionMismatchError = @"Your app has been updated, and you will need to log in again to continue using the app.";
+#import "SFSDKWebUtils.h"
+#import "SFAuthenticationManager.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
+#import "SFLogger.h"
 
 #if defined(DEBUG)
 static SFLogLevel const kAppLogLevel = SFLogLevelDebug;
@@ -57,11 +47,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 #endif
 
 @interface SFNativeRestAppDelegate () {
-    /**
-     Whether this is the initial login to the application (i.e. no previous credentials).
-     */
-    BOOL _isInitialLogin;
-    
     /**
      Whether the app is in its initialization run (vs. just being brought to the foreground).
      */
@@ -80,27 +65,24 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 @property (nonatomic, retain) UIView *baseView;
 
 /**
- Present the authentication view and controller modally, for the User Agent flow.
- @param webView The authentication web view to associate with the view controller.
+ Snapshot view for the app.
  */
-- (void)presentAuthViewController:(UIWebView *)webView;
+@property (nonatomic, retain) UIView *snapshotView;
 
 /**
- Will dismiss the authentication view controller, if present.
- @param postDismissalAction Action to be taken after the view/controller is dismissed.  If
- the view controller is not present, this action will be taken immediately.
+ The callback block that will be executed after successful authentication.
  */
-- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction;
+@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock authSuccessBlock;
 
 /**
- Called after identity data is retrieved from the service.
+ The callback block that will be executed in the event of a failed authentication attempt.
  */
-- (void)retrievedIdentityData;
+@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock authFailureBlock;
 
 /**
- Called after the ID data retrieval process is complete.  Finalizes login, app startup.
+ Called after the authentication process completes successfully.
  */
-- (void)postIdentityRetrievalProcesses;
+- (void)postAuthSuccessProcesses:(SFOAuthInfo *) authInfo;
 
 /**
  Will reset the app into its initial view state.  Primarily for when the user is logged out
@@ -118,27 +100,17 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  */
 - (void)setupNewRootViewController;
 
-/**
- Clean up / finalize any state information, post-login workflow.  This should be the last
- method called before handing off to the consuming app.
- */
-- (void)finalizeAppBootstrap;
-
-/**
- Displays an alert if the Connected App version on the server does not match the credentials of the client
- app.
- */
-- (void)showAlertForConnectedAppVersionMismatchError;
-
 @end
 
 @implementation SFNativeRestAppDelegate
 
-@synthesize authViewController=_authViewController;
-@synthesize  viewController = _viewController;
-@synthesize  window = _window;
+@synthesize viewController = _viewController;
+@synthesize window = _window;
 @synthesize baseView = _baseView;
 @synthesize appLogLevel = _appLogLevel;
+@synthesize snapshotView = _snapshotView;
+@synthesize authSuccessBlock = _authSuccessBlock;
+@synthesize authFailureBlock = _authFailureBlock;
 
 #pragma mark - init/dealloc
 
@@ -146,12 +118,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {	
     self = [super init];
     if (nil != self) {
-        //Replace the app-wide HTTP User-Agent before the first UIWebView is created
-        NSString *uaString =  [SFRestAPI userAgentString];
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-        [dictionary release];
-        
         [SFAccountManager setLoginHost:[self oauthLoginDomain]];
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
         [SFAccountManager setRedirectUri:[self oauthRedirectURI]];
@@ -159,11 +125,22 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [SFAccountManager setCurrentAccountIdentifier:[self userAccountIdentifier]];
         _accountMgr = [SFAccountManager sharedInstance];
         
-        // Strictly for internal tracking, assume we've got our initial credentials, until
-        // OAuth tells us otherwise.  E.g. we only want to call the identity service after
-        // we first authenticate.  If oauthCoordinator:didBeginAuthenticationWithView: isn't
-        // called, we can assume we've already gone through initial authentication at some point.
-        _isInitialLogin = NO;
+        // Our preferred passcode provider as of this release.
+        // NOTE: If you wanted to set a different provider (or your own), you would do the
+        // following in your app delegate's init method:
+        //   id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+        //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+        //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
+        [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
+        
+        // Set up the authentication callback blocks.
+        self.authSuccessBlock = ^(SFOAuthInfo *authInfo) {
+            [self postAuthSuccessProcesses:authInfo];
+        };
+        self.authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+            [self log:SFLogLevelWarning format:@"Login failed with the following error: %@.  Logging out.", [error localizedDescription]];
+            [self logout];
+        };
         
         self.appLogLevel = kAppLogLevel;
     }
@@ -173,10 +150,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)dealloc
 {
     [_accountMgr clearAccountState:NO];
-    SFRelease(_authViewController);
     SFRelease(_baseView);
+    SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
+    SFRelease(_authSuccessBlock);
+    SFRelease(_authFailureBlock);
     
 	[super dealloc];
 }
@@ -188,6 +167,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 {
     _isAppInitialization = YES;
     [SFLogger setLogLevel:self.appLogLevel];
+    
+    //Replace the app-wide HTTP User-Agent before the first UIWebView is created
+    [SFSDKWebUtils configureUserAgent];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     // TODO: The SFNativeRootViewController.xib file is currently shipped as part of the native app template.
@@ -196,6 +179,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
+    self.snapshotView = [self createSnapshotView];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -216,14 +200,27 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [self clearDataModel];
         [self login];
     } else {
-        // refresh session or login for the first time
+        // Refresh session or login for the first time.
         [self login];
     }
 }
 
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.viewController.view addSubview:self.snapshotView];
     [self prepareToShutDown];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self.snapshotView removeFromSuperview];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -241,10 +238,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 #pragma mark - Salesforce.com login helpers
 
+- (NSString *)userAgentString
+{
+    return [SFRestAPI userAgentString];
+}
+
 - (void)login {
-    //kickoff authentication
-    _accountMgr.oauthDelegate = self;
-    [_accountMgr.coordinator authenticate];
+    // Kick off authentication.
+    [[SFAuthenticationManager sharedManager] login:self.viewController completion:self.authSuccessBlock failure:self.authFailureBlock];
 }
 
 
@@ -254,48 +255,23 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self login];
 }
 
-- (void)loggedIn {
-    // If this is the initial login, or there's no persisted identity data, get the data
-    // from the service.
-    if (_isInitialLogin || _accountMgr.idData == nil) {
-        _accountMgr.idDelegate = self;
-        [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
-    } else {
-        // Just go directly to the post-processing step.
-        [self postIdentityRetrievalProcesses];
-    }
-}
-
-- (void)retrievedIdentityData
+- (SFAuthorizingViewController *)authViewController
 {
-    // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert(_accountMgr.idData != nil, @"Identity data should not be nil/empty at this point.");
-    
-    if ([_accountMgr mobilePinPolicyConfigured]) {
-        // Set the callback actions for post-passcode entry/configuration.
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [self postIdentityRetrievalProcesses];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
-            [self logout];
-        }];
-        
-        // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:_accountMgr.idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:(_accountMgr.idData.mobileAppScreenLockTimeout * 60)];
-    } else {
-        // No additional mobile policies.  So no passcode.
-        [self postIdentityRetrievalProcesses];
-    }
+    return [SFAuthenticationManager sharedManager].authViewController;
 }
 
-- (void)postIdentityRetrievalProcesses
+- (void)setAuthViewController:(SFAuthorizingViewController *)authViewController
+{
+    [SFAuthenticationManager sharedManager].authViewController = authViewController;
+}
+
+- (void)postAuthSuccessProcesses:(SFOAuthInfo *)authInfo
 {
     if (_isAppInitialization) {
         // We'll ask for a passcode every time the application is initialized, regardless of activity.
         // But, if the user just went through credentials initialization, she's already just created
         // a passcode, so she gets a pass here.
-        if (_isInitialLogin) {
+        if (authInfo.authType == SFOAuthTypeUserAgent) {
             [self setupNewRootViewController];
         } else {
             if ([_accountMgr mobilePinPolicyConfigured]) {
@@ -318,7 +294,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [SFSecurityLockout validateTimer];
     }
     
-    [self finalizeAppBootstrap];
+    [self loggedIn];
 }
 
 - (void)setupNewRootViewController
@@ -328,7 +304,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
 }
 
-- (void)finalizeAppBootstrap
+- (void)loggedIn
 {
     // For now, let's only monitor user activity if there are pin code policies to support it.
     // If someone decides they want to monitor user activity outside of screen lock, we can revisit.
@@ -336,49 +312,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
     _isAppInitialization = NO;
-    _isInitialLogin = NO;
-}
-
-- (void)presentAuthViewController:(UIWebView *)webView
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentAuthViewController:webView];
-        });
-        return;
-    }
-    
-    // TODO: This is another NIB file that's delivered as part of the native app template, and should be
-    // moved into a bundle (along with the root vc NIB file mentioned above.
-    self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-    [self.authViewController setOauthView:webView];
-    [self.window.rootViewController presentViewController:self.authViewController animated:YES completion:NULL];
-}
-
-- (void)dismissAuthViewControllerIfPresent:(SEL)postDismissalAction
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismissAuthViewControllerIfPresent:postDismissalAction];
-        });
-        return;
-    }
-    
-    if (self.authViewController != nil) {
-        // TODO: Why do we not have the logging facilities calls in this class?
-        NSLog(@"Dismissing the auth view controller.");
-        [self.window.rootViewController dismissViewControllerAnimated:YES
-                                                           completion:^{
-                                                               SFRelease(_authViewController);
-                                                               [self performSelector:postDismissalAction];
-                                                           }];
-    } else {
-        [self performSelector:postDismissalAction];
-    }
 }
 
 - (UIViewController*)newRootViewController {
-    NSLog(@"You must override this method in your subclass");
+    [self log:SFLogLevelError msg:@"You must override this method in your subclass"];
     [self doesNotRecognizeSelector:@selector(newRootViewController)];
     return nil;
 }
@@ -387,7 +324,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)clearDataModel
 {
     _isAppInitialization = YES;
-    _isInitialLogin = YES;  // OAuth would flip this to YES anyway, but let's be complete.
     [self resetRootPresentation];
 }
 
@@ -424,19 +360,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     }
 }
 
-- (void)showAlertForConnectedAppVersionMismatchError
-{
-    // Show alert and execute failure block.
-    UIAlertView *statusAlert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                          message:kAlertVersionMismatchError
-                                                         delegate:self
-                                                cancelButtonTitle:kAlertOkButton
-                                                otherButtonTitles: nil];
-    statusAlert.tag = kConnectedAppVersionMismatchViewTag;
-    [statusAlert show];
-    [statusAlert release];
-}
-
 + (NSSet *)oauthScopes {
     return [NSSet setWithObjects:@"web",@"api",nil] ; 
 }
@@ -450,111 +373,16 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 	}
 }
 
-#pragma mark - SFOAuthCoordinatorDelegate
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:willBeginAuthenticationWithView");
-}
-
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");
-    
-    _isInitialLogin = YES;
-    [self presentAuthViewController:view];
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
-{
-    NSLog(@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info);
-    [self dismissAuthViewControllerIfPresent:@selector(loggedIn)];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
-{
-    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
-    
-    BOOL fatal = YES;
-    if (info.authType == SFOAuthTypeRefresh) {
-        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
-            // Restart the login process asynchronously.
-            fatal = NO;
-            NSLog(@"Logging out because oauth failed with error code: %d",error.code);
-            [self performSelector:@selector(logout) withObject:nil afterDelay:0];
-        } else if (error.code == kSFOAuthErrorWrongVersion) {  // Connected App version mismatch.  Refresh token invalid.
-            fatal = NO;
-            NSLog(@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code);
-            [self showAlertForConnectedAppVersionMismatchError];
-        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
-            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
-            fatal = NO;
-            NSLog(@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]);
-            
-            // If this is app startup, we need to go through the bootstrapping of the root view controller,
-            // etc.
-            if (_isAppInitialization) {
-                [self loggedIn];
-                return;
-            }
-        }
-    }
-    
-    if (fatal) {
-        // show alert and retry
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                        message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
-                                                       delegate:self
-                                              cancelButtonTitle:kAlertRetryButton
-                                              otherButtonTitles: nil];
-        alert.tag = kOAuthGenericAlertViewTag;
-        [alert show];
-        [alert release];
-    }
-}
-
-#pragma mark - SFIdentityCoordinatorDelegate
-
-- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
-{
-    [self retrievedIdentityData];
-}
-
-- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAlertErrorTitle
-                                                    message:[NSString stringWithFormat:kAlertConnectionErrorFormatString, error]
-                                                   delegate:self
-                                          cancelButtonTitle:kAlertRetryButton
-                                          otherButtonTitles: nil];
-    alert.tag = kIdentityAlertViewTag;
-    [alert show];
-    [alert release];
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == kOAuthGenericAlertViewTag) {
-        [self dismissAuthViewControllerIfPresent:@selector(login)];
-    } else if (alertView.tag == kIdentityAlertViewTag) {
-        [_accountMgr.idCoordinator initiateIdentityDataRetrieval];
-    } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
-        // The logout flow should be followed, after acknowledging the version mismatch.
-        [self performSelector:@selector(logout) withObject:nil afterDelay:0];
-    }
-}
-
-
 #pragma mark - Public
 
 - (NSString*)remoteAccessConsumerKey {
-    NSLog(@"You must override this method in your subclass");
+    [self log:SFLogLevelError msg:@"You must override this method in your subclass"];
     [self doesNotRecognizeSelector:@selector(remoteAccessConsumerKey)];
     return nil;
 }
 
 - (NSString*)oauthRedirectURI {
-    NSLog(@"You must override this method in your subclass");
+    [self log:SFLogLevelError msg:@"You must override this method in your subclass"];
     [self doesNotRecognizeSelector:@selector(oauthRedirectURI)];
     return nil;
 }
