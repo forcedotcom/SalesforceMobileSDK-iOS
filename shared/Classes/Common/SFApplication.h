@@ -30,10 +30,20 @@
 @protocol SFSDKAppDelegate <UIApplicationDelegate>
 
 /**
+ The User-Agent string presented by this application
+ */
+@property (nonatomic, readonly) NSString *userAgentString;
+
+/**
  * Forces a logout from the current account.
  * This throws out the OAuth refresh token.
  */
 - (void)logout;
+
+/**
+ * Creates a snapshot view.
+ */
+- (UIView*)createSnapshotView;
 
 @end
 

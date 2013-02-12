@@ -31,8 +31,9 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 #import "SFAccountManager.h"
+#import "SFSDKWebUtils.h"
 
-NSString * const kSFMobileSDKVersion = @"1.4.5";
+NSString * const kSFMobileSDKVersion = @"1.5.0";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -155,13 +156,7 @@ static dispatch_once_t _sharedInstanceGuard;
     
     // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
     // really doesn't want you to know about its HTTP headers.
-#ifndef UNIT_TESTS
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    [webView release];
-#else
-    NSString *currentUserAgent = @"Unit test runner";
-#endif
+    NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
     
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];

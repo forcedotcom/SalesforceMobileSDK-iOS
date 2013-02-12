@@ -29,6 +29,9 @@
 #import "SalesforceOAuthPlugin.h"
 #import "SFAccountManager.h"
 #import "SFSecurityLockout.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
+#import "SFSDKWebUtils.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFSmartStore.h"
@@ -36,8 +39,7 @@
 #import "CDVCommandDelegate.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.4.5";
-NSString * const kUserAgentPropKey = @"UserAgent";
+NSString * const kSFMobileSDKVersion = @"1.5.0";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
@@ -66,15 +68,14 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)setupViewController;
 
 /**
- * Removes any cookies from the cookie store.  All app cookies are reset with
- * new authentication.
- */
-+ (void)removeCookies;
-
-/**
  * Tasks to run when the app is backgrounding or terminating.
  */
 - (void)prepareToShutDown;
+
+/**
+ Snapshot view for the app.
+ */
+@property (nonatomic, retain) UIView *snapshotView;
 
 @end
 
@@ -83,6 +84,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 @synthesize appLogLevel = _appLogLevel;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize snapshotView = _snapshotView;
 
 #pragma mark - init/dealloc
 
@@ -93,18 +95,17 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 	 **/
     self = [super init];
     if (nil != self) {
-        
-        // Replace the app-wide HTTP User-Agent before the first UIWebView is created.  NOTE: You *must* use the
-        // registerDefaults method to create this value.  Simply adding the key to the existing defaults will
-        // not work.
-        NSString *uaString = [self userAgentString];
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:uaString, kUserAgentPropKey, nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-        [dictionary release];
-        
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
         self.appLogLevel = kAppLogLevel;
+        
+        // Our preferred passcode provider as of this release.
+        // NOTE: If you wanted to set a different provider (or your own), you would do the
+        // following in your app delegate's init method:
+        //   id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+        //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+        //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
+        [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
     }
     return self;
 }
@@ -112,10 +113,9 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)dealloc
 {
     SFRelease(_invokeString);
-    SFRelease(_oauthPlugin);
+    SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
-    
 	[ super dealloc ];
 }
 
@@ -127,6 +127,9 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [SFLogger setLogLevel:self.appLogLevel];
+    
+    // Replace the app-wide HTTP User-Agent before the first UIWebView is created.
+    [SFSDKWebUtils configureUserAgent];
     
     // Cordova.  NB: invokeString is deprecated in Cordova 2.2.  We will ditch it when they do.
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
@@ -146,7 +149,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     } else if (loginHostChanged) {
         [[SFAccountManager sharedInstance] clearAccountState:NO];
     }
-    
+    self.snapshotView = [self createSnapshotView];
     return YES;
 }
 
@@ -200,9 +203,22 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     _isAppStartup = NO;
 }
 
+- (UIView*)createSnapshotView
+{
+    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.viewController.view addSubview:self.snapshotView];
     [self prepareToShutDown];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self.snapshotView removeFromSuperview];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -260,7 +276,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     self.viewController.wwwFolderName = [[self class] wwwFolderName];
     self.viewController.startPage = [[self class] startPage];
     self.viewController.invokeString = _invokeString;
-    
     self.window.rootViewController = self.viewController;
 }
 
@@ -280,19 +295,19 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  * We are building a user agent of the form:
  *   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
  */
-- (NSString *)userAgentString {
+- (NSString *)userAgentString
+{
+    static NSString *sUserAgentString = nil;
     
-    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-    // really doesn't want you to know about its HTTP headers.
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    [webView release];
-    
-    UIDevice *curDevice = [UIDevice currentDevice];
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
-    
-    NSString *myUserAgent = [NSString stringWithFormat:
+    // Only calculate this once in the app process lifetime.
+    if (sUserAgentString == nil) {
+        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
+        
+        UIDevice *curDevice = [UIDevice currentDevice];
+        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+        NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+        
+        sUserAgentString = [[NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
@@ -302,9 +317,10 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
                              appVersion,
                              kSFMobileSDKHybridDesignator,
                              currentUserAgent
-                             ];
+                             ] retain];
+    }
     
-    return myUserAgent;
+    return sUserAgentString;
 }
 
 
@@ -330,9 +346,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)clearAppState:(BOOL)restartAuthentication
 {
-    // Clear any cookies set by the app.
-    [[self class] removeCookies];
-    
     // Revoke all stored OAuth authentication.
     [[SFAccountManager sharedInstance] clearAccountState:YES];
     
@@ -343,15 +356,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     
     if (restartAuthentication)
         [self resetUi];
-}
-
-+ (void)removeCookies
-{
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
-    }
 }
 
 - (void)prepareToShutDown {

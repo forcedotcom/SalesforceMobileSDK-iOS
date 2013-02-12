@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const kKeychainIdentifierPasscode;
-
 /**
  Class for managing storage, retrieval, and verification of passcodes.
  */
@@ -37,9 +35,21 @@ extern NSString * const kKeychainIdentifierPasscode;
 + (SFPasscodeManager *)sharedManager;
 
 /**
- @return The hashed passcode from the keychain.
+ The encryption key associated with the app.
  */
-- (NSString *)hashedPasscode;
+@property (nonatomic, readonly) NSString *encryptionKey;
+
+/**
+ The preferred passcode provider for the app.  If another provider was previously configured,
+ the passcode manager will automatically update to the preferred provider at the next passcode
+ update or verification.
+ */
+@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+
+/**
+ @return Whether or not a passcode has been set.
+ */
+- (BOOL)passcodeIsSet;
 
 /**
  Reset the passcode in the keychain.

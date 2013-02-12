@@ -220,6 +220,16 @@
         <string>Default-Portrait~ipad.png</string>
     </dict>
 
+	<key>SalesforceSDKResources.bundle</key>
+	<dict>
+	  <key>PathType</key>
+	  <string>Group</string>
+	  <key>Path</key>
+	  <string>SalesforceSDKResources.bundle</string>
+	  <key>FileType</key>
+	  <string>wrapper.plug-in</string>
+	</dict>
+
 	<key>Settings.bundle</key>
 	<dict>
 		<key>PathType</key>
@@ -1538,6 +1548,32 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
 	</dict>
 	
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</string>
+	</dict>
+	
 	<key>dependencies/SalesforceSDK/libSalesforceSDK.a</key>
 	<dict>
 		<key>Group</key>			
@@ -1811,6 +1847,42 @@
 		</array>
 		<key>Path</key>
 		<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</string>
+	</dict>
+	
+	<key>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceCommonUtils</string>
+			<string>Headers</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</string>
 	</dict>
 
 	<key>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</key>
@@ -2310,6 +2382,9 @@
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPathUtil.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPhonePickListViewController.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFPickListViewController.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoqlBuilder.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoslBuilder.h</string>
+	<string>dependencies/SalesforceCommonUtils/Headers/SFSoslReturningBuilder.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFTestContext.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/SFUIUtils.h</string>
 	<string>dependencies/SalesforceCommonUtils/Headers/UIActionSheet+SFBlocks.h</string>
@@ -2338,6 +2413,8 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestAPI+QueryBuilder.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFRestRequest.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFSecurityLockout.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeManager.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFPasscodeProviderManager.h</string>
 	<string>dependencies/SalesforceSDK/libSalesforceSDK.a</string>
 	
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/FMDatabase.h</string>
@@ -2390,9 +2467,8 @@
 	<string>dependencies/libxml2.dylib</string>
 	<string>dependencies/libz.dylib</string>
 	
-
-
 	<string>Settings.bundle</string>
+	<string>SalesforceSDKResources.bundle</string>
 
 </array>
 <key>Targets</key>

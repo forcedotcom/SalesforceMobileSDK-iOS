@@ -86,16 +86,6 @@
 @property (nonatomic, readonly) NSString *lastName;
 
 /**
- * The body content of the user's status, if any.
- */
-@property (nonatomic, readonly) NSString *statusBody;
-
-/**
- * The creation date of the user's current status, if any.
- */
-@property (nonatomic, readonly) NSDate *statusCreationDate;
-
-/**
  * The URL to retrieve the user's picture.
  */
 @property (nonatomic, readonly) NSURL *pictureUrl;
@@ -106,44 +96,52 @@
 @property (nonatomic, readonly) NSURL *thumbnailUrl;
 
 /**
- * The enterprise SOAP API URL for this user.
+ * The enterprise SOAP API URL string for this user.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *enterpriseSoapUrl;
+@property (nonatomic, readonly) NSString *enterpriseSoapUrl;
 
 /**
- * The metadata SOAP API URL for this user.
+ * The metadata SOAP API URL string for this user.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *metadataSoapUrl;
+@property (nonatomic, readonly) NSString *metadataSoapUrl;
 
 /**
- * The partner SOAP API URL for this user.
+ * The partner SOAP API URL string for this user.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *partnerSoapUrl;
+@property (nonatomic, readonly) NSString *partnerSoapUrl;
 
 /**
- * The REST API URL entry point for this user.
+ * The REST API URL string entry point for this user.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *restUrl;
+@property (nonatomic, readonly) NSString *restUrl;
 
 /**
- * The REST endpoint for SObjects.
+ * The REST endpoint string for SObjects.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *restSObjectsUrl;
+@property (nonatomic, readonly) NSString *restSObjectsUrl;
 
 /**
- * The REST endpoint for search.
+ * The REST endpoint string for search.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *restSearchUrl;
+@property (nonatomic, readonly) NSString *restSearchUrl;
 
 /**
- * The REST endpoint for queries.
+ * The REST endpoint string for queries.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *restQueryUrl;
+@property (nonatomic, readonly) NSString *restQueryUrl;
 
 /**
- * The REST endpoint for recent activity.
+ * The REST endpoint string for recent activity.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *restRecentUrl;
+@property (nonatomic, readonly) NSString *restRecentUrl;
 
 /**
  * The user profile URL.
@@ -151,24 +149,28 @@
 @property (nonatomic, readonly) NSURL *profileUrl;
 
 /**
- * The URL for Chatter feeds.
+ * The URL string for Chatter feeds.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *chatterFeedsUrl;
+@property (nonatomic, readonly) NSString *chatterFeedsUrl;
 
 /**
- * The URL for Chatter groups.
+ * The URL string for Chatter groups.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *chatterGroupsUrl;
+@property (nonatomic, readonly) NSString *chatterGroupsUrl;
 
 /**
- * The URL for Chatter users.
+ * The URL string for Chatter users.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *chatterUsersUrl;
+@property (nonatomic, readonly) NSString *chatterUsersUrl;
 
 /**
- * The URL for Chatter feed items.
+ * The URL string for Chatter feed items.
+ * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (nonatomic, readonly) NSURL *chatterFeedItemsUrl;
+@property (nonatomic, readonly) NSString *chatterFeedItemsUrl;
 
 /**
  * Whether or not this user is active.
