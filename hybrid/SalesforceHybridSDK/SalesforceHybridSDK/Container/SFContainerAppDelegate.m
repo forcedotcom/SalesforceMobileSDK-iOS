@@ -39,7 +39,7 @@
 #import "CDVCommandDelegate.h"
 
 // Public constants
-NSString * const kSFMobileSDKVersion = @"1.5.0";
+NSString * const kSFMobileSDKVersion = @"1.6.0";
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
