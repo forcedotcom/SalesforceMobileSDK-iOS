@@ -146,8 +146,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
     
     [self.storeDb close];  
-     ; _indexSpecsBySoup = nil;
-     ; _smartSqlToSql = nil;
+    _indexSpecsBySoup = nil;
+    _smartSqlToSql = nil;
     
     //remove data protection observer
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
