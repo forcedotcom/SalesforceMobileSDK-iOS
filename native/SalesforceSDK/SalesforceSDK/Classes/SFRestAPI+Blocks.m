@@ -47,7 +47,7 @@ static char CompleteBlockKey;
                                               code:42 // life, the universe, and everything
                                           userInfo:eDict];
     
-    return [err autorelease];
+    return err;
 }
 
 #pragma mark - sending requests

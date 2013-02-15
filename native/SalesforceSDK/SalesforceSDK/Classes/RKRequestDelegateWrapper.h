@@ -32,7 +32,7 @@
     SFRestRequest *_request;
 }
 
-@property (nonatomic, retain) SFRestRequest *request;
+@property (nonatomic, strong) SFRestRequest *request;
 
 + (id)wrapperWithRequest:(SFRestRequest *)request;
 

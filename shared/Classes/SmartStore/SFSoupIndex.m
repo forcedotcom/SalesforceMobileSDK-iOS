@@ -44,7 +44,7 @@ NSString * const kSoupIndexTypeInteger = @"integer";
         self.path = path;
         
         self.indexType = type;
-        _columnName = [columnName retain];
+        _columnName = columnName;
     }
     return self;
 }
@@ -58,10 +58,7 @@ NSString * const kSoupIndexTypeInteger = @"integer";
 }
 
 - (void)dealloc {
-    [_columnName release] ; _columnName = nil;
-    self.indexType = nil;
-    self.path = nil;
-    [super dealloc];
+     ; 
     
 }
 

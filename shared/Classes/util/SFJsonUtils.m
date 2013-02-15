@@ -56,7 +56,7 @@
           result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     
-    return [result autorelease];
+    return result;
 }
 
 +(NSData*)JSONDataRepresentation:(id)obj {

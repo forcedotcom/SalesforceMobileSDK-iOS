@@ -48,30 +48,10 @@ static SFPasscodeManager *sharedInstance = nil;
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self sharedManager] retain];
+    return [self sharedManager];
 }
 
 - (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-- (id)retain
-{
-    return self;
-}
-
-- (NSUInteger)retainCount
-{
-    return NSUIntegerMax;  //denotes an object that cannot be released
-}
-
-- (oneway void)release
-{
-    //do nothing
-}
-
-- (id)autorelease
 {
     return self;
 }
@@ -94,7 +74,6 @@ static SFPasscodeManager *sharedInstance = nil;
 {
     NSString *old = _encryptionKey;
     _encryptionKey = [newEncryptionKey copy];
-    [old release];
 }
 
 - (BOOL)passcodeIsSet

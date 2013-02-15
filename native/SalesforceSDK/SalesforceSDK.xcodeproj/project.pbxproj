@@ -33,11 +33,11 @@
 		826FB92016B35935001AAEF9 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB91716B35935001AAEF9 /* SFSoupIndex.m */; };
 		826FB92116B35935001AAEF9 /* SFQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB91916B35935001AAEF9 /* SFQuerySpec.m */; };
 		826FB92216B35935001AAEF9 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 826FB91B16B35935001AAEF9 /* SqliteAdditions.c */; };
-		826FB92E16B359AA001AAEF9 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92516B359AA001AAEF9 /* FMDatabase.m */; };
-		826FB92F16B359AA001AAEF9 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92716B359AA001AAEF9 /* FMDatabaseAdditions.m */; };
-		826FB93016B359AA001AAEF9 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92916B359AA001AAEF9 /* FMDatabasePool.m */; };
-		826FB93116B359AA001AAEF9 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92B16B359AA001AAEF9 /* FMDatabaseQueue.m */; };
-		826FB93216B359AA001AAEF9 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92D16B359AA001AAEF9 /* FMResultSet.m */; };
+		826FB92E16B359AA001AAEF9 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92516B359AA001AAEF9 /* FMDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		826FB92F16B359AA001AAEF9 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92716B359AA001AAEF9 /* FMDatabaseAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		826FB93016B359AA001AAEF9 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92916B359AA001AAEF9 /* FMDatabasePool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		826FB93116B359AA001AAEF9 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92B16B359AA001AAEF9 /* FMDatabaseQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		826FB93216B359AA001AAEF9 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB92D16B359AA001AAEF9 /* FMResultSet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		826FB93C16B359F8001AAEF9 /* NSURL+SFStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB93516B359F8001AAEF9 /* NSURL+SFStringUtils.m */; };
 		826FB93D16B359F8001AAEF9 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB93716B359F8001AAEF9 /* SFJsonUtils.m */; };
 		826FB93E16B359F8001AAEF9 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 826FB93916B359F8001AAEF9 /* SFSDKResourceUtils.m */; };
@@ -1463,6 +1463,7 @@
 		826FB8E316B35574001AAEF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1488,6 +1489,7 @@
 		826FB8E416B35574001AAEF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /tmp/SalesforceSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

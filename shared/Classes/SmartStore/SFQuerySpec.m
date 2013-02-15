@@ -155,14 +155,6 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     return self;
 }
 
-- (void)dealloc {
-    self.path = nil;
-    self.beginKey = nil;
-    self.endKey = nil;
-    self.smartSql = nil;
-    
-    [super dealloc];
-}
 
 
 - (NSArray*) bindsForQuerySpec

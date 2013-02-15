@@ -45,17 +45,17 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 /**
  The view controller that will be used to "host" an OAuth view, if necessary.
  */
-@property (nonatomic, retain) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController *viewController;
 
 /**
  Alert view for displaying auth-related status messages.
  */
-@property (nonatomic, retain) UIAlertView *statusAlert;
+@property (nonatomic, strong) UIAlertView *statusAlert;
 
 /**
  The view controller used to present the authentication dialog.
  */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController;
+@property (nonatomic, strong) SFAuthorizingViewController *authViewController;
 
 /**
  The singleton instance of the SFAuthenticationManager class.

@@ -94,7 +94,7 @@ extern NSString * const kSFDefaultRestEndpoint;
     SFRestMethod _method;
     NSString *_path;
     NSDictionary *_queryParams;
-    id<SFRestDelegate> _delegate;
+    id<SFRestDelegate> __weak _delegate;
 }
 
 
@@ -109,19 +109,19 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Note that the path doesn't have to start with a '/'. For instance, passing "v22.0/recent" is the same as passing "/v22.0/recent".
  * @warning Do not pass URL encoded query parameters in the path. Use the `queryParams` property instead.
  */
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, strong) NSString *path;
 
 /**
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nonatomic, retain) NSDictionary *queryParams;
+@property (nonatomic, strong) NSDictionary *queryParams;
 
 
 /**
  * The delegate for this request. Notified of request status.
  */
-@property (nonatomic, assign) id<SFRestDelegate> delegate;
+@property (nonatomic, weak) id<SFRestDelegate> delegate;
 
 
 /**

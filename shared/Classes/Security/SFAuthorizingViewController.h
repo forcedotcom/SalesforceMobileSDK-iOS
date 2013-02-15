@@ -34,11 +34,11 @@
 /**
  * The message label to show while loading.
  */
-@property (nonatomic, retain) IBOutlet UILabel *authorizingMessageLabel;
+@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel;
 
 /**
  * Outlet to the OAuth web view.
  */
-@property (nonatomic, retain) IBOutlet UIView *oauthView;
+@property (nonatomic, strong) IBOutlet UIView *oauthView;
 
 @end

@@ -75,9 +75,8 @@
 
 - (void)dealloc {
     [self restoreOAuthDelegate];
-    [_refreshLock release]; _refreshLock = nil;
-    [_queuedRequests release]; _queuedRequests = nil;
-    [super dealloc];
+     _refreshLock = nil;
+     _queuedRequests = nil;
 }
 
 #pragma mark - Public
@@ -131,7 +130,7 @@
     
     // we are creating a temp view here since the oauth library verifies that the view
     // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
-    UIView *tempView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *tempView = [[UIView alloc] initWithFrame:CGRectZero];
     [tempView addSubview:view];    
 }
 

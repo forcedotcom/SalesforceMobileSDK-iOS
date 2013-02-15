@@ -173,31 +173,31 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 /**
  * The OAuth Coordinator associated with this account.
  */
-@property (nonatomic, retain) SFOAuthCoordinator *coordinator;
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
 
 /**
  * The Identity Coordinator associated with this account.
  */
-@property (nonatomic, retain) SFIdentityCoordinator *idCoordinator;
+@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
 
 /**
  * The auth credentials maintained for this app.
  */
-@property (nonatomic, retain) SFOAuthCredentials *credentials;
+@property (nonatomic, strong) SFOAuthCredentials *credentials;
 
 /**
  * The Identity data associated with this account.
  */
-@property (nonatomic, retain) SFIdentityData *idData;
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /**
  * Allows the consumer to set its OAuth delegate for handling authentication responses.
  */
-@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> oauthDelegate;
+@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> oauthDelegate;
 
 /**
  * Allows the consumer to set its Identity delegate for handling identity responses.
  */
-@property (nonatomic, assign) id<SFIdentityCoordinatorDelegate> idDelegate;
+@property (nonatomic, weak) id<SFIdentityCoordinatorDelegate> idDelegate;
 
 @end

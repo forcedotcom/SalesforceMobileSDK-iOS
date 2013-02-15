@@ -72,13 +72,13 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 /**
  The auth info that gets sent back from OAuth.  This will be sent back to the login consumer.
  */
-@property (nonatomic, retain) SFOAuthInfo *authInfo;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
 
 /**
  Any OAuth error information will get populated in this property and sent back to the consumer,
  in the event of an OAuth failure.
  */
-@property (nonatomic, retain) NSError *authError;
+@property (nonatomic, strong) NSError *authError;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -157,30 +157,10 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self sharedManager] retain];
+    return [self sharedManager];
 }
 
 - (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-- (id)retain
-{
-    return self;
-}
-
-- (NSUInteger)retainCount
-{
-    return NSUIntegerMax;  //denotes an object that cannot be released
-}
-
-- (oneway void)release
-{
-    //do nothing
-}
-
-- (id)autorelease
 {
     return self;
 }
@@ -197,7 +177,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     SFRelease(_failureBlock);
     SFRelease(_authInfo);
     SFRelease(_authError);
-    [super dealloc];
 }
 
 #pragma mark - Public methods
@@ -346,7 +325,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execCompletionBlock
 {
     if (self.completionBlock) {
-        SFOAuthFlowSuccessCallbackBlock copiedBlock = [[self.completionBlock copy] autorelease];
+        SFOAuthFlowSuccessCallbackBlock copiedBlock = [self.completionBlock copy];
         copiedBlock(self.authInfo);
     }
     self.authInfo = nil;
@@ -356,7 +335,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execFailureBlock
 {
     if (self.failureBlock) {
-        SFOAuthFlowFailureCallbackBlock copiedBlock = [[self.failureBlock copy] autorelease];
+        SFOAuthFlowFailureCallbackBlock copiedBlock = [self.failureBlock copy];
         copiedBlock(self.authInfo, self.authError);
     }
     self.authInfo = nil;
@@ -388,7 +367,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     // TODO: This is another NIB file that's delivered as part of the app templates, and should be
     // moved into a bundle (along with the root vc NIB file mentioned above.
     [self log:SFLogLevelDebug msg:@"Presenting auth view controller."];
-    self.authViewController = [[[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    self.authViewController = [[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil];
     [self.authViewController setOauthView:webView];
     [self.viewController presentViewController:self.authViewController animated:YES completion:NULL];
 }

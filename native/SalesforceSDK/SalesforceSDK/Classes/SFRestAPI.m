@@ -66,10 +66,7 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (void)dealloc {
-    [_sessionRefresher release]; _sessionRefresher = nil;
-    [_rkClient release]; _rkClient = nil;
-    [_activeRequests release]; _activeRequests = nil;
-    [super dealloc];
+     _rkClient = nil;
 }
 
 #pragma mark - singleton

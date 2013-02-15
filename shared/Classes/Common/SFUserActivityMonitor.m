@@ -60,7 +60,6 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
     //subverts dispatch_once by clearing _sharedInstanceGuard
     //This should really only be used for unit testing.
     @synchronized(self) {
-        [_instance release];
         _instance = nil;
         _sharedInstanceGuard = 0; 
     }
@@ -72,7 +71,6 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 {
     SFRelease(_lastEventDate);
     [self stopMonitoring];
-    [super dealloc];
 }
 
 #pragma mark - Monitoring
@@ -81,13 +79,12 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 {
     [self stopMonitoring];
     
-    [_lastEventDate release];
     _lastEventDate = [[(SFApplication *)[UIApplication sharedApplication] lastEventDate] copy];
-    _monitorTimer = [[NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds
+    _monitorTimer = [NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds
                                              target:self
                                            selector:@selector(timerFired:)
                                            userInfo:nil
-                                            repeats:YES] retain];
+                                            repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:_monitorTimer forMode:NSDefaultRunLoopMode];
 }
 
@@ -106,7 +103,6 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
         [self log:SFLogLevelDebug format:@"New user activity at %@", lastEventAsOfNow];
         [SFInactivityTimerCenter updateActivityTimestamp];
         // TODO: Possibly consider a notification, if other objects would like to subscribe to this.
-        [_lastEventDate release];
         _lastEventDate = [lastEventAsOfNow copy];
     } else {
         [self log:SFLogLevelDebug format:@"Last user activity: %.2f secs ago.", [[NSDate date] timeIntervalSinceDate:_lastEventDate]];

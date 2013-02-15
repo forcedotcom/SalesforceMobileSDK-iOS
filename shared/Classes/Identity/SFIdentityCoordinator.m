@@ -73,15 +73,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     return self;
 }
 
-- (void)dealloc
-{
-    self.credentials = nil;
-    self.idData = nil;
-    self.responseData = nil;
-    self.connection = nil;
-    self.httpError = nil;
-    [super dealloc];
-}
 
 #pragma mark - Identity data retrieval and processing
 
@@ -104,8 +95,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     NSLog(@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString);
     NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
-	[request release];
-    [urlConnection release];
 }
 
 - (void)cancelRetrieval
@@ -165,7 +154,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     
     SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:idJsonData];
     self.idData = idData;
-    [idData release];
     
     [self notifyDelegateOfSuccess];
 }

@@ -30,13 +30,13 @@
 @class RKRequestDelegateWrapper;
 
 @interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
-    id<SFOAuthCoordinatorDelegate> _previousOAuthDelegate;
+    id<SFOAuthCoordinatorDelegate> __weak _previousOAuthDelegate;
     NSMutableSet *_queuedRequests;
     NSLock *_refreshLock;
     BOOL    _isRefreshing;
 }
 
-@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
+@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
 
 @property (nonatomic, assign) BOOL isRefreshing;
 

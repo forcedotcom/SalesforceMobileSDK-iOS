@@ -155,7 +155,7 @@ extern NSString * const kSFMobileSDKVersion;
 /**
  * Property exposing the RestKit `RKClient` instance associated with this object.
  */
-@property (nonatomic, readonly) RKClient *rkClient;
+@property (weak, nonatomic, readonly) RKClient *rkClient;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...

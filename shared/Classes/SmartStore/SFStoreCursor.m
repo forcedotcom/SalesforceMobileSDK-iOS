@@ -60,7 +60,7 @@
     self = [super init];
     
     if (nil != self) {
-        _store = [store retain];
+        _store = store;
         [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
         
         self.querySpec = querySpec;
@@ -85,14 +85,13 @@
                             
 - (void)dealloc {
     [self close];
-    [super dealloc];
 }
 
 
 - (void)close {
     NSLog(@"closing cursor id: %@",self.cursorId);
 
-    [_store release]; _store = nil;
+     _store = nil;
     self.cursorId = nil;
     self.querySpec = nil;
     
@@ -107,7 +106,7 @@
 - (void)setCurrentPageIndex:(NSNumber *)pageIdx {
     //TODO check bounds?
     if (![pageIdx isEqual:_currentPageIndex]) {
-        _currentPageIndex = [pageIdx retain];
+        _currentPageIndex = pageIdx;
         
         if (nil != _currentPageIndex) {
             if ([self.totalPages integerValue] > 0) {
