@@ -117,7 +117,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (id) init
 {	
     self = [super init];
-    __weak SFNativeRestAppDelegate *temp_self = self;
     if (nil != self) {
         [SFAccountManager setLoginHost:[self oauthLoginDomain]];
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
@@ -133,7 +132,8 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
         //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        
+        __weak SFNativeRestAppDelegate *temp_self = self;
+
         // Set up the authentication callback blocks.
         self.authSuccessBlock = ^(SFOAuthInfo *authInfo) {
             [temp_self postAuthSuccessProcesses:authInfo];
