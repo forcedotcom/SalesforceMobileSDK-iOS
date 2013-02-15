@@ -57,12 +57,6 @@ NSString * const kSoupIndexTypeInteger = @"integer";
     return self;
 }
 
-- (void)dealloc {
-     ; 
-    
-}
-
-
 /**
  Maps the IndexSpec type to the SQL column type
  */

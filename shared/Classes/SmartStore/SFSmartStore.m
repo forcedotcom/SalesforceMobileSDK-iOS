@@ -100,7 +100,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         //we use this so that addObserverForName doesn't retain us
-        __weak SFSmartStore *this = self;
+        __strong SFSmartStore *this = self;
         _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
                                           addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
                                           object:nil
@@ -526,9 +526,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (BOOL)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
     // map all of the columns and values from soupIndexMapInserts
-    __weak NSMutableString *fieldNames = [[NSMutableString alloc] init];
-    __weak NSMutableArray *binds = [[NSMutableArray alloc] init];
-    __weak NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
+    __strong NSMutableString *fieldNames = [[NSMutableString alloc] init];
+    __strong NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __strong NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
     __block NSUInteger fieldCount = 0;
     
     [map enumerateKeysAndObjectsUsingBlock:
@@ -559,8 +559,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSAssert(entryId != nil, @"Entry ID must have a value.");
     
     // map all of the columns and values from soupIndexMapInserts
-    __weak NSMutableString *fieldEntries = [[NSMutableString alloc] init];
-    __weak NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __strong NSMutableString *fieldEntries = [[NSMutableString alloc] init];
+    __strong NSMutableArray *binds = [[NSMutableArray alloc] init];
     __block NSUInteger fieldCount = 0;
     
     [map enumerateKeysAndObjectsUsingBlock:

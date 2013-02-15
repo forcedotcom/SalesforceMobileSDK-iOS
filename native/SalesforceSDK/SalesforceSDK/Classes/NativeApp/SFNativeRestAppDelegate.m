@@ -117,6 +117,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (id) init
 {	
     self = [super init];
+    __weak SFNativeRestAppDelegate *temp_self = self;
     if (nil != self) {
         [SFAccountManager setLoginHost:[self oauthLoginDomain]];
         [SFAccountManager setClientId:[self remoteAccessConsumerKey]];
@@ -135,11 +136,11 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         
         // Set up the authentication callback blocks.
         self.authSuccessBlock = ^(SFOAuthInfo *authInfo) {
-            [self postAuthSuccessProcesses:authInfo];
+            [temp_self postAuthSuccessProcesses:authInfo];
         };
         self.authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelWarning format:@"Login failed with the following error: %@.  Logging out.", [error localizedDescription]];
-            [self logout];
+            [temp_self log:SFLogLevelWarning format:@"Login failed with the following error: %@.  Logging out.", [error localizedDescription]];
+            [temp_self logout];
         };
         
         self.appLogLevel = kAppLogLevel;

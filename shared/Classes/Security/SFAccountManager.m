@@ -193,7 +193,6 @@ static NSString *CurrentAccountIdentifier;
 + (void)setCurrentAccountIdentifier:(NSString *)newAccountIdentifier
 {
     if (newAccountIdentifier != CurrentAccountIdentifier) {
-        NSString *origAcctId = CurrentAccountIdentifier;
         CurrentAccountIdentifier = [newAccountIdentifier copy];
     }
 }
@@ -294,7 +293,6 @@ static NSString *CurrentAccountIdentifier;
 {
     // Set the 'cached' member variable.
     if (credentials != _credentials) {
-        SFOAuthCredentials *oldCreds = _credentials;
         _credentials = credentials;
     }
     

@@ -303,7 +303,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)setPasscodeViewController:(UIViewController *)vc
 {
     if (vc != sPasscodeViewController) {
-        UIViewController *oldValue = sPasscodeViewController;
         sPasscodeViewController = vc;
     }
 }
@@ -317,7 +316,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     // Callback blocks can't be altered if the passcode screen is already in progress.
     if (![SFSecurityLockout passcodeScreenIsPresent] && sLockScreenFailureCallbackBlock != block) {
-        SFLockScreenCallbackBlock oldValue = sLockScreenFailureCallbackBlock;
         sLockScreenFailureCallbackBlock = [block copy];
     }
 }
@@ -331,7 +329,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     // Callback blocks can't be altered if the passcode screen is already in progress.
     if (![SFSecurityLockout passcodeScreenIsPresent] && sLockScreenSuccessCallbackBlock != block) {
-        SFLockScreenCallbackBlock oldValue = sLockScreenSuccessCallbackBlock;
         sLockScreenSuccessCallbackBlock = [block copy];
     }
 }

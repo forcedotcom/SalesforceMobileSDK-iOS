@@ -72,7 +72,6 @@ static SFPasscodeManager *sharedInstance = nil;
 
 - (void)setEncryptionKey:(NSString *)newEncryptionKey
 {
-    NSString *old = _encryptionKey;
     _encryptionKey = [newEncryptionKey copy];
 }
 
