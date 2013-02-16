@@ -34,7 +34,7 @@ extern NSString * const kSoupIndexTypeDate;
 @interface SFSoupIndex : NSObject {
     NSString *_path;
     NSString *_indexType;
-    NSString *__weak _columnName;
+    NSString *_columnName;
 }
 
 /**
@@ -50,15 +50,12 @@ extern NSString * const kSoupIndexTypeDate;
 /**
  * The type of data that will be indexed (string or integer).
  */
-@property (weak, nonatomic, readonly) NSString *columnType;
+@property (strong, nonatomic, readonly) NSString *columnType;
 
 /**
  * The name of the column that will store the index.
  */
-@property (weak, nonatomic, readonly) NSString *columnName;
-
-
-
+@property (strong, nonatomic, readonly) NSString *columnName;
 
 /**
  * Designated initializer.

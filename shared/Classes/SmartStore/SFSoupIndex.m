@@ -23,7 +23,7 @@
  */
 
 #import "SFSoupIndex.h"
-
+#import "SalesforceSDKConstants.h"
 
 NSString * const kSoupIndexTypeString = @"string";
 NSString * const kSoupIndexTypeInteger = @"integer";
@@ -55,6 +55,12 @@ NSString * const kSoupIndexTypeInteger = @"integer";
                    columnName:nil
             ];
     return self;
+}
+
+- (void) dealloc {
+    SFRelease(_columnName);
+    SFRelease(self.indexType);
+    SFRelease(self.path);
 }
 
 /**
