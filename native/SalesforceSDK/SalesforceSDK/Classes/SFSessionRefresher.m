@@ -23,7 +23,7 @@
  */
 
 #import "SFSessionRefresher.h"
-
+#import "SalesforceSDKConstants.h"
 #import "RKRequestDelegateWrapper.h"
 #import "SFRestAPI.h"
 #import "SFAccountManager.h"
@@ -75,8 +75,8 @@
 
 - (void)dealloc {
     [self restoreOAuthDelegate];
-     _refreshLock = nil;
-     _queuedRequests = nil;
+    SFRelease(_refreshLock);
+    SFRelease(_queuedRequests);
 }
 
 #pragma mark - Public

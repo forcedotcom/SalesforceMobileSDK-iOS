@@ -57,7 +57,7 @@ NSString* const kName                 = @"name";
 - (void) setUp
 {
     [super setUp];
-    _store = [[SFSmartStore sharedStoreWithName:kTestStore] retain];
+    _store = [SFSmartStore sharedStoreWithName:kTestStore];
     
     // Employees soup
     [_store registerSoup:kEmployeesSoup                              // should be TABLE_1
@@ -81,7 +81,6 @@ NSString* const kName                 = @"name";
 
 - (void) tearDown
 {
-    [_store release]; // close underlying db
     _store = nil;
     [SFSmartStore removeSharedStoreWithName:kTestStore];
     [super tearDown];
@@ -164,7 +163,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryDoingCount 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select count(*) from {employees}" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select count(*) from {employees}" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[7]]"] actual:result message:@"Wrong result"];
 }
@@ -172,7 +171,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryDoingSum 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select sum({departments:budget}) from {departments}" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select sum({departments:budget}) from {departments}" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[3000000]]"] actual:result message:@"Wrong result"];
 }
@@ -180,7 +179,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningOneRowWithOneInteger 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000]]"] actual:result message:@"Wrong result"];
 }
@@ -188,7 +187,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningOneRowWithTwoIntegers 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson'" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000,120000]]"] actual:result message:@"Wrong result"];
 }
@@ -196,7 +195,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningTwoRowsWithOneIntegerEach 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:managerId} = '00010' order by {employees:firstName}" withPageSize:2] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:managerId} = '00010' order by {employees:firstName}" withPageSize:2];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[120000],[100000]]"] actual:result message:@"Wrong result"];
 }
@@ -204,11 +203,11 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningSoupStringAndInteger 
 {
     [self loadData];
-    SFQuerySpec* exactQuerySpec = [[SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1] autorelease];
+    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
     
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     
     STAssertTrue(1 == [result count], @"Expected one row");
@@ -220,7 +219,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryWithPaging 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
     STAssertTrue(7 ==[_store countWithQuerySpec:querySpec], @"Expected 7 employees");
     
     NSArray* expectedResults = [NSArray arrayWithObjects:@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally", nil];
@@ -235,11 +234,11 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryWithSpecialFields 
 {
     [self loadData];
-    SFQuerySpec* exactQuerySpec = [[SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1] autorelease];
+    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
     
-    SFQuerySpec* querySpec = [[SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1] autorelease];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
     
     STAssertTrue(1 == [result count], @"Expected one row");

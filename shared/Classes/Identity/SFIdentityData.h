@@ -33,12 +33,12 @@
 /**
  * The NSDictionary representation of this identity data.
  */
-@property (weak, nonatomic, readonly) NSDictionary *dictRepresentation;
+@property (strong, nonatomic, readonly) NSDictionary *dictRepresentation;
 
 /**
  * The ID URL.
  */
-@property (weak, nonatomic, readonly) NSURL *idUrl;
+@property (strong, nonatomic, readonly) NSURL *idUrl;
 
 /**
  * Whether or not this is the asserted user for this session.
@@ -48,58 +48,58 @@
 /**
  * The User ID of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *userId;
+@property (strong, nonatomic, readonly) NSString *userId;
 
 /**
  * The Organization ID of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *orgId;
+@property (strong, nonatomic, readonly) NSString *orgId;
 
 /**
  * The username of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *username;
+@property (strong, nonatomic, readonly) NSString *username;
 
 /**
  * The nickname of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *nickname;
+@property (strong, nonatomic, readonly) NSString *nickname;
 
 /**
  * The display name of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *displayName;
+@property (strong, nonatomic, readonly) NSString *displayName;
 
 /**
  * The email address of the associated user.
  */
-@property (weak, nonatomic, readonly) NSString *email;
+@property (strong, nonatomic, readonly) NSString *email;
 
 /**
  * The first name of the user.
  */
-@property (weak, nonatomic, readonly) NSString *firstName;
+@property (strong, nonatomic, readonly) NSString *firstName;
 
 /**
  * The last name of the user.
  */
-@property (weak, nonatomic, readonly) NSString *lastName;
+@property (strong, nonatomic, readonly) NSString *lastName;
 
 /**
  * The URL to retrieve the user's picture.
  */
-@property (weak, nonatomic, readonly) NSURL *pictureUrl;
+@property (strong, nonatomic, readonly) NSURL *pictureUrl;
 
 /**
  * The URL to retrieve a thumbnail picture for the user.
  */
-@property (weak, nonatomic, readonly) NSURL *thumbnailUrl;
+@property (strong, nonatomic, readonly) NSURL *thumbnailUrl;
 
 /**
  * The enterprise SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *enterpriseSoapUrl;
+@property (strong, nonatomic, readonly) NSString *enterpriseSoapUrl;
 
 /**
  * The metadata SOAP API URL string for this user.
@@ -111,25 +111,25 @@
  * The partner SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *partnerSoapUrl;
+@property (strong, nonatomic, readonly) NSString *partnerSoapUrl;
 
 /**
  * The REST API URL string entry point for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *restUrl;
+@property (strong, nonatomic, readonly) NSString *restUrl;
 
 /**
  * The REST endpoint string for SObjects.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *restSObjectsUrl;
+@property (strong, nonatomic, readonly) NSString *restSObjectsUrl;
 
 /**
  * The REST endpoint string for search.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *restSearchUrl;
+@property (strong, nonatomic, readonly) NSString *restSearchUrl;
 
 /**
  * The REST endpoint string for queries.
@@ -141,36 +141,36 @@
  * The REST endpoint string for recent activity.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *restRecentUrl;
+@property (strong, nonatomic, readonly) NSString *restRecentUrl;
 
 /**
  * The user profile URL.
  */
-@property (weak, nonatomic, readonly) NSURL *profileUrl;
+@property (strong, nonatomic, readonly) NSURL *profileUrl;
 
 /**
  * The URL string for Chatter feeds.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *chatterFeedsUrl;
+@property (strong, nonatomic, readonly) NSString *chatterFeedsUrl;
 
 /**
  * The URL string for Chatter groups.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *chatterGroupsUrl;
+@property (strong, nonatomic, readonly) NSString *chatterGroupsUrl;
 
 /**
  * The URL string for Chatter users.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *chatterUsersUrl;
+@property (strong, nonatomic, readonly) NSString *chatterUsersUrl;
 
 /**
  * The URL string for Chatter feed items.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *chatterFeedItemsUrl;
+@property (strong, nonatomic, readonly) NSString *chatterFeedItemsUrl;
 
 /**
  * Whether or not this user is active.
@@ -180,17 +180,17 @@
 /**
  * The user type.
  */
-@property (weak, nonatomic, readonly) NSString *userType;
+@property (strong, nonatomic, readonly) NSString *userType;
 
 /**
  * The user's configured language.
  */
-@property (weak, nonatomic, readonly) NSString *language;
+@property (strong, nonatomic, readonly) NSString *language;
 
 /**
  * The user's configured locale.
  */
-@property (weak, nonatomic, readonly) NSString *locale;
+@property (strong, nonatomic, readonly) NSString *locale;
 
 /**
  * The UTC offset for this user.
@@ -220,7 +220,7 @@
 /**
  * The date this record was last modified.
  */
-@property (weak, nonatomic, readonly) NSDate *lastModifiedDate;
+@property (strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
  * Designated initializer for creating an instance of the SFIdentityData object.

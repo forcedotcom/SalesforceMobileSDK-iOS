@@ -27,6 +27,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFIdentityData.h"
 #import "SFJsonUtils.h"
+#import "SalesforceSDKConstants.h"
 
 // Public constants
 
@@ -121,12 +122,21 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     [self cleanupData];
 }
 
+- (void)dealloc
+{
+    SFRelease(self.credentials);
+    SFRelease(self.idData);
+    SFRelease(self.responseData);
+    SFRelease(self.connection);
+    SFRelease(self.httpError);
+}
+
 - (void)cleanupData
 {
+    SFRelease(self.connection);
+    SFRelease(self.responseData);
+    SFRelease(self.httpError);
     self.retrievingData = NO;
-    self.connection = nil;
-    self.responseData = nil;
-    self.httpError = nil;
 }
 
 - (void)processResponse

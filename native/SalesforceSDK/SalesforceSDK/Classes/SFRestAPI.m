@@ -23,7 +23,7 @@
  */
 
 #import "SFRestAPI+Internal.h"
-
+#import "SalesforceSDKConstants.h"
 #import "RKRequestDelegateWrapper.h"
 #import "RestKit.h"
 #import "SFJsonUtils.h"
@@ -66,7 +66,9 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (void)dealloc {
-     _rkClient = nil;
+    SFRelease(_sessionRefresher);
+    SFRelease(_rkClient);
+    SFRelease(_activeRequests);
 }
 
 #pragma mark - singleton

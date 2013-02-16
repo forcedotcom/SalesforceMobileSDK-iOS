@@ -24,7 +24,7 @@
 
 //required for UIApplicationProtectedDataDidBecomeAvailable
 #import <UIKit/UIKit.h>
-
+#import "SalesforceSDKConstants.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "SFJsonUtils.h"
@@ -139,23 +139,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return self;
 }
 
-
-
-
 - (void)dealloc {    
     [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
-    
-    [self.storeDb close];  
-    _indexSpecsBySoup = nil;
-    _smartSqlToSql = nil;
+    [self.storeDb close];
+    SFRelease(_indexSpecsBySoup);
+    SFRelease(_smartSqlToSql);
     
     //remove data protection observer
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
-    _dataProtectAvailObserverToken = nil;
+    SFRelease(_dataProtectAvailObserverToken);
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
-    _dataProtectUnavailObserverToken = nil;
-    
-    
+    SFRelease(_dataProtectUnavailObserverToken);
 }
 
 

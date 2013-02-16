@@ -50,7 +50,7 @@
 /**
  * Dictionary mapping error codes to their respective types.
  */
-@property (weak, nonatomic, readonly) NSDictionary *typeToCodeDict;
+@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict;
 
 /**
  * If there's an error in the HTTP transaction, set it in this property.

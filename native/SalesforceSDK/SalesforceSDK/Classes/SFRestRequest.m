@@ -23,7 +23,7 @@
  */
 
 #import "SFRestRequest.h"
-
+#import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
@@ -49,7 +49,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)dealloc {
-    self.delegate = nil;
+    SFRelease(self.delegate);
+    SFRelease(self.queryParams);
+    SFRelease(self.endpoint);
 }
 
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
