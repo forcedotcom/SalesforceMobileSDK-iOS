@@ -33,6 +33,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFLogger.h"
 #import "SFSDKWebUtils.h"
+#import "CDVCommandDelegateImpl.h"
 
 @interface SFHybridViewController()
 {
@@ -140,11 +141,11 @@
 {
     static NSArray *reservedUrlStrings = nil;
     if (reservedUrlStrings == nil) {
-        reservedUrlStrings = [[NSArray arrayWithObjects:
+        reservedUrlStrings = [NSArray arrayWithObjects:
                                [self startPageUrlString],
                                @"/secur/frontdoor.jsp",
                                @"/secur/contentDoor",
-                               nil] retain];
+                               nil];
     }
     
     if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)

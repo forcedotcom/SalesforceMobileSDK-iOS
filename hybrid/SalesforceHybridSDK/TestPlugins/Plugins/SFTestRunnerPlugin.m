@@ -25,6 +25,7 @@
 #import "SFTestRunnerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "CDVInvokedUrlCommand.h"
+#import "SalesforceSDKConstants.h"
 
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
@@ -50,9 +51,8 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 }
 
 - (void)dealloc {
-    [_testName release]; _testName = nil;
-    [_message release]; _message = nil;
-    [super dealloc];
+    SFRelease(_testName);
+    SFRelease(_message);
 }
 
 @end
@@ -79,8 +79,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 }
 
 - (void)dealloc {
-    [_testResults release]; _testResults = nil;
-    [super dealloc];
+    SFRelease(_testResults);
 }
 
 
@@ -116,8 +115,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     }
     SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message status:testStatus];
     [self.testResults addObject:testResult];
-    [testResult release];
-    
     [self writeCommandOKResultToJsRealm: callbackId];    
 }
 

@@ -115,7 +115,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     SFRelease(_oauthLoginDomain);
     SFRelease(_oauthScopes);
     
-    [super dealloc];
 }
 
 #pragma mark - Cordova plugin methods
@@ -272,7 +271,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     NSString *eventStr = [[NSString alloc] initWithFormat:@"cordova.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
                           credsStr];
     [super writeJavascript:eventStr];
-    [eventStr release];
 }
 
 @end

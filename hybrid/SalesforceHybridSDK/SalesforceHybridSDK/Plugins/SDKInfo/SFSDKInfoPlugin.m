@@ -40,7 +40,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
 
-@property (nonatomic, readonly) NSArray *forcePlugins;
+@property (weak, nonatomic, readonly) NSArray *forcePlugins;
 
 - (NSArray *)getForcePluginsFromCordova;
 
@@ -65,7 +65,6 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 - (void)dealloc
 {
     SFRelease(_forcePlugins);
-    [super dealloc];
 }
 
 #pragma mark - Methods to get force plugins
@@ -73,7 +72,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 - (NSArray *)forcePlugins
 {
     if (_forcePlugins == nil) {
-        _forcePlugins = [[self getForcePluginsFromCordova] retain];
+        _forcePlugins = [self getForcePluginsFromCordova];
     }
     
     return _forcePlugins;
@@ -85,7 +84,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     if ([self.viewController isKindOfClass:[CDVViewController class]]) {
         CDVViewController *vc = (CDVViewController *)self.viewController;
         NSDictionary *pluginsMap = vc.pluginsMap;
-        for (NSString *key in [pluginsMap allKeys]) {
+        for (__strong NSString *key in [pluginsMap allKeys]) {
             key = [key lowercaseString];
             [self log:SFLogLevelDebug format:@"key=%@", key];
             if ([key hasPrefix:kForcePluginPrefix]) {
@@ -111,12 +110,12 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
     
-    NSDictionary *sdkInfo = [[[NSDictionary alloc] initWithObjectsAndKeys:
+    NSDictionary *sdkInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                               kSFMobileSDKVersion, kSDKVersionKey,
                               appName, kAppNameKey,
                               appVersion, kAppVersionKey,
                               self.forcePlugins, kForcePluginsAvailableKey,
-                              nil] autorelease];
+                              nil];
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }

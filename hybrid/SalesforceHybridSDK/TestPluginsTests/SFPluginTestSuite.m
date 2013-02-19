@@ -24,15 +24,14 @@
  */
 
 #import <UIKit/UIKit.h>
-
 #import "SFPluginTestSuite.h"
-
+#import "CDVCommandDelegateImpl.h"
 #import "AppDelegate.h"
 #import "SFHybridViewController.h"
 #import "SFTestRunnerPlugin.h"
 #import "SFSmartStore.h"
 #import "SFSmartStorePlugin.h"
-
+#import "CDVCommandDelegateImpl.h"
 
 
 @implementation SFPluginTestSuite
@@ -144,7 +143,6 @@
         NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);
         STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         STAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
-        [testResult autorelease];
     }
 }
 

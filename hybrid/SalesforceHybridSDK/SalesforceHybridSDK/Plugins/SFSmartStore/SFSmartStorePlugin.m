@@ -26,13 +26,14 @@
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "NSDictionary+SFAdditions.h"
-
+#import "CDVCommandDelegateImpl.h"
 #import "SFContainerAppDelegate.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
 #import "CDVPluginResult.h"
 #import "CDVInvokedUrlCommand.h"
+#import "SalesforceSDKConstants.h"
 
 //NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
@@ -88,10 +89,9 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     return self;
 }
 
-
-- (void)dealloc {
-    self.store = nil;
-    [super dealloc];
+- (void) dealloc
+{
+    SFRelease(self.store);
 }
 
 #pragma mark - Object bridging helpers
