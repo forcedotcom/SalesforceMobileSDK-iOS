@@ -31,8 +31,6 @@
 #import "SFTestRunnerPlugin.h"
 #import "SFSmartStore.h"
 #import "SFSmartStorePlugin.h"
-#import "CDVCommandDelegateImpl.h"
-
 
 @implementation SFPluginTestSuite
 

@@ -40,7 +40,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @interface SFSDKInfoPlugin ()
 
-@property (weak, nonatomic, readonly) NSArray *forcePlugins;
+@property (strong, nonatomic, readonly) NSArray *forcePlugins;
 
 - (NSArray *)getForcePluginsFromCordova;
 

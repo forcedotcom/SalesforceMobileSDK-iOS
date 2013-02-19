@@ -91,7 +91,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 - (void) dealloc
 {
-    SFRelease(self.store);
+    SFRelease(_store);
 }
 
 #pragma mark - Object bridging helpers
