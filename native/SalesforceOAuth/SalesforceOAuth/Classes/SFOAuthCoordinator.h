@@ -179,7 +179,7 @@ enum {
  
  @see SFOAuthCredentials
  */
-@property (nonatomic, retain) SFOAuthCredentials *credentials;
+@property (nonatomic, strong) SFOAuthCredentials *credentials;
 
 /** The delegate object for this coordinator. 
 
@@ -187,7 +187,7 @@ enum {
  
  @see SFOAuthCoordinatorDelegate
  */
-@property (nonatomic, assign) id<SFOAuthCoordinatorDelegate> delegate;
+@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> delegate;
 
 /** A set of scopes for OAuth.
  See: 

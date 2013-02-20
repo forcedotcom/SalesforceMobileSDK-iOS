@@ -22,10 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "QueryListViewController.h"
 #import "RestAPIExplorerViewController.h"
-
+#import "SalesforceSDKConstants.h"
 
 //action constants
 NSString *const kActionVersions = @"versions";
@@ -73,11 +72,10 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
-    self.appViewController = nil;
-    self.actions = nil;
-    [super dealloc];
+    SFRelease(_actions);
+    SFRelease(_appViewController);
 }
 
 #pragma mark - View lifecycle
@@ -106,7 +104,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     cell.textLabel.text = [_actions objectAtIndex:indexPath.row * 2];

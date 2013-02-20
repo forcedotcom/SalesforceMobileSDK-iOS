@@ -63,27 +63,8 @@
         //set a default scope: API and Visualforce
         _oauthCoordinator.scopes = [NSSet setWithObjects:@"api", @"visualforce", nil];
         _oauthCoordinator.delegate = self;
-        [creds release];
     }
     return self;
-}
-
-- (void)dealloc {
-    [_oauthCoordinator release];
-    [_fieldDomain release];
-    [_buttonAuthenticate release];
-    [_buttonClear release];
-    [_labelAccessToken release];
-    [_labelRefreshToken release];
-    [_labelInstanceUrl release];
-    [_labelAuthType release];
-    [_labelIssued release];
-    [_labelUserId release];
-    [_labelOrgId release];
-    [_activityIndicator release];
-    [_authInfo release];
-    
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -184,7 +165,6 @@
                                               otherButtonTitles:nil];
     
     [sheet showInView:self.view];
-    [sheet release];
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate
@@ -218,7 +198,6 @@
                                               otherButtonTitles:nil];
     
     [alert show];
-    [alert release];
 }
 
 #pragma mark - UIActionSheetDelegate

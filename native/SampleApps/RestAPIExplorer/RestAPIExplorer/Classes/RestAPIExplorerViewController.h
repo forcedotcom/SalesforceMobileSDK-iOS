@@ -55,24 +55,24 @@
 - (IBAction)btnActionPressed:(id)sender;
 
 // action based query
-@property (nonatomic, retain) UIPopoverController *popoverController;
-@property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
-@property (nonatomic, retain) IBOutlet UITextField *tfObjectType;
-@property (nonatomic, retain) IBOutlet UITextField *tfObjectId;
-@property (nonatomic, retain) IBOutlet UITextField *tfExternalId;
-@property (nonatomic, retain) IBOutlet UITextField *tfSearch;
-@property (nonatomic, retain) IBOutlet UITextField *tfQuery;
-@property (nonatomic, retain) IBOutlet UITextField *tfExternalFieldId;
-@property (nonatomic, retain) IBOutlet UITextField *tfFieldList;
-@property (nonatomic, retain) IBOutlet UITextView *tvFields;
+@property (nonatomic, strong) UIPopoverController *popoverController;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
+@property (nonatomic, strong) IBOutlet UITextField *tfObjectType;
+@property (nonatomic, strong) IBOutlet UITextField *tfObjectId;
+@property (nonatomic, strong) IBOutlet UITextField *tfExternalId;
+@property (nonatomic, strong) IBOutlet UITextField *tfSearch;
+@property (nonatomic, strong) IBOutlet UITextField *tfQuery;
+@property (nonatomic, strong) IBOutlet UITextField *tfExternalFieldId;
+@property (nonatomic, strong) IBOutlet UITextField *tfFieldList;
+@property (nonatomic, strong) IBOutlet UITextView *tvFields;
 
 // manual query
-@property (nonatomic, retain) IBOutlet UITextField *tfPath;
-@property (nonatomic, retain) IBOutlet UITextView *tvParams;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentMethod;
+@property (nonatomic, strong) IBOutlet UITextField *tfPath;
+@property (nonatomic, strong) IBOutlet UITextView *tvParams;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentMethod;
 
 // response
-@property (nonatomic, retain) IBOutlet UILabel *tfResponseFor;
-@property (nonatomic, retain) IBOutlet UITextView *tfResult;
+@property (nonatomic, strong) IBOutlet UILabel *tfResponseFor;
+@property (nonatomic, strong) IBOutlet UITextView *tfResult;
 
 @end

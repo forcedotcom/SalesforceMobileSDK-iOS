@@ -29,12 +29,12 @@
 @interface SFOAuthCoordinator ()
 
 @property (assign) BOOL authenticating;
-@property (nonatomic, retain) NSURLConnection *connection;
-@property (nonatomic, retain) NSMutableData *responseData;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;
-@property (nonatomic, retain) NSTimer *refreshFlowConnectionTimer;
-@property (nonatomic, retain) NSThread *refreshTimerThread;
+@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
+@property (nonatomic, strong) NSThread *refreshTimerThread;
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;
