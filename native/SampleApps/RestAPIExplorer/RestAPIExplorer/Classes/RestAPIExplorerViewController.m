@@ -69,14 +69,9 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    // action based query
-    // manual query
-    // response
 }
 
 #pragma mark - View lifecycle
-
 
 - (void)viewDidLoad
 {
