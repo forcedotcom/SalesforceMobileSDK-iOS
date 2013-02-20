@@ -105,7 +105,7 @@
  * The metadata SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *metadataSoapUrl;
+@property (strong, nonatomic, readonly) NSString *metadataSoapUrl;
 
 /**
  * The partner SOAP API URL string for this user.
@@ -135,7 +135,7 @@
  * The REST endpoint string for queries.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (weak, nonatomic, readonly) NSString *restQueryUrl;
+@property (strong, nonatomic, readonly) NSString *restQueryUrl;
 
 /**
  * The REST endpoint string for recent activity.

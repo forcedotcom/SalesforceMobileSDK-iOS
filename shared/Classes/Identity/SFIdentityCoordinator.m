@@ -124,18 +124,18 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)dealloc
 {
-    SFRelease(self.credentials);
-    SFRelease(self.idData);
-    SFRelease(self.responseData);
-    SFRelease(self.connection);
-    SFRelease(self.httpError);
+    SFRelease(_credentials);
+    SFRelease(_idData);
+    SFRelease(_responseData);
+    SFRelease(_connection);
+    SFRelease(_httpError);
 }
 
 - (void)cleanupData
 {
-    SFRelease(self.connection);
-    SFRelease(self.responseData);
-    SFRelease(self.httpError);
+    SFRelease(_connection);
+    SFRelease(_responseData);
+    SFRelease(_httpError);
     self.retrievingData = NO;
 }
 

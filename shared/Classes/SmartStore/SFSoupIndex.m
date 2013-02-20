@@ -59,8 +59,8 @@ NSString * const kSoupIndexTypeInteger = @"integer";
 
 - (void) dealloc {
     SFRelease(_columnName);
-    SFRelease(self.indexType);
-    SFRelease(self.path);
+    SFRelease(_indexType);
+    SFRelease(_path);
 }
 
 /**

@@ -115,7 +115,7 @@ enum {
  * The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
  * This property must be set prior to initiating an identity request.
  */
-@property (nonatomic, strong) id<SFIdentityCoordinatorDelegate> delegate;
+@property (nonatomic, weak) id<SFIdentityCoordinatorDelegate> delegate;
 
 /**
  * The amount of time, in seconds, to attempt the request, before it times out.  If not set, the

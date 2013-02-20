@@ -193,7 +193,7 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 /**
  * Allows the consumer to set its OAuth delegate for handling authentication responses.
  */
-@property (nonatomic, strong) id<SFOAuthCoordinatorDelegate> oauthDelegate;
+@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> oauthDelegate;
 
 /**
  * Allows the consumer to set its Identity delegate for handling identity responses.
