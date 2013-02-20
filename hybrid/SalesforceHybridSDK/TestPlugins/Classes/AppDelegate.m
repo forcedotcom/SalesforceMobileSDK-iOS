@@ -23,12 +23,11 @@
  */
 
 #import "AppDelegate.h"
-
 #import "SFHybridViewController.h"
 #import "SalesforceOAuthPlugin.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
-
+#import "CDVCommandDelegateImpl.h"
 #import "SFTestRunnerPlugin.h"
 
 //redeclare functions required for code coverage

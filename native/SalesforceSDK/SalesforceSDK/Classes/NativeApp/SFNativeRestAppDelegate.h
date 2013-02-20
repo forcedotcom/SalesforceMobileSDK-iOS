@@ -47,18 +47,18 @@
 /**
  The root window of the native application.
  */
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
 
 /**
  The current view controller of the application.
  */
-@property (nonatomic, retain) IBOutlet UIViewController *viewController;
+@property (nonatomic, strong) IBOutlet UIViewController *viewController;
 
 /**
  View controller that gives the app some view state while authorizing.
  Note: This property is deprecated.  You should override [SFAuthenticationManager sharedManager].authViewController instead.
  */
-@property (nonatomic, retain) SFAuthorizingViewController *authViewController SFSDK_DEPRECATED(1.5, "Override [SFAuthenticationManager sharedManager].authViewController instead.");
+@property (nonatomic, strong) SFAuthorizingViewController *authViewController SFSDK_DEPRECATED(1.5, "Override [SFAuthenticationManager sharedManager].authViewController instead.");
 
 /**
  The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release

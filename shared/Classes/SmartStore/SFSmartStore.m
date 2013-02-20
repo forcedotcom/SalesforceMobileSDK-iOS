@@ -24,7 +24,7 @@
 
 //required for UIApplicationProtectedDataDidBecomeAvailable
 #import <UIKit/UIKit.h>
-
+#import "SalesforceSDKConstants.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "SFJsonUtils.h"
@@ -96,11 +96,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != self)  {
         [self log:SFLogLevelDebug format:@"SFSmartStore initWithStoreName: %@",name];
         
-         _storeName = [name retain];
+         _storeName = name;
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         //we use this so that addObserverForName doesn't retain us
-        __block SFSmartStore *this = self;
+        __strong SFSmartStore *this = self;
         _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
                                           addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
                                           object:nil
@@ -126,12 +126,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
         if (![self.class persistentStoreExists:name]) {
             if (![self firstTimeStoreDatabaseSetup]) {
-                [self release];
                 self = nil;
             }
         } else {
             if (![self openStoreDatabase:NO]) {
-                [self release];
                 self = nil;
             }
         }
@@ -141,25 +139,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return self;
 }
 
-
-
-
 - (void)dealloc {    
     [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
-    
-    [self.storeDb close]; [_storeDb release]; _storeDb = nil;
-    [_indexSpecsBySoup release] ; _indexSpecsBySoup = nil;
-    [_smartSqlToSql release] ; _smartSqlToSql = nil;
+    [self.storeDb close];
+    SFRelease(_indexSpecsBySoup);
+    SFRelease(_smartSqlToSql);
     
     //remove data protection observer
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
-    _dataProtectAvailObserverToken = nil;
+    SFRelease(_dataProtectAvailObserverToken);
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectUnavailObserverToken];
-    _dataProtectUnavailObserverToken = nil;
-    
-    [_storeName release]; _storeName = nil;
-    
-    [super dealloc];
+    SFRelease(_dataProtectUnavailObserverToken);
 }
 
 
@@ -178,7 +168,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         //need to create the db file itself before we can encrypt it
         if ([self openStoreDatabase:YES]) {
             if ([self createMetaTables]) {
-                [self.storeDb close]; [_storeDb release]; _storeDb = nil; // Need to close before setting encryption.
+                [self.storeDb close];  _storeDb = nil; // Need to close before setting encryption.
                 [[SFSmartStoreDatabaseManager sharedManager] protectStoreDir:self.storeName error:&protectErr];
                 if (protectErr != nil) {
                     [self log:SFLogLevelDebug format:@"Couldn't protect store: %@", protectErr];
@@ -282,7 +272,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         store = [[SFSmartStore alloc] initWithName:storeName];
         if (store)
             [_allSharedStores setObject:store forKey:storeName];
-        [store release]; //the store is retained by _allSharedStores so we can return it
+         //the store is retained by _allSharedStores so we can return it
     }
     
     return store;
@@ -508,7 +498,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 + (NSString *)defaultKey
 {
     NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    NSString *constKey = [[[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding] autorelease];
+    NSString *constKey = [[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding];
     NSString *strSecret = [macAddress stringByAppendingString:constKey];
     return [[strSecret sha256] base64Encode];
 }
@@ -530,9 +520,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (BOOL)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
     // map all of the columns and values from soupIndexMapInserts
-    __block NSMutableString *fieldNames = [[NSMutableString alloc] init];
-    __block NSMutableArray *binds = [[NSMutableArray alloc] init];
-    __block NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
+    __strong NSMutableString *fieldNames = [[NSMutableString alloc] init];
+    __strong NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __strong NSMutableString *fieldValueMarkers = [[NSMutableString alloc] init];
     __block NSUInteger fieldCount = 0;
     
     [map enumerateKeysAndObjectsUsingBlock:
@@ -552,9 +542,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", 
                            tableName, fieldNames, fieldValueMarkers];
     //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
-    [fieldNames release]; [fieldValueMarkers release];
     BOOL result = [self.storeDb executeUpdate:insertSql withArgumentsInArray:binds];
-    [binds release];
         
     return result;
     
@@ -565,8 +553,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSAssert(entryId != nil, @"Entry ID must have a value.");
     
     // map all of the columns and values from soupIndexMapInserts
-    __block NSMutableString *fieldEntries = [[NSMutableString alloc] init];
-    __block NSMutableArray *binds = [[NSMutableArray alloc] init];
+    __strong NSMutableString *fieldEntries = [[NSMutableString alloc] init];
+    __strong NSMutableArray *binds = [[NSMutableArray alloc] init];
     __block NSUInteger fieldCount = 0;
     
     [map enumerateKeysAndObjectsUsingBlock:
@@ -585,9 +573,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@ = ?",
                            tableName, fieldEntries, ID_COL];
     //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
-    [fieldEntries release];
     BOOL result = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
-    [binds release];
     
     return result;
     
@@ -738,7 +724,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             
             SFSoupIndex *spec = [[SFSoupIndex alloc] initWithPath:path indexType:type columnName:columnName];
             [result addObject:spec];   
-            [spec release];
         }
         [frs close];
                               
@@ -858,9 +843,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [values setObject:indexSpec.path forKey:PATH_COL];
         [values setObject:columnName forKey:COLUMN_NAME_COL];
         [values setObject:indexSpec.indexType forKey:COLUMN_TYPE_COL];
-        [indexSpec release];
         [soupIndexMapInserts addObject:values];
-        [values release];
         
         // for creating an index on the soup table
         NSString *indexName = [NSString stringWithFormat:@"%@_%d_idx",soupTableName,i];
@@ -907,9 +890,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         result = runOk;
     }
     
-    [createTableStmt release];
-    [createIndexStmts release];
-    [soupIndexMapInserts release];
     
     return  result;
 }
@@ -1117,9 +1097,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSUInteger totalEntries = [self  countWithQuerySpec:querySpec];
     SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
-    [querySpec release];
     
-    return [result autorelease];
+    return result;
 }
 
 
@@ -1186,7 +1165,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSNumber *newEntryId = [NSNumber numberWithInteger:[self.storeDb lastInsertRowId]];
     
     //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
-    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
+    NSMutableDictionary *mutableEntry = [entry mutableCopy];
     [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
              
@@ -1229,7 +1208,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     //clone the entry so that we can modify SOUP_LAST_MODIFIED_DATE
-    NSMutableDictionary *mutableEntry = [[entry mutableCopy] autorelease];
+    NSMutableDictionary *mutableEntry = [entry mutableCopy];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
     [mutableEntry setValue:entryId forKey:SOUP_ENTRY_ID];
     NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];

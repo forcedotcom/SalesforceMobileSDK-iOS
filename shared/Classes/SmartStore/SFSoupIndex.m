@@ -23,7 +23,7 @@
  */
 
 #import "SFSoupIndex.h"
-
+#import "SalesforceSDKConstants.h"
 
 NSString * const kSoupIndexTypeString = @"string";
 NSString * const kSoupIndexTypeInteger = @"integer";
@@ -44,7 +44,7 @@ NSString * const kSoupIndexTypeInteger = @"integer";
         self.path = path;
         
         self.indexType = type;
-        _columnName = [columnName retain];
+        _columnName = columnName;
     }
     return self;
 }
@@ -57,14 +57,11 @@ NSString * const kSoupIndexTypeInteger = @"integer";
     return self;
 }
 
-- (void)dealloc {
-    [_columnName release] ; _columnName = nil;
-    self.indexType = nil;
-    self.path = nil;
-    [super dealloc];
-    
+- (void) dealloc {
+    SFRelease(_columnName);
+    SFRelease(_indexType);
+    SFRelease(_path);
 }
-
 
 /**
  Maps the IndexSpec type to the SQL column type

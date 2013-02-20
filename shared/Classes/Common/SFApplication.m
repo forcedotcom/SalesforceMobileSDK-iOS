@@ -44,7 +44,6 @@
 {
     SFRelease(_lastEventDate);
     
-    [super dealloc];
 }
 
 #pragma mark - Event handling
@@ -55,7 +54,6 @@
     if ([allTouches count] > 0) {
         UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
         if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
-            [_lastEventDate release];
             _lastEventDate = [[NSDate alloc] init];
         }
     }

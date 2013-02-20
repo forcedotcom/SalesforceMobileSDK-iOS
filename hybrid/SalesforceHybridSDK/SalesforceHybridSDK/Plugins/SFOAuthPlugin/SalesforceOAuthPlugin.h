@@ -57,7 +57,7 @@
 /**
  The set of oauth scopes that should be requested for this app.
  */
-@property (nonatomic, retain) NSSet *oauthScopes;
+@property (nonatomic, strong) NSSet *oauthScopes;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

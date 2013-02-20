@@ -67,17 +67,14 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 - (void)dealloc
 {
     SFRelease(_providerName);
-    [super dealloc];
 }
 
 - (void)resetPasscodeData
 {
     SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscodeVerify account:nil];
     [keychainWrapper resetKeychainItem];
-    [keychainWrapper release];
     keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscodeEncrypt account:nil];
     [keychainWrapper resetKeychainItem];
-    [keychainWrapper release];
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
@@ -166,7 +163,6 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 {
     SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainIdentifier account:nil];
     NSData *keychainPasscodeData = [keychainWrapper valueData];
-    [keychainWrapper release];
     if (keychainPasscodeData == nil) {
         return nil;
     }
@@ -174,7 +170,6 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keychainPasscodeData];
     SFPBKDFData *pbkdfData = [unarchiver decodeObjectForKey:kPBKDFArchiveDataKey];
     [unarchiver finishDecoding];
-    [unarchiver release];
     
     return pbkdfData;
 }
@@ -189,8 +184,6 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainIdentifier account:nil];
     [keychainWrapper setValueData:passcodeDataObj];
     
-    [keychainWrapper release];
-    [archiver release];
 }
 
 @end

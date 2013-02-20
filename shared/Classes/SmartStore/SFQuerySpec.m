@@ -23,7 +23,7 @@
  */
 
 #import "SFQuerySpec.h"
-
+#import "SalesforceSDKConstants.h"
 #import "NSDictionary+SFAdditions.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
@@ -155,15 +155,13 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     return self;
 }
 
-- (void)dealloc {
-    self.path = nil;
-    self.beginKey = nil;
-    self.endKey = nil;
-    self.smartSql = nil;
-    
-    [super dealloc];
+- (void) dealloc
+{
+    SFRelease(_path);
+    SFRelease(_beginKey);
+    SFRelease(_endKey);
+    SFRelease(_smartSql);
 }
-
 
 - (NSArray*) bindsForQuerySpec
 {

@@ -32,7 +32,7 @@
     }
     return self;
 }
-- (void)dealloc { SFRelease(_providerName); [super dealloc]; }
+- (void)dealloc { SFRelease(_providerName); }
 - (void)resetPasscodeData { /* Not implemented. */ }
 - (BOOL)verifyPasscode:(NSString *)passcode { /* Not implemented. */ return YES; }
 - (NSString *)hashedVerificationPasscode { /* Not implemented. */ return @""; }
@@ -64,10 +64,6 @@
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:serializedData];
     [archiver encodeObject:pbkdfStartData forKey:codingKey];
     [archiver finishEncoding];
-    
-    [archiver release];
-    [pbkdfStartData release];
-    
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:serializedData];
     SFPBKDFData *pbkdfEndData = [unarchiver decodeObjectForKey:codingKey];
     [unarchiver finishDecoding];
@@ -77,10 +73,6 @@
     STAssertTrue([verifySaltString isEqualToString:saltString], @"Serialized/deserialized salts are not the same.");
     STAssertEquals(pbkdfEndData.numDerivationRounds, derivationRounds, @"Serialized/deserialized number of derivation rounds are not the same.");
     STAssertEquals(pbkdfEndData.derivedKeyLength, derivedKeyLength, @"Serialized/deserialized derived key length values are not the same.");
-    
-    [unarchiver release];
-    [verifyKeyString release];
-    [verifySaltString release];
 }
 
 - (void)testDefaultPasscodeProviderIsSHA256
@@ -115,7 +107,6 @@
     
     MockPasscodeProvider *mpp = [[MockPasscodeProvider alloc] initWithProviderName:mockProviderName];
     [SFPasscodeProviderManager addPasscodeProvider:mpp];
-    [mpp release];
     id<SFPasscodeProvider> configuredProvider = [SFPasscodeProviderManager passcodeProviderForProviderName:mockProviderName];
     STAssertNotNil(configuredProvider, @"Passcode provider '%@' should be configured.", mockProviderName);
     

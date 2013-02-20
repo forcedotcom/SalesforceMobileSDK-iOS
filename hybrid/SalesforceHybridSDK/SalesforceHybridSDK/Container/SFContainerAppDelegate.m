@@ -37,6 +37,7 @@
 #import "SFSmartStore.h"
 #import "CDVURLProtocol.h"
 #import "CDVCommandDelegate.h"
+#import "CDVCommandDelegateImpl.h"
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"2.0.0";
@@ -75,7 +76,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 /**
  Snapshot view for the app.
  */
-@property (nonatomic, retain) UIView *snapshotView;
+@property (nonatomic, strong) UIView *snapshotView;
 
 @end
 
@@ -116,7 +117,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     SFRelease(_snapshotView);
     SFRelease(_viewController);
     SFRelease(_window);
-	[ super dealloc ];
 }
 
 #pragma mark - App lifecycle
@@ -205,7 +205,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (UIView*)createSnapshotView
 {
-    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
     view.backgroundColor = [UIColor whiteColor];
     return view;
 }
@@ -241,7 +241,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 - (void)setupUi
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
     
     [self setupViewController];
@@ -266,7 +266,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)configureHybridViewController
 {
-    self.viewController = [[[SFHybridViewController alloc] init] autorelease];
+    self.viewController = [[SFHybridViewController alloc] init];
 }
 
 - (void)setupViewController
@@ -307,7 +307,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
         
-        sUserAgentString = [[NSString stringWithFormat:
+        sUserAgentString = [NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
                              kSFMobileSDKVersion,
                              [curDevice systemName],
@@ -317,7 +317,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
                              appVersion,
                              kSFMobileSDKHybridDesignator,
                              currentUserAgent
-                             ] retain];
+                             ];
     }
     
     return sUserAgentString;

@@ -32,12 +32,12 @@
 /**
  * The PBKDF-derived key.
  */
-@property (nonatomic, retain) NSData *derivedKey;
+@property (nonatomic, strong) NSData *derivedKey;
 
 /**
  * The salt used in conjunction with the plaintext input for creating the key.
  */
-@property (nonatomic, retain) NSData *salt;
+@property (nonatomic, strong) NSData *salt;
 
 /**
  * The number of derivation rounds used when generating the key.

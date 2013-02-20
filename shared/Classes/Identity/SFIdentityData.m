@@ -112,7 +112,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     self = [super init];
     if (self) {
         NSAssert(jsonDict != nil, @"Data dictionary must not be nil.");
-        _dictRepresentation = [jsonDict retain];
+        _dictRepresentation = jsonDict;
     }
     
     return self;
@@ -122,7 +122,6 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 {
     SFRelease(_dictRepresentation);
     
-    [super dealloc];
 }
 
 - (NSString *)description
@@ -351,7 +350,6 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:kSFIdentityDateFormatString];
     NSDate *date = [df dateFromString:dateString];
-    [df release];
     return date;
 }
 
@@ -361,7 +359,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 {
     self = [super init];
     if (self) {
-        _dictRepresentation = [[aDecoder decodeObjectForKey:kIdJsonDictKey] retain];
+        _dictRepresentation = [aDecoder decodeObjectForKey:kIdJsonDictKey];
     }
     
     return self;

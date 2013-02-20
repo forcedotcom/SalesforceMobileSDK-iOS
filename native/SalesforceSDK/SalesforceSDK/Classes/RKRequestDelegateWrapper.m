@@ -63,13 +63,9 @@
 
 
 + (id)wrapperWithRequest:(SFRestRequest *)request {
-    return [[[RKRequestDelegateWrapper alloc] initWithRestRequest:request] autorelease];
+    return [[RKRequestDelegateWrapper alloc] initWithRestRequest:request];
 }
 
-- (void)dealloc {
-    self.request = nil;
-    [super dealloc];
-}
 
 #pragma mark - helper methods
 

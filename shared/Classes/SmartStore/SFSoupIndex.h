@@ -50,15 +50,12 @@ extern NSString * const kSoupIndexTypeDate;
 /**
  * The type of data that will be indexed (string or integer).
  */
-@property (nonatomic, readonly) NSString *columnType;
+@property (strong, nonatomic, readonly) NSString *columnType;
 
 /**
  * The name of the column that will store the index.
  */
-@property (nonatomic, readonly) NSString *columnName;
-
-
-
+@property (strong, nonatomic, readonly) NSString *columnName;
 
 /**
  * Designated initializer.

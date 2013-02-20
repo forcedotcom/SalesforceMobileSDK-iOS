@@ -102,7 +102,6 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     self.jsonResponse = nil;
     self.lastError = nil;
     self.returnStatus = nil;
-    [super dealloc];
 }
 
 

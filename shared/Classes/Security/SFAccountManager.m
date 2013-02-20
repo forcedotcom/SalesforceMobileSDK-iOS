@@ -148,7 +148,7 @@ static NSString *CurrentAccountIdentifier;
             // Check again, if this thread didn't beat the lock.
             accountMgr = [AccountManagerDict objectForKey:accountIdentifier];
             if (accountMgr == nil) {
-                accountMgr = [[[SFAccountManager alloc] initWithAccount:accountIdentifier] autorelease];
+                accountMgr = [[SFAccountManager alloc] initWithAccount:accountIdentifier];
                 [AccountManagerDict setObject:accountMgr forKey:accountIdentifier];
             }
         }
@@ -175,7 +175,6 @@ static NSString *CurrentAccountIdentifier;
     SFRelease(_idCoordinator);
     SFRelease(_accountIdentifier);
     SFRelease(_credentials);
-    [super dealloc];
 }
 
 + (void)initialize
@@ -194,9 +193,7 @@ static NSString *CurrentAccountIdentifier;
 + (void)setCurrentAccountIdentifier:(NSString *)newAccountIdentifier
 {
     if (newAccountIdentifier != CurrentAccountIdentifier) {
-        NSString *origAcctId = CurrentAccountIdentifier;
         CurrentAccountIdentifier = [newAccountIdentifier copy];
-        [origAcctId release];
     }
 }
 
@@ -279,13 +276,13 @@ static NSString *CurrentAccountIdentifier;
             if (oauthClientId == nil)
                 return nil;
             NSString *fullIdentifier = [[self class] fullKeychainIdentifier:_accountIdentifier];
-            SFOAuthCredentials *c = [[[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES] autorelease];
+            SFOAuthCredentials *c = [[SFOAuthCredentials alloc] initWithIdentifier:fullIdentifier clientId:oauthClientId encrypted:YES];
             c.domain = [[self class] loginHost];
             c.redirectUri = [[self class] redirectUri];
             [self setCredentials:c];  // Sets _credentials as well.
             return c;
         } else {
-            _credentials = [[NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData] retain];
+            _credentials = [NSKeyedUnarchiver unarchiveObjectWithData:encodedIdData];
         }
     }
     
@@ -296,9 +293,7 @@ static NSString *CurrentAccountIdentifier;
 {
     // Set the 'cached' member variable.
     if (credentials != _credentials) {
-        SFOAuthCredentials *oldCreds = _credentials;
-        _credentials = [credentials retain];
-        [oldCreds release];
+        _credentials = credentials;
     }
     
     // Persist the data to default settings as well.

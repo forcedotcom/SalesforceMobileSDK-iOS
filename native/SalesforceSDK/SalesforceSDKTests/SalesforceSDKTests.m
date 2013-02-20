@@ -52,7 +52,7 @@
 - (void)setUp
 {
     // Set-up code here.
-    [_requestListener release]; _requestListener = nil;
+    _requestListener = nil;
     [TestSetupUtils populateAuthCredentialsFromConfigFile];
     _accountMgr = [SFAccountManager sharedInstance];
     [super setUp];
@@ -69,7 +69,7 @@
 
 
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
-    [_requestListener release]; _requestListener = nil; //in case there's any existing one hanging around
+    _requestListener = nil; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     
     [[SFRestAPI sharedInstance] send:request delegate:nil];
@@ -91,8 +91,6 @@
 
 - (void)testGetVersion_SetDelegate {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-
-    [_requestListener release]; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     
     //exercises overwriting the delegate at send time
@@ -135,8 +133,6 @@
 // simple: just invoke requestForDescribeGlobal, force a cancel & timeout
 - (void)testGetDescribeGlobal_Cancel {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    
-    [_requestListener release]; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
@@ -150,8 +146,6 @@
 // simple: just invoke requestForDescribeGlobal, force a timeout
 - (void)testGetDescribeGlobal_Timeout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    
-    [_requestListener release]; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     
@@ -216,7 +210,7 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // make sure we got an id
-    NSString *contactId = [[[(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"] retain] autorelease];
+    NSString *contactId = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"];
     STAssertNotNil(contactId, @"id not present");
     
     @try {
@@ -292,7 +286,7 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // make sure we got an id
-    NSString *contactId = [[[(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"] retain] autorelease];
+    NSString *contactId = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"];
     STAssertNotNil(contactId, @"id not present");
     NSLog(@"## contact created with id: %@", contactId);
     
@@ -360,7 +354,7 @@
     SFRestRequest *request = [[SFRestAPI sharedInstance]
                               requestForUpsertWithObjectType:@"Account"
                               externalIdField:@"bogusField__c" //this field shouldn't be defined in the test org
-                              externalId: (NSString*)uuidStr
+                              externalId: (__bridge NSString*)uuidStr
                               fields:fields
                               ];
     
@@ -417,7 +411,6 @@
     @finally {
         // restore token
         _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-        [validAccessToken release];
     }
 }
 
@@ -500,19 +493,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRequest:request0] autorelease];
+        TestRequestListener *listener0 = [[TestRequestListener alloc] initWithRequest:request0];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRequest:request1] autorelease];
+        TestRequestListener *listener1 = [[TestRequestListener alloc] initWithRequest:request1];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRequest:request2] autorelease];
+        TestRequestListener *listener2 = [[TestRequestListener alloc] initWithRequest:request2];
 
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRequest:request3] autorelease];
+        TestRequestListener *listener3 = [[TestRequestListener alloc] initWithRequest:request3];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRequest:request4] autorelease];
+        TestRequestListener *listener4 = [[TestRequestListener alloc] initWithRequest:request4];
        
         //send multiple requests, all of which should fail with "unauthorized" initially,
         //but then be replayed after an access token refresh
@@ -563,19 +556,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[[TestRequestListener alloc] initWithRequest:request0] autorelease];
+        TestRequestListener *listener0 = [[TestRequestListener alloc] initWithRequest:request0];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[[TestRequestListener alloc] initWithRequest:request1] autorelease];
+        TestRequestListener *listener1 = [[TestRequestListener alloc] initWithRequest:request1];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[[TestRequestListener alloc] initWithRequest:request2] autorelease];
+        TestRequestListener *listener2 = [[TestRequestListener alloc] initWithRequest:request2];
         
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[[TestRequestListener alloc] initWithRequest:request3] autorelease];
+        TestRequestListener *listener3 = [[TestRequestListener alloc] initWithRequest:request3];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[[TestRequestListener alloc] initWithRequest:request4] autorelease];
+        TestRequestListener *listener4 = [[TestRequestListener alloc] initWithRequest:request4];
         
         //send multiple requests, all of which should fail with "unauthorized" 
         [[SFRestAPI sharedInstance] send:request0 delegate:nil];
@@ -684,7 +677,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            failBlock:UNEXPECTED_ERROR_BLOCK(@"performCreateWithObjectType")
                        completeBlock:^(NSDictionary *d) {
                            _blocksUncompletedCount--;
-                           NSString *recordId = [[d objectForKey:@"id"] retain];
+                           __strong NSString *recordId = [d objectForKey:@"id"];
                            
                            NSLog(@"Retrieving Contact: %@",recordId);
                            [api performRetrieveWithObjectType:@"Contact"
@@ -732,8 +725,6 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                               completeBlock:EMPTY_SUCCESS_BLOCK(@"performDeleteWithObjectType")
                             ];
                            _blocksUncompletedCount++;
-                           
-                           [recordId release];
                        }];
     
     _blocksUncompletedCount++;
@@ -935,7 +926,6 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     acctMgrCoord = _accountMgr.coordinator;
     restApiCoord = [SFRestAPI sharedInstance].coordinator;
     STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
-    [newRestApiCoord release];
     
     // After updating [SFRestAPI sharedInstance].coordinator, REST calls still work.
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];

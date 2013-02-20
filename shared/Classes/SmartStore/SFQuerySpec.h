@@ -121,7 +121,7 @@ typedef enum {
 /**
  ASC or DESC
  */
-@property (nonatomic, readonly) NSString *sqlSortOrder;
+@property (strong, nonatomic, readonly) NSString *sqlSortOrder;
 
 
 /**

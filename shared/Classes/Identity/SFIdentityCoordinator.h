@@ -104,18 +104,18 @@ enum {
 /**
  * The OAuth credentials associated with this instance.
  */
-@property (nonatomic, retain) SFOAuthCredentials *credentials;
+@property (nonatomic, strong) SFOAuthCredentials *credentials;
 
 /**
  * The SFIdentityData that will be populated with the response data from the service.
  */
-@property (nonatomic, retain) SFIdentityData *idData;
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /**
  * The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
  * This property must be set prior to initiating an identity request.
  */
-@property (nonatomic, assign) id<SFIdentityCoordinatorDelegate> delegate;
+@property (nonatomic, weak) id<SFIdentityCoordinatorDelegate> delegate;
 
 /**
  * The amount of time, in seconds, to attempt the request, before it times out.  If not set, the

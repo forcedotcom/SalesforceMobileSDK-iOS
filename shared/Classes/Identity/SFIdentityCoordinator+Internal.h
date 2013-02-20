@@ -35,7 +35,7 @@
 /**
  * The data from the service response will be populated here.
  */
-@property (nonatomic, retain) NSMutableData *responseData;
+@property (nonatomic, strong) NSMutableData *responseData;
 
 /**
  * Whether or not a request is already in progress.
@@ -45,17 +45,17 @@
 /**
  * The NSURLConnection associated with the ID request.
  */
-@property (nonatomic, retain) NSURLConnection *connection;
+@property (nonatomic, strong) NSURLConnection *connection;
 
 /**
  * Dictionary mapping error codes to their respective types.
  */
-@property (nonatomic, readonly) NSDictionary *typeToCodeDict;
+@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict;
 
 /**
  * If there's an error in the HTTP transaction, set it in this property.
  */
-@property (nonatomic, retain) NSError *httpError;
+@property (nonatomic, strong) NSError *httpError;
 
 /**
  * Triggers the success notifictation to the delegate.
