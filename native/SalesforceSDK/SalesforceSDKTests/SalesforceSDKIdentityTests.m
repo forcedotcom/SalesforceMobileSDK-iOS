@@ -59,7 +59,7 @@
 - (void)setUp
 {
     // Set-up code here.
-    [_requestListener release]; _requestListener = nil;
+    _requestListener = nil;
     [self bootstrapAuthCredentials];
     
     [super setUp];
@@ -67,8 +67,7 @@
 
 - (void)dealloc
 {
-    [_requestListener release]; _requestListener = nil;
-    [super dealloc];
+    _requestListener = nil;
 }
 
 #pragma mark - Helper methods
@@ -76,9 +75,7 @@
 - (void)sendSyncIdentityRequest
 {
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    [_requestListener release]; //in case there's any existing one hanging around
     _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
-    
     [accountMgr.idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
 }
@@ -90,7 +87,7 @@
     // With credentials bootstrapped, get an actual set of credentials (we'll need
     // an access token and identity URL for these tests.
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    [_requestListener release]; _requestListener = nil;
+    _requestListener = nil;
     _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
     [accountMgr.coordinator authenticate];
     [_requestListener waitForCompletion];
@@ -127,7 +124,6 @@
     STAssertTrue([error.domain isEqualToString:kSFIdentityErrorDomain], [NSString stringWithFormat:@"Error domain should have been '%@'.  Got '%@'", kSFIdentityErrorDomain, error.domain]);
     STAssertTrue(error.code == kSFIdentityErrorBadHttpResponse, [NSString stringWithFormat:@"Expected error code %d.  Got %d", kSFIdentityErrorBadHttpResponse, error.code]);
     idCoord.credentials.accessToken = origAccessToken;
-    [origAccessToken release];
 }
 
 #pragma mark - Private helper methods

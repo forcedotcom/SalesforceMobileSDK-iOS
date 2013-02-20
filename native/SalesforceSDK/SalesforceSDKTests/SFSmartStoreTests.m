@@ -63,12 +63,11 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) setUp
 {
     [super setUp];
-    _store = [[SFSmartStore sharedStoreWithName:kTestSmartStoreName] retain];
+    _store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
 }
 
 - (void) tearDown
 {
-    [_store release]; // close underlying db
     _store = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [super tearDown];
@@ -184,8 +183,6 @@ NSString * const kTestSoupName   = @"testSoup";
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
     NSUInteger querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
-    [querySpec release];
-    
     uint expectedPageSize = 42;
     NSDictionary *allQueryWithPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
                                         @"a/path", kQuerySpecParamIndexPath,
@@ -194,7 +191,6 @@ NSString * const kTestSoupName   = @"testSoup";
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
     querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
-    [querySpec release];
 }
 
 - (void)testCursorTotalPages
@@ -212,9 +208,7 @@ NSString * const kTestSoupName   = @"testSoup";
     SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     int cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
-    [querySpec release];
-    [cursor release];
-    
+
     // Entries not evenly divided across the page size.
     uint unevenDividePageSize = 24;
     expectedPageSize = totalEntries / unevenDividePageSize + 1;
@@ -226,8 +220,6 @@ NSString * const kTestSoupName   = @"testSoup";
     cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
     cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
-    [querySpec release];
-    [cursor release];
 }
 
 - (void)testPersistentStoreExists
@@ -357,7 +349,6 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testAllStoreNames
 {
     // Test with no stores. (Note: Have to get rid of the 'default' store created at setup.)
-    [_store release]; // close underlying db
     _store = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     NSArray *noStoresArray = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
@@ -623,7 +614,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)clearAllStores
 {
-    [_store release]; _store = nil;
+    _store = nil;
     [SFSmartStore removeAllStores];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     int allStoreCount = [allStoreNames count];

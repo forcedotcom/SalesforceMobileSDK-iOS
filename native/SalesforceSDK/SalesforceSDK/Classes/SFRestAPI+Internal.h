@@ -45,8 +45,8 @@
 /**
  * Set of active RKRequestDelegateWrapper (requests) managed by us
  */
-@property (nonatomic, readonly, retain) NSMutableSet	*activeRequests;
-@property (nonatomic, readonly, retain) SFSessionRefresher *sessionRefresher;
+@property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
+@property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
 
 - (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
 

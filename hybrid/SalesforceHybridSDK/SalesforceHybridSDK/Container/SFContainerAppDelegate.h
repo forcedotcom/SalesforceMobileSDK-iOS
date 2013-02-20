@@ -69,8 +69,8 @@ extern NSString * const kSFSmartStorePluginName;
 }
 
 
-@property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) SFHybridViewController *viewController;
+@property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, strong) SFHybridViewController *viewController;
 
 /**
  The log level assigned to the app.  Defaults to Debug for dev builds, and Info for release

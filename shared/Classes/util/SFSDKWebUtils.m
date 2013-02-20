@@ -57,7 +57,6 @@ NSString * const kUserAgentPropKey = @"UserAgent";
     if (userAgentString != nil) {
         NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:userAgentString, kUserAgentPropKey, nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-        [dictionary release];
     }
 }
 
@@ -67,7 +66,6 @@ NSString * const kUserAgentPropKey = @"UserAgent";
     // really doesn't want you to know about its HTTP headers.
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    [webView release];
     
     return currentUserAgent;
 }

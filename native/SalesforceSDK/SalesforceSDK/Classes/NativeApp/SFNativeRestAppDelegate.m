@@ -62,12 +62,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
  The initial view of the underlying root view controller.  Will be used as the "initial"
  page when the app is reset in situ.
  */
-@property (nonatomic, retain) UIView *baseView;
+@property (nonatomic, strong) UIView *baseView;
 
 /**
  Snapshot view for the app.
  */
-@property (nonatomic, retain) UIView *snapshotView;
+@property (nonatomic, strong) UIView *snapshotView;
 
 /**
  The callback block that will be executed after successful authentication.
@@ -132,14 +132,15 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
         //   [SFPasscodeProviderManager addPasscodeProvider:myProvider];
         //   [SFPasscodeManager sharedManager].preferredPasscodeProvider = myProviderName;
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        
+        __weak SFNativeRestAppDelegate *temp_self = self;
+
         // Set up the authentication callback blocks.
         self.authSuccessBlock = ^(SFOAuthInfo *authInfo) {
-            [self postAuthSuccessProcesses:authInfo];
+            [temp_self postAuthSuccessProcesses:authInfo];
         };
         self.authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelWarning format:@"Login failed with the following error: %@.  Logging out.", [error localizedDescription]];
-            [self logout];
+            [temp_self log:SFLogLevelWarning format:@"Login failed with the following error: %@.  Logging out.", [error localizedDescription]];
+            [temp_self logout];
         };
         
         self.appLogLevel = kAppLogLevel;
@@ -157,7 +158,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     SFRelease(_authSuccessBlock);
     SFRelease(_authFailureBlock);
     
-	[super dealloc];
 }
 
 #pragma mark - App lifecycle
@@ -171,12 +171,12 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     //Replace the app-wide HTTP User-Agent before the first UIWebView is created
     [SFSDKWebUtils configureUserAgent];
     
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // TODO: The SFNativeRootViewController.xib file is currently shipped as part of the native app template.
     // This should delivered in an SDK bundle, so that it's not dependent on that resource split outside of
     // the SDK code proper.
-    self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    self.viewController = [[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = self.viewController;
     self.baseView = self.viewController.view;
     self.snapshotView = [self createSnapshotView];
@@ -207,7 +207,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (UIView*)createSnapshotView
 {
-    UIView* view = [[[UIView alloc] initWithFrame:self.window.frame] autorelease];
+    UIView* view = [[UIView alloc] initWithFrame:self.window.frame];
     view.backgroundColor = [UIColor whiteColor];
     return view;
 }
@@ -299,7 +299,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)setupNewRootViewController
 {
-    UIViewController *rootVC = [[self newRootViewController] autorelease];
+    UIViewController *rootVC = [self newRootViewController];
     self.viewController = rootVC;
     [self.window.rootViewController presentViewController:self.viewController animated:YES completion:NULL];
 }
@@ -341,7 +341,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
     // If the root view controller has been changed out from our original one, just recreate it.
     if (self.window.rootViewController == nil
         || ![self.window.rootViewController isKindOfClass:[SFNativeRootViewController class]]) {
-        self.viewController = [[[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+        self.viewController = [[SFNativeRootViewController alloc] initWithNibName:nil bundle:nil];
         self.window.rootViewController = self.viewController;
         self.baseView = self.viewController.view;
     } else {

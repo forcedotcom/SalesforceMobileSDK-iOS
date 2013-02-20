@@ -23,6 +23,7 @@
  */
 
 #import "SFPBKDFData.h"
+#import "SalesforceSDKConstants.h"
 
 // For NSCoding.
 static NSString * const kSFPBKDFDataDerivedKeyCodingKey          = @"derivedKeyCodingKey";
@@ -51,11 +52,10 @@ static NSString * const kSFPBKDFDataDerivedKeyLengthCodingKey    = @"derivedKeyL
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
-    self.derivedKey = nil;
-    self.salt = nil;
-    [super dealloc];
+    SFRelease(_derivedKey);
+    SFRelease(_salt);
 }
 
 #pragma mark - NSCoding

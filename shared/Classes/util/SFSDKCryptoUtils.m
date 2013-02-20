@@ -66,7 +66,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     } else {
         NSData *keyData = [NSData dataWithBytes:key length:derivedKeyLength];
         SFPBKDFData *returnPBKDFData = [[SFPBKDFData alloc] initWithKey:keyData salt:salt derivationRounds:numDerivationRounds derivedKeyLength:derivedKeyLength];
-        return [returnPBKDFData autorelease];
+        return returnPBKDFData;
     }
 }
 

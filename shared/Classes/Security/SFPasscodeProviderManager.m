@@ -48,8 +48,6 @@ static NSMutableDictionary *PasscodeProviderMap;
                            sha256Prov, kSFPasscodeProviderSHA256,
                            pbkdf2Prov, kSFPasscodeProviderPBKDF2,
                            nil];
-    [sha256Prov release];
-    [pbkdf2Prov release];
 }
 
 + (NSString *)currentPasscodeProviderName

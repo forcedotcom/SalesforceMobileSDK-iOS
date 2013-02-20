@@ -55,22 +55,22 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 /**
  * The passcode text field.
  */
-@property (nonatomic, retain) UITextField *passcodeField;
+@property (nonatomic, strong) UITextField *passcodeField;
 
 /**
  * The error label displayed if something goes wrong.
  */
-@property (nonatomic, retain) UILabel *errorLabel;
+@property (nonatomic, strong) UILabel *errorLabel;
 
 /**
  * The label displaying instructions for a given section of the workflow.
  */
-@property (nonatomic, retain) UILabel *instructionsLabel;
+@property (nonatomic, strong) UILabel *instructionsLabel;
 
 /**
  * The 'Forgot Passcode' button.
  */
-@property (nonatomic, retain) UIButton *forgotPasscodeButton;
+@property (nonatomic, strong) UIButton *forgotPasscodeButton;
 
 /**
  * Keeps a copy of the initial passcode of the passcode creation process.
@@ -237,7 +237,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [super loadView];
     
     // Passcode
-    self.passcodeField = [[[UITextField alloc] initWithFrame:CGRectZero] autorelease];
+    self.passcodeField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.passcodeField.secureTextEntry = YES;
     self.passcodeField.borderStyle = UITextBorderStyleRoundedRect;
     self.passcodeField.textColor = [UIColor blackColor];
@@ -249,7 +249,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self.view addSubview:self.passcodeField];
     
     // Error label
-    self.errorLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.errorLabel setBackgroundColor:[UIColor clearColor]];
     self.errorLabel.lineBreakMode = UILineBreakModeWordWrap;
     self.errorLabel.numberOfLines = 0;
@@ -260,7 +260,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self.view addSubview:self.errorLabel];
     
     // Instructions label
-    self.instructionsLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.instructionsLabel setBackgroundColor:[UIColor clearColor]];
     self.instructionsLabel.lineBreakMode = UILineBreakModeWordWrap;
     self.instructionsLabel.numberOfLines = 0;
@@ -307,7 +307,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     logoutAlert.tag = kPasscodeDialogTag;
     NSLog(@"SFPasscodeViewController forgotPassAction");
     [logoutAlert show];
-    [logoutAlert release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -498,7 +497,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                                            target:self
                                                            action:@selector(finishedInitialPasscode)];
     [self.navigationItem setRightBarButtonItem:bbi];
-    [bbi release];
     [self.navigationItem setLeftBarButtonItem:nil];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
 }
@@ -509,14 +507,12 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                                                          target:self
                                                                          action:@selector(finishedConfirmPasscode)];
     [self.navigationItem setRightBarButtonItem:bbi];
-    [bbi release];
     
     bbi = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"prevScreenNavButtonTitle"]
                                            style:UIBarButtonItemStylePlain
                                           target:self
                                           action:@selector(resetInitialCreateView)];
     [self.navigationItem setLeftBarButtonItem:bbi];
-    [bbi release];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"confirmPasscodeNavTitle"]];
 }
 
@@ -526,7 +522,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                                                          target:self
                                                                          action:@selector(finishedValidatePasscode)];
     [self.navigationItem setRightBarButtonItem:bbi];
-    [bbi release];
     [self.navigationItem setLeftBarButtonItem:nil];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
 }

@@ -248,11 +248,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
         if (modeValue == SFPasscodeControllerModeCreate ) {
-            pvc = [[[SFPasscodeViewController alloc] initForPasscodeCreation:[SFSecurityLockout passcodeLength]] autorelease];
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:[SFSecurityLockout passcodeLength]];
         } else {
-            pvc = [[[SFPasscodeViewController alloc] initForPasscodeVerification] autorelease];
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
         }
-        UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:pvc] autorelease];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
         [SFSecurityLockout setPasscodeViewController:nc];
         UIViewController *presentingViewController;
         if (topWindow.rootViewController.presentedViewController != nil)
@@ -303,9 +303,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)setPasscodeViewController:(UIViewController *)vc
 {
     if (vc != sPasscodeViewController) {
-        UIViewController *oldValue = sPasscodeViewController;
-        sPasscodeViewController = [vc retain];
-        [oldValue release];
+        sPasscodeViewController = vc;
     }
 }
 
@@ -318,9 +316,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     // Callback blocks can't be altered if the passcode screen is already in progress.
     if (![SFSecurityLockout passcodeScreenIsPresent] && sLockScreenFailureCallbackBlock != block) {
-        SFLockScreenCallbackBlock oldValue = sLockScreenFailureCallbackBlock;
         sLockScreenFailureCallbackBlock = [block copy];
-        [oldValue release];
     }
 }
 
@@ -333,9 +329,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     // Callback blocks can't be altered if the passcode screen is already in progress.
     if (![SFSecurityLockout passcodeScreenIsPresent] && sLockScreenSuccessCallbackBlock != block) {
-        SFLockScreenCallbackBlock oldValue = sLockScreenSuccessCallbackBlock;
         sLockScreenSuccessCallbackBlock = [block copy];
-        [oldValue release];
     }
 }
 
@@ -359,7 +353,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self setIsLocked:NO];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:NULL];
     if ([SFSecurityLockout lockScreenSuccessCallbackBlock] != NULL) {
-        SFLockScreenCallbackBlock blockCopy = [[[SFSecurityLockout lockScreenSuccessCallbackBlock] copy] autorelease];
+        SFLockScreenCallbackBlock blockCopy = [[SFSecurityLockout lockScreenSuccessCallbackBlock] copy];
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
         blockCopy();
     }
@@ -370,7 +364,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self setIsLocked:NO];
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
     if ([SFSecurityLockout lockScreenFailureCallbackBlock] != NULL) {
-        SFLockScreenCallbackBlock blockCopy = [[[SFSecurityLockout lockScreenFailureCallbackBlock] copy] autorelease];
+        SFLockScreenCallbackBlock blockCopy = [[SFSecurityLockout lockScreenFailureCallbackBlock] copy];
         [SFSecurityLockout setLockScreenFailureCallbackBlock:NULL];
         blockCopy();
     }
