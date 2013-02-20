@@ -49,9 +49,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)dealloc {
-    SFRelease(self.delegate);
-    SFRelease(self.queryParams);
-    SFRelease(self.endpoint);
+    _delegate = nil;
+    SFRelease(_queryParams);
+    SFRelease(_endpoint);
 }
 
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
