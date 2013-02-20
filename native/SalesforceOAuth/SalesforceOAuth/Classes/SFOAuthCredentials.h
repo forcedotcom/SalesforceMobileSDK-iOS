@@ -61,7 +61,7 @@ typedef enum {
 
 /** Protocol scheme for authenticating this account.
  */
-@property (nonatomic, readonly, retain) NSString *protocol;
+@property (nonatomic, readonly, strong) NSString *protocol;
 
 /** Logon host domain name.
  
