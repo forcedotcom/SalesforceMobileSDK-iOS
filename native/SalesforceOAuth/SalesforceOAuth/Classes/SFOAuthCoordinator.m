@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 #import <Security/Security.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -128,17 +130,14 @@ static NSString * const kHttpPostContentType                    = @"application/
 }
 
 - (void)dealloc {
-    [_approvalCode release];    _approvalCode = nil;
-    [_connection release];      _connection = nil;
-    [_credentials release];     _credentials = nil;
-    [_responseData release];    _responseData = nil;
-    [_scopes release];          _scopes = nil;
+    _approvalCode = nil;
+    _connection = nil;
+    _credentials = nil;
+    _responseData = nil;
+    _scopes = nil;
     [self stopRefreshFlowConnectionTimer];
-    
     _view.delegate = nil;
-    [_view release]; _view = nil;
-    
-    [super dealloc];
+    _view = nil;
 }
 
 - (void)authenticate {
@@ -267,7 +266,6 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
         
         NSString *finalScopeStr = [scopeStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [scopeStr release];
         [approvalUrl appendString:finalScopeStr];
     }
     
@@ -278,7 +276,6 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
 	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
     [request setCachePolicy:NSURLCacheStorageNotAllowed]; // don't use cache
-	[approvalUrl release];
 	
 	[_view loadRequest:request];
 }
@@ -297,7 +294,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 	[request setHTTPMethod:kHttpMethodPost];
 	[request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
     [request setHTTPShouldHandleCookies:NO];
-	[url release];
     
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@",
                                                                       kSFOAuthFormat, kSFOAuthFormatJson,
@@ -326,7 +322,6 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
 
 	NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-	[params release];
 	[request setHTTPBody:encodedBody];
     
     // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
@@ -336,8 +331,6 @@ static NSString * const kHttpPostContentType                    = @"application/
     
 	NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
-	[request release];
-    [urlConnection release];
 }
 
 /* Handle a 'token refresh flow' response.
@@ -353,7 +346,7 @@ static NSString * const kHttpPostContentType                    = @"application/
  */
 - (void)handleRefreshResponse {
     [self stopRefreshFlowConnectionTimer];
-    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;
@@ -381,7 +374,6 @@ static NSString * const kHttpPostContentType                    = @"application/
                 jsonError = [parser performSelector:selectorError];
             }
         }
-        [parser release];
     } else {
         NSLog(@"Both SBJsonParser and NSJSONSerialization are missing");
         NSAssert(NO,@"Either SBJsonParser or NSJSONSerialization must be available!");
@@ -420,7 +412,6 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
         [self notifyDelegateOfFailure:finalError authInfo:authInfo];
     }
-    [responseString release];
 }
 
 - (void)startRefreshFlowConnectionTimer
@@ -462,7 +453,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [self stopAuthentication];
     NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
                                      description:@"The token refresh process timed out."];
-    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     [self notifyDelegateOfFailure:error authInfo:authInfo];
 }
 
@@ -475,7 +466,7 @@ static NSString * const kHttpPostContentType                    = @"application/
               navigationType, request.URL.host, request.URL.path);
     }
     
-    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent] autorelease];
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     BOOL result = YES;
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
@@ -583,7 +574,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         NSLog(@"SFOAuthCoordinator:didFailLoadWithError %@ on URL: %@", error, webView.request.URL);
-        SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent] autorelease];
+        SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
         [self notifyDelegateOfFailure:error authInfo:authInfo];
     }
 }
@@ -593,7 +584,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
     [self stopRefreshFlowConnectionTimer];
-    SFOAuthInfo *authInfo = [[[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh] autorelease];
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     [self notifyDelegateOfFailure:error authInfo:authInfo];
 }
 
@@ -606,7 +597,7 @@ static NSString * const kHttpPostContentType                    = @"application/
             // convert the request to a post method if necessary
             NSMutableURLRequest *newRequest = [request mutableCopy];
             [newRequest setHTTPMethod:kHttpMethodPost];
-            request = [newRequest autorelease];
+            request = newRequest;
         }
 	}
 	return request;
@@ -637,7 +628,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 		[dict setObject:value forKey:key];
 	}
 	NSDictionary *result = [NSDictionary dictionaryWithDictionary:dict];
-	[dict release];
 	return result;
 }
 

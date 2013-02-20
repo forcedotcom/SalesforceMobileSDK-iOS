@@ -40,25 +40,21 @@ static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth
 @synthesize viewController = _viewController;
 
 - (void)dealloc {
-    [_window release];          _window = nil;
-    [_viewController release];  _viewController = nil;
-    [super dealloc];
+    _window = nil;
+    _viewController = nil;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     SalesforceOAuthTestViewController *vc = 
         [[SalesforceOAuthTestViewController alloc] initWithNibName:@"SalesforceOAuthTestViewController" bundle:nil];
     self.viewController = vc;
-    [vc release];
     self.viewController.oauthCoordinator.credentials = [[self class] unarchiveCredentials];
     self.viewController.oauthCoordinator.credentials.logLevel = kSFOAuthLogLevelInfo;
-    
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
@@ -98,7 +94,7 @@ static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth
     SFOAuthCredentials *creds = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     if (nil == creds) {
         // no existing credentials, create a new one
-        creds = [[[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId encrypted:YES] autorelease];
+        creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kOAuthClientId encrypted:YES];
         creds.redirectUri = kOAuthRedirectUri;
         creds.domain = kOAuthLoginDomain;
         // domain is set by the view from its UI field value

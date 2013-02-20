@@ -61,11 +61,8 @@
     return self;
 }
 
--(void)dealloc {
-    [_dataBuffer release];
+- (void) dealloc {
     _dataBuffer = nil;
-    
-    [super dealloc];
 }
 
 #pragma mark - Implementation
