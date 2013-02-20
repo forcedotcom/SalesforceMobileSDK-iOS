@@ -34,7 +34,7 @@
 
 @interface RestAPIExplorerViewController ()
 
-@property (nonatomic, retain) UIActionSheet *logoutActionSheet;
+@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
 
 - (NSString *)formatRequest:(SFRestRequest *)request;
 - (void)hideKeyboard;
@@ -71,25 +71,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     // action based query
-    [__popoverController release];
-    [_toolBar release];
-    [_logoutActionSheet release];
-    [_tfObjectType release];
-    [_tfObjectId release];
-    [_tfExternalId release];
-    [_tfSearch release];
-    [_tfQuery release];
-    [_tfExternalFieldId release];
-    [_tfFieldList release];
-    [_tvFields release];
     // manual query
-    [_tfPath release];
-    [_tvParams release];
-    [_segmentMethod release];
     // response
-    [_tfResponseFor release];
-    [_tfResult release];
-    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -169,7 +152,6 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles: nil];
     [alert show];	
-    [alert release];
 }
 
 #pragma mark - actions
@@ -203,8 +185,6 @@
     
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
     self.popoverController = myPopover;
-    [myPopover release];
-    [popoverContent release];
     
     [self.popoverController presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny 
@@ -318,11 +298,11 @@
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
     else if ([text isEqualToString:kActionLogout]) {
-        self.logoutActionSheet = [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
+        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                                               delegate:self
                                                      cancelButtonTitle:nil
                                                 destructiveButtonTitle:@"Confirm Logout"
-                                                     otherButtonTitles:nil] autorelease];
+                                                     otherButtonTitles:nil];
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
     } 
