@@ -383,7 +383,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         return;
     }
     
-    if (self.authViewController != nil) {
+    if (self.authViewController.presentingViewController != nil) {
         [self log:SFLogLevelDebug msg:@"Dismissing the auth view controller."];
         [self.authViewController.presentingViewController dismissViewControllerAnimated:YES
                                                                              completion:^{
