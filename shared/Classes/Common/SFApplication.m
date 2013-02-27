@@ -25,6 +25,12 @@
 #import "SFApplication.h"
 #import "SalesforceSDKConstants.h"
 
+@interface SFApplication ()
+
+@property (atomic, readwrite, strong) NSDate *lastEventDate;
+
+@end
+
 @implementation SFApplication
 
 @synthesize lastEventDate = _lastEventDate;
@@ -35,7 +41,7 @@
 {
     self = [super init];
     if (self) {
-        _lastEventDate = [[NSDate alloc] init];
+        self.lastEventDate = [NSDate date];
     }
     return self;
 }
@@ -54,7 +60,7 @@
     if ([allTouches count] > 0) {
         UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
         if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
-            _lastEventDate = [[NSDate alloc] init];
+            self.lastEventDate = [NSDate date];
         }
     }
     

@@ -56,6 +56,6 @@
 /**
  * The date of the last user event in the application.
  */
-@property (nonatomic, readonly) NSDate *lastEventDate;
+@property (atomic, readonly) NSDate *lastEventDate;
 
 @end
