@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKTests.h"
+#import "SalesforceNativeSDKTests.h"
 
 #import "RKRequestDelegateWrapper.h"
 #import "RKReachabilityObserver.h"
@@ -32,13 +32,13 @@
 #import "SFOAuthCredentials.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
-#import "TestRequestListener.h"
+#import "SFNativeRestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
 #import "SFAccountManager.h"
 
-@interface SalesforceSDKTests ()
+@interface SalesforceNativeSDKTests ()
 {
     SFAccountManager *_accountMgr;
 }
@@ -47,7 +47,7 @@
 @end
 
 
-@implementation SalesforceSDKTests
+@implementation SalesforceNativeSDKTests
 
 - (void)setUp
 {
@@ -70,7 +70,7 @@
 
 - (NSString *)sendSyncRequest:(SFRestRequest *)request {
     _requestListener = nil; //in case there's any existing one hanging around
-    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
+    _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     [_requestListener waitForCompletion];
@@ -91,7 +91,7 @@
 
 - (void)testGetVersion_SetDelegate {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
+    _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     
     //exercises overwriting the delegate at send time
     [[SFRestAPI sharedInstance] send:request delegate:_requestListener];
@@ -133,7 +133,7 @@
 // simple: just invoke requestForDescribeGlobal, force a cancel & timeout
 - (void)testGetDescribeGlobal_Cancel {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
+    _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
     [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
@@ -146,7 +146,7 @@
 // simple: just invoke requestForDescribeGlobal, force a timeout
 - (void)testGetDescribeGlobal_Timeout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    _requestListener = [[TestRequestListener alloc] initWithRequest:request];
+    _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
@@ -493,19 +493,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[TestRequestListener alloc] initWithRequest:request0];
+        SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[TestRequestListener alloc] initWithRequest:request1];
+        SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[TestRequestListener alloc] initWithRequest:request2];
+        SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
 
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[TestRequestListener alloc] initWithRequest:request3];
+        SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[TestRequestListener alloc] initWithRequest:request4];
+        SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
        
         //send multiple requests, all of which should fail with "unauthorized" initially,
         //but then be replayed after an access token refresh
@@ -556,19 +556,19 @@
         
         // request (valid)
         SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener0 = [[TestRequestListener alloc] initWithRequest:request0];
+        SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
         
         SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener1 = [[TestRequestListener alloc] initWithRequest:request1];
+        SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
         
         SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener2 = [[TestRequestListener alloc] initWithRequest:request2];
+        SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
         
         SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener3 = [[TestRequestListener alloc] initWithRequest:request3];
+        SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
         
         SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        TestRequestListener *listener4 = [[TestRequestListener alloc] initWithRequest:request4];
+        SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
         
         //send multiple requests, all of which should fail with "unauthorized" 
         [[SFRestAPI sharedInstance] send:request0 delegate:nil];

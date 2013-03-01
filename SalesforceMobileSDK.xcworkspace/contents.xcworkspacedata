@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+   </FileRef>
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
@@ -644,10 +653,22 @@
          </FileRef>
       </Group>
    </Group>
-   <FileRef
-      location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "shared">
+      <Group
+         location = "group:shared/resources"
+         name = "resources">
+         <FileRef
+            location = "group:SalesforceSDKResources.bundle">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:shared/test"
+         name = "test">
+         <FileRef
+            location = "group:test_credentials.json">
+         </FileRef>
+      </Group>
+   </Group>
 </Workspace>

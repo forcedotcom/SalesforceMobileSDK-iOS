@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SFRestRequest.h"
 #import "SFIdentityCoordinator.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthInfo.h"
@@ -41,14 +40,13 @@ typedef enum {
     SFAccountManagerServiceTypeIdentity
 } SFAccountManagerServiceType;
 
-@interface TestRequestListener : NSObject <SFRestDelegate, SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
+@interface SFSDKTestRequestListener : NSObject <SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
     id _jsonResponse;
     NSError *_lastError;
     NSString *_returnStatus;
     NSTimeInterval _maxWaitTime;
 }
 
-@property (nonatomic, retain) SFRestRequest *request;
 @property (nonatomic, retain) id jsonResponse;
 @property (nonatomic, retain) NSError *lastError;
 @property (nonatomic, retain) NSString *returnStatus;
@@ -56,7 +54,6 @@ typedef enum {
 /// Max time to wait for request completion
 @property (nonatomic, assign) NSTimeInterval maxWaitTime;
 
-- (id)initWithRequest:(SFRestRequest *)request;
 - (id)initWithServiceType:(SFAccountManagerServiceType)serviceType;
 
 /**
@@ -65,6 +62,8 @@ typedef enum {
  * @return returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded
  */
 - (NSString *)waitForCompletion;
+
+- (NSString *)serviceTypeDescription;
 
 @end
 

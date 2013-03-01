@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "TestRequestListener.h"
+#import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFAccountManager.h"
 
@@ -33,7 +33,7 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
 NSString* const kTestRequestStatusDidCancel = @"didCancel";
 NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
-@interface TestRequestListener ()
+@interface SFSDKTestRequestListener ()
 {
     SFAccountManager *_accountMgr;
     SFAccountManagerServiceType _serviceType;
@@ -42,28 +42,20 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 - (id)initInternal;
 - (void)configureAccountServiceDelegate;
 - (void)clearAccountManagerDelegate;
-- (NSString *)serviceTypeDescription;
 
 @end
 
-@implementation TestRequestListener
+@implementation SFSDKTestRequestListener
 
-@synthesize request = _request;
 @synthesize jsonResponse = _jsonResponse;
 @synthesize lastError = _lastError;
 @synthesize returnStatus = _returnStatus;
 
 @synthesize maxWaitTime = _maxWaitTime;
 
-- (id)initWithRequest:(SFRestRequest *)request {
-    self = [self initInternal];
-    if (nil != self) {
-        _serviceType = SFAccountManagerServiceTypeNone;
-        self.request = request;
-        self.request.delegate = self;
-    }
-    
-    return self;
+- (id)init
+{
+    return [self initInternal];
 }
 
 - (id)initWithServiceType:(SFAccountManagerServiceType)serviceType
@@ -90,10 +82,6 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 }
 
 - (void)dealloc {
-    if (self.request != nil) {
-        self.request.delegate = nil;
-    }
-    self.request = nil;
     
     if (_serviceType != SFAccountManagerServiceTypeNone) {
         [self clearAccountManagerDelegate];
@@ -147,35 +135,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (NSString *)serviceTypeDescription
 {
-    if (self.request != nil) {
-        return @"SFRestRequest";
-    } else if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
         return @"SFIdentityCoordinator";
     } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
         return @"SFOAuthCoordinator";
     } else {
         return @"Unknown";
     }
-}
-
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    self.jsonResponse = jsonResponse;
-    self.returnStatus = kTestRequestStatusDidLoad;
-}
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    self.lastError = error;
-    self.returnStatus = kTestRequestStatusDidFail;
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

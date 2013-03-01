@@ -26,11 +26,11 @@
 
 #import "SFRestAPI.h"
 
-@class TestRequestListener;
+@class SFNativeRestRequestListener;
 
-@interface SalesforceSDKTests : SenTestCase  {
+@interface SalesforceNativeSDKTests : SenTestCase  {
     /// The main request listener used when we only have one outstanding request
-    TestRequestListener *_requestListener;
+    SFNativeRestRequestListener *_requestListener;
     /// The number of blocks awaiting completion
     NSInteger _blocksUncompletedCount;
 }
