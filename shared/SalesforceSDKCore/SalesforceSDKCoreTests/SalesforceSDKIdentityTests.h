@@ -24,7 +24,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@class TestRequestListener;
+@class SFSDKTestRequestListener;
 @class SFOAuthCoordinator;
 
 /**
@@ -32,7 +32,7 @@
  */
 @interface SalesforceSDKIdentityTests : SenTestCase
 {
-    TestRequestListener *_requestListener;
+    SFSDKTestRequestListener *_requestListener;
 }
 
 @end

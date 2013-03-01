@@ -23,7 +23,7 @@
  */
 
 #import "SalesforceSDKIdentityTests.h"
-#import "TestRequestListener.h"
+#import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
@@ -75,7 +75,7 @@
 - (void)sendSyncIdentityRequest
 {
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
+    _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
     [accountMgr.idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
 }
@@ -88,7 +88,7 @@
     // an access token and identity URL for these tests.
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     _requestListener = nil;
-    _requestListener = [[TestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
+    _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
     [accountMgr.coordinator authenticate];
     [_requestListener waitForCompletion];
     if ([_requestListener.returnStatus isEqualToString:kTestRequestStatusDidFail]) {
