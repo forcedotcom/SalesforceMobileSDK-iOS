@@ -30,7 +30,7 @@
 			<key>ALWAYS_SEARCH_USER_PATHS</key>
 			<string>YES</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-			<string>5.0</string>
+			<string>6.0</string>
 			<key>SDKROOT</key>
 			<string>latest_iphoneos</string>
 			<key>GCC_PREPROCESSOR_DEFINITIONS</key>
