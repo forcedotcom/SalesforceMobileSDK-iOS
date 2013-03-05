@@ -6,7 +6,7 @@ After cloning the SalesforceMobileSDK-iOS project from github, run the install s
 `./install.sh`
 
 This script pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
-See the setup.md file for additional instructions. Salesforce Mobile SDK requires Xcode 4.5 org greater.  The install.sh script checks for this, and aborts if the installed version of Xcode is incorrect.
+See the setup.md file for additional instructions. Salesforce Mobile SDK requires Xcode 4.5 or greater.  The install.sh script checks for this, and aborts if the installed version of Xcode is incorrect.
 
 In addition, the Salesforce Mobile SDK requires iOS 6.0 or greater.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
 
