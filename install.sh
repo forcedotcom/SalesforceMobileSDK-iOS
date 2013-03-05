@@ -2,6 +2,8 @@
 # Running this script will install all dependencies needed for all of the projects, 
 # as well as generating the latest .h and template files.
 
+XCODE_MIN_VERSION=4.5
+
 xcodebuild_version=`xcodebuild -version 2>&1`
 if [ $? -ne 0 ]
 then
@@ -10,11 +12,12 @@ then
     exit 2
 fi
 
-# Xcode 4 or greater is a requirement to build.
-xcode_major_version=`echo "$xcodebuild_version" | grep 'Xcode' | sed 's/Xcode \([0-9][0-9]*\).*/\1/'`
-if [ $xcode_major_version -lt 4 ]
+# The minimum Xcode version above is a requirement to build.
+xcode_version_number=`echo "$xcodebuild_version" | grep 'Xcode' | sed 's/Xcode \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/'`
+has_minimum_version=`echo $xcode_version_number $XCODE_MIN_VERSION | awk '{ if ($1 < $2) print 0 ; else print 1 }'`
+if [ $has_minimum_version -ne 1 ]
 then
-    echo "Xcode 4 or greater is a prerequisite to build the iOS SDK."
+    echo "Xcode $XCODE_MIN_VERSION or greater is a prerequisite to build the iOS SDK."
     echo "Current installed version: $xcodebuild_version"
     exit 1
 fi
