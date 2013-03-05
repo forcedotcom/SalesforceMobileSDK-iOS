@@ -85,7 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8201678A16E17D7C002F4066 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		8201678A16E17D7C002F4066 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		8280EB9816E1142200768DE8 /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestRequestListener.h; sourceTree = "<group>"; };
 		8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRestRequestListener.m; sourceTree = "<group>"; };
 		8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -591,7 +591,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
@@ -616,7 +616,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
@@ -727,7 +727,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
@@ -750,7 +749,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
