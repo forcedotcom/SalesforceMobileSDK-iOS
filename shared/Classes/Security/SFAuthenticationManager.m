@@ -238,7 +238,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"GET"];
     [request setHTTPShouldHandleCookies:NO];
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
     [urlConnection start];
 }
 
