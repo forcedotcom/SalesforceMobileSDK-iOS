@@ -233,21 +233,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
 }
 
-- (void)revokeRefreshToken
-{
-    SFOAuthCredentials *creds = [[SFAccountManager sharedInstance] credentials];
-    NSString *refreshToken = [creds refreshToken];
-    NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
-    [host appendString:@"/services/oauth2/revoke?token="];
-    [host appendString:refreshToken];
-    NSURL *url = [NSURL URLWithString:host];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"GET"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [urlConnection start];
-}
-
 + (void)resetSessionCookie
 {
     [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
@@ -354,6 +339,21 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
     self.authInfo = nil;
     self.authError = nil;
+}
+
+- (void)revokeRefreshToken
+{
+    SFOAuthCredentials *creds = [[SFAccountManager sharedInstance] credentials];
+    NSString *refreshToken = [creds refreshToken];
+    NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
+    [host appendString:@"/services/oauth2/revoke?token="];
+    [host appendString:refreshToken];
+    NSURL *url = [NSURL URLWithString:host];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [urlConnection start];
 }
 
 - (void)execFailureBlock
