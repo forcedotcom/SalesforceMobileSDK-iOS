@@ -122,6 +122,12 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execFailureBlock;
 
 /**
+ Revoke the existing refresh token, in a fire-and-forget manner, such that
+ we don't await a response from the server.
+ */
+- (void)revokeRefreshToken;
+
+/**
  Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
  to retry the process.
  @param tag The tag that identifies the process (OAuth or Identity).
@@ -220,6 +226,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
     if ([appDelegate conformsToProtocol:@protocol(SFSDKAppDelegate)]) {
         id<SFSDKAppDelegate> sdkAppDelegate = (id<SFSDKAppDelegate>)appDelegate;
+        [self revokeRefreshToken];
         [sdkAppDelegate logout];
     } else {
         [self log:SFLogLevelWarning msg:@"[SFAuthenticationManager logout]: App delegate does NOT implement SFSDKAppDelegate protocol.  No action taken.  Implement SFSDKAppDelegate if you wish to use this functionality."];
@@ -332,6 +339,21 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
     self.authInfo = nil;
     self.authError = nil;
+}
+
+- (void)revokeRefreshToken
+{
+    SFOAuthCredentials *creds = [[SFAccountManager sharedInstance] credentials];
+    NSString *refreshToken = [creds refreshToken];
+    NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
+    [host appendString:@"/services/oauth2/revoke?token="];
+    [host appendString:refreshToken];
+    NSURL *url = [NSURL URLWithString:host];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [urlConnection start];
 }
 
 - (void)execFailureBlock
