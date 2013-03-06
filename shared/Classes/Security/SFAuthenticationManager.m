@@ -220,10 +220,26 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
     if ([appDelegate conformsToProtocol:@protocol(SFSDKAppDelegate)]) {
         id<SFSDKAppDelegate> sdkAppDelegate = (id<SFSDKAppDelegate>)appDelegate;
+        [self revokeRefreshToken];
         [sdkAppDelegate logout];
     } else {
         [self log:SFLogLevelWarning msg:@"[SFAuthenticationManager logout]: App delegate does NOT implement SFSDKAppDelegate protocol.  No action taken.  Implement SFSDKAppDelegate if you wish to use this functionality."];
     }
+}
+
+- (void)revokeRefreshToken
+{
+    SFOAuthCredentials *creds = [[SFAccountManager sharedInstance] credentials];
+    NSString *refreshToken = [creds refreshToken];
+    NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
+    [host appendString:@"/services/oauth2/revoke?token="];
+    [host appendString:refreshToken];
+    NSURL *url = [NSURL URLWithString:host];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [urlConnection start];
 }
 
 + (void)resetSessionCookie
