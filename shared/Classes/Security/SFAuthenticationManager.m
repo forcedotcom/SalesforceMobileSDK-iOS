@@ -122,6 +122,12 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execFailureBlock;
 
 /**
+ Revoke the existing refresh token, in a fire-and-forget manner, such that
+ we don't await a response from the server.
+ */
+- (void)revokeRefreshToken;
+
+/**
  Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
  to retry the process.
  @param tag The tag that identifies the process (OAuth or Identity).
