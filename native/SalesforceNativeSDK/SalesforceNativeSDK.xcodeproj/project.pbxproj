@@ -579,7 +579,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -593,7 +593,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -617,8 +616,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = NO;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -627,16 +624,12 @@
 		82C0C75416E076DF0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/SalesforceNativeSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
-				INSTALL_PATH = /;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceNativeSDK;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 			};
 			name = Debug;
@@ -647,12 +640,9 @@
 				DSTROOT = /tmp/SalesforceNativeSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
-				INSTALL_PATH = /;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/SalesforceNativeSDK;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 			};
 			name = Release;
@@ -719,7 +709,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
