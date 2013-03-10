@@ -20,6 +20,9 @@
       <FileRef
          location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SFDCAccounts/SFDCAccounts.xcodeproj">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
