@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,18 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
 
-@class SFOAuthCoordinator;
 
-/**
- This class provides utilities useful to all unit tests based on the Salesforce SDK
- */
-@interface TestSetupUtils : NSObject
+#import "SFContainerAppDelegate.h"
 
-/**
- Forces a reload of authorization credentials from the configuration file.
- */
-+ (void)populateAuthCredentialsFromConfigFile;
+@interface AppDelegate : SFContainerAppDelegate  {
+
+}
+
+
+/// Evaluate the given javascript inside our embedded web view and return the string result.
+- (NSString *)evalJS:(NSString*)js;
 
 @end
+

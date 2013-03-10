@@ -22,18 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <SenTestingKit/SenTestingKit.h>
 
-@class SFOAuthCoordinator;
-
-/**
- This class provides utilities useful to all unit tests based on the Salesforce SDK
- */
-@interface TestSetupUtils : NSObject
-
-/**
- Forces a reload of authorization credentials from the configuration file.
- */
-+ (void)populateAuthCredentialsFromConfigFile;
+@interface NSURL_SFStringUtilsTests : SenTestCase
 
 @end

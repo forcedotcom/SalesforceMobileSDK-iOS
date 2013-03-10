@@ -13,6 +13,7 @@
 		8221562916E0130C002E1F56 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562116E0130C002E1F56 /* FMDatabasePool.m */; };
 		8221562A16E0130C002E1F56 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562316E0130C002E1F56 /* FMDatabaseQueue.m */; };
 		8221562B16E0130C002E1F56 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562516E0130C002E1F56 /* FMResultSet.m */; };
+		8251CA4A16ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */; };
 		8280EBB416E14E9F00768DE8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */; };
 		8280EBB616E14E9F00768DE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
 		8280EBB716E14E9F00768DE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
@@ -119,6 +120,8 @@
 		8221562416E0130C002E1F56 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		8221562516E0130C002E1F56 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		8221562616E0130C002E1F56 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		8251CA4816ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtilsTests.h"; sourceTree = "<group>"; };
+		8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtilsTests.m"; sourceTree = "<group>"; };
 		8280EBB216E14E9F00768DE8 /* SalesforceSDKCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBB516E14E9F00768DE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -363,6 +366,8 @@
 		8280EBB816E14E9F00768DE8 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				8251CA4816ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.h */,
+				8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */,
 				8280EBF016E1559F00768DE8 /* SalesforceSDKIdentityTests.h */,
 				8280EBF116E1559F00768DE8 /* SalesforceSDKIdentityTests.m */,
 				8280EBF216E1559F00768DE8 /* SFPasscodeTests.h */,
@@ -721,6 +726,7 @@
 				8280EBFF16E155A000768DE8 /* SFSmartSqlTests.m in Sources */,
 				8280EC0016E155A000768DE8 /* SFSmartStoreTestCase.m in Sources */,
 				8280EC0116E155A000768DE8 /* SFSmartStoreTests.m in Sources */,
+				8251CA4A16ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
