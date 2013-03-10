@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Native SDK">
+      <FileRef
+         location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Hybrid SDK">
+      <FileRef
+         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
    </FileRef>
    <Group
       location = "group:external/ThirdPartyDependencies"
