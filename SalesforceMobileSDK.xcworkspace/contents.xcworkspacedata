@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Native SDK">
+      <FileRef
+         location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Hybrid SDK">
+      <FileRef
+         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SFDCAccounts/SFDCAccounts.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
    </FileRef>
    <Group
       location = "group:external/ThirdPartyDependencies"
@@ -658,7 +684,181 @@
    </Group>
    <Group
       location = "container:"
+      name = "HybridShared">
+      <FileRef
+         location = "group:external/shared/forcetk.js">
+      </FileRef>
+      <Group
+         location = "group:external/shared/jquery"
+         name = "jquery">
+         <Group
+            location = "group:images"
+            name = "images">
+            <FileRef
+               location = "group:ajax-loader.gif">
+            </FileRef>
+            <FileRef
+               location = "group:icons-18-black.png">
+            </FileRef>
+            <FileRef
+               location = "group:icons-18-white.png">
+            </FileRef>
+            <FileRef
+               location = "group:icons-36-black.png">
+            </FileRef>
+            <FileRef
+               location = "group:icons-36-white.png">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:jquery-1.8.3.min.js">
+         </FileRef>
+         <FileRef
+            location = "group:jquery.mobile-1.2.0.min.css">
+         </FileRef>
+         <FileRef
+            location = "group:jquery.mobile-1.2.0.min.js">
+         </FileRef>
+         <FileRef
+            location = "group:jquery.mobile.structure-1.2.0.min.css">
+         </FileRef>
+         <FileRef
+            location = "group:jquery.mobile.theme-1.2.0.min.css">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:external/shared/PhoneGap"
+         name = "PhoneGap">
+         <FileRef
+            location = "group:bootconfig.js">
+         </FileRef>
+         <FileRef
+            location = "group:bootstrap.html">
+         </FileRef>
+         <Group
+            location = "group:contactexplorer"
+            name = "contactexplorer">
+            <FileRef
+               location = "group:index.html">
+            </FileRef>
+            <FileRef
+               location = "group:inline.js">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:local"
+            name = "local">
+            <FileRef
+               location = "group:MockCordova.js">
+            </FileRef>
+            <FileRef
+               location = "group:MockSDKInfo.js">
+            </FileRef>
+            <FileRef
+               location = "group:MockSmartStore.js">
+            </FileRef>
+            <FileRef
+               location = "group:README.md">
+            </FileRef>
+            <FileRef
+               location = "group:test.html">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:plugins"
+            name = "plugins">
+            <FileRef
+               location = "group:SalesforceOAuthPlugin.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFSmartStorePlugin.js">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:sfdcaccounts"
+            name = "sfdcaccounts">
+            <FileRef
+               location = "group:editaccount.html">
+            </FileRef>
+            <FileRef
+               location = "group:editopportunity.html">
+            </FileRef>
+            <FileRef
+               location = "group:index.html">
+            </FileRef>
+            <FileRef
+               location = "group:sfdcaccounts.js">
+            </FileRef>
+            <FileRef
+               location = "group:sfdcsmartstore.js">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:smartstoreexplorer"
+            name = "smartstoreexplorer">
+            <FileRef
+               location = "group:index.html">
+            </FileRef>
+            <FileRef
+               location = "group:smartstoreexplorer.js">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:test"
+            name = "test">
+            <FileRef
+               location = "group:qunit.css">
+            </FileRef>
+            <FileRef
+               location = "group:qunit.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFAbstractSmartStoreTestSuite.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFSDKInfoTestSuite.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFSmartStoreLoadTestSuite.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFSmartStoreTestSuite.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFTestRunnerPlugin.js">
+            </FileRef>
+            <FileRef
+               location = "group:SFTestSuite.js">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:util"
+            name = "util">
+            <FileRef
+               location = "group:SFHybridApp.js">
+            </FileRef>
+         </Group>
+      </Group>
+      <FileRef
+         location = "group:external/shared/README.md">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "shared">
+      <Group
+         location = "group:shared/hybrid"
+         name = "hybrid">
+         <FileRef
+            location = "group:config.xml">
+         </FileRef>
+         <FileRef
+            location = "group:cordova-2.3.0.js">
+         </FileRef>
+         <FileRef
+            location = "group:CordovaResources.bundle">
+         </FileRef>
+      </Group>
       <Group
          location = "group:shared/resources"
          name = "resources">

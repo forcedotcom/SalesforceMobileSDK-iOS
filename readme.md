@@ -4,30 +4,13 @@ Installation (do this first - really)
 After cloning the SalesforceMobileSDK-iOS project from github, run the install script from the Terminal command line:
 
 `./install.sh`
-This pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
-See the setup.md file for additional instructions. Xcode 4.2 or greater is a prerequisite for building the Salesforce Mobile SDK.  install.sh will check for this, and exit if the installed version of Xcode is incorrect. In addition, the Salesforce Mobile SDK requires iOS 5.0 or greater.  Building from the command line has been tested using ant 1.8.  Older versions may work, but we recommend using the latest version of ant.
 
-**Users of Xcode earlier than 4.5 (iOS 6):** The iOS 6 development environment introduces a new processor architecture (armv7s), while removing support for another (armv6).  This makes libraries built for iOS 6 incompatible with earlier Xcode dev environments, without some further steps on the developer's part.
+This script pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
+See the setup.md file for additional instructions. Salesforce Mobile SDK requires Xcode 4.5 or greater.  The install.sh script checks for this, and aborts if the installed version of Xcode is incorrect.
 
-We have updated our libraries to support iOS 6.  If you do not want to update your Xcode environment to 4.5 yet, you'll need to remove support for armv6 (if it exists) in the SalesforceHybridSDK project (hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj), as well as your app's project configuration:
+In addition, the Salesforce Mobile SDK requires iOS 6.0 or greater.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
 
-1. In Xcode, click on the Project at the top of the Project Navigator view.
-2. Under the Project header, click the project/app name.
-3. Select the Build Settings tab.
-4. In the Architectures section at the top, if **armv6** is not listed in Valid Architectures, there are no further actions on your part.  Otherwise, double-click the "armv6 armv7" option in Valid Architectures.
-5. Click on the armv6 item in the list, then click the '-' button at the bottom of the list.
-
-You should now be compatible with the iOS 6 library builds.  Note that you're not losing anything by removing support for armv6 anyway, as that class of devices was never compatible with iOS 5, our baseline supported iOS SDK in the Salesforce Mobile SDK.
-
-**Xcode 4.3 Users:** If you have not used the `xcode-select` tool to choose your version of Xcode at the command line, you may encounter the following error when running the install script:
-
-```
-xcode-select: Error: No Xcode folder is set. Run xcode-select -switch <xcode_folder_path> to set the path to the Xcode folder.
-```
-
-If you run `sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer` at the command line, you should be able to run the install script without issues.  This assumes you installed Xcode in the Applications folder.
-
-**Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting checkbox is NOT selected.** 
+**Note:** When using the app templates to create your application, **make sure the "Use Automatic Reference Counting" checkbox is NOT selected.** 
 
 If you have problems building any of the projects, take a look at the online [FAQ](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/wiki/FAQ) for troubleshooting tips.
 
