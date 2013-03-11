@@ -1,18 +1,6 @@
 [submodule "external/shared"]
 	path = external/shared
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-Shared.git
-[submodule "external/RestKit/RestKit"]
-	path = external/RestKit/RestKit
-	url = https://github.com/forcedotcom/RestKit.git
-[submodule "external/fmdb/fmdb"]
-	path = external/fmdb/fmdb
-	url = https://github.com/forcedotcom/fmdb.git
-[submodule "external/openssl-xcode/openssl-xcode"]
-	path = external/openssl-xcode/openssl-xcode
-	url = https://github.com/forcedotcom/openssl-xcode.git
-[submodule "external/sqlcipher/sqlcipher"]
-	path = external/sqlcipher/sqlcipher
-	url = https://github.com/forcedotcom/sqlcipher.git
 [submodule "external/appledoc/appledoc"]
 	path = external/appledoc/appledoc
 	url = https://github.com/tomaz/appledoc.git

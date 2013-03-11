@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,22 +22,49 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "TestSetupUtils.h"
-
+#import "AppDelegate.h"
+#import "SFHybridViewController.h"
+#import "SalesforceOAuthPlugin.h"
 #import "SFJsonUtils.h"
-
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
 #import "SFAccountManager.h"
+#import "CDVCommandDelegateImpl.h"
+#import "SFTestRunnerPlugin.h"
 
-NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
+NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-DefaultAccount";
 
-@implementation TestSetupUtils
 
-+ (void)populateAuthCredentialsFromConfigFile
+@interface AppDelegate ()
+
+/// Was the app started in Test mode? 
+- (BOOL) isRunningOctest;
++ (void)populateAuthCredentialsFromConfigFile;
+
+
+@end
+
+@implementation AppDelegate
+
+- (id)init
 {
+    self = [super init];
+    if (self != nil) {
+        NSLog(@"Setting up auth credentials.");
+        [[self class] populateAuthCredentialsFromConfigFile];
+    }
+    
+    return self;
+}
+
+#pragma mark - App lifecycle
+
+
+
++ (void)populateAuthCredentialsFromConfigFile {
     NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
-    NSAssert(nil != tokenPath,@"Test config file not found!");
+    if (nil == tokenPath) {
+        NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
+        NSAssert(nil != tokenPath,@"test_credentials.json config file not found!");
+    }
     
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
@@ -51,23 +78,25 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     NSString *clientID = [dictResponse objectForKey:@"test_client_id"];
     NSString *redirectUri = [dictResponse objectForKey:@"test_redirect_uri"];
     NSString *loginDomain = [dictResponse objectForKey:@"test_login_domain"];
-
+    
     NSAssert1(nil != refreshToken &&
               nil != clientID &&
               nil != redirectUri &&
               nil != loginDomain &&
               nil != instanceUrl, @"config credentials are missing! %@",
               dictResponse);
-
-    //check whether the test config file has never been edited
-    NSAssert(![refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
-             @"You need to obtain credentials for your test org and replace test_credentials.json");
     
+    //check whether the test config file has never been edited
+    if ([refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"]) {
+        NSLog(@"You need to obtain credentials for your test org and replace test_credentials.json");
+        NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
+    }
+    
+    [SFAccountManager setCurrentAccountIdentifier:kHybridTestAccountIdentifier];
     [SFAccountManager setLoginHost:loginDomain];
     [SFAccountManager setClientId:clientID];
     [SFAccountManager setRedirectUri:redirectUri];
     [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
-    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
     
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     SFOAuthCredentials *credentials = accountMgr.credentials;
@@ -76,4 +105,56 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     credentials.refreshToken = refreshToken;
 }
 
+
+- (BOOL) isRunningOctest
+{
+    BOOL result = NO;
+    NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
+    NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
+    NSLog(@"XCInjectBundle: %@", injectBundle);
+
+    if (nil != injectBundle) {
+        NSRange found = [injectBundle rangeOfString:@".octest"];
+        if (NSNotFound != found.location) {
+            result = YES;
+        }
+    }
+    
+    return result;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [super applicationDidBecomeActive:application];
+    
+    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
+    NSLog(@"runner: %@",runner);
+    
+    BOOL runningOctest = [self isRunningOctest];
+    NSLog(@"octest running: %d",runningOctest);
+}
+
+
+- (NSString *)evalJS:(NSString*)js {
+    NSString *jsResult = [self.viewController.webView stringByEvaluatingJavaScriptFromString:js];
+    return jsResult;
+}
+
+
 @end
+
+
+//The following are required for code coverage to work:
+FILE *fopen$UNIX2003(const char *filename, const char *mode) {
+    NSString *covFile = [NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
+    NSLog(@"saving coverage file: %@",covFile);
+    return fopen(filename, mode);
+}
+
+size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d) {
+    return fwrite(a, b, c, d);
+}

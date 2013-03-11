@@ -26,9 +26,6 @@
 
 @class SFOAuthCoordinator;
 
-extern NSString * const kTestAccountIdentifier;
-
-
 /**
  This class provides utilities useful to all unit tests based on the Salesforce SDK
  */

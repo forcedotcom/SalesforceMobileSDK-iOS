@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2011, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,6 +30,9 @@
 
 }
 
+
+/// Evaluate the given javascript inside our embedded web view and return the string result.
+- (NSString *)evalJS:(NSString*)js;
 
 @end
 

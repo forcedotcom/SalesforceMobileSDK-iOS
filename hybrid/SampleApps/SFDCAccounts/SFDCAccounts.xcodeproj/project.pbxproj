@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */; };
-		7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF01814BE27B2004D3FF6 /* forcetk.js */; };
-		7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 7D3FF02914BE27B2004D3FF6 /* bootstrap.html */; };
+		7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 7D3FF01814BE27B2004D3FF6 /* forcetk.js */; };
+		7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 7D3FF02914BE27B2004D3FF6 /* bootstrap.html */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
 		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
 		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
@@ -39,78 +39,90 @@
 		7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD07CE149AA9640043A9E0 /* AppDelegate.m */; };
 		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
 		7DBD07E6149AA98E0043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07E5149AA98E0043A9E0 /* www */; };
-		7DFBB72414C8963000D373E2 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */; };
 		82027600165178E500DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275FF165178E500DB814C /* MessageUI.framework */; };
-		82031D7615B4EB1100073595 /* CordovaResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82031D7515B4EB1100073595 /* CordovaResources.bundle */; };
-		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
-		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
-		826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
+		8251CA6E16ED4A0700BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6D16ED4A0700BD1EA2 /* libxml2.dylib */; };
+		8251CA7016ED4A1C00BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6F16ED4A1C00BD1EA2 /* libssl.a */; };
+		8251CA7216ED4A3600BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7116ED4A3600BD1EA2 /* libsqlcipher.a */; };
+		8251CA7416ED4A4700BD1EA2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7316ED4A4700BD1EA2 /* libSalesforceSDKCore.a */; };
+		8251CA7616ED4A5300BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7516ED4A5300BD1EA2 /* libSalesforceOAuth.a */; };
+		8251CA7816ED4A6400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7716ED4A6400BD1EA2 /* libSalesforceHybridSDK.a */; };
+		8251CA7A16ED4A7300BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7916ED4A7300BD1EA2 /* libSalesforceCommonUtils.a */; };
+		8251CA7C16ED4A8400BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7B16ED4A8400BD1EA2 /* libcrypto.a */; };
+		8251CA7E16ED4A9300BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7D16ED4A9300BD1EA2 /* libCordova.a */; };
+		8251CA8016ED4AB500BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7F16ED4AB500BD1EA2 /* CoreData.framework */; };
+		8251CA8216ED4BF300BD1EA2 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */; };
+		8251CA8316ED4BF700BD1EA2 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */; };
+		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
+		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
+		826ED6A21582D67800321962 /* SFHybridApp.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
-		82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */; };
-		82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */; };
-		82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */ = {isa = PBXBuildFile; fileRef = 82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */; };
-		82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = 82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */; };
+		82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */; };
+		82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */; };
+		82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */; };
+		82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */; };
 		8295461C167A7DC000A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295461B167A7DC000A0FC34 /* config.xml */; };
-		8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = 82954619167A7DA900A0FC34 /* cordova-2.3.0.js */; };
-		CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
-		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
-		CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
-		CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C3158BD46B00618949 /* sfdcaccounts.js */; };
-		CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */ = {isa = PBXBuildFile; fileRef = CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */; };
-		CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D3158BD53D00618949 /* icons-18-black.png */; };
-		CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D4158BD53D00618949 /* icons-18-white.png */; };
-		CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D5158BD53D00618949 /* icons-36-black.png */; };
-		CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jquery-images */ = {isa = PBXBuildFile; fileRef = CEDF50D6158BD53D00618949 /* icons-36-white.png */; };
+		8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82954619167A7DA900A0FC34 /* cordova-2.3.0.js */; };
+		CEDF50CA158BD4E500618949 /* editaccount.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
+		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
+		CEDF50CC158BD4E500618949 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
+		CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C3158BD46B00618949 /* sfdcaccounts.js */; };
+		CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */; };
+		CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D3158BD53D00618949 /* icons-18-black.png */; };
+		CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D4158BD53D00618949 /* icons-18-white.png */; };
+		CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D5158BD53D00618949 /* icons-36-black.png */; };
+		CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D6158BD53D00618949 /* icons-36-white.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7D3FF04F14BE2804004D3FF6 /* Copy sfdc-shared */ = {
+		7D3FF04F14BE2804004D3FF6 /* Copy Shared www Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy sfdc-shared */,
-				CEDF50CA158BD4E500618949 /* editaccount.html in Copy sfdc-shared */,
-				CEDF50CB158BD4E500618949 /* editopportunity.html in Copy sfdc-shared */,
-				CEDF50CC158BD4E500618949 /* index.html in Copy sfdc-shared */,
-				CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy sfdc-shared */,
-				CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy sfdc-shared */,
-				826ED6A21582D67800321962 /* SFHybridApp.js in Copy sfdc-shared */,
-				826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy sfdc-shared */,
-				826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy sfdc-shared */,
-				7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy sfdc-shared */,
-				7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy sfdc-shared */,
+				8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */,
+				CEDF50CA158BD4E500618949 /* editaccount.html in Copy Shared www Files */,
+				CEDF50CB158BD4E500618949 /* editopportunity.html in Copy Shared www Files */,
+				CEDF50CC158BD4E500618949 /* index.html in Copy Shared www Files */,
+				CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy Shared www Files */,
+				CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy Shared www Files */,
+				826ED6A21582D67800321962 /* SFHybridApp.js in Copy Shared www Files */,
+				826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy Shared www Files */,
+				826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy Shared www Files */,
+				7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy Shared www Files */,
+				7D3FF05114BE2812004D3FF6 /* bootstrap.html in Copy Shared www Files */,
 			);
-			name = "Copy sfdc-shared";
+			name = "Copy Shared www Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEDF50E9158BD5B700618949 /* Copy jquery */ = {
+		CEDF50E9158BD5B700618949 /* Copy jQuery Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jquery */,
-				82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jquery */,
-				82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jquery */,
+				82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jQuery Files */,
+				82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */,
+				82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */,
+				8251CA8216ED4BF300BD1EA2 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */,
+				8251CA8316ED4BF700BD1EA2 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */,
 			);
-			name = "Copy jquery";
+			name = "Copy jQuery Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEDF50F0158BD5F500618949 /* Copy jquery-images */ = {
+		CEDF50F0158BD5F500618949 /* Copy jQuery Images Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jquery-images */,
-				CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jquery-images */,
-				CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jquery-images */,
-				CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jquery-images */,
-				CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jquery-images */,
+				82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jQuery Images Files */,
+				CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jQuery Images Files */,
+				CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jQuery Images Files */,
+				CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jQuery Images Files */,
+				CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jQuery Images Files */,
 			);
-			name = "Copy jquery-images";
+			name = "Copy jQuery Images Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -119,7 +131,6 @@
 		4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		7D3FF01814BE27B2004D3FF6 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		7D3FF02914BE27B2004D3FF6 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = PhoneGap/bootstrap.html; sourceTree = "<group>"; };
-		7D72612114C74DAC00CFD63C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7DBD075C149AA9620043A9E0 /* SFDCAccounts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFDCAccounts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD0762149AA9620043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -154,9 +165,19 @@
 		7DBD07D5149AA9650043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD07E5149AA98E0043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceHybridSDK.framework; path = ../../../dependencies/SalesforceHybridSDK/SalesforceHybridSDK.framework; sourceTree = "<group>"; };
 		820275FF165178E500DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		82031D7515B4EB1100073595 /* CordovaResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CordovaResources.bundle; path = ../../../../shared/hybrid/CordovaResources.bundle; sourceTree = "<group>"; };
+		8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.2.0.min.css"; sourceTree = "<group>"; };
+		8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.2.0.min.css"; sourceTree = "<group>"; };
+		8251CA6D16ED4A0700BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		8251CA6F16ED4A1C00BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
+		8251CA7116ED4A3600BD1EA2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
+		8251CA7316ED4A4700BD1EA2 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8251CA7516ED4A5300BD1EA2 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8251CA7716ED4A6400BD1EA2 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8251CA7916ED4A7300BD1EA2 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		8251CA7B16ED4A8400BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
+		8251CA7D16ED4A9300BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8251CA7F16ED4AB500BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
 		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
 		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
@@ -183,48 +204,57 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8251CA7E16ED4A9300BD1EA2 /* libCordova.a in Frameworks */,
+				8251CA7C16ED4A8400BD1EA2 /* libcrypto.a in Frameworks */,
+				8251CA7A16ED4A7300BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */,
+				8251CA7816ED4A6400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */,
+				8251CA7616ED4A5300BD1EA2 /* libSalesforceOAuth.a in Frameworks */,
+				8251CA7416ED4A4700BD1EA2 /* libSalesforceSDKCore.a in Frameworks */,
+				8251CA7216ED4A3600BD1EA2 /* libsqlcipher.a in Frameworks */,
+				8251CA7016ED4A1C00BD1EA2 /* libssl.a in Frameworks */,
+				8251CA6E16ED4A0700BD1EA2 /* libxml2.dylib in Frameworks */,
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
-				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
-				82027600165178E500DB814C /* MessageUI.framework in Frameworks */,
-				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
-				7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */,
-				7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */,
-				7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */,
-				7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */,
-				7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */,
-				7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */,
-				7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */,
 				7DBD0773149AA9620043A9E0 /* AddressBook.framework in Frameworks */,
 				7DBD0775149AA9620043A9E0 /* AddressBookUI.framework in Frameworks */,
 				7DBD0777149AA9620043A9E0 /* AudioToolbox.framework in Frameworks */,
 				7DBD0779149AA9620043A9E0 /* AVFoundation.framework in Frameworks */,
+				7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */,
+				8251CA8016ED4AB500BD1EA2 /* CoreData.framework in Frameworks */,
+				7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */,
+				7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */,
+				7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */,
+				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
 				7DBD077B149AA9620043A9E0 /* MediaPlayer.framework in Frameworks */,
+				82027600165178E500DB814C /* MessageUI.framework in Frameworks */,
+				7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */,
+				7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */,
+				7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */,
 				7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */,
-				7DFBB72414C8963000D373E2 /* SalesforceHybridSDK.framework in Frameworks */,
+				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7D3FF01614BE27B2004D3FF6 /* sfdc-shared */ = {
+		7D3FF01614BE27B2004D3FF6 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				82954619167A7DA900A0FC34 /* cordova-2.3.0.js */,
-				826ED69E1582D2B200321962 /* SFHybridApp.js */,
-				826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */,
-				826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */,
+				CEDF50BF158BD46B00618949 /* sfdcaccounts */,
+				CEDF50CF158BD53D00618949 /* jquery */,
+				8251CA6716ED485200BD1EA2 /* plugins */,
+				8251CA6816ED486900BD1EA2 /* util */,
 				7D3FF02914BE27B2004D3FF6 /* bootstrap.html */,
+				82954619167A7DA900A0FC34 /* cordova-2.3.0.js */,
 				7D3FF01814BE27B2004D3FF6 /* forcetk.js */,
 			);
-			name = "sfdc-shared";
+			name = "shared-www";
 			path = ../../../../external/shared;
 			sourceTree = "<group>";
 		};
 		7DBD0750149AA9620043A9E0 = {
 			isa = PBXGroup;
 			children = (
-				CEDF50CF158BD53D00618949 /* jquery */,
 				7DBD077E149AA9620043A9E0 /* SFDCAccounts */,
 				7DBD075F149AA9620043A9E0 /* Frameworks */,
 				7DBD075D149AA9620043A9E0 /* Products */,
@@ -242,24 +272,33 @@
 		7DBD075F149AA9620043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7D72612114C74DAC00CFD63C /* libsqlite3.dylib */,
+				8251CA7D16ED4A9300BD1EA2 /* libCordova.a */,
+				8251CA7B16ED4A8400BD1EA2 /* libcrypto.a */,
+				8251CA7916ED4A7300BD1EA2 /* libSalesforceCommonUtils.a */,
+				8251CA7716ED4A6400BD1EA2 /* libSalesforceHybridSDK.a */,
+				8251CA7516ED4A5300BD1EA2 /* libSalesforceOAuth.a */,
+				8251CA7316ED4A4700BD1EA2 /* libSalesforceSDKCore.a */,
+				8251CA7116ED4A3600BD1EA2 /* libsqlcipher.a */,
+				8251CA6F16ED4A1C00BD1EA2 /* libssl.a */,
+				8251CA6D16ED4A0700BD1EA2 /* libxml2.dylib */,
 				82707BFF157C498B00B50291 /* libz.dylib */,
-				7DBD0760149AA9620043A9E0 /* Foundation.framework */,
-				820275FF165178E500DB814C /* MessageUI.framework */,
-				7DBD0762149AA9620043A9E0 /* UIKit.framework */,
-				7DBD0764149AA9620043A9E0 /* CFNetwork.framework */,
-				7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */,
-				7DBD0768149AA9620043A9E0 /* CoreLocation.framework */,
-				7DBD076A149AA9620043A9E0 /* CoreMedia.framework */,
-				7DBD076C149AA9620043A9E0 /* QuartzCore.framework */,
-				7DBD076E149AA9620043A9E0 /* Security.framework */,
-				7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */,
 				7DBD0772149AA9620043A9E0 /* AddressBook.framework */,
 				7DBD0774149AA9620043A9E0 /* AddressBookUI.framework */,
 				7DBD0776149AA9620043A9E0 /* AudioToolbox.framework */,
 				7DBD0778149AA9620043A9E0 /* AVFoundation.framework */,
+				7DBD0764149AA9620043A9E0 /* CFNetwork.framework */,
+				8251CA7F16ED4AB500BD1EA2 /* CoreData.framework */,
+				7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */,
+				7DBD0768149AA9620043A9E0 /* CoreLocation.framework */,
+				7DBD076A149AA9620043A9E0 /* CoreMedia.framework */,
+				7DBD0760149AA9620043A9E0 /* Foundation.framework */,
 				7DBD077A149AA9620043A9E0 /* MediaPlayer.framework */,
+				820275FF165178E500DB814C /* MessageUI.framework */,
+				7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */,
+				7DBD076C149AA9620043A9E0 /* QuartzCore.framework */,
+				7DBD076E149AA9620043A9E0 /* Security.framework */,
 				7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */,
+				7DBD0762149AA9620043A9E0 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -267,15 +306,10 @@
 		7DBD077E149AA9620043A9E0 /* SFDCAccounts */ = {
 			isa = PBXGroup;
 			children = (
-				CEDF50BF158BD46B00618949 /* sfdcaccounts */,
-				7DBD07E5149AA98E0043A9E0 /* www */,
-				7DBD07CC149AA9640043A9E0 /* Classes */,
-				7DFBB72314C8963000D373E2 /* SalesforceHybridSDK.framework */,
-				7D3FF01614BE27B2004D3FF6 /* sfdc-shared */,
 				7DBD07CA149AA9640043A9E0 /* readme.md */,
-				4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */,
-				82031D7515B4EB1100073595 /* CordovaResources.bundle */,
-				7DBD07DC149AA9650043A9E0 /* Settings.bundle */,
+				7DBD07E5149AA98E0043A9E0 /* www */,
+				7D3FF01614BE27B2004D3FF6 /* shared-www */,
+				7DBD07CC149AA9640043A9E0 /* Classes */,
 				7DBD07B7149AA9640043A9E0 /* Resources */,
 				7DBD07D4149AA9650043A9E0 /* Plugins */,
 				7DBD077F149AA9620043A9E0 /* Supporting Files */,
@@ -300,6 +334,8 @@
 			children = (
 				7DBD07B8149AA9640043A9E0 /* icons */,
 				7DBD07BF149AA9640043A9E0 /* splash */,
+				7DBD07DC149AA9650043A9E0 /* Settings.bundle */,
+				4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -343,6 +379,23 @@
 			name = Plugins;
 			sourceTree = "<group>";
 		};
+		8251CA6716ED485200BD1EA2 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */,
+				826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */,
+			);
+			name = plugins;
+			sourceTree = "<group>";
+		};
+		8251CA6816ED486900BD1EA2 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				826ED69E1582D2B200321962 /* SFHybridApp.js */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 		CEDF50BF158BD46B00618949 /* sfdcaccounts */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,7 +406,7 @@
 				CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */,
 			);
 			name = sfdcaccounts;
-			path = ../../../../external/shared/PhoneGap/sfdcaccounts;
+			path = PhoneGap/sfdcaccounts;
 			sourceTree = "<group>";
 		};
 		CEDF50CF158BD53D00618949 /* jquery */ = {
@@ -363,9 +416,10 @@
 				82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */,
 				82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */,
 				82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */,
+				8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */,
+				8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */,
 			);
-			name = jquery;
-			path = ../../../external/shared/jquery;
+			path = jquery;
 			sourceTree = "<group>";
 		};
 		CEDF50D0158BD53D00618949 /* images */ = {
@@ -390,9 +444,9 @@
 				7DBD0757149AA9620043A9E0 /* Sources */,
 				7DBD0758149AA9620043A9E0 /* Frameworks */,
 				7DBD0759149AA9620043A9E0 /* Resources */,
-				7D3FF04F14BE2804004D3FF6 /* Copy sfdc-shared */,
-				CEDF50E9158BD5B700618949 /* Copy jquery */,
-				CEDF50F0158BD5F500618949 /* Copy jquery-images */,
+				7D3FF04F14BE2804004D3FF6 /* Copy Shared www Files */,
+				CEDF50E9158BD5B700618949 /* Copy jQuery Files */,
+				CEDF50F0158BD5F500618949 /* Copy jQuery Images Files */,
 			);
 			buildRules = (
 			);
@@ -445,7 +499,6 @@
 				7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */,
 				7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */,
 				7DBD07E6149AA98E0043A9E0 /* www in Resources */,
-				82031D7615B4EB1100073595 /* CordovaResources.bundle in Resources */,
 				8295461C167A7DC000A0FC34 /* config.xml in Resources */,
 				4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
@@ -497,7 +550,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -521,7 +575,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -536,17 +590,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../dependencies\"",
-					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SFDCAccounts/SFDCAccounts-Prefix.pch";
 				INFOPLIST_FILE = "SFDCAccounts/SFDCAccounts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -555,18 +610,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../dependencies\"",
-					"\"$(SRCROOT)/../../dependencies/SalesforceHybridSDK\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SFDCAccounts/SFDCAccounts-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
 				INFOPLIST_FILE = "SFDCAccounts/SFDCAccounts-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
