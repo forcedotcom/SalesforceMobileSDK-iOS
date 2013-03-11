@@ -23,6 +23,9 @@
       <FileRef
          location = "group:hybrid/SampleApps/SFDCAccounts/SFDCAccounts.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
