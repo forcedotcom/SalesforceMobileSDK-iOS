@@ -17,6 +17,11 @@
 		8280EBA816E1315B00768DE8 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA716E1315B00768DE8 /* libsqlcipher.a */; };
 		8280EBAA16E1318200768DE8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA916E1318200768DE8 /* libxml2.dylib */; };
 		8280EBAC16E1425D00768DE8 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
+		82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */; };
+		82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */; };
+		82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79216E080780006B3C0 /* SFRestAPI.h */; };
+		82BC32BB16EEAEFC00FC68D3 /* SFNativeRestAppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78716E080780006B3C0 /* SFNativeRestAppDelegate.h */; };
+		82BC32BC16EEAEFC00FC68D3 /* SFNativeRootViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78916E080780006B3C0 /* SFNativeRootViewController.h */; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74016E076DE0006B3C0 /* SenTestingKit.framework */; };
 		82C0C74316E076DE0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
@@ -79,6 +84,11 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				82BC32BB16EEAEFC00FC68D3 /* SFNativeRestAppDelegate.h in CopyFiles */,
+				82BC32BC16EEAEFC00FC68D3 /* SFNativeRootViewController.h in CopyFiles */,
+				82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */,
+				82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */,
+				82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

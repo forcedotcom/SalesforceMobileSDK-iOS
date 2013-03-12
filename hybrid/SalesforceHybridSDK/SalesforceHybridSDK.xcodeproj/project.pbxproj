@@ -35,6 +35,12 @@
 		8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3F16ED1EB400BD1EA2 /* SFPluginTestSuite.m */; };
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
 		8251CA4716ED268000BD1EA2 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */; };
+		82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E416E7C84900A63CDF /* SFSDKInfoPlugin.h */; };
+		82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; };
+		82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; };
+		82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; };
+		82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */; };
+		82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; };
 		82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E516E7C84900A63CDF /* SFSDKInfoPlugin.m */; };
 		82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E816E7C84900A63CDF /* CDVPlugin+SFAdditions.m */; };
@@ -110,6 +116,12 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */,
+				82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */,
+				82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */,
+				82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */,
+				82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */,
+				82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
