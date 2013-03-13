@@ -24,7 +24,7 @@
 
 
 
-#import "SalesforceHybridSDK/SFContainerAppDelegate.h"
+#import "SFContainerAppDelegate.h"
 
 @interface AppDelegate : SFContainerAppDelegate  {
 
