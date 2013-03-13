@@ -3,28 +3,9 @@ xcuserdata
 project.xcworkspace
 artifacts
 
-/external/sqlcipher/dependencies/
-
 /hybrid/SampleApps/ContactExplorer/build/
-/native/SalesforceSDK/build/
-/native/SalesforceOAuth/build/
+/native/SalesforceNativeSDK/build/
+/shared/SalesforceOAuth/build/
 /hybrid/SampleApps/VFConnector/build/
-/hybrid/Hybrid Force.com App.xctemplate/
-/native/Native Force.com REST App.xctemplate/
 /native/SampleApps/RestAPIExplorer/build/
-/native/SampleApps/RestAPIExplorer/RestAPIExplorer/dependencies/
-
-/hybrid/dependencies/PhoneGap.framework/
-/hybrid/dependencies/Cordova/
-/hybrid/dependencies/SalesforceHybridSDK/
-/hybrid/dependencies/SalesforceOAuth/
-/hybrid/dependencies/openssl/
-/hybrid/dependencies/sqlcipher/
-/hybrid/dependencies/SalesforceCommonUtils/
-/native/dependencies/openssl/
-/native/dependencies/sqlcipher/
-/native/dependencies/RestKit/
-/native/dependencies/SalesforceOAuth/
-/native/dependencies/SalesforceSDK/
-/native/dependencies/SalesforceCommonUtils/
 /hybrid/SalesforceHybridSDK/build/
