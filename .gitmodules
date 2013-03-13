@@ -9,4 +9,4 @@
 	url = https://github.com/forcedotcom/cordova-ios.git
 [submodule "external/ThirdPartyDependencies"]
 	path = external/ThirdPartyDependencies
-	url = git@github.com:forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
+	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
