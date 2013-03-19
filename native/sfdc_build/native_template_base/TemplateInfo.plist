@@ -1404,6 +1404,19 @@
 		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAccountManager.h</string>
 	</dict>
 
+	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthenticationManager.h</key>
+	<dict>
+		<key>Group</key>			
+		<array>
+			<string>dependencies</string>
+			<string>SalesforceSDK</string>
+			<string>include</string>
+			<string>SalesforceSDK</string>
+		</array>
+		<key>Path</key>
+		<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthenticationManager.h</string>
+	</dict>
+
 	<key>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</key>
 	<dict>
 		<key>Group</key>			
@@ -2402,6 +2415,7 @@
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SalesforceSDKConstants.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFApplication.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAccountManager.h</string>
+	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthenticationManager.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFAuthorizingViewController.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityCoordinator.h</string>
 	<string>dependencies/SalesforceSDK/include/SalesforceSDK/SFIdentityData.h</string>
