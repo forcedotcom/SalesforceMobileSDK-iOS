@@ -13,6 +13,7 @@
 		8208EB1D16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8208EB1C16BF5F8200025C5D /* SFPBKDF2PasscodeProvider.m */; };
 		821A892916C5CF5D00979E88 /* SFPasscodeManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 826FB8F916B358F3001AAEF9 /* SFPasscodeManager.h */; };
 		823DF85A16BCA8AC0049620A /* SFPasscodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 823DF85916BCA8AC0049620A /* SFPasscodeTests.m */; };
+		82677FD816F928E9008F3588 /* SFAuthenticationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 826FB8F516B358F3001AAEF9 /* SFAuthenticationManager.h */; };
 		826FB8C116B35574001AAEF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8C016B35574001AAEF9 /* Foundation.framework */; };
 		826FB8D016B35574001AAEF9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826FB8CF16B35574001AAEF9 /* SenTestingKit.framework */; };
 		826FB8DC16B35574001AAEF9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 826FB8DA16B35574001AAEF9 /* InfoPlist.strings */; };
@@ -136,6 +137,7 @@
 			dstSubfolderSpec = 0;
 			files = (
 				826FB96916B35BFA001AAEF9 /* SFApplication.h in CopyFiles */,
+				82677FD816F928E9008F3588 /* SFAuthenticationManager.h in CopyFiles */,
 				826FB96A16B35C02001AAEF9 /* SFIdentityCoordinator.h in CopyFiles */,
 				826FB96B16B35C08001AAEF9 /* SFIdentityData.h in CopyFiles */,
 				826FB96D16B35C21001AAEF9 /* SFRestAPI.h in CopyFiles */,

@@ -185,6 +185,20 @@
             <param name="target" value="SalesforceSDK"/>
             <param name="action" value="install"/>
         </antcall>
+        
+        <antcall target="iOSShared.compile">
+            <param name="install_path" value="${artifacts.dir}/Simulator"/>
+            <param name="configuration" value="${configuration.release}"/>
+            <param name="sdk" refid="platform.iphonesimulator"/>
+            <param name="target" value="SalesforceSDK"/>
+            <param name="action" value="install"/>
+        </antcall>
+        
+        <antcall target="iOSShared.lipo">
+            <param name="libname" value="libSalesforceSDK.a"/>
+        </antcall>
+        
+        <delete dir="${artifacts.dir}/Simulator"/>
 
         <!-- Copy the documentation -->
         <copy todir="${artifacts.dir}/${target.name}/Documentation">
