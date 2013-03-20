@@ -14,6 +14,7 @@
 		8221562A16E0130C002E1F56 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562316E0130C002E1F56 /* FMDatabaseQueue.m */; };
 		8221562B16E0130C002E1F56 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562516E0130C002E1F56 /* FMResultSet.m */; };
 		8251CA4A16ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */; };
+		826780E716F93831008F3588 /* SFAuthenticationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82AF841C16DFD95F008912EF /* SFAuthenticationManager.h */; };
 		8280EBB416E14E9F00768DE8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */; };
 		8280EBB616E14E9F00768DE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
 		8280EBB716E14E9F00768DE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
@@ -124,6 +125,7 @@
 				82BC32CC16EEB8AB00FC68D3 /* SalesforceSDKConstants.h in CopyFiles */,
 				82BC32C716EEB86D00FC68D3 /* SFAccountManager.h in CopyFiles */,
 				82BC32C316EEB83E00FC68D3 /* SFApplication.h in CopyFiles */,
+				826780E716F93831008F3588 /* SFAuthenticationManager.h in CopyFiles */,
 				82BC32CD16EEB8C200FC68D3 /* SFAuthorizingViewController.h in CopyFiles */,
 				82BC32C416EEB84900FC68D3 /* SFIdentityCoordinator.h in CopyFiles */,
 				82BC32C516EEB84900FC68D3 /* SFIdentityData.h in CopyFiles */,
