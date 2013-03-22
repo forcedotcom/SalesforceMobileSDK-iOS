@@ -78,6 +78,12 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
  */
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
+/**
+ Loads the VF ping page in an invisible UIWebView and sets session cookies
+ for the VF domain.
+ */
+- (void)loadVFPingPage;
+
 @end
 
 // ------------------------------------------
@@ -100,10 +106,8 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
         _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
-        
         [SFAccountManager updateLoginHost];
     }
-    
     return self;
 }
 
@@ -114,7 +118,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     SFRelease(_oauthRedirectURI);
     SFRelease(_oauthLoginDomain);
     SFRelease(_oauthScopes);
-    
 }
 
 #pragma mark - Cordova plugin methods
@@ -158,12 +161,11 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
     // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
     [SFSDKWebUtils configureUserAgent];
-    
     SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
         // Reset the user agent back to Cordova.
         CDVViewController *cdvVc = (CDVViewController *)self.viewController;
         [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
-        
+        [self loadVFPingPage];
         [self authenticationCompletion];
     };
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
@@ -189,7 +191,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     NSLog(@"AppHomeURL: %@",urlString);
-    
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
@@ -199,13 +200,11 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (NSDictionary*)credentialsAsDictionary {
     NSDictionary *credentialsDict = nil;
-    
     SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
         NSString *uaString = [_appDelegate userAgentString];
-        
         credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
                            creds.accessToken, kAccessTokenCredentialsDictKey,
                            creds.refreshToken, kRefreshTokenCredentialsDictKey,
@@ -216,10 +215,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
                            instanceUrl, kInstanceUrlCredentialsDictKey,
                            uaString, kUserAgentCredentialsDictKey,
                            nil];
-        
     }
-    
-    
     return credentialsDict;
 }
 
@@ -237,19 +233,16 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
     [SFAuthenticationManager resetSessionCookie];
-    
     NSDictionary *authDict = [self credentialsAsDictionary];
     if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
         [self writeJavascript:[pluginResult toSuccessCallbackString:_authCallbackId]];
-        
         SFRelease(_authCallbackId);
     } else {
         //fire a notification that the session has been refreshed
         [self fireSessionRefreshEvent:authDict];
     }
-    
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
@@ -266,11 +259,27 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds
 {
-    
     NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
     NSString *eventStr = [[NSString alloc] initWithFormat:@"cordova.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
                           credsStr];
     [super writeJavascript:eventStr];
+}
+
+- (void)loadVFPingPage
+{
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    NSMutableString *instanceUrl = nil;
+    if (nil != creds) {
+        instanceUrl = [[NSMutableString alloc] initWithString:creds.instanceUrl.absoluteString];    
+    }
+    if (nil != instanceUrl) {
+        [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
+        UIWebView *hiddenView = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        hiddenView.hidden = YES;
+        NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
+        NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
+        [hiddenView loadRequest:pingRequest];
+    }
 }
 
 @end
