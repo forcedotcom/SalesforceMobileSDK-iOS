@@ -88,7 +88,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
  This method is called when the hidden UIWebView has finished loading
  the ping page.
  */
-- (void)postPageLoad;
+- (void)postVFPingPageLoad;
 
 /**
  Hidden UIWebView used to load the VF ping page.
@@ -176,7 +176,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
         // Reset the user agent back to Cordova.
         CDVViewController *cdvVc = (CDVViewController *)self.viewController;
         [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
-        [self loadVFPingPage];
+        if (authInfo.authType == SFOAuthTypeRefresh) {
+            [self loadVFPingPage];    
+        }
         [self authenticationCompletion];
     };
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
@@ -279,8 +281,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)loadVFPingPage
 {
     SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.instanceUrl.absoluteString];
-    if (nil != instanceUrl) {
+    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
+    if (nil != instanceUrlString) {
+        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
         [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
         self.hiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
         [self.hiddenWebView setDelegate:self];
@@ -290,25 +293,32 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     }
 }
 
-- (void)postPageLoad
+- (void)postVFPingPageLoad
 {
     [self.hiddenWebView setDelegate:nil];
+    self.hiddenWebView = nil;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading page."];
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading VF ping page."];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading page."];
-    [self postPageLoad];
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
+    [self postVFPingPageLoad];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    NSLog(@"SalesforceOAuthPlugin: Error: %@", error);
+    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load VF ping page: %@", error);
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
+    return YES;
 }
 
 @end
