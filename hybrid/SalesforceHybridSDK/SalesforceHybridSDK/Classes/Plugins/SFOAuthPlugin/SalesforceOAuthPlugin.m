@@ -49,7 +49,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
-@interface SalesforceOAuthPlugin ()
+@interface SalesforceOAuthPlugin()
 {
 }
 
@@ -83,6 +83,17 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
  for the VF domain.
  */
 - (void)loadVFPingPage;
+
+/**
+ This method is called when the hidden UIWebView has finished loading
+ the ping page.
+ */
+- (void)postPageLoad;
+
+/**
+ Hidden UIWebView used to load the VF ping page.
+ */
+@property (nonatomic, strong) UIWebView *hiddenWebView;
 
 @end
 
@@ -228,7 +239,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (void)authenticationCompletion
 {
-    NSLog(@"authenticationCompletion: Authentication flow succeeded.  Initiating post-auth configuration.");
+    NSLog(@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration.");
     
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
@@ -268,18 +279,36 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)loadVFPingPage
 {
     SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSMutableString *instanceUrl = nil;
-    if (nil != creds) {
-        instanceUrl = [[NSMutableString alloc] initWithString:creds.instanceUrl.absoluteString];    
-    }
+    NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.instanceUrl.absoluteString];
     if (nil != instanceUrl) {
         [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
-        UIWebView *hiddenView = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        hiddenView.hidden = YES;
+        self.hiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        [self.hiddenWebView setDelegate:self];
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
-        [hiddenView loadRequest:pingRequest];
+        [self.hiddenWebView loadRequest:pingRequest];
     }
+}
+
+- (void)postPageLoad
+{
+    [self.hiddenWebView setDelegate:nil];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading page."];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView*)webView
+{
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading page."];
+    [self postPageLoad];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    NSLog(@"SalesforceOAuthPlugin: Error: %@", error);
 }
 
 @end
