@@ -59,6 +59,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
         _accountMgr = [SFAccountManager sharedInstance];
+        [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         
         // Note that rkClient is created on demand.
     }

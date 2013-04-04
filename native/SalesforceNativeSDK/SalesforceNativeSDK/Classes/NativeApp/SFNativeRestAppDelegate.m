@@ -245,7 +245,7 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 
 - (void)login {
     // Kick off authentication.
-    [[SFAuthenticationManager sharedManager] login:self.viewController completion:self.authSuccessBlock failure:self.authFailureBlock];
+//    [[SFAuthenticationManager sharedManager] login:self.viewController completion:self.authSuccessBlock failure:self.authFailureBlock];
 }
 
 

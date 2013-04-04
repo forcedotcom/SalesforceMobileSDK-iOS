@@ -28,9 +28,7 @@
 #import "RestAPIExplorerViewController.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
-
+#import "SFAuthenticationManager.h"
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
@@ -39,32 +37,39 @@
 
 
 // Fill these in when creating a new Remote Access client on Force.com 
-static NSString *const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString *const OAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/done";
-
+static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
+static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
 @implementation AppDelegate
 
-
-#pragma mark - Remote Access / OAuth configuration
-
-
-- (NSString*)remoteAccessConsumerKey {
-    return RemoteAccessConsumerKey;
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [SFLogger setLogLevel:SFLogLevelDebug];
+        [SFAccountManager setClientId:RemoteAccessConsumerKey];
+        [SFAccountManager setRedirectUri:OAuthRedirectURI];
+        [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutOccurred object:[SFAuthenticationManager sharedManager]];
+    }
+    
+    return self;
 }
 
-- (NSString*)oauthRedirectURI {
-    return OAuthRedirectURI;
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutOccurred object:[SFAuthenticationManager sharedManager]];
 }
 
+#pragma mark - App delegate lifecycle
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    return YES;
+}
 
-#pragma mark - App lifecycle
-
-
-//NOTE be sure to call all super methods you override.
-
-- (UIViewController*)newRootViewController {
+- (UIViewController*)newRootViewController
+{
     RestAPIExplorerViewController *rootVC = [[RestAPIExplorerViewController alloc] initWithNibName:nil bundle:nil];
     return rootVC;
 }
@@ -76,7 +81,7 @@ static NSString *const OAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/d
     SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
     NSDictionary *configDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                 RemoteAccessConsumerKey, @"test_client_id", 
-                                self.oauthLoginDomain , @"test_login_domain", 
+                                [SFAccountManager loginHost], @"test_login_domain",
                                 OAuthRedirectURI, @"test_redirect_uri", 
                                 creds.refreshToken,@"refresh_token",
                                 [creds.instanceUrl absoluteString] , @"instance_url", 

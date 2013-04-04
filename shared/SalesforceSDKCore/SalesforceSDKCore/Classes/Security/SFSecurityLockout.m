@@ -33,6 +33,7 @@
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"
+#import "SFRootViewManager.h"
 
 // Private constants
 
@@ -53,6 +54,7 @@ NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
 
 static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
+static SFRootViewManager       *sRootViewManager               = nil;
 static SFLockScreenCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 
@@ -178,18 +180,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [self sendPasscodeFlowCompletedNotification:success];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
+            [sRootViewManager restorePreviousView];
+            sRootViewManager = nil;
+            [SFSecurityLockout setPasscodeViewController:nil];
             if (success) {
-                [passVc.presentingViewController dismissViewControllerAnimated:YES
-                                                                    completion:^{
-                                                                        [SFSecurityLockout setPasscodeViewController:nil];
-                                                                        [SFSecurityLockout unlockSuccessPostProcessing];
-                                                                    }];
+                [SFSecurityLockout unlockSuccessPostProcessing];
             } else {
-                [passVc.presentingViewController dismissViewControllerAnimated:YES
-                                                                    completion:^{
-                                                                        [SFSecurityLockout setPasscodeViewController:nil];
-                                                                        [SFSecurityLockout unlockFailurePostProcessing];
-                                                                    }];
+                [SFSecurityLockout unlockFailurePostProcessing];
             }
         } else {  // Not sure how this would happen, but for completeness sake.
             if (success)
@@ -245,7 +242,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     if (_showPasscode) {
         [self sendPasscodeFlowWillBeginNotification:modeValue];
         [self log:SFLogLevelInfo msg:@"Setting window to key window."];
-        UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         SFPasscodeViewController *pvc = nil;
         if (modeValue == SFPasscodeControllerModeCreate ) {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:[SFSecurityLockout passcodeLength]];
@@ -254,12 +250,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
         [SFSecurityLockout setPasscodeViewController:nc];
-        UIViewController *presentingViewController;
-        if (topWindow.rootViewController.presentedViewController != nil)
-            presentingViewController = topWindow.rootViewController.presentedViewController;
-        else
-            presentingViewController = topWindow.rootViewController;
-        [presentingViewController presentViewController:nc animated:YES completion:NULL];
+        sRootViewManager = [[SFRootViewManager alloc] initWithRootViewController:nc];
+        [sRootViewManager showNewView];
     }
 }
 

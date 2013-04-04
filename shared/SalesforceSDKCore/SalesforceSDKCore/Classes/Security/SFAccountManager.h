@@ -46,6 +46,23 @@ extern NSString *const SFPasscodeResetOldPasscodeKey;
  */
 extern NSString *const SFPasscodeResetNewPasscodeKey;
 
+extern NSString *const SFDefaultAccountIdentifier;
+
+/**
+ * Data class for providing information about a login host change.
+ */
+@interface SFLoginHostUpdateResult : NSObject
+
+@property (nonatomic, readonly) NSString *originalLoginHost;
+@property (nonatomic, readonly) NSString *updatedLoginHost;
+@property (nonatomic, readonly) BOOL loginHostChanged;
+
+- (id)initWithOrigHost:(NSString *)originalLoginHost
+           updatedHost:(NSString *)updatedLoginHost
+           hostChanged:(BOOL)loginHostChanged;
+
+@end
+
 /**
  * Class used to manage a common account functions used across the app.
  */
@@ -106,9 +123,10 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 
 /**
  * Synchronizes the app-level login host setting with the value in app settings.
- * @return YES if the two values were initially different, NO otherwise.
+ * @return SFLoginHostUpdateResult object containing the original hostname, the new hostname
+ * (possibly the same), and whether or not the hostname changed.
  */
-+ (BOOL)updateLoginHost;
++ (SFLoginHostUpdateResult *)updateLoginHost;
 
 /**
  * @return The OAuth client ID of the app.

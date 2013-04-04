@@ -233,8 +233,8 @@
 		7DF4D3A91472E23A005CE144 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7DF4D3AB1472E23A005CE144 /* AppDelegate.m */,
 				7DF4D3AA1472E23A005CE144 /* AppDelegate.h */,
+				7DF4D3AB1472E23A005CE144 /* AppDelegate.m */,
 				7DF4D3C81472E3DF005CE144 /* RestAPIExplorerViewController.h */,
 				7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */,
 				7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */,
