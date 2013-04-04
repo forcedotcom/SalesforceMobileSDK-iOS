@@ -29,6 +29,7 @@
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFOAuthInfo.h"
 
 /*
  NOTE if you ever need to update these, you can obtain them from your Salesforce org,
@@ -40,7 +41,16 @@
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
+@interface AppDelegate ()
+
+- (void)logoutInitiated:(NSNotification *)notification;
+- (void)setupRootViewController;
+
+@end
+
 @implementation AppDelegate
+
+@synthesize window = _window;
 
 - (id)init
 {
@@ -65,13 +75,31 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.window makeKeyAndVisible];
+    SFOAuthFlowSuccessCallbackBlock successBlock = ^(SFOAuthInfo *info) {
+        [self setupRootViewController];
+    };
+    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *info, NSError *error) {
+        [[SFAuthenticationManager sharedManager] logout];
+    };
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
+    
     return YES;
 }
 
-- (UIViewController*)newRootViewController
+#pragma mark - Private methods
+
+- (void)setupRootViewController
 {
     RestAPIExplorerViewController *rootVC = [[RestAPIExplorerViewController alloc] initWithNibName:nil bundle:nil];
-    return rootVC;
+    self.window.rootViewController = rootVC;
+}
+
+- (void)logoutInitiated:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+    
 }
 
 #pragma mark - Unit test helpers
