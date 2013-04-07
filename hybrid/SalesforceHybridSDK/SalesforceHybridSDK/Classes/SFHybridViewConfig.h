@@ -23,11 +23,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SFBootConfig : NSObject
+@interface SFHybridViewConfig : NSObject
 
-/**
- * Returns a singleton instance of 'SFBootConfig'.
+@property (nonatomic, retain, readwrite) NSString *remoteAccessConsumerKey;
+@property (nonatomic, retain, readwrite) NSString *oauthRedirectURI;
+@property (nonatomic, retain, readwrite) NSArray *oauthScopes;
+@property (nonatomic, assign, readwrite) BOOL isLocal;
+@property (nonatomic, retain, readwrite) NSString *startPage;
+@property (nonatomic, retain, readwrite) NSString *errorPage;
+@property (nonatomic, assign, readwrite) BOOL shouldAuthenticate;
+@property (nonatomic, assign, readwrite) BOOL attemptOfflineLoad;
+
+/*
+ * Reads the hybrid view config from bootconfig.js.
  */
-+ (SFBootConfig *)sharedInstance;
++ (SFHybridViewConfig*) readViewConfigFromJSON;
 
 @end

@@ -32,14 +32,14 @@
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFLogger.h"
-#import "SFBootConfig.h"
+#import "SFHybridViewConfig.h"
 #import "SFSDKWebUtils.h"
 #import "CDVCommandDelegateImpl.h"
 
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
-    SFBootConfig *bootConfig;
+    SFHybridViewConfig *hybridViewConfig;
 }
 
 /**
@@ -70,7 +70,17 @@
 - (id)init
 {
     self = [super init];
-    bootConfig = [SFBootConfig sharedInstance];
+    [self initWithConfig:nil];
+}
+
+- (id)initWithConfig:(SFHybridViewConfig*)viewConfig
+{
+    self = [super init];
+    if (nil == viewConfig) {
+        hybridViewConfig = [SFHybridViewConfig readViewConfigFromJSON];
+    } else {
+        hybridViewConfig = viewConfig;
+    }
     if (self) {
         _foundHomeUrl = NO;
     }

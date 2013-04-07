@@ -23,38 +23,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFBootConfig.h"
+#import "SFHybridViewConfig.h"
 #import "SFJsonUtils.h"
 
-@interface SFBootConfig ()
-
-@property (nonatomic, retain) NSString *remoteAccessConsumerKey;
-@property (nonatomic, retain) NSString *oauthRedirectURI;
-@property (nonatomic, retain) NSArray *oauthScopes;
-@property (nonatomic, assign) BOOL isLocal;
-@property (nonatomic, retain) NSString *startPage;
-@property (nonatomic, retain) NSString *errorPage;
-@property (nonatomic, assign) BOOL shouldAuthenticate;
-@property (nonatomic, assign) BOOL attemptOfflineLoad;
-
-/*
- * Reads the JSON data from bootconfig.js.
- */
-- (void) readFromJSON;
+@interface SFHybridViewConfig ()
 
 /*
  * Reads the contents of bootconfig.js into an NSDictionary.
  */
-- (NSDictionary*) readBootConfigFile;
++ (NSDictionary*) readBootConfigFile;
 
 /*
  * Parses the boot config JSON and sets properties.
  */
-- (void) parseBootConfig : (NSDictionary*) jsonData;
++ (SFHybridViewConfig*) parseBootConfig : (NSDictionary*) jsonData;
 
 @end
 
-@implementation SFBootConfig
+@implementation SFHybridViewConfig
 
 @synthesize remoteAccessConsumerKey = _remoteAccessConsumerKey;
 @synthesize oauthRedirectURI = _oauthRedirectURI;
@@ -64,10 +50,6 @@
 @synthesize errorPage = _errorPage;
 @synthesize shouldAuthenticate = _shouldAuthenticate;
 @synthesize attemptOfflineLoad = _attemptOfflineLoad;
-
-// Singleton instance.
-static SFBootConfig *_instance;
-static dispatch_once_t _sharedInstanceGuard;
 
 // Keys used in bootconfig.json.
 static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
@@ -86,23 +68,16 @@ static NSString* const kBootConfigFilePath = @"/www/bootconfig.json";
 static BOOL const kDefaultShouldAuthenticate = YES;
 static BOOL const kDefaultAttemptOfflineLoad = YES;
 
-+ (SFBootConfig *)sharedInstance {
-    dispatch_once(&_sharedInstanceGuard,
-        ^{
-            _instance = [[SFBootConfig alloc] init];
-            [_instance readFromJSON];
-        });
-    return _instance;
-}
-
-- (void)readFromJSON {
-    NSDictionary *fields = [self readBootConfigFile];
++ (SFHybridViewConfig*)readViewConfigFromJSON {
+    SFHybridViewConfig *hybridViewConfig = nil;
+    NSDictionary *fields = [SFHybridViewConfig readBootConfigFile];
     if (nil != fields) {
-        [self parseBootConfig:fields];
+        hybridViewConfig = [SFHybridViewConfig parseBootConfig:fields];
     }
+    return hybridViewConfig;
 }
 
-- (NSDictionary*)readBootConfigFile {
++ (NSDictionary*)readBootConfigFile {
     NSDictionary *jsonDict = nil;
     NSString *appFolderPath = [[NSBundle mainBundle] resourcePath];
     NSMutableString *fullPath = [[NSMutableString alloc] initWithString:appFolderPath];
@@ -115,23 +90,25 @@ static BOOL const kDefaultAttemptOfflineLoad = YES;
     return jsonDict;
 }
 
-- (void)parseBootConfig:fields {
-    self.remoteAccessConsumerKey = [fields objectForKey:kRemoteAccessConsumerKey];
-    self.oauthRedirectURI = [fields objectForKey:kOauthRedirectURI];
-    self.oauthScopes = [fields objectForKey:kOauthScopes];
-    self.isLocal = (BOOL) [fields objectForKey:kIsLocal];
-    self.startPage = [fields objectForKey:kStartPage];
-    self.errorPage = [fields objectForKey:kErrorPage];
++ (SFHybridViewConfig*)parseBootConfig:fields {
+    SFHybridViewConfig *viewConfig = [[SFHybridViewConfig alloc] init];
+    viewConfig.remoteAccessConsumerKey = [fields objectForKey:kRemoteAccessConsumerKey];
+    viewConfig.oauthRedirectURI = [fields objectForKey:kOauthRedirectURI];
+    viewConfig.oauthScopes = [fields objectForKey:kOauthScopes];
+    viewConfig.isLocal = (BOOL) [fields objectForKey:kIsLocal];
+    viewConfig.startPage = [fields objectForKey:kStartPage];
+    viewConfig.errorPage = [fields objectForKey:kErrorPage];
     NSObject *shouldAuth = [fields objectForKey:kShouldAuthenticate];
-    self.shouldAuthenticate = kDefaultShouldAuthenticate;
+    viewConfig.shouldAuthenticate = kDefaultShouldAuthenticate;
     if (nil != shouldAuth) {
-        self.shouldAuthenticate = (BOOL) shouldAuth;
+        viewConfig.shouldAuthenticate = (BOOL) shouldAuth;
     }
     NSObject *offlineLoad = [fields objectForKey:kAttemptOfflineLoad];
-    self.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
+    viewConfig.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
     if (nil != offlineLoad) {
-        self.attemptOfflineLoad = (BOOL) offlineLoad;
+        viewConfig.attemptOfflineLoad = (BOOL) offlineLoad;
     }
+    return viewConfig;
 }
 
 @end

@@ -31,7 +31,6 @@
 #import "SFSecurityLockout.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
-#import "SFBootConfig.h"
 #import "SFSDKWebUtils.h"
 #import "NSURL+SFStringUtils.h"
 #import "SFInactivityTimerCenter.h"
@@ -96,7 +95,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 	 *  -jm
 	 **/
     self = [super init];
-    SFBootConfig *bootConfig = [SFBootConfig sharedInstance];
     if (nil != self) {
         _isAppStartup = YES;
         [SFAccountManager setCurrentAccountIdentifier:kDefaultHybridAccountIdentifier];
