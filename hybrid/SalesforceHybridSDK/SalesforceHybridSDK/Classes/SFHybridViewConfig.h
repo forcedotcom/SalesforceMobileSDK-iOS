@@ -25,14 +25,14 @@
 
 @interface SFHybridViewConfig : NSObject
 
-@property (nonatomic, retain, readwrite) NSString *remoteAccessConsumerKey;
-@property (nonatomic, retain, readwrite) NSString *oauthRedirectURI;
-@property (nonatomic, retain, readwrite) NSArray *oauthScopes;
-@property (nonatomic, assign, readwrite) BOOL isLocal;
-@property (nonatomic, retain, readwrite) NSString *startPage;
-@property (nonatomic, retain, readwrite) NSString *errorPage;
-@property (nonatomic, assign, readwrite) BOOL shouldAuthenticate;
-@property (nonatomic, assign, readwrite) BOOL attemptOfflineLoad;
+@property (nonatomic, strong) NSString *remoteAccessConsumerKey;
+@property (nonatomic, strong) NSString *oauthRedirectURI;
+@property (nonatomic, strong) NSArray *oauthScopes;
+@property (nonatomic, assign) BOOL isLocal;
+@property (nonatomic, strong) NSString *startPage;
+@property (nonatomic, strong) NSString *errorPage;
+@property (nonatomic, assign) BOOL shouldAuthenticate;
+@property (nonatomic, assign) BOOL attemptOfflineLoad;
 
 /*
  * Reads the hybrid view config from bootconfig.js.

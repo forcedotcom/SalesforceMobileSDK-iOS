@@ -70,7 +70,7 @@
 - (id)init
 {
     self = [super init];
-    [self initWithConfig:nil];
+    return [self initWithConfig:nil];
 }
 
 - (id)initWithConfig:(SFHybridViewConfig*)viewConfig
