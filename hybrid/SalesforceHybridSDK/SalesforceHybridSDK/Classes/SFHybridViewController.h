@@ -26,21 +26,54 @@
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
 
+@class SFContainerAppDelegate;
+
 /**
  * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
  * functionality outside of the base Cordova view controller functionality, and
  * serves more as a placeholder for future customizations.
  */
 @interface SFHybridViewController : CDVViewController
+{
+    NSString *_authCallbackId;
+    SFContainerAppDelegate *_appDelegate;
+}
 
-- (void) authenticate;
+/**
+ The Remote Access object consumer key.
+ */
+@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
 
-- (void) loadLocalStartPage;
+/**
+ The Remote Access object redirect URI
+ */
+@property (nonatomic, copy) NSString *oauthRedirectURI;
 
-- (void) loadRemoteStartPage;
+/**
+ The Remote Access object Login Domain
+ */
+@property (nonatomic, copy) NSString *oauthLoginDomain;
 
-- (void) loadErrorPage;
+/**
+ The set of oauth scopes that should be requested for this app.
+ */
+@property (nonatomic, strong) NSSet *oauthScopes;
 
-- (void) getFrontDoorURL;
+- (void)authenticate;
+
+- (void)loadLocalStartPage;
+
+- (void)loadRemoteStartPage;
+
+- (void)loadErrorPage;
+
+- (void)getFrontDoorURL;
+
+/**
+ Convert the post-authentication credentials into a Dictionary, to return to
+ the calling client code.
+ @return Dictionary representation of oauth credentials.
+ */
+- (NSDictionary *)credentialsAsDictionary;
 
 @end

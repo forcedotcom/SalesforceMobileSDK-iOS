@@ -36,6 +36,15 @@
 #import "SFSDKWebUtils.h"
 #import "CDVCommandDelegateImpl.h"
 
+static NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
+static NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
+static NSString * const kClientIdCredentialsDictKey = @"clientId";
+static NSString * const kUserIdCredentialsDictKey = @"userId";
+static NSString * const kOrgIdCredentialsDictKey = @"orgId";
+static NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
+static NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
+static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
+
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
@@ -75,6 +84,13 @@
 - (void)postVFPingPageLoad;
 
 /**
+ Converts the OAuth properties JSON input string into an object, and populates
+ the OAuth properties of the plug-in with the values.
+ @param propsDict The NSDictionary containing the OAuth properties.
+ */
+- (void)populateOAuthProperties:(NSDictionary *)propsDict;
+
+/**
  Hidden UIWebView used to load the VF ping page.
  */
 @property (nonatomic, strong) UIWebView *hiddenWebView;
@@ -82,6 +98,11 @@
 @end
 
 @implementation SFHybridViewController
+
+@synthesize remoteAccessConsumerKey = _remoteAccessConsumerKey;
+@synthesize oauthRedirectURI = _oauthRedirectURI;
+@synthesize oauthLoginDomain = _oauthLoginDomain;
+@synthesize oauthScopes = _oauthScopes;
 
 #pragma mark - Init / dealloc / etc.
 
@@ -100,10 +121,20 @@
         hybridViewConfig = viewConfig;
     }
     if (self) {
+        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         _foundHomeUrl = NO;
         _appLoadComplete = NO;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    SFRelease(_authCallbackId);
+    SFRelease(_remoteAccessConsumerKey);
+    SFRelease(_oauthRedirectURI);
+    SFRelease(_oauthLoginDomain);
+    SFRelease(_oauthScopes);
 }
 
 - (void)viewDidLoad
@@ -145,8 +176,12 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    if ([webView isEqual:self.hiddenWebView]) {
+        [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
+        return YES;
+    }
     [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
-     [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
+        [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
     if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
         [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
         
@@ -173,6 +208,11 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
+    if ([theWebView isEqual:self.hiddenWebView]) {
+        [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
+        [self postVFPingPageLoad];
+        return;
+    }
     NSURL *requestUrl = theWebView.request.URL;
     NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
@@ -203,24 +243,12 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading VF ping page."];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView*)webView
-{
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
-    [self postVFPingPageLoad];
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading web page."];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load VF ping page: %@", error);
-}
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
-    return YES;
+    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load web page: %@", error);
 }
 
 #pragma mark - URL evaluation helpers
@@ -300,6 +328,38 @@
 {
     [self.hiddenWebView setDelegate:nil];
     self.hiddenWebView = nil;
+}
+
+
+- (void)populateOAuthProperties:(NSDictionary *)propsDict
+{
+    if (nil != propsDict) {
+        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
+        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
+        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
+    }
+}
+
+- (NSDictionary*)credentialsAsDictionary
+{
+    NSDictionary *credentialsDict = nil;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    if (nil != creds) {
+        NSString *instanceUrl = creds.instanceUrl.absoluteString;
+        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+        NSString *uaString = [_appDelegate userAgentString];
+        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                           creds.accessToken, kAccessTokenCredentialsDictKey,
+                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
+                           creds.clientId, kClientIdCredentialsDictKey,
+                           creds.userId, kUserIdCredentialsDictKey,
+                           creds.organizationId, kOrgIdCredentialsDictKey,
+                           loginUrl, kLoginUrlCredentialsDictKey,
+                           instanceUrl, kInstanceUrlCredentialsDictKey,
+                           uaString, kUserAgentCredentialsDictKey,
+                           nil];
+    }
+    return credentialsDict;
 }
 
 @end

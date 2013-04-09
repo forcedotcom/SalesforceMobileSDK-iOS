@@ -32,45 +32,17 @@
 #import "NSDictionary+SFAdditions.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
-
-// ------------------------------------------
-// Private constants
-// ------------------------------------------
-
-static NSString * const kAccessTokenCredentialsDictKey  = @"accessToken";
-static NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
-static NSString * const kClientIdCredentialsDictKey     = @"clientId";
-static NSString * const kUserIdCredentialsDictKey       = @"userId";
-static NSString * const kOrgIdCredentialsDictKey        = @"orgId";
-static NSString * const kLoginUrlCredentialsDictKey     = @"loginUrl";
-static NSString * const kInstanceUrlCredentialsDictKey  = @"instanceUrl";
-static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
+#import "SFHybridViewController.h"
 
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
 @interface SalesforceOAuthPlugin()
-{
-}
 
 /**
  Method to be called when the OAuth process completes.
  */
 - (void)authenticationCompletion;
-
-/**
- Convert the post-authentication credentials into a Dictionary, to return to
- the calling client code.
- @return Dictionary representation of oauth credentials.
- */
-- (NSDictionary *)credentialsAsDictionary;
-
-/**
- Converts the OAuth properties JSON input string into an object, and populates
- the OAuth properties of the plug-in with the values.
- @param propsDict The NSDictionary containing the OAuth properties.
- */
-- (void)populateOAuthProperties:(NSDictionary *)propsDict;
 
 /**
  Broadcast a document event to js that we've updated the Salesforce session.
@@ -85,13 +57,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
-@synthesize remoteAccessConsumerKey=_remoteAccessConsumerKey;
-@synthesize oauthRedirectURI=_oauthRedirectURI;
-@synthesize oauthLoginDomain=_oauthLoginDomain;
-@synthesize oauthScopes=_oauthScopes;
-
-#pragma mark - init/dealloc
-
 /**
  This is Cordova's default initializer for plugins.
  */
@@ -99,19 +64,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         [SFAccountManager updateLoginHost];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    SFRelease(_authCallbackId);
-    SFRelease(_remoteAccessConsumerKey);
-    SFRelease(_oauthRedirectURI);
-    SFRelease(_oauthLoginDomain);
-    SFRelease(_oauthScopes);
 }
 
 #pragma mark - Cordova plugin methods
@@ -137,6 +92,8 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"authenticate:");
+    [(SFHybridViewController *)self.viewController authenticate];
+
     NSString* callbackId = command.callbackId;
     _authCallbackId = [callbackId copy];
     /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
@@ -180,6 +137,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"getAppHomeUrl:");
+    
     NSString* callbackId = command.callbackId;
     
     /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
@@ -189,30 +147,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     NSLog(@"AppHomeURL: %@",urlString);
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-}
-
-
-#pragma  mark - Plugin utilities
-
-- (NSDictionary*)credentialsAsDictionary {
-    NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    if (nil != creds) {
-        NSString *instanceUrl = creds.instanceUrl.absoluteString;
-        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-        NSString *uaString = [_appDelegate userAgentString];
-        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                           creds.accessToken, kAccessTokenCredentialsDictKey,
-                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
-                           creds.clientId, kClientIdCredentialsDictKey,
-                           creds.userId, kUserIdCredentialsDictKey,
-                           creds.organizationId, kOrgIdCredentialsDictKey,
-                           loginUrl, kLoginUrlCredentialsDictKey,
-                           instanceUrl, kInstanceUrlCredentialsDictKey,
-                           uaString, kUserAgentCredentialsDictKey,
-                           nil];
-    }
-    return credentialsDict;
 }
 
 #pragma mark - Salesforce.com login helpers
@@ -229,7 +163,7 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
     [SFAuthenticationManager resetSessionCookie];
-    NSDictionary *authDict = [self credentialsAsDictionary];
+    NSDictionary *authDict = [(SFHybridViewController *)self.viewController credentialsAsDictionary];
     if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
@@ -241,15 +175,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     }
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
-    }
-}
-
-- (void)populateOAuthProperties:(NSDictionary *)propsDict
-{
-    if (nil != propsDict) {
-        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
-        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     }
 }
 
