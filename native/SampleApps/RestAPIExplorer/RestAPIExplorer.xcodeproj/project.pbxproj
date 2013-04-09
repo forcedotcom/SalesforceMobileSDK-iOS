@@ -46,8 +46,9 @@
 		8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679916E18112002F4066 /* libSalesforceCommonUtils.a */; };
 		8201679C16E1813B002F4066 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679B16E1813B002F4066 /* libRestKit.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
-		820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 820A792A15644EFE0060067C /* SFNativeRootViewController.xib */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
+		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
+		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,8 +96,10 @@
 		8201679916E18112002F4066 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		8201679B16E1813B002F4066 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRestKit.a; path = ../../../external/ThirdPartyDependencies/RestKit/libRestKit.a; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		820A792A15644EFE0060067C /* SFNativeRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFNativeRootViewController.xib; path = NativeRestApp/SFNativeRootViewController.xib; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
+		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
+		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +238,9 @@
 			children = (
 				7DF4D3AA1472E23A005CE144 /* AppDelegate.h */,
 				7DF4D3AB1472E23A005CE144 /* AppDelegate.m */,
+				82E7F5AC17147BC400AC4E27 /* InitialViewController.h */,
+				82E7F5AD17147BC400AC4E27 /* InitialViewController.m */,
+				82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */,
 				7DF4D3C81472E3DF005CE144 /* RestAPIExplorerViewController.h */,
 				7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */,
 				7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */,
@@ -249,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */,
-				820A792A15644EFE0060067C /* SFNativeRootViewController.xib */,
 			);
 			name = NativeRestApp;
 			sourceTree = "<group>";
@@ -319,8 +324,8 @@
 				7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
-				820A792C15644EFE0060067C /* SFNativeRootViewController.xib in Resources */,
 				4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */,
+				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +340,7 @@
 				7DF4D3AC1472E23A005CE144 /* AppDelegate.m in Sources */,
 				7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */,
 				7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */,
+				82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

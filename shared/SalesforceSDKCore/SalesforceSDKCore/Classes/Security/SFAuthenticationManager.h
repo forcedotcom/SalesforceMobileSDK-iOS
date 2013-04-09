@@ -40,10 +40,25 @@ typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *);
  */
 typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
+/**
+ Identifies the notification for the login host changing in the app's settings.
+ */
 extern NSString * const kSFLoginHostChangedNotification;
+
+/**
+ The key for the original host in a login host change notification.
+ */
 extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
+
+/**
+ The key for the updated host in a login host change notification.
+ */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-extern NSString * const kSFUserLogoutOccurred;
+
+/**
+ Identifies the notification for the user being logged out of the application.
+ */
+extern NSString * const kSFUserLogoutNotification;
 
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
@@ -57,6 +72,9 @@ extern NSString * const kSFUserLogoutOccurred;
  */
 @property (nonatomic, strong) SFAuthorizingViewController *authViewController;
 
+/**
+ Whether or not the application is currently in the process of authenticating.
+ */
 @property (nonatomic, readonly) BOOL authenticating;
 
 /**
@@ -110,8 +128,27 @@ extern NSString * const kSFUserLogoutOccurred;
  */
 - (void)logout;
 
+/**
+ Cancels an in-progress authentication.  In-progress authentication state will be cleared.
+ */
+- (void)cancelAuthentication;
+
+/**
+ Notification handler for when the app enters the foreground.
+ @param notification The notification data associated with the event.
+ */
 - (void)appWillEnterForeground:(NSNotification *)notification;
+
+/**
+ Notification handler for when the app enters the background.
+ @param notification The notification data associated with the event.
+ */
 - (void)appDidEnterBackground:(NSNotification *)notification;
+
+/**
+ Notification handler for when the app will be terminated.
+ @param notification The notification data associated with the event.
+ */
 - (void)appWillTerminate:(NSNotification *)notification;
 
 /**

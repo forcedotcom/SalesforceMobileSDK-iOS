@@ -395,6 +395,7 @@ static NSString *CurrentAccountIdentifier;
     }
     
     [SFAuthenticationManager removeAllCookies];
+    [self.coordinator stopAuthentication];
     [_coordinator setDelegate:nil];
     [_idCoordinator setDelegate:nil];
     SFRelease(_idCoordinator);

@@ -250,7 +250,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
         [SFSecurityLockout setPasscodeViewController:nc];
-        sRootViewManager = [[SFRootViewManager alloc] initWithRootViewController:nc];
+        sRootViewManager = [[SFRootViewManager alloc] initWithViewController:nc];
         [sRootViewManager showNewView];
     }
 }

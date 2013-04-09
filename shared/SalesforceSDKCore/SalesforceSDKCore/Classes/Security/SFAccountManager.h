@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -46,6 +46,8 @@ extern NSString *const SFPasscodeResetOldPasscodeKey;
  */
 extern NSString *const SFPasscodeResetNewPasscodeKey;
 
+/** The default account identifier for the account manager.
+ */
 extern NSString *const SFDefaultAccountIdentifier;
 
 /**
@@ -53,10 +55,27 @@ extern NSString *const SFDefaultAccountIdentifier;
  */
 @interface SFLoginHostUpdateResult : NSObject
 
+/**
+ * The original login host, prior to the change.
+ */
 @property (nonatomic, readonly) NSString *originalLoginHost;
+
+/**
+ * The updated (new) login host, after the change.
+ */
 @property (nonatomic, readonly) NSString *updatedLoginHost;
+
+/**
+ * Whether or not the login host actually changed.
+ */
 @property (nonatomic, readonly) BOOL loginHostChanged;
 
+/**
+ * Designated intializer for the data object.
+ * @param originalLoginHost The login host prior to change.
+ * @param updatedLoginHost The new login host after the change.
+ * @param loginHostChanged Whether or not the login host actually changed.
+ */
 - (id)initWithOrigHost:(NSString *)originalLoginHost
            updatedHost:(NSString *)updatedLoginHost
            hostChanged:(BOOL)loginHostChanged;
@@ -64,7 +83,7 @@ extern NSString *const SFDefaultAccountIdentifier;
 @end
 
 /**
- * Class used to manage a common account functions used across the app.
+ * Class used to manage common account functions used across the app.
  */
 @interface SFAccountManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 

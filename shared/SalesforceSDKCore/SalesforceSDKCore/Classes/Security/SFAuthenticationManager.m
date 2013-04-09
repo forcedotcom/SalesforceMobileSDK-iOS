@@ -48,7 +48,7 @@ static SFAuthenticationManager *sharedInstance = nil;
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
-NSString * const kSFUserLogoutOccurred = @"kSFUserLogoutOccurred";
+NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 
 // Private constants
 
@@ -64,10 +64,25 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 #pragma mark - SFAuthBlockPair
 
+/**
+ Data class containing a pair of completion blocks for authentication: one for success,
+ and one for failure.
+ */
 @interface SFAuthBlockPair : NSObject
 
+/**
+ The success block of the pair.
+ */
 @property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock successBlock;
+
+/**
+ The failure block of the pair.
+ */
 @property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock failureBlock;
+
+/**
+ Designated initializer for the data object.
+ */
 - (id)initWithSuccessBlock:(SFOAuthFlowSuccessCallbackBlock)successBlock
               failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
@@ -132,8 +147,20 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 @property (nonatomic, strong) NSError *authError;
 
+/**
+ The list of blocks that will be associated with a given authentication attempt.  This allows
+ more than one authentication workflow to piggy back on an in-progress authentication.
+ */
 @property (atomic, strong) NSMutableArray *authBlockList;
+
+/**
+ The root view manager to handle the auth window.
+ */
 @property (nonatomic, strong) SFRootViewManager *authRootViewManager;
+
+/**
+ The root view manager to handle the snapshot view.
+ */
 @property (nonatomic, strong) SFRootViewManager *snapshotRootViewManager;
 
 /**
@@ -163,6 +190,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 - (void)retrievedIdentityData;
 
+/**
+ Manages the passcode checking after authentication.
+ */
 - (void)postAuthPasscodeProcessing;
 
 /**
@@ -205,10 +235,32 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 - (void)showAlertForConnectedAppVersionMismatchError;
 
+/**
+ Handles the data cleanup and login host swap when the host has changed in the app's settings.
+ @param result The data associated with the host change.
+ */
 - (void)processLoginHostChange:(SFLoginHostUpdateResult *)result;
+
+/**
+ Sets up the security snapshot view of the screen when the app is backgrounding.
+ */
 - (void)setupSnapshotView;
+
+/**
+ Removes the security snapshot view of the screen when the app is foregrounding.
+ */
 - (void)removeSnapshotView;
+
+/**
+ Creates the default snapshot view (a white opaque view that covers the screen) if the snapshotView
+ property has not previously been configured.
+ @return The UIView representing the default snapshot view.
+ */
 - (UIView *)createDefaultSnapshotView;
+
+/**
+ Persists the last user activity, for passcode purposes, when the app is backgrounding or terminating.
+ */
 - (void)savePasscodeActivityInfo;
 
 @end
@@ -324,13 +376,27 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)logout
 {
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
+    
+    [self cancelAuthentication];
     [[SFAccountManager sharedInstance] clearAccountState:YES];
-    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutOccurred object:self];
+    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
+}
+
+- (void)cancelAuthentication
+{
+    @synchronized (self.authBlockList) {
+        [self log:SFLogLevelInfo format:@"Cancel authentication called.  App %@ currently authenticating.", (self.authenticating ? @"is" : @"is not")];
+        [[SFAccountManager sharedInstance].coordinator stopAuthentication];
+        [self.authBlockList removeAllObjects];
+        self.authInfo = nil;
+        self.authError = nil;
+    }
 }
 
 - (void)processLoginHostChange:(SFLoginHostUpdateResult *)result
 {
+    [self cancelAuthentication];
     [[SFAccountManager sharedInstance] clearAccountState:NO];
     NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:result.originalLoginHost, kSFLoginHostChangedNotificationOriginalHostKey, result.updatedLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey, nil];
     NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
@@ -365,9 +431,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
         [self processLoginHostChange:result];
         
-    } else {
-        // Refresh session or login for the first time.
-        [self login];
     }
 }
 
@@ -492,7 +555,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         }
         UIViewController *snapshotVc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
         [snapshotVc.view addSubview:self.snapshotView];
-        self.snapshotRootViewManager = [[SFRootViewManager alloc] initWithRootViewController:snapshotVc];
+        self.snapshotRootViewManager = [[SFRootViewManager alloc] initWithViewController:snapshotVc];
         [self.snapshotRootViewManager showNewView];
     }
 }
@@ -632,7 +695,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     
     SFAuthorizingViewController *authViewController = [[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil];
     [authViewController setOauthView:webView];
-    self.authRootViewManager = [[SFRootViewManager alloc] initWithRootViewController:authViewController];
+    self.authRootViewManager = [[SFRootViewManager alloc] initWithViewController:authViewController];
     [self.authRootViewManager showNewView];
 }
 
