@@ -72,12 +72,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 - (void)authenticationCompletion:(NSURL *)originalUrl;
 
 /**
- Loads the VF ping page in an invisible UIWebView and sets session cookies
- for the VF domain.
- */
-- (void)loadVFPingPage;
-
-/**
  This method is called when the hidden UIWebView has finished loading
  the ping page.
  */
@@ -121,7 +115,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
         hybridViewConfig = viewConfig;
     }
     if (self) {
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         _foundHomeUrl = NO;
         _appLoadComplete = NO;
     }
@@ -130,7 +123,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 - (void)dealloc
 {
-    SFRelease(_authCallbackId);
     SFRelease(_remoteAccessConsumerKey);
     SFRelease(_oauthRedirectURI);
     SFRelease(_oauthLoginDomain);
@@ -143,9 +135,21 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     
 }
 
-- (void)authenticate
+- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    
+    // If we are refreshing, there will be no options/properties: just reuse the known options.
+    if (nil != oauthPropertiesDict) {
+        // Build the OAuth args from the JSON object string argument.
+        [self populateOAuthProperties:oauthPropertiesDict];
+        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
+        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
+        [SFAccountManager setScopes:self.oauthScopes];
+    }
+
+    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+    [SFSDKWebUtils configureUserAgent];
+    [[SFAuthenticationManager sharedManager] login:self completion:completionBlock failure:failureBlock];
 }
 
 - (void)loadLocalStartPage
@@ -184,25 +188,21 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
         [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
     if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
         [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
-        
         // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
         // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
         [SFSDKWebUtils configureUserAgent];
-        
         [[SFAuthenticationManager sharedManager] login:self
-                                            completion:^(SFOAuthInfo *authInfo) {
-                                                // Reset the user agent back to Cordova.
-                                                [SFSDKWebUtils configureUserAgent:self.userAgent];
-                                                
-                                                [self authenticationCompletion:request.URL];
-                                            }
-                                               failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                                                   [[SFAuthenticationManager sharedManager] logout];
-                                               }
+            completion:^(SFOAuthInfo *authInfo) {
+                // Reset the user agent back to Cordova.
+                [SFSDKWebUtils configureUserAgent:self.userAgent];
+                [self authenticationCompletion:request.URL];
+            }
+            failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                [[SFAuthenticationManager sharedManager] logout];
+            }
          ];
         return NO;
     }
-    
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
@@ -263,10 +263,9 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
                                @"/secur/contentDoor",
                                nil];
     }
-    
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
-        return NO;
-    
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
+        return NO;    
+    }
     NSString *inputUrlString = [url absoluteString];
     for (int i = 0; i < [reservedUrlStrings count]; i++) {
         NSString *reservedString = [reservedUrlStrings objectAtIndex:i];
@@ -274,7 +273,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
         if (range.location != NSNotFound)
             return YES;
     }
-    
     return NO;
 }
 
@@ -360,6 +358,17 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
                            nil];
     }
     return credentialsDict;
+}
+
+- (NSDictionary *)getAuthCredentials
+{
+    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
+    NSDictionary *authDict = [self credentialsAsDictionary];
+    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
+        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
+        [self authenticate:authDict:nil:nil:nil];
+    }
+    return [self credentialsAsDictionary];
 }
 
 @end

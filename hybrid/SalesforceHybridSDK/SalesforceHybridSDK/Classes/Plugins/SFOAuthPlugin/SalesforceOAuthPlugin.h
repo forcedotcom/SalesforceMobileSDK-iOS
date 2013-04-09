@@ -27,12 +27,17 @@
 #import "SFOAuthCoordinator.h"
 #import "CDVPlugin.h"
 
+@class SFContainerAppDelegate;
 @class CDVInvokedUrlCommand;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
 @interface SalesforceOAuthPlugin : CDVPlugin
+{
+    SFContainerAppDelegate *_appDelegate;
+    NSString *_authCallbackId;
+}
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

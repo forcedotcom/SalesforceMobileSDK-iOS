@@ -25,8 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
-
-@class SFContainerAppDelegate;
+#import "SalesforceOAuthPlugin.h"
+#import "SFAuthenticationManager.h"
 
 /**
  * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
@@ -35,7 +35,6 @@
  */
 @interface SFHybridViewController : CDVViewController
 {
-    NSString *_authCallbackId;
     SFContainerAppDelegate *_appDelegate;
 }
 
@@ -59,15 +58,36 @@
  */
 @property (nonatomic, strong) NSSet *oauthScopes;
 
-- (void)authenticate;
+/**
+ Used to authenticate.
+ */
+- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
+/**
+ Loads a local start page.
+ */
 - (void)loadLocalStartPage;
 
+/**
+ Loads a remote start page.
+ */
 - (void)loadRemoteStartPage;
 
+/**
+ Loads an error page.
+ */
 - (void)loadErrorPage;
 
+/**
+ Gets the front door URL.
+ */
 - (void)getFrontDoorURL;
+
+/**
+ Loads the VF ping page in an invisible UIWebView and sets session cookies
+ for the VF domain.
+ */
+- (void)loadVFPingPage;
 
 /**
  Convert the post-authentication credentials into a Dictionary, to return to
@@ -75,5 +95,10 @@
  @return Dictionary representation of oauth credentials.
  */
 - (NSDictionary *)credentialsAsDictionary;
+
+/**
+ * Method to obtain the current login credentials, authenticating if needed.
+ */
+- (NSDictionary *)getAuthCredentials;
 
 @end

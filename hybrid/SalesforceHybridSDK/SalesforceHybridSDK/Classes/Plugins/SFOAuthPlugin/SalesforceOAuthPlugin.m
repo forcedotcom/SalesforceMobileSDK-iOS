@@ -40,15 +40,15 @@
 @interface SalesforceOAuthPlugin()
 
 /**
- Method to be called when the OAuth process completes.
- */
-- (void)authenticationCompletion;
-
-/**
  Broadcast a document event to js that we've updated the Salesforce session.
  @param creds  OAuth credentials as a dictionary
  */
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
+
+/**
+ Method to be called when the OAuth process completes.
+ */
+- (void)authenticationCompletion;
 
 @end
 
@@ -65,8 +65,14 @@
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
         [SFAccountManager updateLoginHost];
+        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    SFRelease(_authCallbackId);
 }
 
 #pragma mark - Cordova plugin methods
@@ -76,55 +82,33 @@
     NSLog(@"getAuthCredentials: arguments: %@", command.arguments);
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:command.arguments];
-    
-    // If authDict does not contain an access token, authenticate first.  Otherwise, send current credentials.
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
-        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
-        [self authenticate:command];
-    } else {
-        // Send the credentials we've cached.
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-    }
+    NSDictionary *authDict = [(SFHybridViewController *)self.viewController getAuthCredentials];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"authenticate:");
-    [(SFHybridViewController *)self.viewController authenticate];
-
     NSString* callbackId = command.callbackId;
-    _authCallbackId = [callbackId copy];
-    /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSDictionary *oauthPropertiesDict = [argsDict nonNullObjectForKey:@"oauthProperties"];
-    
-    // If we are refreshing, there will be no options/properties: just reuse the known options.
-    if (nil != oauthPropertiesDict) {
-        // Build the OAuth args from the JSON object string argument.
-        [self populateOAuthProperties:oauthPropertiesDict];
-        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
-        [SFAccountManager setScopes:self.oauthScopes];
+    if (nil != callbackId) {
+        _authCallbackId = [callbackId copy];
     }
-    
-    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-    [SFSDKWebUtils configureUserAgent];
     SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
         // Reset the user agent back to Cordova.
-        CDVViewController *cdvVc = (CDVViewController *)self.viewController;
-        [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
+        [SFSDKWebUtils configureUserAgent:((SFHybridViewController *)self.viewController).userAgent];
         if (authInfo.authType == SFOAuthTypeRefresh) {
-            [self loadVFPingPage];    
+            [(SFHybridViewController *)self.viewController loadVFPingPage];
         }
         [self authenticationCompletion];
     };
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         [[SFAuthenticationManager sharedManager] logout];
     };
-    [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];
+    /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSDictionary *oauthPropertiesDict = [argsDict nonNullObjectForKey:@"oauthProperties"];
+    [(SFHybridViewController *)self.viewController authenticate:argsDict:oauthPropertiesDict:completionBlock:failureBlock];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
@@ -137,11 +121,8 @@
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"getAppHomeUrl:");
-    
     NSString* callbackId = command.callbackId;
-    
     /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
-    
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     NSLog(@"AppHomeURL: %@",urlString);
@@ -158,12 +139,11 @@
 
 - (void)authenticationCompletion
 {
-    NSLog(@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration.");
-    
+    NSLog(@"postAuthConfig: Authentication flow succeeded. Initiating post-auth configuration.");
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
     [SFAuthenticationManager resetSessionCookie];
-    NSDictionary *authDict = [(SFHybridViewController *)self.viewController credentialsAsDictionary];
+    NSDictionary *authDict = [(SFHybridViewController *)self credentialsAsDictionary];
     if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
