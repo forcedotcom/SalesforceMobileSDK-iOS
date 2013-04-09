@@ -40,6 +40,7 @@
 {
     BOOL _foundHomeUrl;
     SFHybridViewConfig *hybridViewConfig;
+    BOOL _appLoadComplete;
 }
 
 /**
@@ -60,6 +61,23 @@
  * @param originalUrl The original URL being called before the session timed out.
  */
 - (void)authenticationCompletion:(NSURL *)originalUrl;
+
+/**
+ Loads the VF ping page in an invisible UIWebView and sets session cookies
+ for the VF domain.
+ */
+- (void)loadVFPingPage;
+
+/**
+ This method is called when the hidden UIWebView has finished loading
+ the ping page.
+ */
+- (void)postVFPingPageLoad;
+
+/**
+ Hidden UIWebView used to load the VF ping page.
+ */
+@property (nonatomic, strong) UIWebView *hiddenWebView;
 
 @end
 
@@ -83,8 +101,44 @@
     }
     if (self) {
         _foundHomeUrl = NO;
+        _appLoadComplete = NO;
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+}
+
+- (void)authenticate
+{
+    
+}
+
+- (void)loadLocalStartPage
+{
+    assert([hybridViewConfig isLocal]);
+    NSString *localStartPage = [hybridViewConfig startPage];
+    _appLoadComplete = YES;
+}
+
+- (void)loadRemoteStartPage
+{
+    assert(![hybridViewConfig isLocal]);
+    NSString *remoteStartPage = [hybridViewConfig startPage];
+    _appLoadComplete = YES;
+}
+
+- (void)loadErrorPage
+{
+    NSString *errorPage = [hybridViewConfig errorPage];
+}
+
+- (void)getFrontDoorURL
+{
+    
 }
 
 #pragma mark - UIWebViewDelegate
@@ -147,6 +201,28 @@
     [super webViewDidFinishLoad:theWebView];
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading VF ping page."];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView*)webView
+{
+    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
+    [self postVFPingPageLoad];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load VF ping page: %@", error);
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
+    return YES;
+}
+
 #pragma mark - URL evaluation helpers
 
 - (BOOL)isReservedUrlValue:(NSURL *)url
@@ -203,6 +279,27 @@
     // Overriding Cordova's method because we don't want the chance of our user agent not being
     // configured first, and thus overwritten with a bad value.
     return [SFSDKWebUtils appDelegateUserAgentString];
+}
+
+- (void)loadVFPingPage
+{
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
+    if (nil != instanceUrlString) {
+        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
+        [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
+        self.hiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        [self.hiddenWebView setDelegate:self];
+        NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
+        NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
+        [self.hiddenWebView loadRequest:pingRequest];
+    }
+}
+
+- (void)postVFPingPageLoad
+{
+    [self.hiddenWebView setDelegate:nil];
+    self.hiddenWebView = nil;
 }
 
 @end

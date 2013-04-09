@@ -33,7 +33,7 @@
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : CDVPlugin<UIWebViewDelegate>
+@interface SalesforceOAuthPlugin : CDVPlugin
 {
     SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;

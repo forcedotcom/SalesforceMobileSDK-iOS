@@ -33,4 +33,14 @@
  */
 @interface SFHybridViewController : CDVViewController
 
+- (void) authenticate;
+
+- (void) loadLocalStartPage;
+
+- (void) loadRemoteStartPage;
+
+- (void) loadErrorPage;
+
+- (void) getFrontDoorURL;
+
 @end
