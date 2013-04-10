@@ -20,8 +20,6 @@
 		82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */; };
 		82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */; };
 		82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79216E080780006B3C0 /* SFRestAPI.h */; };
-		82BC32BB16EEAEFC00FC68D3 /* SFNativeRestAppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78716E080780006B3C0 /* SFNativeRestAppDelegate.h */; };
-		82BC32BC16EEAEFC00FC68D3 /* SFNativeRootViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78916E080780006B3C0 /* SFNativeRootViewController.h */; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74016E076DE0006B3C0 /* SenTestingKit.framework */; };
 		82C0C74316E076DE0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
@@ -39,8 +37,6 @@
 		82C0C77616E07DEB0006B3C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C77516E07DEB0006B3C0 /* ViewController.m */; };
 		82C0C77916E07DEB0006B3C0 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77716E07DEB0006B3C0 /* ViewController_iPhone.xib */; };
 		82C0C77C16E07DEB0006B3C0 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77A16E07DEB0006B3C0 /* ViewController_iPad.xib */; };
-		82C0C79816E080780006B3C0 /* SFNativeRestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78816E080780006B3C0 /* SFNativeRestAppDelegate.m */; };
-		82C0C79916E080780006B3C0 /* SFNativeRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78A16E080780006B3C0 /* SFNativeRootViewController.m */; };
 		82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */; };
 		82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */; };
 		82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */; };
@@ -84,8 +80,6 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
-				82BC32BB16EEAEFC00FC68D3 /* SFNativeRestAppDelegate.h in CopyFiles */,
-				82BC32BC16EEAEFC00FC68D3 /* SFNativeRootViewController.h in CopyFiles */,
 				82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */,
 				82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */,
 				82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */,
@@ -130,10 +124,6 @@
 		82C0C77516E07DEB0006B3C0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		82C0C77816E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		82C0C77B16E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		82C0C78716E080780006B3C0 /* SFNativeRestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestAppDelegate.h; sourceTree = "<group>"; };
-		82C0C78816E080780006B3C0 /* SFNativeRestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRestAppDelegate.m; sourceTree = "<group>"; };
-		82C0C78916E080780006B3C0 /* SFNativeRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRootViewController.h; sourceTree = "<group>"; };
-		82C0C78A16E080780006B3C0 /* SFNativeRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRootViewController.m; sourceTree = "<group>"; };
 		82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestDelegateWrapper.h; sourceTree = "<group>"; };
 		82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKRequestDelegateWrapper.m; sourceTree = "<group>"; };
 		82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -336,7 +326,6 @@
 		82C0C78516E080780006B3C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				82C0C78616E080780006B3C0 /* NativeApp */,
 				82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */,
 				82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */,
 				82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */,
@@ -352,17 +341,6 @@
 				82C0C79716E080780006B3C0 /* SFSessionRefresher.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		82C0C78616E080780006B3C0 /* NativeApp */ = {
-			isa = PBXGroup;
-			children = (
-				82C0C78716E080780006B3C0 /* SFNativeRestAppDelegate.h */,
-				82C0C78816E080780006B3C0 /* SFNativeRestAppDelegate.m */,
-				82C0C78916E080780006B3C0 /* SFNativeRootViewController.h */,
-				82C0C78A16E080780006B3C0 /* SFNativeRootViewController.m */,
-			);
-			path = NativeApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,8 +474,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82C0C79816E080780006B3C0 /* SFNativeRestAppDelegate.m in Sources */,
-				82C0C79916E080780006B3C0 /* SFNativeRootViewController.m in Sources */,
 				82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */,
 				82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */,
 				82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */,
@@ -681,7 +657,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -710,7 +686,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -729,6 +705,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -751,6 +728,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";

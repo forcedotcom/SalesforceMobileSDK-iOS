@@ -80,6 +80,7 @@
 		82AF846416DFD95F008912EF /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF844816DFD95F008912EF /* SFSDKCryptoUtils.m */; };
 		82AF846516DFD95F008912EF /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF844A16DFD95F008912EF /* SFSDKResourceUtils.m */; };
 		82AF846616DFD95F008912EF /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF844C16DFD95F008912EF /* SFSDKWebUtils.m */; };
+		82B6BC44170276DD0089D182 /* SFRootViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6BC43170276DD0089D182 /* SFRootViewManager.m */; };
 		82BC32C316EEB83E00FC68D3 /* SFApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82AF840F16DFD95F008912EF /* SFApplication.h */; };
 		82BC32C416EEB84900FC68D3 /* SFIdentityCoordinator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82AF841516DFD95F008912EF /* SFIdentityCoordinator.h */; };
 		82BC32C516EEB84900FC68D3 /* SFIdentityData.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82AF841716DFD95F008912EF /* SFIdentityData.h */; };
@@ -268,6 +269,8 @@
 		82AF844A16DFD95F008912EF /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		82AF844B16DFD95F008912EF /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
 		82AF844C16DFD95F008912EF /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
+		82B6BC42170276DD0089D182 /* SFRootViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRootViewManager.h; sourceTree = "<group>"; };
+		82B6BC43170276DD0089D182 /* SFRootViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRootViewManager.m; sourceTree = "<group>"; };
 		82C0C7BC16E08A8F0006B3C0 /* SFSDKTestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKTestRequestListener.h; sourceTree = "<group>"; };
 		82C0C7BD16E08A8F0006B3C0 /* SFSDKTestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKTestRequestListener.m; sourceTree = "<group>"; };
 		82C0C7BE16E08A8F0006B3C0 /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
@@ -575,6 +578,8 @@
 				82AF844A16DFD95F008912EF /* SFSDKResourceUtils.m */,
 				82AF844B16DFD95F008912EF /* SFSDKWebUtils.h */,
 				82AF844C16DFD95F008912EF /* SFSDKWebUtils.m */,
+				82B6BC42170276DD0089D182 /* SFRootViewManager.h */,
+				82B6BC43170276DD0089D182 /* SFRootViewManager.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -753,6 +758,7 @@
 				8221562B16E0130C002E1F56 /* FMResultSet.m in Sources */,
 				82C0C7C016E08A8F0006B3C0 /* SFSDKTestRequestListener.m in Sources */,
 				82C0C7C116E08A8F0006B3C0 /* TestSetupUtils.m in Sources */,
+				82B6BC44170276DD0089D182 /* SFRootViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
