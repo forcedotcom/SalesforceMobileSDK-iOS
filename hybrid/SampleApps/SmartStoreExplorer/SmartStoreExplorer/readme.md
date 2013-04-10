@@ -20,14 +20,14 @@ You need to remove and re-add the www folder to your project.  See the instructi
 
 This app was generated from the Salesforce Mobile SDK Hybrid Force.com app template. This template provides some things that you may find useful for Force.com Hybrid apps:
 
-- A bootconfig.js file that allows you to configure the app login/logout behavior (see below).
+- A bootconfig.json file that allows you to configure the app login/logout behavior (see below).
 - A Settings screen that allows the user to pick an instance (ie Production or Sandbox) or force a logout the next time the app reopens.
 - A bootstrap.html page that detects instance changes, logs the user out if requested in Settings, and walks through the initial login process.  
 - An example index.html page that shows how you might use the forcetk.js REST library to access the Force.com REST API from javascript.
 
 # Customization
 
-The bootconfig.js file contains all the available variables for customizing the behavior of the template app.
+The bootconfig.json file contains all the available variables for customizing the behavior of the template app.
 
 Generally we expect that developers will use this template as a starting point to build two different kinds of apps: 
 
