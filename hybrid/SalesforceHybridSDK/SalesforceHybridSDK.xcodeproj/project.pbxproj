@@ -90,6 +90,7 @@
 		82EFF39B16E815D700A63CDF /* bootstrap.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF39916E815CD00A63CDF /* bootstrap.html */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
+		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -275,6 +276,8 @@
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
 		82EFF3A016E817BC00A63CDF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
+		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +417,8 @@
 				82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
+				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
+				CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -761,6 +766,7 @@
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
 				82EFF2F716E7C84900A63CDF /* SFContainerAppDelegate.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
+				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

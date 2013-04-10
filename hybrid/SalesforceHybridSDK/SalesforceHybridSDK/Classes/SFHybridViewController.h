@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
+#import "SalesforceOAuthPlugin.h"
+#import "SFAuthenticationManager.h"
 
 /**
  * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
@@ -32,5 +34,71 @@
  * serves more as a placeholder for future customizations.
  */
 @interface SFHybridViewController : CDVViewController
+{
+    SFContainerAppDelegate *_appDelegate;
+}
+
+/**
+ The Remote Access object consumer key.
+ */
+@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
+
+/**
+ The Remote Access object redirect URI
+ */
+@property (nonatomic, copy) NSString *oauthRedirectURI;
+
+/**
+ The Remote Access object Login Domain
+ */
+@property (nonatomic, copy) NSString *oauthLoginDomain;
+
+/**
+ The set of oauth scopes that should be requested for this app.
+ */
+@property (nonatomic, strong) NSSet *oauthScopes;
+
+/**
+ Used to authenticate.
+ */
+- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
+/**
+ Loads a local start page.
+ */
+- (void)loadLocalStartPage;
+
+/**
+ Loads a remote start page.
+ */
+- (void)loadRemoteStartPage;
+
+/**
+ Loads an error page.
+ */
+- (void)loadErrorPage;
+
+/**
+ Gets the front door URL.
+ */
+- (NSString *)getFrontDoorURL:(NSString *)remoteStartPage;
+
+/**
+ Loads the VF ping page in an invisible UIWebView and sets session cookies
+ for the VF domain.
+ */
+- (void)loadVFPingPage;
+
+/**
+ Convert the post-authentication credentials into a Dictionary, to return to
+ the calling client code.
+ @return Dictionary representation of oauth credentials.
+ */
+- (NSDictionary *)credentialsAsDictionary;
+
+/**
+ * Method to obtain the current login credentials, authenticating if needed.
+ */
+- (NSDictionary *)getAuthCredentials;
 
 @end
