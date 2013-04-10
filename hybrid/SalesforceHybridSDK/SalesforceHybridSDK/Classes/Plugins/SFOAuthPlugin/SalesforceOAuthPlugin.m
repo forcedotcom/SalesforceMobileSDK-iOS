@@ -32,45 +32,12 @@
 #import "NSDictionary+SFAdditions.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
-
-// ------------------------------------------
-// Private constants
-// ------------------------------------------
-
-static NSString * const kAccessTokenCredentialsDictKey  = @"accessToken";
-static NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
-static NSString * const kClientIdCredentialsDictKey     = @"clientId";
-static NSString * const kUserIdCredentialsDictKey       = @"userId";
-static NSString * const kOrgIdCredentialsDictKey        = @"orgId";
-static NSString * const kLoginUrlCredentialsDictKey     = @"loginUrl";
-static NSString * const kInstanceUrlCredentialsDictKey  = @"instanceUrl";
-static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
+#import "SFHybridViewController.h"
 
 // ------------------------------------------
 // Private methods interface
 // ------------------------------------------
 @interface SalesforceOAuthPlugin()
-{
-}
-
-/**
- Method to be called when the OAuth process completes.
- */
-- (void)authenticationCompletion;
-
-/**
- Convert the post-authentication credentials into a Dictionary, to return to
- the calling client code.
- @return Dictionary representation of oauth credentials.
- */
-- (NSDictionary *)credentialsAsDictionary;
-
-/**
- Converts the OAuth properties JSON input string into an object, and populates
- the OAuth properties of the plug-in with the values.
- @param propsDict The NSDictionary containing the OAuth properties.
- */
-- (void)populateOAuthProperties:(NSDictionary *)propsDict;
 
 /**
  Broadcast a document event to js that we've updated the Salesforce session.
@@ -79,21 +46,9 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds;
 
 /**
- Loads the VF ping page in an invisible UIWebView and sets session cookies
- for the VF domain.
+ Method to be called when the OAuth process completes.
  */
-- (void)loadVFPingPage;
-
-/**
- This method is called when the hidden UIWebView has finished loading
- the ping page.
- */
-- (void)postVFPingPageLoad;
-
-/**
- Hidden UIWebView used to load the VF ping page.
- */
-@property (nonatomic, strong) UIWebView *hiddenWebView;
+- (void)authenticationCompletion;
 
 @end
 
@@ -102,13 +57,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
-@synthesize remoteAccessConsumerKey=_remoteAccessConsumerKey;
-@synthesize oauthRedirectURI=_oauthRedirectURI;
-@synthesize oauthLoginDomain=_oauthLoginDomain;
-@synthesize oauthScopes=_oauthScopes;
-
-#pragma mark - init/dealloc
-
 /**
  This is Cordova's default initializer for plugins.
  */
@@ -116,8 +64,8 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         [SFAccountManager updateLoginHost];
+        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
     }
     return self;
 }
@@ -125,10 +73,6 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 - (void)dealloc
 {
     SFRelease(_authCallbackId);
-    SFRelease(_remoteAccessConsumerKey);
-    SFRelease(_oauthRedirectURI);
-    SFRelease(_oauthLoginDomain);
-    SFRelease(_oauthScopes);
 }
 
 #pragma mark - Cordova plugin methods
@@ -138,53 +82,33 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     NSLog(@"getAuthCredentials: arguments: %@", command.arguments);
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getAuthCredentials" withArguments:command.arguments];
-    
-    // If authDict does not contain an access token, authenticate first.  Otherwise, send current credentials.
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
-        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
-        [self authenticate:command];
-    } else {
-        // Send the credentials we've cached.
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-    }
+    NSDictionary *authDict = [(SFHybridViewController *)self.viewController getAuthCredentials];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"authenticate:");
     NSString* callbackId = command.callbackId;
-    _authCallbackId = [callbackId copy];
-    /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSDictionary *oauthPropertiesDict = [argsDict nonNullObjectForKey:@"oauthProperties"];
-    
-    // If we are refreshing, there will be no options/properties: just reuse the known options.
-    if (nil != oauthPropertiesDict) {
-        // Build the OAuth args from the JSON object string argument.
-        [self populateOAuthProperties:oauthPropertiesDict];
-        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
-        [SFAccountManager setScopes:self.oauthScopes];
+    if (nil != callbackId) {
+        _authCallbackId = [callbackId copy];
     }
-    
-    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-    [SFSDKWebUtils configureUserAgent];
     SFOAuthFlowSuccessCallbackBlock completionBlock = ^(SFOAuthInfo *authInfo) {
         // Reset the user agent back to Cordova.
-        CDVViewController *cdvVc = (CDVViewController *)self.viewController;
-        [SFSDKWebUtils configureUserAgent:cdvVc.userAgent];
+        [SFSDKWebUtils configureUserAgent:((SFHybridViewController *)self.viewController).userAgent];
         if (authInfo.authType == SFOAuthTypeRefresh) {
-            [self loadVFPingPage];    
+            [(SFHybridViewController *)self.viewController loadVFPingPage];
         }
         [self authenticationCompletion];
     };
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         [[SFAuthenticationManager sharedManager] logout];
     };
-    [[SFAuthenticationManager sharedManager] login:self.viewController completion:completionBlock failure:failureBlock];
+    /*NSString* jsVersionStr = */[self getVersion:@"authenticate" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSDictionary *oauthPropertiesDict = [argsDict nonNullObjectForKey:@"oauthProperties"];
+    [(SFHybridViewController *)self.viewController authenticate:argsDict:oauthPropertiesDict:completionBlock:failureBlock];
 }
 
 - (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command
@@ -198,38 +122,12 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 {
     NSLog(@"getAppHomeUrl:");
     NSString* callbackId = command.callbackId;
-    
     /* NSString* jsVersionStr = */[self getVersion:@"getAppHomeUrl" withArguments:command.arguments];
-    
     NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     NSLog(@"AppHomeURL: %@",urlString);
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
-}
-
-
-#pragma  mark - Plugin utilities
-
-- (NSDictionary*)credentialsAsDictionary {
-    NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    if (nil != creds) {
-        NSString *instanceUrl = creds.instanceUrl.absoluteString;
-        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-        NSString *uaString = [_appDelegate userAgentString];
-        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                           creds.accessToken, kAccessTokenCredentialsDictKey,
-                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
-                           creds.clientId, kClientIdCredentialsDictKey,
-                           creds.userId, kUserIdCredentialsDictKey,
-                           creds.organizationId, kOrgIdCredentialsDictKey,
-                           loginUrl, kLoginUrlCredentialsDictKey,
-                           instanceUrl, kInstanceUrlCredentialsDictKey,
-                           uaString, kUserAgentCredentialsDictKey,
-                           nil];
-    }
-    return credentialsDict;
 }
 
 #pragma mark - Salesforce.com login helpers
@@ -241,12 +139,11 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
 
 - (void)authenticationCompletion
 {
-    NSLog(@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration.");
-    
+    NSLog(@"postAuthConfig: Authentication flow succeeded. Initiating post-auth configuration.");
     // First, remove any session cookies associated with the app, and reset the primary sid.
     // All other cookies should be reset with any new authentication (user agent, refresh, etc.).
     [SFAuthenticationManager resetSessionCookie];
-    NSDictionary *authDict = [self credentialsAsDictionary];
+    NSDictionary *authDict = [(SFHybridViewController *)self credentialsAsDictionary];
     if (nil != _authCallbackId) {
         // Call back to the client with the authentication credentials.
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
@@ -261,64 +158,12 @@ static NSString * const kUserAgentCredentialsDictKey    = @"userAgentString";
     }
 }
 
-- (void)populateOAuthProperties:(NSDictionary *)propsDict
-{
-    if (nil != propsDict) {
-        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
-        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
-    }
-}
-
 - (void)fireSessionRefreshEvent:(NSDictionary*)creds
 {
     NSString *credsStr = [SFJsonUtils JSONRepresentation:creds];
     NSString *eventStr = [[NSString alloc] initWithFormat:@"cordova.fireDocumentEvent('salesforceSessionRefresh',{data:%@});",
                           credsStr];
     [super writeJavascript:eventStr];
-}
-
-- (void)loadVFPingPage
-{
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
-    if (nil != instanceUrlString) {
-        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
-        [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
-        self.hiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        [self.hiddenWebView setDelegate:self];
-        NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
-        NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
-        [self.hiddenWebView loadRequest:pingRequest];
-    }
-}
-
-- (void)postVFPingPageLoad
-{
-    [self.hiddenWebView setDelegate:nil];
-    self.hiddenWebView = nil;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading VF ping page."];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView*)webView
-{
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
-    [self postVFPingPageLoad];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load VF ping page: %@", error);
-}
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
-    return YES;
 }
 
 @end
