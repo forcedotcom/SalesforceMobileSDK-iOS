@@ -87,8 +87,36 @@ NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey"
 // Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
 NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
 
+NSString *const SFDefaultAccountIdentifier = @"Default";
+
 static NSMutableDictionary *AccountManagerDict;
 static NSString *CurrentAccountIdentifier;
+
+#pragma mark - SFLoginHostUpdateResult
+
+@implementation SFLoginHostUpdateResult
+
+@synthesize originalLoginHost = _originalLoginHost;
+@synthesize updatedLoginHost = _updatedLoginHost;
+@synthesize loginHostChanged = _loginHostChanged;
+
+- (id)initWithOrigHost:(NSString *)originalLoginHost
+           updatedHost:(NSString *)updatedLoginHost
+           hostChanged:(BOOL)loginHostChanged
+{
+    self = [super init];
+    if (self) {
+        _originalLoginHost = [originalLoginHost copy];
+        _updatedLoginHost = [updatedLoginHost copy];
+        _loginHostChanged = loginHostChanged;
+    }
+    
+    return self;
+}
+
+@end
+
+#pragma mark - SFAccountManager
 
 @interface SFAccountManager ()
 {
@@ -179,6 +207,7 @@ static NSString *CurrentAccountIdentifier;
 
 + (void)initialize
 {
+    [SFAccountManager setCurrentAccountIdentifier:SFDefaultAccountIdentifier];
     [self ensureAccountDefaultsExist];
     AccountManagerDict = [[NSMutableDictionary alloc] init];
 }
@@ -366,6 +395,7 @@ static NSString *CurrentAccountIdentifier;
     }
     
     [SFAuthenticationManager removeAllCookies];
+    [self.coordinator stopAuthentication];
     [_coordinator setDelegate:nil];
     [_idCoordinator setDelegate:nil];
     SFRelease(_idCoordinator);
@@ -430,7 +460,7 @@ static NSString *CurrentAccountIdentifier;
     [userDefaults synchronize];
 }
 
-+ (BOOL)updateLoginHost
++ (SFLoginHostUpdateResult *)updateLoginHost
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs synchronize];
@@ -443,11 +473,8 @@ static NSString *CurrentAccountIdentifier;
     [defs synchronize];
     
 	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
-	if (hostnameChanged) {
-		NSLog(@"updateLoginHost detected a host change in the app settings, from %@ to %@.", previousLoginHost, currentLoginHost);
-	}
-	
-	return hostnameChanged;
+	SFLoginHostUpdateResult *result = [[SFLoginHostUpdateResult alloc] initWithOrigHost:previousLoginHost updatedHost:currentLoginHost hostChanged:hostnameChanged];
+	return result;
 }
 
 + (BOOL)logoutSettingEnabled
