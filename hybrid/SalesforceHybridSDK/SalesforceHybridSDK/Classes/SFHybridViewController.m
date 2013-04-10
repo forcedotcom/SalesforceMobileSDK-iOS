@@ -132,7 +132,24 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    if ([hybridViewConfig shouldAuthenticate]) {
+        [SFSDKWebUtils configureUserAgent];
+        [[SFAuthenticationManager sharedManager] login:self
+            completion:^(SFOAuthInfo *authInfo) {
+                [SFSDKWebUtils configureUserAgent:self.userAgent];
+                if (!_appLoadComplete) {
+                    if ([hybridViewConfig isLocal]) {
+                        [self loadLocalStartPage];
+                    } else {
+                        [self loadRemoteStartPage];
+                    }
+                }
+            }
+            failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                [[SFAuthenticationManager sharedManager] logout];
+            }
+         ];
+    }
 }
 
 - (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
@@ -156,6 +173,9 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 {
     assert([hybridViewConfig isLocal]);
     NSString *localStartPage = [hybridViewConfig startPage];
+    NSURL *localURL = [[NSURL alloc] initWithString:localStartPage];
+    NSURLRequest *localPageRequest = [[NSURLRequest alloc] initWithURL:localURL];
+    [self.hiddenWebView loadRequest:localPageRequest];
     _appLoadComplete = YES;
 }
 
@@ -163,17 +183,31 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 {
     assert(![hybridViewConfig isLocal]);
     NSString *remoteStartPage = [hybridViewConfig startPage];
+    NSURL *remoteURL = [[NSURL alloc] initWithString:[self getFrontDoorURL:remoteStartPage]];
+    NSURLRequest *remotePageRequest = [[NSURLRequest alloc] initWithURL:remoteURL];
+    [self.hiddenWebView loadRequest:remotePageRequest];
     _appLoadComplete = YES;
 }
 
 - (void)loadErrorPage
 {
     NSString *errorPage = [hybridViewConfig errorPage];
+    _appLoadComplete = YES;
 }
 
-- (void)getFrontDoorURL
+- (NSString *)getFrontDoorURL:(NSString *)remoteStartPage
 {
-    
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    NSString *instanceURL = creds.instanceUrl.absoluteString;
+    NSString *accessToken = creds.accessToken;
+    NSMutableString *fullURL = [[NSMutableString alloc] initWithString:instanceURL];
+    [fullURL appendString:@"/secur/frontdoor.jsp"];
+    [fullURL appendString:@"?sid="];
+    [fullURL appendString:accessToken];
+    [fullURL appendString:@"&retURL="];
+    [fullURL appendString:remoteStartPage];
+    [fullURL appendString:@"&display=touch"];
+    return fullURL;
 }
 
 #pragma mark - UIWebViewDelegate
@@ -290,7 +324,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 - (void)authenticationCompletion:(NSURL *)originalUrl
 {
     [self log:SFLogLevelDebug msg:@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration."];
-    
     [SFAuthenticationManager resetSessionCookie];
     NSString *encodedStartUrlValue = [originalUrl valueForParameterName:@"startURL"];
     NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];

@@ -81,7 +81,7 @@
 /**
  Gets the front door URL.
  */
-- (void)getFrontDoorURL;
+- (NSString *)getFrontDoorURL:(NSString *)remoteStartPage;
 
 /**
  Loads the VF ping page in an invisible UIWebView and sets session cookies
