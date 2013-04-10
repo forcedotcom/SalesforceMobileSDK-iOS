@@ -31,6 +31,7 @@
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 #import "SFSecurityLockout.h"
+#import "SFAuthenticationManager.h"
 
 @interface RestAPIExplorerViewController ()
 
@@ -344,8 +345,7 @@
     if ([actionSheet isEqual:self.logoutActionSheet]) {
         self.logoutActionSheet = nil;
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate logout];
+            [[SFAuthenticationManager sharedManager] logout];
         }
     }
 }
