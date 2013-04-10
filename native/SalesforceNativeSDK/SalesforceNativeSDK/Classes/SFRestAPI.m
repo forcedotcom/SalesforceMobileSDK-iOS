@@ -31,6 +31,7 @@
 #import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 #import "SFAccountManager.h"
+#import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 
 NSString * const kSFMobileSDKVersion = @"2.0.0";
@@ -189,7 +190,20 @@ static dispatch_once_t _sharedInstanceGuard;
     
     RKRequestDelegateWrapper *wrappedDelegate = [RKRequestDelegateWrapper wrapperWithRequest:request];
     [self.activeRequests addObject:wrappedDelegate];
-    [wrappedDelegate send];
+    
+    // If there are no demonstrable auth credentials, login before sending.
+    if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
+        [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            [wrappedDelegate send];
+        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
+            [[SFAuthenticationManager sharedManager] logout];
+        }];
+    } else {
+        // Auth credentials exist.  Just send the request.
+        [wrappedDelegate send];
+    }
 }
 
 - (SFRestRequest *)requestForVersions {
