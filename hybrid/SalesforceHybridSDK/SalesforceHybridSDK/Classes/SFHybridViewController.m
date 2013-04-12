@@ -48,7 +48,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
-    SFHybridViewConfig *hybridViewConfig;
+    SFHybridViewConfig *_hybridViewConfig;
     BOOL _appLoadComplete;
 }
 
@@ -93,66 +93,43 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 @implementation SFHybridViewController
 
-@synthesize remoteAccessConsumerKey = _remoteAccessConsumerKey;
-@synthesize oauthRedirectURI = _oauthRedirectURI;
-@synthesize oauthLoginDomain = _oauthLoginDomain;
-@synthesize oauthScopes = _oauthScopes;
-
 #pragma mark - Init / dealloc / etc.
 
 - (id)init
 {
-    self = [super init];
     return [self initWithConfig:nil];
 }
 
-- (id)initWithConfig:(SFHybridViewConfig*)viewConfig
+- (id)initWithConfig:(SFHybridViewConfig *)viewConfig
 {
     self = [super init];
-    if (nil == viewConfig) {
-        hybridViewConfig = [SFHybridViewConfig readViewConfigFromJSON];
-    } else {
-        hybridViewConfig = viewConfig;
-    }
     if (self) {
-        _foundHomeUrl = NO;
-        _appLoadComplete = NO;
+        _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
+        [SFAccountManager setClientId:[_hybridViewConfig remoteAccessConsumerKey]];
+        [SFAccountManager setRedirectUri:[_hybridViewConfig oauthRedirectURI]];
+        [SFAccountManager setScopes:[_hybridViewConfig oauthScopes]];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    SFRelease(_remoteAccessConsumerKey);
-    SFRelease(_oauthRedirectURI);
-    SFRelease(_oauthLoginDomain);
-    SFRelease(_oauthScopes);
-}
-
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    if ([hybridViewConfig shouldAuthenticate]) {
+    if ([_hybridViewConfig shouldAuthenticate]) {
         [SFSDKWebUtils configureUserAgent];
-        [[SFAuthenticationManager sharedManager] login:self
-            completion:^(SFOAuthInfo *authInfo) {
-                [SFSDKWebUtils configureUserAgent:self.userAgent];
-                if (!_appLoadComplete) {
-                    if ([hybridViewConfig isLocal]) {
-                        [self loadLocalStartPage];
-                    } else {
-                        [self loadRemoteStartPage];
-                    }
-                }
-            }
-            failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                [[SFAuthenticationManager sharedManager] logout];
-            }
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            // What else?
+            [super viewDidLoad];
+        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+            [[SFAuthenticationManager sharedManager] logout];
+        }
          ];
+    } else {
+        [super viewDidLoad];
     }
 }
 
-- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict completionBlock:(SFOAuthFlowSuccessCallbackBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     // If we are refreshing, there will be no options/properties: just reuse the known options.
     if (nil != oauthPropertiesDict) {
@@ -171,8 +148,8 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 - (void)loadLocalStartPage
 {
-    assert([hybridViewConfig isLocal]);
-    NSString *localStartPage = [hybridViewConfig startPage];
+    assert([_hybridViewConfig isLocal]);
+    NSString *localStartPage = [_hybridViewConfig startPage];
     NSURL *localURL = [[NSURL alloc] initWithString:localStartPage];
     NSURLRequest *localPageRequest = [[NSURLRequest alloc] initWithURL:localURL];
     [self.hiddenWebView loadRequest:localPageRequest];
@@ -181,8 +158,8 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 - (void)loadRemoteStartPage
 {
-    assert(![hybridViewConfig isLocal]);
-    NSString *remoteStartPage = [hybridViewConfig startPage];
+    assert(![_hybridViewConfig isLocal]);
+    NSString *remoteStartPage = [_hybridViewConfig startPage];
     NSURL *remoteURL = [[NSURL alloc] initWithString:[self getFrontDoorURL:remoteStartPage]];
     NSURLRequest *remotePageRequest = [[NSURLRequest alloc] initWithURL:remoteURL];
     [self.hiddenWebView loadRequest:remotePageRequest];
@@ -191,7 +168,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 - (void)loadErrorPage
 {
-    NSString *errorPage = [hybridViewConfig errorPage];
+    NSString *errorPage = [_hybridViewConfig errorPage];
     _appLoadComplete = YES;
 }
 

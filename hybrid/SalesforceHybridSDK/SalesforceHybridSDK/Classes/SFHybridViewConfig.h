@@ -25,18 +25,63 @@
 
 @interface SFHybridViewConfig : NSObject
 
-@property (nonatomic, strong) NSString *remoteAccessConsumerKey;
-@property (nonatomic, strong) NSString *oauthRedirectURI;
-@property (nonatomic, strong) NSArray *oauthScopes;
+/**
+ * The Connected App key associated with this application.
+ */
+@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
+
+/**
+ * The OAuth Redirect URI associated with the configured Connected Application.
+ */
+@property (nonatomic, copy) NSString *oauthRedirectURI;
+
+/**
+ * The OAuth Scopes being requested for this app.
+ */
+@property (nonatomic, strong) NSSet *oauthScopes;
+
+/**
+ * Whether or not the start page for this application is local, vs. remote.
+ */
 @property (nonatomic, assign) BOOL isLocal;
-@property (nonatomic, strong) NSString *startPage;
-@property (nonatomic, strong) NSString *errorPage;
+
+/**
+ * The start page associated with this app.
+ */
+@property (nonatomic, copy) NSString *startPage;
+
+/**
+ * The error page to navigate to, in the event of an error during the app load process.
+ */
+@property (nonatomic, copy) NSString *errorPage;
+
+/**
+ * Whether or not this app should authenticate when it first starts.
+ */
 @property (nonatomic, assign) BOOL shouldAuthenticate;
+
+/**
+ * Whether or not to attempt to load an offline version of the app, if there is no network
+ * connectivity.
+ */
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
 
-/*
- * Reads the hybrid view config from bootconfig.js.
+/**
+ * Initializer with a given JSON-based configuration dictionary.
+ * @param configDict The dictionary containing the configuration.
  */
-+ (SFHybridViewConfig*) readViewConfigFromJSON;
+- (id)initWithDict:(NSDictionary *)configDict;
+
+/**
+ * @return The hybrid view config from the default configuration file location (/www/bootconfig.js).
+ */
++ (SFHybridViewConfig *)fromDefaultConfigFile;
+
+/**
+ * Create a hybrid view config from the config file at the specified file path.
+ * @param configFilePath The file path to the configuration file, relative to the resources root path.
+ * @return The hybrid view config from the given file path.
+ */
++ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath;
 
 @end

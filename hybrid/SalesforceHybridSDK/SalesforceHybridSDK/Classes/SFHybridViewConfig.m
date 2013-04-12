@@ -28,28 +28,24 @@
 
 @interface SFHybridViewConfig ()
 
-/*
- * Reads the contents of bootconfig.js into an NSDictionary.
+/**
+ * The backing dictionary containing the configuration properties.
  */
-+ (NSDictionary*) readBootConfigFile;
+@property (nonatomic, strong) NSDictionary *configDict;
 
-/*
- * Parses the boot config JSON and sets properties.
+/**
+ * Reads the contents of a bootconfig.js file into an NSDictionary.
+ * @return The NSDictionary of data, or nil if the data could not be read or parsed.
  */
-+ (SFHybridViewConfig*) parseBootConfig : (NSDictionary*) jsonData;
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
+
+/**
+ * Sets the default properties in the configuration, for properties that haven't otherwise
+ * been specified after initialization.
+ */
+- (void)setConfigDefaults;
 
 @end
-
-@implementation SFHybridViewConfig
-
-@synthesize remoteAccessConsumerKey = _remoteAccessConsumerKey;
-@synthesize oauthRedirectURI = _oauthRedirectURI;
-@synthesize oauthScopes = _oauthScopes;
-@synthesize isLocal = _isLocal;
-@synthesize startPage = _startPage;
-@synthesize errorPage = _errorPage;
-@synthesize shouldAuthenticate = _shouldAuthenticate;
-@synthesize attemptOfflineLoad = _attemptOfflineLoad;
 
 // Keys used in bootconfig.json.
 static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
@@ -61,54 +57,184 @@ static NSString* const kErrorPage = @"errorPage";
 static NSString* const kShouldAuthenticate = @"shouldAuthenticate";
 static NSString* const kAttemptOfflineLoad = @"attemptOfflineLoad";
 
-// Path to bootconfig.json on the filesystem.
-static NSString* const kBootConfigFilePath = @"/www/bootconfig.json";
+// Default path to bootconfig.json on the filesystem.
+static NSString* const kDefaultHybridViewConfigFilePath = @"/www/bootconfig.json";
 
 // Default values for optional configs.
 static BOOL const kDefaultShouldAuthenticate = YES;
 static BOOL const kDefaultAttemptOfflineLoad = YES;
+static NSString* const kDefaultStartPage = @"index.html";
+static NSString* const kDefaultErrorPage = @"error.html";
 
-+ (SFHybridViewConfig*)readViewConfigFromJSON {
-    SFHybridViewConfig *hybridViewConfig = nil;
-    NSDictionary *fields = [SFHybridViewConfig readBootConfigFile];
-    if (nil != fields) {
-        hybridViewConfig = [SFHybridViewConfig parseBootConfig:fields];
+
+@implementation SFHybridViewConfig
+
+@synthesize configDict = _configDict;
+
+#pragma mark - Init / dealloc / overrides
+
+- (id)init
+{
+    return [self initWithDict:nil];
+}
+
+- (id)initWithDict:(NSDictionary *)configDict
+{
+    self = [super init];
+    if (self) {
+        if (configDict == nil) {
+            self.configDict = [NSDictionary dictionary];
+        } else {
+            self.configDict = configDict;
+        }
+        
+        // Set defaults for non-existent values.
+        [self setConfigDefaults];
     }
+    
+    return self;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p data: %@>", NSStringFromClass([self class]), self, [self.configDict description]];
+}
+
+#pragma mark - Properties
+
+- (NSString *)remoteAccessConsumerKey
+{
+    return [self.configDict objectForKey:kRemoteAccessConsumerKey];
+}
+
+- (void)setRemoteAccessConsumerKey:(NSString *)remoteAccessConsumerKey
+{
+    [self.configDict setValue:[remoteAccessConsumerKey copy] forKey:kRemoteAccessConsumerKey];
+}
+
+- (NSString *)oauthRedirectURI
+{
+    return [self.configDict objectForKey:kOauthRedirectURI];
+}
+
+- (void)setOauthRedirectURI:(NSString *)oauthRedirectURI
+{
+    [self.configDict setValue:[oauthRedirectURI copy] forKey:kOauthRedirectURI];
+}
+
+- (NSSet *)oauthScopes
+{
+    return [self.configDict objectForKey:kOauthScopes];
+}
+
+- (void)setOauthScopes:(NSSet *)oauthScopes
+{
+    [self.configDict setValue:oauthScopes forKey:kOauthScopes];
+}
+
+- (BOOL)isLocal
+{
+    return [[self.configDict objectForKey:kIsLocal] boolValue];
+}
+
+- (void)setIsLocal:(BOOL)isLocal
+{
+    NSNumber *isLocalNum = [NSNumber numberWithBool:isLocal];
+    [self.configDict setValue:isLocalNum forKey:kIsLocal];
+}
+
+- (NSString *)startPage
+{
+    return [self.configDict objectForKey:kStartPage];
+}
+
+- (void)setStartPage:(NSString *)startPage
+{
+    [self.configDict setValue:[startPage copy] forKey:kStartPage];
+}
+
+- (NSString *)errorPage
+{
+    return [self.configDict objectForKey:kErrorPage];
+}
+
+- (void)setErrorPage:(NSString *)errorPage
+{
+    [self.configDict setValue:[errorPage copy] forKey:kErrorPage];
+}
+
+- (BOOL)shouldAuthenticate
+{
+    return [[self.configDict objectForKey:kShouldAuthenticate] boolValue];
+}
+
+- (void)setShouldAuthenticate:(BOOL)shouldAuthenticate
+{
+    NSNumber *shouldAuthenticateNum = [NSNumber numberWithBool:shouldAuthenticate];
+    [self.configDict setValue:shouldAuthenticateNum forKey:kShouldAuthenticate];
+}
+
+- (BOOL)attemptOfflineLoad
+{
+    return [[self.configDict objectForKey:kAttemptOfflineLoad] boolValue];
+}
+
+- (void)setAttemptOfflineLoad:(BOOL)attemptOfflineLoad
+{
+    NSNumber *attemptOfflineLoadNum = [NSNumber numberWithBool:attemptOfflineLoad];
+    [self.configDict setValue:attemptOfflineLoadNum forKey:kAttemptOfflineLoad];
+}
+
+#pragma mark - Configuration helpers
+
++ (SFHybridViewConfig *)fromDefaultConfigFile
+{
+    return [SFHybridViewConfig fromConfigFile:kDefaultHybridViewConfigFilePath];
+}
+
++ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath
+{
+    NSDictionary *hybridConfigDict = [SFHybridViewConfig loadConfigFromFile:configFilePath];
+    if (nil == hybridConfigDict) {
+        [SFLogger log:[SFHybridViewConfig class] level:SFLogLevelWarning msg:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' not found, or data could not be parsed.", configFilePath]];
+        return nil;
+    }
+    
+    SFHybridViewConfig *hybridViewConfig = [[SFHybridViewConfig alloc] initWithDict:hybridConfigDict];
     return hybridViewConfig;
 }
 
-+ (NSDictionary*)readBootConfigFile {
-    NSDictionary *jsonDict = nil;
-    NSString *appFolderPath = [[NSBundle mainBundle] resourcePath];
-    NSMutableString *fullPath = [[NSMutableString alloc] initWithString:appFolderPath];
-    [fullPath appendString:kBootConfigFilePath];
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
-    if (fileExists) {
-        NSData *fileContents = [[NSFileManager defaultManager] contentsAtPath:fullPath];
-        jsonDict = (NSDictionary*)[SFJsonUtils objectFromJSONData:fileContents];
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath
+{
+    NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:configFilePath];
+    NSError *fileReadError = nil;
+    NSData *fileContents = [NSData dataWithContentsOfFile:fullPath options:NSDataReadingUncached error:&fileReadError];
+    if (fileContents == nil) {
+        [SFLogger log:[SFHybridViewConfig class] level:SFLogLevelError msg:[NSString stringWithFormat:@"Hybrid view config at specified path '%@' could not be read: %@", configFilePath, fileReadError]];
+        return nil;
     }
+    
+    NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:fileContents];
     return jsonDict;
 }
 
-+ (SFHybridViewConfig*)parseBootConfig:fields {
-    SFHybridViewConfig *viewConfig = [[SFHybridViewConfig alloc] init];
-    viewConfig.remoteAccessConsumerKey = [fields objectForKey:kRemoteAccessConsumerKey];
-    viewConfig.oauthRedirectURI = [fields objectForKey:kOauthRedirectURI];
-    viewConfig.oauthScopes = [fields objectForKey:kOauthScopes];
-    viewConfig.isLocal = (BOOL) [fields objectForKey:kIsLocal];
-    viewConfig.startPage = [fields objectForKey:kStartPage];
-    viewConfig.errorPage = [fields objectForKey:kErrorPage];
-    NSObject *shouldAuth = [fields objectForKey:kShouldAuthenticate];
-    viewConfig.shouldAuthenticate = kDefaultShouldAuthenticate;
-    if (nil != shouldAuth) {
-        viewConfig.shouldAuthenticate = (BOOL) shouldAuth;
+- (void)setConfigDefaults
+{
+    // Any default values that would not be the implicit defaults of nil values, should be set here.
+    
+    if ([self.configDict objectForKey:kAttemptOfflineLoad] == nil) {
+        self.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
     }
-    NSObject *offlineLoad = [fields objectForKey:kAttemptOfflineLoad];
-    viewConfig.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
-    if (nil != offlineLoad) {
-        viewConfig.attemptOfflineLoad = (BOOL) offlineLoad;
+    if ([self.configDict objectForKey:kShouldAuthenticate] == nil) {
+        self.shouldAuthenticate = kDefaultShouldAuthenticate;
     }
-    return viewConfig;
+    if (self.startPage == nil) {
+        self.startPage = kDefaultStartPage;
+        self.isLocal = YES;
+    }
+    if (self.errorPage == nil) {
+        self.errorPage = kDefaultErrorPage;
+    }
 }
 
 @end

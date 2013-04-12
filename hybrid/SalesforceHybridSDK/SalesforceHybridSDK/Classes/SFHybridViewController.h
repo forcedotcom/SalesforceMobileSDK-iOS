@@ -41,22 +41,22 @@
 /**
  The Remote Access object consumer key.
  */
-@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
+@property (nonatomic, readonly) NSString *remoteAccessConsumerKey;
 
 /**
  The Remote Access object redirect URI
  */
-@property (nonatomic, copy) NSString *oauthRedirectURI;
+@property (nonatomic, readonly) NSString *oauthRedirectURI;
 
 /**
  The Remote Access object Login Domain
  */
-@property (nonatomic, copy) NSString *oauthLoginDomain;
+@property (nonatomic, readonly) NSString *oauthLoginDomain;
 
 /**
  The set of oauth scopes that should be requested for this app.
  */
-@property (nonatomic, strong) NSSet *oauthScopes;
+@property (nonatomic, readonly) NSSet *oauthScopes;
 
 /**
  Used to authenticate.
