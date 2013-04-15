@@ -133,6 +133,8 @@ extern NSString * const kSFUserLogoutNotification;
  */
 - (void)cancelAuthentication;
 
+- (void)appDidFinishLaunching:(NSNotification *)notification;
+
 /**
  Notification handler for when the app enters the foreground.
  @param notification The notification data associated with the event.

@@ -35,15 +35,20 @@
 #import "SFHybridViewConfig.h"
 #import "SFSDKWebUtils.h"
 #import "CDVCommandDelegateImpl.h"
+#import "CDVConnection.h"
 
-static NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
-static NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
-static NSString * const kClientIdCredentialsDictKey = @"clientId";
-static NSString * const kUserIdCredentialsDictKey = @"userId";
-static NSString * const kOrgIdCredentialsDictKey = @"orgId";
-static NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
-static NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
-static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
+// Public constants
+NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
+NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
+
+NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
+NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
+NSString * const kClientIdCredentialsDictKey = @"clientId";
+NSString * const kUserIdCredentialsDictKey = @"userId";
+NSString * const kOrgIdCredentialsDictKey = @"orgId";
+NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
+NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
+NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 @interface SFHybridViewController()
 {
@@ -60,6 +65,9 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
 
+- (void)validateHybridViewConfig;
+- (BOOL)isOffline;
+
 /**
  * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
  */
@@ -69,7 +77,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
  * Method called after re-authentication completes (after session timeout).
  * @param originalUrl The original URL being called before the session timed out.
  */
-- (void)authenticationCompletion:(NSURL *)originalUrl;
+- (void)authenticationCompletion:(NSURL *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
 
 /**
  This method is called when the hidden UIWebView has finished loading
@@ -87,7 +95,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 /**
  Hidden UIWebView used to load the VF ping page.
  */
-@property (nonatomic, strong) UIWebView *hiddenWebView;
+@property (nonatomic, strong) UIWebView *vfPingPageHiddenWebView;
 
 @end
 
@@ -105,45 +113,85 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     self = [super init];
     if (self) {
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
-        [SFAccountManager setClientId:[_hybridViewConfig remoteAccessConsumerKey]];
-        [SFAccountManager setRedirectUri:[_hybridViewConfig oauthRedirectURI]];
-        [SFAccountManager setScopes:[_hybridViewConfig oauthScopes]];
+        
+        // There are a number of required values from the config file.
+        [self validateHybridViewConfig];
+        
+        [SFAccountManager setClientId:_hybridViewConfig.remoteAccessConsumerKey];
+        [SFAccountManager setRedirectUri:_hybridViewConfig.oauthRedirectURI];
+        [SFAccountManager setScopes:_hybridViewConfig.oauthScopes];
+        self.startPage = _hybridViewConfig.startPage;
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    if ([_hybridViewConfig shouldAuthenticate]) {
-        [SFSDKWebUtils configureUserAgent];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            // What else?
-            [super viewDidLoad];
-        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-            [[SFAuthenticationManager sharedManager] logout];
+    if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
+        if (_hybridViewConfig.attemptOfflineLoad) {
+            NSString *urlString = [self.appHomeUrl absoluteString];
+            if ([urlString length] == 0) {
+                // TODO: Offline error.
+                [self loadErrorPage];
+            } else {
+                // Try to load offline page.
+                self.startPage = urlString;
+                [super viewDidLoad];
+            }
         }
-         ];
     } else {
-        [super viewDidLoad];
+        if (_hybridViewConfig.shouldAuthenticate) {
+            [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+                [self authenticationCompletion:nil authInfo:authInfo];
+                [super viewDidLoad];
+            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+                [[SFAuthenticationManager sharedManager] logout];
+            }];
+        } else {
+            // Start page already set.  Just try to load through Cordova.
+            [super viewDidLoad];
+        }
     }
 }
 
-- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict completionBlock:(SFOAuthFlowSuccessCallbackBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    // If we are refreshing, there will be no options/properties: just reuse the known options.
-    if (nil != oauthPropertiesDict) {
-        // Build the OAuth args from the JSON object string argument.
-        [self populateOAuthProperties:oauthPropertiesDict];
-        [SFAccountManager setClientId:self.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:self.oauthRedirectURI];
-        [SFAccountManager setScopes:self.oauthScopes];
-    }
-
     // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
     // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-    [SFSDKWebUtils configureUserAgent];
+    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] login:self completion:completionBlock failure:failureBlock];
+}
+
+- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+{
+    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
+    NSDictionary *authDict = [[self class] credentialsAsDictionary];
+    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
+        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
+        [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
+    } else {
+        completionBlock(nil, authDict);
+    }
+}
+
+- (BOOL)isOffline
+{
+    CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
+    NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
+    return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
+}
+
+- (NSURL *)appHomeUrl
+{
+    return [[NSUserDefaults standardUserDefaults] URLForKey:kAppHomeUrlPropKey];
+}
+
+- (void)setAppHomeUrl:(NSURL *)appHomeUrl
+{
+    [[NSUserDefaults standardUserDefaults] setURL:appHomeUrl forKey:kAppHomeUrlPropKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loadLocalStartPage
@@ -152,7 +200,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     NSString *localStartPage = [_hybridViewConfig startPage];
     NSURL *localURL = [[NSURL alloc] initWithString:localStartPage];
     NSURLRequest *localPageRequest = [[NSURLRequest alloc] initWithURL:localURL];
-    [self.hiddenWebView loadRequest:localPageRequest];
+    [self.vfPingPageHiddenWebView loadRequest:localPageRequest];
     _appLoadComplete = YES;
 }
 
@@ -162,7 +210,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     NSString *remoteStartPage = [_hybridViewConfig startPage];
     NSURL *remoteURL = [[NSURL alloc] initWithString:[self getFrontDoorURL:remoteStartPage]];
     NSURLRequest *remotePageRequest = [[NSURLRequest alloc] initWithURL:remoteURL];
-    [self.hiddenWebView loadRequest:remotePageRequest];
+    [self.vfPingPageHiddenWebView loadRequest:remotePageRequest];
     _appLoadComplete = YES;
 }
 
@@ -187,26 +235,94 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     return fullURL;
 }
 
+- (void)validateHybridViewConfig
+{
+    NSAssert(_hybridViewConfig != nil, @"You must supply a valid hybrid view configuration.");
+    NSString *trimmedConsumerKey = [_hybridViewConfig.remoteAccessConsumerKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *trimmedRedirectURI = [_hybridViewConfig.oauthRedirectURI stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSAssert([trimmedConsumerKey length] > 0, @"remoteAccessConsumerKey must have a value in the hybrid view configuration.");
+    NSAssert([trimmedRedirectURI length] > 0, @"oauthRedirectURI must have a value in the hybrid view configuration.");
+    NSAssert([_hybridViewConfig.oauthScopes count] > 0, @"You must provide at least one OAuth scope in the hybrid view configuration.");
+}
+
++ (NSDictionary *)credentialsAsDictionary
+{
+    NSDictionary *credentialsDict = nil;
+    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    if (nil != creds) {
+        NSString *instanceUrl = creds.instanceUrl.absoluteString;
+        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+        NSString *uaString = [self sfHybridViewUserAgentString];
+        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                           creds.accessToken, kAccessTokenCredentialsDictKey,
+                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
+                           creds.clientId, kClientIdCredentialsDictKey,
+                           creds.userId, kUserIdCredentialsDictKey,
+                           creds.organizationId, kOrgIdCredentialsDictKey,
+                           loginUrl, kLoginUrlCredentialsDictKey,
+                           instanceUrl, kInstanceUrlCredentialsDictKey,
+                           uaString, kUserAgentCredentialsDictKey,
+                           nil];
+    }
+    return credentialsDict;
+}
+
+/**
+ * Prepend a user agent string to the current one, based on device, application, and SDK
+ * version information.
+ * We are building a user agent of the form:
+ *   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
+ */
++ (NSString *)sfHybridViewUserAgentString
+{
+    static NSString *singletonUserAgentString = nil;
+    
+    // Only calculate this once in the app process lifetime.
+    if (singletonUserAgentString == nil) {
+        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
+        
+        UIDevice *curDevice = [UIDevice currentDevice];
+        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+        NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+        
+        singletonUserAgentString = [NSString stringWithFormat:
+                            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
+                            kSFMobileSDKVersion,
+                            [curDevice systemName],
+                            [curDevice systemVersion],
+                            [curDevice model],
+                            appName,
+                            appVersion,
+                            kSFMobileSDKHybridDesignator,
+                            currentUserAgent
+                            ];
+    }
+    
+    return singletonUserAgentString;
+}
+
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if ([webView isEqual:self.hiddenWebView]) {
-        [self log:SFLogLevelDebug format:@"SalesforceOAuthPlugin: Request: %@", request];
+    [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
+     [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
+    
+    if ([webView isEqual:self.vfPingPageHiddenWebView]) {
+        [self log:SFLogLevelDebug msg:@"Setting up VF web state."];
         return YES;
     }
-    [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
-        [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
+    
     if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
         [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
         // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
         // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-        [SFSDKWebUtils configureUserAgent];
+        [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
         [[SFAuthenticationManager sharedManager] login:self
             completion:^(SFOAuthInfo *authInfo) {
                 // Reset the user agent back to Cordova.
                 [SFSDKWebUtils configureUserAgent:self.userAgent];
-                [self authenticationCompletion:request.URL];
+                [self authenticationCompletion:request.URL authInfo:authInfo];
             }
             failure:^(SFOAuthInfo *authInfo, NSError *error) {
                 [[SFAuthenticationManager sharedManager] logout];
@@ -219,7 +335,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
-    if ([theWebView isEqual:self.hiddenWebView]) {
+    if ([theWebView isEqual:self.vfPingPageHiddenWebView]) {
         [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
         [self postVFPingPageLoad];
         return;
@@ -298,14 +414,23 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 #pragma mark - OAuth flow helpers
 
-- (void)authenticationCompletion:(NSURL *)originalUrl
+- (void)authenticationCompletion:(NSURL *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
-    [self log:SFLogLevelDebug msg:@"[SFHybridViewController authenticationCompletion]: Authentication flow succeeded after session timeout.  Initiating post-auth configuration."];
+    [self log:SFLogLevelDebug msg:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."];
     [SFAuthenticationManager resetSessionCookie];
-    NSString *encodedStartUrlValue = [originalUrl valueForParameterName:@"startURL"];
-    NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];
-    NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
-    [self.webView loadRequest:newRequest];
+    if (authInfo.authType == SFOAuthTypeRefresh) {
+        [self loadVFPingPage];
+    }
+    
+    // If there's an original URL, load it through frontdoor.
+    if (originalUrl != nil) {
+        NSString *encodedStartUrlValue = [originalUrl valueForParameterName:@"startURL"];
+        [self log:SFLogLevelDebug format:@"Authentication complete.  Redirecting to '%@' through frontdoor.",
+         [encodedStartUrlValue stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];
+        NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
+        [self.webView loadRequest:newRequest];
+    }
 }
 
 #pragma mark - Cordova overrides
@@ -314,7 +439,7 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 {
     // Overriding Cordova's method because we don't want the chance of our user agent not being
     // configured first, and thus overwritten with a bad value.
-    return [SFSDKWebUtils appDelegateUserAgentString];
+    return [self sfHybridViewUserAgentString];
 }
 
 - (void)loadVFPingPage
@@ -324,18 +449,18 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     if (nil != instanceUrlString) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
         [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
-        self.hiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        [self.hiddenWebView setDelegate:self];
+        self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        [self.vfPingPageHiddenWebView setDelegate:self];
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
-        [self.hiddenWebView loadRequest:pingRequest];
+        [self.vfPingPageHiddenWebView loadRequest:pingRequest];
     }
 }
 
 - (void)postVFPingPageLoad
 {
-    [self.hiddenWebView setDelegate:nil];
-    self.hiddenWebView = nil;
+    [self.vfPingPageHiddenWebView setDelegate:nil];
+    self.vfPingPageHiddenWebView = nil;
 }
 
 
@@ -346,39 +471,6 @@ static NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
         self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
         self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
     }
-}
-
-- (NSDictionary*)credentialsAsDictionary
-{
-    NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    if (nil != creds) {
-        NSString *instanceUrl = creds.instanceUrl.absoluteString;
-        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-        NSString *uaString = [_appDelegate userAgentString];
-        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                           creds.accessToken, kAccessTokenCredentialsDictKey,
-                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
-                           creds.clientId, kClientIdCredentialsDictKey,
-                           creds.userId, kUserIdCredentialsDictKey,
-                           creds.organizationId, kOrgIdCredentialsDictKey,
-                           loginUrl, kLoginUrlCredentialsDictKey,
-                           instanceUrl, kInstanceUrlCredentialsDictKey,
-                           uaString, kUserAgentCredentialsDictKey,
-                           nil];
-    }
-    return credentialsDict;
-}
-
-- (NSDictionary *)getAuthCredentials
-{
-    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
-    NSDictionary *authDict = [self credentialsAsDictionary];
-    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
-        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
-        [self authenticate:authDict:nil:nil:nil];
-    }
-    return [self credentialsAsDictionary];
 }
 
 @end

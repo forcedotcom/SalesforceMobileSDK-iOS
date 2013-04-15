@@ -41,8 +41,6 @@
 
 // Public constants
 NSString * const kSFMobileSDKVersion = @"2.0.0";
-NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
-NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 NSString * const kSFOAuthPluginName = @"com.salesforce.oauth";
 NSString * const kSFSmartStorePluginName = @"com.salesforce.smartstore";
 
@@ -288,40 +286,6 @@ static SFLogLevel const kAppLogLevel = SFLogLevelInfo;
 }
 
 #pragma mark - Salesforce.com helpers
-
-/**
- * Append a user agent string to the current one, based on device, application, and SDK
- * version information.
- * We are building a user agent of the form:
- *   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
- */
-- (NSString *)userAgentString
-{
-    static NSString *sUserAgentString = nil;
-    
-    // Only calculate this once in the app process lifetime.
-    if (sUserAgentString == nil) {
-        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
-        
-        UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
-        
-        sUserAgentString = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
-                             kSFMobileSDKVersion,
-                             [curDevice systemName],
-                             [curDevice systemVersion],
-                             [curDevice model],
-                             appName,
-                             appVersion,
-                             kSFMobileSDKHybridDesignator,
-                             currentUserAgent
-                             ];
-    }
-    
-    return sUserAgentString;
-}
 
 
 - (void)addOAuthViewToMainView:(UIView*)oauthView {

@@ -27,15 +27,42 @@
 #import "CDVViewController.h"
 #import "SalesforceOAuthPlugin.h"
 #import "SFAuthenticationManager.h"
+#import "SFOAuthInfo.h"
 
 /**
- * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
- * functionality outside of the base Cordova view controller functionality, and
- * serves more as a placeholder for future customizations.
+ The designator used to signify a hybrid component in the user agent.
+ */
+extern NSString * const kSFMobileSDKHybridDesignator;
+
+/**
+ The property key used to designate the "home" URL of the app, to be used if the app is
+ offline and supports HTML5 offline caching.
+ */
+extern NSString * const kAppHomeUrlPropKey;
+
+//
+// NSDictionary keys defining auth data properties.
+//
+extern NSString * const kAccessTokenCredentialsDictKey;
+extern NSString * const kRefreshTokenCredentialsDictKey;
+extern NSString * const kClientIdCredentialsDictKey;
+extern NSString * const kUserIdCredentialsDictKey;
+extern NSString * const kOrgIdCredentialsDictKey;
+extern NSString * const kLoginUrlCredentialsDictKey;
+extern NSString * const kInstanceUrlCredentialsDictKey;
+extern NSString * const kUserAgentCredentialsDictKey;
+
+/**
+ Callback block definition for OAuth plugin auth success.
+ */
+typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
+
+/**
+ Base view controller for Salesforce hybrid app components.
  */
 @interface SFHybridViewController : CDVViewController
 {
-    SFContainerAppDelegate *_appDelegate;
+    
 }
 
 /**
@@ -58,10 +85,32 @@
  */
 @property (nonatomic, readonly) NSSet *oauthScopes;
 
+@property (nonatomic, strong) NSURL *appHomeUrl;
+
 /**
- Used to authenticate.
+ Convert the post-authentication credentials into a Dictionary, to return to
+ the calling client code.
+ @return Dictionary representation of oauth credentials.
  */
-- (void)authenticate:(NSDictionary *)argsDict:(NSDictionary *)oauthPropertiesDict:(SFOAuthFlowSuccessCallbackBlock)completionBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
++ (NSDictionary *)credentialsAsDictionary;
+
++ (NSString *)sfHybridViewUserAgentString;
+
+/**
+ Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
+ credentials are configured.
+ @param completionBlock The OAuth plugin completion block to call upon successful retrieval of
+ the credentials.
+ @param failureBlock The failure block to call in the event of an authentication failure.
+ */
+- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
+/**
+ Used by the OAuth plugin to authenticate the user.
+ @param completionBlock The block to call upon successsful authentication.
+ @param failureBlock The block to call in the event of an auth failure.
+ */
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Loads a local start page.
@@ -88,17 +137,5 @@
  for the VF domain.
  */
 - (void)loadVFPingPage;
-
-/**
- Convert the post-authentication credentials into a Dictionary, to return to
- the calling client code.
- @return Dictionary representation of oauth credentials.
- */
-- (NSDictionary *)credentialsAsDictionary;
-
-/**
- * Method to obtain the current login credentials, authenticating if needed.
- */
-- (NSDictionary *)getAuthCredentials;
 
 @end

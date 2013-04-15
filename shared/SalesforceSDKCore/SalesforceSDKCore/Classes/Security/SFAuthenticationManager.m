@@ -133,7 +133,10 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 @interface SFAuthenticationManager ()
 {
-    
+    /**
+     Will be YES when the app is launching, vs. NO when the app is simply being foregrounded.
+     */
+    BOOL _isAppLaunch;
 }
 
 /**
@@ -193,7 +196,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 /**
  Manages the passcode checking after authentication.
  */
-- (void)postAuthPasscodeProcessing;
+- (void)postAuthenticationToPasscodeProcessing;
 
 /**
  The final method in the auth completion flow, before the configured completion
@@ -307,10 +310,23 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     if (self) {
         self.authBlockList = [NSMutableArray array];
         self.preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         self.useSnapshotView = YES;
+        
+        // Make sure the login host settings and dependent data are synced at pre-auth app startup.
+        // Note: No event generation necessary here.  This will happen before the first authentication
+        // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
+        // app state as an initialization step.
+        BOOL logoutAppSettingEnabled = [SFAccountManager logoutSettingEnabled];
+        SFLoginHostUpdateResult *result = [SFAccountManager updateLoginHost];
+        if (logoutAppSettingEnabled) {
+            [[SFAccountManager sharedInstance] clearAccountState:YES];
+        } else if (result.loginHostChanged) {
+            [[SFAccountManager sharedInstance] clearAccountState:NO];
+        }
     }
     
     return self;
@@ -318,6 +334,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
@@ -369,7 +386,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         [[SFAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Identity data should exist.  Validate passcode.
-        [self postAuthPasscodeProcessing];
+        [self postAuthenticationToPasscodeProcessing];
     }
 }
 
@@ -418,8 +435,19 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
 }
 
+- (void)appDidFinishLaunching:(NSNotification *)notification
+{
+    _isAppLaunch = YES;
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [self logout];
+    }];
+    [SFSecurityLockout lock];
+}
+
 - (void)appWillEnterForeground:(NSNotification *)notification
 {
+    _isAppLaunch = NO;
+    
     [self removeSnapshotView];
     
     BOOL shouldLogout = [SFAccountManager logoutSettingEnabled];
@@ -431,6 +459,13 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
         [self processLoginHostChange:result];
         
+    } else {
+        // Check to display pin code screen.
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self logout];
+        }];
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
+        [SFSecurityLockout validateTimer];
     }
 }
 
@@ -584,7 +619,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 	}
 }
 
-- (void)postAuthPasscodeProcessing
+- (void)postAuthenticationToPasscodeProcessing
 {
     if ([[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         // Auth checks are subject to an inactivity check.
@@ -594,7 +629,14 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
             [self logout];
         }];
-        [SFSecurityLockout validateTimer];
+        
+        // If the is app startup, we always lock "the first time".  Otherwise, pin code screen
+        // display depends on inactivity.
+        if (_isAppLaunch) {
+            [SFSecurityLockout lock];
+        } else {
+            [SFSecurityLockout validateTimer];
+        }
     } else {
         [self finalizeAuthCompletion];
     }

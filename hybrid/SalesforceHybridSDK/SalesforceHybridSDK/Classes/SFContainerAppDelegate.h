@@ -43,17 +43,6 @@
 extern NSString * const kSFMobileSDKVersion;
 
 /*
- * The property key used to designate the "home" URL of the app, to be used if the app is
- * offline and supports HTML5 offline caching.
- */
-extern NSString * const kAppHomeUrlPropKey;
-
-/*
- * The designator used to signify that the app is a hybrid app.
- */
-extern NSString * const kSFMobileSDKHybridDesignator;
-
-/*
  * The string used to uniquely identify the Salesforce OAuth plugin.
  */
 extern NSString * const kSFOAuthPluginName;
