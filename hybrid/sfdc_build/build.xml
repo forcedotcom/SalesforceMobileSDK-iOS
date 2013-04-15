@@ -21,7 +21,7 @@
     <property name="xcodetemplate.pgplugin.base.dir" value="${xcodetemplate.shared.base.dir}/PhoneGap"/>
     <property name="xcodetemplate.jquery.base.dir" value="${xcodetemplate.shared.base.dir}/jquery"/>
     <property name="xcodetemplate.ios.hybridcommon.dir" value="../../shared/hybrid"/>
-    <property name="xcodetemplate.shared.resources.dir" value="../../shared/Resources"/>
+    <property name="xcodetemplate.shared.resources.dir" value="../../shared/resources"/>
     
     <property id="platform.iphoneos" name="platform.iphoneos" value="iphoneos"/>
     <property id="platform.iphonesimulator" name="platform.iphonesimulator" value="iphonesimulator"/>
