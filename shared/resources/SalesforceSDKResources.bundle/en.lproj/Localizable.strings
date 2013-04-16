@@ -48,3 +48,7 @@
 "authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 
+// Hybrid bootstrap
+
+"hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
+

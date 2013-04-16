@@ -25,9 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
-#import "SalesforceOAuthPlugin.h"
 #import "SFAuthenticationManager.h"
 #import "SFOAuthInfo.h"
+#import "SFHybridViewConfig.h"
 
 /**
  The designator used to signify a hybrid component in the user agent.
@@ -41,7 +41,7 @@ extern NSString * const kSFMobileSDKHybridDesignator;
 extern NSString * const kAppHomeUrlPropKey;
 
 //
-// NSDictionary keys defining auth data properties.
+// NSDictionary keys defining auth data properties.  See [SFHybridViewController credentialsAsDictionary].
 //
 extern NSString * const kAccessTokenCredentialsDictKey;
 extern NSString * const kRefreshTokenCredentialsDictKey;
@@ -76,25 +76,21 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 @property (nonatomic, readonly) NSString *oauthRedirectURI;
 
 /**
- The Remote Access object Login Domain
- */
-@property (nonatomic, readonly) NSString *oauthLoginDomain;
-
-/**
  The set of oauth scopes that should be requested for this app.
  */
 @property (nonatomic, readonly) NSSet *oauthScopes;
 
+/**
+ The offline "home page" for the app.  Will be nil if no value has been
+ found.
+ */
 @property (nonatomic, strong) NSURL *appHomeUrl;
 
 /**
- Convert the post-authentication credentials into a Dictionary, to return to
- the calling client code.
- @return Dictionary representation of oauth credentials.
+ Designated initializer.  Initializes the view controller with its hybrid view configuration.
+ @param viewConfig The hybrid view configuration associated with this component.
  */
-+ (NSDictionary *)credentialsAsDictionary;
-
-+ (NSString *)sfHybridViewUserAgentString;
+- (id)initWithConfig:(SFHybridViewConfig *)viewConfig;
 
 /**
  Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
@@ -113,29 +109,25 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
- Loads a local start page.
+ Loads an error page, in the event of a local bootstrap failure.
+ @param errorDescription The error description associated with the failure.
  */
-- (void)loadLocalStartPage;
+- (void)loadErrorPage:(NSString *)errorDescription;
 
 /**
- Loads a remote start page.
+ Convert the post-authentication credentials into a Dictionary, to return to
+ the calling client code.
+ @return Dictionary representation of oauth credentials.
  */
-- (void)loadRemoteStartPage;
++ (NSDictionary *)credentialsAsDictionary;
 
 /**
- Loads an error page.
+ Prepend a user agent string to the current one, based on device, application, and SDK
+ version information.
+ We are building a user agent of the form:
+   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
+ @return The user agent string for SF hybrid apps.
  */
-- (void)loadErrorPage;
-
-/**
- Gets the front door URL.
- */
-- (NSString *)getFrontDoorURL:(NSString *)remoteStartPage;
-
-/**
- Loads the VF ping page in an invisible UIWebView and sets session cookies
- for the VF domain.
- */
-- (void)loadVFPingPage;
++ (NSString *)sfHybridViewUserAgentString;
 
 @end

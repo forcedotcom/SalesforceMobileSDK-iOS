@@ -25,16 +25,12 @@
 
 #import "SFHybridViewController.h"
 #import "SalesforceSDKConstants.h"
-#import "SFContainerAppDelegate.h"
 #import "NSURL+SFStringUtils.h"
 #import "NSURL+SFAdditions.h"
-#import "SFContainerAppDelegate.h"
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFLogger.h"
-#import "SFHybridViewConfig.h"
 #import "SFSDKWebUtils.h"
-#import "CDVCommandDelegateImpl.h"
+#import "SFSDKResourceUtils.h"
 #import "CDVConnection.h"
 
 // Public constants
@@ -50,12 +46,25 @@ NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
+// Private constants
+static NSString * const kErrorDescriptionParameterName = @"errorDescription";
+
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
     SFHybridViewConfig *_hybridViewConfig;
     BOOL _appLoadComplete;
 }
+
+/**
+ Hidden UIWebView used to load the VF ping page.
+ */
+@property (nonatomic, strong) UIWebView *vfPingPageHiddenWebView;
+
+/**
+ UIWebView for processing the error page, in the event of a fatal error during bootstrap.
+ */
+@property (nonatomic, strong) UIWebView *errorPageWebView;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -65,13 +74,44 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
 
+/**
+ Makes sure the values in the hybrid view config are sufficient configuration.
+ */
 - (void)validateHybridViewConfig;
+
+/**
+ Reports whether the device is offline.
+ @return YES if the device is offline, NO otherwise.
+ */
 - (BOOL)isOffline;
 
 /**
- * The file URL string for the start page, as it will be reported in webViewDidFinishLoad:
+ Gets the file URL for the full path to the given page.
+ @param page The relative page to create the path from.
+ @return NSURL representing the file URL for the page path.
  */
-- (NSString *)startPageUrlString;
+- (NSURL *)fullFileUrlForPage:(NSString *)page;
+
+/**
+ Appends the error description as a querystring parameter to the input URL.
+ @param rootUrl The base URL to use.
+ @param errorDescription The error description querystring parameter to be added to the base URL.
+ @return NSURL containing the base URL and the error parameter.
+ */
+- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl withDescription:(NSString *)errorDescription;
+
+/**
+ Creates a default in-memory error page, in the event that a user-defined error page does not exist.
+ @param errorDescription The error description associated with the bootstrap failure.
+ @return An NSString containing the HTML content for the error page.
+ */
+- (NSString *)createDefaultErrorPageContent:(NSString *)errorDescription;
+
+/**
+ Sets up the actual start page URL, which will be different depending on whether the app is
+ local vs. remote.
+ */
+- (void)configureStartPage;
 
 /**
  * Method called after re-authentication completes (after session timeout).
@@ -80,22 +120,16 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 - (void)authenticationCompletion:(NSURL *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
 
 /**
+ Loads the VF ping page in an invisible UIWebView and sets session cookies
+ for the VF domain.
+ */
+- (void)loadVFPingPage;
+
+/**
  This method is called when the hidden UIWebView has finished loading
  the ping page.
  */
 - (void)postVFPingPageLoad;
-
-/**
- Converts the OAuth properties JSON input string into an object, and populates
- the OAuth properties of the plug-in with the values.
- @param propsDict The NSDictionary containing the OAuth properties.
- */
-- (void)populateOAuthProperties:(NSDictionary *)propsDict;
-
-/**
- Hidden UIWebView used to load the VF ping page.
- */
-@property (nonatomic, strong) UIWebView *vfPingPageHiddenWebView;
 
 @end
 
@@ -125,14 +159,23 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     return self;
 }
 
+- (void)dealloc
+{
+    self.vfPingPageHiddenWebView.delegate = nil;
+    self.vfPingPageHiddenWebView = nil;
+    self.errorPageWebView.delegate = nil;
+    self.errorPageWebView = nil;
+}
+
 - (void)viewDidLoad
 {
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
+        // Device is offline, and we have to try to load cached content.
         if (_hybridViewConfig.attemptOfflineLoad) {
             NSString *urlString = [self.appHomeUrl absoluteString];
             if ([urlString length] == 0) {
-                // TODO: Offline error.
-                [self loadErrorPage];
+                NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
+                [self loadErrorPage:offlineErrorDescription];
             } else {
                 // Try to load offline page.
                 self.startPage = urlString;
@@ -140,10 +183,12 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
             }
         }
     } else {
+        // Device is online.
         if (_hybridViewConfig.shouldAuthenticate) {
             [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
                 [self authenticationCompletion:nil authInfo:authInfo];
+                [self configureStartPage];
                 [super viewDidLoad];
             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                 [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
@@ -156,31 +201,21 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     }
 }
 
-- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+#pragma mark - Property implementations
+
+- (NSString *)remoteAccessConsumerKey
 {
-    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
-    [[SFAuthenticationManager sharedManager] login:self completion:completionBlock failure:failureBlock];
+    return _hybridViewConfig.remoteAccessConsumerKey;
 }
 
-- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (NSString *)oauthRedirectURI
 {
-    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
-    NSDictionary *authDict = [[self class] credentialsAsDictionary];
-    if (authDict == nil || [authDict objectForKey:kAccessTokenCredentialsDictKey] == nil
-        || [[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
-        [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
-    } else {
-        completionBlock(nil, authDict);
-    }
+    return _hybridViewConfig.oauthRedirectURI;
 }
 
-- (BOOL)isOffline
+- (NSSet *)oauthScopes
 {
-    CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
-    NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
-    return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
+    return _hybridViewConfig.oauthScopes;
 }
 
 - (NSURL *)appHomeUrl
@@ -194,55 +229,57 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)loadLocalStartPage
+#pragma mark - Public methods
+
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    assert([_hybridViewConfig isLocal]);
-    NSString *localStartPage = [_hybridViewConfig startPage];
-    NSURL *localURL = [[NSURL alloc] initWithString:localStartPage];
-    NSURLRequest *localPageRequest = [[NSURLRequest alloc] initWithURL:localURL];
-    [self.vfPingPageHiddenWebView loadRequest:localPageRequest];
-    _appLoadComplete = YES;
+    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [self authenticationCompletion:nil authInfo:authInfo];
+        if (completionBlock != NULL) {
+            NSDictionary *authDict = [[self class] credentialsAsDictionary];
+            completionBlock(authInfo, authDict);
+        }
+    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+        [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed.  Logging out."];
+        [[SFAuthenticationManager sharedManager] logout];
+        if (failureBlock != NULL) {
+            failureBlock(authInfo, error);
+        }
+    }];
 }
 
-- (void)loadRemoteStartPage
+- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    assert(![_hybridViewConfig isLocal]);
-    NSString *remoteStartPage = [_hybridViewConfig startPage];
-    NSURL *remoteURL = [[NSURL alloc] initWithString:[self getFrontDoorURL:remoteStartPage]];
-    NSURLRequest *remotePageRequest = [[NSURLRequest alloc] initWithURL:remoteURL];
-    [self.vfPingPageHiddenWebView loadRequest:remotePageRequest];
-    _appLoadComplete = YES;
+    // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
+    NSDictionary *authDict = [[self class] credentialsAsDictionary];
+    if ([[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
+        [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
+    } else {
+        if (completionBlock != NULL) {
+            completionBlock(nil, authDict);
+        }
+    }
 }
 
-- (void)loadErrorPage
+- (void)loadErrorPage:(NSString *)errorDescription
 {
-    NSString *errorPage = [_hybridViewConfig errorPage];
-    _appLoadComplete = YES;
-}
-
-- (NSString *)getFrontDoorURL:(NSString *)remoteStartPage
-{
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSString *instanceURL = creds.instanceUrl.absoluteString;
-    NSString *accessToken = creds.accessToken;
-    NSMutableString *fullURL = [[NSMutableString alloc] initWithString:instanceURL];
-    [fullURL appendString:@"/secur/frontdoor.jsp"];
-    [fullURL appendString:@"?sid="];
-    [fullURL appendString:accessToken];
-    [fullURL appendString:@"&retURL="];
-    [fullURL appendString:remoteStartPage];
-    [fullURL appendString:@"&display=touch"];
-    return fullURL;
-}
-
-- (void)validateHybridViewConfig
-{
-    NSAssert(_hybridViewConfig != nil, @"You must supply a valid hybrid view configuration.");
-    NSString *trimmedConsumerKey = [_hybridViewConfig.remoteAccessConsumerKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *trimmedRedirectURI = [_hybridViewConfig.oauthRedirectURI stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSAssert([trimmedConsumerKey length] > 0, @"remoteAccessConsumerKey must have a value in the hybrid view configuration.");
-    NSAssert([trimmedRedirectURI length] > 0, @"oauthRedirectURI must have a value in the hybrid view configuration.");
-    NSAssert([_hybridViewConfig.oauthScopes count] > 0, @"You must provide at least one OAuth scope in the hybrid view configuration.");
+    NSString *errorPage = _hybridViewConfig.errorPage;
+    NSURL *errorPageUrl = [self fullFileUrlForPage:errorPage];
+    self.errorPageWebView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.errorPageWebView.delegate = self;
+    [self.view addSubview:self.errorPageWebView];
+    if (errorPageUrl != nil) {
+        NSURL *errorPageUrlWithDescription = [self createErrorPageUrl:errorPageUrl withDescription:errorDescription];
+        NSURLRequest *errorRequest = [NSURLRequest requestWithURL:errorPageUrlWithDescription];
+        [self.errorPageWebView loadRequest:errorRequest];
+    } else {
+        // Error page does not exist.  Generate a generic page with the error.
+        NSString *errorContent = [self createDefaultErrorPageContent:errorDescription];
+        [self.errorPageWebView loadHTMLString:errorContent baseURL:nil];
+    }
 }
 
 + (NSDictionary *)credentialsAsDictionary
@@ -267,12 +304,6 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     return credentialsDict;
 }
 
-/**
- * Prepend a user agent string to the current one, based on device, application, and SDK
- * version information.
- * We are building a user agent of the form:
- *   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
- */
 + (NSString *)sfHybridViewUserAgentString
 {
     static NSString *singletonUserAgentString = nil;
@@ -286,19 +317,77 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
         NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
         
         singletonUserAgentString = [NSString stringWithFormat:
-                            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
-                            kSFMobileSDKVersion,
-                            [curDevice systemName],
-                            [curDevice systemVersion],
-                            [curDevice model],
-                            appName,
-                            appVersion,
-                            kSFMobileSDKHybridDesignator,
-                            currentUserAgent
-                            ];
+                                    @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
+                                    SALESFORCE_SDK_VERSION,
+                                    [curDevice systemName],
+                                    [curDevice systemVersion],
+                                    [curDevice model],
+                                    appName,
+                                    appVersion,
+                                    kSFMobileSDKHybridDesignator,
+                                    currentUserAgent
+                                    ];
     }
     
     return singletonUserAgentString;
+}
+
+#pragma mark - Private methods
+
+- (BOOL)isOffline
+{
+    CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
+    NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
+    return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
+}
+
+- (NSURL *)fullFileUrlForPage:(NSString *)page
+{
+    NSString *fullPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.wwwFolderName] stringByAppendingPathComponent:page];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+        return nil;
+    }
+    
+    NSURL *fileUrl = [NSURL fileURLWithPath:fullPath];
+    return fileUrl;
+}
+
+- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl withDescription:(NSString *)errorDescription
+{
+    NSString *errorPageUrlString = [rootUrl absoluteString];
+    NSString *errorDescriptionParameter = [NSString stringWithFormat:@"%@=%@", kErrorDescriptionParameterName, [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *paramMarker = ([rootUrl query] == nil ? @"?" : @"&");
+    NSString *errorPageUrlStringWithDescription = [NSString stringWithFormat:@"%@%@%@", errorPageUrlString, paramMarker, errorDescriptionParameter];
+    return [NSURL URLWithString:errorPageUrlStringWithDescription];
+}
+
+- (NSString *)createDefaultErrorPageContent:(NSString *)errorDescription
+{
+    NSString *htmlContent = [NSString stringWithFormat:@"<html><head><title>Bootstrap Error Page</title></head><body><h1>Bootstrap Error Page</h1><p>%@</p></body></html>", errorDescription];
+    return htmlContent;
+}
+
+- (void)configureStartPage
+{
+    // Note: You only want this to ever run once in the view controller's lifetime.
+    static BOOL startPageConfigured = NO;
+    
+    // If the start page is local, Cordova knows how to parse the start page.  Just leave it for the parent.
+    if (!_hybridViewConfig.isLocal) {
+        self.startPage = [[SFAuthenticationManager frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
+    }
+    
+    startPageConfigured = YES;
+}
+
+- (void)validateHybridViewConfig
+{
+    NSAssert(_hybridViewConfig != nil, @"You must supply a valid hybrid view configuration.");
+    NSString *trimmedConsumerKey = [_hybridViewConfig.remoteAccessConsumerKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *trimmedRedirectURI = [_hybridViewConfig.oauthRedirectURI stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSAssert([trimmedConsumerKey length] > 0, @"remoteAccessConsumerKey must have a value in the hybrid view configuration.");
+    NSAssert([trimmedRedirectURI length] > 0, @"oauthRedirectURI must have a value in the hybrid view configuration.");
+    NSAssert([_hybridViewConfig.oauthScopes count] > 0, @"You must provide at least one OAuth scope in the hybrid view configuration.");
 }
 
 #pragma mark - UIWebViewDelegate
@@ -308,62 +397,65 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
      [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
     
+    // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenWebView]) {
-        [self log:SFLogLevelDebug msg:@"Setting up VF web state."];
+        [self log:SFLogLevelDebug msg:@"Setting up VF web state after refresh."];
         return YES;
     }
     
-    if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
-        [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
-        // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-        // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-        [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
-        [[SFAuthenticationManager sharedManager] login:self
-            completion:^(SFOAuthInfo *authInfo) {
+    // Local error page load.
+    if ([webView isEqual:self.errorPageWebView]) {
+        [self log:SFLogLevelDebug format:@"Local error page ('%@') is loading.", request.URL.absoluteString];
+        return YES;
+    }
+    
+    // Cordova web view load.
+    if ([webView isEqual:self.webView]) {
+        if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
+            [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
+            // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
+            // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+            [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
                 // Reset the user agent back to Cordova.
-                [SFSDKWebUtils configureUserAgent:self.userAgent];
                 [self authenticationCompletion:request.URL authInfo:authInfo];
-            }
-            failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                 [[SFAuthenticationManager sharedManager] logout];
             }
-         ];
-        return NO;
+             ];
+            return NO;
+        }
     }
+    
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
-    if ([theWebView isEqual:self.vfPingPageHiddenWebView]) {
-        [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Finished loading VF ping page."];
-        [self postVFPingPageLoad];
-        return;
-    }
     NSURL *requestUrl = theWebView.request.URL;
     NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
     [self log:SFLogLevelDebug format:@"webViewDidFinishLoad: Loaded %@", redactedUrl];
     
-    // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
-    // this app's infrastructure is responsible for) will be considered the "app home URL", which can
-    // be loaded directly in the event that the app is offline.
-    if (_foundHomeUrl == NO) {
-        [self log:SFLogLevelInfo format:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl];
-        if (![self isReservedUrlValue:requestUrl]) {
-            [self log:SFLogLevelInfo format:@"Setting %@ as the 'home page' URL for this app.", redactedUrl];
-            [[NSUserDefaults standardUserDefaults] setURL:requestUrl forKey:kAppHomeUrlPropKey];
-            _foundHomeUrl = YES;
-        }
+    if ([theWebView isEqual:self.vfPingPageHiddenWebView]) {
+        [self log:SFLogLevelDebug msg:@"Finished loading VF ping page."];
+        [self postVFPingPageLoad];
+        return;
     }
     
-	// only valid if App.plist specifies a protocol to handle
-	if(self.invokeString)
-	{
-		// this is passed before the deviceready event is fired, so you can access it in js when you receive deviceready
-		NSString* jsString = [NSString stringWithFormat:@"var invokeString = \"%@\";", self.invokeString];
-		[theWebView stringByEvaluatingJavaScriptFromString:jsString];
-	}
+    if ([theWebView isEqual:self.webView]) {
+        // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
+        // this app's infrastructure is responsible for) will be considered the "app home URL", which can
+        // be loaded directly in the event that the app is offline.
+        if (_foundHomeUrl == NO) {
+            [self log:SFLogLevelInfo format:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl];
+            if (![self isReservedUrlValue:requestUrl]) {
+                [self log:SFLogLevelInfo format:@"Setting %@ as the 'home page' URL for this app.", redactedUrl];
+                self.appHomeUrl = requestUrl;
+                _foundHomeUrl = YES;
+            }
+        }
+    }
     
     [super webViewDidFinishLoad:theWebView];
 }
@@ -385,7 +477,6 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     static NSArray *reservedUrlStrings = nil;
     if (reservedUrlStrings == nil) {
         reservedUrlStrings = [NSArray arrayWithObjects:
-                               [self startPageUrlString],
                                @"/secur/frontdoor.jsp",
                                @"/secur/contentDoor",
                                nil];
@@ -401,15 +492,6 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
             return YES;
     }
     return NO;
-}
-
-- (NSString *)startPageUrlString
-{
-    NSString *startPageFilePath = [self.commandDelegate pathForResource:self.startPage];
-    NSURL *startPageFileUrl = [NSURL fileURLWithPath:startPageFilePath];
-    NSString *urlString = [[startPageFileUrl absoluteString] stringByReplacingOccurrencesOfString:@"file://localhost/"
-                                                                                       withString:@"file:///"];
-    return urlString;
 }
 
 #pragma mark - OAuth flow helpers
@@ -433,15 +515,6 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     }
 }
 
-#pragma mark - Cordova overrides
-
-+ (NSString *)originalUserAgent
-{
-    // Overriding Cordova's method because we don't want the chance of our user agent not being
-    // configured first, and thus overwritten with a bad value.
-    return [self sfHybridViewUserAgentString];
-}
-
 - (void)loadVFPingPage
 {
     SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
@@ -463,14 +536,13 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
     self.vfPingPageHiddenWebView = nil;
 }
 
+#pragma mark - Cordova overrides
 
-- (void)populateOAuthProperties:(NSDictionary *)propsDict
++ (NSString *)originalUserAgent
 {
-    if (nil != propsDict) {
-        self.remoteAccessConsumerKey = [propsDict objectForKey:@"remoteAccessConsumerKey"];
-        self.oauthRedirectURI = [propsDict objectForKey:@"oauthRedirectURI"];
-        self.oauthScopes = [NSSet setWithArray:[propsDict objectForKey:@"oauthScopes"]];
-    }
+    // Overriding Cordova's method because we don't want the chance of our user agent not being
+    // configured first, and thus overwritten with a bad value.
+    return [self sfHybridViewUserAgentString];
 }
 
 @end
