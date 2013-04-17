@@ -80,7 +80,6 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     if (nil != self)  {
         NSLog(@"SFSmartStorePlugin initWithWebView");
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         _cursorCache = [[NSMutableDictionary alloc] init];
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     }

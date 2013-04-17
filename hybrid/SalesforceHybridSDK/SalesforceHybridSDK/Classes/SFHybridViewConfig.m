@@ -31,7 +31,7 @@
 /**
  * The backing dictionary containing the configuration properties.
  */
-@property (nonatomic, strong) NSDictionary *configDict;
+@property (nonatomic, strong) NSMutableDictionary *configDict;
 
 /**
  * Reads the contents of a bootconfig.js file into an NSDictionary.
@@ -83,9 +83,9 @@ static NSString* const kDefaultErrorPage = @"error.html";
     self = [super init];
     if (self) {
         if (configDict == nil) {
-            self.configDict = [NSDictionary dictionary];
+            self.configDict = [NSMutableDictionary dictionary];
         } else {
-            self.configDict = configDict;
+            self.configDict = [NSMutableDictionary dictionaryWithDictionary:configDict];
         }
         
         // Set defaults for non-existent values.
@@ -109,7 +109,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setRemoteAccessConsumerKey:(NSString *)remoteAccessConsumerKey
 {
-    [self.configDict setValue:[remoteAccessConsumerKey copy] forKey:kRemoteAccessConsumerKey];
+    [self.configDict setObject:[remoteAccessConsumerKey copy] forKey:kRemoteAccessConsumerKey];
 }
 
 - (NSString *)oauthRedirectURI
@@ -119,17 +119,17 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setOauthRedirectURI:(NSString *)oauthRedirectURI
 {
-    [self.configDict setValue:[oauthRedirectURI copy] forKey:kOauthRedirectURI];
+    [self.configDict setObject:[oauthRedirectURI copy] forKey:kOauthRedirectURI];
 }
 
 - (NSSet *)oauthScopes
 {
-    return [self.configDict objectForKey:kOauthScopes];
+    return [NSSet setWithArray:[self.configDict objectForKey:kOauthScopes]];
 }
 
 - (void)setOauthScopes:(NSSet *)oauthScopes
 {
-    [self.configDict setValue:oauthScopes forKey:kOauthScopes];
+    [self.configDict setObject:[oauthScopes allObjects] forKey:kOauthScopes];
 }
 
 - (BOOL)isLocal
@@ -140,7 +140,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setIsLocal:(BOOL)isLocal
 {
     NSNumber *isLocalNum = [NSNumber numberWithBool:isLocal];
-    [self.configDict setValue:isLocalNum forKey:kIsLocal];
+    [self.configDict setObject:isLocalNum forKey:kIsLocal];
 }
 
 - (NSString *)startPage
@@ -150,7 +150,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setStartPage:(NSString *)startPage
 {
-    [self.configDict setValue:[startPage copy] forKey:kStartPage];
+    [self.configDict setObject:[startPage copy] forKey:kStartPage];
 }
 
 - (NSString *)errorPage
@@ -160,7 +160,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setErrorPage:(NSString *)errorPage
 {
-    [self.configDict setValue:[errorPage copy] forKey:kErrorPage];
+    [self.configDict setObject:[errorPage copy] forKey:kErrorPage];
 }
 
 - (BOOL)shouldAuthenticate
@@ -171,7 +171,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setShouldAuthenticate:(BOOL)shouldAuthenticate
 {
     NSNumber *shouldAuthenticateNum = [NSNumber numberWithBool:shouldAuthenticate];
-    [self.configDict setValue:shouldAuthenticateNum forKey:kShouldAuthenticate];
+    [self.configDict setObject:shouldAuthenticateNum forKey:kShouldAuthenticate];
 }
 
 - (BOOL)attemptOfflineLoad
@@ -182,7 +182,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setAttemptOfflineLoad:(BOOL)attemptOfflineLoad
 {
     NSNumber *attemptOfflineLoadNum = [NSNumber numberWithBool:attemptOfflineLoad];
-    [self.configDict setValue:attemptOfflineLoadNum forKey:kAttemptOfflineLoad];
+    [self.configDict setObject:attemptOfflineLoadNum forKey:kAttemptOfflineLoad];
 }
 
 #pragma mark - Configuration helpers

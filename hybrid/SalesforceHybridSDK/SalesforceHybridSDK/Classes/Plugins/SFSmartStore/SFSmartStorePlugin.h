@@ -34,14 +34,10 @@
  */
 extern NSString * const kSmartStorePluginIdentifier;
 
-@class SFContainerAppDelegate;
 @class SFStoreCursor;
 @class SFSmartStore;
 
 @interface SFSmartStorePlugin : CDVPlugin {
-    //a convenient ref to the shared app delegate
-    SFContainerAppDelegate *_appDelegate;
-
     //the native store used by this plugin
     SFSmartStore *_store;
     

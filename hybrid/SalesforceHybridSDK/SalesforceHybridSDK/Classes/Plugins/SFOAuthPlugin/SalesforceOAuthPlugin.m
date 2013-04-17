@@ -60,8 +60,7 @@
 {
     self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
     if (self) {
-        [SFAccountManager updateLoginHost];
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
+        // Custom init.
     }
     return self;
 }

@@ -27,7 +27,6 @@
 #import "SFOAuthCoordinator.h"
 #import "CDVPlugin.h"
 
-@class SFContainerAppDelegate;
 @class CDVInvokedUrlCommand;
 
 /**
@@ -35,7 +34,6 @@
  */
 @interface SalesforceOAuthPlugin : CDVPlugin
 {
-    SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
 }
 
