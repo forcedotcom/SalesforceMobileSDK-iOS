@@ -39,14 +39,12 @@
 		82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; };
 		82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; };
 		82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; };
-		82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */; };
 		82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; };
 		82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E516E7C84900A63CDF /* SFSDKInfoPlugin.m */; };
 		82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E816E7C84900A63CDF /* CDVPlugin+SFAdditions.m */; };
 		82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
-		82EFF2F716E7C84900A63CDF /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */; };
 		82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */; };
 		82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
@@ -119,7 +117,6 @@
 			files = (
 				82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */,
 				82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */,
-				82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */,
 				82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */,
 				82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */,
 				82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */,
@@ -225,8 +222,6 @@
 		82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStorePlugin.h; sourceTree = "<group>"; };
 		82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStorePlugin.m; sourceTree = "<group>"; };
-		82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFContainerAppDelegate.h; sourceTree = "<group>"; };
-		82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContainerAppDelegate.m; sourceTree = "<group>"; };
 		82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewController.h; sourceTree = "<group>"; };
 		82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
 		82EFF2FA16E7FFF200A63CDF /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
@@ -413,8 +408,6 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E216E7C84900A63CDF /* Plugins */,
-				82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */,
-				82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
 				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
@@ -764,7 +757,6 @@
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
-				82EFF2F716E7C84900A63CDF /* SFContainerAppDelegate.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);

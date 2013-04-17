@@ -34,7 +34,6 @@
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 
-NSString * const kSFMobileSDKVersion = @"2.0.0";
 NSString* const kSFRestDefaultAPIVersion = @"v23.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
@@ -165,7 +164,7 @@ static dispatch_once_t _sharedInstanceGuard;
 
     NSString *myUserAgent = [NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
-                             kSFMobileSDKVersion,
+                             SALESFORCE_SDK_VERSION,
                              [curDevice systemName],
                              [curDevice systemVersion],
                              [curDevice model],

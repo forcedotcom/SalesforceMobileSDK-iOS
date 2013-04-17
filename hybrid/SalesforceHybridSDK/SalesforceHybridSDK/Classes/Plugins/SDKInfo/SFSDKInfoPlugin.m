@@ -27,7 +27,6 @@
 #import "CDVPlugin+SFAdditions.h"
 #import "CDVInvokedUrlCommand.h"
 #import "SalesforceSDKConstants.h"
-#import "SFContainerAppDelegate.h"
 
 // Keys in sdk info map
 NSString * const kSDKVersionKey = @"sdkVersion";
@@ -111,7 +110,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
     
     NSDictionary *sdkInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              kSFMobileSDKVersion, kSDKVersionKey,
+                              SALESFORCE_SDK_VERSION, kSDKVersionKey,
                               appName, kAppNameKey,
                               appVersion, kAppVersionKey,
                               self.forcePlugins, kForcePluginsAvailableKey,

@@ -25,7 +25,6 @@
 #import "SalesforceOAuthPlugin.h"
 #import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFContainerAppDelegate.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 #import "SFUserActivityMonitor.h"

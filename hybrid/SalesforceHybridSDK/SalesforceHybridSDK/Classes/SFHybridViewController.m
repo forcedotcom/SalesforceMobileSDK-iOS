@@ -48,6 +48,7 @@ NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
 
 // Private constants
 static NSString * const kErrorDescriptionParameterName = @"errorDescription";
+static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 @interface SFHybridViewController()
 {
@@ -125,12 +126,6 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
  */
 - (void)loadVFPingPage;
 
-/**
- This method is called when the hidden UIWebView has finished loading
- the ping page.
- */
-- (void)postVFPingPageLoad;
-
 @end
 
 @implementation SFHybridViewController
@@ -147,6 +142,7 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     self = [super init];
     if (self) {
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
+        NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized.  See output log for errors.");
         
         // There are a number of required values from the config file.
         [self validateHybridViewConfig];
@@ -169,6 +165,7 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
 
 - (void)viewDidLoad
 {
+    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
         // Device is offline, and we have to try to load cached content.
         if (_hybridViewConfig.attemptOfflineLoad) {
@@ -185,7 +182,6 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     } else {
         // Device is online.
         if (_hybridViewConfig.shouldAuthenticate) {
-            [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
                 [self authenticationCompletion:nil authInfo:authInfo];
                 [self configureStartPage];
@@ -238,6 +234,9 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
         [self authenticationCompletion:nil authInfo:authInfo];
+        if (authInfo.authType == SFOAuthTypeRefresh) {
+            [self loadVFPingPage];
+        }
         if (completionBlock != NULL) {
             NSDictionary *authDict = [[self class] credentialsAsDictionary];
             completionBlock(authInfo, authDict);
@@ -399,7 +398,7 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenWebView]) {
-        [self log:SFLogLevelDebug msg:@"Setting up VF web state after refresh."];
+        [self log:SFLogLevelDebug msg:@"Setting up VF web state after plugin-based refresh."];
         return YES;
     }
     
@@ -438,8 +437,7 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     [self log:SFLogLevelDebug format:@"webViewDidFinishLoad: Loaded %@", redactedUrl];
     
     if ([theWebView isEqual:self.vfPingPageHiddenWebView]) {
-        [self log:SFLogLevelDebug msg:@"Finished loading VF ping page."];
-        [self postVFPingPageLoad];
+        [self log:SFLogLevelDebug format:@"Finished loading VF ping page '%@'.", redactedUrl];
         return;
     }
     
@@ -500,9 +498,6 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
 {
     [self log:SFLogLevelDebug msg:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."];
     [SFAuthenticationManager resetSessionCookie];
-    if (authInfo.authType == SFOAuthTypeRefresh) {
-        [self loadVFPingPage];
-    }
     
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
@@ -521,19 +516,14 @@ static NSString * const kErrorDescriptionParameterName = @"errorDescription";
     NSString *instanceUrlString = creds.instanceUrl.absoluteString;
     if (nil != instanceUrlString) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
-        [instanceUrl appendString:@"/visualforce/session?url=/apexpages/utils/ping.apexp&autoPrefixVFDomain=true"];
+        NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        [self.vfPingPageHiddenWebView setDelegate:self];
+        self.vfPingPageHiddenWebView.delegate = self;
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
         [self.vfPingPageHiddenWebView loadRequest:pingRequest];
     }
-}
-
-- (void)postVFPingPageLoad
-{
-    [self.vfPingPageHiddenWebView setDelegate:nil];
-    self.vfPingPageHiddenWebView = nil;
 }
 
 #pragma mark - Cordova overrides

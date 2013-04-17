@@ -494,7 +494,7 @@
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -515,7 +515,7 @@
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

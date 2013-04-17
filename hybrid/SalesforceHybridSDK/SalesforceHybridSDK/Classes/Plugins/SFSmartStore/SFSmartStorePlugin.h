@@ -57,7 +57,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.
  */
-+ (void)resetSharedStore;
+- (void)resetSharedStore;
 
 #pragma mark - Cordova Plugin methods called from js
 
