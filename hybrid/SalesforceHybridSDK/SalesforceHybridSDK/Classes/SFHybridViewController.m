@@ -54,7 +54,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     BOOL _foundHomeUrl;
     SFHybridViewConfig *_hybridViewConfig;
-    BOOL _appLoadComplete;
 }
 
 /**
