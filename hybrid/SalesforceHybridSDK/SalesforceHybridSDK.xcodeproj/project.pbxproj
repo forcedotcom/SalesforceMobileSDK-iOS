@@ -39,14 +39,12 @@
 		82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; };
 		82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; };
 		82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; };
-		82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */; };
 		82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; };
 		82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E516E7C84900A63CDF /* SFSDKInfoPlugin.m */; };
 		82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E816E7C84900A63CDF /* CDVPlugin+SFAdditions.m */; };
 		82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
-		82EFF2F716E7C84900A63CDF /* SFContainerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */; };
 		82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */; };
 		82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
@@ -87,9 +85,9 @@
 		82EFF39316E8155400A63CDF /* SFTestRunnerPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF38116E8150B00A63CDF /* SFTestRunnerPlugin.js */; };
 		82EFF39416E8155900A63CDF /* SFTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF38216E8150B00A63CDF /* SFTestSuite.js */; };
 		82EFF39816E8157400A63CDF /* SFHybridApp.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF39516E8156B00A63CDF /* SFHybridApp.js */; };
-		82EFF39B16E815D700A63CDF /* bootstrap.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF39916E815CD00A63CDF /* bootstrap.html */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
+		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,7 +116,6 @@
 			files = (
 				82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */,
 				82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */,
-				82BC32DB16EEBD1C00FC68D3 /* SFContainerAppDelegate.h in CopyFiles */,
 				82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */,
 				82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */,
 				82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */,
@@ -161,7 +158,6 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				82EFF39B16E815D700A63CDF /* bootstrap.html in Copy Shared www Files */,
 				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy Shared www Files */,
 				82EFF38C16E8152200A63CDF /* forcetk.js in Copy Shared www Files */,
 				82EFF37916E814E900A63CDF /* SalesforceOAuthPlugin.js in Copy Shared www Files */,
@@ -224,8 +220,6 @@
 		82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthPlugin.m; sourceTree = "<group>"; };
 		82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStorePlugin.h; sourceTree = "<group>"; };
 		82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStorePlugin.m; sourceTree = "<group>"; };
-		82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFContainerAppDelegate.h; sourceTree = "<group>"; };
-		82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContainerAppDelegate.m; sourceTree = "<group>"; };
 		82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewController.h; sourceTree = "<group>"; };
 		82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewController.m; sourceTree = "<group>"; };
 		82EFF2FA16E7FFF200A63CDF /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
@@ -271,10 +265,11 @@
 		82EFF38116E8150B00A63CDF /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		82EFF38216E8150B00A63CDF /* SFTestSuite.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		82EFF39516E8156B00A63CDF /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
-		82EFF39916E815CD00A63CDF /* bootstrap.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
 		82EFF3A016E817BC00A63CDF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
+		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,10 +405,10 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E216E7C84900A63CDF /* Plugins */,
-				82EFF2EF16E7C84900A63CDF /* SFContainerAppDelegate.h */,
-				82EFF2F016E7C84900A63CDF /* SFContainerAppDelegate.m */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
+				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
+				CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -543,7 +538,6 @@
 				82EFF37616E814D700A63CDF /* plugins */,
 				82EFF38316E8150B00A63CDF /* test */,
 				82EFF39616E8156B00A63CDF /* util */,
-				82EFF39916E815CD00A63CDF /* bootstrap.html */,
 				82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */,
 				82EFF37216E814BE00A63CDF /* forcetk.js */,
 			);
@@ -759,8 +753,8 @@
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
-				82EFF2F716E7C84900A63CDF /* SFContainerAppDelegate.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
+				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,7 +959,7 @@
 				INFOPLIST_FILE = "HybridPluginTestAppTests/HybridPluginTestAppTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -983,7 +977,7 @@
 				INFOPLIST_FILE = "HybridPluginTestAppTests/HybridPluginTestAppTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;

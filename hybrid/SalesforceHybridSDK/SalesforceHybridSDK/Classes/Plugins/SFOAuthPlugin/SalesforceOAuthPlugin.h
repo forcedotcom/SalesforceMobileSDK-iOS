@@ -27,43 +27,15 @@
 #import "SFOAuthCoordinator.h"
 #import "CDVPlugin.h"
 
-@class SFContainerAppDelegate;
 @class CDVInvokedUrlCommand;
 
 /**
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
-@interface SalesforceOAuthPlugin : CDVPlugin<UIWebViewDelegate>
+@interface SalesforceOAuthPlugin : CDVPlugin
 {
-    SFContainerAppDelegate *_appDelegate;
     NSString *_authCallbackId;
 }
-
-/**
- The Remote Access object consumer key.
- */
-@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
-
-/**
- The Remote Access object redirect URI
- */
-@property (nonatomic, copy) NSString *oauthRedirectURI;
-
-/**
- The Remote Access object Login Domain
- */
-@property (nonatomic, copy) NSString *oauthLoginDomain;
-
-/**
- The set of oauth scopes that should be requested for this app.
- */
-@property (nonatomic, strong) NSSet *oauthScopes;
-
-/**
- Forces a logout from the current account, redirecting the user to the login process.
- This throws out the OAuth refresh token.
- */
-- (void)logout SFSDK_DEPRECATED(1.4, "Use [SFAuthenticationManager logout] going forward.");
 
 #pragma mark - Plugin exported to javascript
 

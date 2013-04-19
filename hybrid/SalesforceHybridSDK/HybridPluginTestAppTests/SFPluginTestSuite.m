@@ -126,7 +126,7 @@
     NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"salesforce/plugin/testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
-    AppDelegate *app = (AppDelegate*)[SFContainerAppDelegate sharedInstance];
+    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     NSString *cmdResult = [app evalJS:testCmd];
     NSLog(@"cmdResult: '%@'",cmdResult);
     

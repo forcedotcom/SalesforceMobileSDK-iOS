@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,8 +23,8 @@
  */
 
 #import "AppDelegate.h"
-#import "SFHybridViewController.h"
-#import "SalesforceOAuthPlugin.h"
+#import "SFLogger.h"
+#import "SFHybridViewConfig.h"
 #import "SFJsonUtils.h"
 #import "SFAccountManager.h"
 #import "CDVCommandDelegateImpl.h"
@@ -32,35 +32,104 @@
 
 NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-DefaultAccount";
 
-
 @interface AppDelegate ()
+
+@property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
 
 /// Was the app started in Test mode? 
 - (BOOL) isRunningOctest;
-+ (void)populateAuthCredentialsFromConfigFile;
+- (void)populateAuthCredentialsFromConfigFile;
+- (void)initializeAppViewState;
 
+/**
+ * Handles the notification from SFAuthenticationManager that a logout has been initiated.
+ * @param notification The notification containing the details of the logout.
+ */
+- (void)logoutInitiated:(NSNotification *)notification;
+
+/**
+ * Handles the notification from SFAuthenticationManager that the login host has changed in
+ * the Settings application for this app.
+ * @param The notification whose userInfo dictionary contains:
+ *        - kSFLoginHostChangedNotificationOriginalHostKey: The original host, prior to host change.
+ *        - kSFLoginHostChangedNotificationUpdatedHostKey: The updated (new) login host.
+ */
+- (void)loginHostChanged:(NSNotification *)notification;
 
 @end
 
 @implementation AppDelegate
 
+@synthesize window = _window;
+@synthesize viewController = _viewController;
+@synthesize testAppHybridViewConfig = _testAppHybridViewConfig;
+
 - (id)init
 {
     self = [super init];
     if (self != nil) {
-        NSLog(@"Setting up auth credentials.");
-        [[self class] populateAuthCredentialsFromConfigFile];
+        [SFLogger setLogLevel:SFLogLevelDebug];
+        [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
+        [self populateAuthCredentialsFromConfigFile];
+        
+        // Logout and login host change handlers.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginHostChanged:) name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
     }
     
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
+}
+
 #pragma mark - App lifecycle
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.autoresizesSubviews = YES;
+    [self initializeAppViewState];
+    return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
+    NSLog(@"runner: %@",runner);
+    
+    BOOL runningOctest = [self isRunningOctest];
+    NSLog(@"octest running: %d",runningOctest);
+}
 
 
-+ (void)populateAuthCredentialsFromConfigFile {
-    NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
+- (NSString *)evalJS:(NSString*)js {
+    NSString *jsResult = [self.viewController.webView stringByEvaluatingJavaScriptFromString:js];
+    return jsResult;
+}
+
+#pragma mark - App Settings helpers
+
+- (void)logoutInitiated:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+    self.viewController.appHomeUrl = nil;
+    [self initializeAppViewState];
+}
+
+- (void)loginHostChanged:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    [self initializeAppViewState];
+}
+
+#pragma mark - Private methods
+
+- (void)populateAuthCredentialsFromConfigFile {
+    NSString *tokenPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"test_credentials" ofType:@"json"];
     if (nil == tokenPath) {
         NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
         NSAssert(nil != tokenPath,@"test_credentials.json config file not found!");
@@ -92,12 +161,17 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
         NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
     }
     
+    self.testAppHybridViewConfig = [[SFHybridViewConfig alloc] init];
+    self.testAppHybridViewConfig.remoteAccessConsumerKey = clientID;
+    self.testAppHybridViewConfig.oauthRedirectURI = redirectUri;
+    self.testAppHybridViewConfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
+    self.testAppHybridViewConfig.isLocal = YES;
+    self.testAppHybridViewConfig.startPage = @"index.html";
+    self.testAppHybridViewConfig.shouldAuthenticate = YES;
+    self.testAppHybridViewConfig.attemptOfflineLoad = NO;
+    
     [SFAccountManager setCurrentAccountIdentifier:kHybridTestAccountIdentifier];
     [SFAccountManager setLoginHost:loginDomain];
-    [SFAccountManager setClientId:clientID];
-    [SFAccountManager setRedirectUri:redirectUri];
-    [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
-    
     SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
     SFOAuthCredentials *credentials = accountMgr.credentials;
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
@@ -105,14 +179,13 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
     credentials.refreshToken = refreshToken;
 }
 
-
 - (BOOL) isRunningOctest
 {
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
     NSLog(@"XCInjectBundle: %@", injectBundle);
-
+    
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
         if (NSNotFound != found.location) {
@@ -123,27 +196,20 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
     return result;
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (void)initializeAppViewState
 {
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    [super applicationDidBecomeActive:application];
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self initializeAppViewState];
+        });
+        return;
+    }
     
-    SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    NSLog(@"runner: %@",runner);
-    
-    BOOL runningOctest = [self isRunningOctest];
-    NSLog(@"octest running: %d",runningOctest);
+    self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
+    self.viewController.useSplashScreen = NO;
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
 }
-
-
-- (NSString *)evalJS:(NSString*)js {
-    NSString *jsResult = [self.viewController.webView stringByEvaluatingJavaScriptFromString:js];
-    return jsResult;
-}
-
 
 @end
 

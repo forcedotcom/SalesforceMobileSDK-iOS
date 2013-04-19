@@ -732,9 +732,6 @@
          <FileRef
             location = "group:bootconfig.js">
          </FileRef>
-         <FileRef
-            location = "group:bootstrap.html">
-         </FileRef>
          <Group
             location = "group:contactexplorer"
             name = "contactexplorer">

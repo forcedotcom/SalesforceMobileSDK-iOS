@@ -25,12 +25,109 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
+#import "SFAuthenticationManager.h"
+#import "SFOAuthInfo.h"
+#import "SFHybridViewConfig.h"
 
 /**
- * Base view controller for Salesforce hybrid apps.  Currently, this does not expose
- * functionality outside of the base Cordova view controller functionality, and
- * serves more as a placeholder for future customizations.
+ The designator used to signify a hybrid component in the user agent.
+ */
+extern NSString * const kSFMobileSDKHybridDesignator;
+
+/**
+ The property key used to designate the "home" URL of the app, to be used if the app is
+ offline and supports HTML5 offline caching.
+ */
+extern NSString * const kAppHomeUrlPropKey;
+
+//
+// NSDictionary keys defining auth data properties.  See [SFHybridViewController credentialsAsDictionary].
+//
+extern NSString * const kAccessTokenCredentialsDictKey;
+extern NSString * const kRefreshTokenCredentialsDictKey;
+extern NSString * const kClientIdCredentialsDictKey;
+extern NSString * const kUserIdCredentialsDictKey;
+extern NSString * const kOrgIdCredentialsDictKey;
+extern NSString * const kLoginUrlCredentialsDictKey;
+extern NSString * const kInstanceUrlCredentialsDictKey;
+extern NSString * const kUserAgentCredentialsDictKey;
+
+/**
+ Callback block definition for OAuth plugin auth success.
+ */
+typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
+
+/**
+ Base view controller for Salesforce hybrid app components.
  */
 @interface SFHybridViewController : CDVViewController
+{
+    
+}
+
+/**
+ The Remote Access object consumer key.
+ */
+@property (nonatomic, readonly) NSString *remoteAccessConsumerKey;
+
+/**
+ The Remote Access object redirect URI
+ */
+@property (nonatomic, readonly) NSString *oauthRedirectURI;
+
+/**
+ The set of oauth scopes that should be requested for this app.
+ */
+@property (nonatomic, readonly) NSSet *oauthScopes;
+
+/**
+ The offline "home page" for the app.  Will be nil if no value has been
+ found.
+ */
+@property (nonatomic, strong) NSURL *appHomeUrl;
+
+/**
+ Designated initializer.  Initializes the view controller with its hybrid view configuration.
+ @param viewConfig The hybrid view configuration associated with this component.
+ */
+- (id)initWithConfig:(SFHybridViewConfig *)viewConfig;
+
+/**
+ Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
+ credentials are configured.
+ @param completionBlock The OAuth plugin completion block to call upon successful retrieval of
+ the credentials.
+ @param failureBlock The failure block to call in the event of an authentication failure.
+ */
+- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
+/**
+ Used by the OAuth plugin to authenticate the user.
+ @param completionBlock The block to call upon successsful authentication.
+ @param failureBlock The block to call in the event of an auth failure.
+ */
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
+/**
+ Loads an error page, in the event of a local bootstrap failure.
+ @param errorDescription The error description associated with the failure.
+ */
+- (void)loadErrorPage:(NSString *)errorDescription;
+
+/**
+ Convert the post-authentication credentials into a Dictionary, to return to
+ the calling client code.
+ @return Dictionary representation of oauth credentials.
+ */
++ (NSDictionary *)credentialsAsDictionary;
+
+/**
+ Prepend a user agent string to the current one, based on device, application, and SDK
+ version information.
+ We are building a user agent of the form:
+   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]
+ @return The user agent string for SF hybrid apps.
+ */
++ (NSString *)sfHybridViewUserAgentString;
 
 @end

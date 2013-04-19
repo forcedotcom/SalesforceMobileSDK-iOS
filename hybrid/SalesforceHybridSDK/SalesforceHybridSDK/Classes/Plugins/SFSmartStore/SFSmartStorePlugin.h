@@ -34,14 +34,10 @@
  */
 extern NSString * const kSmartStorePluginIdentifier;
 
-@class SFContainerAppDelegate;
 @class SFStoreCursor;
 @class SFSmartStore;
 
 @interface SFSmartStorePlugin : CDVPlugin {
-    //a convenient ref to the shared app delegate
-    SFContainerAppDelegate *_appDelegate;
-
     //the native store used by this plugin
     SFSmartStore *_store;
     
@@ -57,7 +53,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.
  */
-+ (void)resetSharedStore;
+- (void)resetSharedStore;
 
 #pragma mark - Cordova Plugin methods called from js
 

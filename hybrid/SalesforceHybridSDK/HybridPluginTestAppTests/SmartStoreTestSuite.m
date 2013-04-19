@@ -31,6 +31,8 @@
 #import "SFTestRunnerPlugin.h"
 #import "SFSmartStore.h"
 #import "SFSmartStorePlugin.h"
+#import "SFHybridViewController.h"
+#import "CDVCommandDelegateImpl.h"
 
 
 
@@ -44,7 +46,9 @@
 
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-        [SFSmartStorePlugin resetSharedStore];
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
+        [pluginInstance resetSharedStore];
     }
     
 }

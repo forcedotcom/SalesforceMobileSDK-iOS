@@ -32,26 +32,6 @@ NSString * const kUserAgentPropKey = @"UserAgent";
 
 @implementation SFSDKWebUtils
 
-+ (NSString *)appDelegateUserAgentString
-{
-    id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
-    if (![appDelegate conformsToProtocol:@protocol(SFSDKAppDelegate)]) {
-        [SFLogger log:[SFSDKWebUtils class]
-                level:SFLogLevelWarning
-                  msg:[NSString stringWithFormat:@"'%@' does not conform to SFSDKAppDelegate.  Cannot retrieve user agent.",
-                       NSStringFromClass([appDelegate class])]];
-        return nil;
-    }
-    
-    id<SFSDKAppDelegate> sdkAppDelegate = (id<SFSDKAppDelegate>)appDelegate;
-    return [sdkAppDelegate userAgentString];
-}
-
-+ (void)configureUserAgent
-{
-    [self configureUserAgent:[self appDelegateUserAgentString]];
-}
-
 + (void)configureUserAgent:(NSString *)userAgentString
 {
     if (userAgentString != nil) {
