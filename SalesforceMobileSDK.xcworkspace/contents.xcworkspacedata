@@ -683,55 +683,92 @@
       </Group>
    </Group>
    <Group
-      location = "container:"
+      location = "group:external/shared"
       name = "HybridShared">
-      <FileRef
-         location = "group:external/shared/forcetk.js">
-      </FileRef>
       <Group
-         location = "group:external/shared/jquery"
-         name = "jquery">
+         location = "group:external"
+         name = "external">
          <Group
-            location = "group:images"
-            name = "images">
+            location = "group:backbone"
+            name = "backbone">
             <FileRef
-               location = "group:ajax-loader.gif">
+               location = "group:backbone-1.0.0.js">
             </FileRef>
             <FileRef
-               location = "group:icons-18-black.png">
+               location = "group:backbone-1.0.0.min.js">
             </FileRef>
             <FileRef
-               location = "group:icons-18-white.png">
-            </FileRef>
-            <FileRef
-               location = "group:icons-36-black.png">
-            </FileRef>
-            <FileRef
-               location = "group:icons-36-white.png">
+               location = "group:underscore-1.4.4.min.js">
             </FileRef>
          </Group>
-         <FileRef
-            location = "group:jquery-1.8.3.min.js">
-         </FileRef>
-         <FileRef
-            location = "group:jquery.mobile-1.2.0.min.css">
-         </FileRef>
-         <FileRef
-            location = "group:jquery.mobile-1.2.0.min.js">
-         </FileRef>
-         <FileRef
-            location = "group:jquery.mobile.structure-1.2.0.min.css">
-         </FileRef>
-         <FileRef
-            location = "group:jquery.mobile.theme-1.2.0.min.css">
-         </FileRef>
+         <Group
+            location = "group:jquery"
+            name = "jquery">
+            <Group
+               location = "group:images"
+               name = "images">
+               <FileRef
+                  location = "group:ajax-loader.gif">
+               </FileRef>
+               <FileRef
+                  location = "group:icons-18-black.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icons-18-white.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icons-36-black.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icons-36-white.png">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:jquery-1.8.3.min.js">
+            </FileRef>
+            <FileRef
+               location = "group:jquery.mobile-1.2.0.min.css">
+            </FileRef>
+            <FileRef
+               location = "group:jquery.mobile-1.2.0.min.js">
+            </FileRef>
+            <FileRef
+               location = "group:jquery.mobile.structure-1.2.0.min.css">
+            </FileRef>
+            <FileRef
+               location = "group:jquery.mobile.theme-1.2.0.min.css">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:qunit"
+            name = "qunit">
+            <FileRef
+               location = "group:qunit.css">
+            </FileRef>
+            <FileRef
+               location = "group:qunit.js">
+            </FileRef>
+         </Group>
       </Group>
       <Group
-         location = "group:external/shared/PhoneGap"
-         name = "PhoneGap">
+         location = "group:libs"
+         name = "libs">
          <FileRef
-            location = "group:bootconfig.js">
+            location = "group:cordova.force.js">
          </FileRef>
+         <FileRef
+            location = "group:force.entity.js">
+         </FileRef>
+         <FileRef
+            location = "group:forcetk.js">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:SampleApps"
+         name = "SampleApps">
          <Group
             location = "group:contactexplorer"
             name = "contactexplorer">
@@ -743,32 +780,87 @@
             </FileRef>
          </Group>
          <Group
-            location = "group:local"
-            name = "local">
+            location = "group:entity"
+            name = "entity">
             <FileRef
-               location = "group:MockCordova.js">
+               location = "group:AccountEditor.html">
             </FileRef>
             <FileRef
-               location = "group:MockSDKInfo.js">
+               location = "group:auth.js">
             </FileRef>
             <FileRef
-               location = "group:MockSmartStore.js">
+               location = "group:auth_local.js">
+            </FileRef>
+            <Group
+               location = "group:css"
+               name = "css">
+               <Group
+                  location = "group:images"
+                  name = "images">
+                  <FileRef
+                     location = "group:activity-indicator.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:back-button-active.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:back-button.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:button-active.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:button.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:call.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:comment-arrow.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:detail-disclosure-button.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:disclosure-indicator.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:mail.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:manager.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:message.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:navbar-bg.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:navbar-landscape-bg.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:refresh-icon.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:reports.png">
+                  </FileRef>
+                  <FileRef
+                     location = "group:search-icon.png">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:styles.css">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:stackrouter.js">
             </FileRef>
             <FileRef
-               location = "group:README.md">
+               location = "group:UserAndGroupSearch.html">
             </FileRef>
             <FileRef
-               location = "group:test.html">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:plugins"
-            name = "plugins">
-            <FileRef
-               location = "group:SalesforceOAuthPlugin.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFSmartStorePlugin.js">
+               location = "group:UserSearch.html">
             </FileRef>
          </Group>
          <Group
@@ -800,45 +892,44 @@
                location = "group:smartstoreexplorer.js">
             </FileRef>
          </Group>
-         <Group
-            location = "group:test"
-            name = "test">
-            <FileRef
-               location = "group:qunit.css">
-            </FileRef>
-            <FileRef
-               location = "group:qunit.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFAbstractSmartStoreTestSuite.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFSDKInfoTestSuite.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFSmartStoreLoadTestSuite.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFSmartStoreTestSuite.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFTestRunnerPlugin.js">
-            </FileRef>
-            <FileRef
-               location = "group:SFTestSuite.js">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:util"
-            name = "util">
-            <FileRef
-               location = "group:SFHybridApp.js">
-            </FileRef>
-         </Group>
       </Group>
-      <FileRef
-         location = "group:external/shared/README.md">
-      </FileRef>
+      <Group
+         location = "group:test"
+         name = "test">
+         <FileRef
+            location = "group:MockCordova.js">
+         </FileRef>
+         <FileRef
+            location = "group:MockSDKInfo.js">
+         </FileRef>
+         <FileRef
+            location = "group:MockSmartStore.js">
+         </FileRef>
+         <FileRef
+            location = "group:README.md">
+         </FileRef>
+         <FileRef
+            location = "group:SFAbstractSmartStoreTestSuite.js">
+         </FileRef>
+         <FileRef
+            location = "group:SFSDKInfoTestSuite.js">
+         </FileRef>
+         <FileRef
+            location = "group:SFSmartStoreLoadTestSuite.js">
+         </FileRef>
+         <FileRef
+            location = "group:SFSmartStoreTestSuite.js">
+         </FileRef>
+         <FileRef
+            location = "group:SFTestRunnerPlugin.js">
+         </FileRef>
+         <FileRef
+            location = "group:SFTestSuite.js">
+         </FileRef>
+         <FileRef
+            location = "group:test.html">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "container:"
@@ -851,9 +942,6 @@
          </FileRef>
          <FileRef
             location = "group:cordova-2.3.0.js">
-         </FileRef>
-         <FileRef
-            location = "group:CordovaResources.bundle">
          </FileRef>
       </Group>
       <Group
