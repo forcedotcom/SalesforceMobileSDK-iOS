@@ -40,12 +40,27 @@ typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *);
  */
 typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 
-@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
+/**
+ Identifies the notification for the login host changing in the app's settings.
+ */
+extern NSString * const kSFLoginHostChangedNotification;
 
 /**
- The view controller that will be used to "host" an OAuth view, if necessary.
+ The key for the original host in a login host change notification.
  */
-@property (nonatomic, strong) UIViewController *viewController;
+extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
+
+/**
+ The key for the updated host in a login host change notification.
+ */
+extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
+
+/**
+ Identifies the notification for the user being logged out of the application.
+ */
+extern NSString * const kSFUserLogoutNotification;
+
+@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
  Alert view for displaying auth-related status messages.
@@ -58,32 +73,85 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 @property (nonatomic, strong) SFAuthorizingViewController *authViewController;
 
 /**
+ Whether or not the application is currently in the process of authenticating.
+ */
+@property (nonatomic, readonly) BOOL authenticating;
+
+/**
+ If this property is set, the authentication manager will swap a "blank" view in place
+ of the currently displayed view when the app goes into the background, to protect sensitive displayed
+ data from being captured in an image file by iOS.  This view will be swapped out for the original
+ view when the app enters the foreground.  This property is set to YES by default.
+ 
+ @see snapshotView
+ */
+@property (nonatomic, assign) BOOL useSnapshotView;
+
+/**
+ A view to be swapped in for the currently displayed view when the app enters the background, to prevent
+ iOS from capturing sensitive data into an image file.  By default, this will be an opaque white screen,
+ but you can set this property to any UIView, prior to app backgrounding, to use that view instead.
+ 
+ @see useSnapshotView which toggles this behavior.
+ */
+@property (nonatomic, strong) UIView *snapshotView;
+
+/**
+ The preferred passcode provider to use.  In this release, In this release, defaults to
+ kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
+ NOTE: If you wanted to set your own provider, you could do the following:
+         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SFAuthenticationManager sharedManager].preferredPasscodeProvider = myProviderName;
+ */
+@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+
+/**
  The singleton instance of the SFAuthenticationManager class.
  */
 + (SFAuthenticationManager *)sharedManager;
 
 /**
  Kick off the login process.
- @param presentingViewController The view controller that will be used to display an OAuth view, where
- required.
- @param completionBlock The block of code to execute when the OAuth process completes.
- @param failureBlock The block of code to execute when OAuth fails due to revoked/expired credentials.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
  */
-- (void)login:(UIViewController *)presentingViewController
-   completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-      failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
-
-/**
- Sent whenever the user has been logged in using current settings.
- Be sure to call super if you override this.
- */
-- (void)loggedIn;
+- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
 - (void)logout;
+
+/**
+ Cancels an in-progress authentication.  In-progress authentication state will be cleared.
+ */
+- (void)cancelAuthentication;
+
+- (void)appDidFinishLaunching:(NSNotification *)notification;
+
+/**
+ Notification handler for when the app enters the foreground.
+ @param notification The notification data associated with the event.
+ */
+- (void)appWillEnterForeground:(NSNotification *)notification;
+
+/**
+ Notification handler for when the app enters the background.
+ @param notification The notification data associated with the event.
+ */
+- (void)appDidEnterBackground:(NSNotification *)notification;
+
+/**
+ Notification handler for when the app will be terminated.
+ @param notification The notification data associated with the event.
+ */
+- (void)appWillTerminate:(NSNotification *)notification;
 
 /**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the

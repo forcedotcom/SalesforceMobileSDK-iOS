@@ -27,7 +27,6 @@
 #import "CDVPlugin+SFAdditions.h"
 #import "NSDictionary+SFAdditions.h"
 #import "CDVCommandDelegateImpl.h"
-#import "SFContainerAppDelegate.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStore.h"
 #import "SFHybridViewController.h"
@@ -68,12 +67,11 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 @synthesize store = _store;
 
 
-+ (void)resetSharedStore {
-    SFContainerAppDelegate *myApp = (SFContainerAppDelegate*)[[UIApplication sharedApplication] delegate];
-    SFSmartStorePlugin *myInstance = (SFSmartStorePlugin*)[myApp.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-    [[myInstance cursorCache] removeAllObjects];
-    myInstance.store = nil; 
-    myInstance.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+- (void)resetSharedStore
+{
+    [[self cursorCache] removeAllObjects];
+    self.store = nil;
+    self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
@@ -82,7 +80,6 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     
     if (nil != self)  {
         NSLog(@"SFSmartStorePlugin initWithWebView");
-        _appDelegate = (SFContainerAppDelegate *)[self appDelegate];
         _cursorCache = [[NSMutableDictionary alloc] init];
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     }

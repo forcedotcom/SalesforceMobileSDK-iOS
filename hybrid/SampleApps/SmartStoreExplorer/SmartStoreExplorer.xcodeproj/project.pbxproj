@@ -41,7 +41,6 @@
 		8250726215C3515900F3A529 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 8250726115C3515900F3A529 /* www */; };
 		825072BA15C36B0F00F3A529 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072B615C35B2300F3A529 /* index.html */; };
 		825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072B715C35B2300F3A529 /* smartstoreexplorer.js */; };
-		825072BD15C36B7600F3A529 /* bootstrap.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072B315C35AAE00F3A529 /* bootstrap.html */; };
 		825072BE15C36B7B00F3A529 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072B115C35A9300F3A529 /* forcetk.js */; };
 		825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */; };
 		825072C115C36B8800F3A529 /* SFHybridApp.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 825072AB15C35A4200F3A529 /* SFHybridApp.js */; };
@@ -81,7 +80,6 @@
 				825072C115C36B8800F3A529 /* SFHybridApp.js in Copy Shared www Files */,
 				825072BA15C36B0F00F3A529 /* index.html in Copy Shared www Files */,
 				825072BB15C36B5F00F3A529 /* smartstoreexplorer.js in Copy Shared www Files */,
-				825072BD15C36B7600F3A529 /* bootstrap.html in Copy Shared www Files */,
 				825072BE15C36B7B00F3A529 /* forcetk.js in Copy Shared www Files */,
 				825072BF15C36B8000F3A529 /* SalesforceOAuthPlugin.js in Copy Shared www Files */,
 				825072C215C36B9300F3A529 /* SFSmartStorePlugin.js in Copy Shared www Files */,
@@ -167,7 +165,6 @@
 		825072AB15C35A4200F3A529 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = ../../../../external/shared/PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		825072AF15C35A7B00F3A529 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = ../../../../external/shared/PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
 		825072B115C35A9300F3A529 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../../../../external/shared/forcetk.js; sourceTree = "<group>"; };
-		825072B315C35AAE00F3A529 /* bootstrap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		825072B615C35B2300F3A529 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		825072B715C35B2300F3A529 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartstoreexplorer.js; sourceTree = "<group>"; };
 		8251CA8616ED57DA00BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.2.0.min.css"; sourceTree = "<group>"; };
@@ -388,7 +385,6 @@
 				8250726515C351E000F3A529 /* jquery */,
 				8251CA8416ED526700BD1EA2 /* plugins */,
 				8251CA8516ED527D00BD1EA2 /* util */,
-				825072B315C35AAE00F3A529 /* bootstrap.html */,
 				82954623167A7E1500A0FC34 /* cordova-2.3.0.js */,
 				825072B115C35A9300F3A529 /* forcetk.js */,
 			);
@@ -594,7 +590,7 @@
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -614,7 +610,7 @@
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
