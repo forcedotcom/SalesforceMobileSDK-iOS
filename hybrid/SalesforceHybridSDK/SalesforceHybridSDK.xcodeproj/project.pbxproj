@@ -85,7 +85,6 @@
 		82EFF39316E8155400A63CDF /* SFTestRunnerPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF38116E8150B00A63CDF /* SFTestRunnerPlugin.js */; };
 		82EFF39416E8155900A63CDF /* SFTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF38216E8150B00A63CDF /* SFTestSuite.js */; };
 		82EFF39816E8157400A63CDF /* SFHybridApp.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF39516E8156B00A63CDF /* SFHybridApp.js */; };
-		82EFF39B16E815D700A63CDF /* bootstrap.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF39916E815CD00A63CDF /* bootstrap.html */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
@@ -159,7 +158,6 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				82EFF39B16E815D700A63CDF /* bootstrap.html in Copy Shared www Files */,
 				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy Shared www Files */,
 				82EFF38C16E8152200A63CDF /* forcetk.js in Copy Shared www Files */,
 				82EFF37916E814E900A63CDF /* SalesforceOAuthPlugin.js in Copy Shared www Files */,
@@ -267,7 +265,6 @@
 		82EFF38116E8150B00A63CDF /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		82EFF38216E8150B00A63CDF /* SFTestSuite.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		82EFF39516E8156B00A63CDF /* SFHybridApp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SFHybridApp.js; sourceTree = "<group>"; };
-		82EFF39916E815CD00A63CDF /* bootstrap.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = bootstrap.html; path = ../../../external/shared/PhoneGap/bootstrap.html; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
 		82EFF3A016E817BC00A63CDF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -541,7 +538,6 @@
 				82EFF37616E814D700A63CDF /* plugins */,
 				82EFF38316E8150B00A63CDF /* test */,
 				82EFF39616E8156B00A63CDF /* util */,
-				82EFF39916E815CD00A63CDF /* bootstrap.html */,
 				82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */,
 				82EFF37216E814BE00A63CDF /* forcetk.js */,
 			);

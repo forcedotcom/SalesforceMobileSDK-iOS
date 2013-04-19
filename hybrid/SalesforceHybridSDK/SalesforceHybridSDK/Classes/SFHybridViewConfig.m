@@ -34,7 +34,7 @@
 @property (nonatomic, strong) NSMutableDictionary *configDict;
 
 /**
- * Reads the contents of a bootconfig.js file into an NSDictionary.
+ * Reads the contents of a bootconfig.json file into an NSDictionary.
  * @return The NSDictionary of data, or nil if the data could not be read or parsed.
  */
 + (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;

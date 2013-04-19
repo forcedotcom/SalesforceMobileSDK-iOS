@@ -157,9 +157,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)dealloc
 {
     self.vfPingPageHiddenWebView.delegate = nil;
-    self.vfPingPageHiddenWebView = nil;
+    SFRelease(_vfPingPageHiddenWebView);
     self.errorPageWebView.delegate = nil;
-    self.errorPageWebView = nil;
+    SFRelease(_errorPageWebView);
 }
 
 - (void)viewDidLoad
