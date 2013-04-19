@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */; };
-		7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 7D3FF01814BE27B2004D3FF6 /* forcetk.js */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
 		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
 		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
@@ -39,6 +38,23 @@
 		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
 		7DBD07E6149AA98E0043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07E5149AA98E0043A9E0 /* www */; };
 		82027600165178E500DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275FF165178E500DB814C /* MessageUI.framework */; };
+		824A9B701721E43A00C9BD79 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9B4D1721E3DB00C9BD79 /* ajax-loader.gif */; };
+		824A9B711721E43A00C9BD79 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9B4E1721E3DB00C9BD79 /* icons-18-black.png */; };
+		824A9B721721E43A00C9BD79 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9B4F1721E3DB00C9BD79 /* icons-18-white.png */; };
+		824A9B731721E43A00C9BD79 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9B501721E3DB00C9BD79 /* icons-36-black.png */; };
+		824A9B741721E43A00C9BD79 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9B511721E3DB00C9BD79 /* icons-36-white.png */; };
+		824A9B751721E44700C9BD79 /* jquery-1.8.3.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9B521721E3DB00C9BD79 /* jquery-1.8.3.min.js */; };
+		824A9B761721E44700C9BD79 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9B531721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.css */; };
+		824A9B771721E44700C9BD79 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9B541721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.js */; };
+		824A9B781721E44700C9BD79 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9B551721E3DB00C9BD79 /* jquery.mobile.structure-1.2.0.min.css */; };
+		824A9B791721E44700C9BD79 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9B561721E3DB00C9BD79 /* jquery.mobile.theme-1.2.0.min.css */; };
+		824A9B7A1721E46F00C9BD79 /* editaccount.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B3C1721E3C900C9BD79 /* editaccount.html */; };
+		824A9B7B1721E46F00C9BD79 /* editopportunity.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B3D1721E3C900C9BD79 /* editopportunity.html */; };
+		824A9B7C1721E46F00C9BD79 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B3E1721E3C900C9BD79 /* index.html */; };
+		824A9B7D1721E46F00C9BD79 /* sfdcaccounts.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B3F1721E3C900C9BD79 /* sfdcaccounts.js */; };
+		824A9B7E1721E46F00C9BD79 /* sfdcsmartstore.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B401721E3C900C9BD79 /* sfdcsmartstore.js */; };
+		824A9B7F1721E48200C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B6A1721E3F800C9BD79 /* cordova.force.js */; };
+		824A9B801721E48200C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B6C1721E3F800C9BD79 /* forcetk.js */; };
 		8251CA6E16ED4A0700BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6D16ED4A0700BD1EA2 /* libxml2.dylib */; };
 		8251CA7016ED4A1C00BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6F16ED4A1C00BD1EA2 /* libssl.a */; };
 		8251CA7216ED4A3600BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7116ED4A3600BD1EA2 /* libsqlcipher.a */; };
@@ -49,27 +65,9 @@
 		8251CA7C16ED4A8400BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7B16ED4A8400BD1EA2 /* libcrypto.a */; };
 		8251CA7E16ED4A9300BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7D16ED4A9300BD1EA2 /* libCordova.a */; };
 		8251CA8016ED4AB500BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA7F16ED4AB500BD1EA2 /* CoreData.framework */; };
-		8251CA8216ED4BF300BD1EA2 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */; };
-		8251CA8316ED4BF700BD1EA2 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */; };
-		826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */; };
-		826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */; };
-		826ED6A21582D67800321962 /* SFHybridApp.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 826ED69E1582D2B200321962 /* SFHybridApp.js */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
-		82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */; };
-		82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */; };
-		82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */; };
-		82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */; };
 		8295461C167A7DC000A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295461B167A7DC000A0FC34 /* config.xml */; };
 		8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82954619167A7DA900A0FC34 /* cordova-2.3.0.js */; };
-		CEDF50CA158BD4E500618949 /* editaccount.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C0158BD46B00618949 /* editaccount.html */; };
-		CEDF50CB158BD4E500618949 /* editopportunity.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C1158BD46B00618949 /* editopportunity.html */; };
-		CEDF50CC158BD4E500618949 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C2158BD46B00618949 /* index.html */; };
-		CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C3158BD46B00618949 /* sfdcaccounts.js */; };
-		CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */; };
-		CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D3158BD53D00618949 /* icons-18-black.png */; };
-		CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D4158BD53D00618949 /* icons-18-white.png */; };
-		CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D5158BD53D00618949 /* icons-36-black.png */; };
-		CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = CEDF50D6158BD53D00618949 /* icons-36-white.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,15 +78,13 @@
 			dstSubfolderSpec = 7;
 			files = (
 				8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */,
-				CEDF50CA158BD4E500618949 /* editaccount.html in Copy Shared www Files */,
-				CEDF50CB158BD4E500618949 /* editopportunity.html in Copy Shared www Files */,
-				CEDF50CC158BD4E500618949 /* index.html in Copy Shared www Files */,
-				CEDF50CD158BD4E500618949 /* sfdcaccounts.js in Copy Shared www Files */,
-				CEDF50CE158BD4E500618949 /* sfdcsmartstore.js in Copy Shared www Files */,
-				826ED6A21582D67800321962 /* SFHybridApp.js in Copy Shared www Files */,
-				826ED6A11582D66600321962 /* SFSmartStorePlugin.js in Copy Shared www Files */,
-				826ED6A01582D64F00321962 /* SalesforceOAuthPlugin.js in Copy Shared www Files */,
-				7D3FF05014BE2812004D3FF6 /* forcetk.js in Copy Shared www Files */,
+				824A9B7A1721E46F00C9BD79 /* editaccount.html in Copy Shared www Files */,
+				824A9B7B1721E46F00C9BD79 /* editopportunity.html in Copy Shared www Files */,
+				824A9B7C1721E46F00C9BD79 /* index.html in Copy Shared www Files */,
+				824A9B7D1721E46F00C9BD79 /* sfdcaccounts.js in Copy Shared www Files */,
+				824A9B7E1721E46F00C9BD79 /* sfdcsmartstore.js in Copy Shared www Files */,
+				824A9B7F1721E48200C9BD79 /* cordova.force.js in Copy Shared www Files */,
+				824A9B801721E48200C9BD79 /* forcetk.js in Copy Shared www Files */,
 			);
 			name = "Copy Shared www Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,11 +95,11 @@
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				82708BE51683CFDC00A3FA66 /* jquery-1.8.3.min.js in Copy jQuery Files */,
-				82708BE61683CFE100A3FA66 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */,
-				82708BE71683CFE700A3FA66 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */,
-				8251CA8216ED4BF300BD1EA2 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */,
-				8251CA8316ED4BF700BD1EA2 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */,
+				824A9B751721E44700C9BD79 /* jquery-1.8.3.min.js in Copy jQuery Files */,
+				824A9B761721E44700C9BD79 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */,
+				824A9B771721E44700C9BD79 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */,
+				824A9B781721E44700C9BD79 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */,
+				824A9B791721E44700C9BD79 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */,
 			);
 			name = "Copy jQuery Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,11 +110,11 @@
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				82708BE81683CFF900A3FA66 /* ajax-loader.gif in Copy jQuery Images Files */,
-				CEDF50F3158BD61300618949 /* icons-18-black.png in Copy jQuery Images Files */,
-				CEDF50F4158BD61300618949 /* icons-18-white.png in Copy jQuery Images Files */,
-				CEDF50F5158BD61300618949 /* icons-36-black.png in Copy jQuery Images Files */,
-				CEDF50F6158BD61300618949 /* icons-36-white.png in Copy jQuery Images Files */,
+				824A9B701721E43A00C9BD79 /* ajax-loader.gif in Copy jQuery Images Files */,
+				824A9B711721E43A00C9BD79 /* icons-18-black.png in Copy jQuery Images Files */,
+				824A9B721721E43A00C9BD79 /* icons-18-white.png in Copy jQuery Images Files */,
+				824A9B731721E43A00C9BD79 /* icons-36-black.png in Copy jQuery Images Files */,
+				824A9B741721E43A00C9BD79 /* icons-36-white.png in Copy jQuery Images Files */,
 			);
 			name = "Copy jQuery Images Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,7 +123,6 @@
 
 /* Begin PBXFileReference section */
 		4F53F6D81683D96E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
-		7D3FF01814BE27B2004D3FF6 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		7DBD075C149AA9620043A9E0 /* SFDCAccounts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFDCAccounts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD0762149AA9620043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -163,8 +158,23 @@
 		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DBD07E5149AA98E0043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		820275FF165178E500DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.2.0.min.css"; sourceTree = "<group>"; };
-		8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.2.0.min.css"; sourceTree = "<group>"; };
+		824A9B3C1721E3C900C9BD79 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
+		824A9B3D1721E3C900C9BD79 /* editopportunity.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editopportunity.html; sourceTree = "<group>"; };
+		824A9B3E1721E3C900C9BD79 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		824A9B3F1721E3C900C9BD79 /* sfdcaccounts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcaccounts.js; sourceTree = "<group>"; };
+		824A9B401721E3C900C9BD79 /* sfdcsmartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcsmartstore.js; sourceTree = "<group>"; };
+		824A9B4D1721E3DB00C9BD79 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		824A9B4E1721E3DB00C9BD79 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		824A9B4F1721E3DB00C9BD79 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		824A9B501721E3DB00C9BD79 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		824A9B511721E3DB00C9BD79 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		824A9B521721E3DB00C9BD79 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
+		824A9B531721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
+		824A9B541721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
+		824A9B551721E3DB00C9BD79 /* jquery.mobile.structure-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.2.0.min.css"; sourceTree = "<group>"; };
+		824A9B561721E3DB00C9BD79 /* jquery.mobile.theme-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.2.0.min.css"; sourceTree = "<group>"; };
+		824A9B6A1721E3F800C9BD79 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
+		824A9B6C1721E3F800C9BD79 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		8251CA6D16ED4A0700BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA6F16ED4A1C00BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		8251CA7116ED4A3600BD1EA2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
@@ -175,25 +185,9 @@
 		8251CA7B16ED4A8400BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		8251CA7D16ED4A9300BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CA7F16ED4AB500BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SalesforceOAuthPlugin.js; path = PhoneGap/plugins/SalesforceOAuthPlugin.js; sourceTree = "<group>"; };
-		826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFSmartStorePlugin.js; path = PhoneGap/plugins/SFSmartStorePlugin.js; sourceTree = "<group>"; };
-		826ED69E1582D2B200321962 /* SFHybridApp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SFHybridApp.js; path = PhoneGap/util/SFHybridApp.js; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
-		82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
-		82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
-		82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
 		82954619167A7DA900A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		8295461B167A7DC000A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
-		CEDF50C0158BD46B00618949 /* editaccount.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editaccount.html; sourceTree = "<group>"; };
-		CEDF50C1158BD46B00618949 /* editopportunity.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editopportunity.html; sourceTree = "<group>"; };
-		CEDF50C2158BD46B00618949 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		CEDF50C3158BD46B00618949 /* sfdcaccounts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcaccounts.js; sourceTree = "<group>"; };
-		CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sfdcsmartstore.js; sourceTree = "<group>"; };
-		CEDF50D3158BD53D00618949 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
-		CEDF50D4158BD53D00618949 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
-		CEDF50D5158BD53D00618949 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
-		CEDF50D6158BD53D00618949 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,12 +231,10 @@
 		7D3FF01614BE27B2004D3FF6 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				CEDF50BF158BD46B00618949 /* sfdcaccounts */,
-				CEDF50CF158BD53D00618949 /* jquery */,
-				8251CA6716ED485200BD1EA2 /* plugins */,
-				8251CA6816ED486900BD1EA2 /* util */,
+				824A9B3B1721E3C900C9BD79 /* sfdcaccounts */,
+				824A9B461721E3DB00C9BD79 /* external */,
+				824A9B691721E3F800C9BD79 /* libs */,
 				82954619167A7DA900A0FC34 /* cordova-2.3.0.js */,
-				7D3FF01814BE27B2004D3FF6 /* forcetk.js */,
 			);
 			name = "shared-www";
 			path = ../../../../external/shared;
@@ -375,59 +367,59 @@
 			name = Plugins;
 			sourceTree = "<group>";
 		};
-		8251CA6716ED485200BD1EA2 /* plugins */ = {
+		824A9B3B1721E3C900C9BD79 /* sfdcaccounts */ = {
 			isa = PBXGroup;
 			children = (
-				826ED6981582D1A800321962 /* SalesforceOAuthPlugin.js */,
-				826ED69A1582D20C00321962 /* SFSmartStorePlugin.js */,
-			);
-			name = plugins;
-			sourceTree = "<group>";
-		};
-		8251CA6816ED486900BD1EA2 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				826ED69E1582D2B200321962 /* SFHybridApp.js */,
-			);
-			name = util;
-			sourceTree = "<group>";
-		};
-		CEDF50BF158BD46B00618949 /* sfdcaccounts */ = {
-			isa = PBXGroup;
-			children = (
-				CEDF50C0158BD46B00618949 /* editaccount.html */,
-				CEDF50C1158BD46B00618949 /* editopportunity.html */,
-				CEDF50C2158BD46B00618949 /* index.html */,
-				CEDF50C3158BD46B00618949 /* sfdcaccounts.js */,
-				CEDF50C4158BD46B00618949 /* sfdcsmartstore.js */,
+				824A9B3C1721E3C900C9BD79 /* editaccount.html */,
+				824A9B3D1721E3C900C9BD79 /* editopportunity.html */,
+				824A9B3E1721E3C900C9BD79 /* index.html */,
+				824A9B3F1721E3C900C9BD79 /* sfdcaccounts.js */,
+				824A9B401721E3C900C9BD79 /* sfdcsmartstore.js */,
 			);
 			name = sfdcaccounts;
-			path = PhoneGap/sfdcaccounts;
+			path = SampleApps/sfdcaccounts;
 			sourceTree = "<group>";
 		};
-		CEDF50CF158BD53D00618949 /* jquery */ = {
+		824A9B461721E3DB00C9BD79 /* external */ = {
 			isa = PBXGroup;
 			children = (
-				CEDF50D0158BD53D00618949 /* images */,
-				82708BDF1683CF8D00A3FA66 /* jquery-1.8.3.min.js */,
-				82708BE01683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.css */,
-				82708BE11683CF8D00A3FA66 /* jquery.mobile-1.2.0.min.js */,
-				8251CA6916ED48D100BD1EA2 /* jquery.mobile.structure-1.2.0.min.css */,
-				8251CA6A16ED48D100BD1EA2 /* jquery.mobile.theme-1.2.0.min.css */,
+				824A9B4B1721E3DB00C9BD79 /* jquery */,
+			);
+			path = external;
+			sourceTree = "<group>";
+		};
+		824A9B4B1721E3DB00C9BD79 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				824A9B4C1721E3DB00C9BD79 /* images */,
+				824A9B521721E3DB00C9BD79 /* jquery-1.8.3.min.js */,
+				824A9B531721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.css */,
+				824A9B541721E3DB00C9BD79 /* jquery.mobile-1.2.0.min.js */,
+				824A9B551721E3DB00C9BD79 /* jquery.mobile.structure-1.2.0.min.css */,
+				824A9B561721E3DB00C9BD79 /* jquery.mobile.theme-1.2.0.min.css */,
 			);
 			path = jquery;
 			sourceTree = "<group>";
 		};
-		CEDF50D0158BD53D00618949 /* images */ = {
+		824A9B4C1721E3DB00C9BD79 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				82708BDD1683CF6D00A3FA66 /* ajax-loader.gif */,
-				CEDF50D3158BD53D00618949 /* icons-18-black.png */,
-				CEDF50D4158BD53D00618949 /* icons-18-white.png */,
-				CEDF50D5158BD53D00618949 /* icons-36-black.png */,
-				CEDF50D6158BD53D00618949 /* icons-36-white.png */,
+				824A9B4D1721E3DB00C9BD79 /* ajax-loader.gif */,
+				824A9B4E1721E3DB00C9BD79 /* icons-18-black.png */,
+				824A9B4F1721E3DB00C9BD79 /* icons-18-white.png */,
+				824A9B501721E3DB00C9BD79 /* icons-36-black.png */,
+				824A9B511721E3DB00C9BD79 /* icons-36-white.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		824A9B691721E3F800C9BD79 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				824A9B6A1721E3F800C9BD79 /* cordova.force.js */,
+				824A9B6C1721E3F800C9BD79 /* forcetk.js */,
+			);
+			path = libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
