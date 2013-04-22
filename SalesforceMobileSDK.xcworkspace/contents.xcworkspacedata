@@ -18,6 +18,9 @@
          location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
       </FileRef>
       <FileRef
