@@ -28,6 +28,7 @@
 		824A9AFB1721E03A00C9BD79 /* SFSmartStoreTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAC1721DDFB00C9BD79 /* SFSmartStoreTestSuite.js */; };
 		824A9AFC1721E04700C9BD79 /* SFTestRunnerPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAD1721DDFB00C9BD79 /* SFTestRunnerPlugin.js */; };
 		824A9AFD1721E04E00C9BD79 /* SFTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAE1721DDFB00C9BD79 /* SFTestSuite.js */; };
+		824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
 		8251CA0C16EC3A8C00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */; };
@@ -116,6 +117,7 @@
 				82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */,
 				82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */,
 				82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */,
+				824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */,
 				82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */,
 				82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */,
 			);
