@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		824A9F2F1725020E00C9BD79 /* SFRestRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79416E080780006B3C0 /* SFRestRequest.h */; };
 		8280EB9A16E1142200768DE8 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */; };
 		8280EB9C16E11BB600768DE8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8280EB9E16E11BF100768DE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
@@ -82,6 +83,7 @@
 			files = (
 				82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */,
 				82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */,
+				824A9F2F1725020E00C9BD79 /* SFRestRequest.h in CopyFiles */,
 				82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
