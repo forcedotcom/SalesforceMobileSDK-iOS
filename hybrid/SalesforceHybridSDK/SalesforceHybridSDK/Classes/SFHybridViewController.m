@@ -44,7 +44,7 @@ NSString * const kUserIdCredentialsDictKey = @"userId";
 NSString * const kOrgIdCredentialsDictKey = @"orgId";
 NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
-NSString * const kUserAgentCredentialsDictKey = @"userAgentString";
+NSString * const kUserAgentCredentialsDictKey = @"userAgent";
 
 // Private constants
 static NSString * const kErrorDescriptionParameterName = @"errorDescription";
