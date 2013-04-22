@@ -90,7 +90,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         // These SFAccountManager settings are the minimum required to identify the Connected App.
         [SFAccountManager setClientId:RemoteAccessConsumerKey];
         [SFAccountManager setRedirectUri:OAuthRedirectURI];
-        [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
+        [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
         
         // Logout and login host change handlers.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
