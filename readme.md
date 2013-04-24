@@ -137,9 +137,11 @@ You can also use the SDK in an existing project:
 	1. **MobileCoreServices.framework**
 	1. **SystemConfiguration.framework**
 	1. **Security.framework**
+	1. **MessageUI.framework** 
+	1. **QuartzCore.framework**
 	1. **libxml2.dylib**
 	1. **libsqlite3.dylib**
-	1. **libz.dylib**
+	1. **libz.dylib**	
 
 4. Import the SalesforceSDK header via ``#import "SFRestAPI.h"``.
 
