@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		823856D31729973B007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C41729971B007775A8 /* jquery-2.0.0.min.js */; };
+		823856D41729973B007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */; };
+		823856D51729973B007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */; };
+		823856D61729973B007775A8 /* jquery.mobile.structure-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */; };
+		823856D71729973B007775A8 /* jquery.mobile.theme-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */; };
+		823856D81729974A007775A8 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856BF1729971B007775A8 /* ajax-loader.gif */; };
+		823856D91729974A007775A8 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C01729971B007775A8 /* icons-18-black.png */; };
+		823856DA1729974A007775A8 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C11729971B007775A8 /* icons-18-white.png */; };
+		823856DB1729974A007775A8 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C21729971B007775A8 /* icons-36-black.png */; };
+		823856DC1729974A007775A8 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C31729971B007775A8 /* icons-36-white.png */; };
 		824A9AB31721DDFB00C9BD79 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 824A9AA81721DDFB00C9BD79 /* README.md */; };
 		824A9AC71721DF2400C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ABB1721DE2500C9BD79 /* forcetk.js */; };
 		824A9AC81721DF2F00C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9A8C1721DDBD00C9BD79 /* cordova.force.js */; };
-		824A9AEC1721DFB600C9BD79 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9AD01721DF9000C9BD79 /* ajax-loader.gif */; };
-		824A9AED1721DFB600C9BD79 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9AD11721DF9000C9BD79 /* icons-18-black.png */; };
-		824A9AEE1721DFB600C9BD79 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9AD21721DF9000C9BD79 /* icons-18-white.png */; };
-		824A9AEF1721DFB600C9BD79 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9AD31721DF9000C9BD79 /* icons-36-black.png */; };
-		824A9AF01721DFB600C9BD79 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 824A9AD41721DF9000C9BD79 /* icons-36-white.png */; };
-		824A9AF11721DFC600C9BD79 /* jquery-1.8.3.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9AD51721DF9000C9BD79 /* jquery-1.8.3.min.js */; };
-		824A9AF21721DFC600C9BD79 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9AD61721DF9000C9BD79 /* jquery.mobile-1.2.0.min.css */; };
-		824A9AF31721DFC600C9BD79 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9AD71721DF9000C9BD79 /* jquery.mobile-1.2.0.min.js */; };
-		824A9AF41721DFC600C9BD79 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9AD81721DF9000C9BD79 /* jquery.mobile.structure-1.2.0.min.css */; };
-		824A9AF51721DFC600C9BD79 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 824A9AD91721DF9000C9BD79 /* jquery.mobile.theme-1.2.0.min.css */; };
 		824A9AF61721DFE100C9BD79 /* qunit.css in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ADB1721DF9000C9BD79 /* qunit.css */; };
 		824A9AF71721DFE100C9BD79 /* qunit.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ADC1721DF9000C9BD79 /* qunit.js */; };
 		824A9AF81721E01D00C9BD79 /* SFAbstractSmartStoreTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AA91721DDFB00C9BD79 /* SFAbstractSmartStoreTestSuite.js */; };
@@ -129,11 +129,11 @@
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				824A9AF11721DFC600C9BD79 /* jquery-1.8.3.min.js in Copy jQuery Files */,
-				824A9AF21721DFC600C9BD79 /* jquery.mobile-1.2.0.min.css in Copy jQuery Files */,
-				824A9AF31721DFC600C9BD79 /* jquery.mobile-1.2.0.min.js in Copy jQuery Files */,
-				824A9AF41721DFC600C9BD79 /* jquery.mobile.structure-1.2.0.min.css in Copy jQuery Files */,
-				824A9AF51721DFC600C9BD79 /* jquery.mobile.theme-1.2.0.min.css in Copy jQuery Files */,
+				823856D31729973B007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */,
+				823856D41729973B007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */,
+				823856D51729973B007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */,
+				823856D61729973B007775A8 /* jquery.mobile.structure-1.3.1.min.css in Copy jQuery Files */,
+				823856D71729973B007775A8 /* jquery.mobile.theme-1.3.1.min.css in Copy jQuery Files */,
 			);
 			name = "Copy jQuery Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,11 +144,11 @@
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				824A9AEC1721DFB600C9BD79 /* ajax-loader.gif in Copy jQuery Images Files */,
-				824A9AED1721DFB600C9BD79 /* icons-18-black.png in Copy jQuery Images Files */,
-				824A9AEE1721DFB600C9BD79 /* icons-18-white.png in Copy jQuery Images Files */,
-				824A9AEF1721DFB600C9BD79 /* icons-36-black.png in Copy jQuery Images Files */,
-				824A9AF01721DFB600C9BD79 /* icons-36-white.png in Copy jQuery Images Files */,
+				823856D81729974A007775A8 /* ajax-loader.gif in Copy jQuery Images Files */,
+				823856D91729974A007775A8 /* icons-18-black.png in Copy jQuery Images Files */,
+				823856DA1729974A007775A8 /* icons-18-white.png in Copy jQuery Images Files */,
+				823856DB1729974A007775A8 /* icons-36-black.png in Copy jQuery Images Files */,
+				823856DC1729974A007775A8 /* icons-36-white.png in Copy jQuery Images Files */,
 			);
 			name = "Copy jQuery Images Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +177,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		823856BF1729971B007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		823856C01729971B007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		823856C11729971B007775A8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		823856C21729971B007775A8 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		823856C31729971B007775A8 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		823856C41729971B007775A8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
+		823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.3.1.min.css"; sourceTree = "<group>"; };
+		823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.3.1.min.js"; sourceTree = "<group>"; };
+		823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.3.1.min.css"; sourceTree = "<group>"; };
+		823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.3.1.min.css"; sourceTree = "<group>"; };
 		824A9A8C1721DDBD00C9BD79 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.force.js; path = ../../../external/shared/libs/cordova.force.js; sourceTree = "<group>"; };
 		824A9AA51721DDFB00C9BD79 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
 		824A9AA61721DDFB00C9BD79 /* MockSDKInfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSDKInfo.js; sourceTree = "<group>"; };
@@ -189,16 +199,6 @@
 		824A9AAD1721DDFB00C9BD79 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		824A9AAE1721DDFB00C9BD79 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		824A9ABB1721DE2500C9BD79 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../../../external/shared/libs/forcetk.js; sourceTree = "<group>"; };
-		824A9AD01721DF9000C9BD79 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
-		824A9AD11721DF9000C9BD79 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
-		824A9AD21721DF9000C9BD79 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
-		824A9AD31721DF9000C9BD79 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
-		824A9AD41721DF9000C9BD79 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		824A9AD51721DF9000C9BD79 /* jquery-1.8.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.8.3.min.js"; sourceTree = "<group>"; };
-		824A9AD61721DF9000C9BD79 /* jquery.mobile-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.2.0.min.css"; sourceTree = "<group>"; };
-		824A9AD71721DF9000C9BD79 /* jquery.mobile-1.2.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.2.0.min.js"; sourceTree = "<group>"; };
-		824A9AD81721DF9000C9BD79 /* jquery.mobile.structure-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.2.0.min.css"; sourceTree = "<group>"; };
-		824A9AD91721DF9000C9BD79 /* jquery.mobile.theme-1.2.0.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.2.0.min.css"; sourceTree = "<group>"; };
 		824A9ADB1721DF9000C9BD79 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
 		824A9ADC1721DF9000C9BD79 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -329,6 +329,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		823856BD1729971B007775A8 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				823856BE1729971B007775A8 /* images */,
+				823856C41729971B007775A8 /* jquery-2.0.0.min.js */,
+				823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */,
+				823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */,
+				823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */,
+				823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */,
+			);
+			path = jquery;
+			sourceTree = "<group>";
+		};
+		823856BE1729971B007775A8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				823856BF1729971B007775A8 /* ajax-loader.gif */,
+				823856C01729971B007775A8 /* icons-18-black.png */,
+				823856C11729971B007775A8 /* icons-18-white.png */,
+				823856C21729971B007775A8 /* icons-36-black.png */,
+				823856C31729971B007775A8 /* icons-36-white.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		824A9A8B1721DDA300C9BD79 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,36 +384,11 @@
 		824A9AC91721DF9000C9BD79 /* external */ = {
 			isa = PBXGroup;
 			children = (
-				824A9ACE1721DF9000C9BD79 /* jquery */,
+				823856BD1729971B007775A8 /* jquery */,
 				824A9ADA1721DF9000C9BD79 /* qunit */,
 			);
 			name = external;
 			path = ../../../external/shared/external;
-			sourceTree = "<group>";
-		};
-		824A9ACE1721DF9000C9BD79 /* jquery */ = {
-			isa = PBXGroup;
-			children = (
-				824A9ACF1721DF9000C9BD79 /* images */,
-				824A9AD51721DF9000C9BD79 /* jquery-1.8.3.min.js */,
-				824A9AD61721DF9000C9BD79 /* jquery.mobile-1.2.0.min.css */,
-				824A9AD71721DF9000C9BD79 /* jquery.mobile-1.2.0.min.js */,
-				824A9AD81721DF9000C9BD79 /* jquery.mobile.structure-1.2.0.min.css */,
-				824A9AD91721DF9000C9BD79 /* jquery.mobile.theme-1.2.0.min.css */,
-			);
-			path = jquery;
-			sourceTree = "<group>";
-		};
-		824A9ACF1721DF9000C9BD79 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				824A9AD01721DF9000C9BD79 /* ajax-loader.gif */,
-				824A9AD11721DF9000C9BD79 /* icons-18-black.png */,
-				824A9AD21721DF9000C9BD79 /* icons-18-white.png */,
-				824A9AD31721DF9000C9BD79 /* icons-36-black.png */,
-				824A9AD41721DF9000C9BD79 /* icons-36-white.png */,
-			);
-			path = images;
 			sourceTree = "<group>";
 		};
 		824A9ADA1721DF9000C9BD79 /* qunit */ = {
