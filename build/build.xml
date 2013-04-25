@@ -1,5 +1,7 @@
 <project name="SalesforceMobileSDK-iOS" basedir="." default="all">
     <property name="artifactsDir" location="artifacts" />
+    <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
+    <property name="sdkResourcesBundleDir" location="../shared/resources/SalesforceSDKResources.bundle" />
     
     <target name="all" description="Build all of the library projects in the SalesforceMobileSDK workspace.">
         <antcall target="buildCordova" />
@@ -7,6 +9,62 @@
         <antcall target="buildSalesforceNativeSDK" />
         <antcall target="buildSalesforceOAuth" />
         <antcall target="buildSalesforceSDKCore" />
+    </target>
+    
+    <target name="nativeAppTemplate" depends="nativeAppTemplateLibs" description="Creates the native app template">
+        <property name="nativeTemplateName" value="__NativeTemplateAppName__" />
+        <property name="dependenciesDir" location="${artifactsDir}/${nativeTemplateName}/${nativeTemplateName}/Dependencies" />
+        
+        <!-- Copy over the native template -->
+        <delete dir="${artifactsDir}/${nativeTemplateName}" />
+        <mkdir dir="${artifactsDir}/${nativeTemplateName}" />
+        <copy todir="${artifactsDir}/${nativeTemplateName}">
+            <fileset dir="${nativeTemplateName}" />
+        </copy>
+        
+        <!-- Copy in the third party dependencies -->
+        <copy todir="${dependenciesDir}/RestKit">
+            <fileset dir="${thirdPartyLibDir}/RestKit" />
+        </copy>
+        <copy todir="${dependenciesDir}/SalesforceCommonUtils">
+            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
+        </copy>
+        <copy todir="${dependenciesDir}/openssl">
+            <fileset dir="${thirdPartyLibDir}/openssl">
+                <exclude name="openssl/**" />
+            </fileset>
+        </copy>
+        <copy todir="${dependenciesDir}/sqlcipher">
+            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
+        </copy>
+        
+        <!-- Add the SDK dependencies -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceNativeSDK-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
+        </exec>
+        
+        <!-- SDK resources -->
+        <copy todir="${artifactsDir}/${nativeTemplateName}/${nativeTemplateName}/SalesforceSDKResources.bundle">
+            <fileset dir="${sdkResourcesBundleDir}" />
+        </copy>
+    </target>
+    
+    <target name="nativeAppTemplateLibs">
+        <antcall target="buildSalesforceSDKCore" />
+        <antcall target="buildSalesforceOAuth" />
+        <antcall target="buildSalesforceNativeSDK" />
     </target>
     
     <target name="buildCordova" description="Builds the Cordova library.">
