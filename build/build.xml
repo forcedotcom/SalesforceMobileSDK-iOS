@@ -61,10 +61,85 @@
         </copy>
     </target>
     
+    <target name="hybridAppTemplate" depends="hybridAppTemplateLibs" description="Creates the hybrid app template">
+        <property name="hybridTemplateName" value="__HybridTemplateAppName__" />
+        <property name="dependenciesDir" location="${artifactsDir}/${hybridTemplateName}/${hybridTemplateName}/Dependencies" />
+        <property name="wwwDir" location="${artifactsDir}/${hybridTemplateName}/${hybridTemplateName}/www" />
+        <property name="externalSharedDir" location="../external/shared" />
+        <property name="sharedHybridDir" location="../shared/hybrid" />
+        <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
+        
+        <!-- Copy over the hybrid template -->
+        <delete dir="${artifactsDir}/${hybridTemplateName}" />
+        <mkdir dir="${artifactsDir}/${hybridTemplateName}" />
+        <copy todir="${artifactsDir}/${hybridTemplateName}">
+            <fileset dir="${hybridTemplateName}" />
+        </copy>
+        
+        <!-- Copy in the third party dependencies -->
+        <copy todir="${dependenciesDir}/SalesforceCommonUtils">
+            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
+        </copy>
+        <copy todir="${dependenciesDir}/openssl">
+            <fileset dir="${thirdPartyLibDir}/openssl">
+                <exclude name="openssl/**" />
+            </fileset>
+        </copy>
+        <copy todir="${dependenciesDir}/sqlcipher">
+            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
+        </copy>
+        
+        <!-- Add the SDK dependencies -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/Cordova-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceHybridSDK-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${dependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
+        </exec>
+        
+        <!-- SDK and Cordova resources -->
+        <copy todir="${artifactsDir}/${hybridTemplateName}/${hybridTemplateName}/SalesforceSDKResources.bundle">
+            <fileset dir="${sdkResourcesBundleDir}" />
+        </copy>
+        <copy file="${sharedHybridDir}/config.xml" todir="${artifactsDir}/${hybridTemplateName}/${hybridTemplateName}" />
+        
+        <!-- Hybrid www/ resources -->
+        <copy todir="${wwwDir}">
+            <fileset dir="${externalSharedDir}/SampleApps/contactexplorer" />
+        </copy>
+        <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/cordova.force.js" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/forcetk.js" todir="${wwwDir}" />
+        <copy todir="${wwwDir}/jquery">
+            <fileset dir="${externalSharedDir}/external/jquery" />
+        </copy>
+    </target>
+    
     <target name="nativeAppTemplateLibs">
         <antcall target="buildSalesforceSDKCore" />
         <antcall target="buildSalesforceOAuth" />
         <antcall target="buildSalesforceNativeSDK" />
+    </target>
+    
+    <target name="hybridAppTemplateLibs">
+        <antcall target="buildSalesforceSDKCore" />
+        <antcall target="buildSalesforceOAuth" />
+        <antcall target="buildSalesforceHybridSDK" />
+        <antcall target="buildCordova" />
     </target>
     
     <target name="buildCordova" description="Builds the Cordova library.">
