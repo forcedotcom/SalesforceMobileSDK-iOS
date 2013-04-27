@@ -32,8 +32,8 @@
 #import "SFLogger.h"
 
 // Fill these in when creating a new Connected Application on Force.com
-static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const RemoteAccessConsumerKey = @"__ConnectedAppIdentifier__";
+static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__";
 
 @interface AppDelegate ()
 
