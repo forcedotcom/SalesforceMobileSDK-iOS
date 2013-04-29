@@ -3,12 +3,9 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sdkResourcesBundleDir" location="../shared/resources/SalesforceSDKResources.bundle" />
     
-    <target name="all" description="Build all of the library projects in the SalesforceMobileSDK workspace.">
-        <antcall target="buildCordova" />
-        <antcall target="buildSalesforceHybridSDK" />
-        <antcall target="buildSalesforceNativeSDK" />
-        <antcall target="buildSalesforceOAuth" />
-        <antcall target="buildSalesforceSDKCore" />
+    <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace.">
+        <antcall target="nativeAppTemplate" />
+        <antcall target="hybridAppTemplate" />
     </target>
     
     <target name="nativeAppTemplate" depends="nativeAppTemplateLibs" description="Creates the native app template">
