@@ -6,4 +6,4 @@ The default target, `all`, will build all of the core, native, and hybrid librar
 
 ## Using the app templates
 
-The native and hybrid app templates can be found in the `NativeAppTemplate` and `HybridAppTemplate` build artifacts folders, respectively.  You can generate an app by running the `createApp.sh` script inside the folder.  Running the script without arguments will show you the usage details.  After the script has run, your app will be in the same folder as the template, under your app's folder name.
+The native and hybrid app templates can be found in the `NativeAppTemplate` and `HybridAppTemplate` build artifacts folders, respectively.  You can generate an app by running the `createApp.sh` script inside the folder.  Running the script without arguments will show you the usage details.  After the script has run, your app can be found in the same folder as the template, under your app's folder name.
