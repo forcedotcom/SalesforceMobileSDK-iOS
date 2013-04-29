@@ -65,7 +65,6 @@ function parseOpts()
 {
     while getopts :t:n:c:o:a:u: commandLineOpt
     do
-        echo "$commandLineOpt is $OPTARG"
         case $commandLineOpt in
             t) appType=`echo $OPTARG | sed -e 's/^ *//g' -e 's/ *$//g'`
                appType=`echo $appType | tr '[:upper:]' '[:lower:]'`
@@ -181,6 +180,10 @@ function replaceTokens()
         exit 14
     fi
     
+    # Make a copy of the app template folder.
+    mv "${appNameToken}" "${appNameToken}__orig"
+    cp -R "${appNameToken}__orig" "${appNameToken}"
+    
     inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
     inputInfoFile="${appNameToken}/${appNameToken}/${appNameToken}-Info.plist"
     inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
@@ -214,6 +217,9 @@ function replaceTokens()
     mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
     mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
     mv "${appNameToken}" "${OPT_APP_NAME}"
+    
+    # Move the original template back into place.
+    mv "${appNameToken}__orig" "${appNameToken}"
 }
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

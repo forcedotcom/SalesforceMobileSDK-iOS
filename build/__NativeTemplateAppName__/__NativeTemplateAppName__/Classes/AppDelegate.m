@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <MobileCoreServices/UTCoreTypes.h>
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "RootViewController.h"
