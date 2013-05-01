@@ -38,7 +38,6 @@
 		7DBD0738149AA8430043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0737149AA8430043A9E0 /* AppDelegate.m */; };
 		7DBD073F149AA8430043A9E0 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD073E149AA8430043A9E0 /* README */; };
 		7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0745149AA8440043A9E0 /* Settings.bundle */; };
-		7DBD074F149AA8780043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD074E149AA8780043A9E0 /* www */; };
 		8202760E1651795300DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202760D1651795300DB814C /* MessageUI.framework */; };
 		8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */; };
 		8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA416ED5F6000BD1EA2 /* libssl.a */; };
@@ -52,7 +51,22 @@
 		8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB416ED5FF800BD1EA2 /* CoreData.framework */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
+		CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CE21731BF5400CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE361CE61731BFF700CB4C70 /* Copy Shared www Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www;
+			dstSubfolderSpec = 7;
+			files = (
+				CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */,
+			);
+			name = "Copy Shared www Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
@@ -89,7 +103,6 @@
 		7DBD0737149AA8430043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DBD073E149AA8430043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD0745149AA8440043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		7DBD074E149AA8780043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		8202760D1651795300DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CAA416ED5F6000BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
@@ -103,6 +116,7 @@
 		8251CAB416ED5FF800BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8295462F167A7F5B00A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		CE361CE21731BF5400CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/SampleApps/vfconnector/bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +211,8 @@
 		7DBD06E7149AA8420043A9E0 /* VFConnector */ = {
 			isa = PBXGroup;
 			children = (
+				CE361CE01731BE5100CB4C70 /* shared-www */,
 				7DBD0733149AA8430043A9E0 /* readme.md */,
-				7DBD074E149AA8780043A9E0 /* www */,
 				7DBD0720149AA8430043A9E0 /* Resources */,
 				7DBD0735149AA8430043A9E0 /* Classes */,
 				7DBD073D149AA8430043A9E0 /* Plugins */,
@@ -269,6 +283,14 @@
 			name = Plugins;
 			sourceTree = "<group>";
 		};
+		CE361CE01731BE5100CB4C70 /* shared-www */ = {
+			isa = PBXGroup;
+			children = (
+				CE361CE21731BF5400CB4C70 /* bootconfig.json */,
+			);
+			name = "shared-www";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,6 +301,7 @@
 				7DBD06C0149AA8420043A9E0 /* Sources */,
 				7DBD06C1149AA8420043A9E0 /* Frameworks */,
 				7DBD06C2149AA8420043A9E0 /* Resources */,
+				CE361CE61731BFF700CB4C70 /* Copy Shared www Files */,
 			);
 			buildRules = (
 			);
@@ -332,7 +355,6 @@
 				7DBD0734149AA8430043A9E0 /* readme.md in Resources */,
 				7DBD073F149AA8430043A9E0 /* README in Resources */,
 				7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */,
-				7DBD074F149AA8780043A9E0 /* www in Resources */,
 				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
