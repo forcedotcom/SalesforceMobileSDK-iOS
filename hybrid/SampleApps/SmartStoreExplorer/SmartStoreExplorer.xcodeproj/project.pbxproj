@@ -65,7 +65,6 @@
 		82954626167A7E3400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82954625167A7E3400A0FC34 /* config.xml */; };
 		82954627167A7F0E00A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82954623167A7E1500A0FC34 /* cordova-2.3.0.js */; };
 		CE361CDF1731BD0D00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CDC1731BD0500CB4C70 /* bootconfig.json */; };
-		CE361CE51731BF6B00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CE41731BF6B00CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -79,7 +78,6 @@
 				824A9BBA1721E56200C9BD79 /* index.html in Copy Shared www Files */,
 				CE361CDF1731BD0D00CB4C70 /* bootconfig.json in Copy Shared www Files */,
 				824A9BBB1721E56200C9BD79 /* smartstoreexplorer.js in Copy Shared www Files */,
-				CE361CE51731BF6B00CB4C70 /* bootconfig.json in Copy Shared www Files */,
 				824A9BBC1721E56E00C9BD79 /* cordova.force.js in Copy Shared www Files */,
 				824A9BBD1721E56E00C9BD79 /* forcetk.js in Copy Shared www Files */,
 			);
@@ -182,7 +180,6 @@
 		82954623167A7E1500A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		82954625167A7E3400A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		CE361CDC1731BD0500CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
-		CE361CE41731BF6B00CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = "/Users/bhariharan/Documents.old/Github_Repositories/My_Forks/SalesforceMobileSDK-iOS/hybrid/SampleApps/VFConnector/VFConnector/../../../../external/shared/SampleApps/vfconnector/bootconfig.json"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,7 +278,6 @@
 		825071E015C3513E00F3A529 = {
 			isa = PBXGroup;
 			children = (
-				CE361CE41731BF6B00CB4C70 /* bootconfig.json */,
 				8250720F15C3513E00F3A529 /* SmartStoreExplorer */,
 				825071F015C3513E00F3A529 /* Frameworks */,
 				825071EE15C3513E00F3A529 /* Products */,
