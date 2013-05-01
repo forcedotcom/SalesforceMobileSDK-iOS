@@ -14,7 +14,6 @@
 		824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
 		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
 		824A9BE21721FCA400C9BD79 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BE11721FCA400C9BD79 /* AppDelegate.m */; };
-		824A9BF81721FDDA00C9BD79 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BF71721FDDA00C9BD79 /* www */; };
 		824A9BFA1721FE1100C9BD79 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BF91721FE1100C9BD79 /* readme.md */; };
 		824A9C5D1722020600C9BD79 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5C1722020600C9BD79 /* Settings.bundle */; };
 		824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
@@ -84,6 +83,7 @@
 		824A9DC91724CF1C00C9BD79 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC51724CF1C00C9BD79 /* icon-72@2x.png */; };
 		824A9DCA1724CF1C00C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC61724CF1C00C9BD79 /* icon.png */; };
 		824A9DCB1724CF1C00C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC71724CF1C00C9BD79 /* icon@2x.png */; };
+		CE361CD31731BB4A00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CD01731BB1600CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +98,7 @@
 				824A9D6E1724C39700C9BD79 /* UserSearch.html in Copy Shared www Files */,
 				824A9D741724C43700C9BD79 /* cordova-2.3.0.js in Copy Shared www Files */,
 				824A9D751724C46500C9BD79 /* auth.js in Copy Shared www Files */,
+				CE361CD31731BB4A00CB4C70 /* bootconfig.json in Copy Shared www Files */,
 				824A9D8C1724C5AE00C9BD79 /* stackrouter.js in Copy Shared www Files */,
 				824A9D8D1724C5E700C9BD79 /* cordova.force.js in Copy Shared www Files */,
 				824A9D8E1724C5FA00C9BD79 /* force.entity.js in Copy Shared www Files */,
@@ -182,7 +183,6 @@
 		824A9BDF1721FCA400C9BD79 /* AccountEditor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccountEditor-Prefix.pch"; sourceTree = "<group>"; };
 		824A9BE01721FCA400C9BD79 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		824A9BE11721FCA400C9BD79 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		824A9BF71721FDDA00C9BD79 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		824A9C321721FF4B00C9BD79 /* backbone-1.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.min.js"; sourceTree = "<group>"; };
 		824A9C331721FF4B00C9BD79 /* underscore-1.4.4.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-1.4.4.min.js"; sourceTree = "<group>"; };
@@ -253,6 +253,7 @@
 		824A9DC51724CF1C00C9BD79 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
 		824A9DC61724CF1C00C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = SOURCE_ROOT; };
 		824A9DC71724CF1C00C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		CE361CD01731BB1600CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -348,7 +349,6 @@
 			isa = PBXGroup;
 			children = (
 				824A9BF91721FE1100C9BD79 /* readme.md */,
-				824A9BF71721FDDA00C9BD79 /* www */,
 				824A9BFB1721FE7E00C9BD79 /* shared-www */,
 				824A9C5E1722021D00C9BD79 /* Classes */,
 				824A9C5B1722018E00C9BD79 /* Resources */,
@@ -467,6 +467,7 @@
 		824A9D361724C25600C9BD79 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				CE361CD01731BB1600CB4C70 /* bootconfig.json */,
 				824A9D371724C25600C9BD79 /* AccountEditor.html */,
 				824A9D381724C25600C9BD79 /* auth.js */,
 				824A9D391724C25600C9BD79 /* auth_local.js */,
@@ -570,7 +571,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
-				824A9BF81721FDDA00C9BD79 /* www in Resources */,
 				824A9BFA1721FE1100C9BD79 /* readme.md in Resources */,
 				824A9C5D1722020600C9BD79 /* Settings.bundle in Resources */,
 				824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */,

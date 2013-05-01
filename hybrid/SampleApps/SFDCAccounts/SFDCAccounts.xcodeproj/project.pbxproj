@@ -36,7 +36,6 @@
 		7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C8149AA9640043A9E0 /* Default~iPad.png */; };
 		7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD07CE149AA9640043A9E0 /* AppDelegate.m */; };
 		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
-		7DBD07E6149AA98E0043A9E0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07E5149AA98E0043A9E0 /* www */; };
 		82027600165178E500DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275FF165178E500DB814C /* MessageUI.framework */; };
 		8238571617299A84007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238570717299A5C007775A8 /* jquery-2.0.0.min.js */; };
 		8238571717299A84007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238570817299A5C007775A8 /* jquery.mobile-1.3.1.min.css */; };
@@ -68,6 +67,7 @@
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
 		8295461C167A7DC000A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295461B167A7DC000A0FC34 /* config.xml */; };
 		8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82954619167A7DA900A0FC34 /* cordova-2.3.0.js */; };
+		CE361CDB1731BC4600CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CD81731BC3C00CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +80,7 @@
 				8295461D167A7DD700A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */,
 				824A9B7A1721E46F00C9BD79 /* editaccount.html in Copy Shared www Files */,
 				824A9B7B1721E46F00C9BD79 /* editopportunity.html in Copy Shared www Files */,
+				CE361CDB1731BC4600CB4C70 /* bootconfig.json in Copy Shared www Files */,
 				824A9B7C1721E46F00C9BD79 /* index.html in Copy Shared www Files */,
 				824A9B7D1721E46F00C9BD79 /* sfdcaccounts.js in Copy Shared www Files */,
 				824A9B7E1721E46F00C9BD79 /* sfdcsmartstore.js in Copy Shared www Files */,
@@ -156,7 +157,6 @@
 		7DBD07CE149AA9640043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DBD07D5149AA9650043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		7DBD07E5149AA98E0043A9E0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		820275FF165178E500DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8238570217299A5C007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
 		8238570317299A5C007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
@@ -188,6 +188,7 @@
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82954619167A7DA900A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		8295461B167A7DC000A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		CE361CD81731BC3C00CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				7DBD07CA149AA9640043A9E0 /* readme.md */,
-				7DBD07E5149AA98E0043A9E0 /* www */,
 				7D3FF01614BE27B2004D3FF6 /* shared-www */,
 				7DBD07CC149AA9640043A9E0 /* Classes */,
 				7DBD07B7149AA9640043A9E0 /* Resources */,
@@ -395,6 +395,7 @@
 		824A9B3B1721E3C900C9BD79 /* sfdcaccounts */ = {
 			isa = PBXGroup;
 			children = (
+				CE361CD81731BC3C00CB4C70 /* bootconfig.json */,
 				824A9B3C1721E3C900C9BD79 /* editaccount.html */,
 				824A9B3D1721E3C900C9BD79 /* editopportunity.html */,
 				824A9B3E1721E3C900C9BD79 /* index.html */,
@@ -486,7 +487,6 @@
 				7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */,
 				7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */,
 				7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */,
-				7DBD07E6149AA98E0043A9E0 /* www in Resources */,
 				8295461C167A7DC000A0FC34 /* config.xml in Resources */,
 				4F53F6D91683D96E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 			);
