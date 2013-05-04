@@ -565,6 +565,7 @@
 		7DBD07E3149AA9650043A9E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
@@ -585,6 +586,7 @@
 		7DBD07E4149AA9650043A9E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
