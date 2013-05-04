@@ -17,7 +17,7 @@
 		<string>icon-72.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.salesforce.mobilesdk.VFConnector</string>
+	<string>${BUNDLE_PREFIX}.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
