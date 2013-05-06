@@ -222,13 +222,15 @@ function replaceTokens()
     echo "Creating output folder '${OPT_OUTPUT_FOLDER}'."
     mkdir -p "${OPT_OUTPUT_FOLDER}"
   fi
+  local outputFolderAbsPath=`cd "${OPT_OUTPUT_FOLDER}" && pwd`
 
   # Copy the app template folder to a new working folder, and change to that folder.
   local origWorkingFolder=`pwd`
   local workingFolderPrefix=`basename ${BASH_SOURCE[0]}`
   local workingFolderTemplate="/tmp/${workingFolderPrefix}.XXXXXX"
   local workingFolder=`mktemp -d ${workingFolderTemplate}`
-  cp -R "${appNameToken}" "${workingFolder}"
+  local resourcesFolder=`dirname "${BASH_SOURCE[0]}"`
+  cp -R "${resourcesFolder}/${appNameToken}" "${workingFolder}"
   cd "${workingFolder}"
 
   local inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
@@ -271,15 +273,12 @@ function replaceTokens()
   mv "${inputInfoFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Info.plist"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
-  mv "${appNameToken}" "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
+  mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
 
   # Remove working artifacts
   cd "${origWorkingFolder}"
   rm -rf "${workingFolder}"
 }
-
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "${SCRIPT_DIR}"
 
 if [[ "$@" == "" ]]; then
   usage
