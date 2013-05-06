@@ -40,7 +40,7 @@ OPT_COMPANY_ID=""
 OPT_ORG_NAME=""
 OPT_APP_ID="3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"
 OPT_REDIRECT_URI="testsfdc:///mobilesdk/detect/oauth/done"
-OPT_OUTPUT_FOLDER="."
+OPT_OUTPUT_FOLDER=`pwd`
 OPT_HYBRID_APP_START_PAGE=""
 OPT_HYBRID_APP_IS_LOCAL=""
 
@@ -183,6 +183,8 @@ function parseOpts()
 
 function replaceTokens()
 {
+  local appNameToken
+  local inputConnectedAppFile
   if [[ "$1" == "native" ]]; then
     # Native app substitutions.
     appNameToken=${SUB_NATIVE_APP_NAME}
@@ -220,14 +222,20 @@ function replaceTokens()
     echo "Creating output folder '${OPT_OUTPUT_FOLDER}'."
     mkdir -p "${OPT_OUTPUT_FOLDER}"
   fi
+  local outputFolderAbsPath=`cd "${OPT_OUTPUT_FOLDER}" && pwd`
 
-  # Make a copy of the app template folder.
-  mv "${appNameToken}" "${appNameToken}__orig"
-  cp -R "${appNameToken}__orig" "${appNameToken}"
+  # Copy the app template folder to a new working folder, and change to that folder.
+  local origWorkingFolder=`pwd`
+  local workingFolderPrefix=`basename ${BASH_SOURCE[0]}`
+  local workingFolderTemplate="/tmp/${workingFolderPrefix}.XXXXXX"
+  local workingFolder=`mktemp -d ${workingFolderTemplate}`
+  local resourcesFolder=`dirname "${BASH_SOURCE[0]}"`
+  cp -R "${resourcesFolder}/${appNameToken}" "${workingFolder}"
+  cd "${workingFolder}"
 
-  inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
-  inputInfoFile="${appNameToken}/${appNameToken}/${appNameToken}-Info.plist"
-  inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
+  local inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
+  local inputInfoFile="${appNameToken}/${appNameToken}/${appNameToken}-Info.plist"
+  local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
 
   # App name
   cat "${inputPrefixFile}" | sed "s/${appNameToken}/${OPT_APP_NAME}/g" > "${inputPrefixFile}.new"
@@ -265,14 +273,12 @@ function replaceTokens()
   mv "${inputInfoFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Info.plist"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
-  mv "${appNameToken}" "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
+  mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
 
-  # Move the original template back into place.
-  mv "${appNameToken}__orig" "${appNameToken}"
+  # Remove working artifacts
+  cd "${origWorkingFolder}"
+  rm -rf "${workingFolder}"
 }
-
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "${SCRIPT_DIR}"
 
 if [[ "$@" == "" ]]; then
   usage

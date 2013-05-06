@@ -2,6 +2,9 @@
     <property name="artifactsDir" location="artifacts" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sdkResourcesBundleDir" location="../shared/resources/SalesforceSDKResources.bundle" />
+    <property name="baseTemplateFilesDir" location="app_template_files" />
+    <property name="destAppCreationScriptName" value="createApp.sh" />
+    <property name="srcAppCreationScript" location="${baseTemplateFilesDir}/createApp.sh.base" />
     
     <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace.">
         <antcall target="nativeAppTemplate" />
@@ -9,15 +12,16 @@
     </target>
     
     <target name="nativeAppTemplate" depends="nativeAppTemplateLibs" description="Creates the native app template">
-        <property name="nativeTemplateName" value="__NativeTemplateAppName__" />
-        <property name="templateDir" location="${artifactsDir}/NativeAppTemplate" />
-        <property name="dependenciesDir" location="${templateDir}/${nativeTemplateName}/${nativeTemplateName}/Dependencies" />
+        <property name="srcNativeTemplateFilesDir" location="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
+        <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
+        <property name="destTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
+        <property name="dependenciesDir" location="${destTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
         
         <!-- Copy over the native template -->
-        <delete dir="${templateDir}" />
-        <mkdir dir="${templateDir}" />
-        <copy todir="${templateDir}/${nativeTemplateName}">
-            <fileset dir="${nativeTemplateName}" />
+        <delete dir="${destTemplateDir}" />
+        <mkdir dir="${destTemplateDir}" />
+        <copy todir="${destTemplateDir}/${destNativeTemplateName}">
+            <fileset dir="${srcNativeTemplateFilesDir}" />
         </copy>
         
         <!-- Copy in the third party dependencies -->
@@ -54,29 +58,30 @@
         </exec>
         
         <!-- SDK resources -->
-        <copy todir="${templateDir}/${nativeTemplateName}/${nativeTemplateName}/SalesforceSDKResources.bundle">
+        <copy todir="${destTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/SalesforceSDKResources.bundle">
             <fileset dir="${sdkResourcesBundleDir}" />
         </copy>
         
         <!-- App generator script -->
-        <copy todir="${templateDir}" file="createApp.sh" />
-        <chmod file="${templateDir}/createApp.sh" perm="755" />
+        <copy file="${srcAppCreationScript}" tofile="${destTemplateDir}/${destAppCreationScriptName}" />
+        <chmod file="${destTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
     <target name="hybridAppTemplate" depends="hybridAppTemplateLibs" description="Creates the hybrid app template">
-        <property name="hybridTemplateName" value="__HybridTemplateAppName__" />
-        <property name="templateDir" location="${artifactsDir}/HybridAppTemplate" />
-        <property name="dependenciesDir" location="${templateDir}/${hybridTemplateName}/${hybridTemplateName}/Dependencies" />
-        <property name="wwwDir" location="${templateDir}/${hybridTemplateName}/${hybridTemplateName}/www" />
+        <property name="srcHybridTemplateFilesDir" location="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
+        <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
+        <property name="destTemplateDir" location="${artifactsDir}/HybridAppTemplate" />
+        <property name="dependenciesDir" location="${destTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
+        <property name="wwwDir" location="${destTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
         <property name="externalSharedDir" location="../external/shared" />
         <property name="sharedHybridDir" location="../shared/hybrid" />
         <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
         
         <!-- Copy over the hybrid template -->
-        <delete dir="${templateDir}" />
-        <mkdir dir="${templateDir}" />
-        <copy todir="${templateDir}/${hybridTemplateName}">
-            <fileset dir="${hybridTemplateName}" />
+        <delete dir="${destTemplateDir}" />
+        <mkdir dir="${destTemplateDir}" />
+        <copy todir="${destTemplateDir}/${destHybridTemplateName}">
+            <fileset dir="${srcHybridTemplateFilesDir}" />
         </copy>
         
         <!-- Copy in the third party dependencies -->
@@ -115,10 +120,10 @@
         </exec>
         
         <!-- SDK and Cordova resources -->
-        <copy todir="${templateDir}/${hybridTemplateName}/${hybridTemplateName}/SalesforceSDKResources.bundle">
+        <copy todir="${destTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/SalesforceSDKResources.bundle">
             <fileset dir="${sdkResourcesBundleDir}" />
         </copy>
-        <copy file="${sharedHybridDir}/config.xml" todir="${templateDir}/${hybridTemplateName}/${hybridTemplateName}" />
+        <copy file="${sharedHybridDir}/config.xml" todir="${destTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}" />
         
         <!-- Hybrid www/ resources -->
         <copy todir="${wwwDir}">
@@ -131,9 +136,8 @@
             <fileset dir="${externalSharedDir}/external/jquery" />
         </copy>
         
-        <!-- App generator script -->
-        <copy todir="${templateDir}" file="createApp.sh" />
-        <chmod file="${templateDir}/createApp.sh" perm="755" />
+        <copy file="${srcAppCreationScript}" tofile="${destTemplateDir}/${destAppCreationScriptName}" />
+        <chmod file="${destTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
     <target name="nativeAppTemplateLibs">
