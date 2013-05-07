@@ -416,6 +416,7 @@
 		7DF4D3C01472E23B005CE144 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
@@ -436,6 +437,7 @@
 		7DF4D3C11472E23B005CE144 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";

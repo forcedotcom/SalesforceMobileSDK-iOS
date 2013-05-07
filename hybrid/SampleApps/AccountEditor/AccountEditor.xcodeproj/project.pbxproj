@@ -690,6 +690,7 @@
 		824A9BF51721FCA400C9BD79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
@@ -710,6 +711,7 @@
 		824A9BF61721FCA400C9BD79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
