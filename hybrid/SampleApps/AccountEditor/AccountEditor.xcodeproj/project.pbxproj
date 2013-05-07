@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F09CF6817386C68002B86DE /* fastclick.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F09CF6717386C68002B86DE /* fastclick.js */; };
+		4F09CF6917386CFE002B86DE /* fastclick.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F09CF6717386C68002B86DE /* fastclick.js */; };
 		823856DF17299907007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856DD172998CE007775A8 /* jquery-2.0.0.min.js */; };
 		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
 		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
@@ -93,6 +95,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4F09CF6917386CFE002B86DE /* fastclick.js in Copy Shared www Files */,
 				824A9D6C1724C38B00C9BD79 /* AccountEditor.html in Copy Shared www Files */,
 				824A9D6D1724C39400C9BD79 /* UserAndGroupSearch.html in Copy Shared www Files */,
 				824A9D6E1724C39700C9BD79 /* UserSearch.html in Copy Shared www Files */,
@@ -172,6 +175,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F09CF6717386C68002B86DE /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
 		823856DD172998CE007775A8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
 		824A9BCE1721FCA400C9BD79 /* AccountEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -467,6 +471,7 @@
 		824A9D361724C25600C9BD79 /* entity */ = {
 			isa = PBXGroup;
 			children = (
+				4F09CF6717386C68002B86DE /* fastclick.js */,
 				CE361CD01731BB1600CB4C70 /* bootconfig.json */,
 				824A9D371724C25600C9BD79 /* AccountEditor.html */,
 				824A9D381724C25600C9BD79 /* auth.js */,
@@ -598,6 +603,7 @@
 			files = (
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
 				824A9BE21721FCA400C9BD79 /* AppDelegate.m in Sources */,
+				4F09CF6817386C68002B86DE /* fastclick.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
