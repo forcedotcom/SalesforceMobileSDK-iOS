@@ -123,7 +123,7 @@
         <echo>${action}ing ${target.name} for SDK ${sdk}</echo>
 
         <exec executable="xcodebuild" failonerror="true" logError="true">
-            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=&quot;${install_path}&quot; ${action}"/>
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} INSTALL_ROOT=&quot;${install_path}&quot; clean ${action}"/>
         </exec>
     </target>
 
@@ -131,7 +131,7 @@
         <echo>xcodebuild ${target}(${configuration}) from ${target.name}.xcodeproj using SDK '${sdk}'</echo>
 
         <exec executable="xcodebuild" failonerror="true" logError="true">
-            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} "/>
+            <arg line="-project &quot;${project.dir}/${target.name}.xcodeproj&quot; -target ${target} -configuration ${configuration} -sdk ${sdk} clean build"/>
         </exec>
     </target>
 
