@@ -1,9 +1,19 @@
 # Salesforce.com Mobile SDK for iOS
 Installation (do this first - really)
 ==
-After cloning the SalesforceMobileSDK-iOS project from github, run the install script from the Terminal command line:
+Working with this repository requires working with git.  I.e. any workflow that leaves you with a functioning git clone of this repository should set you up for success.  Downloading the ZIP file from GitHub, on the other hand, is likely to put you at a dead end.
 
-`./install.sh`
+## Setting up the repo
+First, clone the repo:
+
+- Open the Terminal App
+- `cd` to the parent directory where the repo directory will live
+- `git clone https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git`
+
+After cloning the repo:
+
+- `cd SalesforceMobileSDK-iOS`
+- `./install.sh`
 
 This script pulls submodule dependencies from github, and builds all the library files you will need.  It also installs Xcode project templates in the default Xcode template location.
 See the setup.md file for additional instructions. Salesforce Mobile SDK requires Xcode 4.5 or greater.  The install.sh script checks for this, and aborts if the installed version of Xcode is incorrect.
