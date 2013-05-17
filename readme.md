@@ -1,9 +1,19 @@
 # Salesforce.com Mobile SDK for iOS
 Installation (do this first - really)
 ==
-After cloning the SalesforceMobileSDK-iOS project from github, run the install script from the Terminal command line:
+Working with this repository requires working with git.  I.e. any workflow that leaves you with a functioning git clone of this repository should set you up for success.  Downloading the ZIP file from GitHub, on the other hand, is likely to put you at a dead end.
 
-`./install.sh`
+## Setting up the repo
+First, clone the repo:
+
+- Open the Terminal App
+- `cd` to the parent directory where the repo directory will live
+- `git clone https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git`
+
+After cloning the repo:
+
+- `cd SalesforceMobileSDK-iOS`
+- `./install.sh`
 
 This script pulls the submodule dependencies from GitHub, to finalize setup of the workspace.  You can then work with the Mobile SDK by opening `SalesforceMobileSDK.xcworkspace` from Xcode.
 
@@ -136,9 +146,11 @@ You can also use the SDK in an existing project:
 	1. **MobileCoreServices.framework**
 	1. **SystemConfiguration.framework**
 	1. **Security.framework**
+	1. **MessageUI.framework** 
+	1. **QuartzCore.framework**
 	1. **libxml2.dylib**
 	1. **libsqlite3.dylib**
-	1. **libz.dylib**
+	1. **libz.dylib**	
 
 4. Import the SalesforceSDK header via ``#import "SFRestAPI.h"``.
 
