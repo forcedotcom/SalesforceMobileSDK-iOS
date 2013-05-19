@@ -11,7 +11,8 @@
     <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     
     <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace.">
-        <antcall target="npmPackage" /> <!-- Cascading dependencies will build everything. -->
+        <antcall target="nativeAppTemplate" />
+        <antcall target="hybridAppTemplate" />
     </target>
     
     <target name="nativeAppTemplate" depends="nativeAppTemplateLibs,nativeAppTemplateShell" description="Creates the native app template">
