@@ -58,18 +58,32 @@ SUB_REDIRECT_URI="__ConnectedAppRedirectUri__"
 SUB_HYBRID_APP_IS_LOCAL="__AppIsLocal__"
 SUB_HYBRID_APP_START_PAGE="__StartPage__"
 
+# Term color codes
+TERM_COLOR_RED="\x1b[31;1m"
+TERM_COLOR_GREEN="\x1b[32;1m"
+TERM_COLOR_YELLOW="\x1b[33;1m"
+TERM_COLOR_MAGENTA="\x1b[35;1m"
+TERM_COLOR_CYAN="\x1b[36;1m"
+TERM_COLOR_RESET="\x1b[0m"
+
+function echoColor
+{
+  echo -e "$1$2$TERM_COLOR_RESET"
+}
+
 function usage()
 {
-    echo "Usage:"
-    echo "$0"
-    echo "   -t <Application Type> (native, hybrid_remote, hybrid_local)"
-    echo "   -n <Application Name>"
-    echo "   -c <Company Identifier> (com.myCompany.myApp)"
-    echo "   -g <Organization Name> (your company's/organization's name"
-    echo "   [-o <Output directory> (defaults to this script's directory)"
-    echo "   [-a <Salesforce App Identifier>] (the Consumer Key for your app)"
-    echo "   [-u <Salesforce App Callback URL] (the Callback URL for your app)"
-    echo "   [-s <App Start Page> (defaults to index.html for hybrid_local, and /apex/VFStartPage for hybrid_remote)"
+  local appName=`basename $0`
+  echoColor $TERM_COLOR_CYAN "Usage:"
+  echoColor $TERM_COLOR_MAGENTA "$appName"
+  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native, hybrid_remote, hybrid_local)"
+  echoColor $TERM_COLOR_MAGENTA "   -n <Application Name>"
+  echoColor $TERM_COLOR_MAGENTA "   -c <Company Identifier> (com.myCompany.myApp)"
+  echoColor $TERM_COLOR_MAGENTA "   -g <Organization Name> (your company's/organization's name"
+  echoColor $TERM_COLOR_MAGENTA "   [-o <Output directory> (defaults to this script's directory)]"
+  echoColor $TERM_COLOR_MAGENTA "   [-a <Salesforce App Identifier>] (the Consumer Key for your app)]"
+  echoColor $TERM_COLOR_MAGENTA "   [-u <Salesforce App Callback URL] (the Callback URL for your app)]"
+  echoColor $TERM_COLOR_MAGENTA "   [-s <App Start Page> (defaults to index.html for hybrid_local, and /apex/VFStartPage for hybrid_remote)]"
 }
 
 function parseOpts()
@@ -80,7 +94,7 @@ function parseOpts()
         appType=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         appType=`echo ${appType} | tr '[:upper:]' '[:lower:]'`
         if [[ "${appType}" != "native" && "${appType}" != "hybrid_remote" && "${appType}" != "hybrid_local" ]]; then
-          echo "'${appType}' is not a valid application type.  Should be 'native', 'hybrid_remote', or 'hybrid_local'."
+          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native', 'hybrid_remote', or 'hybrid_local'."
           usage
           exit 3
         fi
@@ -88,13 +102,13 @@ function parseOpts()
       n)
         appName=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${appName} ]]; then
-          echo "Application name must have a value."
+          echoColor $TERM_COLOR_RED "Application name must have a value."
           usage
           exit 4
         fi
         noSpecialCharsAppName=`echo "${appName}" | sed 's/[^a-zA-Z0-9\.\-_ ]//g'`
         if [[ "${noSpecialCharsAppName}" != "${appName}" ]]; then
-          echo "Application name (${appName}) cannot contain special characters.  Only letters, numbers, spaces, and the characters '.',  '-', and '_' are allowed."
+          echoColor $TERM_COLOR_RED "Application name (${appName}) cannot contain special characters.  Only letters, numbers, spaces, and the characters '.',  '-', and '_' are allowed."
           usage
           exit 5
         fi
@@ -102,7 +116,7 @@ function parseOpts()
       c)
         companyId=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${companyId} ]]; then
-          echo "Company identifier must have a value."
+          echoColor $TERM_COLOR_RED "Company identifier must have a value."
           usage
           exit 6
         fi
@@ -112,7 +126,7 @@ function parseOpts()
       g)
         orgName=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${orgName} ]]; then
-          echo "Organization name must have a value."
+          echoColor $TERM_COLOR_RED "Organization name must have a value."
           usage
           exit 7
         fi
@@ -122,7 +136,7 @@ function parseOpts()
       o)
         outputFolder=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${outputFolder} ]]; then
-          echo "Output folder must have a value."
+          echoColor $TERM_COLOR_RED "Output folder must have a value."
           usage
           exit 8
         fi
@@ -130,7 +144,7 @@ function parseOpts()
       a)
         appId=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${appId} ]]; then
-          echo "App identifier must have a value."
+          echoColor $TERM_COLOR_RED "App identifier must have a value."
           usage
           exit 9
         fi
@@ -138,7 +152,7 @@ function parseOpts()
       u)
         redirectUri=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${redirectUri} ]]; then
-          echo "App callback URL must have a value."
+          echoColor $TERM_COLOR_RED "App callback URL must have a value."
           usage
           exit 10
         fi
@@ -146,13 +160,13 @@ function parseOpts()
       s)
         startPage=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         if [[ -z ${startPage} ]]; then
-          echo "Start page must have a value."
+          echoColor $TERM_COLOR_RED "Start page must have a value."
           usage
           exit 11
         fi
         OPT_HYBRID_APP_START_PAGE=${startPage};;
       ?)
-        echo "Unknown option '-${OPTARG}'."
+        echoColor $TERM_COLOR_RED "Unknown option '-${OPTARG}'."
         usage
         exit 2;;
     esac
@@ -160,22 +174,22 @@ function parseOpts()
   
   # Validate that we got the required command line args.
   if [[ "${OPT_APP_TYPE}" == "" ]]; then
-    echo "No option specified for Application Type.  Must be 'native' or 'hybrid'."
+    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native' or 'hybrid'."
     usage
     exit 12
   fi
   if [[ "${OPT_APP_NAME}" == "" ]]; then
-    echo "No option specified for Application Name."
+    echoColor $TERM_COLOR_RED "No option specified for Application Name."
     usage
     exit 13
   fi
   if [[ "${OPT_COMPANY_ID}" == "" ]]; then
-    echo "No option specified for Company Identifier."
+    echoColor $TERM_COLOR_RED "No option specified for Company Identifier."
     usage
     exit 14
   fi
   if [[ "${OPT_ORG_NAME}" == "" ]]; then
-    echo "No option specified for Organization Name."
+    echoColor $TERM_COLOR_RED "No option specified for Organization Name."
     usage
     exit 15
   fi
@@ -205,21 +219,21 @@ function replaceTokens()
       fi
     fi
   else
-    echo "replaceTokens(): Unknown app type argument '$1'."
+    echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
     exit 16
   fi
 
   # Make the output folder.
   if [[ -e "${OPT_OUTPUT_FOLDER}" ]]; then
     if [[ ! -d "${OPT_OUTPUT_FOLDER}" ]]; then
-      echo "'${OPT_OUTPUT_FOLDER}' already exists, and is not a directory."
+      echoColor $TERM_COLOR_RED "'${OPT_OUTPUT_FOLDER}' already exists, and is not a directory."
       exit 17
     elif [[ -e "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}" ]]; then
-      echo "'${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}' already exists.  Cannot continue."
+      echoColor $TERM_COLOR_RED "'${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}' already exists.  Cannot continue."
       exit 18
     fi
   else
-    echo "Creating output folder '${OPT_OUTPUT_FOLDER}'."
+    echoColor $TERM_COLOR_YELLOW "Creating output folder ${OPT_OUTPUT_FOLDER}"
     mkdir -p "${OPT_OUTPUT_FOLDER}"
   fi
   local outputFolderAbsPath=`cd "${OPT_OUTPUT_FOLDER}" && pwd`
@@ -269,6 +283,7 @@ function replaceTokens()
   fi
 
   # Rename files, move to destination folder.
+  echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
   mv "${inputPrefixFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Prefix.pch"
   mv "${inputInfoFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Info.plist"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
@@ -288,4 +303,4 @@ fi
 parseOpts "$@"
 replaceTokens ${OPT_APP_TYPE}
 
-echo "Successfully created ${OPT_APP_TYPE} app '${OPT_APP_NAME}'."
+echoColor $TERM_COLOR_GREEN "Successfully created ${OPT_APP_TYPE} app '${OPT_APP_NAME}'."

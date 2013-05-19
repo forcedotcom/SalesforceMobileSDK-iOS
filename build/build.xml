@@ -3,54 +3,19 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sdkResourcesBundleDir" location="../shared/resources/SalesforceSDKResources.bundle" />
     <property name="baseTemplateFilesDir" location="app_template_files" />
-    <property name="destAppCreationScriptName" value="createApp.sh" />
     <property name="srcAppCreationScript" location="${baseTemplateFilesDir}/createApp.sh.base" />
-    <property name="destNativeTemplateDirName" value="NativeAppTemplate" />
-    <property name="destHybridTemplateDirName" value="HybridAppTemplate" />
-    <property name="destNativeTemplateDir" location="${artifactsDir}/${destNativeTemplateDirName}" />
-    <property name="destHybridTemplateDir" location="${artifactsDir}/${destHybridTemplateDirName}" />
+    <property name="destAppCreationScriptName" value="createApp.sh" />
+    <property name="destHybridTemplateDir" location="${artifactsDir}/HybridAppTemplate" />
+    <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
+    <property name="destNativeTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
+    <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     
     <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace.">
         <antcall target="npmPackage" /> <!-- Cascading dependencies will build everything. -->
     </target>
     
-    <target name="npmPackage" depends="nativeAppTemplate, hybridAppTemplate" description="Creates the NPM package for the SDK">
-        <property name="srcNpmPackageDir" location="npm_package_base/forceios" />
-        <property name="destNpmPackageDir" location="${artifactsDir}/forceios" />
-        <property name="destNpmTemplateDir" location="${destNpmPackageDir}/templates" />
-        
-        <!-- Base NPM package files -->
-        <delete dir="${destNpmPackageDir}" />
-        <copy todir="${destNpmPackageDir}">
-            <fileset dir="${srcNpmPackageDir}" />
-        </copy>
-        
-        <!-- Native template files -->
-        <copy todir="${destNpmTemplateDir}/${destNativeTemplateDirName}">
-            <fileset dir="${destNativeTemplateDir}" />
-        </copy>
-        <!-- Ant can't preserve permissions on copy.  Fix the app creation script. -->
-        <chmod file="${destNpmTemplateDir}/${destNativeTemplateDirName}/${destAppCreationScriptName}" perm="755" />
-        
-        <!-- Hybrid template files -->
-        <copy todir="${destNpmTemplateDir}/${destHybridTemplateDirName}">
-            <fileset dir="${destHybridTemplateDir}" />
-        </copy>
-        <!-- Ant can't preserve permissions on copy.  Fix the app creation script. -->
-        <chmod file="${destNpmTemplateDir}/${destHybridTemplateDirName}/${destAppCreationScriptName}" perm="755" />
-    </target>
-    
-    <target name="nativeAppTemplate" depends="nativeAppTemplateLibs" description="Creates the native app template">
-        <property name="srcNativeTemplateFilesDir" location="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
-        <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
+    <target name="nativeAppTemplate" depends="nativeAppTemplateLibs,nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" location="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
-        
-        <!-- Copy over the native template -->
-        <delete dir="${destNativeTemplateDir}" />
-        <mkdir dir="${destNativeTemplateDir}" />
-        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}">
-            <fileset dir="${srcNativeTemplateFilesDir}" />
-        </copy>
         
         <!-- Copy in the third party dependencies -->
         <copy todir="${nativeTemplateDependenciesDir}/RestKit">
@@ -90,26 +55,35 @@
             <fileset dir="${sdkResourcesBundleDir}" />
         </copy>
         
+    </target>
+    
+    <target name="nativeAppTemplateShell" description="Creates the basic native template shell, minus dependenies.  NB: npm package will use this.">
+        <property name="srcNativeTemplateFilesDir" location="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
+        
+        <!-- Copy over the native template -->
+        <delete dir="${destNativeTemplateDir}" />
+        <mkdir dir="${destNativeTemplateDir}" />
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}">
+            <fileset dir="${srcNativeTemplateFilesDir}" />
+        </copy>
+        
         <!-- App generator script -->
         <copy file="${srcAppCreationScript}" tofile="${destNativeTemplateDir}/${destAppCreationScriptName}" />
         <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="hybridAppTemplate" depends="hybridAppTemplateLibs" description="Creates the hybrid app template">
-        <property name="srcHybridTemplateFilesDir" location="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
-        <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
+    <target name="nativeAppTemplateLibs">
+        <antcall target="buildSalesforceSDKCore" />
+        <antcall target="buildSalesforceOAuth" />
+        <antcall target="buildSalesforceNativeSDK" />
+    </target>
+    
+    <target name="hybridAppTemplate" depends="hybridAppTemplateLibs,hybridAppTemplateShell" description="Creates the hybrid app template">
         <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
         <property name="wwwDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
         <property name="externalSharedDir" location="../external/shared" />
         <property name="sharedHybridDir" location="../shared/hybrid" />
         <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
-        
-        <!-- Copy over the hybrid template -->
-        <delete dir="${destHybridTemplateDir}" />
-        <mkdir dir="${destHybridTemplateDir}" />
-        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}">
-            <fileset dir="${srcHybridTemplateFilesDir}" />
-        </copy>
         
         <!-- Copy in the third party dependencies -->
         <copy todir="${hybridTemplateDependenciesDir}/SalesforceCommonUtils">
@@ -162,15 +136,21 @@
         <copy todir="${wwwDir}/jquery">
             <fileset dir="${externalSharedDir}/external/jquery" />
         </copy>
-        
-        <copy file="${srcAppCreationScript}" tofile="${destHybridTemplateDir}/${destAppCreationScriptName}" />
-        <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="nativeAppTemplateLibs">
-        <antcall target="buildSalesforceSDKCore" />
-        <antcall target="buildSalesforceOAuth" />
-        <antcall target="buildSalesforceNativeSDK" />
+    <target name="hybridAppTemplateShell" description="Creates the basic hybrid template shell, minus dependenies.  NB: npm package will use this.">
+        <property name="srcHybridTemplateFilesDir" location="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
+        
+        <!-- Copy over the hybrid template -->
+        <delete dir="${destHybridTemplateDir}" />
+        <mkdir dir="${destHybridTemplateDir}" />
+        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}">
+            <fileset dir="${srcHybridTemplateFilesDir}" />
+        </copy>
+        
+        <!-- App generator script -->
+        <copy file="${srcAppCreationScript}" tofile="${destHybridTemplateDir}/${destAppCreationScriptName}" />
+        <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
     <target name="hybridAppTemplateLibs">
