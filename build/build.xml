@@ -10,10 +10,8 @@
     <property name="destNativeTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
     <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     
-    <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace.">
-        <antcall target="nativeAppTemplate" />
-        <antcall target="hybridAppTemplate" />
-    </target>
+    <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace."
+        depends="nativeAppTemplate,hybridAppTemplate" />
     
     <target name="nativeAppTemplate" depends="nativeAppTemplateLibs,nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" location="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -73,11 +71,7 @@
         <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="nativeAppTemplateLibs">
-        <antcall target="buildSalesforceSDKCore" />
-        <antcall target="buildSalesforceOAuth" />
-        <antcall target="buildSalesforceNativeSDK" />
-    </target>
+    <target name="nativeAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceNativeSDK" />
     
     <target name="hybridAppTemplate" depends="hybridAppTemplateLibs,hybridAppTemplateShell" description="Creates the hybrid app template">
         <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
@@ -154,12 +148,9 @@
         <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="hybridAppTemplateLibs">
-        <antcall target="buildSalesforceSDKCore" />
-        <antcall target="buildSalesforceOAuth" />
-        <antcall target="buildSalesforceHybridSDK" />
-        <antcall target="buildCordova" />
-    </target>
+    <target name="hybridAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceHybridSDK,buildCordova" />
+    
+    <target name="appTemplateFoundationLibs" depends="buildSalesforceSDKCore,buildSalesforceOAuth" />
     
     <target name="buildCordova" description="Builds the Cordova library.">
         <antcall target="buildLib">
