@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F09CF6817386C68002B86DE /* fastclick.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F09CF6717386C68002B86DE /* fastclick.js */; };
 		4F09CF6917386CFE002B86DE /* fastclick.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F09CF6717386C68002B86DE /* fastclick.js */; };
 		823856DF17299907007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856DD172998CE007775A8 /* jquery-2.0.0.min.js */; };
 		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
@@ -56,7 +55,6 @@
 		824A9D8D1724C5E700C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C531722015100C9BD79 /* cordova.force.js */; };
 		824A9D8E1724C5FA00C9BD79 /* force.entity.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C541722015100C9BD79 /* force.entity.js */; };
 		824A9D8F1724C61300C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C551722015100C9BD79 /* forcetk.js */; };
-		824A9D911724C73500C9BD79 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D901724C73500C9BD79 /* libCordova.a */; };
 		824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D921724C7C400C9BD79 /* libcrypto.a */; };
 		824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */; };
 		824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */; };
@@ -85,6 +83,7 @@
 		824A9DC91724CF1C00C9BD79 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC51724CF1C00C9BD79 /* icon-72@2x.png */; };
 		824A9DCA1724CF1C00C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC61724CF1C00C9BD79 /* icon.png */; };
 		824A9DCB1724CF1C00C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC71724CF1C00C9BD79 /* icon@2x.png */; };
+		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
 		CE361CD31731BB4A00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CD01731BB1600CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
@@ -228,7 +227,6 @@
 		824A9D4F1724C25600C9BD79 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		824A9D501724C25600C9BD79 /* UserAndGroupSearch.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = UserAndGroupSearch.html; sourceTree = "<group>"; };
 		824A9D511724C25600C9BD79 /* UserSearch.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = UserSearch.html; sourceTree = "<group>"; };
-		824A9D901724C73500C9BD79 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9D921724C7C400C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,6 +255,7 @@
 		824A9DC51724CF1C00C9BD79 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
 		824A9DC61724CF1C00C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = SOURCE_ROOT; };
 		824A9DC71724CF1C00C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE361CD01731BB1600CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,7 +264,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				824A9D911724C73500C9BD79 /* libCordova.a in Frameworks */,
+				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
 				824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */,
 				824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
 				824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */,
@@ -318,7 +317,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				824A9D901724C73500C9BD79 /* libCordova.a */,
+				828B294C174AE06400741BBE /* libCordova.a */,
 				824A9D921724C7C400C9BD79 /* libcrypto.a */,
 				824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */,
 				824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */,
@@ -603,7 +602,6 @@
 			files = (
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
 				824A9BE21721FCA400C9BD79 /* AppDelegate.m in Sources */,
-				4F09CF6817386C68002B86DE /* fastclick.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,7 +695,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../external/cordova-ios/cordova-ios/CordovaLib/build/Release-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -718,7 +715,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../external/cordova-ios/cordova-ios/CordovaLib/build/Release-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
