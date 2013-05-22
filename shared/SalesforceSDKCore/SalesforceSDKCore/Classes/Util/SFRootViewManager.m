@@ -116,15 +116,16 @@
     } else {
         NSString *origRvcClassName = (self.origViewController == nil ? @"NONE" : NSStringFromClass([self.origViewController class]));
         [self log:SFLogLevelDebug format:@"Replacing root view controller (%@) with alternate (%@).", origRvcClassName, NSStringFromClass([self.viewController class])];
-        [UIView transitionWithView:keyWindow
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionFlipFromBottom
-                        animations:^ {
+        // Leaving animations out for now.  We can revisit if and how we might want to animate view transitions in the future.
+        //[UIView transitionWithView:keyWindow
+        //                  duration:0.5
+        //                   options:UIViewAnimationOptionTransitionFlipFromBottom
+        //                animations:^ {
                             keyWindow.rootViewController = self.viewController;
-                        }
-                        completion:^(BOOL finished) {
-                            [self log:SFLogLevelDebug msg:@"showNewView: root view controller replacement complete."];
-                        }];
+        //                }
+        //                completion:^(BOOL finished) {
+        //                    [self log:SFLogLevelDebug msg:@"showNewView: root view controller replacement complete."];
+        //                }];
     }
     
     self.newViewIsDisplayed = YES;
@@ -146,15 +147,16 @@
         NSString *origRvcClassName = (self.origViewController == nil ? @"NONE" : NSStringFromClass([self.origViewController class]));
         [self log:SFLogLevelDebug format:@"Restoring original root view controller (%@).", origRvcClassName];
         UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-        [UIView transitionWithView:keyWindow
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionFlipFromBottom
-                        animations:^ {
+        // Leaving animations out for now.  We can revisit if and how we might want to animate view transitions in the future.
+        //[UIView transitionWithView:keyWindow
+        //                  duration:0.5
+        //                   options:UIViewAnimationOptionTransitionFlipFromBottom
+        //                animations:^ {
                             keyWindow.rootViewController = self.origViewController;
-                        }
-                        completion:^(BOOL finished) {
-                            [self log:SFLogLevelDebug msg:@"restorePreviousView: reverting of root view controller complete."];
-                        }];
+        //                }
+        //                completion:^(BOOL finished) {
+        //                    [self log:SFLogLevelDebug msg:@"restorePreviousView: reverting of root view controller complete."];
+        //                }];
     }
     
     self.origViewController = nil;
