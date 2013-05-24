@@ -94,6 +94,9 @@
         forcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
         forcetkClient.setRefreshToken(creds.refreshToken);
         forcetkClient.setUserAgentString(creds.userAgent);
+        
+        // Initializing entity framework
+        Force.init(creds);
     }
 
 
