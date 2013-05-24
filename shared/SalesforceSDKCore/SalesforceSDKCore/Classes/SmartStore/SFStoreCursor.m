@@ -84,7 +84,8 @@
 
                             
 - (void)dealloc {
-    [self close];
+    if (self.cursorId) // otherwise close has already been called
+        [self close];
 }
 
 
