@@ -21,21 +21,20 @@
 		4F1A5A02174FF4C400473EE8 /* backbone-1.0.0.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */; };
 		4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */; };
 		4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */; };
-		4F1A5A06175008FD00473EE8 /* cordova.force.js in Copy libs/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
-		4F1A5A07175008FD00473EE8 /* force.entity.js in Copy libs/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F2174FF0B100473EE8 /* force.entity.js */; };
-		4F1A5A08175008FD00473EE8 /* forcetk.js in Copy libs/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F3174FF0B100473EE8 /* forcetk.js */; };
 		4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C1174FEF7C00473EE8 /* qunit.css */; };
 		4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C2174FEF7C00473EE8 /* qunit.js */; };
-		4F1A5A0D1750094300473EE8 /* ForceEntityTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */; };
-		4F1A5A0E1750094300473EE8 /* MockCordova.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D7174FF02500473EE8 /* MockCordova.js */; };
-		4F1A5A0F1750094300473EE8 /* MockSDKInfo.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D8174FF02500473EE8 /* MockSDKInfo.js */; };
-		4F1A5A101750094300473EE8 /* MockSmartStore.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D9174FF02500473EE8 /* MockSmartStore.js */; };
-		4F1A5A111750094300473EE8 /* SFAbstractSmartStoreTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
-		4F1A5A121750094300473EE8 /* SFSDKInfoTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */; };
-		4F1A5A131750094300473EE8 /* SFSmartStoreLoadTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */; };
-		4F1A5A141750094300473EE8 /* SFSmartStoreTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */; };
-		4F1A5A151750094300473EE8 /* SFTestRunnerPlugin.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
-		4F1A5A161750094300473EE8 /* SFTestSuite.js in Copy test/ to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
+		4FAA891C175025DF00807E13 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
+		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
+		4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
+		4FAA891F1750266000807E13 /* force.entity.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F2174FF0B100473EE8 /* force.entity.js */; };
+		4FAA89201750266000807E13 /* forcetk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F3174FF0B100473EE8 /* forcetk.js */; };
+		4FAA89211750266000807E13 /* ForceEntityTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */; };
+		4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
+		4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */; };
+		4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */; };
+		4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */; };
+		4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
+		4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
 		824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
@@ -90,9 +89,8 @@
 		82EFF33116E8049600A63CDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF32F16E8049600A63CDF /* InfoPlist.strings */; };
 		82EFF33C16E805E300A63CDF /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33B16E805E300A63CDF /* config.xml */; };
 		82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
-		82EFF34016E80B1C00A63CDF /* www in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33F16E80B1C00A63CDF /* www */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
-		82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy cordova.js to www/ */ = {isa = PBXBuildFile; fileRef = 82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */; };
+		82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
@@ -129,19 +127,6 @@
 			name = "Copy backbone to www/backbone";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1A5A05175008C000473EE8 /* Copy libs/ to www/ */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www;
-			dstSubfolderSpec = 7;
-			files = (
-				4F1A5A06175008FD00473EE8 /* cordova.force.js in Copy libs/ to www/ */,
-				4F1A5A07175008FD00473EE8 /* force.entity.js in Copy libs/ to www/ */,
-				4F1A5A08175008FD00473EE8 /* forcetk.js in Copy libs/ to www/ */,
-			);
-			name = "Copy libs/ to www/";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,26 +137,6 @@
 				4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */,
 			);
 			name = "Copy qunit/ to www/qunit/";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4F1A5A0C1750092900473EE8 /* Copy test/ to www/ */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www;
-			dstSubfolderSpec = 7;
-			files = (
-				4F1A5A0D1750094300473EE8 /* ForceEntityTestSuite.js in Copy test/ to www/ */,
-				4F1A5A0E1750094300473EE8 /* MockCordova.js in Copy test/ to www/ */,
-				4F1A5A0F1750094300473EE8 /* MockSDKInfo.js in Copy test/ to www/ */,
-				4F1A5A101750094300473EE8 /* MockSmartStore.js in Copy test/ to www/ */,
-				4F1A5A111750094300473EE8 /* SFAbstractSmartStoreTestSuite.js in Copy test/ to www/ */,
-				4F1A5A121750094300473EE8 /* SFSDKInfoTestSuite.js in Copy test/ to www/ */,
-				4F1A5A131750094300473EE8 /* SFSmartStoreLoadTestSuite.js in Copy test/ to www/ */,
-				4F1A5A141750094300473EE8 /* SFSmartStoreTestSuite.js in Copy test/ to www/ */,
-				4F1A5A151750094300473EE8 /* SFTestRunnerPlugin.js in Copy test/ to www/ */,
-				4F1A5A161750094300473EE8 /* SFTestSuite.js in Copy test/ to www/ */,
-			);
-			name = "Copy test/ to www/";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82EFF2CE16E7C57100A63CDF /* CopyFiles */ = {
@@ -219,15 +184,26 @@
 			name = "Copy jquery/images to www/jquery/images";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF37016E8147C00A63CDF /* Copy cordova.js to www/ */ = {
+		82EFF37016E8147C00A63CDF /* Copy files to www/ */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy cordova.js to www/ */,
+				4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */,
+				4FAA891F1750266000807E13 /* force.entity.js in Copy files to www/ */,
+				4FAA89201750266000807E13 /* forcetk.js in Copy files to www/ */,
+				4FAA89211750266000807E13 /* ForceEntityTestSuite.js in Copy files to www/ */,
+				4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */,
+				4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */,
+				4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */,
+				4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */,
+				4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */,
+				4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */,
+				4FAA891D1750263200807E13 /* index.html in Copy files to www/ */,
+				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */,
 			);
-			name = "Copy cordova.js to www/";
+			name = "Copy files to www/";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -251,9 +227,6 @@
 		4F1A59C1174FEF7C00473EE8 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
 		4F1A59C2174FEF7C00473EE8 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
 		4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ForceEntityTestSuite.js; sourceTree = "<group>"; };
-		4F1A59D7174FF02500473EE8 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
-		4F1A59D8174FF02500473EE8 /* MockSDKInfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSDKInfo.js; sourceTree = "<group>"; };
-		4F1A59D9174FF02500473EE8 /* MockSmartStore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartStore.js; sourceTree = "<group>"; };
 		4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
 		4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
@@ -263,6 +236,7 @@
 		4F1A59F1174FF0B100473EE8 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
 		4F1A59F2174FF0B100473EE8 /* force.entity.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.entity.js; sourceTree = "<group>"; };
 		4F1A59F3174FF0B100473EE8 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
+		4FAA891B175025DF00807E13 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../external/shared/test/forcepluginstest/index.html; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -324,7 +298,6 @@
 		82EFF33016E8049600A63CDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		82EFF33B16E805E300A63CDF /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		82EFF33D16E8063700A63CDF /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
-		82EFF33F16E80B1C00A63CDF /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		82EFF34216E80B6300A63CDF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
@@ -450,9 +423,6 @@
 			isa = PBXGroup;
 			children = (
 				4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */,
-				4F1A59D7174FF02500473EE8 /* MockCordova.js */,
-				4F1A59D8174FF02500473EE8 /* MockSDKInfo.js */,
-				4F1A59D9174FF02500473EE8 /* MockSmartStore.js */,
 				4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */,
 				4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */,
 				4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */,
@@ -618,7 +588,6 @@
 		82EFF30516E8049500A63CDF /* HybridPluginTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				82EFF33F16E80B1C00A63CDF /* www */,
 				82EFF34616E80D8800A63CDF /* shared-www */,
 				82EFF34116E80B6300A63CDF /* Classes */,
 				82EFF39C16E816CB00A63CDF /* Plugins */,
@@ -683,6 +652,7 @@
 		82EFF34616E80D8800A63CDF /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4FAA891B175025DF00807E13 /* index.html */,
 				4F1A59F0174FF0B100473EE8 /* libs */,
 				4F1A59D2174FF02500473EE8 /* test */,
 				4F1A59AF174FEF7C00473EE8 /* external */,
@@ -727,13 +697,11 @@
 				82EFF2FB16E8049500A63CDF /* Sources */,
 				82EFF2FC16E8049500A63CDF /* Frameworks */,
 				82EFF2FD16E8049500A63CDF /* Resources */,
-				82EFF37016E8147C00A63CDF /* Copy cordova.js to www/ */,
+				82EFF37016E8147C00A63CDF /* Copy files to www/ */,
 				82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */,
 				82EFF36816E8134E00A63CDF /* Copy jquery/images to www/jquery/images */,
 				4F1A5A01174FF4AD00473EE8 /* Copy backbone to www/backbone */,
-				4F1A5A05175008C000473EE8 /* Copy libs/ to www/ */,
 				4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */,
-				4F1A5A0C1750092900473EE8 /* Copy test/ to www/ */,
 			);
 			buildRules = (
 			);
@@ -804,7 +772,7 @@
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
 				82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */,
-				82EFF34016E80B1C00A63CDF /* www in Resources */,
+				4FAA891C175025DF00807E13 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
