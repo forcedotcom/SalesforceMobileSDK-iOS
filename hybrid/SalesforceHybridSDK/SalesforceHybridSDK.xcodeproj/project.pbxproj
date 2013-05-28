@@ -7,27 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		823856D31729973B007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C41729971B007775A8 /* jquery-2.0.0.min.js */; };
-		823856D41729973B007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */; };
-		823856D51729973B007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */; };
-		823856D61729973B007775A8 /* jquery.mobile.structure-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */; };
-		823856D71729973B007775A8 /* jquery.mobile.theme-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */; };
-		823856D81729974A007775A8 /* ajax-loader.gif in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856BF1729971B007775A8 /* ajax-loader.gif */; };
-		823856D91729974A007775A8 /* icons-18-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C01729971B007775A8 /* icons-18-black.png */; };
-		823856DA1729974A007775A8 /* icons-18-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C11729971B007775A8 /* icons-18-white.png */; };
-		823856DB1729974A007775A8 /* icons-36-black.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C21729971B007775A8 /* icons-36-black.png */; };
-		823856DC1729974A007775A8 /* icons-36-white.png in Copy jQuery Images Files */ = {isa = PBXBuildFile; fileRef = 823856C31729971B007775A8 /* icons-36-white.png */; };
-		824A9AB31721DDFB00C9BD79 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 824A9AA81721DDFB00C9BD79 /* README.md */; };
-		824A9AC71721DF2400C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ABB1721DE2500C9BD79 /* forcetk.js */; };
-		824A9AC81721DF2F00C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9A8C1721DDBD00C9BD79 /* cordova.force.js */; };
-		824A9AF61721DFE100C9BD79 /* qunit.css in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ADB1721DF9000C9BD79 /* qunit.css */; };
-		824A9AF71721DFE100C9BD79 /* qunit.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9ADC1721DF9000C9BD79 /* qunit.js */; };
-		824A9AF81721E01D00C9BD79 /* SFAbstractSmartStoreTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AA91721DDFB00C9BD79 /* SFAbstractSmartStoreTestSuite.js */; };
-		824A9AF91721E02600C9BD79 /* SFSDKInfoTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAA1721DDFB00C9BD79 /* SFSDKInfoTestSuite.js */; };
-		824A9AFA1721E03100C9BD79 /* SFSmartStoreLoadTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAB1721DDFB00C9BD79 /* SFSmartStoreLoadTestSuite.js */; };
-		824A9AFB1721E03A00C9BD79 /* SFSmartStoreTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAC1721DDFB00C9BD79 /* SFSmartStoreTestSuite.js */; };
-		824A9AFC1721E04700C9BD79 /* SFTestRunnerPlugin.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAD1721DDFB00C9BD79 /* SFTestRunnerPlugin.js */; };
-		824A9AFD1721E04E00C9BD79 /* SFTestSuite.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AAE1721DDFB00C9BD79 /* SFTestSuite.js */; };
+		4F1A5995174FEAA300473EE8 /* ForceEntityTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1A5994174FEAA300473EE8 /* ForceEntityTestSuite.m */; };
+		4F1A59F7174FF46600473EE8 /* jquery-2.0.0.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */; };
+		4F1A59F8174FF46600473EE8 /* jquery.mobile-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */; };
+		4F1A59F9174FF46600473EE8 /* jquery.mobile-1.3.1.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */; };
+		4F1A59FA174FF46600473EE8 /* jquery.mobile.structure-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */; };
+		4F1A59FB174FF46600473EE8 /* jquery.mobile.theme-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */; };
+		4F1A59FC174FF49300473EE8 /* ajax-loader.gif in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */; };
+		4F1A59FD174FF49300473EE8 /* icons-18-black.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */; };
+		4F1A59FE174FF49300473EE8 /* icons-18-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */; };
+		4F1A59FF174FF49300473EE8 /* icons-36-black.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */; };
+		4F1A5A00174FF49300473EE8 /* icons-36-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */; };
+		4F1A5A02174FF4C400473EE8 /* backbone-1.0.0.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */; };
+		4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */; };
+		4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */; };
+		4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C1174FEF7C00473EE8 /* qunit.css */; };
+		4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C2174FEF7C00473EE8 /* qunit.js */; };
+		4FAA891C175025DF00807E13 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
+		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
+		4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
+		4FAA891F1750266000807E13 /* force.entity.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F2174FF0B100473EE8 /* force.entity.js */; };
+		4FAA89201750266000807E13 /* forcetk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F3174FF0B100473EE8 /* forcetk.js */; };
+		4FAA89211750266000807E13 /* ForceEntityTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */; };
+		4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
+		4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */; };
+		4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */; };
+		4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */; };
+		4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
+		4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
 		824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
@@ -82,9 +89,8 @@
 		82EFF33116E8049600A63CDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF32F16E8049600A63CDF /* InfoPlist.strings */; };
 		82EFF33C16E805E300A63CDF /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33B16E805E300A63CDF /* config.xml */; };
 		82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
-		82EFF34016E80B1C00A63CDF /* www in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33F16E80B1C00A63CDF /* www */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
-		82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */; };
+		82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
@@ -108,6 +114,31 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4F1A5A01174FF4AD00473EE8 /* Copy backbone to www/backbone */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/backbone;
+			dstSubfolderSpec = 7;
+			files = (
+				4F1A5A02174FF4C400473EE8 /* backbone-1.0.0.js in Copy backbone to www/backbone */,
+				4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */,
+				4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */,
+			);
+			name = "Copy backbone to www/backbone";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/qunit;
+			dstSubfolderSpec = 7;
+			files = (
+				4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */,
+				4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */,
+			);
+			name = "Copy qunit/ to www/qunit/";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82EFF2CE16E7C57100A63CDF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -123,84 +154,89 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF35D16E80E0B00A63CDF /* Copy jQuery Files */ = {
+		82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				823856D31729973B007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */,
-				823856D41729973B007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */,
-				823856D51729973B007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */,
-				823856D61729973B007775A8 /* jquery.mobile.structure-1.3.1.min.css in Copy jQuery Files */,
-				823856D71729973B007775A8 /* jquery.mobile.theme-1.3.1.min.css in Copy jQuery Files */,
+				4F1A59F7174FF46600473EE8 /* jquery-2.0.0.min.js in Copy jquery/ to www/jquery */,
+				4F1A59F8174FF46600473EE8 /* jquery.mobile-1.3.1.min.css in Copy jquery/ to www/jquery */,
+				4F1A59F9174FF46600473EE8 /* jquery.mobile-1.3.1.min.js in Copy jquery/ to www/jquery */,
+				4F1A59FA174FF46600473EE8 /* jquery.mobile.structure-1.3.1.min.css in Copy jquery/ to www/jquery */,
+				4F1A59FB174FF46600473EE8 /* jquery.mobile.theme-1.3.1.min.css in Copy jquery/ to www/jquery */,
 			);
-			name = "Copy jQuery Files";
+			name = "Copy jquery/ to www/jquery";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF36816E8134E00A63CDF /* Copy jQuery Images Files */ = {
+		82EFF36816E8134E00A63CDF /* Copy jquery/images to www/jquery/images */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/jquery/images;
 			dstSubfolderSpec = 7;
 			files = (
-				823856D81729974A007775A8 /* ajax-loader.gif in Copy jQuery Images Files */,
-				823856D91729974A007775A8 /* icons-18-black.png in Copy jQuery Images Files */,
-				823856DA1729974A007775A8 /* icons-18-white.png in Copy jQuery Images Files */,
-				823856DB1729974A007775A8 /* icons-36-black.png in Copy jQuery Images Files */,
-				823856DC1729974A007775A8 /* icons-36-white.png in Copy jQuery Images Files */,
+				4F1A59FC174FF49300473EE8 /* ajax-loader.gif in Copy jquery/images to www/jquery/images */,
+				4F1A59FD174FF49300473EE8 /* icons-18-black.png in Copy jquery/images to www/jquery/images */,
+				4F1A59FE174FF49300473EE8 /* icons-18-white.png in Copy jquery/images to www/jquery/images */,
+				4F1A59FF174FF49300473EE8 /* icons-36-black.png in Copy jquery/images to www/jquery/images */,
+				4F1A5A00174FF49300473EE8 /* icons-36-white.png in Copy jquery/images to www/jquery/images */,
 			);
-			name = "Copy jQuery Images Files";
+			name = "Copy jquery/images to www/jquery/images";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF37016E8147C00A63CDF /* Copy Shared www Files */ = {
+		82EFF37016E8147C00A63CDF /* Copy files to www/ */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy Shared www Files */,
-				824A9AC71721DF2400C9BD79 /* forcetk.js in Copy Shared www Files */,
-				824A9AC81721DF2F00C9BD79 /* cordova.force.js in Copy Shared www Files */,
-				824A9AF61721DFE100C9BD79 /* qunit.css in Copy Shared www Files */,
-				824A9AF71721DFE100C9BD79 /* qunit.js in Copy Shared www Files */,
-				824A9AF81721E01D00C9BD79 /* SFAbstractSmartStoreTestSuite.js in Copy Shared www Files */,
-				824A9AF91721E02600C9BD79 /* SFSDKInfoTestSuite.js in Copy Shared www Files */,
-				824A9AFA1721E03100C9BD79 /* SFSmartStoreLoadTestSuite.js in Copy Shared www Files */,
-				824A9AFB1721E03A00C9BD79 /* SFSmartStoreTestSuite.js in Copy Shared www Files */,
-				824A9AFC1721E04700C9BD79 /* SFTestRunnerPlugin.js in Copy Shared www Files */,
-				824A9AFD1721E04E00C9BD79 /* SFTestSuite.js in Copy Shared www Files */,
+				4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */,
+				4FAA891F1750266000807E13 /* force.entity.js in Copy files to www/ */,
+				4FAA89201750266000807E13 /* forcetk.js in Copy files to www/ */,
+				4FAA89211750266000807E13 /* ForceEntityTestSuite.js in Copy files to www/ */,
+				4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */,
+				4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */,
+				4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */,
+				4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */,
+				4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */,
+				4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */,
+				4FAA891D1750263200807E13 /* index.html in Copy files to www/ */,
+				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */,
 			);
-			name = "Copy Shared www Files";
+			name = "Copy files to www/";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		823856BF1729971B007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
-		823856C01729971B007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
-		823856C11729971B007775A8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
-		823856C21729971B007775A8 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
-		823856C31729971B007775A8 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		823856C41729971B007775A8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
-		823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.3.1.min.css"; sourceTree = "<group>"; };
-		823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.3.1.min.js"; sourceTree = "<group>"; };
-		823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.3.1.min.css"; sourceTree = "<group>"; };
-		823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.3.1.min.css"; sourceTree = "<group>"; };
-		824A9A8C1721DDBD00C9BD79 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.force.js; path = ../../../external/shared/libs/cordova.force.js; sourceTree = "<group>"; };
-		824A9AA51721DDFB00C9BD79 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
-		824A9AA61721DDFB00C9BD79 /* MockSDKInfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSDKInfo.js; sourceTree = "<group>"; };
-		824A9AA71721DDFB00C9BD79 /* MockSmartStore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartStore.js; sourceTree = "<group>"; };
-		824A9AA81721DDFB00C9BD79 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		824A9AA91721DDFB00C9BD79 /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
-		824A9AAA1721DDFB00C9BD79 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
-		824A9AAB1721DDFB00C9BD79 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
-		824A9AAC1721DDFB00C9BD79 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
-		824A9AAD1721DDFB00C9BD79 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
-		824A9AAE1721DDFB00C9BD79 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
-		824A9ABB1721DE2500C9BD79 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.js; path = ../../../external/shared/libs/forcetk.js; sourceTree = "<group>"; };
-		824A9ADB1721DF9000C9BD79 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
-		824A9ADC1721DF9000C9BD79 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
+		4F1A5993174FEAA300473EE8 /* ForceEntityTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceEntityTestSuite.h; sourceTree = "<group>"; };
+		4F1A5994174FEAA300473EE8 /* ForceEntityTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceEntityTestSuite.m; sourceTree = "<group>"; };
+		4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.js"; sourceTree = "<group>"; };
+		4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.min.js"; sourceTree = "<group>"; };
+		4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-1.4.4.min.js"; sourceTree = "<group>"; };
+		4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
+		4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
+		4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
+		4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
+		4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
+		4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
+		4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.3.1.min.css"; sourceTree = "<group>"; };
+		4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.3.1.min.js"; sourceTree = "<group>"; };
+		4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.3.1.min.css"; sourceTree = "<group>"; };
+		4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.3.1.min.css"; sourceTree = "<group>"; };
+		4F1A59C1174FEF7C00473EE8 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
+		4F1A59C2174FEF7C00473EE8 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
+		4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ForceEntityTestSuite.js; sourceTree = "<group>"; };
+		4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
+		4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
+		4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
+		4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreTestSuite.js; sourceTree = "<group>"; };
+		4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
+		4F1A59E0174FF02500473EE8 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
+		4F1A59F1174FF0B100473EE8 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
+		4F1A59F2174FF0B100473EE8 /* force.entity.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.entity.js; sourceTree = "<group>"; };
+		4F1A59F3174FF0B100473EE8 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
+		4FAA891B175025DF00807E13 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../external/shared/test/forcepluginstest/index.html; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -262,7 +298,6 @@
 		82EFF33016E8049600A63CDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		82EFF33B16E805E300A63CDF /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		82EFF33D16E8063700A63CDF /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
-		82EFF33F16E80B1C00A63CDF /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		82EFF34216E80B6300A63CDF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
@@ -329,75 +364,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		823856BD1729971B007775A8 /* jquery */ = {
+		4F1A59AF174FEF7C00473EE8 /* external */ = {
 			isa = PBXGroup;
 			children = (
-				823856BE1729971B007775A8 /* images */,
-				823856C41729971B007775A8 /* jquery-2.0.0.min.js */,
-				823856C51729971B007775A8 /* jquery.mobile-1.3.1.min.css */,
-				823856C61729971B007775A8 /* jquery.mobile-1.3.1.min.js */,
-				823856C71729971B007775A8 /* jquery.mobile.structure-1.3.1.min.css */,
-				823856C81729971B007775A8 /* jquery.mobile.theme-1.3.1.min.css */,
-			);
-			path = jquery;
-			sourceTree = "<group>";
-		};
-		823856BE1729971B007775A8 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				823856BF1729971B007775A8 /* ajax-loader.gif */,
-				823856C01729971B007775A8 /* icons-18-black.png */,
-				823856C11729971B007775A8 /* icons-18-white.png */,
-				823856C21729971B007775A8 /* icons-36-black.png */,
-				823856C31729971B007775A8 /* icons-36-white.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		824A9A8B1721DDA300C9BD79 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				824A9A8C1721DDBD00C9BD79 /* cordova.force.js */,
-				824A9ABB1721DE2500C9BD79 /* forcetk.js */,
-			);
-			name = libs;
-			sourceTree = "<group>";
-		};
-		824A9AA41721DDFB00C9BD79 /* test */ = {
-			isa = PBXGroup;
-			children = (
-				824A9AA51721DDFB00C9BD79 /* MockCordova.js */,
-				824A9AA61721DDFB00C9BD79 /* MockSDKInfo.js */,
-				824A9AA71721DDFB00C9BD79 /* MockSmartStore.js */,
-				824A9AA81721DDFB00C9BD79 /* README.md */,
-				824A9AA91721DDFB00C9BD79 /* SFAbstractSmartStoreTestSuite.js */,
-				824A9AAA1721DDFB00C9BD79 /* SFSDKInfoTestSuite.js */,
-				824A9AAB1721DDFB00C9BD79 /* SFSmartStoreLoadTestSuite.js */,
-				824A9AAC1721DDFB00C9BD79 /* SFSmartStoreTestSuite.js */,
-				824A9AAD1721DDFB00C9BD79 /* SFTestRunnerPlugin.js */,
-				824A9AAE1721DDFB00C9BD79 /* SFTestSuite.js */,
-			);
-			name = test;
-			path = ../../../external/shared/test;
-			sourceTree = "<group>";
-		};
-		824A9AC91721DF9000C9BD79 /* external */ = {
-			isa = PBXGroup;
-			children = (
-				823856BD1729971B007775A8 /* jquery */,
-				824A9ADA1721DF9000C9BD79 /* qunit */,
+				4F1A59B0174FEF7C00473EE8 /* backbone */,
+				4F1A59B4174FEF7C00473EE8 /* jquery */,
+				4F1A59C0174FEF7C00473EE8 /* qunit */,
 			);
 			name = external;
 			path = ../../../external/shared/external;
 			sourceTree = "<group>";
 		};
-		824A9ADA1721DF9000C9BD79 /* qunit */ = {
+		4F1A59B0174FEF7C00473EE8 /* backbone */ = {
 			isa = PBXGroup;
 			children = (
-				824A9ADB1721DF9000C9BD79 /* qunit.css */,
-				824A9ADC1721DF9000C9BD79 /* qunit.js */,
+				4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */,
+				4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */,
+				4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */,
+			);
+			path = backbone;
+			sourceTree = "<group>";
+		};
+		4F1A59B4174FEF7C00473EE8 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				4F1A59B5174FEF7C00473EE8 /* images */,
+				4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */,
+				4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */,
+				4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */,
+				4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */,
+				4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */,
+			);
+			path = jquery;
+			sourceTree = "<group>";
+		};
+		4F1A59B5174FEF7C00473EE8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */,
+				4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */,
+				4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */,
+				4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */,
+				4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		4F1A59C0174FEF7C00473EE8 /* qunit */ = {
+			isa = PBXGroup;
+			children = (
+				4F1A59C1174FEF7C00473EE8 /* qunit.css */,
+				4F1A59C2174FEF7C00473EE8 /* qunit.js */,
 			);
 			path = qunit;
+			sourceTree = "<group>";
+		};
+		4F1A59D2174FF02500473EE8 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				4F1A59D3174FF02500473EE8 /* ForceEntityTestSuite.js */,
+				4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */,
+				4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */,
+				4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */,
+				4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */,
+				4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */,
+				4F1A59E0174FF02500473EE8 /* SFTestSuite.js */,
+			);
+			name = test;
+			path = ../../../external/shared/test;
+			sourceTree = "<group>";
+		};
+		4F1A59F0174FF0B100473EE8 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				4F1A59F1174FF0B100473EE8 /* cordova.force.js */,
+				4F1A59F2174FF0B100473EE8 /* force.entity.js */,
+				4F1A59F3174FF0B100473EE8 /* forcetk.js */,
+			);
+			name = libs;
+			path = ../../../external/shared/libs;
 			sourceTree = "<group>";
 		};
 		82EFF2C716E7C57100A63CDF = {
@@ -543,7 +588,6 @@
 		82EFF30516E8049500A63CDF /* HybridPluginTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				82EFF33F16E80B1C00A63CDF /* www */,
 				82EFF34616E80D8800A63CDF /* shared-www */,
 				82EFF34116E80B6300A63CDF /* Classes */,
 				82EFF39C16E816CB00A63CDF /* Plugins */,
@@ -572,6 +616,8 @@
 		82EFF32C16E8049600A63CDF /* HybridPluginTestAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				4F1A5993174FEAA300473EE8 /* ForceEntityTestSuite.h */,
+				4F1A5994174FEAA300473EE8 /* ForceEntityTestSuite.m */,
 				8251CA3C16ED1EB400BD1EA2 /* SDKInfoTestSuite.h */,
 				8251CA3D16ED1EB400BD1EA2 /* SDKInfoTestSuite.m */,
 				8251CA3E16ED1EB400BD1EA2 /* SFPluginTestSuite.h */,
@@ -606,9 +652,10 @@
 		82EFF34616E80D8800A63CDF /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				824A9AC91721DF9000C9BD79 /* external */,
-				824A9A8B1721DDA300C9BD79 /* libs */,
-				824A9AA41721DDFB00C9BD79 /* test */,
+				4FAA891B175025DF00807E13 /* index.html */,
+				4F1A59F0174FF0B100473EE8 /* libs */,
+				4F1A59D2174FF02500473EE8 /* test */,
+				4F1A59AF174FEF7C00473EE8 /* external */,
 				82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */,
 			);
 			name = "shared-www";
@@ -650,9 +697,11 @@
 				82EFF2FB16E8049500A63CDF /* Sources */,
 				82EFF2FC16E8049500A63CDF /* Frameworks */,
 				82EFF2FD16E8049500A63CDF /* Resources */,
-				82EFF37016E8147C00A63CDF /* Copy Shared www Files */,
-				82EFF35D16E80E0B00A63CDF /* Copy jQuery Files */,
-				82EFF36816E8134E00A63CDF /* Copy jQuery Images Files */,
+				82EFF37016E8147C00A63CDF /* Copy files to www/ */,
+				82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */,
+				82EFF36816E8134E00A63CDF /* Copy jquery/images to www/jquery/images */,
+				4F1A5A01174FF4AD00473EE8 /* Copy backbone to www/backbone */,
+				4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */,
 			);
 			buildRules = (
 			);
@@ -723,8 +772,7 @@
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
 				82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */,
-				82EFF34016E80B1C00A63CDF /* www in Resources */,
-				824A9AB31721DDFB00C9BD79 /* README.md in Resources */,
+				4FAA891C175025DF00807E13 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,6 +834,7 @@
 				8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */,
 				8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */,
 				8251CA4716ED268000BD1EA2 /* SmartStoreLoadTestSuite.m in Sources */,
+				4F1A5995174FEAA300473EE8 /* ForceEntityTestSuite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
