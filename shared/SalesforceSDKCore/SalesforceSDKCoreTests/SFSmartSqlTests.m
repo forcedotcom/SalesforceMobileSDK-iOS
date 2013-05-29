@@ -22,7 +22,6 @@
   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #import "SFSmartSqlTests.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
@@ -32,6 +31,7 @@
 @interface SFSmartSqlTests ()
 - (NSDictionary*) createStringIndexSpec:(NSString*) path;
 - (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
+- (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
 @end
 
@@ -49,10 +49,7 @@ NSString* const kSalary               = @"salary";
 NSString* const kBudget               = @"budget";
 NSString* const kName                 = @"name";
 
-
-
 #pragma mark - setup and teardown
-
 
 - (void) setUp
 {
@@ -67,7 +64,7 @@ NSString* const kName                 = @"name";
                                   [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
                                   [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
                                   [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
-                                  [self createIntegerIndexSpec:kSalary],     // should be TABLE_1_4
+                                  [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_4
                                   nil]];
 
     // Departments soup
@@ -159,7 +156,6 @@ NSString* const kName                 = @"name";
                          [_store convertSmartSql:@"select mgr.{employees:_soupEntryId}, e.{employees:_soupEntryId} from {employees} as mgr, {employees} as e"], @"Bad conversion");
 }
 
-
 - (void) testSmartQueryDoingCount 
 {
     [self loadData];
@@ -181,7 +177,7 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000]]"] actual:result message:@"Wrong result"];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10]]"] actual:result message:@"Wrong result"];
 }
 	
 - (void) testSmartQueryReturningOneRowWithTwoIntegers 
@@ -189,15 +185,15 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000,120000]]"] actual:result message:@"Wrong result"];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10,120000.10]]"] actual:result message:@"Wrong result"];
 }
-	
+
 - (void) testSmartQueryReturningTwoRowsWithOneIntegerEach 
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:managerId} = '00010' order by {employees:firstName}" withPageSize:2];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[120000],[100000]]"] actual:result message:@"Wrong result"];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[120000.10],[100000.10]]"] actual:result message:@"Wrong result"];
 }
 
 - (void) testSmartQueryReturningSoupStringAndInteger 
@@ -206,14 +202,13 @@ NSString* const kName                 = @"name";
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
-    
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
-    
     STAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
     STAssertEqualObjects(@"Christine", [[result objectAtIndex:0] objectAtIndex:1], @"Wrong first name");
-    STAssertEqualObjects([NSNumber numberWithUnsignedInteger:200000], [[result objectAtIndex:0] objectAtIndex:2], @"Wrong salary");
+    NSNumber* dubNum = [[result objectAtIndex:0] objectAtIndex:2];
+    STAssertEquals(200000.10, [dubNum doubleValue], @"Wrong salary");
 }
 	
 - (void) testSmartQueryWithPaging 
@@ -221,7 +216,6 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
     STAssertTrue(7 ==[_store countWithQuerySpec:querySpec], @"Expected 7 employees");
-    
     NSArray* expectedResults = [NSArray arrayWithObjects:@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally", nil];
     for (int i=0; i<7; i++) {
         NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i];
@@ -237,21 +231,23 @@ NSString* const kName                 = @"name";
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
-    
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
-    
     STAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
     STAssertEqualObjects([christineJson objectForKey:@"_soupEntryId"], [[result objectAtIndex:0] objectAtIndex:1], @"Wrong soupEntryId");
     STAssertEqualObjects([christineJson objectForKey:@"_soupLastModifiedDate"], [[result objectAtIndex:0] objectAtIndex:2], @"Wrong soupLastModifiedDate");
 }
 
-
 #pragma mark - helper methods
 - (NSDictionary*) createIntegerIndexSpec:(NSString*) path
 {
     return [self createSimpleIndexSpec:path withType:@"integer"];
+}
+
+- (NSDictionary*) createFloatingIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:@"floating"];
 }
 
 - (NSDictionary*) createStringIndexSpec:(NSString*) path
@@ -267,22 +263,22 @@ NSString* const kName                 = @"name";
 - (void) loadData
 {
     // Employees
-    [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000];
-    [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000];
-    [self createEmployeeWithFirstName:@"Sally" withLastName:@"Kwan" withDeptCode:@"A00" withEmployeeId:@"00310" withManagerId:@"00010" withSalary:100000];
-    [self createEmployeeWithFirstName:@"John" withLastName:@"Geyer" withDeptCode:@"B00" withEmployeeId:@"00040" withManagerId:@"" withSalary:102000];
-    [self createEmployeeWithFirstName:@"Irving" withLastName:@"Stern" withDeptCode:@"B00" withEmployeeId:@"00050" withManagerId:@"00040" withSalary:100000];
-    [self createEmployeeWithFirstName:@"Eva" withLastName:@"Pulaski" withDeptCode:@"B00" withEmployeeId:@"00060" withManagerId:@"00050" withSalary:80000];
-    [self createEmployeeWithFirstName:@"Eileen" withLastName:@"Henderson" withDeptCode:@"B00" withEmployeeId:@"00070" withManagerId:@"00050" withSalary:70000];
+    [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000.10];
+    [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000.10];
+    [self createEmployeeWithFirstName:@"Sally" withLastName:@"Kwan" withDeptCode:@"A00" withEmployeeId:@"00310" withManagerId:@"00010" withSalary:100000.10];
+    [self createEmployeeWithFirstName:@"John" withLastName:@"Geyer" withDeptCode:@"B00" withEmployeeId:@"00040" withManagerId:@"" withSalary:102000.10];
+    [self createEmployeeWithFirstName:@"Irving" withLastName:@"Stern" withDeptCode:@"B00" withEmployeeId:@"00050" withManagerId:@"00040" withSalary:100000.10];
+    [self createEmployeeWithFirstName:@"Eva" withLastName:@"Pulaski" withDeptCode:@"B00" withEmployeeId:@"00060" withManagerId:@"00050" withSalary:80000.10];
+    [self createEmployeeWithFirstName:@"Eileen" withLastName:@"Henderson" withDeptCode:@"B00" withEmployeeId:@"00070" withManagerId:@"00050" withSalary:70000.10];
 		
     // Departments
     [self createDepartmentWithCode:@"A00" withName:@"Sales" withBudget:1000000];
     [self createDepartmentWithCode:@"B00" withName:@"R&D" withBudget:2000000];
 }
 
-- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(NSUInteger)salary
+- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary
 {
-    NSDictionary* employee = [NSDictionary  dictionaryWithObjectsAndKeys:firstName, kFirstName, lastName, kLastName, deptCode, kDeptCode, employeeId, kEmployeeId, managerId, kManagerId, [NSNumber numberWithUnsignedInteger:salary], kSalary, nil];
+    NSDictionary* employee = [NSDictionary  dictionaryWithObjectsAndKeys:firstName, kFirstName, lastName, kLastName, deptCode, kDeptCode, employeeId, kEmployeeId, managerId, kManagerId, [NSNumber numberWithDouble:salary], kSalary, nil];
     [_store upsertEntries:[NSArray arrayWithObject:employee] toSoup:kEmployeesSoup];
 }
 	
@@ -291,6 +287,5 @@ NSString* const kName                 = @"name";
     NSDictionary* department = [NSDictionary dictionaryWithObjectsAndKeys:deptCode, kDeptCode, name, kName, [NSNumber numberWithUnsignedInteger:budget], kBudget, nil];
     [_store upsertEntries:[NSArray arrayWithObject:department] toSoup:kDepartmentsSoup];
 }
-
 
 @end
