@@ -27,7 +27,7 @@
 
 NSString * const kSoupIndexTypeString = @"string";
 NSString * const kSoupIndexTypeInteger = @"integer";
-
+NSString * const kSoupIndexTypeFloating = @"floating";
 
 @implementation SFSoupIndex
 
@@ -35,14 +35,10 @@ NSString * const kSoupIndexTypeInteger = @"integer";
 @synthesize indexType = _indexType;
 @synthesize columnName = _columnName;
 
-
-
 - (id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(NSString*)columnName {
     self = [super init];
-    
     if (nil != self) {
         self.path = path;
-        
         self.indexType = type;
         _columnName = columnName;
     }
@@ -72,12 +68,10 @@ NSString * const kSoupIndexTypeInteger = @"integer";
         result = @"TEXT";
     } else if ([self.indexType isEqualToString:kSoupIndexTypeInteger]) {
         result = @"INTEGER";
+    } else if ([self.indexType isEqualToString:kSoupIndexTypeFloating]) {
+        result = @"REAL";
     }
-    
     return  result;
 }
-
-
-
 
 @end
