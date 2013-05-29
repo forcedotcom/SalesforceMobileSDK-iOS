@@ -24,9 +24,9 @@
 
 #import <Foundation/Foundation.h>
 
-
 extern NSString * const kSoupIndexTypeString;
-extern NSString * const kSoupIndexTypeDate;
+extern NSString * const kSoupIndexTypeInteger;
+extern NSString * const kSoupIndexTypeFloating;
 
 /**
  * Definition of an index on a given soup.
@@ -65,7 +65,6 @@ extern NSString * const kSoupIndexTypeDate;
  * @param columnName The SQL column name, or nil.
  */
 - (id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(NSString*)columnName;
-
 
 /**
  * Creates an SFSoupIndex based on the given NSDictionary index spec.
