@@ -127,7 +127,7 @@
         </copy>
         <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${wwwDir}" />
         <copy file="${externalSharedDir}/libs/cordova.force.js" todir="${wwwDir}" />
-        <copy file="${externalSharedDir}/libs/forcetk.js" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/forcetk.mobilesdk.js" todir="${wwwDir}" />
         <copy todir="${wwwDir}/jquery">
             <fileset dir="${externalSharedDir}/external/jquery" />
         </copy>

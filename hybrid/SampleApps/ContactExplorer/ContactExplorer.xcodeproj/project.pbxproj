@@ -50,7 +50,6 @@
 		824A9B371721E2E700C9BD79 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9AFF1721E22A00C9BD79 /* index.html */; };
 		824A9B381721E2EC00C9BD79 /* inline.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B001721E22A00C9BD79 /* inline.js */; };
 		824A9B391721E2F700C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B271721E27700C9BD79 /* cordova.force.js */; };
-		824A9B3A1721E30400C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9B291721E27700C9BD79 /* forcetk.js */; };
 		8251CA5716ED3BC400BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5316ED3BC400BD1EA2 /* libCordova.a */; };
 		8251CA5816ED3BC400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5416ED3BC400BD1EA2 /* libSalesforceHybridSDK.a */; };
 		8251CA5916ED3BC400BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5516ED3BC400BD1EA2 /* libSalesforceOAuth.a */; };
@@ -64,6 +63,7 @@
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
 		8295460C167A7CE500A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295460B167A7CE500A0FC34 /* config.xml */; };
 		82954613167A7D5600A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 8295460D167A7D1000A0FC34 /* cordova-2.3.0.js */; };
+		CE1AA9B31762A55400DC3A3A /* forcetk.mobilesdk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE1AA9B01762A53D00DC3A3A /* forcetk.mobilesdk.js */; };
 		CE361CD71731BBEE00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CD41731BBE200CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
@@ -74,12 +74,12 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				CE1AA9B31762A55400DC3A3A /* forcetk.mobilesdk.js in Copy Shared www Files */,
 				82954613167A7D5600A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */,
 				824A9B371721E2E700C9BD79 /* index.html in Copy Shared www Files */,
 				CE361CD71731BBEE00CB4C70 /* bootconfig.json in Copy Shared www Files */,
 				824A9B381721E2EC00C9BD79 /* inline.js in Copy Shared www Files */,
 				824A9B391721E2F700C9BD79 /* cordova.force.js in Copy Shared www Files */,
-				824A9B3A1721E30400C9BD79 /* forcetk.js in Copy Shared www Files */,
 			);
 			name = "Copy Shared www Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,7 +165,6 @@
 		824A9AFF1721E22A00C9BD79 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		824A9B001721E22A00C9BD79 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = inline.js; sourceTree = "<group>"; };
 		824A9B271721E27700C9BD79 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
-		824A9B291721E27700C9BD79 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		8251CA5316ED3BC400BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CA5416ED3BC400BD1EA2 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CA5516ED3BC400BD1EA2 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +178,7 @@
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8295460B167A7CE500A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		8295460D167A7D1000A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
+		CE1AA9B01762A53D00DC3A3A /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		CE361CD41731BBE200CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -405,8 +405,8 @@
 		824A9B261721E27700C9BD79 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CE1AA9B01762A53D00DC3A3A /* forcetk.mobilesdk.js */,
 				824A9B271721E27700C9BD79 /* cordova.force.js */,
-				824A9B291721E27700C9BD79 /* forcetk.js */,
 			);
 			path = libs;
 			sourceTree = "<group>";
