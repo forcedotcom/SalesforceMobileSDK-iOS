@@ -757,13 +757,13 @@
          location = "group:libs"
          name = "libs">
          <FileRef
+            location = "group:forcetk.mobilesdk.js">
+         </FileRef>
+         <FileRef
             location = "group:cordova.force.js">
          </FileRef>
          <FileRef
             location = "group:force.entity.js">
-         </FileRef>
-         <FileRef
-            location = "group:forcetk.js">
          </FileRef>
       </Group>
       <FileRef
