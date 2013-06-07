@@ -54,7 +54,6 @@
 		824A9D8C1724C5AE00C9BD79 /* stackrouter.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9D4F1724C25600C9BD79 /* stackrouter.js */; };
 		824A9D8D1724C5E700C9BD79 /* cordova.force.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C531722015100C9BD79 /* cordova.force.js */; };
 		824A9D8E1724C5FA00C9BD79 /* force.entity.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C541722015100C9BD79 /* force.entity.js */; };
-		824A9D8F1724C61300C9BD79 /* forcetk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 824A9C551722015100C9BD79 /* forcetk.js */; };
 		824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D921724C7C400C9BD79 /* libcrypto.a */; };
 		824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */; };
 		824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */; };
@@ -84,6 +83,7 @@
 		824A9DCA1724CF1C00C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC61724CF1C00C9BD79 /* icon.png */; };
 		824A9DCB1724CF1C00C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC71724CF1C00C9BD79 /* icon@2x.png */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
+		CE1AA9AF1762A51900DC3A3A /* forcetk.mobilesdk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE1AA9AC1762A4FA00DC3A3A /* forcetk.mobilesdk.js */; };
 		CE361CD31731BB4A00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CD01731BB1600CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +94,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				CE1AA9AF1762A51900DC3A3A /* forcetk.mobilesdk.js in Copy Shared www Files */,
 				4F09CF6917386CFE002B86DE /* fastclick.js in Copy Shared www Files */,
 				824A9D6C1724C38B00C9BD79 /* AccountEditor.html in Copy Shared www Files */,
 				824A9D6D1724C39400C9BD79 /* UserAndGroupSearch.html in Copy Shared www Files */,
@@ -104,7 +105,6 @@
 				824A9D8C1724C5AE00C9BD79 /* stackrouter.js in Copy Shared www Files */,
 				824A9D8D1724C5E700C9BD79 /* cordova.force.js in Copy Shared www Files */,
 				824A9D8E1724C5FA00C9BD79 /* force.entity.js in Copy Shared www Files */,
-				824A9D8F1724C61300C9BD79 /* forcetk.js in Copy Shared www Files */,
 			);
 			name = "Copy Shared www Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,7 +191,6 @@
 		824A9C331721FF4B00C9BD79 /* underscore-1.4.4.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-1.4.4.min.js"; sourceTree = "<group>"; };
 		824A9C531722015100C9BD79 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
 		824A9C541722015100C9BD79 /* force.entity.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.entity.js; sourceTree = "<group>"; };
-		824A9C551722015100C9BD79 /* forcetk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.js; sourceTree = "<group>"; };
 		824A9C591722017300C9BD79 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		824A9C5C1722020600C9BD79 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
@@ -256,6 +255,7 @@
 		824A9DC61724CF1C00C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = SOURCE_ROOT; };
 		824A9DC71724CF1C00C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE1AA9AC1762A4FA00DC3A3A /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		CE361CD01731BB1600CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -413,9 +413,9 @@
 		824A9C521722015100C9BD79 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CE1AA9AC1762A4FA00DC3A3A /* forcetk.mobilesdk.js */,
 				824A9C531722015100C9BD79 /* cordova.force.js */,
 				824A9C541722015100C9BD79 /* force.entity.js */,
-				824A9C551722015100C9BD79 /* forcetk.js */,
 			);
 			name = libs;
 			path = ../../../../external/shared/libs;
