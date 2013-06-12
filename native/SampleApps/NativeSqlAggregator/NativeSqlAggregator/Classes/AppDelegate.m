@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -143,14 +143,14 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)logoutInitiated:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+    [self log:SFLogLevelDebug msg:@"Logout notification received. Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
 
 - (void)loginHostChanged:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    [self log:SFLogLevelDebug msg:@"Login host changed notification received. Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }

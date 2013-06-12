@@ -20,18 +20,74 @@
  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ Created by Bharath Hariharan on 6/11/13.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFRestAPI.h"
+#import <Foundation/Foundation.h>
+#import "JSONKit.h"
 
-@interface RootViewController : UITableViewController <SFRestDelegate> {
-    
-    NSMutableArray *dataRows;
-    IBOutlet UITableView *tableView;    
+@class SFSmartStore;
 
+@interface SmartStoreInterface : NSObject {
+    SFSmartStore *_store;
 }
 
-@property (nonatomic, strong) NSArray *dataRows;
+@property (nonatomic, strong) SFSmartStore *store;
+
+/**
+ * Creates a soup for accounts.
+ */
+- (void)createAccountsSoup;
+
+/**
+ * Creates a soup for opportunities.
+ */
+- (void)createOpportunitiesSoup;
+
+/**
+ * Deletes the accounts soup.
+ */
+- (void)deleteAccountsSoup;
+
+/**
+ * Deletes the opportunities soup.
+ */
+- (void)deleteOpportunitiesSoup;
+
+/**
+ * Inserts accounts into the accounts soup.
+ */
+- (void)insertAccounts:(NSArray*)accounts;
+
+/**
+ * Inserts opportunities into the opportunities soup.
+ */
+- (void)insertOpportunities:(NSArray*)opportunities;
+
+/**
+ * Inserts a single account into the accounts soup.
+ */
+- (void)insertAccount:(NSArray*)account;
+
+/**
+ * Inserts a single opportunity into the opportunities soup.
+ */
+- (void)insertOpportunity:(NSArray*)opportunity;
+
+/**
+ * Returns saved accounts.
+ */
+- (NSArray*)getAccounts;
+
+/**
+ * Returns saved opportunities.
+ */
+- (NSArray*)getOpportunities;
+
+/**
+ * Runs a smart SQL query against the smartstore and returns results.
+ */
+- (NSArray*)query:(NSString*)queryString;
 
 @end

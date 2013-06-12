@@ -49,10 +49,11 @@
 		824A9FF417250BF300C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF317250BF300C9BD79 /* QuartzCore.framework */; };
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
+		CE1A539B1768456D00D202D8 /* SmartStoreInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		824A9DD51724E16400C9BD79 /* NativeSqlAggregator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NativeSqlAggregator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A9DD51724E16400C9BD79 /* NativeSqlAggregator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeSqlAggregator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -245,6 +246,8 @@
 		824A9FF317250BF300C9BD79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		824A9FF517250BFA00C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CE1A53991768456D00D202D8 /* SmartStoreInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreInterface.h; sourceTree = "<group>"; };
+		CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreInterface.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,7 +326,7 @@
 				824A9E421724EF9800C9BD79 /* Resources */,
 				824A9DDF1724E16400C9BD79 /* Supporting Files */,
 			);
-			path = "NativeSqlAggregator";
+			path = NativeSqlAggregator;
 			sourceTree = "<group>";
 		};
 		824A9DDF1724E16400C9BD79 /* Supporting Files */ = {
@@ -347,6 +350,8 @@
 				824A9E391724E58200C9BD79 /* InitialViewController.xib */,
 				824A9E341724E45000C9BD79 /* RootViewController.h */,
 				824A9E351724E45100C9BD79 /* RootViewController.m */,
+				CE1A53991768456D00D202D8 /* SmartStoreInterface.h */,
+				CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -700,8 +705,8 @@
 			);
 			dependencies = (
 			);
-			name = "NativeSqlAggregator";
-			productName = "NativeSqlAggregator";
+			name = NativeSqlAggregator;
+			productName = NativeSqlAggregator;
 			productReference = 824A9DD51724E16400C9BD79 /* NativeSqlAggregator.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -712,7 +717,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = "salesforce";
+				ORGANIZATIONNAME = salesforce;
 			};
 			buildConfigurationList = 824A9DD01724E16400C9BD79 /* Build configuration list for PBXProject "NativeSqlAggregator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -768,6 +773,7 @@
 				824A9E331724E2A900C9BD79 /* AppDelegate.m in Sources */,
 				824A9E361724E45100C9BD79 /* RootViewController.m in Sources */,
 				824A9E3A1724E58200C9BD79 /* InitialViewController.m in Sources */,
+				CE1A539B1768456D00D202D8 /* SmartStoreInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
