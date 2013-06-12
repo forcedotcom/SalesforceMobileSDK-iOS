@@ -24,9 +24,6 @@
          location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/SFDCAccounts/SFDCAccounts.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
       </FileRef>
       <FileRef
