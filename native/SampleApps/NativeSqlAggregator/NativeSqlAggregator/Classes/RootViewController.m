@@ -118,9 +118,9 @@
 - (IBAction)btnRunReportPressed:(id)sender
 {
     NSArray *results = [self.smartStoreIntf query:kAggregateQueryStr];
-    NSLog(@"Results: %@", results);
     // TODO: Show results.
     ResultViewController *resultVC = [[ResultViewController alloc] initWithNibName:nil bundle:nil];
+    [resultVC setResultDataSet:results];
     [self presentViewController:resultVC animated:YES completion:nil];
 }
 

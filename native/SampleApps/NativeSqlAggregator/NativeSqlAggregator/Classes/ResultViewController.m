@@ -28,11 +28,13 @@
 
 @implementation ResultViewController
 
+@synthesize resultDataSet;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        resultDataSet = [[NSArray alloc] init];
     }
     return self;
 }
@@ -44,13 +46,14 @@
 
 - (void)dealloc
 {
-    
+    self.resultDataSet = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"Report Results";
+    NSLog(@"Results: %@", self.resultDataSet);
 }
 
 @end

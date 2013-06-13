@@ -26,6 +26,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResultViewController : UIViewController
+@interface ResultViewController : UIViewController {
+    NSArray *resultDataSet;
+}
+
+@property (nonatomic, strong) NSArray *resultDataSet;
 
 @end
