@@ -127,9 +127,13 @@
         </copy>
         <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${wwwDir}" />
         <copy file="${externalSharedDir}/libs/cordova.force.js" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/force.entity.js" todir="${wwwDir}" />
         <copy file="${externalSharedDir}/libs/forcetk.mobilesdk.js" todir="${wwwDir}" />
         <copy todir="${wwwDir}/jquery">
             <fileset dir="${externalSharedDir}/external/jquery" />
+        </copy>
+        <copy todir="${wwwDir}/backbone">
+            <fileset dir="${externalSharedDir}/external/backbone" />
         </copy>
     </target>
     
