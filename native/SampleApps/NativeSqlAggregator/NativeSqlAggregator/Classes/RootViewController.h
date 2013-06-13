@@ -24,14 +24,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SFRestAPI.h"
+#import "SmartStoreInterface.h"
 
-@interface RootViewController : UITableViewController <SFRestDelegate> {
-    
+@interface RootViewController : UIViewController <SFRestDelegate> {
     NSMutableArray *dataRows;
-    IBOutlet UITableView *tableView;    
-
+    SmartStoreInterface *smartStoreIntf;
 }
 
 @property (nonatomic, strong) NSArray *dataRows;
+
+@property (nonatomic, strong) SmartStoreInterface *smartStoreIntf;
 
 @end

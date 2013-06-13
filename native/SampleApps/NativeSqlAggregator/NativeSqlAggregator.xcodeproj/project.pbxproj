@@ -50,6 +50,7 @@
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
 		CE1A539B1768456D00D202D8 /* SmartStoreInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */; };
+		CE1AAA1017693C0C00DC3A3A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -248,6 +249,7 @@
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CE1A53991768456D00D202D8 /* SmartStoreInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreInterface.h; sourceTree = "<group>"; };
 		CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreInterface.m; sourceTree = "<group>"; };
+		CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +354,7 @@
 				824A9E351724E45100C9BD79 /* RootViewController.m */,
 				CE1A53991768456D00D202D8 /* SmartStoreInterface.h */,
 				CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */,
+				CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				824A9E701724F03D00C9BD79 /* Default@2x.png in Resources */,
 				824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */,
 				824A9FE61725079100C9BD79 /* LICENSE in Resources */,
+				CE1AAA1017693C0C00DC3A3A /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

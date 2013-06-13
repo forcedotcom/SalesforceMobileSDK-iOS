@@ -38,7 +38,8 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 
 @synthesize store = _store;
 
-- (SmartStoreInterface*) init {
+- (SmartStoreInterface*) init
+{
     self = [super init];
     if (nil != self)  {
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
@@ -46,7 +47,8 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     return self;
 }
 
-- (void)createAccountsSoup {
+- (void)createAccountsSoup
+{
     if (![self.store soupExists:kAccountSoupName]) {
         SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
@@ -56,7 +58,8 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     }
 }
 
-- (void)createOpportunitiesSoup {
+- (void)createOpportunitiesSoup
+{
     if (![self.store soupExists:kOpportunitySoupName]) {
         SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
@@ -68,19 +71,22 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     }
 }
 
-- (void)deleteAccountsSoup {
+- (void)deleteAccountsSoup
+{
     if ([self.store soupExists:kAccountSoupName]) {
         [self.store removeSoup:kAccountSoupName];
     }
 }
 
-- (void)deleteOpportunitiesSoup {
+- (void)deleteOpportunitiesSoup
+{
     if ([self.store soupExists:kOpportunitySoupName]) {
         [self.store removeSoup:kOpportunitySoupName];
     }
 }
 
-- (void)insertAccounts:(NSArray*)accounts {
+- (void)insertAccounts:(NSArray*)accounts
+{
     if (nil != accounts) {
         for (int i = 0; i < accounts.count; i++) {
             [self insertAccount:[accounts objectAtIndex:i]];
@@ -88,7 +94,8 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     }
 }
 
-- (void)insertOpportunities:(NSArray*)opportunities {
+- (void)insertOpportunities:(NSArray*)opportunities
+{
     if (nil != opportunities) {
         for (int i = 0; i < opportunities.count; i++) {
             [self insertOpportunity:[opportunities objectAtIndex:i]];
@@ -96,13 +103,15 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     }
 }
 
-- (void)insertAccount:(NSArray*)account {
+- (void)insertAccount:(NSArray*)account
+{
     if (nil != account) {
         [self.store upsertEntries:account toSoup:kAccountSoupName];
     }
 }
 
-- (void)insertOpportunity:(NSArray*)opportunity {
+- (void)insertOpportunity:(NSArray*)opportunity
+{
     if (nil != opportunity) {
 
         /*
@@ -119,15 +128,18 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
     }
 }
 
-- (NSArray*)getAccounts {
+- (NSArray*)getAccounts
+{
     return [self query:kAllAccountsQuery];
 }
 
-- (NSArray*)getOpportunities {
+- (NSArray*)getOpportunities
+{
     return [self query:kAllOpportunitiesQuery];
 }
 
-- (NSArray*)query:(NSString*)queryString {
+- (NSArray*)query:(NSString*)queryString
+{
     SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:queryString withPageSize:10];
     int count = [self.store countWithQuerySpec:querySpec];
     querySpec = [SFQuerySpec newSmartQuerySpec:queryString withPageSize:count];

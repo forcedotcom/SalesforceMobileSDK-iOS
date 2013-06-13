@@ -22,101 +22,65 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "RootViewController.h"
 
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
+#import "SmartStoreInterface.h"
 
 @implementation RootViewController
 
 @synthesize dataRows;
+@synthesize smartStoreIntf;
 
-#pragma mark Misc
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        smartStoreIntf = [[SmartStoreInterface alloc] init];
+    }
+    return self;
+}
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
 - (void)dealloc
 {
     self.dataRows = nil;
+    self.smartStoreIntf = nil;
 }
 
-
-#pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"NativeSqlAggregator";
-    
-    //Here we use a query that should work on either Force.com or Database.com
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name FROM User LIMIT 10"];    
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
-#pragma mark - SFRestAPIDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse
+{
     NSArray *records = [jsonResponse objectForKey:@"records"];
     NSLog(@"request:didLoadResponse: #records: %d", records.count);
     self.dataRows = records;
-    [self.tableView reloadData];
 }
 
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
+- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error
+{
     NSLog(@"request:didFailLoadWithError: %@", error);
-    //add your failed error handling here
 }
 
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
+- (void)requestDidCancelLoad:(SFRestRequest *)request
+{
     NSLog(@"requestDidCancelLoad: %@", request);
-    //add your failed error handling here
 }
 
-- (void)requestDidTimeout:(SFRestRequest *)request {
+- (void)requestDidTimeout:(SFRestRequest *)request
+{
     NSLog(@"requestDidTimeout: %@", request);
-    //add your failed error handling here
 }
 
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.dataRows count];
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-   static NSString *CellIdentifier = @"CellIdentifier";
-
-   // Dequeue or create a cell of the appropriate type.
-    UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-
-    }
-	//if you want to add an image to your cell, here's how
-	UIImage *image = [UIImage imageNamed:@"icon.png"];
-	cell.imageView.image = image;
-
-	// Configure the cell to show the data.
-	NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
-	cell.textLabel.text =  [obj objectForKey:@"Name"];
-
-	//this adds the arrow to the right hand side.
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-	return cell;
-
-}
 @end
