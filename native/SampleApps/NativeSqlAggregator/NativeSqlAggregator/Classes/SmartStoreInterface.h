@@ -29,6 +29,12 @@
 
 @class SFSmartStore;
 
+extern NSString* const kAccountSoupName;
+extern NSString* const kOpportunitySoupName;
+extern NSString* const kAllAccountsQuery;
+extern NSString* const kAllOpportunitiesQuery;
+extern NSString* const kAggregateQueryStr;
+
 @interface SmartStoreInterface : NSObject {
     SFSmartStore *_store;
 }

@@ -116,8 +116,7 @@
 
 - (IBAction)btnRunReportPressed:(id)sender
 {
-    NSString *queryStr = @"SELECT {Account:Name}, COUNT({Opportunity:Name}), SUM({Opportunity:Amount}), AVG({Opportunity:Amount}), {Account:Id}, {Opportunity:AccountId} FROM {Account}, {Opportunity} WHERE {Account:Id} = {Opportunity:AccountId} GROUP BY {Account:Name}";
-    NSArray *results = [self.smartStoreIntf query:queryStr];
+    NSArray *results = [self.smartStoreIntf query:kAggregateQueryStr];
     // TODO: Show results.
 }
 

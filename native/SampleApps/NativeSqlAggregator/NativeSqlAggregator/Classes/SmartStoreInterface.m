@@ -29,10 +29,11 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 
-static NSString* const kAccountSoupName = @"Account";
-static NSString* const kOpportunitySoupName = @"Opportunity";
-static NSString* const kAllAccountsQuery = @"SELECT {Account:Name}, {Account:Id}, {Account:OwnerId} FROM {Account}";
-static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Opportunity:Id}, {Opportunity:AccountId}, {Opportunity:OwnerId}, {Opportunity:Amount} FROM {Opportunity}";
+NSString* const kAccountSoupName = @"Account";
+NSString* const kOpportunitySoupName = @"Opportunity";
+NSString* const kAllAccountsQuery = @"SELECT {Account:Name}, {Account:Id}, {Account:OwnerId} FROM {Account}";
+NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Opportunity:Id}, {Opportunity:AccountId}, {Opportunity:OwnerId}, {Opportunity:Amount} FROM {Opportunity}";
+NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity:Name}), SUM({Opportunity:Amount}), AVG({Opportunity:Amount}), {Account:Id}, {Opportunity:AccountId} FROM {Account}, {Opportunity} WHERE {Account:Id} = {Opportunity:AccountId} GROUP BY {Account:Name}";
 
 @implementation SmartStoreInterface : NSObject
 
@@ -51,10 +52,14 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 {
     if (![self.store soupExists:kAccountSoupName]) {
         NSLog(@"Creating accounts soup.");
-        SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *ownerIdIndexSpec = [[SFSoupIndex alloc] initWithPath:@"OwnerId" indexType:kSoupIndexTypeString columnName:nil];
-        NSArray *accountIndexSpecs = [[NSArray alloc] initWithObjects:nameIndexSpec, idIndexSpec, ownerIdIndexSpec, nil];
+        NSArray *keys = [NSArray arrayWithObjects:@"path", @"type", nil];
+        NSArray *nameValues = [NSArray arrayWithObjects:@"Name", kSoupIndexTypeString, nil];
+        NSDictionary *nameDictionary = [NSDictionary dictionaryWithObjects:nameValues forKeys:keys];
+        NSArray *idValues = [NSArray arrayWithObjects:@"Id", kSoupIndexTypeString, nil];
+        NSDictionary *idDictionary = [NSDictionary dictionaryWithObjects:idValues forKeys:keys];
+        NSArray *ownerIdValues = [NSArray arrayWithObjects:@"OwnerId", kSoupIndexTypeString, nil];
+        NSDictionary *ownerIdDictionary = [NSDictionary dictionaryWithObjects:ownerIdValues forKeys:keys];
+        NSArray *accountIndexSpecs = [[NSArray alloc] initWithObjects:nameDictionary, idDictionary, ownerIdDictionary, nil];
         [self.store registerSoup:kAccountSoupName withIndexSpecs:accountIndexSpecs];
     }
 }
@@ -63,13 +68,18 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 {
     if (![self.store soupExists:kOpportunitySoupName]) {
         NSLog(@"Creating opportunities soup.");
-        // TODO: Fix problems with index specs preventing creation of soups.
-        SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *accountIdIndexSpec = [[SFSoupIndex alloc] initWithPath:@"AccountId" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *ownerIdIndexSpec = [[SFSoupIndex alloc] initWithPath:@"OwnerId" indexType:kSoupIndexTypeString columnName:nil];
-        SFSoupIndex *amountIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Amount" indexType:kSoupIndexTypeFloating columnName:nil];
-        NSArray *opportunityIndexSpecs = [[NSArray alloc] initWithObjects:nameIndexSpec, idIndexSpec, accountIdIndexSpec, ownerIdIndexSpec, amountIndexSpec, nil];
+        NSArray *keys = [NSArray arrayWithObjects:@"path", @"type", nil];
+        NSArray *nameValues = [NSArray arrayWithObjects:@"Name", kSoupIndexTypeString, nil];
+        NSDictionary *nameDictionary = [NSDictionary dictionaryWithObjects:nameValues forKeys:keys];
+        NSArray *idValues = [NSArray arrayWithObjects:@"Id", kSoupIndexTypeString, nil];
+        NSDictionary *idDictionary = [NSDictionary dictionaryWithObjects:idValues forKeys:keys];
+        NSArray *accountIdValues = [NSArray arrayWithObjects:@"AccountId", kSoupIndexTypeString, nil];
+        NSDictionary *accountIdDictionary = [NSDictionary dictionaryWithObjects:accountIdValues forKeys:keys];
+        NSArray *ownerIdValues = [NSArray arrayWithObjects:@"OwnerId", kSoupIndexTypeString, nil];
+        NSDictionary *ownerIdDictionary = [NSDictionary dictionaryWithObjects:ownerIdValues forKeys:keys];
+        NSArray *amountValues = [NSArray arrayWithObjects:@"Amount", kSoupIndexTypeFloating, nil];
+        NSDictionary *amountDictionary = [NSDictionary dictionaryWithObjects:amountValues forKeys:keys];
+        NSArray *opportunityIndexSpecs = [[NSArray alloc] initWithObjects:nameDictionary, idDictionary, accountIdDictionary, ownerIdDictionary, amountDictionary, nil];
         [self.store registerSoup:kOpportunitySoupName withIndexSpecs:opportunityIndexSpecs];
     }
 }
@@ -129,12 +139,10 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
          */
         double amount = 0;
         NSDictionary *amountObj = [opportunity valueForKey:@"Amount"];
-        if (amountObj == nil || [amountObj isEqual:@"null"]) {
+        if (amountObj == nil || [amountObj isEqual:[NSNull null]]) {
             NSNumber *doubleVal = [[NSNumber alloc] initWithDouble:amount];
             [opportunity setValue:doubleVal forKey:@"Amount"];
         }
-        NSLog(@"Value: %@", [opportunity valueForKey:@"Amount"]);
-        // TODO: Verify the insert works and there are no nulls.
         [self.store upsertEntries:opportunity toSoup:kOpportunitySoupName];
     }
 }

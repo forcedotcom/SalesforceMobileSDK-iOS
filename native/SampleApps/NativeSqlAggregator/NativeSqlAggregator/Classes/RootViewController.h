@@ -32,10 +32,19 @@
 
 @property (nonatomic, strong) SmartStoreInterface *smartStoreIntf;
 
+/**
+ * This function is called when the 'Save Records Offline' button is clicked.
+ */
 - (IBAction)btnSaveRecOfflinePressed:(id)sender;
 
+/**
+ * This function is called when the 'Clear Offline Store' button is clicked.
+ */
 - (IBAction)btnClearOfflineStorePressed:(id)sender;
 
+/**
+ * This function is called when the 'Run Report' button is clicked.
+ */
 - (IBAction)btnRunReportPressed:(id)sender;
 
 @end
