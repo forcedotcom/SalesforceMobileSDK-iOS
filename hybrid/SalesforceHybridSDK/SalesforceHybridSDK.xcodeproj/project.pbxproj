@@ -18,7 +18,6 @@
 		4F1A59FE174FF49300473EE8 /* icons-18-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */; };
 		4F1A59FF174FF49300473EE8 /* icons-36-black.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */; };
 		4F1A5A00174FF49300473EE8 /* icons-36-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */; };
-		4F1A5A02174FF4C400473EE8 /* backbone-1.0.0.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */; };
 		4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */; };
 		4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */; };
 		4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C1174FEF7C00473EE8 /* qunit.css */; };
@@ -120,7 +119,6 @@
 			dstPath = www/backbone;
 			dstSubfolderSpec = 7;
 			files = (
-				4F1A5A02174FF4C400473EE8 /* backbone-1.0.0.js in Copy backbone to www/backbone */,
 				4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */,
 				4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */,
 			);
@@ -211,7 +209,6 @@
 /* Begin PBXFileReference section */
 		4F1A5993174FEAA300473EE8 /* ForceEntityTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceEntityTestSuite.h; sourceTree = "<group>"; };
 		4F1A5994174FEAA300473EE8 /* ForceEntityTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceEntityTestSuite.m; sourceTree = "<group>"; };
-		4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.js"; sourceTree = "<group>"; };
 		4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.min.js"; sourceTree = "<group>"; };
 		4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-1.4.4.min.js"; sourceTree = "<group>"; };
 		4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
@@ -378,7 +375,6 @@
 		4F1A59B0174FEF7C00473EE8 /* backbone */ = {
 			isa = PBXGroup;
 			children = (
-				4F1A59B1174FEF7C00473EE8 /* backbone-1.0.0.js */,
 				4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */,
 				4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */,
 			);
