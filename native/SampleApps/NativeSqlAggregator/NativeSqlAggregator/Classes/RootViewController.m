@@ -117,6 +117,7 @@
 - (IBAction)btnRunReportPressed:(id)sender
 {
     NSArray *results = [self.smartStoreIntf query:kAggregateQueryStr];
+    NSLog(@"Results: %@", results);
     // TODO: Show results.
 }
 

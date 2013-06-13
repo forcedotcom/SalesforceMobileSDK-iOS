@@ -121,7 +121,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 - (void)insertAccount:(NSArray*)account
 {
     if (nil != account) {
-        [self.store upsertEntries:account toSoup:kAccountSoupName];
+        [self.store upsertEntries:[NSArray arrayWithObject:account] toSoup:kAccountSoupName];
     }
 }
 
@@ -143,7 +143,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
             NSNumber *doubleVal = [[NSNumber alloc] initWithDouble:amount];
             [opportunity setValue:doubleVal forKey:@"Amount"];
         }
-        [self.store upsertEntries:opportunity toSoup:kOpportunitySoupName];
+        [self.store upsertEntries:[NSArray arrayWithObject:opportunity] toSoup:kOpportunitySoupName];
     }
 }
 
