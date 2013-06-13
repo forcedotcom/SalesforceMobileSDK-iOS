@@ -51,7 +51,6 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 - (void)createAccountsSoup
 {
     if (![self.store soupExists:kAccountSoupName]) {
-        NSLog(@"Creating accounts soup.");
         NSArray *keys = [NSArray arrayWithObjects:@"path", @"type", nil];
         NSArray *nameValues = [NSArray arrayWithObjects:@"Name", kSoupIndexTypeString, nil];
         NSDictionary *nameDictionary = [NSDictionary dictionaryWithObjects:nameValues forKeys:keys];
@@ -67,7 +66,6 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 - (void)createOpportunitiesSoup
 {
     if (![self.store soupExists:kOpportunitySoupName]) {
-        NSLog(@"Creating opportunities soup.");
         NSArray *keys = [NSArray arrayWithObjects:@"path", @"type", nil];
         NSArray *nameValues = [NSArray arrayWithObjects:@"Name", kSoupIndexTypeString, nil];
         NSDictionary *nameDictionary = [NSDictionary dictionaryWithObjects:nameValues forKeys:keys];
@@ -87,7 +85,6 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 - (void)deleteAccountsSoup
 {
     if ([self.store soupExists:kAccountSoupName]) {
-        NSLog(@"Deleting accounts soup.");
         [self.store removeSoup:kAccountSoupName];
     }
 }
@@ -95,7 +92,6 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 - (void)deleteOpportunitiesSoup
 {
     if ([self.store soupExists:kOpportunitySoupName]) {
-        NSLog(@"Deleting opportunities soup.");
         [self.store removeSoup:kOpportunitySoupName];
     }
 }

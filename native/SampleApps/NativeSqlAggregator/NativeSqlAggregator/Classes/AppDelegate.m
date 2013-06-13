@@ -85,18 +85,20 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self = [super init];
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
-        
+
         // These SFAccountManager settings are the minimum required to identify the Connected App.
         [SFAccountManager setClientId:RemoteAccessConsumerKey];
         [SFAccountManager setRedirectUri:OAuthRedirectURI];
         [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
-        
+
         // Logout and login host change handlers.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginHostChanged:) name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
-        
-        // Blocks to execute once authentication has completed.  You could define these at the different boundaries where
-        // authentication is initiated, if you have specific logic for each case.
+
+        /*
+         * Blocks to execute once authentication has completed.  You could define these at the different boundaries where
+         * authentication is initiated, if you have specific logic for each case.
+         */
         __weak AppDelegate *weakSelf = self;
         self.initialLoginSuccessBlock = ^(SFOAuthInfo *info) {
             [weakSelf setupRootViewController];
@@ -105,7 +107,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             [[SFAuthenticationManager sharedManager] logout];
         };
     }
-    
     return self;
 }
 
@@ -115,18 +116,13 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
 }
 
-#pragma mark - App delegate lifecycle
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
-    
     return YES;
 }
-
-#pragma mark - Private methods
 
 - (void)initializeAppViewState
 {
@@ -143,14 +139,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)logoutInitiated:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"Logout notification received. Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
 
 - (void)loginHostChanged:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"Login host changed notification received. Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
