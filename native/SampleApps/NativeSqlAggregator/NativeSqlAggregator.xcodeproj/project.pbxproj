@@ -49,6 +49,8 @@
 		824A9FF417250BF300C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF317250BF300C9BD79 /* QuartzCore.framework */; };
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
+		CE006E5A176A822300411A4C /* ResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE006E59176A822300411A4C /* ResultViewController.xib */; };
+		CE006E5E176A829200411A4C /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE006E5D176A829100411A4C /* ResultViewController.m */; };
 		CE1A539B1768456D00D202D8 /* SmartStoreInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */; };
 		CE1AAA1017693C0C00DC3A3A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */; };
 /* End PBXBuildFile section */
@@ -247,6 +249,9 @@
 		824A9FF317250BF300C9BD79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		824A9FF517250BFA00C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CE006E59176A822300411A4C /* ResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultViewController.xib; sourceTree = "<group>"; };
+		CE006E5C176A829100411A4C /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
+		CE006E5D176A829100411A4C /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
 		CE1A53991768456D00D202D8 /* SmartStoreInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreInterface.h; sourceTree = "<group>"; };
 		CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreInterface.m; sourceTree = "<group>"; };
 		CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
@@ -355,6 +360,9 @@
 				CE1A53991768456D00D202D8 /* SmartStoreInterface.h */,
 				CE1A539A1768456D00D202D8 /* SmartStoreInterface.m */,
 				CE1AAA0F17693C0C00DC3A3A /* RootViewController.xib */,
+				CE006E59176A822300411A4C /* ResultViewController.xib */,
+				CE006E5C176A829100411A4C /* ResultViewController.h */,
+				CE006E5D176A829100411A4C /* ResultViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -763,6 +771,7 @@
 				824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */,
 				824A9FE61725079100C9BD79 /* LICENSE in Resources */,
 				CE1AAA1017693C0C00DC3A3A /* RootViewController.xib in Resources */,
+				CE006E5A176A822300411A4C /* ResultViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +787,7 @@
 				824A9E361724E45100C9BD79 /* RootViewController.m in Sources */,
 				824A9E3A1724E58200C9BD79 /* InitialViewController.m in Sources */,
 				CE1A539B1768456D00D202D8 /* SmartStoreInterface.m in Sources */,
+				CE006E5E176A829200411A4C /* ResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,6 +27,7 @@
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 #import "SmartStoreInterface.h"
+#import "ResultViewController.h"
 
 @implementation RootViewController
 
@@ -119,6 +120,8 @@
     NSArray *results = [self.smartStoreIntf query:kAggregateQueryStr];
     NSLog(@"Results: %@", results);
     // TODO: Show results.
+    ResultViewController *resultVC = [[ResultViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:resultVC animated:YES completion:nil];
 }
 
 @end
