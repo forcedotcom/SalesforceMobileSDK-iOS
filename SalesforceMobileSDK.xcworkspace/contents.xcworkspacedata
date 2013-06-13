@@ -692,9 +692,6 @@
             location = "group:backbone"
             name = "backbone">
             <FileRef
-               location = "group:backbone-1.0.0.js">
-            </FileRef>
-            <FileRef
                location = "group:backbone-1.0.0.min.js">
             </FileRef>
             <FileRef
