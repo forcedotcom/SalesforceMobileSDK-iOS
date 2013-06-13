@@ -27,12 +27,15 @@
 #import "SmartStoreInterface.h"
 
 @interface RootViewController : UIViewController <SFRestDelegate> {
-    NSMutableArray *dataRows;
     SmartStoreInterface *smartStoreIntf;
 }
 
-@property (nonatomic, strong) NSArray *dataRows;
-
 @property (nonatomic, strong) SmartStoreInterface *smartStoreIntf;
+
+- (IBAction)btnSaveRecOfflinePressed:(id)sender;
+
+- (IBAction)btnClearOfflineStorePressed:(id)sender;
+
+- (IBAction)btnRunReportPressed:(id)sender;
 
 @end

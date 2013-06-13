@@ -30,7 +30,6 @@
 
 @implementation RootViewController
 
-@synthesize dataRows;
 @synthesize smartStoreIntf;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -49,7 +48,6 @@
 
 - (void)dealloc
 {
-    self.dataRows = nil;
     self.smartStoreIntf = nil;
 }
 
@@ -57,30 +55,70 @@
 {
     [super viewDidLoad];
     self.title = @"NativeSqlAggregator";
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name FROM User LIMIT 10"];    
-    [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse
 {
     NSArray *records = [jsonResponse objectForKey:@"records"];
-    NSLog(@"request:didLoadResponse: #records: %d", records.count);
-    self.dataRows = records;
+    if (nil != records) {
+        NSDictionary *firstRecord = [records objectAtIndex:0];
+        if (nil != firstRecord) {
+            NSDictionary *attributes = [firstRecord valueForKey:@"attributes"];
+            if (nil != attributes) {
+                NSString *type = [attributes valueForKey:@"type"];
+                if ([type isEqual:@"Account"]) {
+                    [self.smartStoreIntf insertAccounts:records];
+                } else if ([type isEqual:@"Opportunity"]) {
+                    [self.smartStoreIntf insertOpportunities:records];
+                } else {
+
+                    /*
+                     * If the object is not an account or opportunity,
+                     * we do nothing. This block can be used to save
+                     * other types of records.
+                     */
+                }
+            }
+        }
+    }
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error
 {
-    NSLog(@"request:didFailLoadWithError: %@", error);
+    NSLog(@"REST request failed with error: %@", error);
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request
 {
-    NSLog(@"requestDidCancelLoad: %@", request);
+    NSLog(@"REST request canceled. Request: %@", request);
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request
 {
-    NSLog(@"requestDidTimeout: %@", request);
+    NSLog(@"REST request timed out. Request: %@", request);
+}
+
+- (IBAction)btnSaveRecOfflinePressed:(id)sender
+{
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name, Id, OwnerId FROM Account"];
+    [[SFRestAPI sharedInstance] send:request delegate:self];
+    request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name, Id, AccountId, OwnerId, Amount FROM Opportunity"];
+    [[SFRestAPI sharedInstance] send:request delegate:self];
+}
+
+- (IBAction)btnClearOfflineStorePressed:(id)sender
+{
+    [self.smartStoreIntf deleteAccountsSoup];
+    [self.smartStoreIntf deleteOpportunitiesSoup];
+    [self.smartStoreIntf createAccountsSoup];
+    [self.smartStoreIntf createOpportunitiesSoup];
+}
+
+- (IBAction)btnRunReportPressed:(id)sender
+{
+    NSString *queryStr = @"SELECT {Account:Name}, COUNT({Opportunity:Name}), SUM({Opportunity:Amount}), AVG({Opportunity:Amount}), {Account:Id}, {Opportunity:AccountId} FROM {Account}, {Opportunity} WHERE {Account:Id} = {Opportunity:AccountId} GROUP BY {Account:Name}";
+    NSArray *results = [self.smartStoreIntf query:queryStr];
+    // TODO: Show results.
 }
 
 @end

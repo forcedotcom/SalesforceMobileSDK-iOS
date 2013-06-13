@@ -50,6 +50,7 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 - (void)createAccountsSoup
 {
     if (![self.store soupExists:kAccountSoupName]) {
+        NSLog(@"Creating accounts soup.");
         SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *ownerIdIndexSpec = [[SFSoupIndex alloc] initWithPath:@"OwnerId" indexType:kSoupIndexTypeString columnName:nil];
@@ -61,6 +62,8 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 - (void)createOpportunitiesSoup
 {
     if (![self.store soupExists:kOpportunitySoupName]) {
+        NSLog(@"Creating opportunities soup.");
+        // TODO: Fix problems with index specs preventing creation of soups.
         SFSoupIndex *nameIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil];
         SFSoupIndex *accountIdIndexSpec = [[SFSoupIndex alloc] initWithPath:@"AccountId" indexType:kSoupIndexTypeString columnName:nil];
@@ -74,6 +77,7 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 - (void)deleteAccountsSoup
 {
     if ([self.store soupExists:kAccountSoupName]) {
+        NSLog(@"Deleting accounts soup.");
         [self.store removeSoup:kAccountSoupName];
     }
 }
@@ -81,6 +85,7 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
 - (void)deleteOpportunitiesSoup
 {
     if ([self.store soupExists:kOpportunitySoupName]) {
+        NSLog(@"Deleting opportunities soup.");
         [self.store removeSoup:kOpportunitySoupName];
     }
 }
@@ -122,8 +127,14 @@ static NSString* const kAllOpportunitiesQuery = @"SELECT {Opportunity:Name}, {Op
          * with '0', for aggregate queries such as 'sum' and
          * 'avg' to work properly.
          */
-
-        // TODO: Fetch double null values and replace them with 0.
+        double amount = 0;
+        NSDictionary *amountObj = [opportunity valueForKey:@"Amount"];
+        if (amountObj == nil || [amountObj isEqual:@"null"]) {
+            NSNumber *doubleVal = [[NSNumber alloc] initWithDouble:amount];
+            [opportunity setValue:doubleVal forKey:@"Amount"];
+        }
+        NSLog(@"Value: %@", [opportunity valueForKey:@"Amount"]);
+        // TODO: Verify the insert works and there are no nulls.
         [self.store upsertEntries:opportunity toSoup:kOpportunitySoupName];
     }
 }
