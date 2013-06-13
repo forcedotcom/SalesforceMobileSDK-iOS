@@ -26,11 +26,11 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-__What's New in 2.0__
+### What's New in 2.0
 
 **Entity Framework**
 - Introducing the entity framework (external/shared/libs/force.entity.js), a set of JavaScript tools to allow you to work with higher level data objects from Salesforce.
-- New AccountEditor hybrid sample app with User and Group Search.
+- New AccountEditor hybrid sample app with User and Group Search, demonstrating the entity framework functionality in action.
 
 **SmartStore Enhancements**
 - SmartStore now supports 'Smart SQL' queries, such as complex aggregate functions, JOINs, and any other SQL-type queries.
@@ -44,29 +44,28 @@ __What's New in 2.0__
 **Other Technical Improvements**
 - All projects and template apps have been converted to use ARC.
 - All Xcode projects are now managed under a single workspace (`SalesforceMobileSDK.xcworkspace`).  This allows for a few benefits:
-    - During development, any changes to underlying libraries/projects will automatically be reflected in their consuming projects/applications.
+    - During development of the SDK, any changes to underlying libraries/projects will automatically be reflected in their consuming projects/applications.
     - You can now debug all the way through the stack of dependencies, from a sample app down through authentication and other core functionality.
     - No more "staging" of binary artifacts as a prerequisite to working with the projects.  `install.sh` now simply syncs the submodules of the repository, after which you're free to start working in the workspace.
-- All hybrid dependencies are now decoupled from `SalesforceHybridSDK.framework` (which has been retired).  Which means you can now mix and match your own versions of Cordova, openssl, etc., in your app.  The core functionality in the framework has now been ported into a static library.
+- Native and mobile template apps no longer rely on parent app delegate classes to successfully leverage OAuth authentication.  This means that you the developer are free to form up your `AppDelegate` app flow however you choose, leveraging the updated `SFAuthenticationManager` component wherever it's practical to do so in your app.
+- All hybrid dependencies are now decoupled from `SalesforceHybridSDK.framework` (which has been retired).  Which means you can now mix and match your own versions of Cordova, openssl, etc., in your app.  The core functionality of the framework itself has now been converted into a static library.
 - Added support for community users to login.
 - Consolidated our Cordova JS plugins and utility code into one file (cordova.force.js).
 - Fixed session state rehydration for Visualforce apps, in the event of session timeouts during JavaScript Remoting calls in Visualforce.
 
-__Native Applications__
+### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session id when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
 
-__Hybrid Applications__
+### Hybrid Applications
 HTML5 is quickly emerging as a powerful technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript alone, some vital limitations remain, specifically: session management, access to native device functionality like the camera, calendar and address book. The Salesforce Mobile Container (based on the industry leading PhoneGap implementation) makes it possible to embed HTML5 apps stored on the device or delivered via Visualforce inside a thin native container, producing a hybrid application.
 
-Application Templates
-==
+### Application Templates
 The Mobile SDK provides Xcode templates for quickly constructing the foundation of native and hybrid applications with configurable Settings bundles for allowing the user to log-out of the app or switch between production and Sandbox orgs.
 
-
-__Native App Template__
+**Native App Template**
 For native apps that need to accesses the Salesforce REST API, use the native template that includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
 
-__Hybrid App Template__
+**Hybrid App Template**
 To create hybrid apps that use the Salesforce REST API or access Visualforce pages, start with the hybrid app template. By providing a SalesforceOAuthPlugin for the container based on PhoneGap, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.
 
 
