@@ -26,9 +26,7 @@
 #import "SFRestAPI.h"
 #import "SmartStoreInterface.h"
 
-@interface RootViewController : UIViewController <SFRestDelegate> {
-    SmartStoreInterface *smartStoreIntf;
-}
+@interface RootViewController : UIViewController <SFRestDelegate>
 
 @property (nonatomic, strong) SmartStoreInterface *smartStoreIntf;
 

@@ -28,6 +28,7 @@
 #import "SFSmartStore.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
+#import "NSDictionary+SFAdditions.h"
 
 NSString* const kAccountSoupName = @"Account";
 NSString* const kOpportunitySoupName = @"Opportunity";
@@ -39,7 +40,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 
 @synthesize store = _store;
 
-- (SmartStoreInterface*) init
+- (id) init
 {
     self = [super init];
     if (nil != self)  {
@@ -114,14 +115,14 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
     }
 }
 
-- (void)insertAccount:(NSArray*)account
+- (void)insertAccount:(NSDictionary*)account
 {
     if (nil != account) {
         [self.store upsertEntries:[NSArray arrayWithObject:account] toSoup:kAccountSoupName];
     }
 }
 
-- (void)insertOpportunity:(NSArray*)opportunity
+- (void)insertOpportunity:(NSDictionary*)opportunity
 {
     if (nil != opportunity) {
 
@@ -134,8 +135,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
          * 'avg' to work properly.
          */
         double amount = 0;
-        NSDictionary *amountObj = [opportunity valueForKey:@"Amount"];
-        if (amountObj == nil || [amountObj isEqual:[NSNull null]]) {
+        if (![opportunity nonNullObjectForKey:@"Amount"]) {
             NSNumber *doubleVal = [[NSNumber alloc] initWithDouble:amount];
             [opportunity setValue:doubleVal forKey:@"Amount"];
         }

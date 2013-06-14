@@ -35,9 +35,7 @@ extern NSString* const kAllAccountsQuery;
 extern NSString* const kAllOpportunitiesQuery;
 extern NSString* const kAggregateQueryStr;
 
-@interface SmartStoreInterface : NSObject {
-    SFSmartStore *_store;
-}
+@interface SmartStoreInterface : NSObject
 
 @property (nonatomic, strong) SFSmartStore *store;
 
@@ -74,12 +72,12 @@ extern NSString* const kAggregateQueryStr;
 /**
  * Inserts a single account into the accounts soup.
  */
-- (void)insertAccount:(NSArray*)account;
+- (void)insertAccount:(NSDictionary*)account;
 
 /**
  * Inserts a single opportunity into the opportunities soup.
  */
-- (void)insertOpportunity:(NSArray*)opportunity;
+- (void)insertOpportunity:(NSDictionary*)opportunity;
 
 /**
  * Returns saved accounts.
