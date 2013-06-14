@@ -26,7 +26,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResultViewController : UIViewController {
+@interface ResultViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     NSArray *resultDataSet;
 }
 

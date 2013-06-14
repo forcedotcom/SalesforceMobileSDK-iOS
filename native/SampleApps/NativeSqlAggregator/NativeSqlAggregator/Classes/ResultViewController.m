@@ -52,8 +52,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Report Results";
-    NSLog(@"Results: %@", self.resultDataSet);
+    NSArray *subviews = [self.view subviews];
+    UIScrollView *scrollView = [subviews objectAtIndex:0];
+    NSArray *scrollSubViews = [scrollView subviews];
+    UITableView *tableView = [scrollSubViews objectAtIndex:0];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    int count = 0;
+    if (nil != self.resultDataSet) {
+        count = [self.resultDataSet count] + 1;
+    }
+    return count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"Account Name    Opps";
+        cell.detailTextLabel.text = @"Total    Average";
+    } else {
+        NSArray *row = [resultDataSet objectAtIndex:indexPath.row - 1];
+        NSString *col1 = [row objectAtIndex:0];
+        NSNumber *col2 = [row objectAtIndex:1];
+        NSNumber *col3 = [row objectAtIndex:2];
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
+        NSString *col3String = [numberFormatter stringFromNumber:col3];
+        NSNumber *col4 = [row objectAtIndex:3];
+        NSString *col4String = [numberFormatter stringFromNumber:col4];
+        NSMutableString *dataRowOne = [[NSMutableString alloc] init];
+        [dataRowOne appendString:col1];
+        [dataRowOne appendString:@"    "];
+        [dataRowOne appendString:[col2 description]];
+        NSMutableString *dataRowTwo = [[NSMutableString alloc] init];
+        [dataRowTwo appendString:col3String];
+        [dataRowTwo appendString:@"    "];
+        [dataRowTwo appendString:col4String];
+        cell.textLabel.text = dataRowOne;
+        cell.detailTextLabel.text = dataRowTwo;
+    }
+    return cell;
 }
 
 @end
