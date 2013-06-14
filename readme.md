@@ -34,7 +34,7 @@ Introduction
 
 **SmartStore Enhancements**
 - SmartStore now supports 'Smart SQL' queries, such as complex aggregate functions, JOINs, and any other SQL-type queries.
-- NativeSQLAggregator is a new sample app to demonstrate usage of SmartStore within a native app to run Smart SQL queries, such as aggregate queries.
+- NativeSqlAggregator is a new sample app to demonstrate usage of SmartStore within a native app to run Smart SQL queries, such as aggregate queries.
 - SmartStore now supports three data types for index fields - 'string', 'integer', and 'floating'.
 
 **OAuth Enhancements**
