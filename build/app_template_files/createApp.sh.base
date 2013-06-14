@@ -130,8 +130,7 @@ function parseOpts()
           usage
           exit 7
         fi
-        # Org name can be anything.  Just escape double quotes for the project.
-        orgName=`echo ${orgName} | sed 's/\"/\\\"/g'`
+        # Org name can be anything.
         OPT_ORG_NAME=${orgName};;
       o)
         outputFolder=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
@@ -195,6 +194,19 @@ function parseOpts()
   fi
 }
 
+function tokenSubstituteInFile()
+{
+  local subFile=$1
+  local token=$2
+  local replacement=$3
+
+  # Sanitize the replacement value for sed.  (Assume $token is fine—we control that value.)
+  replacement=`echo "${replacement}" | sed 's/[\&/]/\\\&/g'`
+
+  cat "${subFile}" | sed "s/${token}/${replacement}/g" > "${subFile}.new"
+  mv "${subFile}.new" "${subFile}"
+}
+
 function replaceTokens()
 {
   local appNameToken
@@ -252,34 +264,25 @@ function replaceTokens()
   local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
 
   # App name
-  cat "${inputPrefixFile}" | sed "s/${appNameToken}/${OPT_APP_NAME}/g" > "${inputPrefixFile}.new"
-  mv "${inputPrefixFile}.new" "${inputPrefixFile}"
-  cat "${inputProjectFile}" | sed "s/${appNameToken}/${OPT_APP_NAME}/g" > "${inputProjectFile}.new"
-  mv "${inputProjectFile}.new" "${inputProjectFile}"
-
+  tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  
   # Company identifier
-  cat "${inputInfoFile}" | sed "s/${SUB_COMPANY_ID}/${OPT_COMPANY_ID}/g" > "${inputInfoFile}.new"
-  mv "${inputInfoFile}.new" "${inputInfoFile}"
-
+  tokenSubstituteInFile "${inputInfoFile}" "${SUB_COMPANY_ID}" "${OPT_COMPANY_ID}"
+  
   # Org name
-  escapedOrgName=`echo ${OPT_ORG_NAME} | sed 's/\\"/\\\\"/g'`
-  cat "${inputProjectFile}" | sed "s/${SUB_ORG_NAME}/${escapedOrgName}/g" > "${inputProjectFile}.new"
-  mv "${inputProjectFile}.new" "${inputProjectFile}"
-
+  tokenSubstituteInFile "${inputProjectFile}" "${SUB_ORG_NAME}" "${OPT_ORG_NAME}"
+  
   # Connected app ID
-  cat "${inputConnectedAppFile}" | sed "s#${SUB_APP_ID}#${OPT_APP_ID}#g" > "${inputConnectedAppFile}.new"
-  mv "${inputConnectedAppFile}.new" "${inputConnectedAppFile}"
-
+  tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_APP_ID}" "${OPT_APP_ID}"
+  
   # Redirect URI
-  cat "${inputConnectedAppFile}" | sed "s#${SUB_REDIRECT_URI}#${OPT_REDIRECT_URI}#g" > "${inputConnectedAppFile}.new"
-  mv "${inputConnectedAppFile}.new" "${inputConnectedAppFile}"
-
+  tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_REDIRECT_URI}" "${OPT_REDIRECT_URI}"
+  
   # For hybrid, start URLs, remote vs. local.
   if [[ "$1" == "hybrid_remote" || "$1" == "hybrid_local" ]]; then
-    cat "${inputConnectedAppFile}" | sed "s#${SUB_HYBRID_APP_START_PAGE}#${OPT_HYBRID_APP_START_PAGE}#g" > "${inputConnectedAppFile}.new"
-    mv "${inputConnectedAppFile}.new" "${inputConnectedAppFile}"
-    cat "${inputConnectedAppFile}" | sed "s/${SUB_HYBRID_APP_IS_LOCAL}/${OPT_HYBRID_APP_IS_LOCAL}/g" > "${inputConnectedAppFile}.new"
-    mv "${inputConnectedAppFile}.new" "${inputConnectedAppFile}"
+    tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_HYBRID_APP_START_PAGE}" "${OPT_HYBRID_APP_START_PAGE}"
+    tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_HYBRID_APP_IS_LOCAL}" "${OPT_HYBRID_APP_IS_LOCAL}"
   fi
 
   # If it's a hybrid remote app, remove unnecessary www/ contents.
