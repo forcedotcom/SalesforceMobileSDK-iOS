@@ -282,6 +282,15 @@ function replaceTokens()
     mv "${inputConnectedAppFile}.new" "${inputConnectedAppFile}"
   fi
 
+  # If it's a hybrid remote app, remove unnecessary www/ contents.
+  if [[ "$1" == "hybrid_remote" ]]; then
+    for wwwFile in `ls -1 "${appNameToken}/${appNameToken}/www/"`; do
+      if [[ "$wwwFile" != "bootconfig.json" ]]; then
+        rm -rf "${appNameToken}/${appNameToken}/www/${wwwFile}"
+      fi
+    done
+  fi
+
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
   mv "${inputPrefixFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Prefix.pch"
