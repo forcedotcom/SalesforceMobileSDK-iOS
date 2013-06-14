@@ -51,6 +51,7 @@ Introduction
 - All hybrid dependencies are now decoupled from `SalesforceHybridSDK.framework` (which has been retired).  Which means you can now mix and match your own versions of Cordova, openssl, etc., in your app.  The core functionality of the framework itself has now been converted into a static library.
 - Added support for community users to login.
 - Consolidated our Cordova JS plugins and utility code into one file (cordova.force.js).
+- Updated forcetk.js and renamed to forcetk.mobilesdk.js, to pull in the latest functionality from ForceTK and enhance its ability to work with the Mobile SDK authentication process.
 - Fixed session state rehydration for Visualforce apps, in the event of session timeouts during JavaScript Remoting calls in Visualforce.
 
 ### Native Applications

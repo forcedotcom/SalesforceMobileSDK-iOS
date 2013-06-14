@@ -41,7 +41,6 @@ The new app templates are now available through [the forceios npm package](https
 
 ### Native 1.5 to 2.0 upgrade
 - As mentioned above, even if you're not porting your previous contents into a 2.0 application shell, it's still advisable to create a new native app from the template, to follow along.
-- Remove `SalesforceHybridSDK.framework`, as it has been replaced.
 - Update your Mobile SDK library and resource dependencies, from the [SalesforceMobileSDK-iOS-Package repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Package).
     - Remove SalesforceSDK
     - Add SalesforceNativeSDK (in the Dependencies/ folder)
@@ -50,8 +49,8 @@ The new app templates are now available through [the forceios npm package](https
     - Update SalesforceSDKResources.bundle (in the Dependencies/ folder)
     - Update RestKit (in the Dependencies/ThirdParty/RestKit/ folder)
     - Update SalesforceCommonUtils (in the Dependencies/ThirdParty/SalesforceCommonUtils folder)
-    - openssl (libcrypto.a and libssl.a, in the Dependencies/ThirdParty/openssl folder)
-    - sqlcipher (in the Dependencies/ThirdParty/sqlcipher folder)
+    - Update openssl (libcrypto.a and libssl.a, in the Dependencies/ThirdParty/openssl folder)
+    - Update sqlcipher (in the Dependencies/ThirdParty/sqlcipher folder)
 - Update your AppDelegate — Generally speaking, make your AppDelegate.h and AppDelegate.m files conform to the new design patterns.  The following are some key points:
     - In AppDelegate.h, AppDelegate should no longer inherit from SFNativeRestAppDelegate.
     - In AppDelegate.m, AppDelegate now has primary responsibility for navigating the auth flow and root view controller staging, as well as boundary events when the user logs out, or switches login hosts.  **Note:** The design patterns in the new AppDelegate are just suggestions.  There is no longer a requirement to follow a specific flow; use an authentication flow (with the updated `SFAuthenticationManager` singleton) that suits your needs, relative to your app startup and boundary use cases.
