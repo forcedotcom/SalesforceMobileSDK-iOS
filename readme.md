@@ -26,90 +26,47 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-__What's New in 1.5__
+### What's New in 2.0
 
-**Updated iOS and Android SDKs to Cordova 2.3**
-Make sure to change all the older cordova-xx.js references to cordova-2.3.0.js in your projects
-
-**Security Enhancements**
-Snapshots of the app screen sent to the background can be substituted to a white screen to prevent capture of sensitive information
-
-**iOS SQLCipher Versioning**
-Enhanced passcode security and configuration are now available options for the secure offline database
-
-**String Localization**
-Both the iOS and Android SDK now support localized strings in an external resource
-
-__What's New in 1.4__
-
-**Updated iOS SDK to Cordova 2.2**
-Make sure to update to the latest cordova.js and associated SDK JS plugin files when you upgrade.  These can either be taken from the repo, or from a newly-generated hybrid template app.
-
-**API Versioning**
-Cordova JavaScript libraries are now versioned to benefit hybrid apps that deploy multiple versions at the same time. 
-See “Versioning and Javascript Library Compatibility” in the “Introduction to Hybrid Development” chapter of the Mobile SDK Developer Guide. 
-
-**Reactive Session Management for Hybrid Apps** 
-Developers get more control over managing web sessions inside the hybrid container. Apps that previously relied on proactive session management will require some modification. Please upgrade with caution. (forcetk.js clients should not be affected.)
-
-**Passcode Reset**
-Added option for users to logout from the passcode screen
-
-**Miscellaneous**
-* SmartStore for native apps Xcode template
-* Mobile Components for Visualforce updated to provide session management
-
-__Version 1.3__
-
-**Cordova Library Updates**
-The Salesforce Hybrid SDK has updated its PhoneGap/Cordova support to Cordova 1.8.1.  All plugins and infrastructure have been updated to Cordova patterns.
-
-**Default SmartStore Encryption**
-If an app does not implement user passcodes, its SmartStore data will be protected with a default encryption scheme.
-
-**Better Offline Support for Authentication in Native Apps**
-Native apps can now function offline if the user has authenticated at some point.  Once the device comes back online, the app will reconnect with the user's existing credentials.  (Hybrid apps already have this capability.)
-
-__Version 1.2__
-
-**Connected Apps Pilot**
-* Apps implemented with the Mobile SDK will now respect Connected Apps policies.  Rules defined by administrators for PIN code protection and session timeout intervals will now be enforced by native and hybrid app implementations. (This feature requires the Connected Apps Pilot be turned on.)
+**Entity Framework**
+- Introducing the entity framework (external/shared/libs/force.entity.js), a set of JavaScript tools to allow you to work with higher level data objects from Salesforce.
+- New AccountEditor hybrid sample app with User and Group Search, demonstrating the entity framework functionality in action.
 
 **SmartStore Enhancements**
-* Upsert records based on external id. SmartStore can now determine record uniqueness and perform the proper updates based on an id defined by the developer. This design is reflects the Salesforce REST API, making it easier to implement data synchronization.
-* Mock SmartStore Implementation. Developers can build and test SmartStore apps directly in the desktop browser.
-* Option to self-encrypt the SmartStore databases, which can be securely backed-up.
+- SmartStore now supports 'Smart SQL' queries, such as complex aggregate functions, JOINs, and any other SQL-type queries.
+- NativeSqlAggregator is a new sample app to demonstrate usage of SmartStore within a native app to run Smart SQL queries, such as aggregate queries.
+- SmartStore now supports three data types for index fields - 'string', 'integer', and 'floating'.
 
-__Version 1.1__ 
+**OAuth Enhancements**
+- Authentication can now be handled in an on-demand fashion.
+- Refresh tokens are now explicitly revoked from the server upon logout.
 
-**Secure Offline API** 
-Store sensitive business data directly on a device with enterprise-class encryption for offline access. The Salesforce SDK provides a robust API for storing, retrieving, and querying  data without internet connectivity. 
+**Other Technical Improvements**
+- All projects and template apps have been converted to use ARC.
+- All Xcode projects are now managed under a single workspace (`SalesforceMobileSDK.xcworkspace`).  This allows for a few benefits:
+    - During development of the SDK, any changes to underlying libraries/projects will automatically be reflected in their consuming projects/applications.
+    - You can now debug all the way through the stack of dependencies, from a sample app down through authentication and other core functionality.
+    - No more "staging" of binary artifacts as a prerequisite to working with the projects.  `install.sh` now simply syncs the submodules of the repository, after which you're free to start working in the workspace.
+- Native and mobile template apps no longer rely on parent app delegate classes to successfully leverage OAuth authentication.  This means that you the developer are free to form up your `AppDelegate` app flow however you choose, leveraging the updated `SFAuthenticationManager` component wherever it's practical to do so in your app.
+- All hybrid dependencies are now decoupled from `SalesforceHybridSDK.framework` (which has been retired).  Which means you can now mix and match your own versions of Cordova, openssl, etc., in your app.  The core functionality of the framework itself has now been converted into a static library.
+- Added support for community users to login.
+- Consolidated our Cordova JS plugins and utility code into one file (cordova.force.js).
+- Updated forcetk.js and renamed to forcetk.mobilesdk.js, to pull in the latest functionality from ForceTK and enhance its ability to work with the Mobile SDK authentication process.
+- Fixed session state rehydration for Visualforce apps, in the event of session timeouts during JavaScript Remoting calls in Visualforce.
 
-**Flexible OAuth2 authentication flow** 
-For hybrid apps, you now have the flexibility to configure whether or not your app needs to authenticate immediately when the app starts, or whether you'd prefer to defer authentication to a more convenient time in your app's lifecycle. 
-
-**Blocks APIs for iOS** 
-For native iOS developers, the REST API libraries have been updated to support a blocks-based callback interface, to make responding to asynchronous REST calls much easier.
-
-__Version 1.0__
-This is the first generally available release of Salesforce Mobile SDK for iOS that can be used to develop native and hybrid applications. The public facing APIs have been finalized. Due to the rapid pace of innovation of mobile operating systems, some of the APIs and modules may change in their implementation details, but should not have a direct impact on the application logic. All updates will be clearly communicated in advanced using github.  
-Check out [Developer Force](http://developer.force.com/mobilesdk) for additional articles and tutorials.
-
-__Native Applications__
+### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session id when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
 
-__Hybrid Applications__
+### Hybrid Applications
 HTML5 is quickly emerging as a powerful technology for developing cross-platform mobile applications. While developers can create sophisticated apps with HTML5 and JavaScript alone, some vital limitations remain, specifically: session management, access to native device functionality like the camera, calendar and address book. The Salesforce Mobile Container (based on the industry leading PhoneGap implementation) makes it possible to embed HTML5 apps stored on the device or delivered via Visualforce inside a thin native container, producing a hybrid application.
 
-Application Templates
-==
+### Application Templates
 The Mobile SDK provides Xcode templates for quickly constructing the foundation of native and hybrid applications with configurable Settings bundles for allowing the user to log-out of the app or switch between production and Sandbox orgs.
 
-
-__Native App Template__
+**Native App Template**
 For native apps that need to accesses the Salesforce REST API, use the native template that includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
 
-__Hybrid App Template__
+**Hybrid App Template**
 To create hybrid apps that use the Salesforce REST API or access Visualforce pages, start with the hybrid app template. By providing a SalesforceOAuthPlugin for the container based on PhoneGap, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.
 
 
