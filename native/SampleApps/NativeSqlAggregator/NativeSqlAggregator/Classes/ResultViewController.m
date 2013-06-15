@@ -49,17 +49,6 @@
     self.resultDataSet = nil;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    NSArray *subviews = [self.view subviews];
-    UIScrollView *scrollView = [subviews objectAtIndex:0];
-    NSArray *scrollSubViews = [scrollView subviews];
-    UITableView *tableView = [scrollSubViews objectAtIndex:0];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;

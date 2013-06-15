@@ -40,7 +40,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 
 @synthesize store = _store;
 
-- (id) init
+- (id)init
 {
     self = [super init];
     if (nil != self)  {
