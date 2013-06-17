@@ -1,0 +1,58 @@
+<project name="SalesforceMobileSDK-iOS-Package" basedir="." default="makeNpm">
+    <import file="build.xml" />
+    <property name="npmRepoLocation" location="${artifactsDir}/npm_repo" />
+    <property name="npmRepoBranch" value="unstable20" />
+    
+    <target name="makeNpm" depends="nativeAppTemplate,hybridAppTemplate">
+        <!-- Stage the iOS npm repo -->
+        <echo>--- Cloning the npm repo at branch '${npmRepoBranch}' ---</echo>
+        <delete dir="${npmRepoLocation}" />
+        <exec executable="git" failonerror="true" logError="true">
+            <arg value="clone" />
+            <arg value="--branch" />
+            <arg value="${npmRepoBranch}" />
+            <arg value="--recursive" />
+            <arg value="https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Package.git" />
+            <arg file="${npmRepoLocation}" />
+        </exec>
+        
+        <!-- Create and copy the template shells -->
+        <antcall target="nativeAppTemplateShell" />
+        <antcall target="hybridAppTemplateShell" />
+        <delete dir="${npmRepoLocation}/Templates/NativeAppTemplate" />
+        <delete dir="${npmRepoLocation}/Templates/HybridAppTemplate" />
+        <copy todir="${npmRepoLocation}/Templates/NativeAppTemplate">
+            <fileset dir="${destNativeTemplateDir}" />
+        </copy>
+        <copy todir="${npmRepoLocation}/Templates/HybridAppTemplate">
+            <fileset dir="${destHybridTemplateDir}" />
+        </copy>
+        <chmod file="${npmRepoLocation}/Templates/NativeAppTemplate/${destAppCreationScriptName}" perm="755" />
+        <chmod file="${npmRepoLocation}/Templates/HybridAppTemplate/${destAppCreationScriptName}" perm="755" />
+        
+        <!-- Copy binary packages -->
+        <copy todir="${npmRepoLocation}/Dependencies">
+            <fileset dir="${artifactsDir}">
+                <include name="Salesforce*-Release.zip" />
+            </fileset>
+        </copy>
+        <copy file="${artifactsDir}/Cordova-Release.zip" todir="${npmRepoLocation}/Dependencies/Cordova" />
+        
+        <!-- Copy resources -->
+        <copy todir="${npmRepoLocation}/Dependencies/${sdkResourcesBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
+        </copy>
+        <copy todir="${npmRepoLocation}/Dependencies/Cordova/${cordovaCaptureBundleName}">
+            <fileset dir="${sharedHybridDir}/${cordovaCaptureBundleName}" />
+        </copy>
+        <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${npmRepoLocation}/Dependencies/Cordova" />
+        <copy file="${sharedHybridDir}/${cordovaConfigXmlName}" todir="${npmRepoLocation}/Dependencies/Cordova" />
+        
+        <!-- Make the npm package -->
+        <echo>--- Creating the npm package ---</echo>
+        <exec dir="${artifactsDir}" executable="npm">
+            <arg value="pack" />
+            <arg file="${npmRepoLocation}" />
+        </exec>
+    </target>
+</project>
