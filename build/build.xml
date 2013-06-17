@@ -1,7 +1,8 @@
 <project name="SalesforceMobileSDK-iOS" basedir="." default="all">
     <property name="artifactsDir" location="artifacts" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
-    <property name="sdkResourcesBundleDir" location="../shared/resources/SalesforceSDKResources.bundle" />
+    <property name="sharedResourcesDir" location="../shared/resources" />
+    <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
     <property name="baseTemplateFilesDir" location="app_template_files" />
     <property name="srcAppCreationScript" location="${baseTemplateFilesDir}/createApp.sh.base" />
     <property name="destAppCreationScriptName" value="createApp.sh" />
@@ -9,6 +10,10 @@
     <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
     <property name="destNativeTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
     <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
+    <property name="sharedHybridDir" location="../shared/hybrid" />
+    <property name="cordovaCaptureBundleName" value="Capture.bundle" />
+    <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
+    <property name="cordovaConfigXmlName" value="config.xml" />
     
     <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace."
         depends="nativeAppTemplate,hybridAppTemplate" />
@@ -50,8 +55,8 @@
         </exec>
         
         <!-- SDK resources -->
-        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/SalesforceSDKResources.bundle">
-            <fileset dir="${sdkResourcesBundleDir}" />
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
         </copy>
         
     </target>
@@ -77,8 +82,6 @@
         <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
         <property name="wwwDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
         <property name="externalSharedDir" location="../external/shared" />
-        <property name="sharedHybridDir" location="../shared/hybrid" />
-        <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
         
         <!-- Copy in the third party dependencies -->
         <copy todir="${hybridTemplateDependenciesDir}/SalesforceCommonUtils">
@@ -116,10 +119,10 @@
         </exec>
         
         <!-- SDK and Cordova resources -->
-        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/SalesforceSDKResources.bundle">
-            <fileset dir="${sdkResourcesBundleDir}" />
+        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/${sdkResourcesBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
         </copy>
-        <copy file="${sharedHybridDir}/config.xml" todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}" />
+        <copy file="${sharedHybridDir}/${cordovaConfigXmlName}" todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}" />
         
         <!-- Hybrid www/ resources -->
         <copy todir="${wwwDir}">
