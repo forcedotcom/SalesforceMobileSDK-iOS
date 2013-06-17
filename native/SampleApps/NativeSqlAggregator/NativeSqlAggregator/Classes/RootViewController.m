@@ -101,6 +101,8 @@
 
 - (IBAction)btnSaveRecOfflinePressed:(id)sender
 {
+    [self.smartStoreIntf createAccountsSoup];
+    [self.smartStoreIntf createOpportunitiesSoup];
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name, Id, OwnerId FROM Account"];
     [[SFRestAPI sharedInstance] send:request delegate:self];
     request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name, Id, AccountId, OwnerId, Amount FROM Opportunity"];

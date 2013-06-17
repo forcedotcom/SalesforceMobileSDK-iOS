@@ -25,7 +25,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "JSONKit.h"
 
 @class SFSmartStore;
 
