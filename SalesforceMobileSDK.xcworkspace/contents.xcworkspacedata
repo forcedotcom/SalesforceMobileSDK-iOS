@@ -5,6 +5,9 @@
       location = "container:"
       name = "Native SDK">
       <FileRef
+         location = "group:native/SampleApps/NativeSqlAggregator/NativeSqlAggregator.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
       </FileRef>
       <FileRef
