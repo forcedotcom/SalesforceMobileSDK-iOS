@@ -244,6 +244,7 @@ FIX_CATEGORY_BUG(UIDevice_Hardware);
     }
     
     if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+        free(buf);
         printf("Error: sysctl, take 2");
         return NULL;
     }
