@@ -574,11 +574,11 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -596,11 +596,11 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
