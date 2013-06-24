@@ -48,12 +48,12 @@
 		824AA2161725AA3F00C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA1C21725AA3E00C9BD79 /* libcrypto.a */; };
 		824AA2171725AA3F00C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA1C31725AA3E00C9BD79 /* libssl.a */; };
 		824AA2181725AA3F00C9BD79 /* openssl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824AA1C41725AA3E00C9BD79 /* openssl_license.txt */; };
-		824AA2191725AA3F00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA1E81725AA3F00C9BD79 /* libSalesforceCommonUtils.a */; };
 		824AA21A1725AA3F00C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA1F21725AA3F00C9BD79 /* libSalesforceHybridSDK.a */; };
 		824AA21B1725AA3F00C9BD79 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA1F91725AA3F00C9BD79 /* libSalesforceOAuth.a */; };
 		824AA21C1725AA3F00C9BD79 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA2111725AA3F00C9BD79 /* libSalesforceSDKCore.a */; };
 		824AA21D1725AA3F00C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA2131725AA3F00C9BD79 /* libsqlcipher.a */; };
 		824AA21E1725AA4000C9BD79 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 824AA2141725AA3F00C9BD79 /* LICENSE */; };
+		8273F1631778EE90005E31A6 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8273F1611778EE90005E31A6 /* libSalesforceCommonUtils.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,39 +144,6 @@
 		824AA1C21725AA3E00C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		824AA1C31725AA3E00C9BD79 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		824AA1C41725AA3E00C9BD79 /* openssl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openssl_license.txt; sourceTree = "<group>"; };
-		824AA1C71725AA3E00C9BD79 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1C81725AA3E00C9BD79 /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1C91725AA3E00C9BD79 /* NSMutableAttributedString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1CA1725AA3F00C9BD79 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
-		824AA1CB1725AA3F00C9BD79 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1CC1725AA3F00C9BD79 /* NSString+SFPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFPathAdditions.h"; sourceTree = "<group>"; };
-		824AA1CD1725AA3F00C9BD79 /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1CE1725AA3F00C9BD79 /* SalesforceCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceCommonUtils.h; sourceTree = "<group>"; };
-		824AA1CF1725AA3F00C9BD79 /* SFCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCoverView.h; sourceTree = "<group>"; };
-		824AA1D01725AA3F00C9BD79 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
-		824AA1D11725AA3F00C9BD79 /* SFDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDateUtil.h; sourceTree = "<group>"; };
-		824AA1D21725AA3F00C9BD79 /* SFDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDeviceInfo.h; sourceTree = "<group>"; };
-		824AA1D31725AA3F00C9BD79 /* SFEncryptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionManager.h; sourceTree = "<group>"; };
-		824AA1D41725AA3F00C9BD79 /* SFGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFGradientView.h; sourceTree = "<group>"; };
-		824AA1D51725AA3F00C9BD79 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFInactivityTimerCenter.h; sourceTree = "<group>"; };
-		824AA1D61725AA3F00C9BD79 /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeychainItemWrapper.h; sourceTree = "<group>"; };
-		824AA1D71725AA3F00C9BD79 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
-		824AA1D81725AA3F00C9BD79 /* SFMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMD5.h; sourceTree = "<group>"; };
-		824AA1D91725AA3F00C9BD79 /* SFPadPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPadPickListViewController.h; sourceTree = "<group>"; };
-		824AA1DA1725AA3F00C9BD79 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
-		824AA1DB1725AA3F00C9BD79 /* SFPhonePickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPhonePickListViewController.h; sourceTree = "<group>"; };
-		824AA1DC1725AA3F00C9BD79 /* SFPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPickListViewController.h; sourceTree = "<group>"; };
-		824AA1DD1725AA3F00C9BD79 /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
-		824AA1DE1725AA3F00C9BD79 /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
-		824AA1DF1725AA3F00C9BD79 /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
-		824AA1E01725AA3F00C9BD79 /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
-		824AA1E11725AA3F00C9BD79 /* SFUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUIUtils.h; sourceTree = "<group>"; };
-		824AA1E21725AA3F00C9BD79 /* UIActionSheet+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+SFBlocks.h"; sourceTree = "<group>"; };
-		824AA1E31725AA3F00C9BD79 /* UIAlertView+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+SFBlocks.h"; sourceTree = "<group>"; };
-		824AA1E41725AA3F00C9BD79 /* UIBarButtonItem+SFAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+SFAddtions.h"; sourceTree = "<group>"; };
-		824AA1E51725AA3F00C9BD79 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
-		824AA1E61725AA3F00C9BD79 /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
-		824AA1E81725AA3F00C9BD79 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		824AA1EC1725AA3F00C9BD79 /* CDVPlugin+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVPlugin+SFAdditions.h"; sourceTree = "<group>"; };
 		824AA1ED1725AA3F00C9BD79 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
 		824AA1EE1725AA3F00C9BD79 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
@@ -211,6 +178,39 @@
 		824AA2111725AA3F00C9BD79 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = "<group>"; };
 		824AA2131725AA3F00C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
 		824AA2141725AA3F00C9BD79 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		8273F1411778EE90005E31A6 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1421778EE90005E31A6 /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1431778EE90005E31A6 /* NSMutableAttributedString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1441778EE90005E31A6 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
+		8273F1451778EE90005E31A6 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1461778EE90005E31A6 /* NSString+SFPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFPathAdditions.h"; sourceTree = "<group>"; };
+		8273F1471778EE90005E31A6 /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1481778EE90005E31A6 /* SalesforceCommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceCommonUtils.h; sourceTree = "<group>"; };
+		8273F1491778EE90005E31A6 /* SFCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCoverView.h; sourceTree = "<group>"; };
+		8273F14A1778EE90005E31A6 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
+		8273F14B1778EE90005E31A6 /* SFDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDateUtil.h; sourceTree = "<group>"; };
+		8273F14C1778EE90005E31A6 /* SFDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDeviceInfo.h; sourceTree = "<group>"; };
+		8273F14D1778EE90005E31A6 /* SFEncryptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionManager.h; sourceTree = "<group>"; };
+		8273F14E1778EE90005E31A6 /* SFGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFGradientView.h; sourceTree = "<group>"; };
+		8273F14F1778EE90005E31A6 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		8273F1501778EE90005E31A6 /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		8273F1511778EE90005E31A6 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		8273F1521778EE90005E31A6 /* SFMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMD5.h; sourceTree = "<group>"; };
+		8273F1531778EE90005E31A6 /* SFPadPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPadPickListViewController.h; sourceTree = "<group>"; };
+		8273F1541778EE90005E31A6 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
+		8273F1551778EE90005E31A6 /* SFPhonePickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPhonePickListViewController.h; sourceTree = "<group>"; };
+		8273F1561778EE90005E31A6 /* SFPickListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPickListViewController.h; sourceTree = "<group>"; };
+		8273F1571778EE90005E31A6 /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
+		8273F1581778EE90005E31A6 /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
+		8273F1591778EE90005E31A6 /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
+		8273F15A1778EE90005E31A6 /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
+		8273F15B1778EE90005E31A6 /* SFUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUIUtils.h; sourceTree = "<group>"; };
+		8273F15C1778EE90005E31A6 /* UIActionSheet+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+SFBlocks.h"; sourceTree = "<group>"; };
+		8273F15D1778EE90005E31A6 /* UIAlertView+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+SFBlocks.h"; sourceTree = "<group>"; };
+		8273F15E1778EE90005E31A6 /* UIBarButtonItem+SFAddtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+SFAddtions.h"; sourceTree = "<group>"; };
+		8273F15F1778EE90005E31A6 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
+		8273F1601778EE90005E31A6 /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
+		8273F1611778EE90005E31A6 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +221,7 @@
 				824AA2151725AA3F00C9BD79 /* libCordova.a in Frameworks */,
 				824AA2161725AA3F00C9BD79 /* libcrypto.a in Frameworks */,
 				824AA2171725AA3F00C9BD79 /* libssl.a in Frameworks */,
-				824AA2191725AA3F00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
+				8273F1631778EE90005E31A6 /* libSalesforceCommonUtils.a in Frameworks */,
 				824AA21A1725AA3F00C9BD79 /* libSalesforceHybridSDK.a in Frameworks */,
 				824AA21B1725AA3F00C9BD79 /* libSalesforceOAuth.a in Frameworks */,
 				824AA21C1725AA3F00C9BD79 /* libSalesforceSDKCore.a in Frameworks */,
@@ -377,7 +377,7 @@
 			children = (
 				824AA1941725AA3E00C9BD79 /* Cordova */,
 				824AA1C11725AA3E00C9BD79 /* openssl */,
-				824AA1C51725AA3E00C9BD79 /* SalesforceCommonUtils */,
+				8273F13D1778EE90005E31A6 /* SalesforceCommonUtils */,
 				824AA1E91725AA3F00C9BD79 /* SalesforceHybridSDK */,
 				824AA1F31725AA3F00C9BD79 /* SalesforceOAuth */,
 				824AA1FA1725AA3F00C9BD79 /* SalesforceSDKCore */,
@@ -459,62 +459,6 @@
 				824AA1C41725AA3E00C9BD79 /* openssl_license.txt */,
 			);
 			path = openssl;
-			sourceTree = "<group>";
-		};
-		824AA1C51725AA3E00C9BD79 /* SalesforceCommonUtils */ = {
-			isa = PBXGroup;
-			children = (
-				824AA1C61725AA3E00C9BD79 /* Headers */,
-				824AA1E71725AA3F00C9BD79 /* Libraries */,
-			);
-			path = SalesforceCommonUtils;
-			sourceTree = "<group>";
-		};
-		824AA1C61725AA3E00C9BD79 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				824AA1C71725AA3E00C9BD79 /* NSData+SFAdditions.h */,
-				824AA1C81725AA3E00C9BD79 /* NSDictionary+SFAdditions.h */,
-				824AA1C91725AA3E00C9BD79 /* NSMutableAttributedString+SFAdditions.h */,
-				824AA1CA1725AA3F00C9BD79 /* NSObject+SFBlocks.h */,
-				824AA1CB1725AA3F00C9BD79 /* NSString+SFAdditions.h */,
-				824AA1CC1725AA3F00C9BD79 /* NSString+SFPathAdditions.h */,
-				824AA1CD1725AA3F00C9BD79 /* NSURL+SFAdditions.h */,
-				824AA1CE1725AA3F00C9BD79 /* SalesforceCommonUtils.h */,
-				824AA1CF1725AA3F00C9BD79 /* SFCoverView.h */,
-				824AA1D01725AA3F00C9BD79 /* SFCrypto.h */,
-				824AA1D11725AA3F00C9BD79 /* SFDateUtil.h */,
-				824AA1D21725AA3F00C9BD79 /* SFDeviceInfo.h */,
-				824AA1D31725AA3F00C9BD79 /* SFEncryptionManager.h */,
-				824AA1D41725AA3F00C9BD79 /* SFGradientView.h */,
-				824AA1D51725AA3F00C9BD79 /* SFInactivityTimerCenter.h */,
-				824AA1D61725AA3F00C9BD79 /* SFKeychainItemWrapper.h */,
-				824AA1D71725AA3F00C9BD79 /* SFLogger.h */,
-				824AA1D81725AA3F00C9BD79 /* SFMD5.h */,
-				824AA1D91725AA3F00C9BD79 /* SFPadPickListViewController.h */,
-				824AA1DA1725AA3F00C9BD79 /* SFPathUtil.h */,
-				824AA1DB1725AA3F00C9BD79 /* SFPhonePickListViewController.h */,
-				824AA1DC1725AA3F00C9BD79 /* SFPickListViewController.h */,
-				824AA1DD1725AA3F00C9BD79 /* SFSoqlBuilder.h */,
-				824AA1DE1725AA3F00C9BD79 /* SFSoslBuilder.h */,
-				824AA1DF1725AA3F00C9BD79 /* SFSoslReturningBuilder.h */,
-				824AA1E01725AA3F00C9BD79 /* SFTestContext.h */,
-				824AA1E11725AA3F00C9BD79 /* SFUIUtils.h */,
-				824AA1E21725AA3F00C9BD79 /* UIActionSheet+SFBlocks.h */,
-				824AA1E31725AA3F00C9BD79 /* UIAlertView+SFBlocks.h */,
-				824AA1E41725AA3F00C9BD79 /* UIBarButtonItem+SFAddtions.h */,
-				824AA1E51725AA3F00C9BD79 /* UIDevice+SFHardware.h */,
-				824AA1E61725AA3F00C9BD79 /* UILabel+SFAdditions.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		824AA1E71725AA3F00C9BD79 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				824AA1E81725AA3F00C9BD79 /* libSalesforceCommonUtils.a */,
-			);
-			path = Libraries;
 			sourceTree = "<group>";
 		};
 		824AA1E91725AA3F00C9BD79 /* SalesforceHybridSDK */ = {
@@ -625,6 +569,62 @@
 				824AA2141725AA3F00C9BD79 /* LICENSE */,
 			);
 			path = sqlcipher;
+			sourceTree = "<group>";
+		};
+		8273F13D1778EE90005E31A6 /* SalesforceCommonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				8273F13F1778EE90005E31A6 /* Headers */,
+				8273F1611778EE90005E31A6 /* libSalesforceCommonUtils.a */,
+			);
+			path = SalesforceCommonUtils;
+			sourceTree = "<group>";
+		};
+		8273F13F1778EE90005E31A6 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8273F1401778EE90005E31A6 /* SalesforceCommonUtils */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		8273F1401778EE90005E31A6 /* SalesforceCommonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				8273F1411778EE90005E31A6 /* NSData+SFAdditions.h */,
+				8273F1421778EE90005E31A6 /* NSDictionary+SFAdditions.h */,
+				8273F1431778EE90005E31A6 /* NSMutableAttributedString+SFAdditions.h */,
+				8273F1441778EE90005E31A6 /* NSObject+SFBlocks.h */,
+				8273F1451778EE90005E31A6 /* NSString+SFAdditions.h */,
+				8273F1461778EE90005E31A6 /* NSString+SFPathAdditions.h */,
+				8273F1471778EE90005E31A6 /* NSURL+SFAdditions.h */,
+				8273F1481778EE90005E31A6 /* SalesforceCommonUtils.h */,
+				8273F1491778EE90005E31A6 /* SFCoverView.h */,
+				8273F14A1778EE90005E31A6 /* SFCrypto.h */,
+				8273F14B1778EE90005E31A6 /* SFDateUtil.h */,
+				8273F14C1778EE90005E31A6 /* SFDeviceInfo.h */,
+				8273F14D1778EE90005E31A6 /* SFEncryptionManager.h */,
+				8273F14E1778EE90005E31A6 /* SFGradientView.h */,
+				8273F14F1778EE90005E31A6 /* SFInactivityTimerCenter.h */,
+				8273F1501778EE90005E31A6 /* SFKeychainItemWrapper.h */,
+				8273F1511778EE90005E31A6 /* SFLogger.h */,
+				8273F1521778EE90005E31A6 /* SFMD5.h */,
+				8273F1531778EE90005E31A6 /* SFPadPickListViewController.h */,
+				8273F1541778EE90005E31A6 /* SFPathUtil.h */,
+				8273F1551778EE90005E31A6 /* SFPhonePickListViewController.h */,
+				8273F1561778EE90005E31A6 /* SFPickListViewController.h */,
+				8273F1571778EE90005E31A6 /* SFSoqlBuilder.h */,
+				8273F1581778EE90005E31A6 /* SFSoslBuilder.h */,
+				8273F1591778EE90005E31A6 /* SFSoslReturningBuilder.h */,
+				8273F15A1778EE90005E31A6 /* SFTestContext.h */,
+				8273F15B1778EE90005E31A6 /* SFUIUtils.h */,
+				8273F15C1778EE90005E31A6 /* UIActionSheet+SFBlocks.h */,
+				8273F15D1778EE90005E31A6 /* UIAlertView+SFBlocks.h */,
+				8273F15E1778EE90005E31A6 /* UIBarButtonItem+SFAddtions.h */,
+				8273F15F1778EE90005E31A6 /* UIDevice+SFHardware.h */,
+				8273F1601778EE90005E31A6 /* UILabel+SFAdditions.h */,
+			);
+			path = SalesforceCommonUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -793,7 +793,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/Cordova\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore\"",
@@ -818,7 +818,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/Cordova\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore\"",

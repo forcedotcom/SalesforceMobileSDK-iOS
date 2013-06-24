@@ -618,7 +618,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 			};
 			name = Debug;
 		};
@@ -631,7 +631,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 			};
 			name = Release;
 		};
@@ -649,7 +649,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
@@ -659,7 +659,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -678,7 +678,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
@@ -688,7 +688,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -707,7 +707,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -730,7 +730,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
