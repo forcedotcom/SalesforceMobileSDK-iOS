@@ -155,7 +155,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceAccess];
         NSData *secretData = [strSecret sha256];
         
-        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:kCCDecrypt key:secretData];
+        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:secretData];
         NSData *decryptedData = [cipher decryptData:accessTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
             _protocol = nil;
@@ -176,7 +176,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceAccess];
             NSData *secretData = [strSecret sha256];
             
-            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:kCCEncrypt key:secretData];
+            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:secretData];
             [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
             NSData *encryptedData = [cipher finalizeCipher];
             [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
@@ -251,7 +251,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceRefresh];
         NSData *secretData = [strSecret sha256];
         
-        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:kCCDecrypt key:secretData];
+        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:secretData];
         NSData *decryptedData = [cipher decryptData:refreshTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
@@ -271,7 +271,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceRefresh];
             NSData *secretData = [strSecret sha256];
             
-            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:kCCEncrypt key:secretData];
+            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:secretData];
             [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
             NSData *encryptedData = [cipher finalizeCipher];
             [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];

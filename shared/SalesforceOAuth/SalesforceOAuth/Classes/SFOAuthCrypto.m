@@ -23,12 +23,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <CommonCrypto/CommonCryptor.h>
 #import "SFOAuthCrypto.h"
 
-@interface SFOAuthCrypto()
+static const CCAlgorithm    kCryptoAlgorithm    = kCCAlgorithmAES128;
+static const size_t         kCryptoBlockSize    = kCCBlockSizeAES128;
+static const size_t         kCryptoKeySize      = kCCKeySizeAES256;
+
+@interface SFOAuthCrypto () {
+    CCCryptorRef _cryptor;
+    size_t _totalLength;
+    size_t _filePtr;
+    char * _dataOut;
+    size_t _dataOutMoved;
+    size_t _dataOutLength;
+}
+
 @property (nonatomic, copy) NSMutableData *dataBuffer;
 @property (nonatomic) CCCryptorStatus status;
+
 - (void)doCipher:(NSData *)inData;
+
 @end
 
 @implementation SFOAuthCrypto 
@@ -37,20 +52,23 @@
 @synthesize status = _status;
 
 #pragma mark - Object Lifecycle
-- (id)initWithOperation:(CCOperation)operation key:(NSData *)key{
+
+- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key {
     if (self = [super init]) {
-        char keyPtr[kCCKeySizeAES256 + 1];
+        char keyPtr[kCryptoKeySize + 1];
         bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
         
         // Fetch key data
         [key getBytes:keyPtr length:sizeof(keyPtr)];
         
-        CCCryptorStatus cryptStatus = CCCryptorCreate(operation, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
-                                                      keyPtr, kCCKeySizeAES256,
+        CCOperation ccOp = (SFOAEncrypt == operation) ? kCCEncrypt : kCCDecrypt;
+        CCCryptorStatus cryptStatus = CCCryptorCreate(ccOp, kCryptoAlgorithm, kCCOptionPKCS7Padding,
+                                                      keyPtr, kCryptoKeySize,
                                                       NULL, 
                                                       &_cryptor);
         
         if (cryptStatus != kCCSuccess) {
+            NSLog(@"%@:initWithOperation: CCCryptorCreate failed (%d)", [self class], cryptStatus);
             return nil;
         }
         _dataBuffer = [[NSMutableData alloc] init];
@@ -61,8 +79,10 @@
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     _dataBuffer = nil;
+    if (_dataOut) free(_dataOut); _dataOut = NULL;
+    if (_cryptor) CCCryptorRelease(_cryptor); _cryptor = NULL;
 }
 
 #pragma mark - Implementation
@@ -88,30 +108,32 @@
     _totalLength += _dataOutMoved;
     
     if (self.status != kCCSuccess) {
-        NSLog(@"Failed in cipher finalization with error:%d", self.status);
-        CCCryptorRelease(_cryptor);
-        free(_dataOut);
+        NSLog(@"%@:finalizeCipher: Failed in cipher finalization (%d)", [self class], self.status);
+        CCCryptorRelease(_cryptor); _cryptor = NULL;
+        free(_dataOut); _dataOut = NULL;
         return nil;
     }
     
-    // In the case of encryption, expand the buffer if it required some padding (an encrypted buffer will always be a multiple of 16).
-    // In the case of decryption, truncate our buffer in case the encrypted buffer contained some padding
+    // In the case of encryption, expand the buffer if it required some padding (an encrypted buffer will
+    // always be a multiple of the algorithm block size).
+    // In the case of decryption, truncate our buffer in case the encrypted buffer contained some padding.
     [self.dataBuffer setLength:_totalLength];
     
-    // Finalize the buffer with data from the CCCryptorFinal call
+    // Copy the bytes from the temporary _dataOut buffer (filled by the CCCryptoFinal function) to our class buffer.
     NSRange bytesRange = NSMakeRange(_filePtr, (NSUInteger) _dataOutMoved);
     [self.dataBuffer replaceBytesInRange:bytesRange withBytes:_dataOut];
     
-    CCCryptorRelease(_cryptor);
-    free(_dataOut);
+    CCCryptorRelease(_cryptor); _cryptor = NULL;
+    free(_dataOut); _dataOut = NULL;
     
     return [NSData dataWithData:self.dataBuffer];
 }
 
 - (void)doCipher:(NSData *)inData  {
+    NSAssert(inData, @"inData cannot be nil");
+    
     size_t dataInLength = [inData length];
-    //set default data out length to block size
-    _dataOutLength = kCCBlockSizeAES128;
+    _dataOutLength = kCryptoBlockSize; // set default data out length to block size
     
     size_t tmpDataOutLength = CCCryptorGetOutputLength(_cryptor, dataInLength, FALSE);
     if (tmpDataOutLength > 0) {
@@ -133,7 +155,7 @@
     CCCryptorStatus cryptStatus = CCCryptorUpdate(_cryptor, dataIn, dataInLength, _dataOut, _dataOutLength, &_dataOutMoved);
     
     if ( cryptStatus != kCCSuccess) {
-        NSLog(@"Failed CCCryptorUpdate: %d", cryptStatus);
+        NSLog(@"%@:doCipher: CCCryptorUpdate failed (%d)", [self class], cryptStatus);
     }
     
     // Write the ciphered buffer into the output buffer

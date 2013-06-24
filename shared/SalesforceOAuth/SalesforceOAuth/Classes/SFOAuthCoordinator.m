@@ -22,8 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-
 #import <Security/Security.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -363,6 +361,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         
         SEL selectorObjectWithData = @selector(objectWithData:);
         SEL selectorObjectWithString = @selector(objectWithString:);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         if ([parser respondsToSelector:selectorObjectWithData]) {
             json = [parser performSelector:selectorObjectWithData withObject:self.responseData];
         } else if ([parser respondsToSelector:selectorObjectWithString]) {
@@ -374,9 +374,10 @@ static NSString * const kHttpPostContentType                    = @"application/
                 jsonError = [parser performSelector:selectorError];
             }
         }
+#pragma clang diagnostic pop
     } else {
-        NSLog(@"Both SBJsonParser and NSJSONSerialization are missing");
-        NSAssert(NO,@"Either SBJsonParser or NSJSONSerialization must be available!");
+        NSLog(@"SFOAuthCoordinator:handleRefreshResponse: Both SBJsonParser and NSJSONSerialization are missing");
+        NSAssert(NO, @"Either SBJsonParser or NSJSONSerialization must be available!");
     }
     
     if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
@@ -400,7 +401,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
     } else {
         // failed to parse JSON
-        NSLog(@"JSON parse error: %@", jsonError);
+        NSLog(@"SFOAuthCoordinator:handleRefreshResponse: JSON parse error: %@", jsonError);
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {

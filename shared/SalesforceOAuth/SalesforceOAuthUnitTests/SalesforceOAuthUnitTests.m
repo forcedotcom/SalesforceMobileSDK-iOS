@@ -96,7 +96,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     STAssertNil(credentials.accessToken, @"access token should be nil");
     STAssertNil(credentials.accessToken, @"refresh token should be nil");
     
-    [credentials release]; credentials = nil;
+    credentials = nil;
 }
 
 /** Test the case of instantiating the credentials using alloc/init, in which case the identifier and clientId will both be nil.
@@ -132,7 +132,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     STAssertThrows([credentials revokeRefreshToken], @"should raise exception if no identifier is set");
     STAssertThrows([credentials revokeActivationCode], @"should raise exception if no identifier is set");
     
-    [credentials release]; credentials = nil;
+    credentials = nil;
 }
 
 /** Test the <NSCoding> implementation of <SFOAuthCredentials>
@@ -154,11 +154,11 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     
     [archiver encodeObject:credsIn forKey:@"creds"];
     [archiver finishEncoding];
-    [archiver release]; archiver = nil;
+    archiver = nil;
     
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     SFOAuthCredentials * credsOut = [unarchiver decodeObjectForKey:@"creds"];
-    [unarchiver release]; unarchiver = nil;
+    unarchiver = nil;
     
     STAssertNotNil(credsOut, @"couldn't unarchive credentials");
     
@@ -172,7 +172,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     STAssertEqualObjects(credsIn.instanceUrl,       credsOut.instanceUrl,       @"instanceUrl mismatch");
     STAssertEqualObjects(credsIn.issuedAt,          credsOut.issuedAt,          @"issuedAt mismatch");
     
-    [credsIn release]; credsIn = nil;
+    credsIn = nil;
 }
 
 /** Test the SFOAuthCoordinator
@@ -195,8 +195,8 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     [coordinator stopAuthentication];
     STAssertFalse([coordinator isAuthenticating], @"authenticating should return false");
     
-    [coordinator release];  coordinator = nil;
-    [delegate release];     delegate = nil;
+    coordinator = nil;
+    delegate = nil;
 }
 
 /**
@@ -212,7 +212,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     STAssertThrows([coordinator authenticate], @"authenticate with nil credentials should raise an exception");
     STAssertThrows([coordinator authenticateWithCredentials:nil], @"authenticate with nil credentials should raise an exception");
     
-    [coordinator release]; coordinator = nil;
+    coordinator = nil;
 }
 
 /** Test multiple identifiers.

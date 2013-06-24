@@ -24,38 +24,45 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCryptor.h>
 
-@interface SFOAuthCrypto : NSObject {
-@private
-    CCCryptorRef _cryptor;
-    size_t _totalLength;
-    size_t _filePtr;
-    char *_dataOut;
-    size_t _dataOutMoved;
-    size_t _dataOutLength;
-}
+typedef enum {
+    SFOAEncrypt = 0,
+    SFOADecrypt
+} SFOAuthCryptoOperation;
+
 /**
- Designated initializer
- @param operation Operation to be performed: encrypt/decrypt
- @param key Key used for encyption/decryption pass `nil` to use the default key
+ Provides a wrapper for cryptographic services.
+ @warning Once the `decryptData` or `finalizeCipher` method is called this object cannot be reused.
  */
-- (id)initWithOperation:(CCOperation)operation key:(NSData *)key;
+@interface SFOAuthCrypto : NSObject
 
 /**
- Encrypt the passed in data
- @param data input data
+ Initializes a new `SFOAuthCrypto` object to perform the specified cryptographic operation.
+ @param operation Operation to be performed: `SFOAuthCryptoEncrypt` or `SFOAuthCryptoDecrypt`
+ @param key Key used for encyption/decryption. `nil` may be specified to use the default key.
+ */
+- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key;
+
+/**
+ Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call `finalizeCipher`.
+ @param data Unencrypted data to encrypt.
  */
 - (void)encryptData:(NSData *)data;
 
 /**
- Decrypt the passed in data. Performs the decryption in the current thread
- @param data encrypted input data
+ Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns `nil`
+ if decryption fails. Decryption is performed on the current thread.
+ 
+ @warning After this method is called this object must no longer be used.
+ 
+ @param data Encrypted data to decrypt.
  */
 - (NSData *)decryptData:(NSData *)data;
 
 /**
- Finalize the the encryption/decryption process
+ Finalizes the the data encryption process and returns the encrypted data.
+ 
+ @warning After this method is called this object must no longer be used.
  */
 - (NSData *)finalizeCipher;
 
