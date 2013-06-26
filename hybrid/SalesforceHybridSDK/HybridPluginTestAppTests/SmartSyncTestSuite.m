@@ -24,7 +24,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ForceEntityTestSuite.h"
+#import "SmartSyncTestSuite.h"
 
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
@@ -33,12 +33,12 @@
 #import "SFHybridViewController.h"
 #import "CDVCommandDelegateImpl.h"
 
-@implementation ForceEntityTestSuite
+@implementation SmartSyncTestSuite
 
 - (void)setUp
 {
     [super setUp];
-    self.jsSuiteName = @"ForceEntityTestSuite";
+    self.jsSuiteName = @"SmartSyncTestSuite";
     
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
@@ -93,8 +93,20 @@
     [self runTest:@"testSObjectTypeGetMetadata"];
 }
 
-- (void)testSObjectTypeRest {
-    [self runTest:@"testSObjectTypeRest"];
+- (void)testSObjectTypeDescribeLayout {
+    [self runTest:@"testSObjectTypeDescribeLayout"];
+}
+
+- (void)testSObjectTypeCacheMerge {
+    [self runTest:@"testSObjectTypeCacheMerge"];
+}
+
+- (void)testMultiSObjectTypes {
+    [self runTest:@"testMultiSObjectTypes"];
+}
+
+- (void) testSObjectTypeReset {
+    [self runTest:@"testSObjectTypeReset"];
 }
 
 - (void)testSyncSObjectWithCacheCreate {
