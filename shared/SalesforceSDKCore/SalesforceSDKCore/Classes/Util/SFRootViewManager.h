@@ -26,30 +26,26 @@
 #import <UIKit/UIKit.h>
 
 /**
- Class to present a temporary "uber" view for the application, resetting the original state when the
- view is no longer needed.
+ Class to control the presentation of temporary modal views in an existing view stack.  Used
+ internally for things like the authentication view and the passcode screen.
  */
 @interface SFRootViewManager : NSObject
 
 /**
- Whether or not this object's view is currently being displayed.
+ @return The singleton SFRootViewManager object.
  */
-@property (nonatomic, readonly) BOOL newViewIsDisplayed;
++ (SFRootViewManager *)sharedManager;
 
 /**
- Initializes the object with the view controller containing the view state to be displayed.
- @param viewController The view controller to be displayed.
+ Push a view controller onto the top of the presentation stack.
+ @param viewController The view controller to display.
  */
-- (id)initWithViewController:(UIViewController *)viewController;
+- (void)pushViewController:(UIViewController *)viewController;
 
 /**
- Displays the view state associated with the viewController property.
+ Take a view controller off of the presentation stack.
+ @param viewController The view to remove.  Does nothing if the view controller is not found in the presented stack.
  */
-- (void)showNewView;
-
-/**
- Restores the previous view state, prior to the new view state being added.
- */
-- (void)restorePreviousView;
+- (void)popViewController:(UIViewController *)viewController;
 
 @end

@@ -580,7 +580,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -601,7 +600,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
