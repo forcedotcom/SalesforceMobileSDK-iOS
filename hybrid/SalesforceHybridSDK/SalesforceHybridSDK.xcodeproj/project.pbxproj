@@ -963,9 +963,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/cordova-ios/cordova-ios/CordovaLib/build/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -989,9 +987,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-ayqouzzevudjuohhroutapimcrhc/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/cordova-ios/cordova-ios/CordovaLib/build/Release-iphoneos\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
