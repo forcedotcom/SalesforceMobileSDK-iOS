@@ -754,13 +754,13 @@
          location = "group:libs"
          name = "libs">
          <FileRef
+            location = "group:smartsync.js">
+         </FileRef>
+         <FileRef
             location = "group:forcetk.mobilesdk.js">
          </FileRef>
          <FileRef
             location = "group:cordova.force.js">
-         </FileRef>
-         <FileRef
-            location = "group:force.entity.js">
          </FileRef>
       </Group>
       <FileRef
@@ -770,18 +770,8 @@
          location = "group:SampleApps"
          name = "SampleApps">
          <Group
-            location = "group:contactexplorer"
-            name = "contactexplorer">
-            <FileRef
-               location = "group:index.html">
-            </FileRef>
-            <FileRef
-               location = "group:inline.js">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:entity"
-            name = "entity">
+            location = "group:smartsync"
+            name = "smartsync">
             <FileRef
                location = "group:AccountEditor.html">
             </FileRef>
@@ -790,6 +780,9 @@
             </FileRef>
             <FileRef
                location = "group:auth_local.js">
+            </FileRef>
+            <FileRef
+               location = "group:bootconfig.json">
             </FileRef>
             <Group
                location = "group:css"
@@ -850,9 +843,15 @@
                   </FileRef>
                </Group>
                <FileRef
+                  location = "group:ratchet.css">
+               </FileRef>
+               <FileRef
                   location = "group:styles.css">
                </FileRef>
             </Group>
+            <FileRef
+               location = "group:fastclick.js">
+            </FileRef>
             <FileRef
                location = "group:stackrouter.js">
             </FileRef>
@@ -861,6 +860,16 @@
             </FileRef>
             <FileRef
                location = "group:UserSearch.html">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:contactexplorer"
+            name = "contactexplorer">
+            <FileRef
+               location = "group:index.html">
+            </FileRef>
+            <FileRef
+               location = "group:inline.js">
             </FileRef>
          </Group>
          <Group
@@ -896,6 +905,9 @@
       <Group
          location = "group:test"
          name = "test">
+         <FileRef
+            location = "group:SFSmartSyncTestSuite.js">
+         </FileRef>
          <FileRef
             location = "group:MockCordova.js">
          </FileRef>

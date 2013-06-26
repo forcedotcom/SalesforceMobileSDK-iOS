@@ -28,9 +28,9 @@ Introduction
 
 ### What's New in 2.0
 
-**Entity Framework**
-- Introducing the entity framework (external/shared/libs/force.entity.js), a set of JavaScript tools to allow you to work with higher level data objects from Salesforce.
-- New AccountEditor hybrid sample app with User and Group Search, demonstrating the entity framework functionality in action.
+**SmartSync library**
+- Introducing the SmartSync library (external/shared/libs/smartsync.js), a set of JavaScript tools to allow you to work with higher level data objects from Salesforce.
+- New AccountEditor hybrid sample app with User and Group Search, demonstrating the SmartSync functionality in action.
 
 **SmartStore Enhancements**
 - SmartStore now supports 'Smart SQL' queries, such as complex aggregate functions, JOINs, and any other SQL-type queries.
