@@ -26,5 +26,5 @@
 #import "SFPluginTestSuite.h"
 
 
-@interface ForceEntityTestSuite : SFPluginTestSuite
+@interface SmartSyncTestSuite : SFPluginTestSuite
 @end
