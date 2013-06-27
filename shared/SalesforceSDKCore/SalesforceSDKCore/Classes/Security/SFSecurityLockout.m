@@ -54,7 +54,6 @@ NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
 
 static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
-static SFRootViewManager       *sRootViewManager               = nil;
 static SFLockScreenCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 
@@ -180,8 +179,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [self sendPasscodeFlowCompletedNotification:success];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
-            [sRootViewManager restorePreviousView];
-            sRootViewManager = nil;
+            [[SFRootViewManager sharedManager] popViewController:passVc];
             [SFSecurityLockout setPasscodeViewController:nil];
             if (success) {
                 [SFSecurityLockout unlockSuccessPostProcessing];
@@ -250,8 +248,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
         [SFSecurityLockout setPasscodeViewController:nc];
-        sRootViewManager = [[SFRootViewManager alloc] initWithViewController:nc];
-        [sRootViewManager showNewView];
+        [[SFRootViewManager sharedManager] pushViewController:[SFSecurityLockout passcodeViewController]];
     }
 }
 

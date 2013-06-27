@@ -157,14 +157,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @property (atomic, strong) NSMutableArray *authBlockList;
 
 /**
- The root view manager to handle the auth window.
+ View controller that will display the security snapshot view.
  */
-@property (nonatomic, strong) SFRootViewManager *authRootViewManager;
-
-/**
- The root view manager to handle the snapshot view.
- */
-@property (nonatomic, strong) SFRootViewManager *snapshotRootViewManager;
+@property (nonatomic, strong) UIViewController *snapshotViewController;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -275,10 +270,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize authInfo = _authInfo;
 @synthesize authError = _authError;
 @synthesize authBlockList = _authBlockList;
-@synthesize authRootViewManager = _authRootViewManager;
-@synthesize snapshotRootViewManager = _snapshotRootViewManager;
 @synthesize useSnapshotView = _useSnapshotView;
 @synthesize snapshotView = _snapshotView;
+@synthesize snapshotViewController = _snapshotViewController;
 
 #pragma mark - Singleton initialization / management
 
@@ -344,9 +338,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     SFRelease(_authInfo);
     SFRelease(_authError);
     SFRelease(_authBlockList);
-    SFRelease(_authRootViewManager);
-    SFRelease(_snapshotRootViewManager);
     SFRelease(_snapshotView);
+    SFRelease(_snapshotViewController);
 }
 
 #pragma mark - Public methods
@@ -438,10 +431,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)appDidFinishLaunching:(NSNotification *)notification
 {
     _isAppLaunch = YES;
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [self logout];
-    }];
-    [SFSecurityLockout lock];
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification
@@ -588,18 +577,19 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         if (self.snapshotView == nil) {
             self.snapshotView = [self createDefaultSnapshotView];
         }
-        UIViewController *snapshotVc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-        [snapshotVc.view addSubview:self.snapshotView];
-        self.snapshotRootViewManager = [[SFRootViewManager alloc] initWithViewController:snapshotVc];
-        [self.snapshotRootViewManager showNewView];
+        
+        if (self.snapshotViewController == nil) {
+            self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+            [self.snapshotViewController.view addSubview:self.snapshotView];
+        }
+        [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
     }
 }
 
 - (void)removeSnapshotView
 {
     if (self.useSnapshotView) {
-        [self.snapshotRootViewManager restorePreviousView];
-        self.snapshotRootViewManager = nil;
+        [[SFRootViewManager sharedManager] popViewController:self.snapshotViewController];
     }
 }
 
@@ -735,10 +725,10 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         return;
     }
     
-    SFAuthorizingViewController *authViewController = [[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil];
-    [authViewController setOauthView:webView];
-    self.authRootViewManager = [[SFRootViewManager alloc] initWithViewController:authViewController];
-    [self.authRootViewManager showNewView];
+    if (self.authViewController == nil)
+        self.authViewController = [[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil];
+    [self.authViewController setOauthView:webView];
+    [[SFRootViewManager sharedManager] pushViewController:self.authViewController];
 }
 
 - (void)dismissAuthViewControllerIfPresent
@@ -750,8 +740,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         return;
     }
     
-    [self.authRootViewManager restorePreviousView];
-    self.authRootViewManager = nil;
+    [[SFRootViewManager sharedManager] popViewController:self.authViewController];
 }
 
 - (void)retrievedIdentityData
