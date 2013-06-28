@@ -164,6 +164,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
+    if (self.useSplashScreen) {
+        [self showSplashScreen];
+    }
+    
     [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
         // Device is offline, and we have to try to load cached content.
