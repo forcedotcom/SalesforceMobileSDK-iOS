@@ -86,7 +86,10 @@
  Kickoff the login process.
  */
 - (void)login;
-
+/**
+ Logout by clearing current session & data. 
+ */
+- (void)logout;
 /**
  Sent whenever the use has been logged in using current settings.
  Be sure to call super if you override this.
