@@ -210,8 +210,8 @@ static char CompleteBlockKey;
     [self sendActionForRequest:request success:NO withObject:[[self class] errorWithDescription:@"Timed out."]];
 }
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {    
-    [self sendActionForRequest:request success:YES withObject:jsonResponse];
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {    
+    [self sendActionForRequest:request success:YES withObject:dataResponse];
 }
 
 @end

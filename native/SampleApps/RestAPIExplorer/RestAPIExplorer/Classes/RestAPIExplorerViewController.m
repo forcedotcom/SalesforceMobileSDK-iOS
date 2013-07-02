@@ -352,10 +352,10 @@
 
 #pragma mark - SFRestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
     _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text = [jsonResponse description];
+    _tfResult.text = [dataResponse description];
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {

@@ -36,6 +36,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 @synthesize method=_method;
 @synthesize delegate=_delegate;
 @synthesize endpoint=_endpoint;
+@synthesize parseResponse=_parseResponse;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
@@ -44,6 +45,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.path = path;
         self.queryParams = queryParams;
         self.endpoint = kSFDefaultRestEndpoint;
+        self.parseResponse = YES;
     }
     return self;
 }
