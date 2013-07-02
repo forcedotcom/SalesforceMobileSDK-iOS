@@ -79,6 +79,12 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  request.endpoint prefix, it will add the request.endpoint prefix 
  (kSFDefaultRestEndpoint by default) to the request path.
  
+ You can also specify whether or not you want the request's response to be parsed.  By default,
+ the response associated with the request will be parsed as JSON, and the structured JSON
+ object will be returned.  By setting `request.parseResponse = NO`, the response data will be returned
+ as a binary `NSData` object.  This can be useful for requests that return non-JSON data, such as
+ binary data.
+ 
  
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.
@@ -91,8 +97,8 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  
     #pragma mark - SFRestDelegate
  
-    - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-        NSDictionary *dict = (NSDictionary *)jsonResponse;
+    - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
+        NSDictionary *dict = (NSDictionary *)dataResponse;
         NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
         // ...
     }

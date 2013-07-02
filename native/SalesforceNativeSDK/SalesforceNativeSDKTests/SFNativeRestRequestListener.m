@@ -60,8 +60,8 @@
 
 #pragma mark - SFRestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    self.jsonResponse = jsonResponse;
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
+    self.dataResponse = dataResponse;
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 

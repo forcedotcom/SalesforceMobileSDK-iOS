@@ -210,7 +210,7 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // make sure we got an id
-    NSString *contactId = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"];
+    NSString *contactId = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"id"];
     STAssertNotNil(contactId, @"id not present");
     
     @try {
@@ -218,28 +218,39 @@
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"FirstName"], @"invalid first name");
+        STAssertEqualObjects(lastName, [(NSDictionary *)_requestListener.dataResponse objectForKey:@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", [(NSDictionary *)_requestListener.dataResponse objectForKey:@"FirstName"], @"invalid first name");
         
         // try to retrieve again, passing a list of fields
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:@"LastName, FirstName"];
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"FirstName"], @"invalid first name");
+        STAssertEqualObjects(lastName, [(NSDictionary *)_requestListener.dataResponse objectForKey:@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", [(NSDictionary *)_requestListener.dataResponse objectForKey:@"FirstName"], @"invalid first name");
+        
+        // try retrieving the raw data, and converting it to JSON
+        request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
+        request.parseResponse = NO;
+        [self sendSyncRequest:request];
+        STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        STAssertTrue([_requestListener.dataResponse isKindOfClass:[NSData class]], @"expected raw NSData response");
+        id responseAsJson = [SFJsonUtils objectFromJSONData:_requestListener.dataResponse];
+        STAssertNotNil(responseAsJson, @"expected valid JSON data response");
+        STAssertEqualObjects(lastName, [(NSDictionary *)responseAsJson objectForKey:@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", [(NSDictionary *)responseAsJson objectForKey:@"FirstName"], @"invalid first name");
         
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSArray *records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+        NSArray *records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
         // now search object
         request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        records = (NSArray *)_requestListener.jsonResponse;
+        records = (NSArray *)_requestListener.dataResponse;
         STAssertEquals((int)[records count], 1, @"expected just one search result");
     }
     @finally {
@@ -253,14 +264,14 @@
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+    NSArray *records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
 
     // now search object
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    records = (NSArray *)_requestListener.jsonResponse;
+    records = (NSArray *)_requestListener.dataResponse;
     STAssertEquals((int)[records count], 0, @"expected no result");
 }
 
@@ -286,7 +297,7 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // make sure we got an id
-    NSString *contactId = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"id"];
+    NSString *contactId = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"id"];
     STAssertNotNil(contactId, @"id not present");
     NSLog(@"## contact created with id: %@", contactId);
     
@@ -295,7 +306,7 @@
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSArray *records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+        NSArray *records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
         // modify object
@@ -310,14 +321,14 @@
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]]; 
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+        records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
 
         // let's make sure the old object is not there anymore
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         [self sendSyncRequest:request];
         STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+        records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
         STAssertEquals((int)[records count], 0, @"expected no result");
     }
     @finally {
@@ -331,7 +342,7 @@
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)_requestListener.jsonResponse objectForKey:@"records"];
+    NSArray *records = [(NSDictionary *)_requestListener.dataResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
 }
 
@@ -378,6 +389,14 @@
 // issue invalid retrieve and test for errors
 - (void)testRetrieveError {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEqualObjects(_requestListener.lastError.domain, kSFRestErrorDomain, @"invalid domain");
+    STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
+    
+    // even when parseJson is NO, errors should still be returned as well-formed JSON
+    request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
+    request.parseResponse = NO;
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     STAssertEqualObjects(_requestListener.lastError.domain, kSFRestErrorDomain, @"invalid domain");

@@ -47,7 +47,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @implementation SFSDKTestRequestListener
 
-@synthesize jsonResponse = _jsonResponse;
+@synthesize dataResponse = _dataResponse;
 @synthesize lastError = _lastError;
 @synthesize returnStatus = _returnStatus;
 
@@ -87,7 +87,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
         [self clearAccountManagerDelegate];
     }
     
-    self.jsonResponse = nil;
+    self.dataResponse = nil;
     self.lastError = nil;
     self.returnStatus = nil;
 }

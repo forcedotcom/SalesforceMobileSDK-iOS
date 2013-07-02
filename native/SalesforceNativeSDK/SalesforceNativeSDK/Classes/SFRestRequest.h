@@ -56,9 +56,11 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Sent when a request has finished loading.
  * @param request The request that was loaded.
- * @param jsonResponse The JSON data in the response.
+ * @param dataResponse The data from the response.  By default, this will be an object
+ * containing the parsed JSON response.  However, if `request.parseResponse` was set
+ * to `NO`, the data will be contained in a binary `NSData` object.
  */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse;
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse;
 
 /**
  * Sent when a request has failed due to an error.
@@ -128,6 +130,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints
  */
 @property (nonatomic, strong) NSString *endpoint;
+
+/**
+ * Whether or not to parse the response data as structured JSON data.  Defaults to `YES`. If
+ * set to `NO`, response data will be returned as binary data in an `NSData` object.
+ */
+@property (nonatomic, assign) BOOL parseResponse;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
