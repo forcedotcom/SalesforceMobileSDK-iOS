@@ -41,13 +41,13 @@ typedef enum {
 } SFAccountManagerServiceType;
 
 @interface SFSDKTestRequestListener : NSObject <SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
-    id _jsonResponse;
+    id _dataResponse;
     NSError *_lastError;
     NSString *_returnStatus;
     NSTimeInterval _maxWaitTime;
 }
 
-@property (nonatomic, retain) id jsonResponse;
+@property (nonatomic, retain) id dataResponse;
 @property (nonatomic, retain) NSError *lastError;
 @property (nonatomic, retain) NSString *returnStatus;
 

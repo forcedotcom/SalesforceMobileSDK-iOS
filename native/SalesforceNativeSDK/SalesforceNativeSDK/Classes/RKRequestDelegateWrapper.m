@@ -122,17 +122,19 @@
         [[SFRestAPI sharedInstance].sessionRefresher requestFailedUnauthorized:self];
         return;
     }
-
+    
     NSError *error = nil;
     
     // Some responses (e.g. update responses) do not contain any data.
-    id jsonResponse = nil;
+    // Note: Even for requests with parseResponse set to NO, we still parse it internally, as there may
+    // have been an error JSON response for a failed binary content request.
+    id responseData = nil;
     if (response.body != nil && response.body.length > 0)
-        jsonResponse = [SFJsonUtils objectFromJSONData:response.body];
+        responseData = [SFJsonUtils objectFromJSONData:response.body];
     
-    if ([jsonResponse isKindOfClass:[NSArray class]]) {
-        if ([jsonResponse count] == 1) {
-            id potentialError = [jsonResponse objectAtIndex:0];
+    if ([responseData isKindOfClass:[NSArray class]]) {
+        if ([responseData count] == 1) {
+            id potentialError = [responseData objectAtIndex:0];
             if ([potentialError isKindOfClass:[NSDictionary class]]) {
                 NSString *potentialErrorCode = [potentialError objectForKey:KEY_ERROR_CODE];
                 if (nil != potentialErrorCode) {
@@ -151,11 +153,16 @@
         
         error = [NSError errorWithDomain:NSURLErrorDomain code:respCode userInfo:errorInfo];
         [self request:request didFailLoadWithError:error];
-        }
+    }
+    
+    // If the request specified a raw response, reset responseData back to the original
+    // response data.
+    if (!_request.parseResponse)
+        responseData = response.body;
     
     if ((nil == error) &&
         ([self.request.delegate respondsToSelector:@selector(request:didLoadResponse:)])) {
-        [self.request.delegate request:_request didLoadResponse:jsonResponse];
+        [self.request.delegate request:_request didLoadResponse:responseData];
     }
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }

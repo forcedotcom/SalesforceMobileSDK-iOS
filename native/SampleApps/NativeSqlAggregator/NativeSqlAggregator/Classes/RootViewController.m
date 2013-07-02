@@ -58,9 +58,9 @@
     self.title = @"NativeSqlAggregator";
 }
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse
 {
-    NSArray *records = [jsonResponse objectForKey:@"records"];
+    NSArray *records = [dataResponse objectForKey:@"records"];
     if (nil != records) {
         NSDictionary *firstRecord = [records objectAtIndex:0];
         if (nil != firstRecord) {
