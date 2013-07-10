@@ -31,10 +31,11 @@
 #import "SFRestAPI.h"
 #import "SFRestRequest.h"
 #import "SFSecurityLockout.h"
+#import "SFAuthenticationManager.h"
 
 @interface RestAPIExplorerViewController ()
 
-@property (nonatomic, retain) UIActionSheet *logoutActionSheet;
+@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
 
 - (NSString *)formatRequest:(SFRestRequest *)request;
 - (void)hideKeyboard;
@@ -69,31 +70,9 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    // action based query
-    [__popoverController release];
-    [_toolBar release];
-    [_logoutActionSheet release];
-    [_tfObjectType release];
-    [_tfObjectId release];
-    [_tfExternalId release];
-    [_tfSearch release];
-    [_tfQuery release];
-    [_tfExternalFieldId release];
-    [_tfFieldList release];
-    [_tvFields release];
-    // manual query
-    [_tfPath release];
-    [_tvParams release];
-    [_segmentMethod release];
-    // response
-    [_tfResponseFor release];
-    [_tfResult release];
-    [super dealloc];
 }
 
 #pragma mark - View lifecycle
-
 
 - (void)viewDidLoad
 {
@@ -169,7 +148,6 @@
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles: nil];
     [alert show];	
-    [alert release];
 }
 
 #pragma mark - actions
@@ -203,8 +181,6 @@
     
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
     self.popoverController = myPopover;
-    [myPopover release];
-    [popoverContent release];
     
     [self.popoverController presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny 
@@ -318,11 +294,11 @@
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
     else if ([text isEqualToString:kActionLogout]) {
-        self.logoutActionSheet = [[[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
+        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                                               delegate:self
                                                      cancelButtonTitle:nil
                                                 destructiveButtonTitle:@"Confirm Logout"
-                                                     otherButtonTitles:nil] autorelease];
+                                                     otherButtonTitles:nil];
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
     } 
@@ -369,18 +345,17 @@
     if ([actionSheet isEqual:self.logoutActionSheet]) {
         self.logoutActionSheet = nil;
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate logout];
+            [[SFAuthenticationManager sharedManager] logout];
         }
     }
 }
 
 #pragma mark - SFRestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
     _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text = [jsonResponse description];
+    _tfResult.text = [dataResponse description];
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {

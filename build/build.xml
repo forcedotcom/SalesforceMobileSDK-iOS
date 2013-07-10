@@ -1,0 +1,300 @@
+<project name="SalesforceMobileSDK-iOS" basedir="." default="all">
+    <property name="artifactsDir" location="artifacts" />
+    <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
+    <property name="sharedResourcesDir" location="../shared/resources" />
+    <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
+    <property name="baseTemplateFilesDir" location="app_template_files" />
+    <property name="srcAppCreationScript" location="${baseTemplateFilesDir}/createApp.sh.base" />
+    <property name="destAppCreationScriptName" value="createApp.sh" />
+    <property name="destHybridTemplateDir" location="${artifactsDir}/HybridAppTemplate" />
+    <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
+    <property name="destNativeTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
+    <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
+    <property name="sharedHybridDir" location="../shared/hybrid" />
+    <property name="cordovaCaptureBundleName" value="Capture.bundle" />
+    <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
+    <property name="cordovaConfigXmlName" value="config.xml" />
+    
+    <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace."
+        depends="nativeAppTemplate,hybridAppTemplate" />
+    
+    <target name="nativeAppTemplate" depends="nativeAppTemplateLibs,nativeAppTemplateShell" description="Creates the native app template">
+        <property name="nativeTemplateDependenciesDir" location="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
+        
+        <!-- Copy in the third party dependencies -->
+        <copy todir="${nativeTemplateDependenciesDir}/RestKit">
+            <fileset dir="${thirdPartyLibDir}/RestKit" />
+        </copy>
+        <copy todir="${nativeTemplateDependenciesDir}/SalesforceCommonUtils">
+            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
+        </copy>
+        <copy todir="${nativeTemplateDependenciesDir}/openssl">
+            <fileset dir="${thirdPartyLibDir}/openssl">
+                <exclude name="openssl/**" />
+            </fileset>
+        </copy>
+        <copy todir="${nativeTemplateDependenciesDir}/sqlcipher">
+            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
+        </copy>
+        
+        <!-- Add the SDK dependencies -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceNativeSDK-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
+        </exec>
+        
+        <!-- SDK resources -->
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
+        </copy>
+        
+    </target>
+    
+    <target name="nativeAppTemplateShell" description="Creates the basic native template shell, minus dependenies.  NB: npm package will use this.">
+        <property name="srcNativeTemplateFilesDir" location="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
+        
+        <!-- Copy over the native template -->
+        <delete dir="${destNativeTemplateDir}" />
+        <mkdir dir="${destNativeTemplateDir}" />
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}">
+            <fileset dir="${srcNativeTemplateFilesDir}" />
+        </copy>
+        
+        <!-- App generator script -->
+        <copy file="${srcAppCreationScript}" tofile="${destNativeTemplateDir}/${destAppCreationScriptName}" />
+        <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
+    </target>
+    
+    <target name="nativeAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceNativeSDK" />
+    
+    <target name="hybridAppTemplate" depends="hybridAppTemplateLibs,hybridAppTemplateShell" description="Creates the hybrid app template">
+        <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
+        <property name="wwwDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
+        <property name="externalSharedDir" location="../external/shared" />
+        
+        <!-- Copy in the third party dependencies -->
+        <copy todir="${hybridTemplateDependenciesDir}/SalesforceCommonUtils">
+            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
+        </copy>
+        <copy todir="${hybridTemplateDependenciesDir}/openssl">
+            <fileset dir="${thirdPartyLibDir}/openssl">
+                <exclude name="openssl/**" />
+            </fileset>
+        </copy>
+        <copy todir="${hybridTemplateDependenciesDir}/sqlcipher">
+            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
+        </copy>
+        
+        <!-- Add the SDK dependencies -->
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${hybridTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/Cordova-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${hybridTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceHybridSDK-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${hybridTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
+        </exec>
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${hybridTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
+        </exec>
+        
+        <!-- SDK and Cordova resources -->
+        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/${sdkResourcesBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
+        </copy>
+        <copy file="${sharedHybridDir}/${cordovaConfigXmlName}" todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}" />
+        
+        <!-- Hybrid www/ resources -->
+        <copy todir="${wwwDir}">
+            <fileset dir="${externalSharedDir}/SampleApps/contactexplorer" />
+        </copy>
+        <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/cordova.force.js" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/smartsync.js" todir="${wwwDir}" />
+        <copy file="${externalSharedDir}/libs/forcetk.mobilesdk.js" todir="${wwwDir}" />
+        <copy todir="${wwwDir}/jquery">
+            <fileset dir="${externalSharedDir}/external/jquery" />
+        </copy>
+        <copy todir="${wwwDir}/backbone">
+            <fileset dir="${externalSharedDir}/external/backbone" />
+        </copy>
+    </target>
+    
+    <target name="hybridAppTemplateShell" description="Creates the basic hybrid template shell, minus dependenies.  NB: npm package will use this.">
+        <property name="srcHybridTemplateFilesDir" location="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
+        
+        <!-- Copy over the hybrid template -->
+        <delete dir="${destHybridTemplateDir}" />
+        <mkdir dir="${destHybridTemplateDir}" />
+        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}">
+            <fileset dir="${srcHybridTemplateFilesDir}" />
+        </copy>
+        
+        <!-- App generator script -->
+        <copy file="${srcAppCreationScript}" tofile="${destHybridTemplateDir}/${destAppCreationScriptName}" />
+        <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
+    </target>
+    
+    <target name="hybridAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceHybridSDK,buildCordova" />
+    
+    <target name="appTemplateFoundationLibs" depends="buildSalesforceSDKCore,buildSalesforceOAuth" />
+    
+    <target name="buildCordova" description="Builds the Cordova library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="Cordova" />
+            <param name="libName" value="libCordova.a" />
+            <param name="headerDir" value="include/Cordova" />
+            <param name="schemeName" value="CordovaLib" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceHybridSDK" description="Builds the Salesforce Hybrid SDK library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceHybridSDK" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="headerDir" value="include/SalesforceHybridSDK" />
+            <param name="schemeName" value="SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceNativeSDK" description="Builds the Salesforce Native SDK library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceNativeSDK" />
+            <param name="libName" value="libSalesforceNativeSDK.a" />
+            <param name="headerDir" value="include/SalesforceNativeSDK" />
+            <param name="schemeName" value="SalesforceNativeSDK" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceOAuth" description="Builds the Salesforce OAuth library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceOAuth" />
+            <param name="libName" value="libSalesforceOAuth.a" />
+            <param name="headerDir" value="include/SalesforceOAuth" />
+            <param name="schemeName" value="SalesforceOAuth" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceSDKCore" description="Builds the Salesforce SDK Core library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceSDKCore" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="headerDir" value="include/SalesforceSDKCore" />
+            <param name="schemeName" value="SalesforceSDKCore" />
+        </antcall>
+    </target>
+    
+    <target name="buildLib" description="Builds the Debug and Release candidates for one of the libraries, as defined by the input scheme.">
+        <antcall target="buildLibWithConfiguration">
+            <param name="buildConfiguration" value="Debug" />
+        </antcall>
+        <antcall target="buildLibWithConfiguration">
+            <param name="buildConfiguration" value="Release" />
+        </antcall>
+    </target>
+    
+    <target name="buildLibWithConfiguration">
+        <property name="buildConfiguration" value="Release" />
+        
+        <mkdir dir="${artifactsDir}/${projectName}" />
+        
+        <!-- Device -->
+        <antcall target="compileScheme">
+            <param name="sdk" value="iphoneos" />
+        </antcall>
+        <move file="${artifactsDir}/${libName}" tofile="${artifactsDir}/${projectName}/${libName}" />
+        <move file="${artifactsDir}/${headerDir}" tofile="${artifactsDir}/${projectName}/${headerDir}" />
+        
+        <!-- Simulator -->
+        <antcall target="compileScheme">
+            <param name="sdk" value="iphonesimulator" />
+        </antcall>
+        
+        <antcall target="lipo">
+            <param name="lipoLib1" value="${artifactsDir}/${projectName}/${libName}" />
+            <param name="lipoLib2" value="${artifactsDir}/${libName}" />
+        </antcall>
+        <delete dir="${artifactsDir}/${headerDir}" />
+        
+        <antcall target="compress">
+            <param name="destFile" value="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
+            <param name="baseDir" value="${artifactsDir}/${projectName}" />
+        </antcall>
+        
+        <delete dir="${artifactsDir}/${projectName}" />
+    </target>
+    
+    <target name="initArtifacts">
+        <mkdir dir="${artifactsDir}" />
+    </target>
+    
+    <target name="compileScheme" depends="initArtifacts"
+        description="Compiles one of the schemes from the SalesforceMobileSDK workspace.">
+        <property name="buildConfiguration" value="Release" />
+        
+        <echo>Building "${schemeName}" with configuration "${buildConfiguration}" for SDK "${sdk}"</echo>
+        
+        <exec executable="xcodebuild" failonerror="true" logError="true">
+            <arg value="-workspace" />
+            <arg file="../SalesforceMobileSDK.xcworkspace" />
+            <arg value="-scheme" />
+            <arg value="${schemeName}" />
+            <arg value="-configuration" />
+            <arg value="${buildConfiguration}" />
+            <arg value="-sdk" />
+            <arg value="${sdk}" />
+            <arg value="clean" />
+            <arg value="build" />
+            <arg value="CONFIGURATION_BUILD_DIR=${artifactsDir}" />
+            <arg value="ONLY_ACTIVE_ARCH=NO" />
+        </exec>
+    </target>
+    
+    <target name="lipo" description="Lipos lipoLib1 with liboLib2, stores the result as lipoLib1, and removes lipoLib2.">
+        <tempfile property="lipoOutput" deleteonexit="false" prefix="lipo" suffix=".a"/>
+        <exec executable="lipo" failonerror="true" logError="true">
+            <arg value="-create" />
+            <arg value="-output" />
+            <arg value="${lipoOutput}" />
+            <arg value="${lipoLib1}" />
+            <arg value="${lipoLib2}" />
+        </exec>
+        <move file="${lipoOutput}" tofile="${lipoLib1}"/>
+        <delete file="${lipoLib2}" />
+    </target>
+    
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k" /> <!-- PKZip format -->
+            <arg value="-c" /> <!-- compress -->
+            <arg value="--keepParent" />
+            <arg value="--norsrc" />
+            <arg value="${baseDir}" />
+            <arg file="${destFile}" />
+        </exec>
+    </target>
+    
+    <target name="clean" description="Cleans the build state.">
+        <delete dir="${artifactsDir}" />
+    </target>
+</project>
