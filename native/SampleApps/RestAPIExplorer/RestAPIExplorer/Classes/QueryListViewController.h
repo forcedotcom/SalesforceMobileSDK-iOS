@@ -48,8 +48,8 @@ extern NSString *const kActionExportCredentialsForTesting;
     RestAPIExplorerViewController *_appViewController;
 }
 
-@property (nonatomic, retain) NSArray *actions;
-@property (nonatomic, retain) RestAPIExplorerViewController *appViewController;
+@property (nonatomic, strong) NSArray *actions;
+@property (nonatomic, strong) RestAPIExplorerViewController *appViewController;
 
 - (id)initWithAppViewController:(RestAPIExplorerViewController *)appViewController;
 

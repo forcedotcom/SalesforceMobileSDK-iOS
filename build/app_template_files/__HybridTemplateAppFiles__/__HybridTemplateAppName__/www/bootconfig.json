@@ -1,0 +1,10 @@
+{
+    "remoteAccessConsumerKey": "__ConnectedAppIdentifier__",
+    "oauthRedirectURI": "__ConnectedAppRedirectUri__",
+    "oauthScopes": ["web", "api"],
+    "isLocal": __AppIsLocal__,
+    "startPage": "__StartPage__",
+    "errorPage": "error.html",
+    "shouldAuthenticate": true,
+    "attemptOfflineLoad": false
+}

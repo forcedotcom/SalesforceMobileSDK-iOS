@@ -1,66 +1,29 @@
 #!/bin/bash
-# Running this script will install all dependencies needed for all of the projects, 
-# as well as generating the latest .h and template files.
 
-XCODE_MIN_VERSION=4.5
+#
+# Run this script before working with the SalesforceMobileSDK Xcode workspace.
+#
 
-xcodebuild_version=`xcodebuild -version 2>&1`
-if [ $? -ne 0 ]
+# Check for iOS SDK minimum version
+IOS_MIN_VERSION_NUM=60
+IOS_MIN_VERSION_STR="iOS 6.0"
+ios_ver=`xcodebuild -version -sdk iphoneos | grep SDKVersion:`
+if [[ "$ios_ver" == "" ]]
 then
-    echo "The following error occurred while trying to determine your Xcode version:"
-    echo "$xcodebuild_version"
+    echo "Could not determine iOS SDK version.  Is xcodebuild on your path?"
+    exit 1
+fi
+ios_ver_num=`echo $ios_ver | sed 's/SDKVersion: \([0-9][0-9]*\)\.\([0-9][0-9]*\)/\1\2/'`
+ios_ver_str=`echo $ios_ver | sed 's/SDKVersion: //'`
+if [[ $ios_ver_num -lt $IOS_MIN_VERSION_NUM ]]
+then
+    echo "Current configured iOS version ($ios_ver_str) is less than the minimum required version ($IOS_MIN_VERSION_STR)."
     exit 2
 fi
 
-# The minimum Xcode version above is a requirement to build.
-xcode_version_number=`echo "$xcodebuild_version" | grep 'Xcode' | sed 's/Xcode \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/'`
-has_minimum_version=`echo $xcode_version_number $XCODE_MIN_VERSION | awk '{ if ($1 < $2) print 0 ; else print 1 }'`
-if [ $has_minimum_version -ne 1 ]
-then
-    echo "Xcode $XCODE_MIN_VERSION or greater is a prerequisite to build the iOS SDK."
-    echo "Current installed version: $xcodebuild_version"
-    exit 1
-fi
-
-echo "Ensuring that we have the correct version of all submodules..."
+# Sync submodules
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
 git submodule init
 git submodule sync
-git submodule update
-
-CURRENT_DIR=`pwd`
-
-
-# keep anything existing in /dist
-
-echo "Cleaning Native and Hybrid app templates..."
-cd "$CURRENT_DIR/hybrid/sfdc_build"
-ant clean
-cd "$CURRENT_DIR/native/sfdc_build"
-ant clean
-
-# build salesforce libraries and install templates
-echo "Building and installing Hybrid app template..."
-cd "$CURRENT_DIR/hybrid/sfdc_build"
-ant install
-
-echo "Building and installing Native app template..."
-cd "$CURRENT_DIR/native/sfdc_build"
-ant install
-
-echo "Cleaning sample apps..."
-cd "$CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build"
-ant clean
-cd "$CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build"
-ant clean
-cd "$CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build"
-ant clean
-
-# build sample apps with dependencies
-echo "Building sample apps..."
-cd "$CURRENT_DIR/native/SampleApps/RestAPIExplorer/sfdc_build"
-ant
-cd "$CURRENT_DIR/hybrid/SampleApps/ContactExplorer/sfdc_build"
-ant
-cd "$CURRENT_DIR/hybrid/SampleApps/VFConnector/sfdc_build"
-ant
-
+git submodule update 
