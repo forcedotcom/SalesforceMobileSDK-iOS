@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */; };
 		82B0FC1615F5AE420054B066 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */; };
-		82BC32BE16EEB3C000FC68D3 /* SFOAuthCoordinator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; };
-		82BC32BF16EEB3C000FC68D3 /* SFOAuthCredentials.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; };
-		82BC32C016EEB3C000FC68D3 /* SFOAuthInfo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */; };
+		82BBB58B1790A2D000374DD8 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB58C1790A2D000374DD8 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */; };
 		BEEA6D8914C7AA5900487C9D /* SFOAuth_NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6D8514C7AA5900487C9D /* SFOAuth_NSString+Additions.m */; };
 		BEEA6D8B14C7AA5900487C9D /* SFOAuth_UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6D8714C7AA5900487C9D /* SFOAuth_UIDevice+Hardware.m */; };
@@ -54,21 +54,6 @@
 			remoteInfo = SalesforceOAuth;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		82BC32BD16EEB38900FC68D3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				82BC32BE16EEB3C000FC68D3 /* SFOAuthCoordinator.h in CopyFiles */,
-				82BC32BF16EEB3C000FC68D3 /* SFOAuthCredentials.h in CopyFiles */,
-				82BC32C016EEB3C000FC68D3 /* SFOAuthInfo.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = SalesforceOAuth/Classes/SFOAuthCoordinator.h; sourceTree = SOURCE_ROOT; };
@@ -333,6 +318,19 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		82BBB58A1790A2BD00374DD8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BBB58B1790A2D000374DD8 /* SFOAuthCoordinator.h in Headers */,
+				82BBB58C1790A2D000374DD8 /* SFOAuthCredentials.h in Headers */,
+				82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		CF7F346113B52B4E001AB761 /* SalesforceOAuthTest */ = {
 			isa = PBXNativeTarget;
@@ -358,7 +356,7 @@
 			buildPhases = (
 				CFA9ADD013AA86D80024260E /* Sources */,
 				CFA9ADD113AA86D80024260E /* Frameworks */,
-				82BC32BD16EEB38900FC68D3 /* CopyFiles */,
+				82BBB58A1790A2BD00374DD8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -595,9 +593,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INSTALL_PATH = /Libraries;
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 			};
 			name = Debug;
 		};
@@ -611,9 +610,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INSTALL_PATH = /Libraries;
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 			};
 			name = Release;
 		};

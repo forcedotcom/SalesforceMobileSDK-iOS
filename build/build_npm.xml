@@ -1,7 +1,7 @@
 <project name="SalesforceMobileSDK-iOS-Package" basedir="." default="makeNpm">
     <import file="build.xml" />
     <property name="npmRepoLocation" location="${artifactsDir}/npm_repo" />
-    <property name="npmRepoBranch" value="unstable20" />
+    <property name="npmRepoBranch" value="unstable" />
     
     <target name="makeNpm" depends="nativeAppTemplate,hybridAppTemplate">
         <!-- Stage the iOS npm repo -->
