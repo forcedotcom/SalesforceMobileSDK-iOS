@@ -36,7 +36,6 @@
 		4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
 		4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
-		824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
 		8251CA0C16EC3A8C00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */; };
@@ -65,11 +64,12 @@
 		8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3F16ED1EB400BD1EA2 /* SFPluginTestSuite.m */; };
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
 		8251CA4716ED268000BD1EA2 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */; };
-		82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E416E7C84900A63CDF /* SFSDKInfoPlugin.h */; };
-		82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; };
-		82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; };
-		82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; };
-		82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; };
+		82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E416E7C84900A63CDF /* SFSDKInfoPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E516E7C84900A63CDF /* SFSDKInfoPlugin.m */; };
 		82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E816E7C84900A63CDF /* CDVPlugin+SFAdditions.m */; };
@@ -137,21 +137,6 @@
 				4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */,
 			);
 			name = "Copy qunit/ to www/qunit/";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82EFF2CE16E7C57100A63CDF /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				82BC32D816EEBD1C00FC68D3 /* CDVPlugin+SFAdditions.h in CopyFiles */,
-				82BC32D916EEBD1C00FC68D3 /* SalesforceOAuthPlugin.h in CopyFiles */,
-				82BC32DC16EEBD1C00FC68D3 /* SFHybridViewController.h in CopyFiles */,
-				824AA1921725A9AE00C9BD79 /* SFHybridViewConfig.h in CopyFiles */,
-				82BC32D716EEBD1C00FC68D3 /* SFSDKInfoPlugin.h in CopyFiles */,
-				82BC32DA16EEBD1C00FC68D3 /* SFSmartStorePlugin.h in CopyFiles */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */ = {
@@ -670,6 +655,22 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		82BBB5831790A12000374DD8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
+				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
+				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
+				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
+				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
+				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		82EFF2CF16E7C57100A63CDF /* SalesforceHybridSDK */ = {
 			isa = PBXNativeTarget;
@@ -677,7 +678,7 @@
 			buildPhases = (
 				82EFF2CC16E7C57100A63CDF /* Sources */,
 				82EFF2CD16E7C57100A63CDF /* Frameworks */,
-				82EFF2CE16E7C57100A63CDF /* CopyFiles */,
+				82BBB5831790A12000374DD8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -932,10 +933,18 @@
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
+					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+				);
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -945,10 +954,18 @@
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
+					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+				);
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
