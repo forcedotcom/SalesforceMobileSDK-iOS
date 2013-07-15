@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		824A9F2F1725020E00C9BD79 /* SFRestRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79416E080780006B3C0 /* SFRestRequest.h */; };
 		8280EB9A16E1142200768DE8 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */; };
 		8280EB9C16E11BB600768DE8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8280EB9E16E11BF100768DE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
@@ -18,9 +17,10 @@
 		8280EBA816E1315B00768DE8 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA716E1315B00768DE8 /* libsqlcipher.a */; };
 		8280EBAA16E1318200768DE8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA916E1318200768DE8 /* libxml2.dylib */; };
 		8280EBAC16E1425D00768DE8 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
-		82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */; };
-		82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */; };
-		82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C0C79216E080780006B3C0 /* SFRestAPI.h */; };
+		82BBB561179084F400374DD8 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5621790850200374DD8 /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5631790851000374DD8 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79416E080780006B3C0 /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB5641790851900374DD8 /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79216E080780006B3C0 /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74016E076DE0006B3C0 /* SenTestingKit.framework */; };
 		82C0C74316E076DE0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
@@ -73,22 +73,6 @@
 			remoteInfo = SalesforceNativeSDK;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		82C0C72C16E076DE0006B3C0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				82BC32B816EEAEDF00FC68D3 /* SFRestAPI+Blocks.h in CopyFiles */,
-				82BC32B916EEAEDF00FC68D3 /* SFRestAPI+QueryBuilder.h in CopyFiles */,
-				824A9F2F1725020E00C9BD79 /* SFRestRequest.h in CopyFiles */,
-				82BC32BA16EEAEDF00FC68D3 /* SFRestAPI.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8201678A16E17D7C002F4066 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
@@ -347,6 +331,20 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		82BBB560179084E500374DD8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BBB561179084F400374DD8 /* SFRestAPI+Blocks.h in Headers */,
+				82BBB5621790850200374DD8 /* SFRestAPI+QueryBuilder.h in Headers */,
+				82BBB5631790851000374DD8 /* SFRestRequest.h in Headers */,
+				82BBB5641790851900374DD8 /* SFRestAPI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		82C0C72D16E076DE0006B3C0 /* SalesforceNativeSDK */ = {
 			isa = PBXNativeTarget;
@@ -354,7 +352,7 @@
 			buildPhases = (
 				82C0C72A16E076DE0006B3C0 /* Sources */,
 				82C0C72B16E076DE0006B3C0 /* Frameworks */,
-				82C0C72C16E076DE0006B3C0 /* CopyFiles */,
+				82BBB560179084E500374DD8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -615,10 +613,18 @@
 				DSTROOT = /tmp/SalesforceNativeSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
+					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
+				);
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -628,10 +634,18 @@
 				DSTROOT = /tmp/SalesforceNativeSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
+					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
+				);
+				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

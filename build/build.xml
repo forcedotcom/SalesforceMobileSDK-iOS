@@ -172,7 +172,7 @@
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceHybridSDK" />
             <param name="libName" value="libSalesforceHybridSDK.a" />
-            <param name="headerDir" value="include/SalesforceHybridSDK" />
+            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
         </antcall>
     </target>
@@ -181,7 +181,7 @@
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNativeSDK" />
             <param name="libName" value="libSalesforceNativeSDK.a" />
-            <param name="headerDir" value="include/SalesforceNativeSDK" />
+            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
             <param name="schemeName" value="SalesforceNativeSDK" />
         </antcall>
     </target>
@@ -190,7 +190,7 @@
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceOAuth" />
             <param name="libName" value="libSalesforceOAuth.a" />
-            <param name="headerDir" value="include/SalesforceOAuth" />
+            <param name="headerDir" value="Headers/SalesforceOAuth" />
             <param name="schemeName" value="SalesforceOAuth" />
         </antcall>
     </target>
@@ -199,7 +199,7 @@
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceSDKCore" />
             <param name="libName" value="libSalesforceSDKCore.a" />
-            <param name="headerDir" value="include/SalesforceSDKCore" />
+            <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
     </target>
@@ -264,8 +264,8 @@
             <arg value="-sdk" />
             <arg value="${sdk}" />
             <arg value="clean" />
-            <arg value="build" />
-            <arg value="CONFIGURATION_BUILD_DIR=${artifactsDir}" />
+            <arg value="install" />
+            <arg value="DSTROOT=${artifactsDir}" />
             <arg value="ONLY_ACTIVE_ARCH=NO" />
         </exec>
     </target>
