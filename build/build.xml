@@ -264,8 +264,8 @@
             <arg value="-sdk" />
             <arg value="${sdk}" />
             <arg value="clean" />
-            <arg value="install" />
-            <arg value="DSTROOT=${artifactsDir}" />
+            <arg value="build" />
+            <arg value="CONFIGURATION_BUILD_DIR=${artifactsDir}" />
             <arg value="ONLY_ACTIVE_ARCH=NO" />
         </exec>
     </target>
