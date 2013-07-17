@@ -158,7 +158,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:secretData];
         NSData *decryptedData = [cipher decryptData:accessTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-            _protocol = nil;
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
     }
