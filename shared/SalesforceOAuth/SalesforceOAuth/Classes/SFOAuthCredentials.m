@@ -28,17 +28,18 @@
 #import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
 
-static NSString * const kSFOAuthArchiveVersion      = @"1.0.3"; // internal version included when archiving via encodeWithCoder
+static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 
-static NSString * const kSFOAuthAccessGroup         = @"com.salesforce.oauth";
-static NSString * const kSFOAuthProtocolHttps       = @"https";
+static NSString * const kSFOAuthAccessGroup            = @"com.salesforce.oauth";
+static NSString * const kSFOAuthProtocolHttps          = @"https";
 
-static NSString * const kSFOAuthServiceAccess       = @"com.salesforce.oauth.access";
-static NSString * const kSFOAuthServiceRefresh      = @"com.salesforce.oauth.refresh";
-static NSString * const kSFOAuthServiceActivation   = @"com.salesforce.oauth.activation";
+static NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
+static NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
+static NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
 
-static NSString * const kSFOAuthDefaultDomain       = @"login.salesforce.com";
+static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
 
+NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
 
 @interface SFOAuthCredentials () 
 
@@ -50,18 +51,18 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 
 @implementation SFOAuthCredentials
 
-@synthesize identifier      = _identifier;
-@synthesize domain          = _domain;
-@synthesize clientId        = _clientId;
-@synthesize redirectUri     = _redirectUri;
-@synthesize organizationId  = _organizationId; // cached org ID dervied from identityURL
-@synthesize identityUrl     = _identityUrl;
-@synthesize userId          = _userId;         // cached user ID derived from identityURL
-@synthesize instanceUrl     = _instanceUrl;
-@synthesize issuedAt        = _issuedAt;
-@synthesize logLevel        = _logLevel;
-@synthesize protocol        = _protocol;
-@synthesize encrypted     = _encrypted;
+@synthesize identifier           = _identifier;
+@synthesize domain               = _domain;
+@synthesize clientId             = _clientId;
+@synthesize redirectUri          = _redirectUri;
+@synthesize organizationId       = _organizationId; // cached org ID dervied from identityURL
+@synthesize identityUrl          = _identityUrl;
+@synthesize userId               = _userId;         // cached user ID derived from identityURL
+@synthesize instanceUrl          = _instanceUrl;
+@synthesize issuedAt             = _issuedAt;
+@synthesize logLevel             = _logLevel;
+@synthesize protocol             = _protocol;
+@synthesize encrypted            = _encrypted;
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
@@ -93,6 +94,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             self.protocol = kSFOAuthProtocolHttps;
 
         _encrypted          = [[coder decodeObjectForKey:@"SFOAuthEncrypted"] boolValue];
+        [self updateTokenEncryption];
     }
     return self;
 }
@@ -119,12 +121,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 - (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
     self = [super init];
     if (self) {
-        self.identifier     = theIdentifier;
-        self.clientId       = theClientId;
-        self.domain         = kSFOAuthDefaultDomain;
-        self.logLevel       = kSFOAuthLogLevelInfo;
-        self.protocol       = kSFOAuthProtocolHttps;
-        _encrypted          = encrypted;
+        self.identifier           = theIdentifier;
+        self.clientId             = theClientId;
+        self.domain               = kSFOAuthDefaultDomain;
+        self.logLevel             = kSFOAuthLogLevelInfo;
+        self.protocol             = kSFOAuthProtocolHttps;
+        _encrypted                = encrypted;
+        [self updateTokenEncryption];
     }
     return self;
 }
@@ -145,51 +148,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
-    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
-    NSData *accessTokenData = [self tokenForKey:kSFOAuthServiceAccess];
-    if (!accessTokenData) {
-        return nil;
-    }
-    if (self.isEncrypted) {
-        NSString *macAddress = [[UIDevice currentDevice] macaddress];
-        NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceAccess];
-        NSData *secretData = [strSecret sha256];
-        
-        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:secretData];
-        NSData *decryptedData = [cipher decryptData:accessTokenData];
-        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-            _protocol = nil;
-    } else {
-        return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
-    }
+    return [self accessTokenWithKey:[self keyVendorId]];
 }
 
-// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
 - (void)setAccessToken:(NSString *)token {
-    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
-    
-    OSStatus result;
-    NSMutableDictionary * dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceAccess];
-    if ([token length] > 0) {
-        if (self.isEncrypted) {
-            NSString *macAddress = [[UIDevice currentDevice] macaddress];
-            NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceAccess];
-            NSData *secretData = [strSecret sha256];
-            
-            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:secretData];
-            [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
-            NSData *encryptedData = [cipher finalizeCipher];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
-        } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
-        }
-        result = [self writeToKeychain:dict];
-    } else {
-        result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
-    }
-    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
-        NSLog(@"%@:setAccessToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
-    }
+    [self setAccessToken:token withKey:[self keyVendorId]];
+    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString *)clientId {
@@ -241,55 +206,15 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 }
 
 - (NSString *)refreshToken {
-    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
-    NSData *refreshTokenData = [self tokenForKey:kSFOAuthServiceRefresh];
-    if (!refreshTokenData) {
-        return nil;
-    }
-    if (self.isEncrypted) {
-        NSString *macAddress = [[UIDevice currentDevice] macaddress];
-        NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceRefresh];
-        NSData *secretData = [strSecret sha256];
-        
-        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:secretData];
-        NSData *decryptedData = [cipher decryptData:refreshTokenData];
-        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-    } else {
-        return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
-    }
+    return [self refreshTokenWithKey:[self keyVendorId]];
 }
 
-// This setter is exposed publicly for unit tests. Other external client code should use the revoke methods.
 - (void)setRefreshToken:(NSString *)token {
-    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
-    
-    OSStatus result;
-    NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceRefresh];
-    if ([token length] > 0) {
-        if (self.isEncrypted) {
-            NSString *macAddress = [[UIDevice currentDevice] macaddress];
-            NSString *strSecret = [macAddress stringByAppendingString:kSFOAuthServiceRefresh];
-            NSData *secretData = [strSecret sha256];
-            
-            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:secretData];
-            [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
-            NSData *encryptedData = [cipher finalizeCipher];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
-        } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
-        }
-        result = [self writeToKeychain:dict];
-    } else {
-        result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
-        self.instanceUrl = nil;
-        self.issuedAt    = nil;
-        self.identityUrl = nil;
-    }
-    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
-        NSLog(@"%@:setRefreshToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
-    }
+    [self setRefreshToken:token withKey:[self keyVendorId]];
+    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 - (NSString *)activationCode {
     if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     NSData *activationCodeData = [self tokenForKey:kSFOAuthServiceActivation];
@@ -403,6 +328,85 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     return [itemDict objectForKey:(__bridge id)kSecValueData];
 }
 
+- (NSString *)accessTokenWithKey:(NSData *)key {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    NSData *accessTokenData = [self tokenForKey:kSFOAuthServiceAccess];
+    if (!accessTokenData) {
+        return nil;
+    }
+    if (self.isEncrypted) {
+        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:key];
+        NSData *decryptedData = [cipher decryptData:accessTokenData];
+        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    } else {
+        return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
+    }
+}
+
+- (void)setAccessToken:(NSString *)token withKey:(NSData *)key {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    
+    OSStatus result;
+    NSMutableDictionary * dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceAccess];
+    if ([token length] > 0) {
+        if (self.isEncrypted) {
+            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:key];
+            [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
+            NSData *encryptedData = [cipher finalizeCipher];
+            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+        } else {
+            [dict setObject:token forKey:(__bridge id)kSecValueData];
+        }
+        result = [self writeToKeychain:dict];
+    } else {
+        result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
+    }
+    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
+        NSLog(@"%@:setAccessToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
+    }
+}
+
+- (NSString *)refreshTokenWithKey:(NSData *)key {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    NSData *refreshTokenData = [self tokenForKey:kSFOAuthServiceRefresh];
+    if (!refreshTokenData) {
+        return nil;
+    }
+    if (self.isEncrypted) {
+        SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOADecrypt key:key];
+        NSData *decryptedData = [cipher decryptData:refreshTokenData];
+        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    } else {
+        return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
+    }
+}
+
+- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key {
+    if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
+    
+    OSStatus result;
+    NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceRefresh];
+    if ([token length] > 0) {
+        if (self.isEncrypted) {
+            SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:key];
+            [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
+            NSData *encryptedData = [cipher finalizeCipher];
+            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+        } else {
+            [dict setObject:token forKey:(__bridge id)kSecValueData];
+        }
+        result = [self writeToKeychain:dict];
+    } else {
+        result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
+        self.instanceUrl = nil;
+        self.issuedAt    = nil;
+        self.identityUrl = nil;
+    }
+    if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
+        NSLog(@"%@:setRefreshToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
+    }
+}
+
 - (NSMutableDictionary *)tokenQuery {
     NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
     
@@ -487,6 +491,48 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         NSLog(@"%@:writeToKeychain: (%ld) error copying item: %@", [self class], result, dictionary);
     }
     return result;
+}
+
+- (NSData *)keyMac
+{
+    NSString *macAddress = [[UIDevice currentDevice] macaddress];
+    return [self keyWithSeed:macAddress];
+}
+
+- (NSData *)keyVendorId
+{
+    NSString *idForVendor = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    return [self keyWithSeed:idForVendor];
+}
+
+- (NSData *)keyWithSeed:(NSString *)seed
+{
+    NSString *strSecret = [seed stringByAppendingString:kSFOAuthServiceAccess];
+    return [strSecret sha256];
+}
+
+- (void)updateTokenEncryption
+{
+    // Convert key to identifierForVendor, if it's the old format, if possible.  It won't be possible
+    // if the user is on iOS 7 or above, and we'll reset the tokens to nil;
+    
+    if (!self.isEncrypted) return;
+    SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    if (encType == kSFOAuthCredsEncryptionTypeIdForVendor) return;
+    
+    // Try to convert the old tokens to the new format.
+    NSString *origAccessToken = [self accessTokenWithKey:[self keyMac]];
+    if ([origAccessToken length] > 0) {
+        self.accessToken = origAccessToken;  // Default setter automatically uses updated encryption method.
+    } else {
+        self.accessToken = nil;
+    }
+    NSString *origRefreshToken = [self refreshTokenWithKey:[self keyMac]];
+    if ([origRefreshToken length] > 0) {
+        self.refreshToken = origRefreshToken;  // Default setter automatically uses updated encryption method.
+    } else {
+        self.refreshToken = nil;
+    }
 }
 
 + (NSString *)stringForKeychainResultCode:(OSStatus)code {
