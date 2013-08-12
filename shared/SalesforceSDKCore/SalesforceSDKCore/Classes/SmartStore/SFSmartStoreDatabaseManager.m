@@ -61,12 +61,6 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 - (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
 
 /**
- @param storeName The name of the store (excluding paths)
- @return full filesystem path for the store db file
- */
-- (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
-
-/**
  @return The root directory where all the SmartStore DBs live.
  */
 - (NSString *)rootStoreDirectory;
@@ -77,7 +71,6 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                               newKey:(NSString *)newKey
                                error:(NSError **)error;
 - (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
-- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
 
 @end
 

@@ -84,9 +84,12 @@
         url = [NSString stringWithFormat:@"%@%@", reqEndpoint, url];
     }
     
-    //make sure we have the latest access token at the moment we send the request
+    // Make sure we have the latest access token at the moment we send the request.
     [rkClient setValue:[NSString stringWithFormat:@"Bearer %@", _accountMgr.credentials.accessToken]
          forHTTPHeaderField:@"Authorization"];
+    
+    // Do not allow the local storage of responses, for security.
+    [rkClient setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
     
     if (_request.method == SFRestMethodGET) {
         [rkClient get:url queryParameters:_request.queryParams delegate:self];
