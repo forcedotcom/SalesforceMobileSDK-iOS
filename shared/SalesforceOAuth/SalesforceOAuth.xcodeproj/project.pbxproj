@@ -12,6 +12,7 @@
 		82BBB58B1790A2D000374DD8 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB58C1790A2D000374DD8 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82F06EB117B5B05300F287A2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82F06EB017B5B05300F287A2 /* Default-568h@2x.png */; };
 		BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */; };
 		BEEA6D8914C7AA5900487C9D /* SFOAuth_NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6D8514C7AA5900487C9D /* SFOAuth_NSString+Additions.m */; };
 		BEEA6D8B14C7AA5900487C9D /* SFOAuth_UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6D8714C7AA5900487C9D /* SFOAuth_UIDevice+Hardware.m */; };
@@ -39,14 +40,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CF7F348113B532BC001AB761 /* PBXContainerItemProxy */ = {
+		82F06EAC17B5AD7700F287A2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFA9ADCB13AA86D80024260E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CFA9ADD313AA86D80024260E;
-			remoteInfo = SalesforceOAuth;
+			remoteGlobalIDString = CF7F346113B52B4E001AB761;
+			remoteInfo = SalesforceOAuthTest;
 		};
-		CFD31A4813D596D300A9074A /* PBXContainerItemProxy */ = {
+		CF7F348113B532BC001AB761 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFA9ADCB13AA86D80024260E /* Project object */;
 			proxyType = 1;
@@ -63,6 +64,7 @@
 		82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthInfo.h; path = SalesforceOAuth/Classes/SFOAuthInfo.h; sourceTree = SOURCE_ROOT; };
 		82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthInfo.m; path = SalesforceOAuth/Classes/SFOAuthInfo.m; sourceTree = SOURCE_ROOT; };
 		82B0FC1C15F5C3400054B066 /* SFOAuthInfo+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthInfo+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthInfo+Internal.h"; sourceTree = SOURCE_ROOT; };
+		82F06EB017B5B05300F287A2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCrypto.h; path = SalesforceOAuth/Classes/SFOAuthCrypto.h; sourceTree = SOURCE_ROOT; };
 		BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCrypto.m; path = SalesforceOAuth/Classes/SFOAuthCrypto.m; sourceTree = SOURCE_ROOT; };
 		BEEA6D8414C7AA5900487C9D /* SFOAuth_NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFOAuth_NSString+Additions.h"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		CF7F346813B52B4E001AB761 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82F06EB017B5B05300F287A2 /* Default-568h@2x.png */,
 				CF7F346913B52B4E001AB761 /* SalesforceOAuthTest-Info.plist */,
 				CF7F346D13B52B4E001AB761 /* SalesforceOAuthTest-Prefix.pch */,
 				CF7F346E13B52B4E001AB761 /* main.m */,
@@ -379,7 +382,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CFD31A4913D596D300A9074A /* PBXTargetDependency */,
+				82F06EAD17B5AD7700F287A2 /* PBXTargetDependency */,
 			);
 			name = SalesforceOAuthUnitTests;
 			productName = SalesforceOAuthUnitTests;
@@ -420,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF0886C113C397C30022C321 /* SalesforceOAuthTestViewController.xib in Resources */,
+				82F06EB117B5B05300F287A2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,15 +489,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		82F06EAD17B5AD7700F287A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CF7F346113B52B4E001AB761 /* SalesforceOAuthTest */;
+			targetProxy = 82F06EAC17B5AD7700F287A2 /* PBXContainerItemProxy */;
+		};
 		CF7F348213B532BC001AB761 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CFA9ADD313AA86D80024260E /* SalesforceOAuth */;
 			targetProxy = CF7F348113B532BC001AB761 /* PBXContainerItemProxy */;
-		};
-		CFD31A4913D596D300A9074A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CFA9ADD313AA86D80024260E /* SalesforceOAuth */;
-			targetProxy = CFD31A4813D596D300A9074A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -621,6 +625,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceOAuthTest.app/SalesforceOAuthTest";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -639,6 +644,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -647,6 +653,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceOAuthTest.app/SalesforceOAuthTest";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -660,6 +667,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
 			};

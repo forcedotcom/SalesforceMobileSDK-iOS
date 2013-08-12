@@ -199,7 +199,10 @@ static NSString * const kHttpPostContentType                    = @"application/
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.delegate oauthCoordinator:self didFailWithError:error];
+#pragma clang diagnostic pop
     }
 }
 
@@ -209,7 +212,10 @@ static NSString * const kHttpPostContentType                    = @"application/
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.delegate oauthCoordinatorDidAuthenticate:self];
+#pragma clang diagnostic pop
     }
 }
 
