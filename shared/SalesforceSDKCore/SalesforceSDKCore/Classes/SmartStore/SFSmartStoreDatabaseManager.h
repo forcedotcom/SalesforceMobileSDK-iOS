@@ -99,4 +99,20 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  */
 - (NSArray *)allStoreNames;
 
+/**
+ The full filesystem path to the database with the given store name.
+ @param storeName The name of the store (excluding paths)
+ @return full filesystem path for the store db file
+ */
+- (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
+
+/**
+ Verifies that the database contents at the given path can be read with the given encryption key.
+ @param dbPath The path to the database to read.
+ @param key The encryption key used against the database.
+ @param error The output NSError parameter that will be populated in the event of an error.
+ @return YES if the database can be read, NO otherwise.
+ */
+- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
+
 @end
