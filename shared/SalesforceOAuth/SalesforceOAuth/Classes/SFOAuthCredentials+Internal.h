@@ -24,11 +24,26 @@
 
 #import "SFOAuthCredentials.h"
 
+typedef enum {
+    kSFOAuthCredsEncryptionTypeNotSet,
+    kSFOAuthCredsEncryptionTypeMac,
+    kSFOAuthCredsEncryptionTypeIdForVendor
+} SFOAuthCredsEncryptionType;
+
+extern NSString * const kSFOAuthEncryptionTypeKey;
 
 @interface SFOAuthCredentials ()
 
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
+- (NSData *)keyMac;
+- (NSData *)keyVendorId;
+- (NSData *)keyWithSeed:(NSString *)seed;
+- (NSString *)refreshTokenWithKey:(NSData *)key;
+- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
+- (NSString *)accessTokenWithKey:(NSData *)key;
+- (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
+- (void)updateTokenEncryption;
 - (NSData *)tokenForKey:(NSString *)key;
 - (NSMutableDictionary *)tokenQuery;
 - (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;

@@ -28,6 +28,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CFD31A3113D5956700A9074A"
+               BuildableName = "SalesforceOAuthUnitTests.octest"
+               BlueprintName = "SalesforceOAuthUnitTests"
+               ReferencedContainer = "container:SalesforceOAuth.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

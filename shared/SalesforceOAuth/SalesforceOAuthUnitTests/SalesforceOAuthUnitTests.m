@@ -24,6 +24,7 @@
 
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "SalesforceOAuthUnitTestsCoordinatorDelegate.h"
 #import "SalesforceOAuthUnitTests.h"
 
@@ -237,6 +238,101 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     
     ca.clientId = @"testClientID";
     STAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier must still match after changing clientId");
+}
+
+/**
+ Test the various token encryption-and-decryption facilities.
+ */
+- (void)testTokenEncryptionDecryption
+{
+    NSString *accessToken = @"gimmeAccess!";
+    NSString *refreshToken = @"IWannaRefresh!";
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    
+    NSArray *keyArray = [NSArray arrayWithObjects:[credentials keyMac], [credentials keyVendorId], nil];
+    for (NSData *key in keyArray) {
+        
+        // Same keys for supported encryption and decryption
+        [credentials setAccessToken:accessToken withKey:key];
+        [credentials setRefreshToken:refreshToken withKey:key];
+        NSString *retrievedAccessToken = [credentials accessTokenWithKey:key];
+        STAssertEqualObjects(accessToken, retrievedAccessToken, @"Access tokens do not match between storage and retrieval.");
+        NSString *retrievedRefreshToken = [credentials refreshTokenWithKey:key];
+        STAssertEqualObjects(refreshToken, retrievedRefreshToken, @"Refresh tokens do not match between storage and retrieval.");
+        
+        // Different keys between encryption and decryption (i.e. failed decryption)
+        NSData *badDecryptKey = [@"grarBogusKey!" dataUsingEncoding:NSUTF8StringEncoding];
+        [credentials setAccessToken:accessToken withKey:key];
+        [credentials setRefreshToken:refreshToken withKey:key];
+        retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
+        STAssertEqualObjects(retrievedAccessToken, @"", @"Access token should be an empty string if it couldn't be decrypted.");
+        retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
+        STAssertEqualObjects(retrievedRefreshToken, @"", @"Refresh token should be an empty string if it couldn't be decrypted.");
+    }
+    
+    [credentials revoke];
+}
+
+- (void)testDefaultTokenEncryption
+{
+    NSString *accessToken = @"AllAccessPass$";
+    NSString *refreshToken = @"RefreshFRESHexciting!";
+    
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    credentials.accessToken = accessToken;
+    credentials.refreshToken = refreshToken;
+    
+    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorId]];
+    STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
+    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorId]];
+    STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
+    SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeIdForVendor, @"Encryption type should be idForVendor.");
+    
+    [credentials revoke];
+}
+
+/**
+ Test the different token encryption update scenarios.
+ */
+- (void)testUpdateTokenEncryption
+{
+    NSString *accessToken = @"AccessGranted!";
+    NSString *refreshToken = @"HowRefreshing";
+    
+    // Set MAC-key tokens, resetting update state to pre-update.
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:accessToken withKey:[credentials keyMac]];
+    [credentials setRefreshToken:refreshToken withKey:[credentials keyMac]];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // New credentials instantiation should convert the existing credentials to idForVendor-based.
+    credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorId]];
+    STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should have been updated to idForVendor-based encryption.");
+    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorId]];
+    STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should have been updated to idForVendor-based encryption.");
+    SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeIdForVendor, @"Encryption type should have been updated to idForVendor.");
+    
+    // Test update with bad MAC-key tokens (post-iOS7 scenario).
+    NSString *badMacAddress = @"2F:00:00:00:00:00";
+    [credentials setAccessToken:accessToken withKey:[credentials keyWithSeed:badMacAddress]];
+    [credentials setRefreshToken:refreshToken withKey:[credentials keyWithSeed:badMacAddress]];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // New credentials instantiation should nil out the tokens, since they can't be converted in iOS7 and later.
+    credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    accessTokenVerify = credentials.accessToken;
+    STAssertNil(accessTokenVerify, @"Access token should be nil, since it cannot be converted post-iOS7.");
+    refreshTokenVerify = credentials.refreshToken;
+    STAssertNil(refreshTokenVerify, @"Refresh token should be nil, since it cannot be converted post-iOS7.");
+    encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeIdForVendor, @"Encryption type still should have been updated to idForVendor.");
+    
+    [credentials revoke];
 }
 
 @end

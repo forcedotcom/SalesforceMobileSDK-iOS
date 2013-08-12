@@ -496,6 +496,50 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
+- (void)testDefaultEncryptionUpdate
+{
+    // Verify that the default encryption is idForVendor, for a new store.
+    FMDatabase *defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    BOOL canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
+    
+    //
+    // Reset to the old default encryption, verify that it's updated successfully.
+    //
+    
+    BOOL rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyMac]];
+    STAssertTrue(rekeyResult, @"Re-encryption should have been successful.");
+    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
+    [defaultKeyDb close];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption.");
+    [defaultKeyDb close];
+    
+    [SFSmartStore updateDefaultEncryption];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertTrue(canReadDb, @"Should be able to read default-encrypted database again.");
+    [defaultKeyDb close];
+    
+    //
+    // Bad default key should remove un-decryptable store on update (iOS7 use case).
+    //
+    
+    NSString *badDefaultSeed = @"2F:00:00:00:00:00";
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
+    rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyWithSeed:badDefaultSeed]];
+    STAssertTrue(rekeyResult, @"Re-encryption should have been successful.");
+    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
+    [defaultKeyDb close];
+    
+    [SFSmartStore updateDefaultEncryption];
+    BOOL storeExists = [SFSmartStore persistentStoreExists:kTestSmartStoreName];
+    STAssertFalse(storeExists, @"Un-decryptable store should have been removed on default encryption update.");
+}
+
 #pragma mark - helper methods
 
 - (BOOL) hasTable:(NSString*)tableName
