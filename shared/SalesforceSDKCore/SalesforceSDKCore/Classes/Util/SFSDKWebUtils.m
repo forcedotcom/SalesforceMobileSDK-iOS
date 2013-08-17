@@ -30,7 +30,20 @@
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
 
+static NSString *gAppUserAgent = nil;
+
+@interface SFSDKWebUtils ()
+
++ (void)retrieveUserAgentValueForApp;
+
+@end
+
 @implementation SFSDKWebUtils
+
++ (void)initialize
+{
+    [self retrieveUserAgentValueForApp];
+}
 
 + (void)configureUserAgent:(NSString *)userAgentString
 {
@@ -42,12 +55,26 @@ NSString * const kUserAgentPropKey = @"UserAgent";
 
 + (NSString *)currentUserAgentForApp
 {
+    return gAppUserAgent;
+}
+
++ (void)retrieveUserAgentValueForApp
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self retrieveUserAgentValueForApp];
+        });
+        
+        // Give it a slice or two, if we're not on the main thread, to give gAppUserAgent time to be set first.
+        [NSThread sleepForTimeInterval:0.1];
+        
+        return;
+    }
+    
     // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
     // really doesn't want you to know about its HTTP headers.
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    
-    return currentUserAgent;
+    gAppUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
 }
 
 @end
