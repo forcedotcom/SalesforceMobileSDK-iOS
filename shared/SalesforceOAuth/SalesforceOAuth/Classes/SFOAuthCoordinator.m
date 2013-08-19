@@ -221,6 +221,13 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 - (void)beginUserAgentFlow {
     
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginUserAgentFlow];
+        });
+        return;
+    }
+    
     if (nil == _view) {
         // lazily create web view if needed
         _view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
