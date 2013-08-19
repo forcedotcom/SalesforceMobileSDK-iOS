@@ -33,9 +33,9 @@ static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal v
 static NSString * const kSFOAuthAccessGroup            = @"com.salesforce.oauth";
 static NSString * const kSFOAuthProtocolHttps          = @"https";
 
-static NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
-static NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
-static NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
+NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
+NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
+NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
 
 static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
 
@@ -148,11 +148,11 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
-    return [self accessTokenWithKey:[self keyVendorId]];
+    return [self accessTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
 }
 
 - (void)setAccessToken:(NSString *)token {
-    [self setAccessToken:token withKey:[self keyVendorId]];
+    [self setAccessToken:token withKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
     [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -206,11 +206,11 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 }
 
 - (NSString *)refreshToken {
-    return [self refreshTokenWithKey:[self keyVendorId]];
+    return [self refreshTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
 }
 
 - (void)setRefreshToken:(NSString *)token {
-    [self setRefreshToken:token withKey:[self keyVendorId]];
+    [self setRefreshToken:token withKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -493,21 +493,21 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     return result;
 }
 
-- (NSData *)keyMac
+- (NSData *)keyMacForService:(NSString *)service
 {
     NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    return [self keyWithSeed:macAddress];
+    return [self keyWithSeed:macAddress service:service];
 }
 
-- (NSData *)keyVendorId
+- (NSData *)keyVendorIdForService:(NSString *)service
 {
     NSString *idForVendor = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    return [self keyWithSeed:idForVendor];
+    return [self keyWithSeed:idForVendor service:service];
 }
 
-- (NSData *)keyWithSeed:(NSString *)seed
+- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service
 {
-    NSString *strSecret = [seed stringByAppendingString:kSFOAuthServiceAccess];
+    NSString *strSecret = [seed stringByAppendingString:service];
     return [strSecret sha256];
 }
 
@@ -521,13 +521,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     if (encType == kSFOAuthCredsEncryptionTypeIdForVendor) return;
     
     // Try to convert the old tokens to the new format.
-    NSString *origAccessToken = [self accessTokenWithKey:[self keyMac]];
+    NSString *origAccessToken = [self accessTokenWithKey:[self keyMacForService:kSFOAuthServiceAccess]];
     if ([origAccessToken length] > 0) {
         self.accessToken = origAccessToken;  // Default setter automatically uses updated encryption method.
     } else {
         self.accessToken = nil;
     }
-    NSString *origRefreshToken = [self refreshTokenWithKey:[self keyMac]];
+    NSString *origRefreshToken = [self refreshTokenWithKey:[self keyMacForService:kSFOAuthServiceRefresh]];
     if ([origRefreshToken length] > 0) {
         self.refreshToken = origRefreshToken;  // Default setter automatically uses updated encryption method.
     } else {
