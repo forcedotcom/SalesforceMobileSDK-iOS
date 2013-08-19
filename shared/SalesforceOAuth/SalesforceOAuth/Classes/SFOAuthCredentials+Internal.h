@@ -31,14 +31,17 @@ typedef enum {
 } SFOAuthCredsEncryptionType;
 
 extern NSString * const kSFOAuthEncryptionTypeKey;
+extern NSString * const kSFOAuthServiceAccess;
+extern NSString * const kSFOAuthServiceRefresh;
+extern NSString * const kSFOAuthServiceActivation;
 
 @interface SFOAuthCredentials ()
 
 - (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
-- (NSData *)keyMac;
-- (NSData *)keyVendorId;
-- (NSData *)keyWithSeed:(NSString *)seed;
+- (NSData *)keyMacForService:(NSString *)service;
+- (NSData *)keyVendorIdForService:(NSString *)service;
+- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
 - (NSString *)refreshTokenWithKey:(NSData *)key;
 - (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 - (NSString *)accessTokenWithKey:(NSData *)key;

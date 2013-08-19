@@ -249,21 +249,30 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     NSString *refreshToken = @"IWannaRefresh!";
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     
-    NSArray *keyArray = [NSArray arrayWithObjects:[credentials keyMac], [credentials keyVendorId], nil];
-    for (NSData *key in keyArray) {
+    NSDictionary *keyDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSArray arrayWithObjects:
+                              [credentials keyMacForService:kSFOAuthServiceAccess],
+                              [credentials keyMacForService:kSFOAuthServiceRefresh], nil],
+                             @"mac",
+                             [NSArray arrayWithObjects:
+                              [credentials keyVendorIdForService:kSFOAuthServiceAccess],
+                              [credentials keyVendorIdForService:kSFOAuthServiceRefresh], nil],
+                             @"vendorId", nil];
+    for (NSString *encTypeKey in [keyDict allKeys]) {
+        NSArray *encTypeArray = [keyDict objectForKey:encTypeKey];
         
         // Same keys for supported encryption and decryption
-        [credentials setAccessToken:accessToken withKey:key];
-        [credentials setRefreshToken:refreshToken withKey:key];
-        NSString *retrievedAccessToken = [credentials accessTokenWithKey:key];
+        [credentials setAccessToken:accessToken withKey:[encTypeArray objectAtIndex:0]];
+        [credentials setRefreshToken:refreshToken withKey:[encTypeArray objectAtIndex:1]];
+        NSString *retrievedAccessToken = [credentials accessTokenWithKey:[encTypeArray objectAtIndex:0]];
         STAssertEqualObjects(accessToken, retrievedAccessToken, @"Access tokens do not match between storage and retrieval.");
-        NSString *retrievedRefreshToken = [credentials refreshTokenWithKey:key];
+        NSString *retrievedRefreshToken = [credentials refreshTokenWithKey:[encTypeArray objectAtIndex:1]];
         STAssertEqualObjects(refreshToken, retrievedRefreshToken, @"Refresh tokens do not match between storage and retrieval.");
         
         // Different keys between encryption and decryption (i.e. failed decryption)
         NSData *badDecryptKey = [@"grarBogusKey!" dataUsingEncoding:NSUTF8StringEncoding];
-        [credentials setAccessToken:accessToken withKey:key];
-        [credentials setRefreshToken:refreshToken withKey:key];
+        [credentials setAccessToken:accessToken withKey:[encTypeArray objectAtIndex:0]];
+        [credentials setRefreshToken:refreshToken withKey:[encTypeArray objectAtIndex:1]];
         retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
         STAssertEqualObjects(retrievedAccessToken, @"", @"Access token should be an empty string if it couldn't be decrypted.");
         retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
@@ -282,9 +291,9 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
     
-    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorId]];
+    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorIdForService:kSFOAuthServiceAccess]];
     STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
-    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorId]];
+    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorIdForService:kSFOAuthServiceRefresh]];
     STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
     STAssertEquals(encType, kSFOAuthCredsEncryptionTypeIdForVendor, @"Encryption type should be idForVendor.");
@@ -302,24 +311,24 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     
     // Set MAC-key tokens, resetting update state to pre-update.
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyMac]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyMac]];
+    [credentials setAccessToken:accessToken withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:refreshToken withKey:[credentials keyMacForService:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // New credentials instantiation should convert the existing credentials to idForVendor-based.
     credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorId]];
+    NSString *accessTokenVerify = [credentials accessTokenWithKey:[credentials keyVendorIdForService:kSFOAuthServiceAccess]];
     STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should have been updated to idForVendor-based encryption.");
-    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorId]];
+    NSString *refreshTokenVerify = [credentials refreshTokenWithKey:[credentials keyVendorIdForService:kSFOAuthServiceRefresh]];
     STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should have been updated to idForVendor-based encryption.");
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
     STAssertEquals(encType, kSFOAuthCredsEncryptionTypeIdForVendor, @"Encryption type should have been updated to idForVendor.");
     
     // Test update with bad MAC-key tokens (post-iOS7 scenario).
     NSString *badMacAddress = @"2F:00:00:00:00:00";
-    [credentials setAccessToken:accessToken withKey:[credentials keyWithSeed:badMacAddress]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyWithSeed:badMacAddress]];
+    [credentials setAccessToken:accessToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:refreshToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
