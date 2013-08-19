@@ -30,20 +30,19 @@
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
 
-static NSString *gAppUserAgent = nil;
+static NSString *gUserAgentForApp = nil;
 
 @interface SFSDKWebUtils ()
 
-+ (void)retrieveUserAgentValueForApp;
+/**
+ Stages the value of the user agent as defined by the iOS framework, in the static variable
+ gUserAgentForApp.  This value will not change in the lifetime of the app process.
+ */
++ (void)stageUserAgentForApp;
 
 @end
 
 @implementation SFSDKWebUtils
-
-+ (void)initialize
-{
-    [self retrieveUserAgentValueForApp];
-}
 
 + (void)configureUserAgent:(NSString *)userAgentString
 {
@@ -55,26 +54,27 @@ static NSString *gAppUserAgent = nil;
 
 + (NSString *)currentUserAgentForApp
 {
-    return gAppUserAgent;
+    [self stageUserAgentForApp];
+    
+    return gUserAgentForApp;
 }
 
-+ (void)retrieveUserAgentValueForApp
++ (void)stageUserAgentForApp
 {
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self retrieveUserAgentValueForApp];
-        });
-        
-        // Give it a slice or two, if we're not on the main thread, to give gAppUserAgent time to be set first.
-        [NSThread sleepForTimeInterval:0.1];
-        
-        return;
-    }
+    if (gUserAgentForApp != nil) return;
     
-    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-    // really doesn't want you to know about its HTTP headers.
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    gAppUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    if ([NSThread isMainThread]) {
+        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+        // really doesn't want you to know about its HTTP headers.
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    } else {
+        // Needs to run on the main thread.
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+            gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        });
+    }
 }
 
 @end
