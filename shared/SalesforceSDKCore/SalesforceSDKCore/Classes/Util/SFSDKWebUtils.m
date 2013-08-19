@@ -30,6 +30,18 @@
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
 
+static NSString *gUserAgentForApp = nil;
+
+@interface SFSDKWebUtils ()
+
+/**
+ Stages the value of the user agent as defined by the iOS framework, in the static variable
+ gUserAgentForApp.  This value will not change in the lifetime of the app process.
+ */
++ (void)stageUserAgentForApp;
+
+@end
+
 @implementation SFSDKWebUtils
 
 + (void)configureUserAgent:(NSString *)userAgentString
@@ -42,12 +54,27 @@ NSString * const kUserAgentPropKey = @"UserAgent";
 
 + (NSString *)currentUserAgentForApp
 {
-    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-    // really doesn't want you to know about its HTTP headers.
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    NSString *currentUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    [self stageUserAgentForApp];
     
-    return currentUserAgent;
+    return gUserAgentForApp;
+}
+
++ (void)stageUserAgentForApp
+{
+    if (gUserAgentForApp != nil) return;
+    
+    if ([NSThread isMainThread]) {
+        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+        // really doesn't want you to know about its HTTP headers.
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    } else {
+        // Needs to run on the main thread.
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+            gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        });
+    }
 }
 
 @end
