@@ -358,7 +358,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     passcodeFieldSize.width += kTextFieldWidthPadding;
     
     CGFloat x = CGRectGetMidX(self.view.frame) - (passcodeFieldSize.width / 2.0);
-    CGFloat y = kPaddingTop;
+    CGFloat y = kPaddingTop + ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7 ? self.navigationController.navigationBar.frame.size.height : 0);
     CGRect passRect = CGRectMake(x, y, passcodeFieldSize.width, passcodeFieldSize.height);
     self.passcodeField.frame = passRect;
 }
