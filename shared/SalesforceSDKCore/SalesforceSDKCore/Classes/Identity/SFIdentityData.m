@@ -292,7 +292,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (BOOL)mobilePoliciesConfigured
 {
-    return YES; //([self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey] != nil);
+    return ([self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey] != nil);
 }
 
 - (int)mobileAppPinLength
@@ -302,7 +302,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
         id pinLength = [mobilePolicy objectForKey:kSFIdentityMobileAppPinLengthKey];
         return (pinLength != nil ? [pinLength intValue] : 0);
     } else {
-        return 4; //0;
+        return 0;
     }
 }
 
@@ -313,7 +313,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
         id screenLockTimeout = [mobilePolicy objectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
         return (screenLockTimeout != nil ? [screenLockTimeout intValue] : -1);
     } else {
-        return 2; //-1;
+        return -1;
     }
 }
 
