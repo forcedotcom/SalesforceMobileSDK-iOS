@@ -46,6 +46,11 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 
 #pragma mark - Properties
 
