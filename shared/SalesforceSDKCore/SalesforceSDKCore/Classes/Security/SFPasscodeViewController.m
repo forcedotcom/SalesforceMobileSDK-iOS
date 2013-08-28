@@ -287,6 +287,11 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
+    
     NSLog(@"SFPasscodeViewController viewDidLoad");
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
@@ -358,7 +363,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     passcodeFieldSize.width += kTextFieldWidthPadding;
     
     CGFloat x = CGRectGetMidX(self.view.frame) - (passcodeFieldSize.width / 2.0);
-    CGFloat y = kPaddingTop + ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7 ? self.navigationController.navigationBar.frame.size.height : 0);
+    CGFloat y = kPaddingTop;
     CGRect passRect = CGRectMake(x, y, passcodeFieldSize.width, passcodeFieldSize.height);
     self.passcodeField.frame = passRect;
 }
