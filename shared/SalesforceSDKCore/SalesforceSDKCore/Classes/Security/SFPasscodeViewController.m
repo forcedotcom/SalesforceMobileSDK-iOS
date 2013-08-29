@@ -204,7 +204,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     if (self) {
         _mode = mode;
         _minPasscodeLength = minPasscodeLength;
-
+        
         if (mode == SFPasscodeControllerModeCreate) {
             NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
             
@@ -251,32 +251,32 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     // Error label
     self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.errorLabel setBackgroundColor:[UIColor clearColor]];
-    self.errorLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.errorLabel.numberOfLines = 0;
     self.errorLabel.textColor = [UIColor redColor];
     self.errorLabel.font = [UIFont fontWithName:kPasscodeHelperTextFontName size:kPasscodeHelperTextFontSize];
-    self.errorLabel.textAlignment = UITextAlignmentCenter;
+    self.errorLabel.textAlignment = NSTextAlignmentCenter;
     self.errorLabel.accessibilityLabel = @"Error";
     [self.view addSubview:self.errorLabel];
     
     // Instructions label
     self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.instructionsLabel setBackgroundColor:[UIColor clearColor]];
-    self.instructionsLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.instructionsLabel.numberOfLines = 0;
     self.instructionsLabel.textColor = [UIColor whiteColor];
     self.instructionsLabel.font = [UIFont fontWithName:kPasscodeHelperTextFontName size:kPasscodeHelperTextFontSize];
-    self.instructionsLabel.textAlignment = UITextAlignmentCenter;
+    self.instructionsLabel.textAlignment = NSTextAlignmentCenter;
     self.instructionsLabel.accessibilityLabel = @"Instructions";
     [self.view addSubview:self.instructionsLabel];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
-
+    
     // 'Forgot Passcode' button
     self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.forgotPasscodeButton setTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"] forState:UIControlStateNormal];
     self.forgotPasscodeButton.backgroundColor = [UIColor blackColor];
-    [self.forgotPasscodeButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+    [self.forgotPasscodeButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.forgotPasscodeButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
     self.forgotPasscodeButton.accessibilityLabel = @"Forgot Passcode?";
@@ -288,6 +288,11 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     [super viewDidLoad];
     NSLog(@"SFPasscodeViewController viewDidLoad");
+    
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
+    
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
