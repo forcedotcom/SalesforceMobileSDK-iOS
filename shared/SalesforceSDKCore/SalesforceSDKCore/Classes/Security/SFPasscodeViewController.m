@@ -289,9 +289,11 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [super viewDidLoad];
     NSLog(@"SFPasscodeViewController viewDidLoad");
     
+#if __IPHONE_OS_VERSION_MIN_REQUIRED > __IPHONE_6_1
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
+#endif
     
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
