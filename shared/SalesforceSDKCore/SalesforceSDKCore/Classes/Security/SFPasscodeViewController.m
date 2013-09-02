@@ -275,7 +275,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     // 'Forgot Passcode' button
     self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.forgotPasscodeButton setTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"] forState:UIControlStateNormal];
-    self.forgotPasscodeButton.backgroundColor = [UIColor blackColor];
+    self.forgotPasscodeButton.backgroundColor = [UIColor clearColor];
     [self.forgotPasscodeButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.forgotPasscodeButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
