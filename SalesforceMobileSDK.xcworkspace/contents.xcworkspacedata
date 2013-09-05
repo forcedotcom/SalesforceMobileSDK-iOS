@@ -37,6 +37,9 @@
       location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:shared/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
    </FileRef>
    <FileRef

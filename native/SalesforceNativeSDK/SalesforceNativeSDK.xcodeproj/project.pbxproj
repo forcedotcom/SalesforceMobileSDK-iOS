@@ -616,6 +616,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
@@ -637,6 +638,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
