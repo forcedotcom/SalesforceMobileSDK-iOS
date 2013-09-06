@@ -24,7 +24,7 @@
 
 #import "SFSessionRefresher.h"
 #import "SalesforceSDKConstants.h"
-#import "RKRequestDelegateWrapper.h"
+#import "SFRequestDelegateWrapper.h"
 #import "SFRestAPI.h"
 #import "SFAccountManager.h"
 
@@ -81,7 +81,7 @@
 
 #pragma mark - Public
 
-- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req {
+- (void)requestFailedUnauthorized:(SFRequestDelegateWrapper*)req {
     [_queuedRequests addObject:req];
     //check whether we're fetching new access token, kickoff if needed
     [self refreshAccessToken];
@@ -103,15 +103,15 @@
         //we now own the lock and can go crazy
         self.isRefreshing = YES;
         NSLog(@"Refreshing access token");
-
+        
         // let's refresh the token
         // but first, let's save the previous delegate
         self.previousOAuthDelegate = _accountMgr.oauthDelegate;
         _accountMgr.oauthDelegate = self;
         [_accountMgr.coordinator authenticate];
-    } 
+    }
     //else somebody else owns the lock and will unlock once refresh completes
-
+    
 }
 
 
@@ -167,7 +167,7 @@
     NSArray *allRequests = [_queuedRequests allObjects]; //no ordering preserved
     NSLog(@"replaying %d requests",[allRequests count]);
     
-    for (RKRequestDelegateWrapper *req in allRequests) {
+    for (SFRequestDelegateWrapper *req in allRequests) {
         @try {
             [req send];
         }
@@ -183,7 +183,7 @@
     NSArray *allRequests = [_queuedRequests allObjects]; //no ordering preserved
     NSLog(@"failing %d requests",[allRequests count]);
     
-    for (RKRequestDelegateWrapper *req in allRequests) {
+    for (SFRequestDelegateWrapper *req in allRequests) {
         @try {
             [req request:nil didFailLoadWithError:error];
         }

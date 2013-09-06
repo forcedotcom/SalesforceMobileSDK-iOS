@@ -24,9 +24,10 @@
 
 #import "SFRestAPI.h"
 
-@class RKRequestDelegateWrapper;
+@class SFRequestDelegateWrapper;
 @class SFSessionRefresher;
 @class SFAccountManager;
+@class SFNetworkEngine;
 
 
 /**
@@ -38,7 +39,6 @@
 @interface SFRestAPI ()
 {
     SFAccountManager *_accountMgr;
-    RKClient *_rkClient;
 }
 
 
@@ -47,8 +47,9 @@
  */
 @property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
 @property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
+@property (nonatomic, readonly, strong) SFNetworkEngine *networkEngine;
 
-- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
+- (void)removeActiveRequestObject:(SFRequestDelegateWrapper *)request;
 
 /**
  Force a request to timeout: for testing only!

@@ -24,7 +24,7 @@
 
 #import "SalesforceNativeSDKTests.h"
 
-#import "RKRequestDelegateWrapper.h"
+#import "SFRequestDelegateWrapper.h"
 #import "RKReachabilityObserver.h"
 #import "RestKit.h"
 #import "SFJsonUtils.h"

@@ -38,7 +38,7 @@
 		82C0C77616E07DEB0006B3C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C77516E07DEB0006B3C0 /* ViewController.m */; };
 		82C0C77916E07DEB0006B3C0 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77716E07DEB0006B3C0 /* ViewController_iPhone.xib */; };
 		82C0C77C16E07DEB0006B3C0 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77A16E07DEB0006B3C0 /* ViewController_iPad.xib */; };
-		82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */; };
+		82C0C79A16E080780006B3C0 /* SFRequestDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78C16E080780006B3C0 /* SFRequestDelegateWrapper.m */; };
 		82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */; };
 		82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */; };
 		82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79316E080780006B3C0 /* SFRestAPI.m */; };
@@ -110,8 +110,8 @@
 		82C0C77516E07DEB0006B3C0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		82C0C77816E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		82C0C77B16E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestDelegateWrapper.h; sourceTree = "<group>"; };
-		82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKRequestDelegateWrapper.m; sourceTree = "<group>"; };
+		82C0C78B16E080780006B3C0 /* SFRequestDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRequestDelegateWrapper.h; sourceTree = "<group>"; };
+		82C0C78C16E080780006B3C0 /* SFRequestDelegateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRequestDelegateWrapper.m; sourceTree = "<group>"; };
 		82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
 		82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Blocks.m"; sourceTree = "<group>"; };
 		82C0C78F16E080780006B3C0 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
@@ -312,8 +312,8 @@
 		82C0C78516E080780006B3C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */,
-				82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */,
+				82C0C78B16E080780006B3C0 /* SFRequestDelegateWrapper.h */,
+				82C0C78C16E080780006B3C0 /* SFRequestDelegateWrapper.m */,
 				82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */,
 				82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */,
 				82C0C78F16E080780006B3C0 /* SFRestAPI+Internal.h */,
@@ -474,7 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */,
+				82C0C79A16E080780006B3C0 /* SFRequestDelegateWrapper.m in Sources */,
 				82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */,
 				82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */,
 				82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */,
@@ -616,7 +616,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
-					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
@@ -638,7 +638,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
-					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);

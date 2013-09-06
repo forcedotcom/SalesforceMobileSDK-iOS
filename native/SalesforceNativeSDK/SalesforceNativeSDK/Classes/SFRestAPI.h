@@ -23,7 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFRestRequest.h"
+#import "SFNetworkOperation.h"
+#import "SFNetworkEngine.h"
 
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
@@ -38,7 +39,7 @@ extern NSInteger const kSFRestErrorCode;
 
 
 /*
- * Default API version (currently "v23.0")
+ * Default API version (currently "v28.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
@@ -49,7 +50,6 @@ extern NSString* const kSFRestDefaultAPIVersion;
 extern NSString * const kSFMobileSDKNativeDesignator;
 
 @class SFOAuthCoordinator;
-@class RKClient;
 
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
@@ -72,7 +72,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
  - by calling the appropriate `requestFor[...]` method
 
- - by building the `SFRestRequest` manually
+ - by building the `SFNetworkOperation` manually
  
  Note: If you opt to build an SFRestRequest manually, you should be aware that
  send:delegate: expects that if the request.path does not begin with the
@@ -140,8 +140,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
-@interface SFRestAPI : NSObject {
-    RKClient *_client;
+@interface SFRestAPI : NSObject<SFNetworkEngineDelegate> {
     NSString *_apiVersion;
 }
 
@@ -152,11 +151,6 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * property, as it's closely aligned with SFAccountManager already.
  */
 @property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-
-/**
- * Property exposing the RestKit `RKClient` instance associated with this object.
- */
-@property (strong, nonatomic, readonly) RKClient *rkClient;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
@@ -190,41 +184,41 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * label, and a link to each version's root.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_versions.htm
  */
-- (SFRestRequest *)requestForVersions;
+- (SFNetworkOperation *)requestForVersions;
 
 /**
- * Returns an `SFRestRequest` which lists available resources for the
+ * Returns an `SFNetworkOperation` which lists available resources for the
  * client's API version, including resource name and URI.
  * @see Rest API link: http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_discoveryresource.htm
  */
-- (SFRestRequest *)requestForResources;
+- (SFNetworkOperation *)requestForResources;
 
 /**
- * Returns an `SFRestRequest` which lists the available objects and their
+ * Returns an `SFNetworkOperation` which lists the available objects and their
  * metadata for your organization's data.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_describeGlobal.htm
  */
-- (SFRestRequest *)requestForDescribeGlobal;
+- (SFNetworkOperation *)requestForDescribeGlobal;
 
 /**
- * Returns an `SFRestRequest` which Describes the individual metadata for the
+ * Returns an `SFNetworkOperation` which Describes the individual metadata for the
  * specified object.
  * @param objectType object type; for example, "Account"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_basic_info.htm
  */
-- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType;
+- (SFNetworkOperation *)requestForMetadataWithObjectType:(NSString *)objectType;
 
 /**
- * Returns an `SFRestRequest` which completely describes the individual metadata
+ * Returns an `SFNetworkOperation` which completely describes the individual metadata
  * at all levels for the 
  * specified object.
  * @param objectType object type; for example, "Account"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_describe.htm
  */
-- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType;
+- (SFNetworkOperation *)requestForDescribeWithObjectType:(NSString *)objectType;
 
 /**
- * Returns an `SFRestRequest` which retrieves field values for a record of the given type.
+ * Returns an `SFNetworkOperation` which retrieves field values for a record of the given type.
  * @param objectType object type; for example, "Account"
  * @param objectId the record's object ID
  * @param fieldList comma-separated list of fields for which 
@@ -232,23 +226,23 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  *               Pass nil to retrieve all the fields.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
-- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
+- (SFNetworkOperation *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId 
                                           fieldList:(NSString *)fieldList;
 
 /**
- * Returns an `SFRestRequest` which creates a new record of the given type.
+ * Returns an `SFNetworkOperation` which creates a new record of the given type.
  * @param objectType object type; for example, "Account"
  * @param fields an NSDictionary containing initial field names and values for 
  *               the record, for example, {Name: "salesforce.com", TickerSymbol: 
  *               "CRM"}
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
-- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType 
+- (SFNetworkOperation *)requestForCreateWithObjectType:(NSString *)objectType 
                                            fields:(NSDictionary *)fields;
 
 /**
- * Returns an `SFRestRequest` which creates or updates record of the given type, based on the 
+ * Returns an `SFNetworkOperation` which creates or updates record of the given type, based on the 
  * given external ID.
  * @param objectType object type; for example, "Account"
  * @param externalIdField external ID field name; for example, "accountMaster__c"
@@ -258,13 +252,13 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  *               "CRM"}
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_upsert.htm
  */
-- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
+- (SFNetworkOperation *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields;
 
 /**
- * Returns an `SFRestRequest` which updates field values on a record of the given type.
+ * Returns an `SFNetworkOperation` which updates field values on a record of the given type.
  * @param objectType object type; for example, "Account"
  * @param objectId the record's object ID
  * @param fields an object containing initial field names and values for 
@@ -272,33 +266,33 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  *               "CRM"}
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
-- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
+- (SFNetworkOperation *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields;
 
 /**
- * Returns an `SFRestRequest` which deletes a record of the given type.
+ * Returns an `SFNetworkOperation` which deletes a record of the given type.
  * @param objectType object type; for example, "Account"
  * @param objectId the record's object ID
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
-- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType 
+- (SFNetworkOperation *)requestForDeleteWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId;
 
 /**
- * Returns an `SFRestRequest` which executes the specified SOQL query.
+ * Returns an `SFNetworkOperation` which executes the specified SOQL query.
  * @param soql a string containing the query to execute - for example, "SELECT Id, 
  *             Name from Account ORDER BY Name LIMIT 20"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_query.htm
  */
-- (SFRestRequest *)requestForQuery:(NSString *)soql;
+- (SFNetworkOperation *)requestForQuery:(NSString *)soql;
 
 /**
- * Returns an `SFRestRequest` which executes the specified SOSL search.
+ * Returns an `SFNetworkOperation` which executes the specified SOSL search.
  * @param sosl a string containing the search to execute - for example, "FIND {needle}"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search.htm
  */
-- (SFRestRequest *)requestForSearch:(NSString *)sosl;
+- (SFNetworkOperation *)requestForSearch:(NSString *)sosl;
 
 
 ///---------------------------------------------------------------------------------------

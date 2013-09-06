@@ -27,7 +27,7 @@
 #import "SFOAuthInfo.h"
 #import "SFRestAPI.h"
 
-@class RKRequestDelegateWrapper;
+@class SFRequestDelegateWrapper;
 
 @interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
     id<SFOAuthCoordinatorDelegate> __weak _previousOAuthDelegate;
@@ -45,6 +45,9 @@
  * this will kickoff a refresh of the access token if needed, and cause the
  * request to be replayed when a new valid access token is available.
  */
-- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req;
+- (void)requestFailedUnauthorized:(SFRequestDelegateWrapper*)req;
+
+- (void)refreshAccessToken;
+
 
 @end

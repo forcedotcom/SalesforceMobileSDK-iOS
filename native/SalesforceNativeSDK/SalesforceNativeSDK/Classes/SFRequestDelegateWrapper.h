@@ -28,7 +28,7 @@
 
 @class SFRestRequest;
 
-@interface RKRequestDelegateWrapper : NSObject<RKRequestDelegate> {
+@interface SFRequestDelegateWrapper : NSObject<RKRequestDelegate> {
     SFRestRequest *_request;
 }
 

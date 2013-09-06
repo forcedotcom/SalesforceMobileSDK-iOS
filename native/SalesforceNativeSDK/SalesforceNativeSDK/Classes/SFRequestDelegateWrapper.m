@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "RKRequestDelegateWrapper.h"
+#import "SFRequestDelegateWrapper.h"
 
 #import "RKResponse.h"
 #import "SFJsonUtils.h"
@@ -36,7 +36,7 @@
 #define KEY_ERROR_CODE @"errorCode"
 
 
-@interface RKRequestDelegateWrapper ()
+@interface SFRequestDelegateWrapper ()
 {
     SFAccountManager *_accountMgr;
 }
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation RKRequestDelegateWrapper
+@implementation SFRequestDelegateWrapper
 
 @synthesize request=_request;
 
@@ -63,7 +63,7 @@
 
 
 + (id)wrapperWithRequest:(SFRestRequest *)request {
-    return [[RKRequestDelegateWrapper alloc] initWithRestRequest:request];
+    return [[SFRequestDelegateWrapper alloc] initWithRestRequest:request];
 }
 
 
