@@ -24,11 +24,9 @@
 
 #import "SFRestAPI.h"
 
-@class SFRequestDelegateWrapper;
 @class SFSessionRefresher;
 @class SFAccountManager;
 @class SFNetworkEngine;
-
 
 /**
  We declare here a set of interfaces that are meant to be used by code running internally
@@ -41,24 +39,17 @@
     SFAccountManager *_accountMgr;
 }
 
-
 /**
- * Set of active RKRequestDelegateWrapper (requests) managed by us
+ * Session refresher property
  */
-@property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
 @property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
-@property (nonatomic, readonly, strong) SFNetworkEngine *networkEngine;
-
-- (void)removeActiveRequestObject:(SFRequestDelegateWrapper *)request;
 
 /**
- Force a request to timeout: for testing only!
- 
- @param request The request to force a timeout on, or nil to grab any active request and force it to timeout
- @return YES if we were able to find and timeout the request, NO if the request could not be found
+ Creates SFNetworkCoordinator from SFOAuthCoordinator
+ @param oAuthCoordinator
+ @return a SFNetworkCoordinator
  */
-- (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
-
+- (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator;
 
 @end
 

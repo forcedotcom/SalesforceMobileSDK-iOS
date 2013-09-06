@@ -66,7 +66,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  ## Sending requests
 
  Sending a request is done using `send:delegate:`.
- The class sending the request has to conform to the protocol `SFRestDelegate`.
+ The class sending the request has to conform to the protocol `SFNetworkOperationDelegate`.
  
  A request can be obtained in two different ways:
 
@@ -74,75 +74,70 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
  - by building the `SFNetworkOperation` manually
  
- Note: If you opt to build an SFRestRequest manually, you should be aware that
- send:delegate: expects that if the request.path does not begin with the
- request.endpoint prefix, it will add the request.endpoint prefix 
- (kSFDefaultRestEndpoint by default) to the request path.
- 
- You can also specify whether or not you want the request's response to be parsed.  By default,
- the response associated with the request will be parsed as JSON, and the structured JSON
- object will be returned.  By setting `request.parseResponse = NO`, the response data will be returned
- as a binary `NSData` object.  This can be useful for requests that return non-JSON data, such as
- binary data.
- 
- 
  For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
  information about the Account object.
 
     - (void)describeAccount {
-        SFRestRequest *request = [[SFRestAPI sharedInstance]
-                                  requestForDescribeWithObjectType:@"Account"];
+        SFNetworkOperation *request = [[SFRestAPI sharedInstance]
+                                      requestForDescribeWithObjectType:@"Account"];
         [[SFRestAPI sharedInstance] send:request delegate:self];
     }
  
-    #pragma mark - SFRestDelegate
+    #pragma mark - SFNetworkOperationDelegate
  
-    - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-        NSDictionary *dict = (NSDictionary *)dataResponse;
-        NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
-        // ...
-    }
  
-    - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-        // handle error
-    }
+ - (void)networkOperationDidFinish:(SFNetworkOperation *)operation {
+   NSDictionary *dict = (NSDictionary *) [operation responseAsJSON];
+   NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
+   // ...
+ }
  
-    - (void)requestDidCancelLoad:(SFRestRequest *)request {
-        // handle error
-    }
  
-    - (void)requestDidTimeout:(SFRestRequest *)request {
-        // handle error
-    }
+ - (void)networkOperation:(SFNetworkOperation *)operation didFailWithError:(NSError *)error {
+   // handle error
+ }
+
+ - (void)networkOperationDidCancel:(SFNetworkOperation *)operation {
+   // handle error
+ }
+ 
+ - (void)networkOperationDidTimeout:(SFNetworkOperation *)operation {
+   // handle error
+ }
+ 
  
  ## Error handling
  
- When sending a `SFRestRequest`, you may encounter one of these errors:
+ When sending a `SFNetworkOperation`, you may encounter one of these errors:
 
  - The request parameters could be invalid (for instance, passing `nil` to the `requestForQuery:`,
  or trying to update a non-existent object).
- In this case, `request:didFailLoadWithError:` is called on the `SFRestDelegate`.
+ In this case, `networkOperation:didFailWithError:` is called on the `SFNetworkOperationDelegate`.
  The error passed will have an error domain of `kSFRestErrorDomain`
  
  - The oauth access token (session ID) managed by SFAccountManager could have expired.
  In this case, the framework tries to acquire another access token and re-issue
- the `SFRestRequest`. This is all done transparently and the appropriate delegate method
- is called once the second `SFRestRequest` returns. 
+ the `SFNetworkOperation`. This is all done transparently and the appropriate delegate method
+ is called once the second `SFNetworkOperation` returns.
 
  - Requesting a new access token (session ID) could fail (if the access token has expired
  and the OAuth refresh token is invalid).
- In this case, `request:didFailLoadWithError:` will be called on the `SFRestDelegate`.
+ In this case, `networkOperation:didFailWithError:` will be called on the `SFNetworkOperationDelegate`.
  The error passed will have an error domain of `kSFOAuthErrorDomain`.
  Note that this is a very rare case.
 
  - The underlying HTTP request could fail (Salesforce server is innaccessible...)
- In this case, `request:didFailLoadWithError:` is called on the `SFRestDelegate`.
- The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
+ In this case, `networkOperation:didFailWithError:` is called on the `SFNetworkOperationDelegate`.
 
  */
 @interface SFRestAPI : NSObject<SFNetworkEngineDelegate> {
     NSString *_apiVersion;
 }
+
+/**
+ * The underlying SFNetworkEngine used to send requests to the server.
+ */
+@property (nonatomic, readonly, strong) SFNetworkEngine *networkEngine;
 
 /**
  * Gets or sets the value of the `SFOAuthCoordinator` instance associated with SFRestAPI requests.
@@ -168,18 +163,18 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
- * @param request the SFRestRequest to be sent
+ * @param request the SFNetworkOperation to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
  */
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
+- (void)send:(SFNetworkOperation *)request delegate:(id<SFNetworkOperationDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
-/// @name SFRestRequest factory methods
+/// @name SFNetworkOperation factory methods
 ///---------------------------------------------------------------------------------------
 
 /**
- * Returns an `SFRestRequest` which lists summary information about each
+ * Returns an `SFNetworkOperation` which lists summary information about each
  * Salesforce.com version currently available, including the version, 
  * label, and a link to each version's root.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_versions.htm
@@ -304,5 +299,5 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 + (NSString *)userAgentString;
 
-
 @end
+

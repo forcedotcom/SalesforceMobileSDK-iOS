@@ -24,10 +24,7 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SalesforceSDKConstants.h"
-#import "SFRequestDelegateWrapper.h"
-#import "SFJsonUtils.h"
 #import "SFOAuthCoordinator.h"
-#import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
@@ -89,7 +86,7 @@ static dispatch_once_t _sharedInstanceGuard;
 - (void)setCoordinator:(SFOAuthCoordinator *)coordinator
 {
     _accountMgr.coordinator = coordinator;
-    // TODO create SFNetworkCoordinator using information out of the SFOAuthCoordinator and psas it networkEngine
+    _networkEngine.coordinator = [self createNetworkCoordinator:coordinator];
 }
 
 /**
@@ -122,7 +119,17 @@ static dispatch_once_t _sharedInstanceGuard;
     return myUserAgent;
 }
 
-#pragma mark - SFNetworkEngineDelegate methods
+#pragma mark - SFNetworkEngine Delegate
+
+- (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
+    SFNetworkCoordinator *networkCoordinator = [[SFNetworkCoordinator alloc] init];
+    networkCoordinator.host = [oAuthCoordinator.credentials.instanceUrl host];
+    networkCoordinator.organizationId = oAuthCoordinator.credentials.organizationId;
+    networkCoordinator.userId = oAuthCoordinator.credentials.userId;
+    networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;
+    NSNumber *port = [oAuthCoordinator.credentials.instanceUrl port];
+    return networkCoordinator;
+}
 
 
 - (void)refreshSessionForNetworkEngine:(SFNetworkEngine *)networkEngine {
@@ -132,37 +139,10 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - send method
 
 
-- (void)send:(SFNetworkOperation *)request {
+- (void)send:(SFNetworkOperation *)request delegate:(id<SFNetworkOperationDelegate>)delegate {
+    [request setDelegate:delegate];
     [[self networkEngine] enqueueOperation:request];
 }
-
-/* 
-// OLD SEND
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    
-    if (nil != delegate) {
-        request.delegate = delegate;
-    }
-    
-    SFRequestDelegateWrapper *wrappedDelegate = [SFRequestDelegateWrapper wrapperWithRequest:request];
-    [self.activeRequests addObject:wrappedDelegate];
-    
-    // If there are no demonstrable auth credentials, login before sending.
-    if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
-        [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [wrappedDelegate send];
-        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
-            [[SFAuthenticationManager sharedManager] logout];
-        }];
-    } else {
-        // Auth credentials exist.  Just send the request.
-        [wrappedDelegate send];
-    }
-}
-
-*/
 
 #pragma mark - factory method for sobject rest apis
 

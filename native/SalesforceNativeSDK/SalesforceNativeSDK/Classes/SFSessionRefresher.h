@@ -27,11 +27,8 @@
 #import "SFOAuthInfo.h"
 #import "SFRestAPI.h"
 
-@class SFRequestDelegateWrapper;
-
 @interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
     id<SFOAuthCoordinatorDelegate> __weak _previousOAuthDelegate;
-    NSMutableSet *_queuedRequests;
     NSLock *_refreshLock;
     BOOL    _isRefreshing;
 }
@@ -39,13 +36,6 @@
 @property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
 
 @property (nonatomic, assign) BOOL isRefreshing;
-
-/**
- * Tell the session refresher that this request failed due to oauth failure--
- * this will kickoff a refresh of the access token if needed, and cause the
- * request to be replayed when a new valid access token is available.
- */
-- (void)requestFailedUnauthorized:(SFRequestDelegateWrapper*)req;
 
 - (void)refreshAccessToken;
 
