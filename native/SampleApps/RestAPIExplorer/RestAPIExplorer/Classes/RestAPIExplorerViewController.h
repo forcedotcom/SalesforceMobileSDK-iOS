@@ -26,7 +26,19 @@
 #import <UIKit/UIKit.h>
 #import "SFRestAPI.h"
 
-@interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+/**
+ * HTTP methods for requests
+ */
+typedef enum SFRestMethod {
+    SFRestMethodGET = 0,
+    SFRestMethodPOST,
+    SFRestMethodPUT,
+    SFRestMethodDELETE,
+    SFRestMethodHEAD,
+    SFRestMethodPATCH,
+} SFRestMethod;
+
+@interface RestAPIExplorerViewController : UIViewController <SFNetworkOperationDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {
     // action based query
     UIPopoverController *__popoverController;
