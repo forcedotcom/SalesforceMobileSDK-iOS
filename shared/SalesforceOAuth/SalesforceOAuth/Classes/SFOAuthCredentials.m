@@ -27,6 +27,7 @@
 #import "SFOAuthCrypto.h"
 #import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
+#import "SFCrypto.h"
 
 static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 
@@ -148,12 +149,12 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
-    return [self accessTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
+    return [self accessTokenWithKey:[self keyBaseAppIdForService:kSFOAuthServiceAccess]];
 }
 
 - (void)setAccessToken:(NSString *)token {
-    [self setAccessToken:token withKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
-    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
+    [self setAccessToken:token withKey:[self keyBaseAppIdForService:kSFOAuthServiceAccess]];
+    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeBaseAppId forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -206,12 +207,12 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 }
 
 - (NSString *)refreshToken {
-    return [self refreshTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
+    return [self refreshTokenWithKey:[self keyBaseAppIdForService:kSFOAuthServiceRefresh]];
 }
 
 - (void)setRefreshToken:(NSString *)token {
-    [self setRefreshToken:token withKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
-    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
+    [self setRefreshToken:token withKey:[self keyBaseAppIdForService:kSFOAuthServiceRefresh]];
+    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeBaseAppId forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -505,6 +506,12 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     return [self keyWithSeed:idForVendor service:service];
 }
 
+- (NSData *)keyBaseAppIdForService:(NSString *)service
+{
+    NSString *baseAppId = [SFCrypto baseAppIdentifier];
+    return [self keyWithSeed:baseAppId service:service];
+}
+
 - (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service
 {
     NSString *strSecret = [seed stringByAppendingString:service];
@@ -518,19 +525,42 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     
     if (!self.isEncrypted) return;
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
-    if (encType == kSFOAuthCredsEncryptionTypeIdForVendor) return;
+    if (encType == kSFOAuthCredsEncryptionTypeBaseAppId) return;
     
     // Try to convert the old tokens to the new format.
-    NSString *origAccessToken = [self accessTokenWithKey:[self keyMacForService:kSFOAuthServiceAccess]];
+    NSString *origAccessToken;
+    NSString *origRefreshToken;
+    switch (encType) {
+        case kSFOAuthCredsEncryptionTypeNotSet:
+        case kSFOAuthCredsEncryptionTypeMac:
+            NSLog(@"Token encryption based on MAC address.");
+            origAccessToken = [self accessTokenWithKey:[self keyMacForService:kSFOAuthServiceAccess]];
+            origRefreshToken = [self refreshTokenWithKey:[self keyMacForService:kSFOAuthServiceRefresh]];
+            break;
+        case kSFOAuthCredsEncryptionTypeIdForVendor:
+            NSLog(@"Token encryption based on identifier for vendor.");
+            origAccessToken = [self accessTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceAccess]];
+            origRefreshToken = [self refreshTokenWithKey:[self keyVendorIdForService:kSFOAuthServiceRefresh]];
+            break;
+        default:  // Some undefined enum value?
+            NSLog(@"Unknown token encryption.  Enum value '%d'", encType);
+            origAccessToken = nil;
+            origRefreshToken = nil;
+    }
+    
     if ([origAccessToken length] > 0) {
+        NSLog(@"SFOAuthCredentials: Old access token encryption format detected.  Updating encryption.");
         self.accessToken = origAccessToken;  // Default setter automatically uses updated encryption method.
     } else {
+        NSLog(@"SFOAuthCredentials: Could not decrypt access token with old encryption format.  Clearing the credentials.");
         self.accessToken = nil;
     }
-    NSString *origRefreshToken = [self refreshTokenWithKey:[self keyMacForService:kSFOAuthServiceRefresh]];
+    
     if ([origRefreshToken length] > 0) {
+        NSLog(@"SFOAuthCredentials: Old refresh token encryption format detected.  Updating encryption.");
         self.refreshToken = origRefreshToken;  // Default setter automatically uses updated encryption method.
     } else {
+        NSLog(@"SFOAuthCredentials: Could not decrypt refresh token with old encryption format.  Clearing the credentials.");
         self.refreshToken = nil;
     }
 }
