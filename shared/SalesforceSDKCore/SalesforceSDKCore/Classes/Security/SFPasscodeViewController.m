@@ -273,13 +273,14 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     self.view.autoresizesSubviews = YES;
     
     // 'Forgot Passcode' button
-    self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.forgotPasscodeButton setTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"] forState:UIControlStateNormal];
-    self.forgotPasscodeButton.backgroundColor = [UIColor blackColor];
+    self.forgotPasscodeButton.backgroundColor = [UIColor whiteColor];
     [self.forgotPasscodeButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.forgotPasscodeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.forgotPasscodeButton addTarget:self action:@selector(forgotPassAction) forControlEvents:UIControlEventTouchUpInside];
     self.forgotPasscodeButton.accessibilityLabel = @"Forgot Passcode?";
+    self.forgotPasscodeButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
     [self.forgotPasscodeButton setHidden:YES];
     [self.view addSubview:self.forgotPasscodeButton];
 }
@@ -290,7 +291,10 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     NSLog(@"SFPasscodeViewController viewDidLoad");
     
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+#ifdef __IPHONE_7_0
+        // Need the compile time preprocessor check as well, so building doesn't break on pre-iOS7 environments.
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
+#endif
     }
     
     [self layoutSubviews];
@@ -375,6 +379,8 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     CGFloat x = CGRectGetMidX(self.view.frame) - (self.forgotPasscodeButton.frame.size.width / 2.0);
     CGFloat y = CGRectGetMaxY(self.instructionsLabel.frame) + kControlPadding;
     self.forgotPasscodeButton.frame = CGRectMake(x, y, w, h);
+    self.forgotPasscodeButton.layer.cornerRadius = 10;
+    self.forgotPasscodeButton.clipsToBounds = YES;
 }
 
 - (void)layoutErrorLabel
