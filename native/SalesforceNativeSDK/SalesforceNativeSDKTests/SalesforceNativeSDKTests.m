@@ -24,9 +24,6 @@
 
 #import "SalesforceNativeSDKTests.h"
 
-#import "SFRequestDelegateWrapper.h"
-#import "RKReachabilityObserver.h"
-#import "RestKit.h"
 #import "SFJsonUtils.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
@@ -136,12 +133,13 @@
     _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
-    [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
+    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
     
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
 
 }
+
 
 // simple: just invoke requestForDescribeGlobal, force a timeout
 - (void)testGetDescribeGlobal_Timeout {
@@ -155,8 +153,7 @@
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
  
-    //this cleans up the singleton RKClient
-    [[[RKClient sharedClient] requestQueue] cancelAllRequests];
+    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
 
 }
 
@@ -679,7 +676,6 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 // These block functions are just a category on SFRestAPI, so we verify here
 // only that the proper blocks were called for each
 
-
 - (void)testBlockUpdate {
     _blocksUncompletedCount = 0;
     SFRestAPI *api = [SFRestAPI sharedInstance];
@@ -894,7 +890,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                                           completeBlock:successWithUnexpectedSuccessBlock];
     _blocksUncompletedCount  = 1;
 
-    [[[RKClient sharedClient] requestQueue] cancelAllRequests]; //blow them all away
+    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
     
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
     STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
@@ -924,8 +920,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
     STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
     
-    //this cleans up the singleton RKClient
-    [[[RKClient sharedClient] requestQueue] cancelAllRequests];
+    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
 }
 
 #pragma mark - SFRestAPI utility tests

@@ -86,6 +86,18 @@ static dispatch_once_t _sharedInstanceGuard;
     [self.activeRequests removeObject:request]; //this will typically release the request
 }
 
+- (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
+    BOOL found = NO;
+    SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
+    
+    if (nil != toCancel) {
+        found = YES;
+        [toCancel networkOperationDidTimeout:nil];
+    }
+    
+    return found;
+}
+
 #pragma mark - Properties
 
 - (SFOAuthCoordinator *)coordinator
