@@ -29,6 +29,7 @@
 #import "AppDelegate.h"
 #import "SFJsonUtils.h"
 #import "SFRestAPI.h"
+#import "SFRestRequest.h"
 #import "SFSecurityLockout.h"
 #import "SFAuthenticationManager.h"
 
@@ -36,11 +37,9 @@
 
 @property (nonatomic, strong) UIActionSheet *logoutActionSheet;
 
-- (NSString *)formatRequest:(SFNetworkOperation *)request;
+- (NSString *)formatRequest:(SFRestRequest *)request;
 - (void)hideKeyboard;
 - (void)clearPopovers:(NSNotification *)note;
-- (NSString*)methodAsString:(SFRestMethod)method;
-- (SFRestMethod)stringAsMethod:(NSString*)methodStr;
 
 @end
 
@@ -122,7 +121,7 @@
 
 #pragma mark - helper
 
-- (NSString *)formatRequest:(SFNetworkOperation *)request {
+- (NSString *)formatRequest:(SFRestRequest *)request {
     return [NSString stringWithFormat:@"%@\n\n\n", [[request description] stringByReplacingOccurrencesOfString:@"\n" withString:@"\n"]];
 }
 
@@ -163,9 +162,8 @@
                                  );
                                  
     SFRestMethod method = _segmentMethod.selectedSegmentIndex;
-    NSString *methodStr = [self methodAsString:method];
     NSString *path = self.tfPath.text;
-    SFNetworkOperation *request = [[SFNetworkEngine sharedInstance] operationWithUrl:path params:queryParams httpMethod:methodStr];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
@@ -192,7 +190,7 @@
 - (void)popoverOptionSelected:(NSString *)text {
     [self.popoverController dismissPopoverAnimated:YES];
 
-    SFNetworkOperation *request = nil;
+    SFRestRequest *request = nil;
 
     // collect all the textfield values
     NSString *objectType = self.tfObjectType.text;
@@ -311,8 +309,8 @@
     
     //don't attempt to send a nil request
     if (nil != request) {
-        self.tfPath.text = request.url;
-//FIXME        self.tvParams.text = [SFJsonUtils JSONRepresentation:request.params];
+        self.tfPath.text = request.path;
+        self.tvParams.text = [SFJsonUtils JSONRepresentation:request.queryParams];
         self.segmentMethod.selectedSegmentIndex = request.method;
 
         [[SFRestAPI sharedInstance] send:request delegate:self];    
@@ -332,34 +330,6 @@
     }
 }
 
-#pragma mark - method as string and vice versa
-
-
-- (NSString*)methodAsString:(SFRestMethod)method
-{
-    switch(method) {
-        case SFRestMethodGET: return SFNetworkOperationGetMethod;
-        case SFRestMethodPOST: return SFNetworkOperationPostMethod;
-        case SFRestMethodPUT: return SFNetworkOperationPutMethod;
-        case SFRestMethodDELETE: return SFNetworkOperationDeleteMethod;
-        case SFRestMethodHEAD: return SFNetworkOperationHeadMethod;
-        case SFRestMethodPATCH: return SFNetworkOperationPatchMethod;
-    }
-}
-
-- (SFRestMethod)stringAsMethod:(NSString*)methodStr
-{
-    /*
-    switch (methodStr) {
-        case SFNetworkOperationGetMethod: return SFRestMethodGET;
-        case SFNetworkOperationPostMethod: return SFRestMethodPOST;
-        case SFNetworkOperationPutMethod: return SFRestMethodPUT;
-        case SFNetworkOperationDeleteMethod: return SFRestMethodDELETE;
-        case SFNetworkOperationHeadMethod: return SFRestMethodHEAD;
-        case SFNetworkOperationPatchMethod: return SFRestMethodPATCH;
-    }
-     */
-}
 
 #pragma mark - UITextFieldDelegate
 
@@ -380,27 +350,27 @@
     }
 }
 
-#pragma mark - SFNetworkOperationDelegate
+#pragma mark - SFRestDelegate
 
-- (void)networkOperationDidFinish:(SFNetworkOperation *)request {
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
     _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text = [[request responseAsJSON] description];
+    _tfResult.text = [dataResponse description];
 }
 
-- (void)networkOperation:(SFNetworkOperation*)request didFailWithError:(NSError*)error {
+- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
     _tfResult.backgroundColor = [UIColor redColor];
     _tfResponseFor.text = [self formatRequest:request];
     _tfResult.text = [error description];
 }
 
-- (void)networkOperationDidCancel:(SFNetworkOperation *)request {
+- (void)requestDidCancelLoad:(SFRestRequest *)request {
     _tfResult.backgroundColor = [UIColor redColor];
     _tfResponseFor.text = [self formatRequest:request];
     _tfResult.text =  @"Request was cancelled";    
 }
 
-- (void)networkOperationDidTimeout:(SFNetworkOperation *)request {
+- (void)requestDidTimeout:(SFRestRequest *)request {
     _tfResult.backgroundColor = [UIColor redColor];
     _tfResponseFor.text = [self formatRequest:request];
     _tfResult.text =  @"Request timedout";        

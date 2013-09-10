@@ -56,6 +56,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _accountMgr = [SFAccountManager sharedInstance];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
+        [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
     }
     return self;
@@ -86,7 +87,7 @@ static dispatch_once_t _sharedInstanceGuard;
 - (void)setCoordinator:(SFOAuthCoordinator *)coordinator
 {
     _accountMgr.coordinator = coordinator;
-    _networkEngine.coordinator = [self createNetworkCoordinator:coordinator];
+    [self setupNetworkCoordinator];
 }
 
 /**
@@ -121,13 +122,19 @@ static dispatch_once_t _sharedInstanceGuard;
 
 #pragma mark - SFNetworkEngine Delegate
 
+- (void) setupNetworkCoordinator {
+    if (_accountMgr.coordinator != nil) {
+        _networkEngine.coordinator = [self createNetworkCoordinator:_accountMgr.coordinator];
+    }
+}
+
 - (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
     SFNetworkCoordinator *networkCoordinator = [[SFNetworkCoordinator alloc] init];
     networkCoordinator.host = [oAuthCoordinator.credentials.instanceUrl host];
     networkCoordinator.organizationId = oAuthCoordinator.credentials.organizationId;
     networkCoordinator.userId = oAuthCoordinator.credentials.userId;
     networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;
-    NSNumber *port = [oAuthCoordinator.credentials.instanceUrl port];
+    networkCoordinator.portNumber = [oAuthCoordinator.credentials.instanceUrl port];
     return networkCoordinator;
 }
 
@@ -139,85 +146,100 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - send method
 
 
-- (void)send:(SFNetworkOperation *)request delegate:(id<SFNetworkOperationDelegate>)delegate {
-    [request setDelegate:delegate];
-    [[self networkEngine] enqueueOperation:request];
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+    
+    if (nil != delegate) {
+        request.delegate = delegate;
+    }
+    
+    // If there are no demonstrable auth credentials, login before sending.
+    if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
+        [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            [request send:[self networkEngine]];
+        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
+            [[SFAuthenticationManager sharedManager] logout];
+        }];
+    } else {
+        // Auth credentials exist.  Just send the request.
+        [request send:[self networkEngine]];
+    }
 }
 
-#pragma mark - factory method for sobject rest apis
-
-- (SFNetworkOperation *)requestForVersions {
+- (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
-    return [[self networkEngine] get:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForResources {
+- (SFRestRequest *)requestForResources {
     NSString *path = [NSString stringWithFormat:@"/%@", self.apiVersion];
-    return [[self networkEngine] get:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForDescribeGlobal {
+- (SFRestRequest *)requestForDescribeGlobal {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects", self.apiVersion];
-    return [[self networkEngine] get:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForMetadataWithObjectType:(NSString *)objectType {
+- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
-    return [[self networkEngine] get:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForDescribeWithObjectType:(NSString *)objectType {
+- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/describe", self.apiVersion, objectType];
-    return [[self networkEngine] get:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForRetrieveWithObjectType:(NSString *)objectType
-                                           objectId:(NSString *)objectId 
+- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
+                                           objectId:(NSString *)objectId
                                           fieldList:(NSString *)fieldList {
     NSDictionary *queryParams = (fieldList ?
-                                 [NSDictionary dictionaryWithObjectsAndKeys:fieldList, @"fields", nil] 
+                                 [NSDictionary dictionaryWithObjectsAndKeys:fieldList, @"fields", nil]
                                  : nil);
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    return [[self networkEngine] get:path params:queryParams];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFNetworkOperation *)requestForCreateWithObjectType:(NSString *)objectType
+- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", self.apiVersion, objectType];
-    return [[self networkEngine] post:path params:fields];
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:fields];
 }
 
-- (SFNetworkOperation *)requestForUpdateWithObjectType:(NSString *)objectType
-                                         objectId:(NSString *)objectId 
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    return [[self networkEngine] patch:path params:fields];
+    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
 }
 
-- (SFNetworkOperation *)requestForUpsertWithObjectType:(NSString *)objectType
-                                  externalIdField:(NSString *)externalIdField 
-                                       externalId:(NSString *)externalId 
+- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
+                                  externalIdField:(NSString *)externalIdField
+                                       externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@", self.apiVersion, objectType, externalIdField, externalId];
-    return [[self networkEngine] patch:path params:fields];
+    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
 }
 
-- (SFNetworkOperation *)requestForDeleteWithObjectType:(NSString *)objectType
+- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
-    return [[self networkEngine] delete:path params:nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
 }
 
-- (SFNetworkOperation *)requestForQuery:(NSString *)soql {
+- (SFRestRequest *)requestForQuery:(NSString *)soql {
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
     NSString *path = [NSString stringWithFormat:@"/%@/query", self.apiVersion];
-    return [[self networkEngine] get:path params:queryParams];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFNetworkOperation *)requestForSearch:(NSString *)sosl {
+- (SFRestRequest *)requestForSearch:(NSString *)sosl {
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:sosl, @"q", nil];
     NSString *path = [NSString stringWithFormat:@"/%@/search", self.apiVersion];
-    return [[self networkEngine] get:path params:queryParams];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
+
 
 @end

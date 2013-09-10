@@ -44,6 +44,12 @@
  */
 @property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
 
+
+/**
+ * Setup network engine network coordinator
+ */
+- (void) setupNetworkCoordinator;
+
 /**
  Creates SFNetworkCoordinator from SFOAuthCoordinator
  @param oAuthCoordinator

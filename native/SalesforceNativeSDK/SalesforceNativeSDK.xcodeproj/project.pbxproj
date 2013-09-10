@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD8EE3817DE941500471205 /* SFRestRequest.h */; };
+		4FD8EE3B17DE9C4C00471205 /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD8EE3917DE941500471205 /* SFRestRequest.m */; };
 		8280EB9A16E1142200768DE8 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */; };
 		8280EB9C16E11BB600768DE8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8280EB9E16E11BF100768DE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
@@ -70,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4FD8EE3817DE941500471205 /* SFRestRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
+		4FD8EE3917DE941500471205 /* SFRestRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFRestRequest.m; sourceTree = "<group>"; };
 		8201678A16E17D7C002F4066 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		8280EB9816E1142200768DE8 /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestRequestListener.h; sourceTree = "<group>"; };
 		8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRestRequestListener.m; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 		82C0C78516E080780006B3C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4FD8EE3817DE941500471205 /* SFRestRequest.h */,
+				4FD8EE3917DE941500471205 /* SFRestRequest.m */,
 				82C0C78F16E080780006B3C0 /* SFRestAPI+Internal.h */,
 				82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */,
 				82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */,
@@ -320,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82BBB5621790850200374DD8 /* SFRestAPI+QueryBuilder.h in Headers */,
+				4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */,
 				82BBB5641790851900374DD8 /* SFRestAPI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +464,7 @@
 			files = (
 				82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */,
 				82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */,
+				4FD8EE3B17DE9C4C00471205 /* SFRestRequest.m in Sources */,
 				82C0C79F16E080780006B3C0 /* SFSessionRefresher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
