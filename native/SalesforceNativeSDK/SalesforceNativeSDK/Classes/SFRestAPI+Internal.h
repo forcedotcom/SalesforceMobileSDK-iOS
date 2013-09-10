@@ -40,10 +40,16 @@
 }
 
 /**
+ * Active requests property
+ */
+@property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
+
+/**
  * Session refresher property
  */
 @property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
 
+- (void)removeActiveRequestObject:(SFRestRequest *)request;
 
 /**
  * Setup network engine network coordinator

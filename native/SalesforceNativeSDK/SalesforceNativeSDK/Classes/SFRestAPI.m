@@ -44,6 +44,7 @@ static dispatch_once_t _sharedInstanceGuard;
 @implementation SFRestAPI
 
 @synthesize apiVersion=_apiVersion;
+@synthesize activeRequests=_activeRequests;
 @synthesize sessionRefresher = _sessionRefresher;
 
 #pragma mark - init/setup
@@ -51,8 +52,9 @@ static dispatch_once_t _sharedInstanceGuard;
 - (id)init {
     self = [super init];
     if (self) {
-        self.apiVersion = kSFRestDefaultAPIVersion;
+        _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         _sessionRefresher = [[SFSessionRefresher alloc] init];
+        self.apiVersion = kSFRestDefaultAPIVersion;
         _accountMgr = [SFAccountManager sharedInstance];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
@@ -64,6 +66,7 @@ static dispatch_once_t _sharedInstanceGuard;
 
 - (void)dealloc {
     SFRelease(_sessionRefresher);
+    SFRelease(_activeRequests);
 }
 
 #pragma mark - singleton
@@ -75,6 +78,12 @@ static dispatch_once_t _sharedInstanceGuard;
                       _instance = [[SFRestAPI alloc] init];
                   });
     return _instance;
+}
+
+#pragma mark - Internal
+
+- (void)removeActiveRequestObject:(SFRestRequest *)request {
+    [self.activeRequests removeObject:request]; //this will typically release the request
 }
 
 #pragma mark - Properties
@@ -151,6 +160,8 @@ static dispatch_once_t _sharedInstanceGuard;
     if (nil != delegate) {
         request.delegate = delegate;
     }
+    
+    [self.activeRequests addObject:request];
     
     // If there are no demonstrable auth credentials, login before sending.
     if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {

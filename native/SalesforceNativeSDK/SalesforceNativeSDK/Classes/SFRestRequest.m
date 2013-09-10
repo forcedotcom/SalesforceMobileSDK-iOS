@@ -23,10 +23,18 @@
  */
 
 #import "SFRestRequest.h"
+#import "SFRestAPI+Internal.h"
 #import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
+
+@interface SFRestRequest () {
+
+    SFNetworkOperation *_networkOperation;
+}
+
+@end
 
 
 @implementation SFRestRequest
@@ -54,6 +62,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     _delegate = nil;
     SFRelease(_queryParams);
     SFRelease(_endpoint);
+    SFRelease(_networkOperation);
 }
 
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -85,18 +94,23 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 # pragma mark - send
 
 - (void) send:(SFNetworkEngine*) networkEngine {
-    SFNetworkOperation* networkOperation;
-    switch(_method) {
-        case SFRestMethodGET: networkOperation = [networkEngine get:_path params:_queryParams]; break;
-        case SFRestMethodPOST: networkOperation = [networkEngine post:_path params:_queryParams]; break;
-        case SFRestMethodPUT: networkOperation = [networkEngine put:_path params:_queryParams]; break;
-        case SFRestMethodDELETE:networkOperation = [networkEngine delete:_path params:_queryParams]; break;
-        case SFRestMethodHEAD: /*networkOperation = [networkEngine head:_path params:_queryParams];*/ break;
-        case SFRestMethodPATCH: networkOperation = [networkEngine patch:_path params:_queryParams]; break;
+    NSString *url = [NSString stringWithString:_path];
+    NSString *reqEndpoint = _endpoint;
+    if (![url hasPrefix:reqEndpoint]) {
+        url = [NSString stringWithFormat:@"%@%@", reqEndpoint, url];
     }
     
-    [networkOperation setDelegate:self];
-    [networkEngine enqueueOperation:networkOperation];
+    switch(_method) {
+        case SFRestMethodGET: _networkOperation = [networkEngine get:url params:_queryParams]; break;
+        case SFRestMethodPOST: _networkOperation = [networkEngine post:url params:_queryParams]; break;
+        case SFRestMethodPUT: _networkOperation = [networkEngine put:url params:_queryParams]; break;
+        case SFRestMethodDELETE: _networkOperation = [networkEngine delete:url params:_queryParams]; break;
+        case SFRestMethodHEAD: /*_networkOperation = [networkEngine head:url params:_queryParams];*/ break;
+        case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
+    }
+    
+    _networkOperation.delegate = self;
+    [networkEngine enqueueOperation:_networkOperation];
 }
 
 #pragma mark - SFNetworkOperationDelegate
@@ -104,26 +118,38 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
     if (nil != _delegate) {
         id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
-        [_delegate request:self didLoadResponse:dataResponse];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate request:self didLoadResponse:dataResponse];
+        });
     }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperation:(SFNetworkOperation*)networkOperation didFailWithError:(NSError*)error {
     if (nil != _delegate) {
-        [_delegate request:self didFailLoadWithError:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate request:self didFailLoadWithError:error];
+        });
     }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperationDidCancel:(SFNetworkOperation *)networkOperation {
     if (nil != _delegate) {
-        [_delegate requestDidCancelLoad:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate requestDidCancelLoad:self];
+        });
     }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperationDidTimeout:(SFNetworkOperation *)networkOperation {
     if (nil != _delegate) {
-        [_delegate requestDidTimeout:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate requestDidTimeout:self];
+        });
     }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 
