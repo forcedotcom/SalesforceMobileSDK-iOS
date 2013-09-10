@@ -38,6 +38,7 @@
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
+#import "SFCrypto.h"
 
 static NSMutableDictionary *_allSharedStores;
 
@@ -496,7 +497,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     // Update the default encryption type too.
     if (usesDefault)
-        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:storeName];
+        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:storeName];
     else
         [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeNone forStore:storeName];
 }
@@ -528,10 +529,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (void)updateDefaultEncryption
 {
+    [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Updating default encryption for all stores, where necessary."];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
+    [SFLogger log:[self class] level:SFLogLevelInfo format:@"Number of stores to update: %d", [allStoreNames count]];
     for (NSString *storeName in allStoreNames) {
         if (![self updateDefaultEncryptionForStore:storeName]) {
-            [SFLogger log:[SFSmartStore class] level:SFLogLevelError format:@"Could not update default encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
+            [SFLogger log:[self class] level:SFLogLevelError format:@"Could not update default encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
             [self removeSharedStoreWithName:storeName];
         }
     }
@@ -540,23 +543,42 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 + (BOOL)updateDefaultEncryptionForStore:(NSString *)storeName
 {
     if (![self persistentStoreExists:storeName]) {
+        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
         return YES;
     }
     if (![self usesDefaultKey:storeName]) {
+        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' does not use default encryption.  Skipping.", storeName];
         return YES;
     }
     
     SFSmartStoreDefaultEncryptionType encType = [self defaultEncryptionTypeForStore:storeName];
-    if (encType == SFSmartStoreDefaultEncryptionTypeIdForVendor) {
+    if (encType == SFSmartStoreDefaultEncryptionTypeBaseAppId) {
+        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' already uses the preferred default encryption.  Skipping.", storeName];
         return YES;  // This is our prefered default encryption.
     }
     
     // Otherwise, update the default encryption.
-    NSString *origKey = [self defaultKeyMac];
+    
+    NSString *origKey;
+    switch (encType) {
+        case SFSmartStoreDefaultEncryptionTypeNone:
+        case SFSmartStoreDefaultEncryptionTypeMac:
+            [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' uses MAC encryption.", storeName];
+            origKey = [self defaultKeyMac];
+            break;
+        case SFSmartStoreDefaultEncryptionTypeIdForVendor:
+            [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' uses vendor identifier encryption.", storeName];
+            origKey = [self defaultKeyIdForVendor];
+            break;
+        default:
+            [SFLogger log:[self class] level:SFLogLevelError format:@"Unknown encryption type '%d'.  Cannot convert store '%@'.", encType, storeName];
+            return NO;
+    }
+    
     NSError *openDbError = nil;
     FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:origKey error:&openDbError];
     if (!db) {
-        [SFLogger log:[SFSmartStore class] level:SFLogLevelError format:@"In updateDefaultEncryptionForStore: Error opening store '%@': %@", storeName, [openDbError localizedDescription]];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error opening store '%@': %@", storeName, [openDbError localizedDescription]];
         return NO;
     }
     
@@ -565,18 +587,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSError *verifyDbError = nil;
     BOOL dbAccessible = [[SFSmartStoreDatabaseManager sharedManager] verifyDatabaseAccess:dbPath key:origKey error:&verifyDbError];
     if (!dbAccessible) {
-        [SFLogger log:[SFSmartStore class] level:SFLogLevelError format:@"There was an error verifying the database contents for store '%@': %@", storeName, [verifyDbError localizedDescription]];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error verifying the database contents for store '%@': %@", storeName, [verifyDbError localizedDescription]];
         [db close];
         return NO;
     }
     
-    [SFLogger log:[SFSmartStore class] level:SFLogLevelInfo format:@"Updating default encryption for store '%@'.", storeName];
-    NSString *newDefaultKey = [self defaultKeyIdForVendor];
+    [SFLogger log:[self class] level:SFLogLevelInfo format:@"Updating default encryption for store '%@'.", storeName];
+    NSString *newDefaultKey = [self defaultKeyBaseAppId];
     BOOL rekeyResult = [db rekey:newDefaultKey];
     if (!rekeyResult) {
-        [SFLogger log:[SFSmartStore class] level:SFLogLevelError format:@"There was an error updating the default encryption for the '%@' store.", storeName];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error updating the default encryption for store '%@'.", storeName];
     } else {
-        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:storeName];
+        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:storeName];
     }
     
     [db close];
@@ -591,7 +613,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (NSString *)defaultKey
 {
-    return [self defaultKeyIdForVendor];
+    return [self defaultKeyBaseAppId];
 }
 
 + (NSString *)defaultKeyIdForVendor
@@ -604,6 +626,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSString *macAddress = [[UIDevice currentDevice] macaddress];
     return [self defaultKeyWithSeed:macAddress];
+}
+
++ (NSString *)defaultKeyBaseAppId
+{
+    NSString *baseAppId = [SFCrypto baseAppIdentifier];
+    return [self defaultKeyWithSeed:baseAppId];
 }
 
 + (NSString *)defaultKeyWithSeed:(NSString *)seed

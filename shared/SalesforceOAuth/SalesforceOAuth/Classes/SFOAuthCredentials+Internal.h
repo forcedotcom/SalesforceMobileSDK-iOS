@@ -27,7 +27,8 @@
 typedef enum {
     kSFOAuthCredsEncryptionTypeNotSet,
     kSFOAuthCredsEncryptionTypeMac,
-    kSFOAuthCredsEncryptionTypeIdForVendor
+    kSFOAuthCredsEncryptionTypeIdForVendor,
+    kSFOAuthCredsEncryptionTypeBaseAppId
 } SFOAuthCredsEncryptionType;
 
 extern NSString * const kSFOAuthEncryptionTypeKey;
@@ -41,6 +42,7 @@ extern NSString * const kSFOAuthServiceActivation;
 - (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
 - (NSData *)keyMacForService:(NSString *)service;
 - (NSData *)keyVendorIdForService:(NSString *)service;
+- (NSData *)keyBaseAppIdForService:(NSString*)service;
 - (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
 - (NSString *)refreshTokenWithKey:(NSData *)key;
 - (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
