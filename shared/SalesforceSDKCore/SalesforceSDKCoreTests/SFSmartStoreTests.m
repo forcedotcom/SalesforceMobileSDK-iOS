@@ -63,6 +63,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) setUp
 {
     [super setUp];
+    [SFLogger setLogLevel:SFLogLevelDebug];
     _store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
 }
 
@@ -499,25 +500,43 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testDefaultEncryptionUpdate
 {
     // Verify that the default encryption is idForVendor, for a new store.
-    FMDatabase *defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    FMDatabase *defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
     BOOL canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
     
     //
-    // Reset to the old default encryption, verify that it's updated successfully.
+    // Reset to the MAC address encryption, verify that it's updated successfully.
     //
     
     BOOL rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyMac]];
-    STAssertTrue(rekeyResult, @"Re-encryption should have been successful.");
+    STAssertTrue(rekeyResult, @"Re-encryption to MAC address should have been successful.");
     [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
     [defaultKeyDb close];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
-    STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption.");
+    STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption to MAC address.");
     [defaultKeyDb close];
     
     [SFSmartStore updateDefaultEncryption];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertTrue(canReadDb, @"Should be able to read default-encrypted database again.");
+    
+    //
+    // Reset to the vendorId encryption, verify that it's updated successfully.
+    //
+    
+    rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyIdForVendor]];
+    STAssertTrue(rekeyResult, @"Re-encryption to idForVendor should have been successful.");
+    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:kTestSmartStoreName];
+    [defaultKeyDb close];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    canReadDb = [self canReadDatabase:defaultKeyDb];
+    STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption to idForVendor.");
+    [defaultKeyDb close];
+    
+    [SFSmartStore updateDefaultEncryption];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database again.");
     [defaultKeyDb close];
@@ -527,7 +546,7 @@ NSString * const kTestSoupName   = @"testSoup";
     //
     
     NSString *badDefaultSeed = @"2F:00:00:00:00:00";
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyIdForVendor] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
     rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyWithSeed:badDefaultSeed]];
