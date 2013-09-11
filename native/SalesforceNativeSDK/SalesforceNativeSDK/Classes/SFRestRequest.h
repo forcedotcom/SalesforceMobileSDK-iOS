@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class RKRequest;
 
 /**
  * HTTP methods for requests
@@ -137,6 +138,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 @property (nonatomic, assign) BOOL parseResponse;
 
+/**
+ * The associated RKRequest object which is to be created when sending the 
+ * request using SFRestApi
+ */
+@property (nonatomic, strong) RKRequest* rkRequest;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
@@ -148,5 +155,10 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
+
+/**
+ * Cancels this request if it is running
+ */
+- (void) cancel;
 
 @end
