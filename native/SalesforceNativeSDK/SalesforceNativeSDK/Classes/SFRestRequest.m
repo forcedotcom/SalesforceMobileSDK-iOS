@@ -105,7 +105,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         case SFRestMethodPOST: _networkOperation = [networkEngine post:url params:_queryParams]; break;
         case SFRestMethodPUT: _networkOperation = [networkEngine put:url params:_queryParams]; break;
         case SFRestMethodDELETE: _networkOperation = [networkEngine delete:url params:_queryParams]; break;
-        case SFRestMethodHEAD: /*_networkOperation = [networkEngine head:url params:_queryParams];*/ break;
+        case SFRestMethodHEAD: _networkOperation = [networkEngine head:url params:_queryParams]; break;
         case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
     }
     
