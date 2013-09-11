@@ -25,6 +25,7 @@
 #import "SFRestRequest.h"
 #import "SalesforceSDKConstants.h"
 #import "SFJsonUtils.h"
+#import "RKRequest.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
@@ -81,4 +82,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             "queryParams: %@ \n"
             ">",self, _endpoint, methodName, _path, paramStr];
 }
+
+- (void) cancel
+{
+    [self.rkRequest cancel];
+    self.rkRequest.delegate = nil; // this is needed see manual of [RKRequest cancel]
+}
+
 @end

@@ -92,16 +92,16 @@
     [rkClient setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
     
     if (_request.method == SFRestMethodGET) {
-        [rkClient get:url queryParameters:_request.queryParams delegate:self];
+        self.request.rkRequest = [rkClient get:url queryParameters:_request.queryParams delegate:self];
     }
     else if (_request.method == SFRestMethodDELETE) {
-        [rkClient delete:url delegate:self];
+        self.request.rkRequest = [rkClient delete:url delegate:self];
     }
     else if (_request.method == SFRestMethodPUT) {
-        [rkClient put:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
+        self.request.rkRequest = [rkClient put:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
     else if (_request.method == SFRestMethodPOST) {
-        [rkClient post:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
+        self.request.rkRequest = [rkClient post:url params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
     else if (_request.method == SFRestMethodPATCH) {
         // PATCH is not fully supported yet so using POST instead
@@ -109,7 +109,7 @@
                                ? @"?"
                                : @"&");
         NSString *newUrl = [NSString stringWithFormat:@"%@%@_HttpMethod=PATCH", url, delimiter];
-        [rkClient post:newUrl params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
+        self.request.rkRequest = [rkClient post:newUrl params:[[self class] formatParamsAsJson:_request.queryParams] delegate:self];
     }
 
     //Note: requests are now retained by the SFRestAPI in the activeRequests list
