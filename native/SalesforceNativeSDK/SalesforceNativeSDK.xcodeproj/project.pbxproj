@@ -44,7 +44,6 @@
 		82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79316E080780006B3C0 /* SFRestAPI.m */; };
 		82C0C79F16E080780006B3C0 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79716E080780006B3C0 /* SFSessionRefresher.m */; };
 		82C0C7A216E080F40006B3C0 /* SalesforceNativeSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C7A116E080F40006B3C0 /* SalesforceNativeSDKTests.m */; };
-		82C0C7A816E086330006B3C0 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7A616E085FA0006B3C0 /* libRestKit.a */; };
 		82C0C7AA16E086B40006B3C0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7A916E086B40006B3C0 /* CFNetwork.framework */; };
 		82C0C7AC16E087030006B3C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AB16E087030006B3C0 /* CoreData.framework */; };
 		82C0C7AE16E087690006B3C0 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */; };
@@ -122,7 +121,6 @@
 		82C0C79716E080780006B3C0 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		82C0C7A016E080F40006B3C0 /* SalesforceNativeSDKTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceNativeSDKTests.h; sourceTree = "<group>"; };
 		82C0C7A116E080F40006B3C0 /* SalesforceNativeSDKTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceNativeSDKTests.m; sourceTree = "<group>"; };
-		82C0C7A616E085FA0006B3C0 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRestKit.a; path = ../../external/ThirdPartyDependencies/RestKit/libRestKit.a; sourceTree = "<group>"; };
 		82C0C7A916E086B40006B3C0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		82C0C7AB16E087030006B3C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +163,6 @@
 				82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */,
 				82C0C74316E076DE0006B3C0 /* UIKit.framework in Frameworks */,
 				82C0C74416E076DF0006B3C0 /* Foundation.framework in Frameworks */,
-				82C0C7A816E086330006B3C0 /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +214,6 @@
 				8280EBA716E1315B00768DE8 /* libsqlcipher.a */,
 				8280EBA516E1315800768DE8 /* libssl.a */,
 				8280EBA316E1315200768DE8 /* libcrypto.a */,
-				82C0C7A616E085FA0006B3C0 /* libRestKit.a */,
 				82C0C7B016E088D80006B3C0 /* libSalesforceCommonUtils.a */,
 				82C0C7B616E089AB0006B3C0 /* libSalesforceOAuth.a */,
 				82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */,
@@ -609,10 +605,9 @@
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
 				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
@@ -631,10 +626,9 @@
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
 				INSTALL_PATH = /;
 				OTHER_LDFLAGS = "-ObjC";
@@ -659,7 +653,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -670,7 +663,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -689,7 +682,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
-					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -700,7 +692,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -718,7 +710,7 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"/**",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -741,7 +733,7 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"/**",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
