@@ -37,6 +37,7 @@
 @interface SFRestAPI ()
 {
     SFAccountManager *_accountMgr;
+    SFNetworkEngine *_networkEngine;
 }
 
 /**

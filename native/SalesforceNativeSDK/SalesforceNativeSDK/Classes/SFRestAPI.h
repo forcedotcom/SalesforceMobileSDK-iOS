@@ -110,7 +110,10 @@ extern NSString * const kSFMobileSDKNativeDesignator;
     - (void)requestDidCancelLoad:(SFRestRequest *)request {
         // handle error
     }
- 
+
+    - (void)requestDidTimeout:(SFRestRequest *)request {
+        // handle error
+    }
  
  ## Error handling
  
@@ -140,11 +143,6 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 @interface SFRestAPI : NSObject<SFNetworkEngineDelegate> {
     NSString *_apiVersion;
 }
-
-/**
- * The underlying SFNetworkEngine used to send requests to the server.
- */
-@property (nonatomic, readonly, strong) SFNetworkEngine *networkEngine;
 
 /**
  * Gets or sets the value of the `SFOAuthCoordinator` instance associated with SFRestAPI requests.

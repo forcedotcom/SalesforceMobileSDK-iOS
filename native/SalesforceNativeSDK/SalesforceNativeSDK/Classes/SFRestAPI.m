@@ -29,7 +29,6 @@
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
-#import "SFNetworkEngine.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v28.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
@@ -179,14 +178,14 @@ static dispatch_once_t _sharedInstanceGuard;
     if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [request send:[self networkEngine]];
+            [request send:_networkEngine];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
         // Auth credentials exist.  Just send the request.
-        [request send:[self networkEngine]];
+        [request send:_networkEngine];
     }
 }
 
