@@ -45,6 +45,9 @@
    <FileRef
       location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+   </FileRef>
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
