@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */; };
+		4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */; };
 		4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
@@ -54,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libMKNetworkKit-iOS.a"; path = "../../../external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
+		4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../shared/SalesforceNetworkSDK/build/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		824A9DD51724E16400C9BD79 /* NativeSqlAggregator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeSqlAggregator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -113,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */,
 				CE006E6C176BD2AB00411A4C /* libSalesforceNativeSDK.a in Frameworks */,
 				CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */,
@@ -123,6 +128,7 @@
 				CE006E62176BD23B00411A4C /* libssl.a in Frameworks */,
 				824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9FEA1725099600C9BD79 /* libz.dylib in Frameworks */,
+				4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */,
 				824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */,
 				824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */,
 				824A9FEC17250ADA00C9BD79 /* CFNetwork.framework in Frameworks */,
@@ -159,6 +165,8 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */,
+				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
 				4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */,
 				CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */,
 				CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */,
