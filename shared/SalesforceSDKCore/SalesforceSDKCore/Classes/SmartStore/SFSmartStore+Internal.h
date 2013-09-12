@@ -34,7 +34,8 @@
 typedef enum {
     SFSmartStoreDefaultEncryptionTypeNone,
     SFSmartStoreDefaultEncryptionTypeMac,
-    SFSmartStoreDefaultEncryptionTypeIdForVendor
+    SFSmartStoreDefaultEncryptionTypeIdForVendor,
+    SFSmartStoreDefaultEncryptionTypeBaseAppId
 } SFSmartStoreDefaultEncryptionType;
 
 @interface SFSmartStore ()
@@ -185,6 +186,11 @@ typedef enum {
  @return The default key, based on the idForVendor value.
  */
 + (NSString *)defaultKeyIdForVendor;
+
+/**
+ @return The default key, based on the base app id.
+ */
++ (NSString *)defaultKeyBaseAppId;
 
 /**
  Creates a default key with the given seed.

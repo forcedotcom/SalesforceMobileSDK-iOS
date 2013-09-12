@@ -24,7 +24,6 @@
 
 #import "SFSessionRefresher.h"
 #import "SalesforceSDKConstants.h"
-#import "RKRequestDelegateWrapper.h"
 #import "SFRestAPI.h"
 #import "SFAccountManager.h"
 
@@ -33,24 +32,14 @@
     SFAccountManager *_accountMgr;
 }
 
-- (void)refreshAccessToken;
-
 /**
  * Ensure that the original OAuth coordinator delegate, if any, is restored.
  */
 - (void)restoreOAuthDelegate;
 
 /**
- * Retry all the queued requests that previously self-reported as unauthorized
+ * Do the necessary cleanup following refresh
  */
-- (void)replayQueuedRequests;
-
-/**
- * Fail all queued requests with the error provided.
- */
-- (void)failQueuedRequestsWithError:(NSError *)error;
-
-
 - (void)cleanupAfterRefresh;
 
 @end
@@ -66,7 +55,6 @@
     if (nil != self) {
         _refreshLock = [[NSLock alloc] init];
         self.isRefreshing = NO;
-        _queuedRequests = [[NSMutableSet alloc] initWithCapacity:5];
         _accountMgr = [SFAccountManager sharedInstance];
     }
     
@@ -76,26 +64,9 @@
 - (void)dealloc {
     [self restoreOAuthDelegate];
     SFRelease(_refreshLock);
-    SFRelease(_queuedRequests);
 }
 
 #pragma mark - Public
-
-- (void)requestFailedUnauthorized:(RKRequestDelegateWrapper*)req {
-    [_queuedRequests addObject:req];
-    //check whether we're fetching new access token, kickoff if needed
-    [self refreshAccessToken];
-}
-
-
-#pragma mark - Private
-
-- (void)restoreOAuthDelegate {
-    if (nil != self.previousOAuthDelegate) {
-        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
-        self.previousOAuthDelegate = nil;
-    }
-}
 
 - (void)refreshAccessToken {
     
@@ -103,15 +74,15 @@
         //we now own the lock and can go crazy
         self.isRefreshing = YES;
         NSLog(@"Refreshing access token");
-
+        
         // let's refresh the token
         // but first, let's save the previous delegate
         self.previousOAuthDelegate = _accountMgr.oauthDelegate;
         _accountMgr.oauthDelegate = self;
         [_accountMgr.coordinator authenticate];
-    } 
+    }
     //else somebody else owns the lock and will unlock once refresh completes
-
+    
 }
 
 
@@ -125,8 +96,9 @@
     //since we don't expect to be able to handle this condition!
     [self restoreOAuthDelegate];
     [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
-    [self failQueuedRequestsWithError:newError];
+    // NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
+    [[SFNetworkEngine sharedInstance] cancelAllOperations];
+    // [self failQueuedRequestsWithError:newError];
     
     // we are creating a temp view here since the oauth library verifies that the view
     // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
@@ -140,7 +112,8 @@
     
     // The token exchange worked.
     [self restoreOAuthDelegate];
-    [self replayQueuedRequests];
+    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
+    [self cleanupAfterRefresh];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
@@ -150,48 +123,23 @@
     // oauth error
     [self restoreOAuthDelegate];
     [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-    [self failQueuedRequestsWithError:newError];
+    // NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
+    [[SFNetworkEngine sharedInstance] cancelAllOperations];
+    // [self failQueuedRequestsWithError:newError];
 }
 
 #pragma mark - Completion
 
+- (void)restoreOAuthDelegate {
+    if (nil != self.previousOAuthDelegate) {
+        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
+        self.previousOAuthDelegate = nil;
+    }
+}
+
 - (void)cleanupAfterRefresh {
-    [_queuedRequests removeAllObjects];
     self.isRefreshing = NO;
     [_refreshLock unlock];
 }
 
-- (void)replayQueuedRequests {
-    //replay all the queued requests
-    NSArray *allRequests = [_queuedRequests allObjects]; //no ordering preserved
-    NSLog(@"replaying %d requests",[allRequests count]);
-    
-    for (RKRequestDelegateWrapper *req in allRequests) {
-        @try {
-            [req send];
-        }
-        @catch (NSException *ex) {
-            NSLog(@"unable to replay request: %@ ex: %@",req,ex);
-        }
-    }
-    
-    [self cleanupAfterRefresh];
-}
-
-- (void)failQueuedRequestsWithError:(NSError *)error {
-    NSArray *allRequests = [_queuedRequests allObjects]; //no ordering preserved
-    NSLog(@"failing %d requests",[allRequests count]);
-    
-    for (RKRequestDelegateWrapper *req in allRequests) {
-        @try {
-            [req request:nil didFailLoadWithError:error];
-        }
-        @catch (NSException *ex) {
-            NSLog(@"unable to fail request: %@ ex: %@",req,ex);
-        }
-    }
-    
-    [self cleanupAfterRefresh];
-}
 @end

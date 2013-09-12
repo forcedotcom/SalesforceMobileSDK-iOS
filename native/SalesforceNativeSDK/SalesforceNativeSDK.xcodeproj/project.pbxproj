@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4FC0D99317DFE51F0031AE7D /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC0D99217DFE5130031AE7D /* SFRestAPI+Blocks.m */; };
+		4FC0D99417DFE5240031AE7D /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD8EE3817DE941500471205 /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FD8EE3B17DE9C4C00471205 /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD8EE3917DE941500471205 /* SFRestRequest.m */; };
 		8280EB9A16E1142200768DE8 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */; };
 		8280EB9C16E11BB600768DE8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8280EB9E16E11BF100768DE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
@@ -17,9 +21,7 @@
 		8280EBA816E1315B00768DE8 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA716E1315B00768DE8 /* libsqlcipher.a */; };
 		8280EBAA16E1318200768DE8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA916E1318200768DE8 /* libxml2.dylib */; };
 		8280EBAC16E1425D00768DE8 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
-		82BBB561179084F400374DD8 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB5621790850200374DD8 /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5631790851000374DD8 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79416E080780006B3C0 /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB5641790851900374DD8 /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C79216E080780006B3C0 /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74016E076DE0006B3C0 /* SenTestingKit.framework */; };
@@ -38,14 +40,10 @@
 		82C0C77616E07DEB0006B3C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C77516E07DEB0006B3C0 /* ViewController.m */; };
 		82C0C77916E07DEB0006B3C0 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77716E07DEB0006B3C0 /* ViewController_iPhone.xib */; };
 		82C0C77C16E07DEB0006B3C0 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C0C77A16E07DEB0006B3C0 /* ViewController_iPad.xib */; };
-		82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */; };
-		82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */; };
 		82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */; };
 		82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79316E080780006B3C0 /* SFRestAPI.m */; };
-		82C0C79E16E080780006B3C0 /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79516E080780006B3C0 /* SFRestRequest.m */; };
 		82C0C79F16E080780006B3C0 /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C79716E080780006B3C0 /* SFSessionRefresher.m */; };
 		82C0C7A216E080F40006B3C0 /* SalesforceNativeSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C7A116E080F40006B3C0 /* SalesforceNativeSDKTests.m */; };
-		82C0C7A816E086330006B3C0 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7A616E085FA0006B3C0 /* libRestKit.a */; };
 		82C0C7AA16E086B40006B3C0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7A916E086B40006B3C0 /* CFNetwork.framework */; };
 		82C0C7AC16E087030006B3C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AB16E087030006B3C0 /* CoreData.framework */; };
 		82C0C7AE16E087690006B3C0 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */; };
@@ -75,6 +73,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
+		4FC0D99217DFE5130031AE7D /* SFRestAPI+Blocks.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Blocks.m"; sourceTree = "<group>"; };
+		4FD8EE3817DE941500471205 /* SFRestRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
+		4FD8EE3917DE941500471205 /* SFRestRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFRestRequest.m; sourceTree = "<group>"; };
 		8201678A16E17D7C002F4066 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		8280EB9816E1142200768DE8 /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestRequestListener.h; sourceTree = "<group>"; };
 		8280EB9916E1142200768DE8 /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRestRequestListener.m; sourceTree = "<group>"; };
@@ -110,22 +112,15 @@
 		82C0C77516E07DEB0006B3C0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		82C0C77816E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		82C0C77B16E07DEB0006B3C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRequestDelegateWrapper.h; sourceTree = "<group>"; };
-		82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKRequestDelegateWrapper.m; sourceTree = "<group>"; };
-		82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
-		82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Blocks.m"; sourceTree = "<group>"; };
 		82C0C78F16E080780006B3C0 /* SFRestAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Internal.h"; sourceTree = "<group>"; };
 		82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+QueryBuilder.m"; sourceTree = "<group>"; };
 		82C0C79216E080780006B3C0 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
 		82C0C79316E080780006B3C0 /* SFRestAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRestAPI.m; sourceTree = "<group>"; };
-		82C0C79416E080780006B3C0 /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
-		82C0C79516E080780006B3C0 /* SFRestRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRestRequest.m; sourceTree = "<group>"; };
 		82C0C79616E080780006B3C0 /* SFSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSessionRefresher.h; sourceTree = "<group>"; };
 		82C0C79716E080780006B3C0 /* SFSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSessionRefresher.m; sourceTree = "<group>"; };
 		82C0C7A016E080F40006B3C0 /* SalesforceNativeSDKTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceNativeSDKTests.h; sourceTree = "<group>"; };
 		82C0C7A116E080F40006B3C0 /* SalesforceNativeSDKTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceNativeSDKTests.m; sourceTree = "<group>"; };
-		82C0C7A616E085FA0006B3C0 /* libRestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRestKit.a; path = ../../external/ThirdPartyDependencies/RestKit/libRestKit.a; sourceTree = "<group>"; };
 		82C0C7A916E086B40006B3C0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		82C0C7AB16E087030006B3C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,7 +163,6 @@
 				82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */,
 				82C0C74316E076DE0006B3C0 /* UIKit.framework in Frameworks */,
 				82C0C74416E076DF0006B3C0 /* Foundation.framework in Frameworks */,
-				82C0C7A816E086330006B3C0 /* libRestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +214,6 @@
 				8280EBA716E1315B00768DE8 /* libsqlcipher.a */,
 				8280EBA516E1315800768DE8 /* libssl.a */,
 				8280EBA316E1315200768DE8 /* libcrypto.a */,
-				82C0C7A616E085FA0006B3C0 /* libRestKit.a */,
 				82C0C7B016E088D80006B3C0 /* libSalesforceCommonUtils.a */,
 				82C0C7B616E089AB0006B3C0 /* libSalesforceOAuth.a */,
 				82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */,
@@ -312,17 +305,15 @@
 		82C0C78516E080780006B3C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				82C0C78B16E080780006B3C0 /* RKRequestDelegateWrapper.h */,
-				82C0C78C16E080780006B3C0 /* RKRequestDelegateWrapper.m */,
-				82C0C78D16E080780006B3C0 /* SFRestAPI+Blocks.h */,
-				82C0C78E16E080780006B3C0 /* SFRestAPI+Blocks.m */,
+				4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */,
+				4FC0D99217DFE5130031AE7D /* SFRestAPI+Blocks.m */,
+				4FD8EE3817DE941500471205 /* SFRestRequest.h */,
+				4FD8EE3917DE941500471205 /* SFRestRequest.m */,
 				82C0C78F16E080780006B3C0 /* SFRestAPI+Internal.h */,
 				82C0C79016E080780006B3C0 /* SFRestAPI+QueryBuilder.h */,
 				82C0C79116E080780006B3C0 /* SFRestAPI+QueryBuilder.m */,
 				82C0C79216E080780006B3C0 /* SFRestAPI.h */,
 				82C0C79316E080780006B3C0 /* SFRestAPI.m */,
-				82C0C79416E080780006B3C0 /* SFRestRequest.h */,
-				82C0C79516E080780006B3C0 /* SFRestRequest.m */,
 				82C0C79616E080780006B3C0 /* SFSessionRefresher.h */,
 				82C0C79716E080780006B3C0 /* SFSessionRefresher.m */,
 			);
@@ -336,9 +327,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82BBB561179084F400374DD8 /* SFRestAPI+Blocks.h in Headers */,
 				82BBB5621790850200374DD8 /* SFRestAPI+QueryBuilder.h in Headers */,
-				82BBB5631790851000374DD8 /* SFRestRequest.h in Headers */,
+				4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */,
+				4FC0D99417DFE5240031AE7D /* SFRestAPI+Blocks.h in Headers */,
 				82BBB5641790851900374DD8 /* SFRestAPI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,11 +465,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82C0C79A16E080780006B3C0 /* RKRequestDelegateWrapper.m in Sources */,
-				82C0C79B16E080780006B3C0 /* SFRestAPI+Blocks.m in Sources */,
+				4FC0D99317DFE51F0031AE7D /* SFRestAPI+Blocks.m in Sources */,
 				82C0C79C16E080780006B3C0 /* SFRestAPI+QueryBuilder.m in Sources */,
 				82C0C79D16E080780006B3C0 /* SFRestAPI.m in Sources */,
-				82C0C79E16E080780006B3C0 /* SFRestRequest.m in Sources */,
+				4FD8EE3B17DE9C4C00471205 /* SFRestRequest.m in Sources */,
 				82C0C79F16E080780006B3C0 /* SFSessionRefresher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,9 +605,8 @@
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
-					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
 				INSTALL_PATH = /;
@@ -637,9 +626,8 @@
 				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit",
-					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/Classes/**",
 					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
+					"$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
 				);
 				INSTALL_PATH = /;
@@ -664,7 +652,6 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKTests/SalesforceNativeSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -675,7 +662,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -693,7 +680,6 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKTests/SalesforceNativeSDKTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -704,7 +690,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/RestKit/include/RestKit $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -722,7 +708,7 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"/**",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -745,7 +731,7 @@
 				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceNativeSDKUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/RestKit\"",
+					"\"$(SRCROOT)/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK\"/**",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

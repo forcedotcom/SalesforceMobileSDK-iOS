@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFNetworkEngine.h"
+#import "SFNetworkOperation.h"
 
 
 /**
@@ -91,7 +93,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject {
+@interface SFRestRequest : NSObject<SFNetworkOperationDelegate> {
     NSString *_endpoint;
     SFRestMethod _method;
     NSString *_path;
@@ -136,6 +138,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * set to `NO`, response data will be returned as binary data in an `NSData` object.
  */
 @property (nonatomic, assign) BOOL parseResponse;
+
+/**
+ * Send request using specified network engine
+ * @param networkEngine
+ */
+- (void) send:(SFNetworkEngine*) networkEngine;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
