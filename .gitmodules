@@ -13,3 +13,6 @@
 [submodule "shared/SalesforceNetworkSDK"]
 	path = shared/SalesforceNetworkSDK
 	url = https://github.com/wmathurin/SalesforceNetworkSDK.git
+[submodule "external/MKNetworkKit"]
+	path = external/MKNetworkKit
+	url = https://github.com/wmathurin/MKNetworkKit.git
