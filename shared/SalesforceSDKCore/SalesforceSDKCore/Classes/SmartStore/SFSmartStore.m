@@ -1145,7 +1145,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec];
-    NSUInteger result;
+    NSUInteger result = 0;
 
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];

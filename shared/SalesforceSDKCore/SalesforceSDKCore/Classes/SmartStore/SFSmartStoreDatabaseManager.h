@@ -78,15 +78,17 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  Creates the directory for the store, on the filesystem.
  @param storeName The name of the store to be created.
  @param error Returned if the creation process fails.
+ @return YES if the call completed with no errors, NO otherwise.
  */
-- (void)createStoreDir:(NSString *)storeName error:(NSError **)error;
+- (BOOL)createStoreDir:(NSString *)storeName error:(NSError **)error;
 
 /**
  Sets filesystem protection on the store DB contents.
  @param storeName The store associated with the protection.
  @param error Returned if protection fails.
+ @return YES if the call completes without errors, NO otherwise.
  */
-- (void)protectStoreDir:(NSString *)storeName error:(NSError **)error;
+- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error;
 
 /**
  Removes the store directory and all of its contents from the filesystem.
