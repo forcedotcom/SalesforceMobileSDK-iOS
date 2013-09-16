@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F43B85217E7BB5400271A0E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F43B85117E7BB5400271A0E /* ImageIO.framework */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
 		824A9DDD1724E16400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */; };
@@ -33,7 +34,6 @@
 		824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F321725079000C9BD79 /* libcrypto.a */; };
 		824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F331725079000C9BD79 /* libssl.a */; };
 		824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9F341725079000C9BD79 /* openssl_license.txt */; };
-		824A9FE01725079100C9BD79 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F8E1725079100C9BD79 /* libRestKit.a */; };
 		824A9FE51725079100C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FDB1725079100C9BD79 /* libsqlcipher.a */; };
 		824A9FE61725079100C9BD79 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 824A9FDC1725079100C9BD79 /* LICENSE */; };
 		824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FE71725098F00C9BD79 /* libxml2.dylib */; };
@@ -52,7 +52,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__NativeTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F43B85117E7BB5400271A0E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -253,7 +254,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */,
-				824A9FE01725079100C9BD79 /* libRestKit.a in Frameworks */,
 				8273F18A1778F39F005E31A6 /* libSalesforceCommonUtils.a in Frameworks */,
 				82BBB59F1793941D00374DD8 /* libSalesforceNativeSDK.a in Frameworks */,
 				82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */,
@@ -262,6 +262,7 @@
 				824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */,
 				824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9FEA1725099600C9BD79 /* libz.dylib in Frameworks */,
+				4F43B85217E7BB5400271A0E /* ImageIO.framework in Frameworks */,
 				824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */,
 				824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */,
 				824A9FEC17250ADA00C9BD79 /* CFNetwork.framework in Frameworks */,
@@ -298,6 +299,7 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F43B85117E7BB5400271A0E /* ImageIO.framework */,
 				824A9FE71725098F00C9BD79 /* libxml2.dylib */,
 				824A9FE91725099600C9BD79 /* libz.dylib */,
 				824A9FEB17250ADA00C9BD79 /* CFNetwork.framework */,
@@ -323,7 +325,7 @@
 				824A9E421724EF9800C9BD79 /* Resources */,
 				824A9DDF1724E16400C9BD79 /* Supporting Files */,
 			);
-			path = "__NativeTemplateAppName__";
+			path = __NativeTemplateAppName__;
 			sourceTree = "<group>";
 		};
 		824A9DDF1724E16400C9BD79 /* Supporting Files */ = {
@@ -700,8 +702,8 @@
 			);
 			dependencies = (
 			);
-			name = "__NativeTemplateAppName__";
-			productName = "__NativeTemplateAppName__";
+			name = __NativeTemplateAppName__;
+			productName = __NativeTemplateAppName__;
 			productReference = 824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -712,7 +714,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = "__OrganizationName__";
+				ORGANIZATIONNAME = __OrganizationName__;
 			};
 			buildConfigurationList = 824A9DD01724E16400C9BD79 /* Build configuration list for PBXProject "__NativeTemplateAppName__" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -853,11 +855,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/RestKit\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
 				);
 				OTHER_LDFLAGS = (
@@ -879,11 +882,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/RestKit\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
 				);
 				OTHER_LDFLAGS = (

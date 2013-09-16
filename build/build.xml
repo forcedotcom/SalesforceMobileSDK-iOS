@@ -22,9 +22,6 @@
         <property name="nativeTemplateDependenciesDir" location="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
         
         <!-- Copy in the third party dependencies -->
-        <copy todir="${nativeTemplateDependenciesDir}/RestKit">
-            <fileset dir="${thirdPartyLibDir}/RestKit" />
-        </copy>
         <copy todir="${nativeTemplateDependenciesDir}/SalesforceCommonUtils">
             <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
         </copy>
@@ -54,6 +51,18 @@
             <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
         </exec>
         
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceNetworkSDK-Debug.zip" />
+        </exec>
+
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/MKNetworkKit-iOS-Debug.zip" />
+        </exec>
+
         <!-- SDK resources -->
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
             <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
@@ -76,7 +85,7 @@
         <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="nativeAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceNativeSDK" />
+    <target name="nativeAppTemplateLibs" depends="appTemplateFoundationLibs,nativeNetworkingLibs,buildSalesforceNativeSDK" />
     
     <target name="hybridAppTemplate" depends="hybridAppTemplateLibs,hybridAppTemplateShell" description="Creates the hybrid app template">
         <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
@@ -158,6 +167,8 @@
     <target name="hybridAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceHybridSDK,buildCordova" />
     
     <target name="appTemplateFoundationLibs" depends="buildSalesforceSDKCore,buildSalesforceOAuth" />
+
+    <target name="nativeNetworkingLibs" depends="buildSalesforceNetworkSDK,buildMKNetworkKit" />
     
     <target name="buildCordova" description="Builds the Cordova library.">
         <antcall target="buildLib">
@@ -201,6 +212,24 @@
             <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
+        </antcall>
+    </target>
+
+    <target name="buildSalesforceNetworkSDK" description="Builds the Salesforce Network SDK library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceNetworkSDK" />
+            <param name="libName" value="libSalesforceNetworkSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
+            <param name="schemeName" value="SalesforceNetworkSDK" />
+        </antcall>
+    </target>
+
+    <target name="buildMKNetworkKit" description="Builds the MKNetworkKit library.">
+        <antcall target="buildLib">
+            <param name="projectName" value="MKNetworkKit-iOS" />
+            <param name="libName" value="libMKNetworkKit-iOS.a" />
+            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
+            <param name="schemeName" value="MKNetworkKit-iOS" />
         </antcall>
     </target>
     
