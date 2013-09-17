@@ -121,7 +121,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 #pragma mark - SFNetworkOperationDelegate
 
 - (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
-    if (nil != _delegate) {
+    if ([_delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
         id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate request:self didLoadResponse:dataResponse];
@@ -131,7 +131,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)networkOperation:(SFNetworkOperation*)networkOperation didFailWithError:(NSError*)error {
-    if (nil != _delegate) {
+    if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate request:self didFailLoadWithError:error];
         });
@@ -140,7 +140,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)networkOperationDidCancel:(SFNetworkOperation *)networkOperation {
-    if (nil != _delegate) {
+    if ([_delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate requestDidCancelLoad:self];
         });
@@ -149,7 +149,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (void)networkOperationDidTimeout:(SFNetworkOperation *)networkOperation {
-    if (nil != _delegate) {
+    if ([_delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate requestDidTimeout:self];
         });
