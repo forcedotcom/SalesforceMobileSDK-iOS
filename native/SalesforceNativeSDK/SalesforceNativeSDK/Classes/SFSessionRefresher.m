@@ -96,9 +96,8 @@
     //since we don't expect to be able to handle this condition!
     [self restoreOAuthDelegate];
     [coordinator stopAuthentication];
-    // NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
-    [[SFNetworkEngine sharedInstance] cancelAllOperations];
-    // [self failQueuedRequestsWithError:newError];
+    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
+    [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
     
     // we are creating a temp view here since the oauth library verifies that the view
     // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
@@ -123,9 +122,8 @@
     // oauth error
     [self restoreOAuthDelegate];
     [coordinator stopAuthentication];
-    // NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-    [[SFNetworkEngine sharedInstance] cancelAllOperations];
-    // [self failQueuedRequestsWithError:newError];
+    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
+    [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
 }
 
 #pragma mark - Completion
