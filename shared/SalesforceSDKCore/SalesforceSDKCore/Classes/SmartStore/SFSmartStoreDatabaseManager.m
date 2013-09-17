@@ -120,7 +120,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         return db;
     } else {
         NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
-        *error = [db lastError];
+        if (error != nil)
+            *error = [db lastError];
         return nil;
     }
 }
@@ -276,21 +277,23 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 #pragma mark - Utilities
 
-- (void)createStoreDir:(NSString *)storeName error:(NSError **)error
+- (BOOL)createStoreDir:(NSString *)storeName error:(NSError **)error
 {
     NSString *storeDir = [self storeDirectoryForStoreName:storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
         // This store has not yet been created; create it.
-        [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:error];
+        return [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:error];
+    } else {
+        return YES;
     }
 }
 
-- (void)protectStoreDir:(NSString *)storeName error:(NSError **)error
+- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error
 {
     // Setup the database file with filesystem encryption.
     NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
     NSDictionary *attr = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
-    [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:error];
+    return [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:error];
 }
 
 - (void)removeStoreDir:(NSString *)storeName

@@ -35,6 +35,7 @@
 @property (nonatomic, copy) NSString *approvalCode;
 @property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
 @property (nonatomic, strong) NSThread *refreshTimerThread;
+@property (nonatomic, strong) UIWebView *view;
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;

@@ -91,7 +91,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             ">",self, _endpoint, methodName, _path, paramStr];
 }
 
-# pragma mark - send
+# pragma mark - send and cancel
 
 - (void) send:(SFNetworkEngine*) networkEngine {
     NSString *url = [NSString stringWithString:_path];
@@ -111,6 +111,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     
     _networkOperation.delegate = self;
     [networkEngine enqueueOperation:_networkOperation];
+}
+
+- (void) cancel
+{
+    [_networkOperation cancel];
 }
 
 #pragma mark - SFNetworkOperationDelegate
