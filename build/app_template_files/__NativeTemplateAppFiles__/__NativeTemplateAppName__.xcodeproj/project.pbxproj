@@ -733,7 +733,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
@@ -760,7 +760,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
