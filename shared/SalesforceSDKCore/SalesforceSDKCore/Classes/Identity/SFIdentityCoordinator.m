@@ -24,10 +24,9 @@
 
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityCoordinator+Internal.h"
-#import "SFOAuthCredentials.h"
+#import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFIdentityData.h"
 #import "SFJsonUtils.h"
-#import "SalesforceSDKConstants.h"
 
 // Public constants
 

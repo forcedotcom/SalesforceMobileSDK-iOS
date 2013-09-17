@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
-#import "SFSDKTestRequestListener.h"
+#import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 
 @interface SFNativeRestRequestListener : SFSDKTestRequestListener <SFRestDelegate>
 

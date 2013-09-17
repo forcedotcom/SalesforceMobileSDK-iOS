@@ -26,7 +26,7 @@
 
 #import "SFPasscodeViewController.h"
 #import "SFSecurityLockout.h"
-#import "SFInactivityTimerCenter.h"
+#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 #import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFSDKResourceUtils.h"

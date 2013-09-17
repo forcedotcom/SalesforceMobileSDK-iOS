@@ -23,10 +23,10 @@
  */
 
 #import "SFSessionRefresher.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import "RKRequestDelegateWrapper.h"
 #import "SFRestAPI.h"
-#import "SFAccountManager.h"
+#import <SalesforceSDKCore/SFAccountManager.h>
 
 @interface SFSessionRefresher ()
 {

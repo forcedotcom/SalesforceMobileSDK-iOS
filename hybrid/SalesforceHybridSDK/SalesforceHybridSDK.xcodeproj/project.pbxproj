@@ -30,9 +30,6 @@
 		4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
 		4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
 		4FBFFAED177A70DA00D1E36E /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAEC177A70DA00D1E36E /* SmartSyncTestSuite.m */; };
-		4FBFFAEF177A713500D1E36E /* SFSmartSyncTestSuite.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
-		4FBFFAF2177A715300D1E36E /* forcetk.mobilesdk.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
-		4FBFFAF3177A715300D1E36E /* smartsync.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
 		4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
@@ -821,9 +818,6 @@
 				82EFF30C16E8049500A63CDF /* main.m in Sources */,
 				82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */,
 				82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */,
-				4FBFFAEF177A713500D1E36E /* SFSmartSyncTestSuite.js in Sources */,
-				4FBFFAF2177A715300D1E36E /* forcetk.mobilesdk.js in Sources */,
-				4FBFFAF3177A715300D1E36E /* smartsync.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,7 +892,17 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -921,7 +925,17 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -933,18 +947,10 @@
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
-					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
-					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
-				);
 				INSTALL_PATH = /;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = NO;
-				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -954,18 +960,10 @@
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
-					"$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils",
-					"$(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**",
-				);
 				INSTALL_PATH = /;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = NO;
-				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -976,19 +974,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HybridPluginTestApp/HybridPluginTestApp-Prefix.pch";
 				INFOPLIST_FILE = "HybridPluginTestApp/HybridPluginTestApp-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1000,12 +991,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HybridPluginTestApp/HybridPluginTestApp-Prefix.pch";
 				INFOPLIST_FILE = "HybridPluginTestApp/HybridPluginTestApp-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1013,7 +998,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1031,7 +1015,6 @@
 				INFOPLIST_FILE = "HybridPluginTestAppTests/HybridPluginTestAppTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -1049,7 +1032,6 @@
 				INFOPLIST_FILE = "HybridPluginTestAppTests/HybridPluginTestAppTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils/** $(PROJECT_DIR)/../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;

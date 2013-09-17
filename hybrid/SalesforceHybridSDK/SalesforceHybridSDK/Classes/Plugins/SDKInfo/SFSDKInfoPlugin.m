@@ -26,7 +26,6 @@
 #import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "CDVInvokedUrlCommand.h"
-#import "SalesforceSDKConstants.h"
 
 // Keys in sdk info map
 NSString * const kSDKVersionKey = @"sdkVersion";

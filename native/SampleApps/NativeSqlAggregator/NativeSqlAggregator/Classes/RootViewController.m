@@ -24,8 +24,8 @@
 
 #import "RootViewController.h"
 
-#import "SFRestAPI.h"
-#import "SFRestRequest.h"
+#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceNativeSDK/SFRestRequest.h>
 #import "SmartStoreInterface.h"
 #import "ResultViewController.h"
 

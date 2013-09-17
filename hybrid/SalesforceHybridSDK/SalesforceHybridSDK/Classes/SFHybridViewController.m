@@ -24,13 +24,12 @@
  */
 
 #import "SFHybridViewController.h"
-#import "SalesforceSDKConstants.h"
-#import "NSURL+SFStringUtils.h"
-#import "NSURL+SFAdditions.h"
-#import "SFAccountManager.h"
-#import "SFAuthenticationManager.h"
-#import "SFSDKWebUtils.h"
-#import "SFSDKResourceUtils.h"
+#import <SalesforceSDKCore/NSURL+SFStringUtils.h>
+#import <SalesforceCommonUtils/NSURL+SFAdditions.h>
+#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFSDKWebUtils.h>
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import "CDVConnection.h"
 
 // Public constants
