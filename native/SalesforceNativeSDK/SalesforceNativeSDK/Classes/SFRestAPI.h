@@ -165,6 +165,15 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 + (SFRestAPI *)sharedInstance;
 
+/**
+ * Clean up due to host change or logout
+ */
+- (void)cleanup;
+
+/** 
+ * Cancel all requests that are waiting to be excecuted
+ */
+- (void)cancelAllRequests;
 
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.

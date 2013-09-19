@@ -12,7 +12,7 @@
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
 [submodule "shared/SalesforceNetworkSDK"]
 	path = shared/SalesforceNetworkSDK
-	url = https://github.com/forcedotcom/SalesforceNetworkSDK.git
+	url = https://github.com/wmathurin/SalesforceNetworkSDK.git
 [submodule "external/MKNetworkKit"]
 	path = external/MKNetworkKit
 	url = https://github.com/forcedotcom/MKNetworkKit.git

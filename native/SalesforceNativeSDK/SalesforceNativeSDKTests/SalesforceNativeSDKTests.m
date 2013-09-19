@@ -1,4 +1,4 @@
-/*
+ /*
  Copyright (c) 2012, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -41,6 +41,7 @@
 }
 - (NSString *)sendSyncRequest:(SFRestRequest *)request;
 - (BOOL)waitForAllBlockCompletions;
+- (void)changeOauthTokens:(NSString*)accessToken refreshToken:(NSString*)refreshToken;
 @end
 
 
@@ -52,11 +53,13 @@
     _requestListener = nil;
     [TestSetupUtils populateAuthCredentialsFromConfigFile];
     _accountMgr = [SFAccountManager sharedInstance];
+    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
     [super setUp];
 }
 
 - (void)tearDown
 {
+    [[SFRestAPI sharedInstance] cleanup];
     // Tear-down code here.    
     [super tearDown];
 }
@@ -75,10 +78,13 @@
     return _requestListener.returnStatus;
 }
 
-
+- (void)changeOauthTokens:(NSString *)accessToken refreshToken:(NSString *)refreshToken {
+    _accountMgr.coordinator.credentials.accessToken = accessToken;
+    if (nil != refreshToken) _accountMgr.coordinator.credentials.refreshToken = refreshToken;
+    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
+}
 
 #pragma mark - tests
-
 // simple: just invoke requestForVersions
 - (void)testGetVersions {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
@@ -133,8 +139,7 @@
     _requestListener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     [[SFRestAPI sharedInstance] send:request delegate:nil];
 
-    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
-    
+    [[SFRestAPI sharedInstance] cancelAllRequests];
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
 
@@ -152,10 +157,7 @@
     
     [_requestListener waitForCompletion];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
- 
-    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
-
-}
+ }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
 - (void)testGetMetadataWithObjectType {
@@ -369,7 +371,7 @@
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
     NSDictionary *errDict = _requestListener.lastError.userInfo;
-    NSString *restErrCode = [errDict objectForKey:@"errorCode"];
+    NSString *restErrCode = [errDict objectForKey:NSLocalizedFailureReasonErrorKey];
     STAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
 
 }
@@ -379,8 +381,8 @@
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
-    STAssertEqualObjects(_requestListener.lastError.domain, kSFRestErrorDomain, @"invalid domain");
-    STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
+    STAssertEqualObjects(_requestListener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    STAssertEquals(_requestListener.lastError.code, 400, @"invalid code");
 }
 
 // issue invalid retrieve and test for errors
@@ -388,16 +390,16 @@
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEqualObjects(_requestListener.lastError.domain, kSFRestErrorDomain, @"invalid domain");
-    STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
+    STAssertEqualObjects(_requestListener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
     
     // even when parseJson is NO, errors should still be returned as well-formed JSON
     request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     request.parseResponse = NO;
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEqualObjects(_requestListener.lastError.domain, kSFRestErrorDomain, @"invalid domain");
-    STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
+    STAssertEqualObjects(_requestListener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
 }
 
 // - sets an invalid accessToken
@@ -407,29 +409,20 @@
 //   - reissue the REST request
 // - make sure the query gets replayed properly (and succeed)
 - (void)testInvalidAccessTokenWithValidRequest {
-    // save valid token
-    NSString *validAccessToken = [_accountMgr.coordinator.credentials.accessToken copy];
-    @try {
-        // save invalid token
-        NSString *invalidAccessToken = @"xyz";
-        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
-        
-        // request (valid)
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
-        [self sendSyncRequest:request];
-        STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSLog(@"latest access token: %@", _accountMgr.coordinator.credentials.accessToken);
-        
-        // let's make sure we have another access token
-        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
-        STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
-    }
-    @finally {
-        // restore token
-        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-    }
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+     
+    // request (valid)
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    NSLog(@"latest access token: %@", _accountMgr.coordinator.credentials.accessToken);
+    
+    // let's make sure we have another access token
+    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
-
 
 // - sets an invalid accessToken
 // - issue an invalid REST request
@@ -438,26 +431,18 @@
 //   - reissue the REST request
 // - make sure the query gets replayed properly (and fail)
 - (void)testInvalidAccessTokenWithInvalidRequest {
-    // save valid token
-    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
-    @try {
-        // save invalid token
-        NSString *invalidAccessToken = @"xyz";
-        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
-        
-        // request (invalid)
-        SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
-        [self sendSyncRequest:request];
-        STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-
-        // let's make sure we have another access token
-        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
-        STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
-    }
-    @finally {
-        // restore token
-        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-    }
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+    
+    // request (invalid)
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    
+    // let's make sure we have another access token
+    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
 // - sets an invalid accessToken
@@ -466,32 +451,19 @@
 // - ensure all requests are failed with the proper error
 - (void)testInvalidAccessAndRefreshToken {
     // save valid tokens
-    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
-    NSString *validRefreshToken = _accountMgr.coordinator.credentials.refreshToken;
-    @try {
-        // set invalid tokens
-        NSString *invalidAccessToken = @"xyz";
-        NSString *invalidRefreshToken = @"xyz";
-        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
-        _accountMgr.coordinator.credentials.refreshToken = invalidRefreshToken;
-        
-        // request (valid)
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
-        [self sendSyncRequest:request];
-        STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
-        STAssertEqualObjects(_requestListener.lastError.domain, kSFOAuthErrorDomain, @"invalid domain");
-        STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
-        STAssertNotNil(_requestListener.lastError.userInfo, nil);
-    }
-    @finally {
-        // restore tokens
-        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-        _accountMgr.coordinator.credentials.refreshToken = validRefreshToken;
-    }
+    // set invalid tokens
+    NSString *invalidAccessToken = @"xyz";
+    NSString *invalidRefreshToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:invalidRefreshToken];
+    
+    // request (valid)
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    STAssertEqualObjects(_requestListener.lastError.domain, kSFOAuthErrorDomain, @"invalid domain");
+    STAssertEquals(_requestListener.lastError.code, kSFRestErrorCode, @"invalid code");
+    STAssertNotNil(_requestListener.lastError.userInfo, nil);
 }
-
-
-
 
 // - set an invalid access token (simulate expired)
 // - make multiple simultaneous requests
@@ -500,58 +472,50 @@
 // - ensure that all requests eventually succeed
 //
 -(void)testInvalidAccessToken_MultipleRequests {
-    // save valid token
-    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
-    @try {
-        // save invalid token
-        NSString *invalidAccessToken = @"xyz";
-        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
-        
-        // request (valid)
-        SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
-        
-        SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
-        
-        SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
-
-        SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
-        
-        SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
-       
-        //send multiple requests, all of which should fail with "unauthorized" initially,
-        //but then be replayed after an access token refresh
-        [[SFRestAPI sharedInstance] send:request0 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request1 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request2 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request3 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request4 delegate:nil];
-        
-        //wait for requests to complete in some arbitrary order
-        [listener4 waitForCompletion];
-        [listener1 waitForCompletion];
-        [listener3 waitForCompletion];
-        [listener2 waitForCompletion];
-        [listener0 waitForCompletion];
-        
-        STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
-        STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
-        STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
-        STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
-        STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
-        
-        // let's make sure we have a new access token
-        NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
-        STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
-    }
-    @finally {
-        // restore token
-        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-    }
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+    
+    // request (valid)
+    SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
+    
+    SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
+    
+    SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
+    
+    SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
+    
+    SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
+    
+    //send multiple requests, all of which should fail with "unauthorized" initially,
+    //but then be replayed after an access token refresh
+    [[SFRestAPI sharedInstance] send:request0 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request1 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request2 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request3 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request4 delegate:nil];
+    
+    //wait for requests to complete in some arbitrary order
+    [listener4 waitForCompletion];
+    [listener1 waitForCompletion];
+    [listener3 waitForCompletion];
+    [listener2 waitForCompletion];
+    [listener0 waitForCompletion];
+    
+    STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
+    STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
+    STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
+    STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
+    STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
+    
+    // let's make sure we have a new access token
+    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
 // - sets an invalid accessToken
@@ -560,76 +524,65 @@
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
 - (void)testInvalidAccessAndRefreshToken_MultipleRequests {
-    // save valid token
-    NSString *validAccessToken = _accountMgr.coordinator.credentials.accessToken;
-    NSString *validRefreshToken = _accountMgr.coordinator.credentials.refreshToken;
-    @try {
-        // save invalid token
-        NSString *invalidAccessToken = @"xyz";
-        NSString *invalidRefreshToken = @"xyz";
-        _accountMgr.coordinator.credentials.accessToken = invalidAccessToken;
-        _accountMgr.coordinator.credentials.refreshToken = invalidRefreshToken;
-        
-        // request (valid)
-        SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
-        
-        SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
-        
-        SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
-        
-        SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
-        
-        SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
-        
-        //send multiple requests, all of which should fail with "unauthorized" 
-        [[SFRestAPI sharedInstance] send:request0 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request1 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request2 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request3 delegate:nil];
-        [[SFRestAPI sharedInstance] send:request4 delegate:nil];
-        
-        //wait for requests to complete in some arbitrary order
-        [listener4 waitForCompletion];
-        [listener1 waitForCompletion];
-        [listener3 waitForCompletion];
-        [listener2 waitForCompletion];
-        [listener0 waitForCompletion];
-        
-        STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidFail, @"request0 should have failed");
-        STAssertEqualObjects(listener0.lastError.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        STAssertEquals(listener0.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener0.lastError.userInfo,@"userInfo should not be nil");
-        
-        STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidFail, @"request1 should have failed");
-        STAssertEqualObjects(listener1.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener1.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener1.lastError.userInfo,@"userInfo should not be nil");
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    NSString *invalidRefreshToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:invalidRefreshToken];
 
-        STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidFail, @"request2 should have failed");
-        STAssertEqualObjects(listener2.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener2.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener2.lastError.userInfo,@"userInfo should not be nil");
-
-        STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidFail, @"request3 should have failed");
-        STAssertEqualObjects(listener3.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener3.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener3.lastError.userInfo,@"userInfo should not be nil");
-
-        STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidFail, @"request4 should have failed");
-        STAssertEqualObjects(listener4.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener4.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
-    }
-    @finally {
-        // restore tokens
-        _accountMgr.coordinator.credentials.accessToken = validAccessToken;
-        _accountMgr.coordinator.credentials.refreshToken = validRefreshToken;
-    }
+    // request (valid)
+    SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Contact"];
+    SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
+    
+    SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Account"];
+    SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
+    
+    SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
+    
+    SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Opportunity"];
+    SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
+    
+    SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"User"];
+    SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
+    
+    //send multiple requests, all of which should fail with "unauthorized"
+    [[SFRestAPI sharedInstance] send:request0 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request1 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request2 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request3 delegate:nil];
+    [[SFRestAPI sharedInstance] send:request4 delegate:nil];
+    
+    //wait for requests to complete in some arbitrary order
+    [listener4 waitForCompletion];
+    [listener1 waitForCompletion];
+    [listener3 waitForCompletion];
+    [listener2 waitForCompletion];
+    [listener0 waitForCompletion];
+    
+    STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidFail, @"request0 should have failed");
+    STAssertEqualObjects(listener0.lastError.domain, kSFOAuthErrorDomain, @"invalid error domain");
+    STAssertEquals(listener0.lastError.code, kSFRestErrorCode, @"invalid error code");
+    STAssertNotNil(listener0.lastError.userInfo,@"userInfo should not be nil");
+    
+    STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidFail, @"request1 should have failed");
+    STAssertEqualObjects(listener1.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+    STAssertEquals(listener1.lastError.code, kSFRestErrorCode, @"invalid error code");
+    STAssertNotNil(listener1.lastError.userInfo,@"userInfo should not be nil");
+    
+    STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidFail, @"request2 should have failed");
+    STAssertEqualObjects(listener2.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+    STAssertEquals(listener2.lastError.code, kSFRestErrorCode, @"invalid error code");
+    STAssertNotNil(listener2.lastError.userInfo,@"userInfo should not be nil");
+    
+    STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidFail, @"request3 should have failed");
+    STAssertEqualObjects(listener3.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+    STAssertEquals(listener3.lastError.code, kSFRestErrorCode, @"invalid error code");
+    STAssertNotNil(listener3.lastError.userInfo,@"userInfo should not be nil");
+    
+    STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidFail, @"request4 should have failed");
+    STAssertEqualObjects(listener4.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+    STAssertEquals(listener4.lastError.code, kSFRestErrorCode, @"invalid error code");
+    STAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
 }
 
 
@@ -890,7 +843,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                                           completeBlock:successWithUnexpectedSuccessBlock];
     _blocksUncompletedCount  = 1;
 
-    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
+    [[SFRestAPI sharedInstance] cancelAllRequests];
     
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
     STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
@@ -919,8 +872,6 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
     STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    
-    [[SFNetworkEngine sharedInstance] cancelAllOperations]; //blow them all away
 }
 
 #pragma mark - SFRestAPI utility tests
@@ -1008,5 +959,5 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                                                                limit:200]],
                  @"Complex SOSL search does not match.");
 }
-
+ 
 @end
