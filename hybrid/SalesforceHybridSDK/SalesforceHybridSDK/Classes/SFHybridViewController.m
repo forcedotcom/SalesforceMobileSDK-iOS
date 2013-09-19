@@ -468,13 +468,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self log:SFLogLevelDebug msg:@"SalesforceOAuthPlugin: Started loading web page."];
+    [self log:SFLogLevelDebug msg:@"Started loading web page."];
     [super webViewDidStartLoad:webView];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    NSLog(@"SalesforceOAuthPlugin: Error while attempting to load web page: %@", error);
+    [self log:SFLogLevelError format:@"Error while attempting to load web page: %@", error];
     [super webView:webView didFailLoadWithError:error];
 }
 
