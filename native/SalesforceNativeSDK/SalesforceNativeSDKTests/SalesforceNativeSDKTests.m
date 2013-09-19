@@ -59,8 +59,8 @@
 
 - (void)tearDown
 {
+    // Tear-down code here.
     [[SFRestAPI sharedInstance] cleanup];
-    // Tear-down code here.    
     [super tearDown];
 }
 
@@ -530,19 +530,19 @@
     [self changeOauthTokens:invalidAccessToken refreshToken:invalidRefreshToken];
 
     // request (valid)
-    SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Contact"];
+    SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
     
-    SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Account"];
+    SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
     
     SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
     
-    SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Opportunity"];
+    SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
     
-    SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"User"];
+    SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
     
     //send multiple requests, all of which should fail with "unauthorized"
@@ -611,7 +611,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     BOOL completionTimedOut = NO;
     while (_blocksUncompletedCount > 0) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
+        if (elapsed > 3.0) {
             NSLog(@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount);
             completionTimedOut = YES;
             break;
@@ -959,5 +959,5 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                                                                limit:200]],
                  @"Complex SOSL search does not match.");
 }
- 
+
 @end

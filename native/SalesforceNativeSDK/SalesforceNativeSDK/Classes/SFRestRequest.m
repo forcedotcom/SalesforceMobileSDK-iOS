@@ -129,37 +129,29 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 - (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
     if ([_delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
-            [_delegate request:self didLoadResponse:dataResponse];
-        });
+        id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
+        [_delegate request:self didLoadResponse:dataResponse];
     }
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperation:(SFNetworkOperation*)networkOperation didFailWithError:(NSError*)error {
     if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate request:self didFailLoadWithError:error];
-        });
+        [_delegate request:self didFailLoadWithError:error];
     }
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperationDidCancel:(SFNetworkOperation *)networkOperation {
     if ([_delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate requestDidCancelLoad:self];
-        });
+        [_delegate requestDidCancelLoad:self];
     }
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
 - (void)networkOperationDidTimeout:(SFNetworkOperation *)networkOperation {
     if ([_delegate respondsToSelector:@selector(requestDidTimeout:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate requestDidTimeout:self];
-        });
+        [_delegate requestDidTimeout:self];
     }
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
