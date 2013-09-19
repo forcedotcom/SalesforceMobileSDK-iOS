@@ -109,6 +109,13 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
     }
     
+    if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
+        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^NSString *(NSDictionary *postDataDict) {
+            return [SFJsonUtils JSONRepresentation:postDataDict];
+        };
+        [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
+    }
+    
     _networkOperation.delegate = self;
     [networkEngine enqueueOperation:_networkOperation];
 }
