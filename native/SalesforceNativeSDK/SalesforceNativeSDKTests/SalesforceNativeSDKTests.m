@@ -409,6 +409,8 @@
 //   - reissue the REST request
 // - make sure the query gets replayed properly (and succeed)
 - (void)testInvalidAccessTokenWithValidRequest {
+    STFail(@"FIXME"); return;
+    
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
@@ -431,6 +433,8 @@
 //   - reissue the REST request
 // - make sure the query gets replayed properly (and fail)
 - (void)testInvalidAccessTokenWithInvalidRequest {
+    STFail(@"FIXME"); return;
+    
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
@@ -450,6 +454,8 @@
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
 - (void)testInvalidAccessAndRefreshToken {
+    STFail(@"FIXME"); return;
+    
     // save valid tokens
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -472,6 +478,8 @@
 // - ensure that all requests eventually succeed
 //
 -(void)testInvalidAccessToken_MultipleRequests {
+    STFail(@"FIXME"); return;
+    
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
@@ -524,6 +532,8 @@
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
 - (void)testInvalidAccessAndRefreshToken_MultipleRequests {
+    STFail(@"FIXME"); return;
+    
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     NSString *invalidRefreshToken = @"xyz";
