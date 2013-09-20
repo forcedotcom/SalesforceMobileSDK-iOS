@@ -24,7 +24,6 @@
  */
 
 #import "SFSDKWebUtils.h"
-#import "SFLogger.h"
 #import "SFApplication.h"
 
 // Public constants

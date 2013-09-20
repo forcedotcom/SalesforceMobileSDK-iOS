@@ -23,7 +23,7 @@
  */
 
 #import "SFNativeRestRequestListener.h"
-#import "SFAccountManager.h"
+#import <SalesforceSDKCore/SFAccountManager.h>
 
 @interface SFNativeRestRequestListener ()
 {

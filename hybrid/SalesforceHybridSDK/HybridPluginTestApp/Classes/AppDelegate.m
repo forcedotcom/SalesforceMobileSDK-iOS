@@ -23,10 +23,9 @@
  */
 
 #import "AppDelegate.h"
-#import "SFLogger.h"
 #import "SFHybridViewConfig.h"
-#import "SFJsonUtils.h"
-#import "SFAccountManager.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFAccountManager.h>
 #import "CDVCommandDelegateImpl.h"
 #import "SFTestRunnerPlugin.h"
 

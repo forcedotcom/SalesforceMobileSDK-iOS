@@ -25,7 +25,7 @@
 #import "SalesforceSDKIdentityTests.h"
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
-#import "SFOAuthCoordinator.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFIdentityCoordinator.h"
 #import "SFAccountManager.h"
 #import "SFIdentityData.h"
