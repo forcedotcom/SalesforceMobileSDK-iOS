@@ -26,8 +26,8 @@
 
 #import "SFJsonUtils.h"
 
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFAccountManager.h"
 
 NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";

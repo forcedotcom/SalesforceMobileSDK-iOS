@@ -24,7 +24,6 @@
 
 #import "QueryListViewController.h"
 #import "RestAPIExplorerViewController.h"
-#import "SalesforceSDKConstants.h"
 
 //action constants
 NSString *const kActionVersions = @"versions";

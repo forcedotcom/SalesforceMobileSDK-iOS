@@ -23,8 +23,7 @@
  */
 
 #import "SFQuerySpec.h"
-#import "SalesforceSDKConstants.h"
-#import "NSDictionary+SFAdditions.h"
+#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";

@@ -23,7 +23,6 @@
  */
 
 #import "SFIdentityData.h"
-#import "SalesforceSDKConstants.h"
 
 // Private constants
 

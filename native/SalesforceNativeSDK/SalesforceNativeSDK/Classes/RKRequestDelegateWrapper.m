@@ -24,14 +24,14 @@
 
 #import "RKRequestDelegateWrapper.h"
 
-#import "RKResponse.h"
-#import "SFJsonUtils.h"
+#import <RestKit/RKResponse.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 #import "SFRestRequest.h"
 #import "SFRestAPI+Internal.h"
 #import "SFSessionRefresher.h"
-#import "RKRequestSerialization.h"
-#import "SFAccountManager.h"
-#import "SFOAuthCredentials.h"
+#import <RestKit/RKRequestSerialization.h>
+#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceOAuth/SFOAuthCredentials.h>
 
 #define KEY_ERROR_CODE @"errorCode"
 

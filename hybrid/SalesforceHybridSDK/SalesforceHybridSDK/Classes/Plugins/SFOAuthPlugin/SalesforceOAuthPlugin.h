@@ -23,8 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
-#import "SFOAuthCoordinator.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "CDVPlugin.h"
 
 @class CDVInvokedUrlCommand;
