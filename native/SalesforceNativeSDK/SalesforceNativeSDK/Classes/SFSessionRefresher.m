@@ -124,6 +124,7 @@
     [coordinator stopAuthentication];
     NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
     [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
+    [self cleanupAfterRefresh];
 }
 
 #pragma mark - Completion
