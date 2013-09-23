@@ -23,8 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFNetworkEngine.h"
-#import "SFNetworkOperation.h"
+#import <SalesforceNetworkSDK/SFNetworkEngine.h>
+#import <SalesforceNetworkSDK/SFNetworkOperation.h>
 
 @class RKRequest;
 

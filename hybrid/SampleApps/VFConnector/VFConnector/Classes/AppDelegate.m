@@ -23,8 +23,7 @@
  */
 
 #import "AppDelegate.h"
-#import "SFAuthenticationManager.h"
-#import "SFLogger.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface AppDelegate ()
 

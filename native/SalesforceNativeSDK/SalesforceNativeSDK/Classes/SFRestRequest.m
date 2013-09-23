@@ -24,8 +24,8 @@
 
 #import "SFRestRequest.h"
 #import "SFRestAPI+Internal.h"
-#import "SalesforceSDKConstants.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 

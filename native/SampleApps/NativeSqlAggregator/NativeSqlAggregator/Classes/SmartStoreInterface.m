@@ -25,10 +25,10 @@
  */
 
 #import "SmartStoreInterface.h"
-#import "SFSmartStore.h"
-#import "SFSoupIndex.h"
-#import "SFQuerySpec.h"
-#import "NSDictionary+SFAdditions.h"
+#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 
 NSString* const kAccountSoupName = @"Account";
 NSString* const kOpportunitySoupName = @"Opportunity";

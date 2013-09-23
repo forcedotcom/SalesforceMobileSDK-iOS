@@ -4,22 +4,28 @@
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
     <property name="baseTemplateFilesDir" location="app_template_files" />
-    <property name="srcAppCreationScript" location="${baseTemplateFilesDir}/createApp.sh.base" />
+    <property name="srcAppCreationScript" value="${baseTemplateFilesDir}/createApp.sh.base" />
     <property name="destAppCreationScriptName" value="createApp.sh" />
-    <property name="destHybridTemplateDir" location="${artifactsDir}/HybridAppTemplate" />
+    <property name="destHybridTemplateDir" value="${artifactsDir}/HybridAppTemplate" />
     <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
-    <property name="destNativeTemplateDir" location="${artifactsDir}/NativeAppTemplate" />
+    <property name="destNativeTemplateDir" value="${artifactsDir}/NativeAppTemplate" />
     <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
     <property name="cordovaCaptureBundleName" value="Capture.bundle" />
     <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
     <property name="cordovaConfigXmlName" value="config.xml" />
     
-    <target name="all" description="Build all of the library projects and templates in the SalesforceMobileSDK workspace."
-        depends="nativeAppTemplate,hybridAppTemplate" />
+    <target name="all" description="Cleans the projects and builds all libraries and templates">
+        <antcall target="clean" />
+        <antcall target="buildAll" />
+    </target>
     
-    <target name="nativeAppTemplate" depends="nativeAppTemplateLibs,nativeAppTemplateShell" description="Creates the native app template">
-        <property name="nativeTemplateDependenciesDir" location="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
+    <target name="buildAll" depends="nativeAppTemplate, hybridAppTemplate" />
+    
+    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageCordova" />
+    
+    <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
+        <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
         
         <!-- Copy in the third party dependencies -->
         <copy todir="${nativeTemplateDependenciesDir}/SalesforceCommonUtils">
@@ -71,7 +77,7 @@
     </target>
     
     <target name="nativeAppTemplateShell" description="Creates the basic native template shell, minus dependenies.  NB: npm package will use this.">
-        <property name="srcNativeTemplateFilesDir" location="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
+        <property name="srcNativeTemplateFilesDir" value="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
         
         <!-- Copy over the native template -->
         <delete dir="${destNativeTemplateDir}" />
@@ -85,11 +91,9 @@
         <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="nativeAppTemplateLibs" depends="appTemplateFoundationLibs,nativeNetworkingLibs,buildSalesforceNativeSDK" />
-    
-    <target name="hybridAppTemplate" depends="hybridAppTemplateLibs,hybridAppTemplateShell" description="Creates the hybrid app template">
-        <property name="hybridTemplateDependenciesDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
-        <property name="wwwDir" location="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
+    <target name="hybridAppTemplate" depends="libPackages, hybridAppTemplateShell" description="Creates the hybrid app template">
+        <property name="hybridTemplateDependenciesDir" value="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
+        <property name="wwwDir" value="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
         <property name="externalSharedDir" location="../external/shared" />
         
         <!-- Copy in the third party dependencies -->
@@ -150,7 +154,7 @@
     </target>
     
     <target name="hybridAppTemplateShell" description="Creates the basic hybrid template shell, minus dependenies.  NB: npm package will use this.">
-        <property name="srcHybridTemplateFilesDir" location="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
+        <property name="srcHybridTemplateFilesDir" value="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
         
         <!-- Copy over the hybrid template -->
         <delete dir="${destHybridTemplateDir}" />
@@ -164,13 +168,15 @@
         <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
     </target>
     
-    <target name="hybridAppTemplateLibs" depends="appTemplateFoundationLibs,buildSalesforceHybridSDK,buildCordova" />
+    <target name="packageCordova" depends="buildCordova" description="Packages and builds the Cordova library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="Cordova" />
+            <param name="libName" value="libCordova.a" />
+            <param name="headerDir" value="include/Cordova" />
+        </antcall>
+    </target>
     
-    <target name="appTemplateFoundationLibs" depends="buildSalesforceSDKCore,buildSalesforceOAuth" />
-
-    <target name="nativeNetworkingLibs" depends="buildSalesforceNetworkSDK,buildMKNetworkKit" />
-    
-    <target name="buildCordova" description="Builds the Cordova library.">
+    <target name="buildCordova">
         <antcall target="buildLib">
             <param name="projectName" value="Cordova" />
             <param name="libName" value="libCordova.a" />
@@ -179,7 +185,24 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceHybridSDK" description="Builds the Salesforce Hybrid SDK library.">
+    <target name="cleanCordova" description="Cleans the build artifacts and output of the Cordova library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="Cordova" />
+            <param name="libName" value="libCordova.a" />
+            <param name="headerDir" value="include/Cordova" />
+            <param name="schemeName" value="CordovaLib" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceHybridSDK" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceHybridSDK" depends="buildCordova, buildSalesforceSDKCore, buildSalesforceOAuth">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceHybridSDK" />
             <param name="libName" value="libSalesforceHybridSDK.a" />
@@ -188,7 +211,24 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceNativeSDK" description="Builds the Salesforce Native SDK library.">
+    <target name="cleanSalesforceHybridSDK" description="Cleans the build artifacts and output of the Salesforce Hybrid SDK library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceHybridSDK" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
+            <param name="schemeName" value="SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceNativeSDK" depends="buildSalesforceNativeSDK" description="Builds the Salesforce Native SDK library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceNativeSDK" />
+            <param name="libName" value="libSalesforceNativeSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceNativeSDK" depends="buildSalesforceSDKCore, buildSalesforceOAuth">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNativeSDK" />
             <param name="libName" value="libSalesforceNativeSDK.a" />
@@ -197,7 +237,24 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceOAuth" description="Builds the Salesforce OAuth library.">
+    <target name="cleanSalesforceNativeSDK" description="Cleans the build artifacts and output of the Salesforce Native SDK library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceNativeSDK" />
+            <param name="libName" value="libSalesforceNativeSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
+            <param name="schemeName" value="SalesforceNativeSDK" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceOAuth" depends="buildSalesforceOAuth" description="Builds the Salesforce OAuth library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceOAuth" />
+            <param name="libName" value="libSalesforceOAuth.a" />
+            <param name="headerDir" value="Headers/SalesforceOAuth" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceOAuth">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceOAuth" />
             <param name="libName" value="libSalesforceOAuth.a" />
@@ -206,7 +263,24 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceSDKCore" description="Builds the Salesforce SDK Core library.">
+    <target name="cleanSalesforceOAuth" description="Cleans the build artifacts and output of the Salesforce OAuth library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceOAuth" />
+            <param name="libName" value="libSalesforceOAuth.a" />
+            <param name="headerDir" value="Headers/SalesforceOAuth" />
+            <param name="schemeName" value="SalesforceOAuth" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceSDKCore" depends="buildSalesforceSDKCore" description="Builds the Salesforce SDK Core library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceSDKCore" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="headerDir" value="Headers/SalesforceSDKCore" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceSDKCore" depends="buildSalesforceOAuth">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceSDKCore" />
             <param name="libName" value="libSalesforceSDKCore.a" />
@@ -214,8 +288,25 @@
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
     </target>
-
-    <target name="buildSalesforceNetworkSDK" description="Builds the Salesforce Network SDK library.">
+    
+    <target name="cleanSalesforceSDKCore" description="Cleans the build artifacts and output of the Salesforce SDK Core library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceSDKCore" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="headerDir" value="Headers/SalesforceSDKCore" />
+            <param name="schemeName" value="SalesforceSDKCore" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceNetworkSDK" depends="buildSalesforceNetworkSDK" description="Builds the Salesforce Network SDK library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceNetworkSDK" />
+            <param name="libName" value="libSalesforceNetworkSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceNetworkSDK" depends="buildMKNetworkKit, buildSalesforceSDKCore, buildSalesforceOAuth">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNetworkSDK" />
             <param name="libName" value="libSalesforceNetworkSDK.a" />
@@ -223,9 +314,35 @@
             <param name="schemeName" value="SalesforceNetworkSDK" />
         </antcall>
     </target>
-
-    <target name="buildMKNetworkKit" description="Builds the MKNetworkKit library.">
+    
+    <target name="cleanSalesforceNetworkSDK" description="Cleans the build artifacts and output of the Salesforce Network SDK library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceNetworkSDK" />
+            <param name="libName" value="libSalesforceNetworkSDK.a" />
+            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
+            <param name="schemeName" value="SalesforceNetworkSDK" />
+        </antcall>
+    </target>
+    
+    <target name="packageMKNetworkKit" depends="buildMKNetworkKit" description="Builds the MKNetworkKit library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="MKNetworkKit-iOS" />
+            <param name="libName" value="libMKNetworkKit-iOS.a" />
+            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
+        </antcall>
+    </target>
+    
+    <target name="buildMKNetworkKit">
         <antcall target="buildLib">
+            <param name="projectName" value="MKNetworkKit-iOS" />
+            <param name="libName" value="libMKNetworkKit-iOS.a" />
+            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
+            <param name="schemeName" value="MKNetworkKit-iOS" />
+        </antcall>
+    </target>
+    
+    <target name="cleanMKNetworkKit" description="Cleans the build artifacts and output of the MKNetworkKit library.">
+        <antcall target="cleanLib">
             <param name="projectName" value="MKNetworkKit-iOS" />
             <param name="libName" value="libMKNetworkKit-iOS.a" />
             <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
@@ -244,33 +361,89 @@
     
     <target name="buildLibWithConfiguration">
         <property name="buildConfiguration" value="Release" />
+        <property name="buildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
         
-        <mkdir dir="${artifactsDir}/${projectName}" />
+        <mkdir dir="${buildOutputDir}" />
         
         <!-- Device -->
         <antcall target="compileScheme">
             <param name="sdk" value="iphoneos" />
+            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="action" value="build" />
         </antcall>
-        <move file="${artifactsDir}/${libName}" tofile="${artifactsDir}/${projectName}/${libName}" />
-        <move file="${artifactsDir}/${headerDir}" tofile="${artifactsDir}/${projectName}/${headerDir}" />
+        <tempfile property="tempDeviceLibFile" destdir="${buildOutputDir}" prefix="staticLib" suffix=".a" />
+        <move file="${buildOutputDir}/${libName}" tofile="${tempDeviceLibFile}" />
         
         <!-- Simulator -->
         <antcall target="compileScheme">
             <param name="sdk" value="iphonesimulator" />
+            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="action" value="build" />
         </antcall>
         
         <antcall target="lipo">
-            <param name="lipoLib1" value="${artifactsDir}/${projectName}/${libName}" />
-            <param name="lipoLib2" value="${artifactsDir}/${libName}" />
+            <param name="lipoLib1" value="${buildOutputDir}/${libName}" />
+            <param name="lipoLib2" value="${tempDeviceLibFile}" />
         </antcall>
-        <delete dir="${artifactsDir}/${headerDir}" />
+
+    </target>
+    
+    <target name="packageLib">
+        <antcall target="packageLibWithConfiguration">
+            <param name="buildConfiguration" value="Debug" />
+        </antcall>
+        <antcall target="packageLibWithConfiguration">
+            <param name="buildConfiguration" value="Release" />
+        </antcall>
+    </target>
+    
+    <target name="packageLibWithConfiguration">
+        <property name="packageOutputDir" value="${artifactsDir}/${buildConfiguration}" />
+        <property name="packageProjectDir" value="${packageOutputDir}/${projectName}" />
+        
+        <mkdir dir="${packageProjectDir}" />
+        <move file="${packageOutputDir}/${headerDir}" tofile="${packageProjectDir}/${headerDir}" />
+        <delete dir="${packageOutputDir}/${headerDir}" />
+        <move file="${packageOutputDir}/${libName}" tofile="${packageProjectDir}/${libName}" />
         
         <antcall target="compress">
             <param name="destFile" value="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
-            <param name="baseDir" value="${artifactsDir}/${projectName}" />
+            <param name="baseDir" value="${packageProjectDir}" />
         </antcall>
         
-        <delete dir="${artifactsDir}/${projectName}" />
+        <delete dir="${packageProjectDir}" />
+    </target>
+    
+    <target name="cleanLib">
+        <antcall target="cleanLibWithConfiguration">
+            <param name="buildConfiguration" value="Debug" />
+        </antcall>
+        <antcall target="cleanLibWithConfiguration">
+            <param name="buildConfiguration" value="Release" />
+        </antcall>
+    </target>
+    
+    <target name="cleanLibWithConfiguration">
+        <property name="buildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
+        
+        <!-- Device -->
+        <antcall target="compileScheme">
+            <param name="sdk" value="iphoneos" />
+            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="action" value="clean" />
+        </antcall>
+        
+        <!-- Simulator -->
+        <antcall target="compileScheme">
+            <param name="sdk" value="iphonesimulator" />
+            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="action" value="clean" />
+        </antcall>
+        
+        <delete file="${buildOutputDir}/${libName}" />
+        <delete dir="${buildOutputDir}/${headerDir}" />
+        <delete file="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
+        
     </target>
     
     <target name="initArtifacts">
@@ -292,9 +465,8 @@
             <arg value="${buildConfiguration}" />
             <arg value="-sdk" />
             <arg value="${sdk}" />
-            <arg value="clean" />
-            <arg value="build" />
-            <arg value="CONFIGURATION_BUILD_DIR=${artifactsDir}" />
+            <arg value="${action}" />
+            <arg value="CONFIGURATION_BUILD_DIR=${buildOutputDir}" />
             <arg value="ONLY_ACTIVE_ARCH=NO" />
         </exec>
     </target>
@@ -323,7 +495,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state.">
+    <target name="clean" description="Cleans the build state." depends="cleanCordova, cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

@@ -24,7 +24,7 @@
  */
 
 #import "SFHybridViewConfig.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 @interface SFHybridViewConfig ()
 

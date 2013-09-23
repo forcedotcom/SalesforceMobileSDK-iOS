@@ -24,16 +24,16 @@
 
 #import "SalesforceNativeSDKTests.h"
 
-#import "SFJsonUtils.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
 #import "SFNativeRestRequestListener.h"
-#import "TestSetupUtils.h"
+#import <SalesforceSDKCore/TestSetupUtils.h>
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
-#import "SFAccountManager.h"
+#import <SalesforceSDKCore/SFAccountManager.h>
 
 @interface SalesforceNativeSDKTests ()
 {

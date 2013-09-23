@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
-#import "SFNetworkEngine.h"
+#import <SalesforceNetworkSDK/SFNetworkEngine.h>
 
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)

@@ -23,8 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFRestAPI.h"
 
 @interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {

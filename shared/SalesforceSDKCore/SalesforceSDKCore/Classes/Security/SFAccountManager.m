@@ -23,12 +23,11 @@
  */
 
 #import "SFAccountManager.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCredentials.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityData.h"
-#import "SalesforceSDKConstants.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"

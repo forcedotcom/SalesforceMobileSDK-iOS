@@ -27,11 +27,11 @@
 
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
-#import "SFJsonUtils.h"
-#import "SFRestAPI.h"
-#import "SFRestRequest.h"
-#import "SFSecurityLockout.h"
-#import "SFAuthenticationManager.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceNativeSDK/SFRestRequest.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface RestAPIExplorerViewController ()
 
