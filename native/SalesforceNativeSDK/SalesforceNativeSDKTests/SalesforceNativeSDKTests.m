@@ -33,6 +33,7 @@
 #import "TestSetupUtils.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
+#import "SFRestAPI+Files.h"
 #import "SFAccountManager.h"
 
 @interface SalesforceNativeSDKTests ()
@@ -401,6 +402,48 @@
     STAssertEqualObjects(_requestListener.lastError.domain, NSURLErrorDomain, @"invalid domain");
     STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
 }
+
+#pragma mark - testing files calls
+
+// simple: just invoke requestForOwnedFilesList
+- (void)testOwnedFilesList {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForFilesInUsersGroups
+- (void)testFilesInUsersGroups {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForFilesSharedWithUser
+- (void)testFilesSharedWithUser {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+
+#pragma mark - testing refresh
+
 
 // - sets an invalid accessToken
 // - issue a valid REST request

@@ -36,7 +36,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) ownedFilesList:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch a page from the list of files from groups
@@ -46,7 +46,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) filesInUsersGroups:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch a page from the list of files that have
@@ -56,7 +56,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) filesSharedWithUser:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch the file details of a particular version
@@ -66,7 +66,7 @@
  * @param version if nil fetches the most recent version, otherwise fetches this specific version.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) fileDetails:(NSString *)sfdcId forVersion:(NSString *)version;
+- (SFRestRequest *) requestForFileDetails:(NSString *)sfdcId forVersion:(NSString *)version;
 
 /**
  * Build a request that can fetch the latest file details of one or more
@@ -75,7 +75,7 @@
  * @param sfdcIds The list of file Ids to fetch.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) batchFileDetails:(NSArray *)sfdcIds;
+- (SFRestRequest *) requestForBatchFileDetails:(NSArray *)sfdcIds;
 
 /**
  * Build a Request that can fetch the a preview/rendition of a particular
@@ -87,7 +87,7 @@
  * @param page which page to fetch, pages start at 0.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-// - (SFRestRequest *) fileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(SFRenditionType *)renditionType page:(NSUInteger)page;
+// - (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(SFRenditionType *)renditionType page:(NSUInteger)page;
 
 /**
  * Builds a request that can fetch the actual binary file contents of this
@@ -97,7 +97,7 @@
  * @param version The version of the file
  * @return A new SFRestRequest that can be used to fetch this data
  */
-// - (SFRestRequest *) fileContents:(NSString *) sfdcId version:(NSString*) version;
+// - (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version;
 
 /**
  * Build a Request that can fetch a page from the list of entities that this
@@ -107,7 +107,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) fileShares:(NSString *)sfdcId page:(NSUInteger)page;
+- (SFRestRequest *) requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page;
 
 /**
  * Build a request that will add a file share for the specified fileId to
@@ -118,7 +118,7 @@
  * @param shareType the type of share (V - View, C - Collaboration)
  * @return A new SFRestRequest that be can used to create this share.
  */
-- (SFRestRequest *) addFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString*)shareType;
+- (SFRestRequest *) requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString*)shareType;
 
 /**
  * Build a request that will delete the specified file share.
@@ -126,7 +126,7 @@
  * @param shareId The Id of the file share record (aka ContentDocumentLink)
  * @return A new SFRestRequest that can be used to delete this share
  */
-- (SFRestRequest *) deleteFileShare:(NSString *)shareId;
+- (SFRestRequest *) requestForDeleteFileShare:(NSString *)shareId;
 
 /**
  * Build a request that can upload a new file to the server, this will
@@ -138,6 +138,6 @@
  * @param mimeType The mime-type of the file, if known.
  * @return A SFRestRequest that can perform this upload.
  */
-// - (SFRestRequest *) uploadFile:(File *)file name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
+// - (SFRestRequest *) requestForUploadFile:(File *)file name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
 
 @end
