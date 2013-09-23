@@ -32,6 +32,8 @@
 #define CONTENT_DOCUMENT_ID @"ContentDocumentId"
 #define LINKED_ENTITY_ID @"LinkedEntityId"
 #define SHARE_TYPE @"ShareType"
+#define RENDITION_TYPE @"type"
+#define FILE_DATA @"fileData"
 #define intToString(i) [NSString stringWithFormat:@"%d", i]
 
 @implementation SFRestAPI (Files)
@@ -66,6 +68,18 @@
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
+- (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/rendition", self.apiVersion, sfdcId];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:renditionType, RENDITION_TYPE, version, VERSION, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/content", self.apiVersion, sfdcId];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:version, VERSION, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
 - (SFRestRequest *) requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/file-shares", self.apiVersion, sfdcId];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
@@ -82,5 +96,13 @@
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink/%@", self.apiVersion, shareId];
     return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
 }
+
+- (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/me/files", self.apiVersion];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType];
+    return request;
+}
+
 
 @end

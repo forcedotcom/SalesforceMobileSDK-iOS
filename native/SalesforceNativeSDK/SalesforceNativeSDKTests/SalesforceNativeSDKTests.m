@@ -441,6 +441,19 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+// Upload file / get details / download file / delete file / get details again (expect 404)
+- (void) testUploadDetailsDownloadDeletefile {
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileName = [NSString stringWithFormat:@"FileName%f", timecode];
+    NSString *fileDescription = [NSString stringWithFormat:@"FileDescription%f", timecode];
+    NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
+    NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileName description:fileDescription mimeType:@"text/plain"];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 
 #pragma mark - testing refresh
 

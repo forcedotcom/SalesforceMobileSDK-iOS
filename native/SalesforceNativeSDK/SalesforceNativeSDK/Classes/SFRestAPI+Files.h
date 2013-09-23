@@ -87,7 +87,7 @@
  * @param page which page to fetch, pages start at 0.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-// - (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(SFRenditionType *)renditionType page:(NSUInteger)page;
+- (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page;
 
 /**
  * Builds a request that can fetch the actual binary file contents of this
@@ -97,7 +97,7 @@
  * @param version The version of the file
  * @return A new SFRestRequest that can be used to fetch this data
  */
-// - (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version;
+- (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version;
 
 /**
  * Build a Request that can fetch a page from the list of entities that this
@@ -132,12 +132,12 @@
  * Build a request that can upload a new file to the server, this will
  * create a new file at version 1.
  * 
- * @param theFile The path of the local file to upload to the server.
+ * @param data Data to upload to the server.
  * @param name The name/title of this file.
  * @param description A description of the file.
  * @param mimeType The mime-type of the file, if known.
  * @return A SFRestRequest that can perform this upload.
  */
-// - (SFRestRequest *) requestForUploadFile:(File *)file name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
+- (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
 
 @end
