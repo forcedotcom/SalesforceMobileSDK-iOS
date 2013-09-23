@@ -25,9 +25,12 @@
 #import "SFNativeRestRequestListener.h"
 #import "SFAccountManager.h"
 
+int class_uid = 0;
+
 @interface SFNativeRestRequestListener ()
 {
     SFAccountManager *_accountMgr;
+    int uid;
 }
 
 @end
@@ -42,7 +45,10 @@
         _accountMgr = [SFAccountManager sharedInstance];
         self.request = request;
         self.request.delegate = self;
+        self->uid = class_uid++;
     }
+
+    NSLog(@"## created listener %d", self->uid);
     
     return self;
 }
@@ -66,11 +72,15 @@
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
+    NSLog(@"## error for request %d", self->uid);
+    
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
+    NSLog(@"## cancel for request %d", self->uid);
+
     self.returnStatus = kTestRequestStatusDidCancel;
 }
 

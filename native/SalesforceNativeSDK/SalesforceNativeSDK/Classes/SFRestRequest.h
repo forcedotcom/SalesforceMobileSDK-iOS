@@ -26,6 +26,7 @@
 #import "SFNetworkEngine.h"
 #import "SFNetworkOperation.h"
 
+@class RKRequest;
 
 /**
  * HTTP methods for requests
@@ -144,6 +145,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param networkEngine
  */
 - (void) send:(SFNetworkEngine*) networkEngine;
+
+/**
+ * Cancels this request if it is running
+ */
+- (void) cancel;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

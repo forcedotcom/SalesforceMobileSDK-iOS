@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
+		820BB88A17E29BBC00263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88917E29BBC00263F2E /* Default-568h@2x.png */; };
 		8238573617299B0F007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572717299AEC007775A8 /* jquery-2.0.0.min.js */; };
 		8238573717299B0F007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572817299AEC007775A8 /* jquery.mobile-1.3.1.min.css */; };
 		8238573817299B0F007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572917299AEC007775A8 /* jquery.mobile-1.3.1.min.js */; };
@@ -119,6 +120,7 @@
 /* Begin PBXFileReference section */
 		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		820BB88917E29BBC00263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		8238572217299AEC007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
 		8238572317299AEC007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		8238572417299AEC007775A8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 		8250724215C3514100F3A529 /* splash */ = {
 			isa = PBXGroup;
 			children = (
+				820BB88917E29BBC00263F2E /* Default-568h@2x.png */,
 				8250724315C3514100F3A529 /* Default-Landscape~ipad.png */,
 				8250724515C3514100F3A529 /* Default-Portrait~ipad.png */,
 				8250724715C3514100F3A529 /* Default.png */,
@@ -441,7 +444,7 @@
 		825071E215C3513E00F3A529 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = salesforce.com;
 			};
 			buildConfigurationList = 825071E515C3513E00F3A529 /* Build configuration list for PBXProject "SmartStoreExplorer" */;
@@ -479,6 +482,7 @@
 				8250725915C3514100F3A529 /* Settings.bundle in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
 				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
+				820BB88A17E29BBC00263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +519,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -548,6 +555,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;

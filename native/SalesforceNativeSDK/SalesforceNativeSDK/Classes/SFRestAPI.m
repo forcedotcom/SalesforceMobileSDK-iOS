@@ -68,6 +68,21 @@ static dispatch_once_t _sharedInstanceGuard;
     SFRelease(_activeRequests);
 }
 
+#pragma mark - Cleanup / cancel all
+- (void) cleanup {
+    [_activeRequests removeAllObjects];
+    [[SFNetworkEngine sharedInstance] cleanup];
+}
+
+- (void)cancelAllRequests {
+    @synchronized(self) {
+        for (SFRestRequest *request in _activeRequests) {
+            [request cancel];
+        }
+        [_activeRequests removeAllObjects];
+    }
+}
+
 #pragma mark - singleton
 
 

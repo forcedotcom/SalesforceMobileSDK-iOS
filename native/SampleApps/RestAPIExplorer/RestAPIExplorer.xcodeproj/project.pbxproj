@@ -48,6 +48,7 @@
 		8201679816E180BE002F4066 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */; };
 		8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679916E18112002F4066 /* libSalesforceCommonUtils.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
+		820BB88617E29A9400263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88517E29A9400263F2E /* Default-568h@2x.png */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
@@ -100,6 +101,7 @@
 		8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8201679916E18112002F4066 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		820BB88517E29A9400263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
 		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		7DF4D39C1472E23A005CE144 /* splash */ = {
 			isa = PBXGroup;
 			children = (
+				820BB88517E29A9400263F2E /* Default-568h@2x.png */,
 				7DF4D39D1472E23A005CE144 /* Default-Landscape~ipad.png */,
 				7DF4D39F1472E23A005CE144 /* Default-Portrait~ipad.png */,
 				7DF4D3A11472E23A005CE144 /* Default.png */,
@@ -293,7 +296,7 @@
 		7DF4D2D01472E238005CE144 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 7DF4D2D31472E238005CE144 /* Build configuration list for PBXProject "RestAPIExplorer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -334,6 +337,7 @@
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
 				4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
+				820BB88617E29A9400263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +376,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -385,6 +393,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -403,12 +412,17 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
