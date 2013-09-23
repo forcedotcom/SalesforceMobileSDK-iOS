@@ -26,10 +26,10 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "RestAPIExplorerViewController.h"
-#import "SFJsonUtils.h"
-#import "SFAccountManager.h"
-#import "SFAuthenticationManager.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";

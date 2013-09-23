@@ -25,7 +25,6 @@
 #import "SFTestRunnerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import "CDVInvokedUrlCommand.h"
-#import "SalesforceSDKConstants.h"
 
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 

@@ -14,6 +14,62 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
+               BuildableName = "libSalesforceOAuth.a"
+               BlueprintName = "SalesforceOAuth"
+               ReferencedContainer = "container:../../../shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
+               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintName = "SalesforceSDKCore"
+               ReferencedContainer = "container:../../../shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
+               BuildableName = "libCordova.a"
+               BlueprintName = "CordovaLib"
+               ReferencedContainer = "container:../../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
+               BuildableName = "libSalesforceHybridSDK.a"
+               BlueprintName = "SalesforceHybridSDK"
+               ReferencedContainer = "container:../../SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "7DBD075B149AA9620043A9E0"
                BuildableName = "ContactExplorer.app"
                BlueprintName = "ContactExplorer"

@@ -23,12 +23,11 @@
  */
 
 #import "SFSmartStoreDatabaseManager.h"
-#import "UIDevice+SFHardware.h"
-#import "NSData+SFAdditions.h"
-#import "NSString+SFAdditions.h"
+#import <SalesforceCommonUtils/UIDevice+SFHardware.h>
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "FMDatabase.h"
 #import "FMResultSet.h"
-#import "SFLogger.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
 
