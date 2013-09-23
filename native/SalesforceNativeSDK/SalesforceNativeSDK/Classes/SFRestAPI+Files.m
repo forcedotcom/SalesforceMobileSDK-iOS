@@ -26,7 +26,61 @@
 
 #import "SFRestAPI+Files.h"
 
+#define ME @"me"
+#define PAGE @"page"
+#define VERSION @"versionNumber"
+#define CONTENT_DOCUMENT_ID @"ContentDocumentId"
+#define LINKED_ENTITY_ID @"LinkedEntityId"
+#define SHARE_TYPE @"ShareType"
+#define intToString(i) [NSString stringWithFormat:@"%d", i]
+
 @implementation SFRestAPI (Files)
 
+- (SFRestRequest *) ownedFilesList:(NSString *)userId page:(NSUInteger)page {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/users/%@/files", self.apiVersion, (userId == nil ? ME : userId)];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) filesInUsersGroups:(NSString *)userId page:(NSUInteger)page {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/users/%@/files/filter/groups", self.apiVersion, (userId == nil ? ME : userId)];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) filesSharedWithUser:(NSString *)userId page:(NSUInteger)page {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/users/%@/files/filter/sharedwithme", self.apiVersion, (userId == nil ? ME : userId)];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) fileDetails:(NSString *)sfdcId forVersion:(NSString *)version {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@", self.apiVersion, sfdcId];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:version, VERSION, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) batchFileDetails:(NSArray *)sfdcIds {
+    NSString *ids = [sfdcIds componentsJoinedByString:@","];
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/batch/%@", self.apiVersion, ids];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+}
+
+- (SFRestRequest *) fileShares:(NSString *)sfdcId page:(NSUInteger)page {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/file-shares", self.apiVersion, sfdcId];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+}
+
+- (SFRestRequest *) addFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString*)shareType {
+    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink", self.apiVersion];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:fileId, CONTENT_DOCUMENT_ID, entityId, LINKED_ENTITY_ID, shareType, SHARE_TYPE, nil];
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
+}
+
+- (SFRestRequest *) deleteFileShare:(NSString *)shareId {
+    NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink/%@", self.apiVersion, shareId];
+    return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
+}
 
 @end
