@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0E604417F242AD00EB71A0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
 		4FC0D99317DFE51F0031AE7D /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC0D99217DFE5130031AE7D /* SFRestAPI+Blocks.m */; };
 		4FC0D99417DFE5240031AE7D /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD8EE3817DE941500471205 /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -440,6 +441,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F0E604417F242AD00EB71A0 /* test_credentials.json in Resources */,
 				82C0C76716E07DEB0006B3C0 /* InfoPlist.strings in Resources */,
 				82C0C76F16E07DEB0006B3C0 /* Default.png in Resources */,
 				82C0C77116E07DEB0006B3C0 /* Default@2x.png in Resources */,
