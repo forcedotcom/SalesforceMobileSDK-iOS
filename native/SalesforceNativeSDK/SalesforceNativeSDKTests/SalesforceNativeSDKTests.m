@@ -36,6 +36,7 @@
 #import "SFRestAPI+Files.h"
 #import "SFAccountManager.h"
 
+
 @interface SalesforceNativeSDKTests ()
 {
     SFAccountManager *_accountMgr;
@@ -441,17 +442,173 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-// Upload file / get details / download file / delete file / get details again (expect 404)
-- (void) testUploadDetailsDownloadDeletefile {
+// Upload file / download content / download rendition (expect 403) / delete file / download again (expect 404)
+- (void) testUploadDownloadDeleteFile {
     NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
-    NSString *fileName = [NSString stringWithFormat:@"FileName%f", timecode];
+    NSString *fileName = [NSString stringWithFormat:@"FileName%f.txt", timecode];
     NSString *fileDescription = [NSString stringWithFormat:@"FileDescription%f", timecode];
     NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
     NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileMimeType = @"text/plain";
     
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileName description:fileDescription mimeType:@"text/plain"];
+    // upload
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileName description:fileDescription mimeType:fileMimeType];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileName, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], (int)[fileData length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+
+    // download content
+    NSString* fileId = _requestListener.dataResponse[@"id"];
+    request = [[SFRestAPI sharedInstance] requestForFileContents:fileId version:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse, fileData, @"wrong content");
+
+    // download rendition (expect 403)
+    request = [[SFRestAPI sharedInstance] requestForFileRendition:fileId version:nil renditionType:@"PDF" page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 403, @"invalid code");
+    
+    // delete
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileId];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // download content again (expect 404)
+    request = [[SFRestAPI sharedInstance] requestForFileContents:fileId version:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
+}
+
+// Upload file / get details / delete file / get details again (expect 404)
+- (void) testUploadDetailsDeleteFile {
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileName = [NSString stringWithFormat:@"FileName%f.txt", timecode];
+    NSString *fileDescription = [NSString stringWithFormat:@"FileDescription%f", timecode];
+    NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
+    NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileMimeType = @"text/plain";
+    
+    // upload
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileName description:fileDescription mimeType:fileMimeType];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileName, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], (int)[fileData length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+    
+    // get details
+    NSString* fileId = _requestListener.dataResponse[@"id"];
+    request = [[SFRestAPI sharedInstance] requestForFileDetails:fileId forVersion:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"id"], fileId, @"wrong id");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileName, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], (int)[fileData length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+    
+    // delete
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileId];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // get details again (expect 404)
+    request = [[SFRestAPI sharedInstance] requestForFileDetails:fileId forVersion:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
+}
+
+// Upload files / get batch details / delete files / get batch details again (expect 404)
+- (void) testUploadBatchDetailsDeleteFiles {
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileName = [NSString stringWithFormat:@"FileName%f.txt", timecode];
+    NSString *fileDescription = [NSString stringWithFormat:@"FileDescription%f", timecode];
+    NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
+    NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileMimeType = @"text/plain";
+
+    NSTimeInterval timecode2 = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileName2 = [NSString stringWithFormat:@"FileName%f.txt", timecode2];
+    NSString *fileDescription2 = [NSString stringWithFormat:@"FileDescription%f", timecode2];
+    NSString *fileDataStr2 = [NSString stringWithFormat:@"FileData%f", timecode2];
+    NSData *fileData2 = [fileDataStr2 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileMimeType2 = @"text/plain";
+    
+    
+    // upload first file
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileName description:fileDescription mimeType:fileMimeType];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileName, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], (int)[fileData length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+    NSString* fileId = _requestListener.dataResponse[@"id"];
+
+    // upload second file
+    request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData2 name:fileName2 description:fileDescription2 mimeType:fileMimeType2];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileName2, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription2, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], (int)[fileData2 length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType2, @"wrong mime type");
+    NSString* fileId2 = _requestListener.dataResponse[@"id"];
+    
+    // get batch details
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileId, fileId2, nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][0][@"result"][@"id"], fileId, @"wrong id");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][0][@"result"][@"title"], fileName, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][0][@"result"][@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"result"][@"contentSize"] intValue], (int)[fileData length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][0][@"result"][@"mimeType"], fileMimeType, @"wrong mime type");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"id"], fileId2, @"wrong id");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"title"], fileName2, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"description"], fileDescription2, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"result"][@"contentSize"] intValue], (int)[fileData2 length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"mimeType"], fileMimeType2, @"wrong mime type");
+    
+    // delete first file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileId];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // get batch details (expect 404 for first file)
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileId, fileId2, nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"id"], fileId2, @"wrong id");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"title"], fileName2, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"description"], fileDescription2, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"result"][@"contentSize"] intValue], (int)[fileData2 length], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"results"][1][@"result"][@"mimeType"], fileMimeType2, @"wrong mime type");
+    
+    // delete second file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileId2];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // get batch details (expect 404 for both files)
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileId, fileId2, nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 404, @"expected 404");
+
 }
 
 

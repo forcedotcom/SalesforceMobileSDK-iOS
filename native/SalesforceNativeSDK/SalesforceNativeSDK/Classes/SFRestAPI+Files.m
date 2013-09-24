@@ -42,49 +42,62 @@
 
 - (SFRestRequest *) requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files", self.apiVersion, (userId == nil ? ME : userId)];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (page) [params setObject:intToString(page) forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files/filter/groups", self.apiVersion, (userId == nil ? ME : userId)];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (page) [params setObject:intToString(page) forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files/filter/sharedwithme", self.apiVersion, (userId == nil ? ME : userId)];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (page) [params setObject:intToString(page) forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForFileDetails:(NSString *)sfdcId forVersion:(NSString *)version {
-    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@", self.apiVersion, sfdcId];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:version, VERSION, nil];
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@", self.apiVersion, sfdcId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (version) [params setObject:version forKey:VERSION];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForBatchFileDetails:(NSArray *)sfdcIds {
     NSString *ids = [sfdcIds componentsJoinedByString:@","];
-    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/batch/%@", self.apiVersion, ids];
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/batch/%@", self.apiVersion, ids];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
 - (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page {
-    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/rendition", self.apiVersion, sfdcId];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:renditionType, RENDITION_TYPE, version, VERSION, nil];
-    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@/rendition", self.apiVersion, sfdcId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:renditionType forKey:RENDITION_TYPE];
+    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (version) [params setObject:version forKey:VERSION];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+    request.parseResponse = NO;
+    return request;
 }
 
 - (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version {
-    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/content", self.apiVersion, sfdcId];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:version, VERSION, nil];
-    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@/content", self.apiVersion, sfdcId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (version) [params setObject:version forKey:VERSION];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
+    request.parseResponse = NO;
+    return request;
 }
 
 - (SFRestRequest *) requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page {
-    NSString *path = [NSString stringWithFormat:@"/%@/connect/files/%@/file-shares", self.apiVersion, sfdcId];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:intToString(page), PAGE, nil];
+    NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@/file-shares", self.apiVersion, sfdcId];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (page) [params setObject:intToString(page) forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
