@@ -34,6 +34,8 @@
 #define SHARE_TYPE @"ShareType"
 #define RENDITION_TYPE @"type"
 #define FILE_DATA @"fileData"
+#define TITLE @"title"
+#define DESCRIPTION @"desc"
 #define intToString(i) [NSString stringWithFormat:@"%d", i]
 
 @implementation SFRestAPI (Files)
@@ -99,7 +101,10 @@
 
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/me/files", self.apiVersion];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (name) [params setObject:name forKey:TITLE];
+    if (description) [params setObject:description forKey:DESCRIPTION];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:params];
     [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType];
     return request;
 }
