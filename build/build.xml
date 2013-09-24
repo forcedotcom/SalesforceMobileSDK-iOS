@@ -308,7 +308,7 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceNetworkSDK" depends="buildMKNetworkKit, buildSalesforceSDKCore, buildSalesforceOAuth">
+    <target name="buildSalesforceNetworkSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNetworkSDK" />
             <param name="libName" value="libSalesforceNetworkSDK.a" />
@@ -456,8 +456,7 @@
         <mkdir dir="${artifactsDir}" />
     </target>
     
-    <target name="compileScheme" depends="initArtifacts"
-        description="Compiles one of the schemes from the SalesforceMobileSDK workspace.">
+    <target name="compileScheme" depends="initArtifacts" description="Compiles one of the schemes from the SalesforceMobileSDK workspace.">
         <property name="buildConfiguration" value="Release" />
         
         <echo>Building "${schemeName}" with configuration "${buildConfiguration}" for SDK "${sdk}"</echo>
