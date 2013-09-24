@@ -1,5 +1,7 @@
 <project name="SalesforceMobileSDK-iOS" basedir="." default="all">
     <property name="artifactsDir" location="artifacts" />
+    <property name="deviceBuildName" value="iphoneos" />
+    <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
@@ -202,7 +204,7 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceHybridSDK" depends="buildCordova, buildSalesforceSDKCore, buildSalesforceOAuth">
+    <target name="buildSalesforceHybridSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceHybridSDK" />
             <param name="libName" value="libSalesforceHybridSDK.a" />
@@ -228,7 +230,7 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceNativeSDK" depends="buildSalesforceSDKCore, buildSalesforceOAuth">
+    <target name="buildSalesforceNativeSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNativeSDK" />
             <param name="libName" value="libSalesforceNativeSDK.a" />
@@ -280,7 +282,7 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceSDKCore" depends="buildSalesforceOAuth">
+    <target name="buildSalesforceSDKCore">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceSDKCore" />
             <param name="libName" value="libSalesforceSDKCore.a" />
@@ -306,7 +308,7 @@
         </antcall>
     </target>
     
-    <target name="buildSalesforceNetworkSDK" depends="buildMKNetworkKit, buildSalesforceSDKCore, buildSalesforceOAuth">
+    <target name="buildSalesforceNetworkSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNetworkSDK" />
             <param name="libName" value="libSalesforceNetworkSDK.a" />
@@ -361,29 +363,23 @@
     
     <target name="buildLibWithConfiguration">
         <property name="buildConfiguration" value="Release" />
-        <property name="buildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
+        <property name="baseBuildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
         
-        <mkdir dir="${buildOutputDir}" />
+        <mkdir dir="${baseBuildOutputDir}/${deviceBuildName}" />
+        <mkdir dir="${baseBuildOutputDir}/${simulatorBuildName}" />
         
         <!-- Device -->
         <antcall target="compileScheme">
-            <param name="sdk" value="iphoneos" />
-            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="sdk" value="${deviceBuildName}" />
+            <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="build" />
         </antcall>
-        <tempfile property="tempDeviceLibFile" destdir="${buildOutputDir}" prefix="staticLib" suffix=".a" />
-        <move file="${buildOutputDir}/${libName}" tofile="${tempDeviceLibFile}" />
         
         <!-- Simulator -->
         <antcall target="compileScheme">
-            <param name="sdk" value="iphonesimulator" />
-            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="sdk" value="${simulatorBuildName}" />
+            <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="build" />
-        </antcall>
-        
-        <antcall target="lipo">
-            <param name="lipoLib1" value="${buildOutputDir}/${libName}" />
-            <param name="lipoLib2" value="${tempDeviceLibFile}" />
         </antcall>
 
     </target>
@@ -402,9 +398,17 @@
         <property name="packageProjectDir" value="${packageOutputDir}/${projectName}" />
         
         <mkdir dir="${packageProjectDir}" />
-        <move file="${packageOutputDir}/${headerDir}" tofile="${packageProjectDir}/${headerDir}" />
-        <delete dir="${packageOutputDir}/${headerDir}" />
-        <move file="${packageOutputDir}/${libName}" tofile="${packageProjectDir}/${libName}" />
+        
+        <!-- For header files, we only need the one set.  We'll take the device folder. -->
+        <copy todir="${packageProjectDir}/${headerDir}">
+            <fileset dir="${packageOutputDir}/${deviceBuildName}/${headerDir}" />
+        </copy>
+        
+        <antcall target="lipo">
+            <param name="lipoLib1" value="${packageOutputDir}/${deviceBuildName}/${libName}" />
+            <param name="lipoLib2" value="${packageOutputDir}/${simulatorBuildName}/${libName}" />
+            <param name="outputLib" value="${packageProjectDir}/${libName}" />
+        </antcall>
         
         <antcall target="compress">
             <param name="destFile" value="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
@@ -424,24 +428,26 @@
     </target>
     
     <target name="cleanLibWithConfiguration">
-        <property name="buildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
+        <property name="baseBuildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
         
         <!-- Device -->
         <antcall target="compileScheme">
-            <param name="sdk" value="iphoneos" />
-            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="sdk" value="${deviceBuildName}" />
+            <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="clean" />
         </antcall>
         
         <!-- Simulator -->
         <antcall target="compileScheme">
-            <param name="sdk" value="iphonesimulator" />
-            <param name="buildOutputDir" value="${buildOutputDir}" />
+            <param name="sdk" value="${simulatorBuildName}" />
+            <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="clean" />
         </antcall>
         
-        <delete file="${buildOutputDir}/${libName}" />
-        <delete dir="${buildOutputDir}/${headerDir}" />
+        <delete file="${baseBuildOutputDir}/${deviceBuildName}/${libName}" />
+        <delete file="${baseBuildOutputDir}/${simulatorBuildName}/${libName}" />
+        <delete dir="${baseBuildOutputDir}/${deviceBuildName}/${headerDir}" />
+        <delete dir="${baseBuildOutputDir}/${simulatorBuildName}/${headerDir}" />
         <delete file="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
         
     </target>
@@ -450,8 +456,7 @@
         <mkdir dir="${artifactsDir}" />
     </target>
     
-    <target name="compileScheme" depends="initArtifacts"
-        description="Compiles one of the schemes from the SalesforceMobileSDK workspace.">
+    <target name="compileScheme" depends="initArtifacts" description="Compiles one of the schemes from the SalesforceMobileSDK workspace.">
         <property name="buildConfiguration" value="Release" />
         
         <echo>Building "${schemeName}" with configuration "${buildConfiguration}" for SDK "${sdk}"</echo>
@@ -471,17 +476,17 @@
         </exec>
     </target>
     
-    <target name="lipo" description="Lipos lipoLib1 with liboLib2, stores the result as lipoLib1, and removes lipoLib2.">
-        <tempfile property="lipoOutput" deleteonexit="false" prefix="lipo" suffix=".a"/>
+    <target name="lipo" description="Lipos lipoLib1 with liboLib2, and stores the result as outputLib.">
+        
+        <echo>Merging libraries ${lipoLib1} and ${lipoLib2} into ${outputLib}</echo>
+        
         <exec executable="lipo" failonerror="true" logError="true">
             <arg value="-create" />
             <arg value="-output" />
-            <arg value="${lipoOutput}" />
+            <arg value="${outputLib}" />
             <arg value="${lipoLib1}" />
             <arg value="${lipoLib2}" />
         </exec>
-        <move file="${lipoOutput}" tofile="${lipoLib1}"/>
-        <delete file="${lipoLib2}" />
     </target>
     
     <target name="compress">
