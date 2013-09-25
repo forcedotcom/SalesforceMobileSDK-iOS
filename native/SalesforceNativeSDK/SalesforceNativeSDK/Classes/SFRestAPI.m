@@ -24,17 +24,13 @@
 
 #import "SFRestAPI+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-#import "RKRequestDelegateWrapper.h"
-#import <RestKit/RestKit.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import "SFRestRequest.h"
 #import "SFSessionRefresher.h"
 #import <SalesforceSDKCore/SFAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v23.0";
+NSString* const kSFRestDefaultAPIVersion = @"v28.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 NSString * const kSFMobileSDKNativeDesignator = @"Native";
@@ -59,17 +55,32 @@ static dispatch_once_t _sharedInstanceGuard;
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
         _accountMgr = [SFAccountManager sharedInstance];
+        _networkEngine = [SFNetworkEngine sharedInstance];
+        _networkEngine.delegate = self;
+        [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
-        
-        // Note that rkClient is created on demand.
     }
     return self;
 }
 
 - (void)dealloc {
     SFRelease(_sessionRefresher);
-    SFRelease(_rkClient);
     SFRelease(_activeRequests);
+}
+
+#pragma mark - Cleanup / cancel all
+- (void) cleanup {
+    [_activeRequests removeAllObjects];
+    [[SFNetworkEngine sharedInstance] cleanup];
+}
+
+- (void)cancelAllRequests {
+    @synchronized(self) {
+        for (SFRestRequest *request in _activeRequests) {
+            [request cancel];
+        }
+        [_activeRequests removeAllObjects];
+    }
 }
 
 #pragma mark - singleton
@@ -85,51 +96,23 @@ static dispatch_once_t _sharedInstanceGuard;
 
 #pragma mark - Internal
 
-- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request {
+- (void)removeActiveRequestObject:(SFRestRequest *)request {
     [self.activeRequests removeObject:request]; //this will typically release the request
 }
 
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
     BOOL found = NO;
-    RKRequestDelegateWrapper *toCancel = nil;
-    if (nil != req) {
-        for (RKRequestDelegateWrapper *wrap in self.activeRequests) {
-            if ([wrap.request isEqual:req]) {
-                toCancel = wrap;
-                break;
-            }
-        }
-    } else {
-        toCancel = [self.activeRequests anyObject];
-    }
+    SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
     
     if (nil != toCancel) {
         found = YES;
-        [toCancel requestDidTimeout:nil];
+        [toCancel networkOperationDidTimeout:nil];
     }
-
+    
     return found;
 }
 
 #pragma mark - Properties
-
-- (RKClient *)rkClient {    
-    if (nil == _rkClient) {
-        if (nil != _accountMgr.credentials.instanceUrl) {
-            _rkClient = [[RKClient alloc] initWithBaseURL:_accountMgr.credentials.instanceUrl];
-            _rkClient.cachePolicy = RKRequestCachePolicyNone;
-            [_rkClient setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            [_rkClient setValue:[[self class] userAgentString] forHTTPHeaderField:@"User-Agent"];
-
-            // Authorization header (access token) is now set the moment before we actually send the request.
-        }
-    } else {
-        // Make sure the instance URL is up-to-date.
-        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:_accountMgr.credentials.instanceUrl];
-        _rkClient.baseURL = freshBaseUrl;
-    }
-    return _rkClient;
-}
 
 - (SFOAuthCoordinator *)coordinator
 {
@@ -139,12 +122,7 @@ static dispatch_once_t _sharedInstanceGuard;
 - (void)setCoordinator:(SFOAuthCoordinator *)coordinator
 {
     _accountMgr.coordinator = coordinator;
-    
-    if (nil != coordinator) {
-        //touch rkClient to instantiate if needed, AND update the base url
-        RKURL *freshBaseUrl = [RKURL URLWithBaseURL:coordinator.credentials.instanceUrl];
-        [[self rkClient] setBaseURL:freshBaseUrl];
-    }
+    [self setupNetworkCoordinator];
 }
 
 /**
@@ -177,30 +155,52 @@ static dispatch_once_t _sharedInstanceGuard;
     return myUserAgent;
 }
 
+#pragma mark - SFNetworkEngine Delegate
 
-#pragma mark - ajax methods
+- (void) setupNetworkCoordinator {
+    if (_accountMgr.coordinator != nil) {
+        _networkEngine.coordinator = [self createNetworkCoordinator:_accountMgr.coordinator];
+    }
+}
+
+- (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
+    SFNetworkCoordinator *networkCoordinator = [[SFNetworkCoordinator alloc] init];
+    networkCoordinator.host = [oAuthCoordinator.credentials.instanceUrl host];
+    networkCoordinator.organizationId = oAuthCoordinator.credentials.organizationId;
+    networkCoordinator.userId = oAuthCoordinator.credentials.userId;
+    networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;
+    networkCoordinator.portNumber = [oAuthCoordinator.credentials.instanceUrl port];
+    return networkCoordinator;
+}
+
+
+- (void)refreshSessionForNetworkEngine:(SFNetworkEngine *)networkEngine {
+    [_sessionRefresher refreshAccessToken];
+}
+
+#pragma mark - send method
+
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-
+    
     if (nil != delegate) {
         request.delegate = delegate;
     }
     
-    RKRequestDelegateWrapper *wrappedDelegate = [RKRequestDelegateWrapper wrapperWithRequest:request];
-    [self.activeRequests addObject:wrappedDelegate];
+    [self.activeRequests addObject:request];
     
     // If there are no demonstrable auth credentials, login before sending.
     if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [wrappedDelegate send];
+            [request send:_networkEngine];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {
         // Auth credentials exist.  Just send the request.
-        [wrappedDelegate send];
+        [request send:_networkEngine];
     }
 }
 
@@ -229,11 +229,11 @@ static dispatch_once_t _sharedInstanceGuard;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType 
-                                           objectId:(NSString *)objectId 
+- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
+                                           objectId:(NSString *)objectId
                                           fieldList:(NSString *)fieldList {
     NSDictionary *queryParams = (fieldList ?
-                                 [NSDictionary dictionaryWithObjectsAndKeys:fieldList, @"fields", nil] 
+                                 [NSDictionary dictionaryWithObjectsAndKeys:fieldList, @"fields", nil]
                                  : nil);
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
@@ -245,16 +245,16 @@ static dispatch_once_t _sharedInstanceGuard;
     return [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:fields];
 }
 
-- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
-                                         objectId:(NSString *)objectId 
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
     return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
 }
 
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
-                                  externalIdField:(NSString *)externalIdField 
-                                       externalId:(NSString *)externalId 
+                                  externalIdField:(NSString *)externalIdField
+                                       externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@", self.apiVersion, objectType, externalIdField, externalId];
     return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:fields];
@@ -277,5 +277,6 @@ static dispatch_once_t _sharedInstanceGuard;
     NSString *path = [NSString stringWithFormat:@"/%@/search", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
+
 
 @end

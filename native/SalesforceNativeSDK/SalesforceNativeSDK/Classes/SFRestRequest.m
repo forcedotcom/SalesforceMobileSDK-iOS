@@ -23,11 +23,18 @@
  */
 
 #import "SFRestRequest.h"
+#import "SFRestAPI+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <RestKit/RKRequest.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
+
+@interface SFRestRequest () {
+
+    SFNetworkOperation *_networkOperation;
+}
+
+@end
 
 
 @implementation SFRestRequest
@@ -55,6 +62,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     _delegate = nil;
     SFRelease(_queryParams);
     SFRelease(_endpoint);
+    SFRelease(_networkOperation);
 }
 
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -83,10 +91,70 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             ">",self, _endpoint, methodName, _path, paramStr];
 }
 
+# pragma mark - send and cancel
+
+- (void) send:(SFNetworkEngine*) networkEngine {
+    NSString *url = [NSString stringWithString:_path];
+    NSString *reqEndpoint = _endpoint;
+    if (![url hasPrefix:reqEndpoint]) {
+        url = [NSString stringWithFormat:@"%@%@", reqEndpoint, url];
+    }
+    
+    switch(_method) {
+        case SFRestMethodGET: _networkOperation = [networkEngine get:url params:_queryParams]; break;
+        case SFRestMethodPOST: _networkOperation = [networkEngine post:url params:_queryParams]; break;
+        case SFRestMethodPUT: _networkOperation = [networkEngine put:url params:_queryParams]; break;
+        case SFRestMethodDELETE: _networkOperation = [networkEngine delete:url params:_queryParams]; break;
+        case SFRestMethodHEAD: _networkOperation = [networkEngine head:url params:_queryParams]; break;
+        case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
+    }
+    
+    if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
+        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^NSString *(NSDictionary *postDataDict) {
+            return [SFJsonUtils JSONRepresentation:postDataDict];
+        };
+        [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
+    }
+    
+    _networkOperation.delegate = self;
+    [networkEngine enqueueOperation:_networkOperation];
+}
+
 - (void) cancel
 {
-    [self.rkRequest cancel];
-    self.rkRequest.delegate = nil; // this is needed see manual of [RKRequest cancel]
+    [_networkOperation cancel];
 }
+
+#pragma mark - SFNetworkOperationDelegate
+
+- (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
+        id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
+        [_delegate request:self didLoadResponse:dataResponse];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperation:(SFNetworkOperation*)networkOperation didFailWithError:(NSError*)error {
+    if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
+        [_delegate request:self didFailLoadWithError:error];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperationDidCancel:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
+        [_delegate requestDidCancelLoad:self];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperationDidTimeout:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(requestDidTimeout:)]) {
+        [_delegate requestDidTimeout:self];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
 
 @end
