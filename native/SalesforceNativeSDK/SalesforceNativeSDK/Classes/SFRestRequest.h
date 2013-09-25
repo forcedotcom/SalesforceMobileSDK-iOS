@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceNetworkSDK/SFNetworkEngine.h>
+#import <SalesforceNetworkSDK/SFNetworkOperation.h>
 
 @class RKRequest;
 
@@ -92,7 +94,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject {
+@interface SFRestRequest : NSObject<SFNetworkOperationDelegate> {
     NSString *_endpoint;
     SFRestMethod _method;
     NSString *_path;
@@ -139,10 +141,16 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, assign) BOOL parseResponse;
 
 /**
- * The associated RKRequest object which is to be created when sending the 
- * request using SFRestApi
+ * Send request using specified network engine
+ * @param networkEngine
  */
-@property (nonatomic, strong) RKRequest* rkRequest;
+- (void) send:(SFNetworkEngine*) networkEngine;
+
+/**
+ * Cancels this request if it is running
+ */
+- (void) cancel;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
@@ -155,10 +163,5 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
-
-/**
- * Cancels this request if it is running
- */
-- (void) cancel;
 
 @end
