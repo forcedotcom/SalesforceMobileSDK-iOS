@@ -100,7 +100,7 @@
 - (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version;
 
 /**
- * Build a Request that can fetch a page from the list of entities that this
+ * Build a request that can fetch a page from the list of entities that this
  * file is shared to.
  * 
  * @param sfdcId The Id of the file.
