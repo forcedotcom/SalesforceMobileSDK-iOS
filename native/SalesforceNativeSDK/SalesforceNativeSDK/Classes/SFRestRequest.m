@@ -158,12 +158,12 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
     }
 
-    // File upload?
+    // File upload
     if (nil != _postFile) {
         [_networkOperation addPostFileData:_postFile.fileData paramName:_postFile.paramName fileName:_postFile.fileName mimeType:_postFile.mimeType];
         
     }
-    // Post/Patch or Put (but not a file upload)?
+    // Post/Patch or Put (but not a file upload)
     else if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
         SFNetworkOperationEncodingBlock jsonEncodingBlock = ^NSString *(NSDictionary *postDataDict) {
             return [SFJsonUtils JSONRepresentation:postDataDict];
