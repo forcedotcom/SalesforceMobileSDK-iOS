@@ -900,7 +900,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     BOOL completionTimedOut = NO;
     while (_blocksUncompletedCount > 0) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 3.0) {
+        if (elapsed > 30.0) {
             NSLog(@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount);
             completionTimedOut = YES;
             break;
