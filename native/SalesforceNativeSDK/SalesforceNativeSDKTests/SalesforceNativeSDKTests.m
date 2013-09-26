@@ -576,8 +576,8 @@
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-// Upload file / create account / share file / get shared files / unshare file / get shared files / delete file / delete contact
-- (void) testUploadShareSharedFilesUnshareDelete {
+// Upload file / share file / get file shares and shared files / unshare file / get file shares and shared files / delete file
+- (void) testUploadShareFileSharesSharedFilesUnshareDelete {
     // upload file
     NSDictionary *fileAttrs = [self uploadFile];
     
@@ -592,6 +592,12 @@
     STAssertEqualObjects([_requestListener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
     STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
 
+    // get count files shared with other user
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    int countFilesSharedWithOtherUser = (int)[_requestListener.dataResponse[@"files"] count];
+    
     // share file with other user
     request = [[SFRestAPI sharedInstance] requestForAddFileShare:fileAttrs[@"id"] entityId:otherUserId shareType:@"V"];
     [self sendSyncRequest:request];
@@ -607,19 +613,31 @@
     STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     STAssertEqualObjects(_requestListener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
     STAssertEqualObjects(_requestListener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
+
+    // get count files shared with other user
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals((int)[_requestListener.dataResponse[@"files"] count], countFilesSharedWithOtherUser + 1, @"expected one more file shared with other user");
     
     // unshare file from other user
     request = [[SFRestAPI sharedInstance] requestForDeleteFileShare:shareId];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
-    // get shared files again
+    // get files shares again
     request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
     [self sendSyncRequest:request];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals((int)[_requestListener.dataResponse[@"shares"] count], 1, @"expected one share");
     STAssertEqualObjects([_requestListener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
     STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    
+    // get count files shared with other user
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals((int)[_requestListener.dataResponse[@"files"] count], countFilesSharedWithOtherUser, @"expected one less file shared with other user");
     
     // delete file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
