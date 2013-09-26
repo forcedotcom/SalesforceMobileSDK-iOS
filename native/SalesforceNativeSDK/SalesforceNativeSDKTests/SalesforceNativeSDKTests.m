@@ -34,6 +34,8 @@
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
 #import <SalesforceSDKCore/SFAccountManager.h>
+#import "SFRestAPI+Files.h"
+
 
 @interface SalesforceNativeSDKTests ()
 {
@@ -402,6 +404,293 @@
     STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
 }
 
+#pragma mark - testing files calls
+
+// simple: just invoke requestForOwnedFilesList
+- (void)testOwnedFilesList {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForFilesInUsersGroups
+- (void)testFilesInUsersGroups {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForFilesSharedWithUser
+- (void)testFilesSharedWithUser {
+    // with nil for userId
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    // with actual user id
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_accountMgr.credentials.userId page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// Upload file / download content / download rendition (expect 403) / delete file / download again (expect 404)
+- (void) testUploadDownloadDeleteFile {
+    // upload file
+    NSDictionary *fileAttrs = [self uploadFile];
+
+    // download content
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileContents:fileAttrs[@"id"] version:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse, fileAttrs[@"data"], @"wrong content");
+
+    // download rendition (expect 403)
+    request = [[SFRestAPI sharedInstance] requestForFileRendition:fileAttrs[@"id"] version:nil renditionType:@"PDF" page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 403, @"invalid code");
+    
+    // delete
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // download content again (expect 404)
+    request = [[SFRestAPI sharedInstance] requestForFileContents:fileAttrs[@"id"] version:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
+}
+
+// Upload file / get details / delete file / get details again (expect 404)
+- (void) testUploadDetailsDeleteFile {
+    // upload file
+    NSDictionary *fileAttrs = [self uploadFile];
+
+    // get details
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileDetails:fileAttrs[@"id"] forVersion:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [self compareFileAttributes:_requestListener.dataResponse expectedAttrs:fileAttrs];
+   
+    // delete
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // get details again (expect 404)
+    request = [[SFRestAPI sharedInstance] requestForFileDetails:fileAttrs[@"id"] forVersion:nil];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    STAssertEquals(_requestListener.lastError.code, 404, @"invalid code");
+}
+
+// Upload files / get batch details / delete files / get batch details again (expect 404)
+- (void) testUploadBatchDetailsDeleteFiles {
+    // upload first file
+    NSDictionary *fileAttrs = [self uploadFile];
+    
+    // upload second file
+    NSDictionary *fileAttrs2 = [self uploadFile];
+    
+    // get batch details
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
+    [self compareFileAttributes:_requestListener.dataResponse[@"results"][0][@"result"] expectedAttrs:fileAttrs];
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    [self compareFileAttributes:_requestListener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
+    
+    // delete first file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // get batch details (expect 404 for first file)
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    [self compareFileAttributes:_requestListener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
+    
+    // delete second file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs2[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    // get batch details (expect 404 for both files)
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals([_requestListener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    STAssertEquals([_requestListener.dataResponse[@"results"][1][@"statusCode"] intValue], 404, @"expected 404");
+
+}
+
+// Upload files / get owned files / delete files / get owned files again
+- (void) testUploadOwnedFilesDelete {
+    // upload first file
+    NSDictionary *fileAttrs = [self uploadFile];
+    
+    // get owned files
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [self compareFileAttributes:_requestListener.dataResponse[@"files"][0] expectedAttrs:fileAttrs];
+    
+    // upload other file
+    NSDictionary *fileAttrs2 = [self uploadFile];
+
+    // get owned files
+    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [self compareFileAttributes:_requestListener.dataResponse[@"files"][0] expectedAttrs:fileAttrs2];
+    [self compareFileAttributes:_requestListener.dataResponse[@"files"][1] expectedAttrs:fileAttrs];
+
+    // delete second file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs2[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // get owned files
+    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [self compareFileAttributes:_requestListener.dataResponse[@"files"][0] expectedAttrs:fileAttrs];
+    
+    // delete first file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// Upload file / create account / share file / get shared files / unshare file / get shared files / delete file / delete contact
+- (void) testUploadShareSharedFilesUnshareDelete {
+    // upload file
+    NSDictionary *fileAttrs = [self uploadFile];
+    
+    // get id of other user
+    NSString *otherUserId = [self getOtherUser];
+    
+    // get file shares
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals((int)[_requestListener.dataResponse[@"shares"] count], 1, @"expected one share");
+    STAssertEqualObjects([_requestListener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+
+    // share file with other user
+    request = [[SFRestAPI sharedInstance] requestForAddFileShare:fileAttrs[@"id"] entityId:otherUserId shareType:@"V"];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    NSString *shareId = _requestListener.dataResponse[@"id"];
+    
+    // get file shares again
+    request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals((int)[_requestListener.dataResponse[@"shares"] count], 2, @"expected two shares");
+    STAssertEqualObjects([_requestListener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    STAssertEqualObjects(_requestListener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
+    STAssertEqualObjects(_requestListener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
+    
+    // unshare file from other user
+    request = [[SFRestAPI sharedInstance] requestForDeleteFileShare:shareId];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // get shared files again
+    request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEquals((int)[_requestListener.dataResponse[@"shares"] count], 1, @"expected one share");
+    STAssertEqualObjects([_requestListener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects(_requestListener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    
+    // delete file
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
+    [self sendSyncRequest:request];
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+
+#pragma mark - files tests helpers
+// Return id of another user in org
+- (NSString *) getOtherUser {
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id FROM User WHERE Id != '%@'", _accountMgr.credentials.userId];
+    
+    // query
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    [self sendSyncRequest:request];
+
+    // check response
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    return _requestListener.dataResponse[@"records"][0][@"Id"];
+}
+
+// Upload file / check response / return new file attributes (id, title, description, data, mimeType, contentSize)
+- (NSDictionary *) uploadFile {
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileTitle = [NSString stringWithFormat:@"FileName%f.txt", timecode];
+    NSString *fileDescription = [NSString stringWithFormat:@"FileDescription%f", timecode];
+    NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
+    NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileMimeType = @"text/plain";
+    NSNumber *fileSize = [NSNumber numberWithInt:[fileData length]];
+    
+    // upload
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileTitle description:fileDescription mimeType:fileMimeType];
+    [self sendSyncRequest:request];
+    
+    // check response
+    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    STAssertEqualObjects(_requestListener.dataResponse[@"title"], fileTitle, @"wrong title");
+    STAssertEqualObjects(_requestListener.dataResponse[@"description"], fileDescription, @"wrong description");
+    STAssertEquals([_requestListener.dataResponse[@"contentSize"] intValue], [fileSize intValue], @"wrong content size");
+    STAssertEqualObjects(_requestListener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+    
+    // get id
+    NSString *fileId = _requestListener.dataResponse[@"id"];
+    
+    // making dictionary with file attributes
+    NSDictionary *fileAttrs = @{@"title": fileTitle,
+                                @"description": fileDescription,
+                                @"data": fileData,
+                                @"mimeType": fileMimeType,
+                                @"id": fileId,
+                                @"contentSize": fileSize
+                                };
+    
+    return fileAttrs;
+}
+
+// Compare file attributes
+- (void) compareFileAttributes:(NSDictionary *)actualFileAttrs expectedAttrs:(NSDictionary *)expectedFileAttrs {
+    NSArray *keys = @[@"id", @"title", @"description", @"contentSize", @"mimeType"];
+    
+    for (id key in keys) {
+        STAssertEqualObjects(actualFileAttrs[key], expectedFileAttrs[key], [NSString stringWithFormat:@"wrong %@", key]);
+    }
+}
+
+#pragma mark - testing refresh
+
+
 // - sets an invalid accessToken
 // - issue a valid REST request
 // - make sure the SDK will:
@@ -611,7 +900,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     BOOL completionTimedOut = NO;
     while (_blocksUncompletedCount > 0) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 3.0) {
+        if (elapsed > 30.0) {
             NSLog(@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount);
             completionTimedOut = YES;
             break;
