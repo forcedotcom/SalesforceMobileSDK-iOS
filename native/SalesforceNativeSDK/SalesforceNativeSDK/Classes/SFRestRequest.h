@@ -89,7 +89,6 @@ extern NSString * const kSFDefaultRestEndpoint;
 
 @end
 
-
 /**
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
@@ -150,6 +149,11 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Cancels this request if it is running
  */
 - (void) cancel;
+
+/**
+ * Add file to upload
+ */
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
 
 ///---------------------------------------------------------------------------------------
