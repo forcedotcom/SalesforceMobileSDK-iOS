@@ -25,17 +25,21 @@
 
 #import "RootViewController.h"
 
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceNativeSDK/SFRestAPI+Blocks.h>
 #import <SalesforceNativeSDK/SFRestAPI+Files.h>
 #import <SalesforceNativeSDK/SFRestRequest.h>
 
 @interface RootViewController () {
 }
- 
+@property (nonatomic, strong) UIBarButtonItem* logoutButton;
+@property (nonatomic, strong) UIBarButtonItem* cancelRequestsButton;
 @property (nonatomic, strong) UIBarButtonItem* ownedFilesButton;
 @property (nonatomic, strong) UIBarButtonItem* sharedFilesButton;
 @property (nonatomic, strong) UIBarButtonItem* groupsFilesButton;
 
+- (void) logout;
+- (void) cancelRequests;
 - (void) showOwnedFiles;
 - (void) showGroupsFiles;
 - (void) showSharedFiles;
@@ -45,6 +49,8 @@
 @implementation RootViewController
 
 @synthesize dataRows;
+@synthesize logoutButton;
+@synthesize cancelRequestsButton;
 @synthesize ownedFilesButton;
 @synthesize sharedFilesButton;
 @synthesize groupsFilesButton;
@@ -62,6 +68,8 @@
 - (void)dealloc
 {
     self.dataRows = nil;
+    self.logoutButton = nil;
+    self.cancelRequestsButton = nil;
     self.ownedFilesButton = nil;
     self.sharedFilesButton = nil;
     self.groupsFilesButton = nil;
@@ -72,6 +80,10 @@
 - (void)loadView {
     [super loadView];
     self.title = @"FileExplorer";
+    logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
+    cancelRequestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelRequests)];
+    self.navigationItem.leftBarButtonItems = @[logoutButton, cancelRequestsButton];
+    
     ownedFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Owned" style:UIBarButtonItemStylePlain target:self action:@selector(showOwnedFiles)];
     groupsFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Groups" style:UIBarButtonItemStylePlain target:self action:@selector(showGroupsFiles)];
     sharedFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Shared" style:UIBarButtonItemStylePlain target:self action:@selector(showSharedFiles)];
@@ -88,6 +100,17 @@
 
 
 #pragma mark - Button handlers
+
+- (void) logout
+{
+    [[SFAuthenticationManager sharedManager] logout];
+}
+
+-(void) cancelRequests
+{
+    [[SFRestAPI sharedInstance] cancelAllRequests];
+}
+
 - (void) showOwnedFiles
 {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
