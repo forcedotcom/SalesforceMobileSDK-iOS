@@ -36,28 +36,27 @@
 #define FILE_DATA @"fileData"
 #define TITLE @"title"
 #define DESCRIPTION @"desc"
-#define intToString(i) [NSString stringWithFormat:@"%d", i]
 
 @implementation SFRestAPI (Files)
 
 - (SFRestRequest *) requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files", self.apiVersion, (userId == nil ? ME : userId)];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (page) [params setObject:[NSNumber numberWithUnsignedInteger:page] forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files/filter/groups", self.apiVersion, (userId == nil ? ME : userId)];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (page) [params setObject:[NSNumber numberWithUnsignedInteger:page] forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
 - (SFRestRequest *) requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/users/%@/files/filter/sharedwithme", self.apiVersion, (userId == nil ? ME : userId)];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (page) [params setObject:[NSNumber numberWithUnsignedInteger:page] forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
@@ -78,7 +77,7 @@
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@/rendition", self.apiVersion, sfdcId];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:renditionType forKey:RENDITION_TYPE];
-    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (page) [params setObject:[NSNumber numberWithUnsignedInteger:page] forKey:PAGE];
     if (version) [params setObject:version forKey:VERSION];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
     request.parseResponse = NO;
@@ -97,7 +96,7 @@
 - (SFRestRequest *) requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page {
     NSString *path = [NSString stringWithFormat:@"/%@/chatter/files/%@/file-shares", self.apiVersion, sfdcId];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (page) [params setObject:intToString(page) forKey:PAGE];
+    if (page) [params setObject:[NSNumber numberWithUnsignedInteger:page] forKey:PAGE];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 

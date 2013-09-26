@@ -33,10 +33,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
  * Object to encapsulate post file details
  */
 @interface SFRestRequestPostFile : NSObject {
-    NSData *_fileData;
-    NSString *_fileName;
-    NSString *_paramName;
-    NSString *_mimeType;
 }
 
 @property (nonatomic, strong) NSData* fileData;
@@ -165,7 +161,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     // Post/Patch or Put (but not a file upload)
     else if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
-        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^NSString *(NSDictionary *postDataDict) {
+        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^(NSDictionary *postDataDict) {
             return [SFJsonUtils JSONRepresentation:postDataDict];
         };
         [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
