@@ -25,12 +25,29 @@
 
 #import "RootViewController.h"
 
+#import <SalesforceNativeSDK/SFRestAPI+Blocks.h>
 #import <SalesforceNativeSDK/SFRestAPI+Files.h>
 #import <SalesforceNativeSDK/SFRestRequest.h>
+
+@interface RootViewController () {
+}
+ 
+@property (nonatomic, strong) UIBarButtonItem* ownedFilesButton;
+@property (nonatomic, strong) UIBarButtonItem* sharedFilesButton;
+@property (nonatomic, strong) UIBarButtonItem* groupsFilesButton;
+
+- (void) showOwnedFiles;
+- (void) showGroupsFiles;
+- (void) showSharedFiles;
+    
+@end
 
 @implementation RootViewController
 
 @synthesize dataRows;
+@synthesize ownedFilesButton;
+@synthesize sharedFilesButton;
+@synthesize groupsFilesButton;
 
 #pragma mark Misc
 
@@ -45,23 +62,50 @@
 - (void)dealloc
 {
     self.dataRows = nil;
+    self.ownedFilesButton = nil;
+    self.sharedFilesButton = nil;
+    self.groupsFilesButton = nil;
 }
 
 
 #pragma mark - View lifecycle
 - (void)loadView {
     [super loadView];
+    self.title = @"FileExplorer";
+    ownedFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Owned" style:UIBarButtonItemStylePlain target:self action:@selector(showOwnedFiles)];
+    groupsFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Groups" style:UIBarButtonItemStylePlain target:self action:@selector(showGroupsFiles)];
+    sharedFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Shared" style:UIBarButtonItemStylePlain target:self action:@selector(showSharedFiles)];
+    self.navigationItem.rightBarButtonItems = @[ownedFilesButton, groupsFilesButton, sharedFilesButton];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"FileExplorer Sample App";
-    
-    //Here we use a query that should work on either Force.com or Database.com
+    // Get owned fles
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
+
+
+#pragma mark - Button handlers
+- (void) showOwnedFiles
+{
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
+    [[SFRestAPI sharedInstance] send:request delegate:self];
+}
+
+- (void) showGroupsFiles
+{
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:nil page:0];
+    [[SFRestAPI sharedInstance] send:request delegate:self];
+}
+
+- (void) showSharedFiles
+{
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:nil page:0];
+    [[SFRestAPI sharedInstance] send:request delegate:self];
+}
+
 
 #pragma mark - SFRestAPIDelegate
 
@@ -106,16 +150,23 @@
    // Dequeue or create a cell of the appropriate type.
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 
     }
-	//if you want to add an image to your cell, here's how
-	UIImage *image = [UIImage imageNamed:@"icon.png"];
-	cell.imageView.image = image;
 
 	// Configure the cell to show the data.
-	NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
+    NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
 	cell.textLabel.text =  obj[@"title"];
+    cell.detailTextLabel.text = obj[@"owner"][@"name"];
+    cell.imageView.image = [UIImage imageNamed:@"icon.png"];
+    SFRestRequest *imageRequest = [[SFRestAPI sharedInstance] requestForFileRendition:obj[@"id"] version:nil renditionType:@"THUMB120BY90" page:0];
+    [[SFRestAPI sharedInstance] sendRESTRequest:imageRequest failBlock:nil completeBlock:^(NSData *responseData) {
+        UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is not visible
+        if (targetCell) {
+            targetCell.imageView.image = [UIImage imageWithData:responseData];
+            [targetCell setNeedsLayout];
+        }
+    }];
 
 	//this adds the arrow to the right hand side.
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
