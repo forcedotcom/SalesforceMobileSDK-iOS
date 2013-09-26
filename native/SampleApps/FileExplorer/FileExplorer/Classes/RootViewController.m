@@ -25,7 +25,7 @@
 
 #import "RootViewController.h"
 
-#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceNativeSDK/SFRestAPI+Files.h>
 #import <SalesforceNativeSDK/SFRestRequest.h>
 
 @implementation RootViewController
@@ -49,22 +49,26 @@
 
 
 #pragma mark - View lifecycle
+- (void)loadView {
+    [super loadView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"FileExplorer Sample App";
     
     //Here we use a query that should work on either Force.com or Database.com
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name FROM User LIMIT 10"];    
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
 #pragma mark - SFRestAPIDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
-    NSArray *records = [jsonResponse objectForKey:@"records"];
-    NSLog(@"request:didLoadResponse: #records: %d", records.count);
-    self.dataRows = records;
+    NSArray *files = jsonResponse[@"files"];
+    NSLog(@"request:didLoadResponse: #files: %d", files.count);
+    self.dataRows = files;
     [self.tableView reloadData];
 }
 
@@ -111,7 +115,7 @@
 
 	// Configure the cell to show the data.
 	NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
-	cell.textLabel.text =  [obj objectForKey:@"Name"];
+	cell.textLabel.text =  obj[@"title"];
 
 	//this adds the arrow to the right hand side.
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
