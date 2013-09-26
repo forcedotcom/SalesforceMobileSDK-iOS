@@ -33,10 +33,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
  * Object to encapsulate post file details
  */
 @interface SFRestRequestPostFile : NSObject {
-    NSData *_fileData;
-    NSString *_fileName;
-    NSString *_paramName;
-    NSString *_mimeType;
 }
 
 @property (nonatomic, strong) NSData* fileData;
