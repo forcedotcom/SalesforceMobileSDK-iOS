@@ -161,7 +161,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     // Post/Patch or Put (but not a file upload)
     else if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
-        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^NSString *(NSDictionary *postDataDict) {
+        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^(NSDictionary *postDataDict) {
             return [SFJsonUtils JSONRepresentation:postDataDict];
         };
         [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
