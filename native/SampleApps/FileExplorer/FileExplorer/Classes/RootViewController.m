@@ -30,6 +30,8 @@
 #import <SalesforceNativeSDK/SFRestAPI+Files.h>
 #import <SalesforceNativeSDK/SFRestRequest.h>
 
+typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
+
 @interface RootViewController () {
 }
 @property (nonatomic, strong) UIBarButtonItem* logoutButton;
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) UIBarButtonItem* sharedFilesButton;
 @property (nonatomic, strong) UIBarButtonItem* groupsFilesButton;
 
+- (void) downloadThumbnail:(NSString*)fileId completeBlock:(ThumbnailLoadedBlock)completeBlock;
 - (void) logout;
 - (void) cancelRequests;
 - (void) showOwnedFiles;
@@ -90,15 +93,6 @@
     self.navigationItem.rightBarButtonItems = @[ownedFilesButton, groupsFilesButton, sharedFilesButton];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Get owned fles
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
-    [[SFRestAPI sharedInstance] send:request delegate:self];
-}
-
-
 #pragma mark - Button handlers
 
 - (void) logout
@@ -136,7 +130,9 @@
     NSArray *files = jsonResponse[@"files"];
     NSLog(@"request:didLoadResponse: #files: %d", files.count);
     self.dataRows = files;
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 
@@ -153,6 +149,18 @@
 - (void)requestDidTimeout:(SFRestRequest *)request {
     NSLog(@"requestDidTimeout: %@", request);
     //add your failed error handling here
+}
+
+#pragma mark - thumbnail handling
+- (void) downloadThumbnail:(NSString*)fileId completeBlock:(ThumbnailLoadedBlock)completeBlock {
+    SFRestRequest *imageRequest = [[SFRestAPI sharedInstance] requestForFileRendition:fileId version:nil renditionType:@"THUMB120BY90" page:0];
+    [[SFRestAPI sharedInstance] sendRESTRequest:imageRequest failBlock:nil completeBlock:^(NSData *responseData) {
+        NSLog(@"downloadThumbnail:%@ completed", fileId);
+        UIImage *image = [UIImage imageWithData:responseData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completeBlock(image);
+        });
+    }];
 }
 
 
@@ -179,22 +187,26 @@
 
 	// Configure the cell to show the data.
     NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
+    NSString *fileId = obj[@"id"];
+    NSLog(@"configuring cell for:%@", fileId);
+
 	cell.textLabel.text =  obj[@"title"];
     cell.detailTextLabel.text = obj[@"owner"][@"name"];
-    cell.imageView.image = [UIImage imageNamed:@"icon.png"];
-    SFRestRequest *imageRequest = [[SFRestAPI sharedInstance] requestForFileRendition:obj[@"id"] version:nil renditionType:@"THUMB120BY90" page:0];
-    [[SFRestAPI sharedInstance] sendRESTRequest:imageRequest failBlock:nil completeBlock:^(NSData *responseData) {
-        UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is not visible
+    [self downloadThumbnail:fileId completeBlock:^(UIImage *thumbnailImage) {
+        UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is no longer visible
         if (targetCell) {
-            targetCell.imageView.image = [UIImage imageWithData:responseData];
+            targetCell.imageView.image = thumbnailImage;
             [targetCell setNeedsLayout];
         }
     }];
 
-	//this adds the arrow to the right hand side.
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
 	return cell;
 
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+}
+
 @end
