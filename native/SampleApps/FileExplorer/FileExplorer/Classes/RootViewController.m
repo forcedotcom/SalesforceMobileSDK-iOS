@@ -39,6 +39,8 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 @property (nonatomic, strong) UIBarButtonItem* ownedFilesButton;
 @property (nonatomic, strong) UIBarButtonItem* sharedFilesButton;
 @property (nonatomic, strong) UIBarButtonItem* groupsFilesButton;
+// very basic in-memory cache
+@property (nonatomic, strong) NSMutableDictionary* thumbnailCache;
 
 - (void) downloadThumbnail:(NSString*)fileId completeBlock:(ThumbnailLoadedBlock)completeBlock;
 - (void) logout;
@@ -76,12 +78,14 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
     self.ownedFilesButton = nil;
     self.sharedFilesButton = nil;
     self.groupsFilesButton = nil;
+    self.thumbnailCache = nil;
 }
 
 
 #pragma mark - View lifecycle
 - (void)loadView {
     [super loadView];
+    self.thumbnailCache = [NSMutableDictionary dictionary];
     self.title = @"FileExplorer";
     logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
     cancelRequestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelRequests)];
@@ -152,6 +156,31 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 }
 
 #pragma mark - thumbnail handling
+
+/**
+ * Return image from cache if available, otherwise download image from server, and then size it and cache it
+ */
+- (void) getThumbnail:(NSString*) fileId completeBlock:(ThumbnailLoadedBlock)completeBlock {
+    // cache hit
+    if (self.thumbnailCache[fileId]) {
+        completeBlock(self.thumbnailCache[fileId]);
+    }
+    // cache miss
+    else {
+        [self downloadThumbnail:fileId completeBlock:^(UIImage *image) {
+            // size it
+            UIGraphicsBeginImageContext(CGSizeMake(120,90));
+            [image drawInRect:CGRectMake(0, 0, image.size.width, 90)];
+            UIImage *thumbnailImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            // cache it
+            self.thumbnailCache[fileId] = thumbnailImage;
+            // done
+            completeBlock(thumbnailImage);
+        }];
+    }
+}
+
 - (void) downloadThumbnail:(NSString*)fileId completeBlock:(ThumbnailLoadedBlock)completeBlock {
     SFRestRequest *imageRequest = [[SFRestAPI sharedInstance] requestForFileRendition:fileId version:nil renditionType:@"THUMB120BY90" page:0];
     [[SFRestAPI sharedInstance] sendRESTRequest:imageRequest failBlock:nil completeBlock:^(NSData *responseData) {
@@ -188,11 +217,10 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 	// Configure the cell to show the data.
     NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
     NSString *fileId = obj[@"id"];
-    NSLog(@"configuring cell for:%@", fileId);
 
 	cell.textLabel.text =  obj[@"title"];
     cell.detailTextLabel.text = obj[@"owner"][@"name"];
-    [self downloadThumbnail:fileId completeBlock:^(UIImage *thumbnailImage) {
+    [self getThumbnail:fileId completeBlock:^(UIImage* thumbnailImage) {
         UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is no longer visible
         if (targetCell) {
             targetCell.imageView.image = thumbnailImage;
