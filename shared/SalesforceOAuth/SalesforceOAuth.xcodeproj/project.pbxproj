@@ -636,6 +636,7 @@
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -650,6 +651,7 @@
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
