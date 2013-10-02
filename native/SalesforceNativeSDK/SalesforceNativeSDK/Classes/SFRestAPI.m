@@ -181,14 +181,15 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - send method
 
 
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+- (SFNetworkOperation*)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
     
     if (nil != delegate) {
         request.delegate = delegate;
     }
     
     [self.activeRequests addObject:request];
-    
+
+    SFNetworkOperation* networkOperation = nil;
     // If there are no demonstrable auth credentials, login before sending.
     if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
@@ -200,8 +201,9 @@ static dispatch_once_t _sharedInstanceGuard;
         }];
     } else {
         // Auth credentials exist.  Just send the request.
-        [request send:_networkEngine];
+        networkOperation = [request send:_networkEngine];
     }
+    return networkOperation;
 }
 
 - (SFRestRequest *)requestForVersions {
