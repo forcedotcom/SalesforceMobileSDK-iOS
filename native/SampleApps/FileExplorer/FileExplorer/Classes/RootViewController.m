@@ -48,7 +48,7 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 - (void) showOwnedFiles;
 - (void) showGroupsFiles;
 - (void) showSharedFiles;
-    
+
 @end
 
 @implementation RootViewController
@@ -211,26 +211,28 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-
     }
 
 	// Configure the cell to show the data.
     NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
     NSString *fileId = obj[@"id"];
+    NSInteger tag = [fileId hash];
 
 	cell.textLabel.text =  obj[@"title"];
     cell.detailTextLabel.text = obj[@"owner"][@"name"];
+    cell.tag = tag;
     [self getThumbnail:fileId completeBlock:^(UIImage* thumbnailImage) {
-        UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is no longer visible
-        if (targetCell) {
-            targetCell.imageView.image = thumbnailImage;
-            [targetCell setNeedsLayout];
+        // Cell are recycled - we don't want to set the image if the cell is showing a different file
+        if (cell.tag == tag) {
+            cell.imageView.image = thumbnailImage;
+            [cell setNeedsLayout];
         }
     }];
 
 	return cell;
 
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
