@@ -48,6 +48,8 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 - (void) showOwnedFiles;
 - (void) showGroupsFiles;
 - (void) showSharedFiles;
+- (NSInteger) computeTagFromId:(NSString*)id;
+- (NSInteger) intForChar:(unichar)ch;
     
 @end
 
@@ -211,20 +213,21 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-
     }
 
 	// Configure the cell to show the data.
     NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
     NSString *fileId = obj[@"id"];
+    NSInteger tag = [self computeTagFromId:fileId];
 
 	cell.textLabel.text =  obj[@"title"];
     cell.detailTextLabel.text = obj[@"owner"][@"name"];
+    cell.tag = tag;
     [self getThumbnail:fileId completeBlock:^(UIImage* thumbnailImage) {
-        UITableViewCell *targetCell = [tableView_ cellForRowAtIndexPath:indexPath]; // will return nil if cell is no longer visible
-        if (targetCell) {
-            targetCell.imageView.image = thumbnailImage;
-            [targetCell setNeedsLayout];
+        // Cell are recycled - we don't want to set the image if the cell is showing a different file
+        if (cell.tag == tag) {
+            cell.imageView.image = thumbnailImage;
+            [cell setNeedsLayout];
         }
     }];
 
@@ -232,9 +235,40 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 90;
+}
+
+/**
+ * Generate tag (integer) from id (string)
+ */
+- (NSInteger) computeTagFromId:(NSString*)id
+{
+    NSInteger tag = 0;
+    // Generating unique number from the last 5 characters
+    for(int i=11; i<=15; i++) {
+        tag = (tag << 6) + [self intForChar:[id characterAtIndex:i]];
+    }
+    return tag;
+}
+
+/** 
+ * Given a character that a digit or a letter, return a number between 0 and 10+26+26
+ */
+- (NSInteger) intForChar:(unichar) ch
+{
+    if (ch >= '0' && ch < '9') {
+        return ch - '0';
+    }
+    else if (ch >= 'A' && ch <= 'Z') {
+        return ch - 'A' + 10;
+    }
+    else if (ch >= 'a' && ch <= 'z') {
+        return ch - 'a' + 36;
+    }
+    return 0;
 }
 
 @end
