@@ -59,11 +59,13 @@ static dispatch_once_t _sharedInstanceGuard;
         _networkEngine.delegate = self;
         [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanup) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     }
     return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     SFRelease(_sessionRefresher);
     SFRelease(_activeRequests);
 }
