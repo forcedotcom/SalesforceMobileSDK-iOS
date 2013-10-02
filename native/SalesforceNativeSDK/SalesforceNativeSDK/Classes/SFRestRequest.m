@@ -72,8 +72,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @interface SFRestRequest () {
 
-    SFNetworkOperation *_networkOperation;
-    
     // upload
     SFRestRequestPostFile *_postFile;
 }
@@ -89,6 +87,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 @synthesize delegate=_delegate;
 @synthesize endpoint=_endpoint;
 @synthesize parseResponse=_parseResponse;
+@synthesize networkOperation=_networkOperation;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
