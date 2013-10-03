@@ -147,8 +147,9 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Send request using specified network engine
  * @param networkEngine
+ * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (void) send:(SFNetworkEngine*) networkEngine;
+- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine;
 
 /**
  * Cancels this request if it is running

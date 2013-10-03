@@ -180,8 +180,9 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * @param request the SFRestRequest to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
+ * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
+- (SFNetworkOperation*)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods
