@@ -72,8 +72,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @interface SFRestRequest () {
 
-    SFNetworkOperation *_networkOperation;
-    
     // upload
     SFRestRequestPostFile *_postFile;
 }
@@ -89,6 +87,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 @synthesize delegate=_delegate;
 @synthesize endpoint=_endpoint;
 @synthesize parseResponse=_parseResponse;
+@synthesize networkOperation=_networkOperation;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
@@ -138,7 +137,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 # pragma mark - send and cancel
 
-- (void) send:(SFNetworkEngine*) networkEngine {
+- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine {
     NSString *url = [NSString stringWithString:_path];
     NSString *reqEndpoint = _endpoint;
     if (![url hasPrefix:reqEndpoint]) {
@@ -169,6 +168,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     
     _networkOperation.delegate = self;
     [networkEngine enqueueOperation:_networkOperation];
+    
+    return _networkOperation;
 }
 
 - (void) cancel

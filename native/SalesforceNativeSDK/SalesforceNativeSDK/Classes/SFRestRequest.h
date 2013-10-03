@@ -99,6 +99,7 @@ extern NSString * const kSFDefaultRestEndpoint;
     NSString *_path;
     NSDictionary *_queryParams;
     id<SFRestDelegate> __weak _delegate;
+    SFNetworkOperation *_networkOperation;
 }
 
 
@@ -121,6 +122,10 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 @property (nonatomic, strong) NSDictionary *queryParams;
 
+/**
+ * Underlying SFNetworkOperation through which the network call is carried out
+ */
+@property (nonatomic, strong) SFNetworkOperation *networkOperation;
 
 /**
  * The delegate for this request. Notified of request status.
@@ -142,8 +147,9 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Send request using specified network engine
  * @param networkEngine
+ * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (void) send:(SFNetworkEngine*) networkEngine;
+- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine;
 
 /**
  * Cancels this request if it is running
