@@ -386,6 +386,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
     
     [self cancelAuthentication];
+    [self revokeRefreshToken];
     [[SFAccountManager sharedInstance] clearAccountState:YES];
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
@@ -690,15 +691,18 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 {
     SFOAuthCredentials *creds = [[SFAccountManager sharedInstance] credentials];
     NSString *refreshToken = [creds refreshToken];
-    NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
-    [host appendString:@"/services/oauth2/revoke?token="];
-    [host appendString:refreshToken];
-    NSURL *url = [NSURL URLWithString:host];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"GET"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [urlConnection start];
+    if (refreshToken != nil) {
+        [self log:SFLogLevelInfo msg:@"Revoking user's credentials."];
+        NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
+        [host appendString:@"/services/oauth2/revoke?token="];
+        [host appendString:refreshToken];
+        NSURL *url = [NSURL URLWithString:host];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        [request setHTTPMethod:@"GET"];
+        [request setHTTPShouldHandleCookies:NO];
+        NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+        [urlConnection start];
+    }
 }
 
 - (void)login
