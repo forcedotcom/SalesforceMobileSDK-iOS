@@ -126,7 +126,11 @@ static dispatch_once_t _sharedInstanceGuard;
     } else {
         // Make sure the instance URL is up-to-date.
         RKURL *freshBaseUrl = [RKURL URLWithBaseURL:_accountMgr.credentials.instanceUrl];
-        _rkClient.baseURL = freshBaseUrl;
+        
+        // This isn't thread safe in RestKit.
+        @synchronized(_rkClient) {
+            _rkClient.baseURL = freshBaseUrl;
+        }
     }
     return _rkClient;
 }
