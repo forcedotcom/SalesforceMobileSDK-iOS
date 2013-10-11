@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceNetworkSDK/SFNetworkEngine.h>
+#import <SalesforceNetworkSDK/SFNetworkOperation.h>
 
 @class RKRequest;
 
@@ -87,17 +89,17 @@ extern NSString * const kSFDefaultRestEndpoint;
 
 @end
 
-
 /**
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject {
+@interface SFRestRequest : NSObject<SFNetworkOperationDelegate> {
     NSString *_endpoint;
     SFRestMethod _method;
     NSString *_path;
     NSDictionary *_queryParams;
     id<SFRestDelegate> __weak _delegate;
+    SFNetworkOperation *_networkOperation;
 }
 
 
@@ -120,6 +122,10 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 @property (nonatomic, strong) NSDictionary *queryParams;
 
+/**
+ * Underlying SFNetworkOperation through which the network call is carried out
+ */
+@property (nonatomic, strong) SFNetworkOperation *networkOperation;
 
 /**
  * The delegate for this request. Notified of request status.
@@ -139,10 +145,22 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, assign) BOOL parseResponse;
 
 /**
- * The associated RKRequest object which is to be created when sending the 
- * request using SFRestApi
+ * Send request using specified network engine
+ * @param networkEngine
+ * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-@property (nonatomic, strong) RKRequest* rkRequest;
+- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine;
+
+/**
+ * Cancels this request if it is running
+ */
+- (void) cancel;
+
+/**
+ * Add file to upload
+ */
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
@@ -155,10 +173,5 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
-
-/**
- * Cancels this request if it is running
- */
-- (void) cancel;
 
 @end

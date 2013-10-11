@@ -23,7 +23,6 @@
  */
 
 #import "SFSoupIndex.h"
-#import "SalesforceSDKConstants.h"
 
 NSString * const kSoupIndexTypeString = @"string";
 NSString * const kSoupIndexTypeInteger = @"integer";

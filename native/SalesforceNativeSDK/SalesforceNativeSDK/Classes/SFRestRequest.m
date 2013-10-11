@@ -23,11 +23,60 @@
  */
 
 #import "SFRestRequest.h"
-#import "SalesforceSDKConstants.h"
-#import "SFJsonUtils.h"
-#import "RKRequest.h"
+#import "SFRestAPI+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
+
+/**
+ * Object to encapsulate post file details
+ */
+@interface SFRestRequestPostFile : NSObject {
+}
+
+@property (nonatomic, strong) NSData* fileData;
+@property (nonatomic, strong) NSString* fileName;
+@property (nonatomic, strong) NSString* paramName;
+@property (nonatomic, strong) NSString* mimeType;
+
+@end
+
+@implementation SFRestRequestPostFile
+
+@synthesize fileData=_fileData;
+@synthesize paramName=_paramName;
+@synthesize fileName=_fileName;
+@synthesize mimeType=_mimeType;
+
+- (id)initWithFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+    self = [super init];
+    if (self) {
+        self.fileData = fileData;
+        self.paramName = paramName;
+        self.fileName = fileName;
+        self.mimeType = mimeType;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    SFRelease(_fileData);
+    SFRelease(_paramName);
+    SFRelease(_fileName);
+    SFRelease(_mimeType);
+}
+
+
+@end
+
+@interface SFRestRequest () {
+
+    // upload
+    SFRestRequestPostFile *_postFile;
+}
+
+@end
 
 
 @implementation SFRestRequest
@@ -38,6 +87,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 @synthesize delegate=_delegate;
 @synthesize endpoint=_endpoint;
 @synthesize parseResponse=_parseResponse;
+@synthesize networkOperation=_networkOperation;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
@@ -55,6 +105,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     _delegate = nil;
     SFRelease(_queryParams);
     SFRelease(_endpoint);
+    SFRelease(_networkOperation);
+    SFRelease(_postFile);
 }
 
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -83,10 +135,84 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             ">",self, _endpoint, methodName, _path, paramStr];
 }
 
+# pragma mark - send and cancel
+
+- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine {
+    NSString *url = [NSString stringWithString:_path];
+    NSString *reqEndpoint = _endpoint;
+    if (![url hasPrefix:reqEndpoint]) {
+        url = [NSString stringWithFormat:@"%@%@", reqEndpoint, url];
+    }
+    
+    switch(_method) {
+        case SFRestMethodGET: _networkOperation = [networkEngine get:url params:_queryParams]; break;
+        case SFRestMethodPOST: _networkOperation = [networkEngine post:url params:_queryParams]; break;
+        case SFRestMethodPUT: _networkOperation = [networkEngine put:url params:_queryParams]; break;
+        case SFRestMethodDELETE: _networkOperation = [networkEngine delete:url params:_queryParams]; break;
+        case SFRestMethodHEAD: _networkOperation = [networkEngine head:url params:_queryParams]; break;
+        case SFRestMethodPATCH: _networkOperation = [networkEngine patch:url params:_queryParams]; break;
+    }
+
+    // File upload
+    if (nil != _postFile) {
+        [_networkOperation addPostFileData:_postFile.fileData paramName:_postFile.paramName fileName:_postFile.fileName mimeType:_postFile.mimeType];
+        
+    }
+    // Post/Patch or Put (but not a file upload)
+    else if (_method == SFRestMethodPOST || _method == SFRestMethodPATCH || _method == SFRestMethodPUT) {
+        SFNetworkOperationEncodingBlock jsonEncodingBlock = ^(NSDictionary *postDataDict) {
+            return [SFJsonUtils JSONRepresentation:postDataDict];
+        };
+        [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
+    }
+    
+    _networkOperation.delegate = self;
+    [networkEngine enqueueOperation:_networkOperation];
+    
+    return _networkOperation;
+}
+
 - (void) cancel
 {
-    [self.rkRequest cancel];
-    self.rkRequest.delegate = nil; // this is needed see manual of [RKRequest cancel]
+    [_networkOperation cancel];
 }
+
+#pragma mark - Upload
+
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+    _postFile = [[SFRestRequestPostFile alloc] initWithFileData:fileData paramName:paramName fileName:fileName mimeType:mimeType];
+}
+
+#pragma mark - SFNetworkOperationDelegate
+
+- (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
+        id dataResponse = _parseResponse ? [networkOperation responseAsJSON] : [networkOperation responseAsData];
+        [_delegate request:self didLoadResponse:dataResponse];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperation:(SFNetworkOperation*)networkOperation didFailWithError:(NSError*)error {
+    if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
+        [_delegate request:self didFailLoadWithError:error];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperationDidCancel:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
+        [_delegate requestDidCancelLoad:self];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
+- (void)networkOperationDidTimeout:(SFNetworkOperation *)networkOperation {
+    if ([_delegate respondsToSelector:@selector(requestDidTimeout:)]) {
+        [_delegate requestDidTimeout:self];
+    }
+    [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
+}
+
 
 @end

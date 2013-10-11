@@ -24,8 +24,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;

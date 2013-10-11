@@ -29,7 +29,7 @@
 #import "AppDelegate.h"
 #import "SFHybridViewController.h"
 #import "SFTestRunnerPlugin.h"
-#import "SFSmartStore.h"
+#import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
 
 @implementation SFPluginTestSuite
