@@ -25,8 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
-#import "SFAuthenticationManager.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
 /**

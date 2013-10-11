@@ -25,12 +25,12 @@
 #import "SalesforceOAuthPlugin.h"
 #import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "SFJsonUtils.h"
-#import "SFAccountManager.h"
-#import "SFUserActivityMonitor.h"
-#import "NSDictionary+SFAdditions.h"
-#import "SFAuthenticationManager.h"
-#import "SFSDKWebUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserActivityMonitor.h>
+#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import "SFHybridViewController.h"
 
 // ------------------------------------------

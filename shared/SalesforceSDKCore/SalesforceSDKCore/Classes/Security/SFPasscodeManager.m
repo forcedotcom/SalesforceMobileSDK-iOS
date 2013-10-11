@@ -25,7 +25,6 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
-#import "SFLogger.h"
 
 static SFPasscodeManager *sharedInstance = nil;
 

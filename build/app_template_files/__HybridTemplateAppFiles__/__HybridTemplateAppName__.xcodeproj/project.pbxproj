@@ -788,6 +788,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__HybridTemplateAppName__/__HybridTemplateAppName__-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
+				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -813,6 +817,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__HybridTemplateAppName__/__HybridTemplateAppName__-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
+				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

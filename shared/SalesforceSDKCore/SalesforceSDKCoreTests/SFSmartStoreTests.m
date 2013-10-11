@@ -36,8 +36,8 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
-#import "NSString+SFAdditions.h"
-#import "NSData+SFAdditions.h"
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
 
 NSString * const kTestSmartStoreName   = @"testSmartStore";
 NSString * const kTestSoupName   = @"testSoup";

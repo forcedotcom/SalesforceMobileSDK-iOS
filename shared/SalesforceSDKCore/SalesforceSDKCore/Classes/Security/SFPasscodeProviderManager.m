@@ -26,7 +26,6 @@
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
 #import "SFPBKDF2PasscodeProvider.h"
-#import "SFLogger.h"
 
 // Public constants
 NSString * const kSFPasscodeProviderSHA256 = @"sha256";

@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFOAuthCoordinator.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFIdentityCoordinator.h"
 
 @class SFOAuthCredentials;

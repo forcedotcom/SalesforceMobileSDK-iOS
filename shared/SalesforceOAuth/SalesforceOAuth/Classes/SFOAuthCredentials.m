@@ -27,7 +27,7 @@
 #import "SFOAuthCrypto.h"
 #import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
-#import "SFCrypto.h"
+#import <SalesforceCommonUtils/SFCrypto.h>
 
 static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 

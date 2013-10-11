@@ -24,10 +24,9 @@
 
 #import "SFRestAPI.h"
 
-@class RKRequestDelegateWrapper;
 @class SFSessionRefresher;
 @class SFAccountManager;
-
+@class SFNetworkEngine;
 
 /**
  We declare here a set of interfaces that are meant to be used by code running internally
@@ -38,17 +37,20 @@
 @interface SFRestAPI ()
 {
     SFAccountManager *_accountMgr;
-    RKClient *_rkClient;
+    SFNetworkEngine *_networkEngine;
 }
 
-
 /**
- * Set of active RKRequestDelegateWrapper (requests) managed by us
+ * Active requests property
  */
 @property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
+
+/**
+ * Session refresher property
+ */
 @property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
 
-- (void)removeActiveRequestObject:(RKRequestDelegateWrapper *)request;
+- (void)removeActiveRequestObject:(SFRestRequest *)request;
 
 /**
  Force a request to timeout: for testing only!
@@ -58,6 +60,17 @@
  */
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
 
+/**
+ * Setup network engine network coordinator
+ */
+- (void) setupNetworkCoordinator;
+
+/**
+ Creates SFNetworkCoordinator from SFOAuthCoordinator
+ @param oAuthCoordinator
+ @return a SFNetworkCoordinator
+ */
+- (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator;
 
 @end
 

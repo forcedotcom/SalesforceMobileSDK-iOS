@@ -23,7 +23,6 @@
  */
 
 #import "SFPBKDFData.h"
-#import "SalesforceSDKConstants.h"
 
 // For NSCoding.
 static NSString * const kSFPBKDFDataDerivedKeyCodingKey          = @"derivedKeyCodingKey";
