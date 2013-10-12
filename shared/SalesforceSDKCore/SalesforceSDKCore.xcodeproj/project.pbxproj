@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F95CBC81808A63F006FC87E /* SFPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBC61808A63F006FC87E /* SFPushNotification.h */; };
-		4F95CBC91808A63F006FC87E /* SFPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBC71808A63F006FC87E /* SFPushNotification.m */; };
+		4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */; };
+		4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */; };
 		8220B75016D804CA00EC3921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		8221562716E0130C002E1F56 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221561D16E0130C002E1F56 /* FMDatabase.m */; };
 		8221562816E0130C002E1F56 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221561F16E0130C002E1F56 /* FMDatabaseAdditions.m */; };
@@ -120,8 +120,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4F95CBC61808A63F006FC87E /* SFPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotification.h; path = PushNotification/SFPushNotification.h; sourceTree = "<group>"; };
-		4F95CBC71808A63F006FC87E /* SFPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotification.m; path = PushNotification/SFPushNotification.m; sourceTree = "<group>"; };
+		4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotificationManager.h; path = PushNotification/SFPushNotificationManager.h; sourceTree = "<group>"; };
+		4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManager.m; path = PushNotification/SFPushNotificationManager.m; sourceTree = "<group>"; };
 		8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8220B74F16D804CA00EC3921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -295,8 +295,8 @@
 		4F95CBC51808A615006FC87E /* PushNotification */ = {
 			isa = PBXGroup;
 			children = (
-				4F95CBC61808A63F006FC87E /* SFPushNotification.h */,
-				4F95CBC71808A63F006FC87E /* SFPushNotification.m */,
+				4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */,
+				4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */,
 			);
 			name = PushNotification;
 			sourceTree = "<group>";
@@ -592,6 +592,7 @@
 				82BBB57317909DC400374DD8 /* SFPasscodeManager.h in Headers */,
 				82BBB57417909DD700374DD8 /* SFPasscodeProviderManager.h in Headers */,
 				82BBB57517909DE500374DD8 /* SFQuerySpec.h in Headers */,
+				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
 				82BBB57617909DF000374DD8 /* SFSDKResourceUtils.h in Headers */,
 				82BBB57717909DFE00374DD8 /* SFSDKWebUtils.h in Headers */,
 				82BBB57817909E0D00374DD8 /* SFSecurityLockout.h in Headers */,
@@ -603,7 +604,6 @@
 				82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */,
 				82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */,
 				82E16D7317E7C59000E019AD /* TestSetupUtils.h in Headers */,
-				4F95CBC81808A63F006FC87E /* SFPushNotification.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,6 +741,7 @@
 				82AF844D16DFD95F008912EF /* SFApplication.m in Sources */,
 				82AF844E16DFD95F008912EF /* SFUserActivityMonitor.m in Sources */,
 				82AF844F16DFD95F008912EF /* SFIdentityCoordinator.m in Sources */,
+				4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */,
 				82AF845016DFD95F008912EF /* SFIdentityData.m in Sources */,
 				82AF845116DFD95F008912EF /* SFAccountManager.m in Sources */,
 				82AF845216DFD95F008912EF /* SFAuthenticationManager.m in Sources */,
@@ -772,7 +773,6 @@
 				82C0C7C016E08A8F0006B3C0 /* SFSDKTestRequestListener.m in Sources */,
 				82C0C7C116E08A8F0006B3C0 /* TestSetupUtils.m in Sources */,
 				82B6BC44170276DD0089D182 /* SFRootViewManager.m in Sources */,
-				4F95CBC91808A63F006FC87E /* SFPushNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

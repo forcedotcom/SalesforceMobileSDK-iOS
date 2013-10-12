@@ -26,29 +26,37 @@
 #import <UIKit/UIApplication.h>
 
 
-@interface SFPushNotification : NSObject
+@interface SFPushNotificationManager : NSObject
 
-@property (nonatomic, strong) NSData* PNSToken;
-@property (nonatomic, strong) NSString* pushObjectEntity;
+@property (nonatomic, strong) NSData* deviceToken;
+@property (nonatomic, strong) NSString* deviceSalesforceId;
 
-+ (SFPushNotification *) sharedInstance;
++ (SFPushNotificationManager *) sharedInstance;
+
 
 /**
- * Registers the application for remote notifications with apple for the given notification types.
- * This should be called from the application's didFinishLaunching method.
- * @param types UIRemoteNotificationType that defines the type of notifications to register for.
+ * Register with APNS
  */
-- (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types;
+- (void)registerForRemoteNotifications;
+
 /**
- * Registers for Notifications with the SFDC servers. This should be called after successful registeration with Apple.
- * It uses the DeviceToken received from Apple (PNSToken). On successful registeration with SFDC, the pushObjectEntity is populated.
+ * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
+ * @param deviceToken The device token returned by APNS
+ */
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
+
+/**
+ * Register for notifications with Salesforce
+ * Call this method after authenticating with Salesforce and registering with APNS
  * @return YES for successful registration call made.
  */
-- (BOOL)registerForSFDCNotifications;
+- (BOOL)registerForSalesforceNotifications;
+
 /**
- * Unregisters for Notifications with the SFDC servers. This should be done when the user logs out.
+ * Unregister from notifications with Salesforce
+ * Is called at log out
  * @return YES for successful unregistration call being made.
  */
-- (BOOL)unregisterSFDCNotifications;
+- (BOOL)unregisterSalesforceNotifications;
 
 @end
