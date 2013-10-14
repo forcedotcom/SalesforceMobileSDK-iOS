@@ -54,8 +54,11 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
+        // Watching logged in events (to register)
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFUserLoggedInNotification object:nil];
+        
         // Watching foreground events (to re-register)
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     return self;
 }
@@ -177,11 +180,23 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     return YES;
 }
 
-#pragma mark - Foreground observer
-- (void)appWillEnterForeground:(NSNotification *)notification
+
+#pragma mark - Events observers
+- (void)onUserLoggedIn:(NSNotification *)notification
+{
+    // Registering with Salesforce after login
+    if (self.deviceToken) {
+        [self log:SFLogLevelInfo msg:@"Registering for Salesforce notification because user just logged in"];
+        [self registerForSalesforceNotifications];
+    }
+}
+
+
+- (void)onAppWillEnterForeground:(NSNotification *)notification
 {
     // Re-registering with Salesforce if we have a device token unless we are logging out
     if (![SFAccountManager logoutSettingEnabled] && self.deviceToken) {
+        [self log:SFLogLevelInfo msg:@"Re-registering for Salesforce notification because application is being foregrounded"];
         [self registerForSalesforceNotifications];
     }
 }

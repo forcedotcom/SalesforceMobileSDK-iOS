@@ -48,6 +48,7 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
+NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 
 // Private constants
 
@@ -380,6 +381,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         // Identity data should exist.  Validate passcode.
         [self postAuthenticationToPasscodeProcessing];
     }
+    NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFUserLoggedInNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
 
 - (void)logout
