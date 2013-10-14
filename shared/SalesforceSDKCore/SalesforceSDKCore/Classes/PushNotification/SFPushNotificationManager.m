@@ -28,7 +28,7 @@
 #import "SFAccountManager.h"
 #import "SFJsonUtils.h"
 
-static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/MobilePushServiceDevice";
+static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/sobjects/MobilePushServiceDevice";
 static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
 
 
@@ -126,13 +126,13 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
     {
         if (error != nil) {
-            [self log:SFLogLevelError msg:[NSString stringWithFormat:@"create MobilePushServiceDevice failed with error %@", error]];
+            [self log:SFLogLevelError format:@"create MobilePushServiceDevice failed with error %@", error];
         }
         else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode != 200) {
-                [self log:SFLogLevelError msg:[NSString stringWithFormat:@"create MobilePushServiceDevice failed with status %d", statusCode]];
+                [self log:SFLogLevelError format:@"create MobilePushServiceDevice failed with status %d", statusCode];
             }
             else {
                 [self log:SFLogLevelInfo msg:@"create MobilePushServiceDevice succeeded"];
@@ -171,13 +171,13 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if (error != nil) {
-             [self log:SFLogLevelError msg:[NSString stringWithFormat:@"delete MobilePushServiceDevice failed with error %@", error]];
+             [self log:SFLogLevelError format:@"delete MobilePushServiceDevice failed with error %@", error];
          }
          else {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
              NSInteger statusCode = httpResponse.statusCode;
              if (statusCode != 204) {
-                 [self log:SFLogLevelError msg:[NSString stringWithFormat:@"delete MobilePushServiceDevice failed with status %d", statusCode]];
+                 [self log:SFLogLevelError format:@"delete MobilePushServiceDevice failed with status %d", statusCode];
              }
              else {
                  [self log:SFLogLevelInfo msg:@"delete MobilePushServiceDevice succeeded"];
