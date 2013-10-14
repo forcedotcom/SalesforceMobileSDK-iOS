@@ -37,6 +37,7 @@
 #import "SFUserActivityMonitor.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
+#import "SFPushNotificationManager.h"
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
@@ -384,7 +385,10 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)logout
 {
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
-    
+
+    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
+    }
     [self cancelAuthentication];
     [self revokeRefreshToken];
     [[SFAccountManager sharedInstance] clearAccountState:YES];

@@ -36,7 +36,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 @property (nonatomic, strong) NSOperationQueue* queue;
 
-- (void)onLogout:(NSNotification *)notification;
+- (void)appWillEnterForeground:(NSNotification *)notification;
 
 @end
 
@@ -54,11 +54,8 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
-        // Need to unregister on logout
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(onLogout:)
-                                                     name:kSFUserLogoutNotification
-                                                   object:nil];
+        // Watching foreground events (to re-register)
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     return self;
 }
@@ -89,6 +86,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
+    [self log:SFLogLevelInfo msg:@"Registration with Apple for remote push notifications succeeded"];
     _deviceToken = deviceToken;
 }
 
@@ -98,12 +96,12 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
     if (!credentials) {
-        [self log:SFLogLevelError msg:@"not authenticated: cannot register for notifications with Salesforce"];
+        [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
     }
     
     if (!_deviceToken) {
-        [self log:SFLogLevelError msg:@"APNS device token not set: did you call SFPushNotificationManager's registerForRemoteNotifications and didRegisterForRemoteNotificationsWithDeviceToken methods"];
+        [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: no deviceToken"];
         return NO;
     }
     
@@ -116,6 +114,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     // Headers
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setHTTPShouldHandleCookies:NO];
 
     // Body
     NSString* tokenString = [NSString stringWithHexData:_deviceToken];
@@ -126,19 +125,20 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
     {
         if (error != nil) {
-            [self log:SFLogLevelError format:@"create MobilePushServiceDevice failed with error %@", error];
+            [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
         }
         else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode < 200 || statusCode >= 300) {
-                [self log:SFLogLevelError format:@"create MobilePushServiceDevice failed with status %d", statusCode];
-                [self log:SFLogLevelError format:@"response:%@", [SFJsonUtils objectFromJSONData:data]];
+                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
             }
             else {
-                [self log:SFLogLevelInfo msg:@"create MobilePushServiceDevice succeeded"];
+                [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
                 _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
+                [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
         }
     }];
@@ -150,12 +150,12 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
     if (!credentials) {
-        [self log:SFLogLevelError msg:@"not authenticated: cannot register for notifications with Salesforce"];
+        [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: not authenticated"];
         return NO;
     }
 
     if (!_deviceSalesforceId) {
-        [self log:SFLogLevelInfo msg:@"Device not registered with Salesforce"];
+        [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
         return NO;
     }
 
@@ -167,33 +167,23 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     
     // Headers
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setHTTPShouldHandleCookies:NO];
     
-    // Send
-    [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if (error != nil) {
-             [self log:SFLogLevelError format:@"delete MobilePushServiceDevice failed with error %@", error];
-         }
-         else {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-             NSInteger statusCode = httpResponse.statusCode;
-             if (statusCode < 200 || statusCode >= 300) {
-                 [self log:SFLogLevelError format:@"delete MobilePushServiceDevice failed with status %d", statusCode];
-             }
-             else {
-                 [self log:SFLogLevelInfo msg:@"delete MobilePushServiceDevice succeeded"];
-                 _deviceSalesforceId = nil;
-             }
-         }
-     }];
-    
+    // Send (fire and forget)
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [urlConnection start];
+    [self log:SFLogLevelInfo msg:@"Unregister from notifications with Salesforce sent"];
+
     return YES;
 }
 
-# pragma mark - logout handler
-
-- (void)onLogout:(NSNotification *)notification
+#pragma mark - Foreground observer
+- (void)appWillEnterForeground:(NSNotification *)notification
 {
-    [self unregisterSalesforceNotifications];
+    // Re-registering with Salesforce if we have a device token unless we are logging out
+    if (![SFAccountManager logoutSettingEnabled] && self.deviceToken) {
+        [self registerForSalesforceNotifications];
+    }
 }
+
 @end
