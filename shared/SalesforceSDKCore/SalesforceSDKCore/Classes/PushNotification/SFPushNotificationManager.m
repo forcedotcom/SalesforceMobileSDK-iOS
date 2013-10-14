@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFAccountManager.h"
@@ -33,16 +34,15 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 @interface SFPushNotificationManager ()
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data;
+@property (nonatomic, strong) NSOperationQueue* queue;
 
 - (void)onLogout:(NSNotification *)notification;
-+(NSString*) stringWithHexData:(NSData*) data;
 
 @end
 
 @implementation SFPushNotificationManager
 
+@synthesize queue = _queue;
 @synthesize deviceToken = _deviceToken;
 @synthesize deviceSalesforceId = _deviceSalesforceId;
 
@@ -51,6 +51,9 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     self = [super init];
     if (self) {
+        // Queue for requests
+        _queue = [[NSOperationQueue alloc] init];
+        
         // Need to unregister on logout
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(onLogout:)
@@ -115,13 +118,31 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
 
     // Body
-    NSString* tokenString = [SFPushNotificationManager stringWithHexData:_deviceToken];
+    NSString* tokenString = [NSString stringWithHexData:_deviceToken];
     NSDictionary* bodyDict = @{@"ConnectionToken":tokenString, @"ServiceType":@"Apple"};
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    return (connection != nil);
+    [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+    {
+        if (error != nil) {
+            [self log:SFLogLevelError msg:[NSString stringWithFormat:@"create MobilePushServiceDevice failed with error %@", error]];
+        }
+        else {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+            NSInteger statusCode = httpResponse.statusCode;
+            if (statusCode != 200) {
+                [self log:SFLogLevelError msg:[NSString stringWithFormat:@"create MobilePushServiceDevice failed with status %d", statusCode]];
+            }
+            else {
+                [self log:SFLogLevelInfo msg:@"create MobilePushServiceDevice succeeded"];
+                NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
+                _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
+            }
+        }
+    }];
+    
+    return YES;
 }
 
 - (BOOL)unregisterSalesforceNotifications
@@ -147,31 +168,25 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
     
     // Send
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    return (connection != nil);
-}
-
-# pragma mark - NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-    NSInteger statusCode = httpResponse.statusCode;
-    NSString* logMsg = [NSString stringWithFormat:@"Request to %@ returned with status %d", response.URL, statusCode];
-    [self log:(statusCode == 200 || statusCode == 204 ? SFLogLevelInfo : SFLogLevelError) msg:logMsg];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
-{
-    NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-    if (responseAsJson) {
-        _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
-        [self log:SFLogLevelInfo msg:[NSString stringWithFormat:@"Salesforce device id is %@", _deviceSalesforceId]];
-    }
-    else {
-        // FIXME we don't want to lose it if we got a 401
-        _deviceSalesforceId = nil;
-    }
+    [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if (error != nil) {
+             [self log:SFLogLevelError msg:[NSString stringWithFormat:@"delete MobilePushServiceDevice failed with error %@", error]];
+         }
+         else {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+             NSInteger statusCode = httpResponse.statusCode;
+             if (statusCode != 204) {
+                 [self log:SFLogLevelError msg:[NSString stringWithFormat:@"delete MobilePushServiceDevice failed with status %d", statusCode]];
+             }
+             else {
+                 [self log:SFLogLevelInfo msg:@"delete MobilePushServiceDevice succeeded"];
+                 _deviceSalesforceId = nil;
+             }
+         }
+     }];
+    
+    return YES;
 }
 
 # pragma mark - logout handler
@@ -180,20 +195,4 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     [self unregisterSalesforceNotifications];
 }
-
-# pragma mark - misc
-
-
-+ (NSString *)stringWithHexData:(NSData *)data
-{
-    if (nil == data) return nil;
-    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
-	const unsigned char *dataBuffer = [data bytes];
-	for (int i = 0; i < [data length]; ++i) {
-		[stringBuffer appendFormat:@"%02lx", (unsigned long)dataBuffer[ i ]];
-    }
-    return [NSString stringWithString:stringBuffer];
-}
-
-
 @end
