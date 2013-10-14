@@ -131,8 +131,9 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
-            if (statusCode != 200) {
+            if (statusCode < 200 || statusCode >= 300) {
                 [self log:SFLogLevelError format:@"create MobilePushServiceDevice failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"response:%@", [SFJsonUtils objectFromJSONData:data]];
             }
             else {
                 [self log:SFLogLevelInfo msg:@"create MobilePushServiceDevice succeeded"];
@@ -176,7 +177,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
          else {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
              NSInteger statusCode = httpResponse.statusCode;
-             if (statusCode != 204) {
+             if (statusCode < 200 || statusCode >= 300) {
                  [self log:SFLogLevelError format:@"delete MobilePushServiceDevice failed with status %d", statusCode];
              }
              else {
