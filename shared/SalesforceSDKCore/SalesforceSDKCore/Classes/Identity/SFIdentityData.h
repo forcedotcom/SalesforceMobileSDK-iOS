@@ -218,6 +218,11 @@
 @property (readonly) int mobileAppScreenLockTimeout;
 
 /**
+ * An optional dictionary of custom attributes defined on the Connected App.
+ */
+@property (strong, nonatomic, readonly) NSDictionary *customAttributes;
+
+/**
  * The date this record was last modified.
  */
 @property (strong, nonatomic, readonly) NSDate *lastModifiedDate;
