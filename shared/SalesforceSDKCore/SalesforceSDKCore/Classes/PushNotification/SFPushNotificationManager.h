@@ -28,7 +28,7 @@
 
 @interface SFPushNotificationManager : NSObject
 
-@property (nonatomic, strong) NSData* deviceToken;
+@property (nonatomic, strong) NSString* deviceToken;
 @property (nonatomic, strong) NSString* deviceSalesforceId;
 
 + (SFPushNotificationManager *) sharedInstance;
@@ -41,9 +41,9 @@
 
 /**
  * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
- * @param deviceToken The device token returned by APNS
+ * @param deviceTokenData The device token returned by APNS
  */
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData;
 
 /**
  * Register for notifications with Salesforce

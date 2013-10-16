@@ -28,6 +28,7 @@
 #import "SFAccountManager.h"
 #import "SFJsonUtils.h"
 
+static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/sobjects/MobilePushServiceDevice";
 static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
 
@@ -36,7 +37,8 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 @property (nonatomic, strong) NSOperationQueue* queue;
 
-- (void)appWillEnterForeground:(NSNotification *)notification;
+- (void)onUserLoggedIn:(NSNotification *)notification;
+- (void)onAppWillEnterForeground:(NSNotification *)notification;
 
 @end
 
@@ -53,6 +55,10 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     if (self) {
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
+        
+        // Restore device token from user defaults if available
+        _deviceToken = [[NSUserDefaults standardUserDefaults] stringForKey:kSFDeviceToken];
+
         
         // Watching logged in events (to register)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFUserLoggedInNotification object:nil];
@@ -87,10 +93,11 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 #endif
 }
 
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData
 {
     [self log:SFLogLevelInfo msg:@"Registration with Apple for remote push notifications succeeded"];
-    _deviceToken = deviceToken;
+    _deviceToken = [NSString stringWithHexData:deviceTokenData];
+    [[NSUserDefaults standardUserDefaults] setObject:_deviceToken forKey:kSFDeviceToken];
 }
 
 #pragma mark - Salesforce registration
@@ -120,8 +127,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [request setHTTPShouldHandleCookies:NO];
 
     // Body
-    NSString* tokenString = [NSString stringWithHexData:_deviceToken];
-    NSDictionary* bodyDict = @{@"ConnectionToken":tokenString, @"ServiceType":@"Apple"};
+    NSDictionary* bodyDict = @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple"};
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
