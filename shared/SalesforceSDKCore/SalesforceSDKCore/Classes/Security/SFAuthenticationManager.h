@@ -60,6 +60,11 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 extern NSString * const kSFUserLogoutNotification;
 
+/**
+ Identifies the notification for the user being logged in to the application.
+ */
+extern NSString * const kSFUserLoggedInNotification;
+
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
