@@ -485,7 +485,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
 
-    if ([requestUrlString hasPrefix:self.credentials.redirectUri]) {
+    if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         
         result = NO; // we're finished, don't load this request
         NSString *response = nil;
