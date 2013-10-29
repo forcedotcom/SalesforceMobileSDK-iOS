@@ -38,6 +38,7 @@
 #import "SFUserActivityMonitor.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
+#import "SFPushNotificationManager.h"
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
@@ -48,6 +49,7 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
+NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 
 // Private constants
 
@@ -402,12 +404,17 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         // Identity data should exist.  Validate passcode.
         [self postAuthenticationToPasscodeProcessing];
     }
+    NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFUserLoggedInNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
 
 - (void)logout
 {
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
-    
+
+    if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
+    }
     [self cancelAuthentication];
     [self revokeRefreshToken];
     [[SFAccountManager sharedInstance] clearAccountState:YES];
