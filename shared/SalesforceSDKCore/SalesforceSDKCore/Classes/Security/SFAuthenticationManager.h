@@ -29,6 +29,8 @@
 #import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;
+@class SFAuthenticationManager;
+@class SFAuthenticationViewHandler;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -39,6 +41,48 @@ typedef void (^SFOAuthFlowSuccessCallbackBlock)(SFOAuthInfo *);
  Callback block definition for OAuth failure callback.
  */
 typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
+
+/**
+ Delegate protocol for SFAuthenticationManager events and callbacks.
+ */
+@protocol SFAuthenticationManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Called when the authentication manager is starting the auth process with an auth view.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerWillBeginAuthWithView:(SFAuthenticationManager *)manager;
+
+/**
+ Called when the auth view starts its load.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidStartAuthWebViewLoad:(SFAuthenticationManager *)manager;
+
+/**
+ Called when the auth view load has finished.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidFinishAuthWebViewLoad:(SFAuthenticationManager *)manager;
+
+/**
+ Called when the auth manager is going to display the auth view.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param view The instance of the auth view to be displayed.
+ */
+- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(UIWebView *)view;
+
+/**
+ Called after the auth manager has successfully authenticated.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param credentials The newly-authenticated credentials.
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info;
+
+@end
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -115,6 +159,25 @@ extern NSString * const kSFUserLoggedInNotification;
  The singleton instance of the SFAuthenticationManager class.
  */
 + (SFAuthenticationManager *)sharedManager;
+
+/**
+ The property denoting the block that will handle the display and dismissal of the authentication view.
+ You can override this handler if you want to have a custom work flow for displaying the authentication
+ view.  If you'd simply prefer to display the view in your own style, you can leave this property set
+ to the default, and override the authViewController property with your style changes.
+ */
+@property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler;
+
+/**
+ Adds a delegate to the list of authentication manager delegates.
+ @param delegate The delegate to add to the list.
+ */
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
+
+/**
+ Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
+ */
+- (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
 
 /**
  Kick off the login process.

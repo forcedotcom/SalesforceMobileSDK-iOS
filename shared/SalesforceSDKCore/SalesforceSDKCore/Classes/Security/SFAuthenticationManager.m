@@ -28,6 +28,7 @@
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFAccountManager.h"
+#import "SFAuthenticationViewHandler.h"
 #import "SFAuthorizingViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
@@ -137,6 +138,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
      Will be YES when the app is launching, vs. NO when the app is simply being foregrounded.
      */
     BOOL _isAppLaunch;
+    
+    NSMutableArray *_delegates;
 }
 
 /**
@@ -215,6 +218,12 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)execFailureBlocks;
 
 /**
+ Runs the given block of code against the list of auth manager delegates.
+ @param block The block of code to execute for each delegate.
+ */
+- (void)enumerateDelegates:(void(^)(id<SFAuthenticationManagerDelegate> delegate))block;
+
+/**
  Revoke the existing refresh token, in a fire-and-forget manner, such that
  we don't await a response from the server.
  */
@@ -273,6 +282,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize useSnapshotView = _useSnapshotView;
 @synthesize snapshotView = _snapshotView;
 @synthesize snapshotViewController = _snapshotViewController;
+@synthesize authViewHandler = _authViewHandler;
 
 #pragma mark - Singleton initialization / management
 
@@ -303,12 +313,25 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
+        _delegates = [[NSMutableArray alloc] init];
         self.preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         self.useSnapshotView = YES;
+        
+        // Default auth web view handler
+        __weak SFAuthenticationManager *weakSelf = self;
+        self.authViewHandler = [[SFAuthenticationViewHandler alloc]
+                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
+                                    if (weakSelf.authViewController == nil)
+                                        weakSelf.authViewController = [[SFAuthorizingViewController alloc] initWithNibName:nil bundle:nil];
+                                    [weakSelf.authViewController setOauthView:authWebView];
+                                    [[SFRootViewManager sharedManager] pushViewController:weakSelf.authViewController];
+                                } dismissBlock:^(SFAuthenticationManager *authViewManager) {
+                                    [weakSelf dismissAuthViewControllerIfPresent];
+                                }];
         
         // Make sure the login host settings and dependent data are synced at pre-auth app startup.
         // Note: No event generation necessary here.  This will happen before the first authentication
@@ -803,24 +826,96 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
 }
 
+#pragma mark - Delegate management methods
+
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        [_delegates addObject:[NSValue valueWithNonretainedObject:delegate]];
+    }
+}
+
+- (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        [_delegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
+}
+
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
 {
-    [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView"];
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView:"];
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillBeginAuthWithView:)]) {
+            [delegate authManagerWillBeginAuthWithView:self];
+        }
+    }];
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+{
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:didStartLoad:"];
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidStartAuthWebViewLoad:)]) {
+            [delegate authManagerDidStartAuthWebViewLoad:self];
+        }
+    }];
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
+{
+    [self log:SFLogLevelDebug msg:@"oauthCoordinator:didFinishLoad:error:"];
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidFinishAuthWebViewLoad:)]) {
+            [delegate authManagerDidFinishAuthWebViewLoad:self];
+        }
+    }];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
-    [self presentAuthViewController:view];
+    
+    // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
+    // to be added to a superview by the end of this method.
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.authViewHandler.authViewDisplayBlock(self, view);
+        });
+    } else {
+        self.authViewHandler.authViewDisplayBlock(self, view);
+    }
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];
     self.authInfo = info;
-    [self dismissAuthViewControllerIfPresent];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.authViewHandler.authViewDismissBlock(self);
+    });
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidAuthenticate:)]) {
+            [delegate authManagerDidAuthenticate:self credentials:coordinator.credentials authInfo:info];
+        }
+    }];
+    
     [self loggedIn];
 }
 
