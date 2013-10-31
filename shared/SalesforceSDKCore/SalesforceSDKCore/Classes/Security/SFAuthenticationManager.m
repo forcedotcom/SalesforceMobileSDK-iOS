@@ -29,6 +29,8 @@
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFAccountManager.h"
 #import "SFAuthenticationViewHandler.h"
+#import "SFAuthErrorHandler.h"
+#import "SFAuthErrorHandlerList.h"
 #import "SFAuthorizingViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
@@ -43,13 +45,20 @@
 
 static SFAuthenticationManager *sharedInstance = nil;
 
-// Public constants
+// Public notification name constants
 
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
+
+// Public auth error handler name constants
+
+NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
+NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
+NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
+NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 
 // Private constants
 
@@ -270,6 +279,19 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 - (void)savePasscodeActivityInfo;
 
+/**
+ Sets up the default error handling chain.
+ @return The SFAuthErrorHandlerList instance containing the chain of error handler filters.
+ */
+- (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList;
+
+/**
+ Processes an auth error by sending it through the chain of error handlers.
+ @param error The auth error object.
+ @param info The SFOAuthInfo data associated with authentication.
+ */
+- (void)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info;
+
 @end
 
 @implementation SFAuthenticationManager
@@ -283,6 +305,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize snapshotView = _snapshotView;
 @synthesize snapshotViewController = _snapshotViewController;
 @synthesize authViewHandler = _authViewHandler;
+@synthesize authErrorHandlerList = _authErrorHandlerList;
 
 #pragma mark - Singleton initialization / management
 
@@ -332,6 +355,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
                                     [weakSelf dismissAuthViewControllerIfPresent];
                                 }];
+        
+        // Set up default auth error handlers.
+        self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
         
         // Make sure the login host settings and dependent data are synced at pre-auth app startup.
         // Note: No event generation necessary here.  This will happen before the first authentication
@@ -826,6 +852,88 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
 }
 
+#pragma mark - Auth error handler methods
+
+- (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
+{
+    SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
+    
+    // Invalid credentials handler
+    
+    SFAuthErrorHandler *invalidCredsHandler = [[SFAuthErrorHandler alloc]
+                                               initWithName:kSFInvalidCredentialsAuthErrorHandler
+                                               evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                   if (authInfo.authType == SFOAuthTypeRefresh) {
+                                                       if (error.code == kSFOAuthErrorInvalidGrant) {
+                                                           [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
+                                                           [self execFailureBlocks];
+                                                           return YES;
+                                                       }
+                                                   }
+                                                   return NO;
+                                               }];
+    [authHandlerList addAuthErrorHandler:invalidCredsHandler];
+    
+    // Connected app version mismatch handler
+    
+    SFAuthErrorHandler *connectedAppVersionHandler = [[SFAuthErrorHandler alloc]
+                                                      initWithName:kSFConnectedAppVersionAuthErrorHandler
+                                                      evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                          if (error.code == kSFOAuthErrorWrongVersion) {
+                                                              [self log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+                                                              [self showAlertForConnectedAppVersionMismatchError];
+                                                              return YES;
+                                                          }
+                                                          return NO;
+                                                      }];
+    [authHandlerList addAuthErrorHandler:connectedAppVersionHandler];
+    
+    // Network failure handler
+    
+    SFAuthErrorHandler *networkFailureHandler = [[SFAuthErrorHandler alloc]
+                                                 initWithName:kSFNetworkFailureAuthErrorHandler
+                                                 evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                     if ([SFAccountManager errorIsNetworkFailure:error]) {
+                                                         [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
+                                                         
+                                                         [self loggedIn];
+                                                         return YES;
+                                                     }
+                                                     return NO;
+                                                 }];
+    [authHandlerList addAuthErrorHandler:networkFailureHandler];
+    
+    // Generic failure handler
+    
+    SFAuthErrorHandler *genericFailureHandler = [[SFAuthErrorHandler alloc]
+                                                 initWithName:kSFGenericFailureAuthErrorHandler
+                                                 evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                     [[SFAccountManager sharedInstance] clearAccountState:NO];
+                                                     [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
+                                                     return YES;
+                                                 }];
+    [authHandlerList addAuthErrorHandler:genericFailureHandler];
+    
+    return authHandlerList;
+}
+
+- (void)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info
+{
+    NSInteger i = 0;
+    BOOL errorHandled = NO;
+    NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
+    while (i < [authHandlerArray count] && !errorHandled) {
+        SFAuthErrorHandler *currentHandler = [self.authErrorHandlerList.authHandlerArray objectAtIndex:i];
+        errorHandled = currentHandler.evalBlock(error, info);
+        i++;
+    }
+    
+    if (!errorHandled) {
+        // No error handlers could handle the error.  Pass through to the error blocks.
+        [self execFailureBlocks];
+    }
+}
+
 #pragma mark - Delegate management methods
 
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate
@@ -925,31 +1033,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     self.authInfo = info;
     self.authError = error;
     
-    BOOL showRetryAlert = YES;
-    if (info.authType == SFOAuthTypeRefresh) {
-        if (error.code == kSFOAuthErrorInvalidGrant) {  //invalid cached refresh token
-            // Restart the login process asynchronously.
-            showRetryAlert = NO;
-            [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
-            [self execFailureBlocks];
-        } else if (error.code == kSFOAuthErrorWrongVersion) {  // Connected App version mismatch.  Refresh token invalid.
-            showRetryAlert = NO;
-            [self log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
-            [self showAlertForConnectedAppVersionMismatchError];
-        } else if ([SFAccountManager errorIsNetworkFailure:error]) {
-            // Couldn't connect to server to refresh.  Assume valid credentials until the next attempt.
-            showRetryAlert = NO;
-            [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
-            
-            [self loggedIn];
-        }
-    }
-    
-    if (showRetryAlert) {
-        // show alert and retry
-        [[SFAccountManager sharedInstance] clearAccountState:NO];
-        [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
-    }
+    [self processAuthError:error authInfo:info];
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate
