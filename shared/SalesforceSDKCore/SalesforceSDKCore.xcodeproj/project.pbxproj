@@ -39,7 +39,7 @@
 		82867578181C759A007AA18A /* SFAuthenticationViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */; };
 		82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A55A70182020B00002E22A /* SFAuthErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A55A6E182020B00002E22A /* SFAuthErrorHandler.m */; };
-		82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */; };
+		82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A55A751821A48B0002E22A /* SFAuthErrorHandlerList.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A55A731821A48B0002E22A /* SFAuthErrorHandlerList.m */; };
 		82AF844D16DFD95F008912EF /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841016DFD95F008912EF /* SFApplication.m */; };
 		82AF844E16DFD95F008912EF /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841216DFD95F008912EF /* SFUserActivityMonitor.m */; };
@@ -606,6 +606,7 @@
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
 				82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */,
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
+				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
 				82BBB57017909D9300374DD8 /* SFIdentityCoordinator.h in Headers */,
 				82BBB57117909DA500374DD8 /* SFIdentityData.h in Headers */,
 				82BBB57217909DBA00374DD8 /* SFJsonUtils.h in Headers */,
@@ -624,7 +625,6 @@
 				82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */,
 				82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */,
 				82E16D7317E7C59000E019AD /* TestSetupUtils.h in Headers */,
-				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
