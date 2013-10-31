@@ -1,5 +1,6 @@
 .DS_Store
 xcuserdata
+xcshareddata
 project.xcworkspace
 artifacts
 
