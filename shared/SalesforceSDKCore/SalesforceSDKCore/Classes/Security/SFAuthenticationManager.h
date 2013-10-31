@@ -31,6 +31,7 @@
 @class SFAuthorizingViewController;
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
+@class SFAuthErrorHandlerList;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -109,6 +110,30 @@ extern NSString * const kSFUserLogoutNotification;
  */
 extern NSString * const kSFUserLoggedInNotification;
 
+/**
+ The name of the auth error handler dealing with invalid credentials.
+ @see authErrorHandlerList
+ */
+extern NSString * const kSFInvalidCredentialsAuthErrorHandler;
+
+/**
+ The name of the auth error handler dealing with Connected App version mismatches.
+ @see authErrorHandlerList
+ */
+extern NSString * const kSFConnectedAppVersionAuthErrorHandler;
+
+/**
+ The name of the auth error handler dealing with auth network failures.
+ @see authErrorHandlerList
+ */
+extern NSString * const kSFNetworkFailureAuthErrorHandler;
+
+/**
+ The name of the catch-all auth error handler dealing with unhandled errors.
+ @see authErrorHandlerList
+ */
+extern NSString * const kSFGenericFailureAuthErrorHandler;
+
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
@@ -146,7 +171,7 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, strong) UIView *snapshotView;
 
 /**
- The preferred passcode provider to use.  In this release, In this release, defaults to
+ The preferred passcode provider to use.  In this release, defaults to
  kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
  NOTE: If you wanted to set your own provider, you could do the following:
          id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
@@ -167,6 +192,12 @@ extern NSString * const kSFUserLoggedInNotification;
  to the default, and override the authViewController property with your style changes.
  */
 @property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler;
+
+/**
+ The list of auth error handler filters to pass each authentication error through.  You can add or
+ remove items from this list to change the flow of auth error handling.
+ */
+@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
 
 /**
  Adds a delegate to the list of authentication manager delegates.
