@@ -28,6 +28,7 @@
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import "CDVConnection.h"
@@ -45,8 +46,14 @@ NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgent";
 
-// Private constants
+// Error page constants
+static NSString * const kErrorCodeParameterName = @"errorCode";
 static NSString * const kErrorDescriptionParameterName = @"errorDescription";
+static NSString * const kErrorContextParameterName = @"errorContext";
+static NSInteger  const kErrorCodeNetworkOffline = 1;
+static NSString * const kErrorContextAppLoading = @"AppLoading";
+static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
+
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 @interface SFHybridViewController()
@@ -85,6 +92,15 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (BOOL)isOffline;
 
 /**
+ Determines whether the error is due to invalid credentials, and if so, whether the
+ app should be logged out as a result.
+ @param error The error to check against an invalid credentials error.
+ @return YES if the error is due to invalid credentials and logout should occur, NO
+ otherwise.
+ */
+- (BOOL)logoutOnInvalidCredentials:(NSError *)error;
+
+/**
  Gets the file URL for the full path to the given page.
  @param page The relative page to create the path from.
  @return NSURL representing the file URL for the page path.
@@ -92,19 +108,23 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (NSURL *)fullFileUrlForPage:(NSString *)page;
 
 /**
- Appends the error description as a querystring parameter to the input URL.
+ Appends the error contents as querystring parameters to the input URL.
  @param rootUrl The base URL to use.
- @param errorDescription The error description querystring parameter to be added to the base URL.
+ @param errorCode The numeric error code associated with the error.
+ @param errorDescription The error description associated with the error.
+ @param errorContext The error context associated with the error.
  @return NSURL containing the base URL and the error parameter.
  */
-- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl withDescription:(NSString *)errorDescription;
+- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl code:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
  Creates a default in-memory error page, in the event that a user-defined error page does not exist.
- @param errorDescription The error description associated with the bootstrap failure.
+ @param errorCode The numeric error code associated with the error.
+ @param errorDescription The error description associated with the error.
+ @param errorContext The context associated with the error.
  @return An NSString containing the HTML content for the error page.
  */
-- (NSString *)createDefaultErrorPageContent:(NSString *)errorDescription;
+- (NSString *)createDefaultErrorPageContentWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
  Sets up the actual start page URL, which will be different depending on whether the app is
@@ -174,7 +194,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             NSString *urlString = [self.appHomeUrl absoluteString];
             if ([urlString length] == 0) {
                 NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
-                [self loadErrorPage:offlineErrorDescription];
+                [self loadErrorPageWithCode:kErrorCodeNetworkOffline description:offlineErrorDescription context:kErrorContextAppLoading];
             } else {
                 // Try to load offline page.
                 self.startPage = urlString;
@@ -189,8 +209,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                 [self configureStartPage];
                 [super viewDidLoad];
             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-                [[SFAuthenticationManager sharedManager] logout];
+                if ([self logoutOnInvalidCredentials:error]) {
+                    [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+                    [[SFAuthenticationManager sharedManager] logout];
+                } else {
+                    // Error is not invalid credentials, or developer otherwise wants to handle it.
+                    [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
+                }
             }];
         } else {
             // Start page already set.  Just try to load through Cordova.
@@ -249,9 +274,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             completionBlock(authInfo, authDict);
         }
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-        [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed.  Logging out."];
-        [[SFAuthenticationManager sharedManager] logout];
-        if (failureBlock != NULL) {
+        if ([self logoutOnInvalidCredentials:error]) {
+            [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed.  Logging out."];
+            [[SFAuthenticationManager sharedManager] logout];
+        } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
     }];
@@ -270,20 +296,21 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     }
 }
 
-- (void)loadErrorPage:(NSString *)errorDescription
+- (void)loadErrorPageWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext
 {
     NSString *errorPage = _hybridViewConfig.errorPage;
     NSURL *errorPageUrl = [self fullFileUrlForPage:errorPage];
     self.errorPageWebView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.errorPageWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.errorPageWebView.delegate = self;
     [self.view addSubview:self.errorPageWebView];
     if (errorPageUrl != nil) {
-        NSURL *errorPageUrlWithDescription = [self createErrorPageUrl:errorPageUrl withDescription:errorDescription];
-        NSURLRequest *errorRequest = [NSURLRequest requestWithURL:errorPageUrlWithDescription];
+        NSURL *errorPageUrlWithError = [self createErrorPageUrl:errorPageUrl code:errorCode description:errorDescription context:errorContext];
+        NSURLRequest *errorRequest = [NSURLRequest requestWithURL:errorPageUrlWithError];
         [self.errorPageWebView loadRequest:errorRequest];
     } else {
         // Error page does not exist.  Generate a generic page with the error.
-        NSString *errorContent = [self createDefaultErrorPageContent:errorDescription];
+        NSString *errorContent = [self createDefaultErrorPageContentWithCode:errorCode description:errorDescription context:errorContext];
         [self.errorPageWebView loadHTMLString:errorContent baseURL:nil];
     }
 }
@@ -347,6 +374,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
 }
 
+- (BOOL)logoutOnInvalidCredentials:(NSError *)error
+{
+    return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
+            && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
+}
+
 - (NSURL *)fullFileUrlForPage:(NSString *)page
 {
     NSString *fullPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.wwwFolderName] stringByAppendingPathComponent:page];
@@ -358,18 +391,34 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return fileUrl;
 }
 
-- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl withDescription:(NSString *)errorDescription
+- (NSURL *)createErrorPageUrl:(NSURL *)rootUrl code:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext
 {
-    NSString *errorPageUrlString = [rootUrl absoluteString];
-    NSString *errorDescriptionParameter = [NSString stringWithFormat:@"%@=%@", kErrorDescriptionParameterName, [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSString *paramMarker = ([rootUrl query] == nil ? @"?" : @"&");
-    NSString *errorPageUrlStringWithDescription = [NSString stringWithFormat:@"%@%@%@", errorPageUrlString, paramMarker, errorDescriptionParameter];
-    return [NSURL URLWithString:errorPageUrlStringWithDescription];
+    NSMutableString *errorPageUrlString = [NSMutableString stringWithString:[rootUrl absoluteString]];
+    [rootUrl query] == nil ? [errorPageUrlString appendString:@"?"] : [errorPageUrlString appendString:@"&"];
+    [errorPageUrlString appendFormat:@"%@=%d", kErrorCodeParameterName, errorCode];
+    [errorPageUrlString appendFormat:@"&%@=%@",
+     kErrorDescriptionParameterName,
+     [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [errorPageUrlString appendFormat:@"&%@=%@",
+     kErrorContextParameterName,
+     [errorContext stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    return [NSURL URLWithString:errorPageUrlString];
 }
 
-- (NSString *)createDefaultErrorPageContent:(NSString *)errorDescription
+- (NSString *)createDefaultErrorPageContentWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext
 {
-    NSString *htmlContent = [NSString stringWithFormat:@"<html><head><title>Bootstrap Error Page</title></head><body><h1>Bootstrap Error Page</h1><p>%@</p></body></html>", errorDescription];
+    NSString *htmlContent = [NSString stringWithFormat:
+                             @"<html>\
+                             <head>\
+                               <title>Bootstrap Error Page</title>\
+                             </head>\
+                             <body>\
+                               <h1>Bootstrap Error Page</h1>\
+                               <p>Error code: %d</p>\
+                               <p>Error description: %@</p>\
+                               <p>Error context: %@</p>\
+                             </body>\
+                             </html>", errorCode, errorDescription, errorContext];
     return htmlContent;
 }
 
@@ -417,18 +466,28 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     
     // Cordova web view load.
     if ([webView isEqual:self.webView]) {
+        // If the request is attempting to refresh an invalid session, take over the refresh process via the
+        // OAuth refresh flow in the container.
         if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
             [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
             // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
             // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
             [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                // Reset the user agent back to Cordova.
-                [self authenticationCompletion:request.URL authInfo:authInfo];
-            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                [[SFAuthenticationManager sharedManager] logout];
-            }
-             ];
+            [[SFAuthenticationManager sharedManager]
+             loginWithCompletion:^(SFOAuthInfo *authInfo) {
+                 // Reset the user agent back to Cordova.
+                 [self authenticationCompletion:request.URL authInfo:authInfo];
+             }
+             failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Could not refresh expired session.  Logging out."];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                 }
+             }];
+            
             return NO;
         }
     }
