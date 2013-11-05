@@ -799,6 +799,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK/Headers",
 				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -828,6 +830,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK/Headers",
 				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
