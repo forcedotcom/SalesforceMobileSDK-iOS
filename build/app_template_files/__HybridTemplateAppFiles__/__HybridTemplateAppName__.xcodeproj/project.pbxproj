@@ -179,6 +179,10 @@
 		8273F15F1778EE90005E31A6 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
 		8273F1601778EE90005E31A6 /* UILabel+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SFAdditions.h"; sourceTree = "<group>"; };
 		8273F1611778EE90005E31A6 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		82B36E3F1828884F00B0C975 /* SFAuthenticationViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationViewHandler.h; sourceTree = "<group>"; };
+		82B36E401828884F00B0C975 /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
+		82B36E411828884F00B0C975 /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
+		82B36E421828884F00B0C975 /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPushNotificationManager.h; sourceTree = "<group>"; };
 		82BBB5C41793994300374DD8 /* CDVPlugin+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVPlugin+SFAdditions.h"; sourceTree = "<group>"; };
 		82BBB5C51793994300374DD8 /* SalesforceOAuthPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthPlugin.h; sourceTree = "<group>"; };
 		82BBB5C61793994300374DD8 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
@@ -609,12 +613,16 @@
 				82BBB5DA1793997A00374DD8 /* SFAccountManager.h */,
 				82BBB5DB1793997A00374DD8 /* SFApplication.h */,
 				82BBB5DC1793997A00374DD8 /* SFAuthenticationManager.h */,
+				82B36E3F1828884F00B0C975 /* SFAuthenticationViewHandler.h */,
+				82B36E401828884F00B0C975 /* SFAuthErrorHandler.h */,
+				82B36E411828884F00B0C975 /* SFAuthErrorHandlerList.h */,
 				82BBB5DD1793997A00374DD8 /* SFAuthorizingViewController.h */,
 				82BBB5DE1793997A00374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5DF1793997A00374DD8 /* SFIdentityData.h */,
 				82BBB5E01793997A00374DD8 /* SFJsonUtils.h */,
 				82BBB5E11793997A00374DD8 /* SFPasscodeManager.h */,
 				82BBB5E21793997A00374DD8 /* SFPasscodeProviderManager.h */,
+				82B36E421828884F00B0C975 /* SFPushNotificationManager.h */,
 				82BBB5E31793997A00374DD8 /* SFQuerySpec.h */,
 				82BBB5E41793997A00374DD8 /* SFSDKResourceUtils.h */,
 				82BBB5E51793997A00374DD8 /* SFSDKWebUtils.h */,
