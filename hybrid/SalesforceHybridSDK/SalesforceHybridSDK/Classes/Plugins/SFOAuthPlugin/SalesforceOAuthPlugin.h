@@ -32,9 +32,6 @@
  * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
  */
 @interface SalesforceOAuthPlugin : CDVPlugin
-{
-    NSString *_authCallbackId;
-}
 
 #pragma mark - Plugin exported to javascript
 
