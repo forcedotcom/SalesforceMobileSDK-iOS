@@ -637,8 +637,12 @@ static NSString * const kHttpPostContentType                    = @"application/
 	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:pairs.count];
 	for (NSString *pair in pairs) {
         NSArray *keyValue = [pair componentsSeparatedByString:@"="];
-		NSString *key = [[keyValue objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		NSString *value = [[keyValue objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *key = [[[keyValue objectAtIndex:0]
+                          stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                         stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *value = [[[keyValue objectAtIndex:1]
+                            stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                           stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		[dict setObject:value forKey:key];
 	}
 	NSDictionary *result = [NSDictionary dictionaryWithDictionary:dict];
@@ -648,7 +652,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
     NSAssert(type, @"error type can't be nil");
     
-    NSString *localized = [NSString stringWithFormat:@"%@ %@ : %@", kSFOAuthErrorDomain, type, description];
     NSInteger code = kSFOAuthErrorUnknown;
     if ([type isEqualToString:kSFOAuthErrorTypeAccessDenied]) {
         code = kSFOAuthErrorAccessDenied;
@@ -679,8 +682,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
 
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
-                                                                    description, kSFOAuthErrorDescription,
-                                                                    localized,   NSLocalizedDescriptionKey,
+                                                                    description,   NSLocalizedDescriptionKey,
                                                                     nil];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:dict];
     return error;

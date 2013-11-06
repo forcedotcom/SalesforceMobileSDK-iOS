@@ -90,6 +90,12 @@
     [self.authHandlerMutableArray removeObject:errorHandler];
 }
 
+- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler
+{
+    NSArray *resultArray = [self.authHandlerMutableArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"SELF == %@", errorHandler]];
+    return ([resultArray count] > 0);
+}
+
 #pragma mark - Private methods
 
 - (SFAuthErrorHandler *)retrieveAuthErrorHandlerWithName:(NSString *)name
