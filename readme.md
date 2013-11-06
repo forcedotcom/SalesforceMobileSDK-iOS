@@ -47,7 +47,8 @@ Introduction
 - Two new sample apps, `FileExplorer` and `HybridFileExplorer`, have been added to demonstrate these features, on the native and hybrid platforms respectively.
 
 **SmartSync Enhancements**
-- Support for custom endpoints is now supported, using the `Force.RemoteObject` class.
+- Support for custom endpoints is now supported, using the `Force.RemoteObject` and `Force.RemoteObjectCollection` classes.
+- Support for apex-rest endpoints is now supported, using the `Force.ApexRestObject` and `Force.ApexRestObjectCollection` classes.
 - NOTE:
 	- This feature is only available on hybrid apps.
 
