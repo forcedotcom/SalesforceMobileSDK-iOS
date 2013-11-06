@@ -33,33 +33,28 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 2.0
+### What's New in 2.1
 
-**SmartSync library**
-- Introducing the SmartSync library for hybrid apps (external/shared/libs/smartsync.js), a set of JavaScript tools to allow you to work with higher level data objects from Salesforce.
-- New AccountEditor hybrid sample app with User and Group Search, demonstrating the SmartSync functionality in action.
+**Push Notifications**
+- Registration and delivery of push notifications are now supported from a Salesforce org where push notifications are enabled.
 
-**SmartStore Enhancements**
-- SmartStore now supports 'Smart SQL' queries, such as complex aggregate functions, JOINs, and any other SQL-type queries.
-- NativeSqlAggregator is a new sample app to demonstrate usage of SmartStore within a native app to run Smart SQL queries, such as aggregate queries.
-- SmartStore now supports three data types for index fields - 'string', 'integer', and 'floating'.
+**Networking Enhancements**
+- The underlying networking library has been replaced with MKNetworkKit, which provides the ability to configure advanced features, such as managing the network queue and cancelation of requests.
+- RestKit is no longer supported.
 
-**OAuth Enhancements**
-- Authentication can now be handled in an on-demand fashion.
-- Refresh tokens are now explicitly revoked from the server upon logout.
+**File API Support**
+- The Salesforce Mobile SDK now provides convenience methods that build specialized REST requests for file upload/download and sharing operations.
+- Two new sample apps, `FileExplorer` and `HybridFileExplorer`, have been added to demonstrate these features, on the native and hybrid platforms respectively.
+
+**SmartSync Enhancements**
+- Support for custom endpoints is now supported, using the `Force.RemoteObject` class.
+- NOTE:
+	- This feature is only available on hybrid apps.
 
 **Other Technical Improvements**
-- All projects and template apps have been converted to use ARC.
-- All Xcode projects are now managed under a single workspace (`SalesforceMobileSDK.xcworkspace`).  This allows for a few benefits:
-    - During development of the SDK, any changes to underlying libraries/projects will automatically be reflected in their consuming projects/applications.
-    - You can now debug all the way through the stack of dependencies, from a sample app down through authentication and other core functionality.
-    - No more "staging" of binary artifacts as a prerequisite to working with the projects.  `install.sh` now simply syncs the submodules of the repository, after which you're free to start working in the workspace.
-- Native and mobile template apps no longer rely on parent app delegate classes to successfully leverage OAuth authentication.  This means that you, the developer, are free to design your `AppDelegate` app flow however you choose, leveraging the updated `SFAuthenticationManager` component wherever it's practical to do so in your app.
-- All hybrid dependencies are now decoupled from `SalesforceHybridSDK.framework` (which has been retired).  This means you can now mix and match your own versions of Cordova, openssl, etc., in your app.  The core functionality of the framework itself has now been converted into a static library.
-- Added support for community users to login.
-- Consolidated our Cordova JS plugins and utility code into one file (cordova.force.js).
-- Updated forcetk.js and renamed to forcetk.mobilesdk.js, to pull in the latest functionality from ForceTK and enhance its ability to work with the Mobile SDK authentication process.
-- Fixed session state refresh for Visualforce apps, in the event of session timeouts during JavaScript Remoting calls in Visualforce.
+- Handling of OAuth errors is now configurable.
+- Upgraded the `openssl` library to `v1.0.1e`, to fix possible security concerns with older versions of `openssl`.
+- Various bug fixes.
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
