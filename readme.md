@@ -36,25 +36,24 @@ Introduction
 ### What's New in 2.1
 
 **Push Notifications**
-- Registration and delivery of push notifications are now supported from a Salesforce org where push notifications are enabled.
+- Registration and delivery of push notifications are now supported from a Salesforce org that enables push notifications.
 
 **Networking Enhancements**
-- The underlying networking library has been replaced with MKNetworkKit, which provides the ability to configure advanced features, such as managing the network queue and cancelation of requests.
-- RestKit is no longer supported.
+- The underlying networking library has been replaced with MKNetworkKit. MKNetworkKit provides the ability to configure advanced features, such as managing the network queue and cancelation of requests.
 
-**File API Support**
+**Files API Support**
 - The Salesforce Mobile SDK now provides convenience methods that build specialized REST requests for file upload/download and sharing operations.
-- Two new sample apps, `FileExplorer` and `HybridFileExplorer`, have been added to demonstrate these features, on the native and hybrid platforms respectively.
+- A native sample app, `FileExplorer`, and a hybrid sample app, `HybridFileExplorer`, have been added to demonstrate these features.
 
 **SmartSync Enhancements**
-- Support for custom endpoints is now supported, using the `Force.RemoteObject` and `Force.RemoteObjectCollection` classes.
-- Support for apex-rest endpoints is now supported, using the `Force.ApexRestObject` and `Force.ApexRestObjectCollection` classes.
+- You can now access custom endpoints using the `Force.RemoteObject` and `Force.RemoteObjectCollection` classes.
+- You can now access Apex REST endpoints using the `Force.ApexRestObject` and `Force.ApexRestObjectCollection` classes.
 - NOTE:
 	- This feature is only available on hybrid apps.
 
 **Other Technical Improvements**
-- Handling of OAuth errors is now configurable.
-- Upgraded the `openssl` library to `v1.0.1e`, to fix possible security concerns with older versions of `openssl`.
+- OAuth error handling is now configurable.
+- Upgraded the `openssl` library to `v1.0.1e` to fix possible security concerns with older versions of `openssl`.
 - Various bug fixes.
 
 ### Native Applications
