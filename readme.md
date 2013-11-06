@@ -54,6 +54,7 @@ Introduction
 **Other Technical Improvements**
 - OAuth error handling is now configurable.
 - Upgraded the `openssl` library to `v1.0.1e` to fix possible security concerns with older versions of `openssl`.
+- You can now add one or more delegates to SFAuthenticationManager. This gives you more granular access to the authentication process.
 - Various bug fixes.
 
 ### Native Applications
