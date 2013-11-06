@@ -70,4 +70,11 @@
  */
 - (void)removeAuthErrorHandler:(SFAuthErrorHandler *)errorHandler;
 
+/**
+ Determines whether the given error handler is in the list.
+ @param errorHandler The error handler to look for in the list.
+ @return YES if the error handler is in the list, NO otherwise.
+ */
+- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler;
+
 @end

@@ -31,6 +31,7 @@
 @class SFAuthorizingViewController;
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
+@class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
 
 /**
@@ -110,30 +111,6 @@ extern NSString * const kSFUserLogoutNotification;
  */
 extern NSString * const kSFUserLoggedInNotification;
 
-/**
- The name of the auth error handler dealing with invalid credentials.
- @see authErrorHandlerList
- */
-extern NSString * const kSFInvalidCredentialsAuthErrorHandler;
-
-/**
- The name of the auth error handler dealing with Connected App version mismatches.
- @see authErrorHandlerList
- */
-extern NSString * const kSFConnectedAppVersionAuthErrorHandler;
-
-/**
- The name of the auth error handler dealing with auth network failures.
- @see authErrorHandlerList
- */
-extern NSString * const kSFNetworkFailureAuthErrorHandler;
-
-/**
- The name of the catch-all auth error handler dealing with unhandled errors.
- @see authErrorHandlerList
- */
-extern NSString * const kSFGenericFailureAuthErrorHandler;
-
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
@@ -192,6 +169,26 @@ extern NSString * const kSFGenericFailureAuthErrorHandler;
  to the default, and override the authViewController property with your style changes.
  */
 @property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler;
+
+/**
+ The auth handler for invalid credentials.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
+
+/**
+ The auth handler for Connected App version errors.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
+
+/**
+ The auth handler for failures due to network connectivity.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler;
+
+/**
+ The generic auth handler for any unhandled errors.
+ */
+@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler;
 
 /**
  The list of auth error handler filters to pass each authentication error through.  You can add or
@@ -273,6 +270,13 @@ extern NSString * const kSFGenericFailureAuthErrorHandler;
  @return YES if the URL matches the login redirect URL pattern, NO otherwise.
  */
 + (BOOL)isLoginRedirectUrl:(NSURL *)url;
+
+/**
+ Determines whether an error is due to invalid auth credentials.
+ @param error The error to check against an invalid credentials error.
+ @return YES if the error is due to invalid credentials, NO otherwise.
+ */
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error;
 
 /**
  Remove any cookies with the given names from the given domains.

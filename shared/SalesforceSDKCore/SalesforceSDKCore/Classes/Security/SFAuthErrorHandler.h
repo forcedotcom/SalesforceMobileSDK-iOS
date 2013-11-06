@@ -41,13 +41,13 @@ typedef BOOL (^SFAuthErrorHandlerEvalBlock)(NSError *, SFOAuthInfo *);
 /**
  The canonical name of the error handler.
  */
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, readonly) NSString *name;
 
 /**
  The block of code that will evaluate the error.  The block should return YES if it can
  handle the error, and NO if the error should be passed on to the next handler.
  */
-@property (nonatomic, copy) SFAuthErrorHandlerEvalBlock evalBlock;
+@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock;
 
 /**
  Designated initializer for SFAuthErrorHandler.

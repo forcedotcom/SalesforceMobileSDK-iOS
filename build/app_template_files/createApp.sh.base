@@ -106,7 +106,7 @@ function parseOpts()
           usage
           exit 4
         fi
-        noSpecialCharsAppName=`echo "${appName}" | sed 's/[^a-zA-Z0-9\.\-_ ]//g'`
+        noSpecialCharsAppName=`echo "${appName}" | sed 's/[^a-zA-Z0-9\._ -]//g'`
         if [[ "${noSpecialCharsAppName}" != "${appName}" ]]; then
           echoColor $TERM_COLOR_RED "Application name (${appName}) cannot contain special characters.  Only letters, numbers, spaces, and the characters '.',  '-', and '_' are allowed."
           usage

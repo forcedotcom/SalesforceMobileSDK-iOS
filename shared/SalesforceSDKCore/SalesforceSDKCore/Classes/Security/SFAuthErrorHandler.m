@@ -34,8 +34,8 @@
 {
     self = [super init];
     if (self) {
-        self.name = name;
-        self.evalBlock = evalBlock;
+        _name = [name copy];
+        _evalBlock = [evalBlock copy];
     }
     return self;
 }
