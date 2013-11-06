@@ -25,8 +25,8 @@
 #import <Foundation/Foundation.h>
 
 #import "SFIdentityCoordinator.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;

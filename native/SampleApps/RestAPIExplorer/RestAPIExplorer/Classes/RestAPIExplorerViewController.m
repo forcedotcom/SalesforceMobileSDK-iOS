@@ -27,11 +27,11 @@
 
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
-#import "SFJsonUtils.h"
-#import "SFRestAPI.h"
-#import "SFRestRequest.h"
-#import "SFSecurityLockout.h"
-#import "SFAuthenticationManager.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceNativeSDK/SFRestRequest.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface RestAPIExplorerViewController ()
 
@@ -353,27 +353,36 @@
 #pragma mark - SFRestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
-    _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text = [dataResponse description];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
+        _tfResponseFor.text = [self formatRequest:request];
+        _tfResult.text = [dataResponse description];
+    });
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    _tfResult.backgroundColor = [UIColor redColor];
-    _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text = [error description];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _tfResult.backgroundColor = [UIColor redColor];
+        _tfResponseFor.text = [self formatRequest:request];
+        _tfResult.text = [error description];
+
+    });
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    _tfResult.backgroundColor = [UIColor redColor];
-    _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text =  @"Request was cancelled";    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _tfResult.backgroundColor = [UIColor redColor];
+        _tfResponseFor.text = [self formatRequest:request];
+        _tfResult.text =  @"Request was cancelled";
+    });
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
-    _tfResult.backgroundColor = [UIColor redColor];
-    _tfResponseFor.text = [self formatRequest:request];
-    _tfResult.text =  @"Request timedout";        
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _tfResult.backgroundColor = [UIColor redColor];
+        _tfResponseFor.text = [self formatRequest:request];
+        _tfResult.text =  @"Request timedout";
+    });
 }
 
 @end

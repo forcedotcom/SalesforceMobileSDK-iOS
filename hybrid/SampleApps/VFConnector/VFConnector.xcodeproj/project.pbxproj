@@ -39,6 +39,7 @@
 		7DBD073F149AA8430043A9E0 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD073E149AA8430043A9E0 /* README */; };
 		7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0745149AA8440043A9E0 /* Settings.bundle */; };
 		8202760E1651795300DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202760D1651795300DB814C /* MessageUI.framework */; };
+		820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88B17E29BFE00263F2E /* Default-568h@2x.png */; };
 		8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */; };
 		8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA416ED5F6000BD1EA2 /* libssl.a */; };
 		8251CAA716ED5F7000BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA616ED5F7000BD1EA2 /* libsqlcipher.a */; };
@@ -104,6 +105,7 @@
 		7DBD073E149AA8430043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD0745149AA8440043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8202760D1651795300DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		820BB88B17E29BFE00263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CAA416ED5F6000BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		8251CAA616ED5F7000BD1EA2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		7DBD0728149AA8430043A9E0 /* splash */ = {
 			isa = PBXGroup;
 			children = (
+				820BB88B17E29BFE00263F2E /* Default-568h@2x.png */,
 				7DBD0729149AA8430043A9E0 /* Default-Landscape~ipad.png */,
 				7DBD072B149AA8430043A9E0 /* Default-Portrait~ipad.png */,
 				7DBD072D149AA8430043A9E0 /* Default.png */,
@@ -318,7 +321,7 @@
 		7DBD06BB149AA8420043A9E0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 7DBD06BE149AA8420043A9E0 /* Build configuration list for PBXProject "VFConnector" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -357,6 +360,7 @@
 				7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */,
 				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
+				820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +396,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -405,13 +413,21 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,6 +439,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -430,12 +450,20 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -450,14 +478,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
 				INFOPLIST_FILE = "VFConnector/VFConnector-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -471,14 +493,8 @@
 				GCC_PREFIX_HEADER = "VFConnector/VFConnector-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
 				INFOPLIST_FILE = "VFConnector/VFConnector-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../SalesforceHybridSDK/SalesforceHybridSDK/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceSDKCore/SalesforceSDKCore/Classes/** $(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils $(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/** $(PROJECT_DIR)/../../../shared/SalesforceOAuth/SalesforceOAuth/Classes/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

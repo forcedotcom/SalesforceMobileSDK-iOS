@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
+#import <SalesforceNetworkSDK/SFNetworkEngine.h>
 
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
@@ -38,7 +39,7 @@ extern NSInteger const kSFRestErrorCode;
 
 
 /*
- * Default API version (currently "v23.0")
+ * Default API version (currently "v28.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
@@ -49,7 +50,6 @@ extern NSString* const kSFRestDefaultAPIVersion;
 extern NSString * const kSFMobileSDKNativeDesignator;
 
 @class SFOAuthCoordinator;
-@class RKClient;
 
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
@@ -110,7 +110,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
     - (void)requestDidCancelLoad:(SFRestRequest *)request {
         // handle error
     }
- 
+
     - (void)requestDidTimeout:(SFRestRequest *)request {
         // handle error
     }
@@ -140,8 +140,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
-@interface SFRestAPI : NSObject {
-    RKClient *_client;
+@interface SFRestAPI : NSObject<SFNetworkEngineDelegate> {
     NSString *_apiVersion;
 }
 
@@ -152,11 +151,6 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * property, as it's closely aligned with SFAccountManager already.
  */
 @property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-
-/**
- * Property exposing the RestKit `RKClient` instance associated with this object.
- */
-@property (strong, nonatomic, readonly) RKClient *rkClient;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
@@ -171,14 +165,24 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 + (SFRestAPI *)sharedInstance;
 
+/**
+ * Clean up due to host change or logout
+ */
+- (void)cleanup;
+
+/** 
+ * Cancel all requests that are waiting to be excecuted
+ */
+- (void)cancelAllRequests;
 
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
  * @param request the SFRestRequest to be sent
  * @param delegate the delegate object used when the response from the server is returned. 
  * This overwrites the delegate property of the request.
+ * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
+- (SFNetworkOperation*)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods

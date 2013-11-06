@@ -13,9 +13,15 @@
 		827C82DC17DD86D60011BBA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DB17DD86D60011BBA1 /* QuartzCore.framework */; };
 		827C82DE17DD86E10011BBA1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DD17DD86E10011BBA1 /* libz.dylib */; };
 		82B0FC1615F5AE420054B066 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */; };
-		82BC32BE16EEB3C000FC68D3 /* SFOAuthCoordinator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; };
-		82BC32BF16EEB3C000FC68D3 /* SFOAuthCredentials.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; };
-		82BC32C016EEB3C000FC68D3 /* SFOAuthInfo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */; };
+		82BBB58B1790A2D000374DD8 /* SFOAuthCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB58C1790A2D000374DD8 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82C2B70E17BBF2EB0023218F /* SFOAuth_NSString+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEA6D8414C7AA5900487C9D /* SFOAuth_NSString+Additions.h */; };
+		82C2B70F17BBF2EB0023218F /* SFOAuth_UIDevice+Hardware.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEA6D8614C7AA5900487C9D /* SFOAuth_UIDevice+Hardware.h */; };
+		82C2B71017BBF2EB0023218F /* SFOAuthCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF9E13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h */; };
+		82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */; };
+		82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */; };
+		82C2B71317BBF2EB0023218F /* SFOAuthInfo+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0FC1C15F5C3400054B066 /* SFOAuthInfo+Internal.h */; };
 		82F06EB117B5B05300F287A2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82F06EB017B5B05300F287A2 /* Default-568h@2x.png */; };
 		BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */; };
 		BEEA6D8914C7AA5900487C9D /* SFOAuth_NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6D8514C7AA5900487C9D /* SFOAuth_NSString+Additions.m */; };
@@ -59,21 +65,6 @@
 			remoteInfo = SalesforceOAuth;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		82BC32BD16EEB38900FC68D3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				82BC32BE16EEB3C000FC68D3 /* SFOAuthCoordinator.h in CopyFiles */,
-				82BC32BF16EEB3C000FC68D3 /* SFOAuthCredentials.h in CopyFiles */,
-				82BC32C016EEB3C000FC68D3 /* SFOAuthInfo.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6FFCCF8F13BD7C0100F4B22B /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCoordinator.h; path = SalesforceOAuth/Classes/SFOAuthCoordinator.h; sourceTree = SOURCE_ROOT; };
@@ -352,6 +343,25 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		82BBB58A1790A2BD00374DD8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BBB58B1790A2D000374DD8 /* SFOAuthCoordinator.h in Headers */,
+				82BBB58C1790A2D000374DD8 /* SFOAuthCredentials.h in Headers */,
+				82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */,
+				82C2B70E17BBF2EB0023218F /* SFOAuth_NSString+Additions.h in Headers */,
+				82C2B70F17BBF2EB0023218F /* SFOAuth_UIDevice+Hardware.h in Headers */,
+				82C2B71017BBF2EB0023218F /* SFOAuthCoordinator+Internal.h in Headers */,
+				82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */,
+				82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */,
+				82C2B71317BBF2EB0023218F /* SFOAuthInfo+Internal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		CF7F346113B52B4E001AB761 /* SalesforceOAuthTest */ = {
 			isa = PBXNativeTarget;
@@ -377,7 +387,7 @@
 			buildPhases = (
 				CFA9ADD013AA86D80024260E /* Sources */,
 				CFA9ADD113AA86D80024260E /* Frameworks */,
-				82BC32BD16EEB38900FC68D3 /* CopyFiles */,
+				82BBB58A1790A2BD00374DD8 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -544,10 +554,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceOAuthTest/SalesforceOAuthTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -566,10 +572,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceOAuthTest/SalesforceOAuthTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -591,8 +593,13 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PUBLIC_HEADERS_FOLDER_PATH = ../Headers/SalesforceOAuth;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "Headers/$(TARGET_NAME)Private";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -607,8 +614,13 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers";
+				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PUBLIC_HEADERS_FOLDER_PATH = ../Headers/SalesforceOAuth;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "Headers/$(TARGET_NAME)Private";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -623,9 +635,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
-				INSTALL_PATH = /Libraries;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -641,9 +650,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceOAuth/SalesforceOAuth-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils";
-				INSTALL_PATH = /Libraries;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -669,7 +675,6 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceOAuthUnitTests/SalesforceOAuthUnitTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -692,7 +697,6 @@
 				GCC_PREFIX_HEADER = "SalesforceOAuthUnitTests/SalesforceOAuthUnitTests-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "SalesforceOAuthUnitTests/SalesforceOAuthUnitTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

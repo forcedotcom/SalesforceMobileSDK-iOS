@@ -25,10 +25,10 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "RootViewController.h"
-#import "SFAccountManager.h"
-#import "SFAuthenticationManager.h"
-#import "SFOAuthInfo.h"
-#import "SFLogger.h"
+#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
@@ -120,8 +120,34 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    
+    //
+    // If you wish to register for push notifications, uncomment the line below.  Note that,
+    // if you want to receive push notifications from Salesforce, you will also need to
+    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
+    //
+    //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
+    //
+    
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    //
+    // Uncomment the code below to register your device token with the push notification manager
+    //
+    //[[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    //if ([SFAccountManager sharedInstance].credentials.accessToken != nil) {
+    //    [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
+    //}
+    //
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    // Respond to any push notification registration errors here.
 }
 
 - (void)initializeAppViewState

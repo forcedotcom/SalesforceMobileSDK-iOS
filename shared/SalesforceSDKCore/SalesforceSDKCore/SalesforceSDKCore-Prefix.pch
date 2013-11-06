@@ -4,6 +4,7 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
-    #import "SFLogger.h"
+    #import <UIKit/UIKit.h>
+    #import <SalesforceCommonUtils/SFLogger.h>
     #import "SalesforceSDKConstants.h"
 #endif

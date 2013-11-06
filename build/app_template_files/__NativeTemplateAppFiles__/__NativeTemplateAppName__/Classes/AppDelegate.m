@@ -27,6 +27,7 @@
 #import "RootViewController.h"
 #import "SFAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFPushNotificationManager.h"
 #import "SFOAuthInfo.h"
 #import "SFLogger.h"
 
@@ -121,9 +122,35 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    
+    //
+    // If you wish to register for push notifications, uncomment the line below.  Note that,
+    // if you want to receive push notifications from Salesforce, you will also need to
+    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
+    //
+    //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
+    //
+    
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
     
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    //
+    // Uncomment the code below to register your device token with the push notification manager
+    //
+    //[[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    //if ([SFAccountManager sharedInstance].credentials.accessToken != nil) {
+    //    [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
+    //}
+    //
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    // Respond to any push notification registration errors here.
 }
 
 #pragma mark - Private methods

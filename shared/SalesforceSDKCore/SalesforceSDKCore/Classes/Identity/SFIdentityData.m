@@ -23,7 +23,6 @@
  */
 
 #import "SFIdentityData.h"
-#import "SalesforceSDKConstants.h"
 
 // Private constants
 
@@ -62,6 +61,7 @@ NSString * const kSFIdentityUtcOffsetKey                  = @"utcOffset";
 NSString * const kSFIdentityMobilePolicyKey               = @"mobile_policy";
 NSString * const kSFIdentityMobileAppPinLengthKey         = @"pin_length";
 NSString * const kSFIdentityMobileAppScreenLockTimeoutKey = @"screen_lock";
+NSString * const kSFIdentityCustomAttributesKey           = @"custom_attributes";
 NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
 
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
@@ -315,6 +315,11 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     } else {
         return -1;
     }
+}
+
+- (NSDictionary *)customAttributes
+{
+    return [self.dictRepresentation objectForKey:kSFIdentityCustomAttributesKey];
 }
 
 - (NSDate *)lastModifiedDate

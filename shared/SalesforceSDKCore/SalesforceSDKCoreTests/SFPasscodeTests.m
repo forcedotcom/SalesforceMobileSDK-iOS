@@ -14,7 +14,6 @@
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
 #import "SFPBKDF2PasscodeProvider.h"
-#import "SalesforceSDKConstants.h"
 
 #pragma mark - MockPasscodeProvider
 

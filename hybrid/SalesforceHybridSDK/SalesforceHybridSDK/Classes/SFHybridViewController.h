@@ -25,8 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "CDVViewController.h"
-#import "SFAuthenticationManager.h"
-#import "SFOAuthInfo.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
 /**
@@ -109,10 +109,12 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
- Loads an error page, in the event of a local bootstrap failure.
+ Loads an error page, in the event of an otherwise unhandled error.
+ @param errorCode A numberic error code associated with the error.
  @param errorDescription The error description associated with the failure.
+ @param errorContext The context in which the error occurred.
  */
-- (void)loadErrorPage:(NSString *)errorDescription;
+- (void)loadErrorPageWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
  Convert the post-authentication credentials into a Dictionary, to return to

@@ -35,10 +35,10 @@
 #import "SFQuerySpec.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStoreDatabaseManager.h"
-#import "UIDevice+SFHardware.h"
-#import "NSString+SFAdditions.h"
-#import "NSData+SFAdditions.h"
-#import "SFCrypto.h"
+#import <SalesforceCommonUtils/UIDevice+SFHardware.h>
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceCommonUtils/SFCrypto.h>
 
 static NSMutableDictionary *_allSharedStores;
 
@@ -1145,7 +1145,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec];
-    NSUInteger result;
+    NSUInteger result = 0;
 
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];

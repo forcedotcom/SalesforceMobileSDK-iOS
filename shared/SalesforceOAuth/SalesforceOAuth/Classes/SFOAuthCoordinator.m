@@ -179,7 +179,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 }
 
 - (void)stopAuthentication {
-    [_view stopLoading];
+    [self.view stopLoading];
     [self.connection cancel];
     self.connection = nil;
     [self stopRefreshFlowConnectionTimer];
@@ -228,20 +228,20 @@ static NSString * const kHttpPostContentType                    = @"application/
         return;
     }
     
-    if (nil == _view) {
+    if (nil == self.view) {
         // lazily create web view if needed
-        _view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
-    _view.delegate = self;
+    self.view.delegate = self;
 
     // Ensure that the webview options match how our app wants to handle detected links
-    _view.dataDetectorTypes = UIDataDetectorTypeNone;
+    self.view.dataDetectorTypes = UIDataDetectorTypeNone;
 
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginAuthenticationWithView:)]) {
-        [self.delegate oauthCoordinator:self willBeginAuthenticationWithView:_view];
+        [self.delegate oauthCoordinator:self willBeginAuthenticationWithView:self.view];
     }
     
     // optional query params: 
@@ -288,7 +288,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
     [request setCachePolicy:NSURLCacheStorageNotAllowed]; // don't use cache
 	
-	[_view loadRequest:request];
+	[self.view loadRequest:request];
 }
 
 - (void)beginTokenRefreshFlow {
@@ -485,7 +485,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
 
-    if ([requestUrlString hasPrefix:self.credentials.redirectUri]) {
+    if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         
         result = NO; // we're finished, don't load this request
         NSString *response = nil;
@@ -637,8 +637,12 @@ static NSString * const kHttpPostContentType                    = @"application/
 	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:pairs.count];
 	for (NSString *pair in pairs) {
         NSArray *keyValue = [pair componentsSeparatedByString:@"="];
-		NSString *key = [[keyValue objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		NSString *value = [[keyValue objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *key = [[[keyValue objectAtIndex:0]
+                          stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                         stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *value = [[[keyValue objectAtIndex:1]
+                            stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                           stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		[dict setObject:value forKey:key];
 	}
 	NSDictionary *result = [NSDictionary dictionaryWithDictionary:dict];
@@ -648,7 +652,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
     NSAssert(type, @"error type can't be nil");
     
-    NSString *localized = [NSString stringWithFormat:@"%@ %@ : %@", kSFOAuthErrorDomain, type, description];
     NSInteger code = kSFOAuthErrorUnknown;
     if ([type isEqualToString:kSFOAuthErrorTypeAccessDenied]) {
         code = kSFOAuthErrorAccessDenied;
@@ -679,8 +682,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
 
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
-                                                                    description, kSFOAuthErrorDescription,
-                                                                    localized,   NSLocalizedDescriptionKey,
+                                                                    description,   NSLocalizedDescriptionKey,
                                                                     nil];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:dict];
     return error;
