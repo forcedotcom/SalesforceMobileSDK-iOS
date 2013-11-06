@@ -108,6 +108,11 @@
     //
 }
 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    // Respond to any push notification registration errors here.
+}
+
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
 {
     if (url == nil) {
