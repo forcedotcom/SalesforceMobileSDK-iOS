@@ -1,69 +1,88 @@
 ## 2.0 to 2.1 upgrade
 
-For native and hybrid, it's always recommended, wherever possible, to update by creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app over into the new template.  Read on if you would prefer to update the Mobile SDK artifacts in your existing app.
+To upgrade native and hybrid, we strongly recommend creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app into the new template.  Read on if you prefer to update the Mobile SDK artifacts in your existing app.
 
 ### Hybrid 2.0 to 2.1 upgrade
 
-- Update the Mobile SDK library packages.  The easiest way to do this will be to do a wholesale swap of your app's Dependencies folder with the new libraries, in your app's Xcode project.
-    1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Right-click and delete it.
-    2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
-        - Cordova/Cordova-Release.zip
-        - SalesforceHybridSDK-Release.zip
-        - SalesforceOAuth-Release.zip
-        - SalesforceSDKCore-Release.zip
-    3. You'll also want to grab the following folders from the ThirdParty folder, for placement in your Dependencies folder:
-        - SalesforceCommonUtils
-        - openssl
-        - sqlcipher
-    4. Remove the old libraries from your Dependencies folder, if they're still there.
-    5. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
-    6. In Project Navigator, right-click your app folder, select 'Add Files to "App Name"...', select the Dependencies folder, make sure "Create groups for any added folder" is selected, and click Add.
-- Update the header search paths of your project in Xcode:
-    1. Click on your project in Project Navigator.
-    2. Select the Build Settings tab of your main target.
-    3. Scroll down to (or search/filter for) Header Search Paths
-    4. Add the following search paths:
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceSDKCore/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceOAuth/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceCommonUtils/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceHybridSDK/Headers
-- For your hybrid "local" apps, update the following files from external/shared/libs, in the www/ folder of your app:
-    - cordova.force.js
-    - forcetk.mobilesdk.js
-    - smartsync.js
+#### Update the Mobile SDK library packages
+The easiest way to do this is delete everything in the Dependencies folder of your app's Xcode project, and then add the new libraries.
+
+1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Control-click the folder, choose Delete, and select "Move to Trash".
+2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
+    - Cordova/Cordova-Release.zip
+    - SalesforceHybridSDK-Release.zip
+    - SalesforceOAuth-Release.zip
+    - SalesforceSDKCore-Release.zip
+3. Also, download the following folders from the ThirdParty folder link in the distribution repo, for placement in your Dependencies folder:
+    - SalesforceCommonUtils
+    - openssl
+    - sqlcipher
+4. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
+5. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
+6. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
+7. Click Add.
+
+#### Update header search paths
+Update the header search paths of your project in Xcode:
+
+1. Click your project in Project Navigator.
+2. Select the Build Settings tab of your main target.
+3. Scroll down to (or search/filter for) Header Search Paths.
+4. Add the following search paths:
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceSDKCore/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceOAuth/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceCommonUtils/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceHybridSDK/Headers
+
+#### Update hybrid local artifacts
+For your hybrid "local" apps, replace the following files in the www/ folder of your app with the new versions from the external/shared/libs folder of this repo:
+
+- cordova.force.js
+- forcetk.mobilesdk.js
+- smartsync.js
     
 ### Native 2.0 to 2.1 upgrade
 
-- Update the Mobile SDK library packages.  The easiest way to do this will be to do a wholesale swap of your app's Dependencies folder with the new libraries, in your app's Xcode project.
-    1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Right-click and delete it.
-    2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
-        - MKNetworkKit-iOS-Release.zip
-        - SalesforceNativeSDK-Release.zip
-        - SalesforceNetworkSDK-Release.zip
-        - SalesforceOAuth-Release.zip
-        - SalesforceSDKCore-Release.zip
-    3. You'll also want to grab the following folders from the ThirdParty folder, for placement in your Dependencies folder:
-        - SalesforceCommonUtils
-        - openssl
-        - sqlcipher
-    4. Remove the old libraries from your Dependencies folder, if they're still there.
-    5. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
-    6. In Project Navigator, right-click your app folder, select 'Add Files to "App Name"...', select the Dependencies folder, make sure "Create groups for any added folder" is selected, and click Add.
-- Update the header search paths of your project in Xcode:
-    1. Click on your project in Project Navigator.
-    2. Select the Build Settings tab of your main target.
-    3. Scroll down to (or search/filter for) Header Search Paths
-    4. Add the following search paths:
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceSDKCore/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceOAuth/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceNetworkSDK/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceCommonUtils/Headers
-        - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceNativeSDK/Headers
-- In 2.1, the Mobile SDK has replaced RestKit with MKNetworkKit as the network library for native apps.  MKNetworkKit is wrapped by the new SalesforceNetworkSDK library, which in turn is wrapped by the `SFRestAPI` class and its supporting classes.  Most of the interfaces should still be the same, but if your app was using any of the underlying RestKit members for networking, you'll need to look at the equivalent functionlity in MKNetworkKit and the SalesforceNetworkSDK.  Some highlights include:
-    - `[SFRestAPI sharedInstance].rkClient` no longer exists.
-    - `[SFRestAPI send:delegate:]` now returns the new `SFNetworkOperation` associated with the request.
-    - `SFRestRequest.networkOperation` points to the underlying `SFNetworkOperation` object associated with the request.
+#### Update the Mobile SDK library packages
+The easiest way to do this is to delete everything in the Dependencies folder of your app's Xcode project, and then add the new libraries.
 
+1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Control-click the folder, choose Delete, and select "Move to Trash".
+2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
+    - MKNetworkKit-iOS-Release.zip
+    - SalesforceNativeSDK-Release.zip
+    - SalesforceNetworkSDK-Release.zip
+    - SalesforceOAuth-Release.zip
+    - SalesforceSDKCore-Release.zip
+3. Also, download the following folders from the ThirdParty folder link in the distribution repo, for placement in your Dependencies folder:
+    - SalesforceCommonUtils
+    - openssl
+    - sqlcipher
+4. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
+5. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
+6. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
+7. Click Add.
+
+#### Update header search paths
+Update the header search paths of your project in Xcode:
+
+1. Click your project in Project Navigator.
+2. Select the Build Settings tab of your main target.
+3. Scroll down to (or search/filter for) Header Search Paths.
+4. Add the following search paths:
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceSDKCore/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceOAuth/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceNetworkSDK/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceCommonUtils/Headers
+    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceNativeSDK/Headers
+
+#### Native SDK network library changes
+In 2.1, the Mobile SDK has replaced RestKit with MKNetworkKit as the network library for native apps.  MKNetworkKit is wrapped by the new SalesforceNetworkSDK library, which in turn is wrapped by the `SFRestAPI` class and its supporting classes.  Most of the interfaces remain the same.  Some notable changes include:
+
+- `[SFRestAPI sharedInstance].rkClient` no longer exists.
+- `[SFRestAPI send:delegate:]` now returns the new `SFNetworkOperation` associated with the request.
+- `SFRestRequest.networkOperation` points to the underlying `SFNetworkOperation` object associated with the request.
+
+If your app was using any of the underlying RestKit members for networking, you'll need to look at the equivalent functionality in MKNetworkKit and the SalesforceNetworkSDK.
 
 
 ## 1.5 to 2.0 upgrade
