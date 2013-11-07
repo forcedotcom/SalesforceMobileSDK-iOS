@@ -17,10 +17,11 @@ The easiest way to do this is delete everything in the Dependencies folder of yo
     - SalesforceCommonUtils
     - openssl
     - sqlcipher
-4. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
-5. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
-6. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
-7. Click Add.
+4. Recreate the Dependencies folder, under your app folder.
+5. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
+6. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
+7. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
+8. Click Add.
 
 #### Update header search paths
 Update the header search paths of your project in Xcode:
@@ -57,10 +58,11 @@ The easiest way to do this is to delete everything in the Dependencies folder of
     - SalesforceCommonUtils
     - openssl
     - sqlcipher
-4. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
-5. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
-6. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
-7. Click Add.
+4. Recreate the Dependencies folder, under your app folder.
+5. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
+6. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
+7. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
+8. Click Add.
 
 #### Update header search paths
 Update the header search paths of your project in Xcode:
