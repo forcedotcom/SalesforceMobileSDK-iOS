@@ -109,20 +109,20 @@
     [self runTest:@"testSObjectTypeReset"];
 }
 
-- (void)testSyncSObjectWithCacheCreate {
-    [self runTest:@"testSyncSObjectWithCacheCreate"];
+- (void)testSyncRemoteObjectWithCacheCreate {
+    [self runTest:@"testSyncRemoteObjectWithCacheCreate"];
 }
 
-- (void)testSyncSObjectWithCacheRead {
-    [self runTest:@"testSyncSObjectWithCacheRead"];
+- (void)testSyncRemoteObjectWithCacheRead {
+    [self runTest:@"testSyncRemoteObjectWithCacheRead"];
 }
 
-- (void)testSyncSObjectWithCacheUpdate {
-    [self runTest:@"testSyncSObjectWithCacheUpdate"];
+- (void)testSyncRemoteObjectWithCacheUpdate {
+    [self runTest:@"testSyncRemoteObjectWithCacheUpdate"];
 }
 
-- (void)testSyncSObjectWithCacheDelete {
-    [self runTest:@"testSyncSObjectWithCacheDelete"];
+- (void)testSyncRemoteObjectWithCacheDelete {
+    [self runTest:@"testSyncRemoteObjectWithCacheDelete"];
 }
 
 - (void)testSyncSObjectWithServerCreate {
@@ -173,6 +173,26 @@
     [self runTest:@"testSyncSObjectDetectConflictDelete"];
 }
 
+- (void)testSyncApexRestObjectWithServerCreate {
+    [self runTest:@"testSyncApexRestObjectWithServerCreate"];
+}
+
+- (void)testSyncApexRestObjectWithServerRead {
+    [self runTest:@"testSyncApexRestObjectWithServerRead"];
+}
+
+- (void)testSyncApexRestObjectWithServerUpdate {
+    [self runTest:@"testSyncApexRestObjectWithServerUpdate"];
+}
+
+- (void)testSyncApexRestObjectWithServerDelete {
+    [self runTest:@"testSyncApexRestObjectWithServerDelete"];
+}
+
+- (void)testFetchApexRestObjectsFromServer {
+    [self runTest:@"testFetchApexRestObjectsFromServer"];
+}
+
 - (void)testSObjectFetch {
     [self runTest:@"testSObjectFetch"];
 }
@@ -185,10 +205,6 @@
     [self runTest:@"testSObjectDestroy"];
 }
 
-- (void)testFetchSObjectsFromCache {
-    [self runTest:@"testFetchSObjectsFromCache"];
-}
-
 - (void)testFetchSObjectsFromServer {
     [self runTest:@"testFetchSObjectsFromServer"];
 }
@@ -197,8 +213,8 @@
     [self runTest:@"testFetchSObjects"];
 }
 
-- (void)testCollectionFetch {
-    [self runTest:@"testCollectionFetch"];
+- (void)testSObjectCollectionFetch {
+    [self runTest:@"testSObjectCollectionFetch"];
 }
 
 @end
