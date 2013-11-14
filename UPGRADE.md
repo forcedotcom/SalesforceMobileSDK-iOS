@@ -36,7 +36,7 @@ Update the header search paths of your project in Xcode:
     - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceHybridSDK/Headers
 
 #### Update hybrid local artifacts
-For your hybrid "local" apps, replace the following files in the www/ folder of your app with the new versions from the external/shared/libs folder of this repo:
+For your hybrid "local" apps, replace the following files in the www/ folder of your app with the new versions from the libs folder of the [SalesforceMobileSDK-Shared repo](https://github.com/forcedotcom/SalesforceMobileSDK-Shared):
 
 - cordova.force.js
 - forcetk.mobilesdk.js
