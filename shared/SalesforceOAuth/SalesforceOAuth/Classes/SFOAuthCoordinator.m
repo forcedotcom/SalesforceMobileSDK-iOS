@@ -154,9 +154,6 @@ static NSString * const kHttpPostContentType                    = @"application/
               self.credentials.protocol, self.credentials.domain);
     }
 
-    //clear the webview cache
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-
     self.authenticating = YES;
     
     // TODO: reachability
