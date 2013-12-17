@@ -35,7 +35,28 @@ extern NSString * const kSFPasscodeFlowWillBegin;
  */
 extern NSString * const kSFPasscodeFlowCompleted;
 
+/**
+ Mode constants indicating whether to create or verify an existing passcode.
+ */
+typedef enum {
+    SFPasscodeControllerModeCreate,
+    SFPasscodeControllerModeVerify
+} SFPasscodeControllerMode;
+
+/**
+ Block typedef for post-passcode screen callbacks.
+ */
 typedef void (^SFLockScreenCallbackBlock)(void);
+
+/**
+ Block typedef for creating the passcode view controller.
+ */
+typedef UIViewController* (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode, NSInteger);
+
+/**
+ Block typedef for displaying and dismissing the passcode view controller.
+ */
+typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 
 @class SFOAuthCredentials;
 
@@ -60,7 +81,7 @@ typedef void (^SFLockScreenCallbackBlock)(void);
 
 /** Unregister and invalidate the timer
  */
-+ (void)removeTimer; 
++ (void)removeTimer;
 
 /** Validate the timer upon app entering the foreground
  */
@@ -136,6 +157,50 @@ typedef void (^SFLockScreenCallbackBlock)(void);
  Returns the callback block to be executed on a screen unlock failure.
  */
 + (SFLockScreenCallbackBlock)lockScreenFailureCallbackBlock;
+
+/**
+ @return The block used to create the passcode view controller
+ */
++ (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock;
+
+/**
+ Sets the block that will create the passcode view controller.
+ @param vcBlock The passcode view controller creation block to use.
+ */
++ (void)setPasscodeViewControllerCreationBlock:(SFPasscodeViewControllerCreationBlock)vcBlock;
+
+/**
+ @return The block used to present the passcode view controller.
+ */
++ (SFPasscodeViewControllerPresentationBlock)presentPasscodeViewControllerBlock;
+
+/**
+ Sets the block that will present the passcode view controller.
+ @param vcBlock The block to use to present the passcode view controller.
+ */
++ (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock;
+
+/**
+ @return The block used to dismiss the passcode view controller.
+ */
++ (SFPasscodeViewControllerPresentationBlock)dismissPasscodeViewControllerBlock;
+
+/**
+ Set the block that will dismiss the passcode view controller.
+ @param vcBlock The block defined to dismiss the passcode view controller.
+ */
++ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock;
+
+/**
+ * Sets a retained instance of the current passcode view controller that's displayed.
+ */
++ (void)setPasscodeViewController:(UIViewController *)vc;
+
+/**
+ * Returns the currently displayed passcode view controller, or nil if the passcode view controller
+ * is not currently displayed.
+ */
++ (UIViewController *)passcodeViewController;
 
 @end
 
