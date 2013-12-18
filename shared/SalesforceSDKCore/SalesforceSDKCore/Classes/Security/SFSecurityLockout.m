@@ -55,6 +55,9 @@ static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
 static SFLockScreenCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
+static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
+static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
+static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -69,6 +72,25 @@ static BOOL _showPasscode = YES;
 	} else {
 		securityLockoutTime = kDefaultLockoutTime;
 	}
+    
+    [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, NSInteger passcodeLength) {
+        SFPasscodeViewController *pvc = nil;
+        if (mode == SFPasscodeControllerModeCreate ) {
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
+        } else {
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
+        }
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
+        return nc;
+    }];
+    
+    [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
+        [[SFRootViewManager sharedManager] pushViewController:pvc];
+    }];
+    
+    [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
+        [[SFRootViewManager sharedManager] popViewController:pvc];
+    }];
 }
 
 + (void)validateTimer;
@@ -178,7 +200,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [self sendPasscodeFlowCompletedNotification:success];
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         if (passVc != nil) {
-            [[SFRootViewManager sharedManager] popViewController:passVc];
+            SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
+            dismissBlock(passVc);
             [SFSecurityLockout setPasscodeViewController:nil];
             if (success) {
                 [SFSecurityLockout unlockSuccessPostProcessing];
@@ -222,6 +245,36 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self log:SFLogLevelInfo msg:@"Device locked."];
 }
 
++ (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock {
+    return sPasscodeViewControllerCreationBlock;
+}
+
++ (void)setPasscodeViewControllerCreationBlock:(SFPasscodeViewControllerCreationBlock)vcBlock {
+    if (vcBlock != sPasscodeViewControllerCreationBlock) {
+        sPasscodeViewControllerCreationBlock = [vcBlock copy];
+    }
+}
+
++ (SFPasscodeViewControllerPresentationBlock)presentPasscodeViewControllerBlock {
+    return sPresentPasscodeViewControllerBlock;
+}
+
++ (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock {
+    if (vcBlock != sPresentPasscodeViewControllerBlock) {
+        sPresentPasscodeViewControllerBlock = vcBlock;
+    }
+}
+
++ (SFPasscodeViewControllerPresentationBlock)dismissPasscodeViewControllerBlock {
+    return sDismissPasscodeViewControllerBlock;
+}
+
++ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock {
+    if (vcBlock != sDismissPasscodeViewControllerBlock) {
+        sDismissPasscodeViewControllerBlock = vcBlock;
+    }
+}
+
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -238,15 +291,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self setIsLocked:YES];
     if (_showPasscode) {
         [self sendPasscodeFlowWillBeginNotification:modeValue];
-        [self log:SFLogLevelInfo msg:@"Setting window to key window."];
-        SFPasscodeViewController *pvc = nil;
-        if (modeValue == SFPasscodeControllerModeCreate ) {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:[SFSecurityLockout passcodeLength]];
-        } else {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
-        }
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
-        [SFSecurityLockout setPasscodeViewController:nc];
+        SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
+        UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
+        [SFSecurityLockout setPasscodeViewController:passcodeViewController];
         [[SFRootViewManager sharedManager] pushViewController:[SFSecurityLockout passcodeViewController]];
     }
 }
