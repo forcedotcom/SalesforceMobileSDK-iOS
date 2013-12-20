@@ -1,6 +1,10 @@
 #import "SFSecurityLockout.h"
 #import "SFPasscodeViewController.h"
 
+static NSUInteger const kDefaultLockoutTime        = 0;
+static NSString * const kSecurityTimeoutLegacyKey  = @"security.timeout";
+static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
+
 @interface SFSecurityLockout ()
 
 /**
@@ -61,5 +65,34 @@
  * @param seconds The number of seconds for the lockout time.
  */
 + (void)setLockoutTimeInternal:(NSUInteger)seconds;
+
+/**
+ * Retrieves the lockout time value from the keychain.
+ * @return NSNumber wrapping the NSUInteger value for lockout time, or `nil` if not set.
+ */
++ (NSNumber *)readLockoutTimeFromKeychain;
+
+/**
+ * Writes the lockout time to the keychain.
+ * @param lockoutTime The NSNumber wrapping the NSUInteger value to be written to the keychain.
+ */
++ (void)writeLockoutTimeToKeychain:(NSNumber *)lockoutTime;
+
+/**
+ * Retreives the "is locked" setting from the keychain.
+ * @return The NSNumber wrapping the BOOL value for "is locked", or `nil` if not set.
+ */
++ (NSNumber *)readIsLockedFromKeychain;
+
+/**
+ * Writes the "is locked" value to the keychain.
+ * @param locked The NSNumber wrapping the BOOL value for "is locked".
+ */
++ (void)writeIsLockedToKeychain:(NSNumber *)locked;
+
+/**
+ * Upgrades settings as part of SFSecurityLockout initialization.
+ */
++ (void)upgradeSettings;
 
 @end
