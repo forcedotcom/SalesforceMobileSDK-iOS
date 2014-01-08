@@ -23,14 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
-/**
- Mode constants indicating whether to create or verify an existing passcode.
- */
-typedef enum {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify
-} SFPasscodeControllerMode;
+#import "SFSecurityLockout.h"
 
 /**
  * The view controller for managing the passcode screen.

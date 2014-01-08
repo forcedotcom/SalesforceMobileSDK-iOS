@@ -90,6 +90,7 @@
 		82BBB57C17909E3800374DD8 /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF843D16DFD95F008912EF /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C0C7C016E08A8F0006B3C0 /* SFSDKTestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C7BD16E08A8F0006B3C0 /* SFSDKTestRequestListener.m */; };
 		82C0C7C116E08A8F0006B3C0 /* TestSetupUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C0C7BF16E08A8F0006B3C0 /* TestSetupUtils.m */; };
+		82C5598818611B4500B2B687 /* SFSecurityLockoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5598718611B4500B2B687 /* SFSecurityLockoutTests.m */; };
 		82E16D7017E7AED300E019AD /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841116DFD95F008912EF /* SFUserActivityMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF844316DFD95F008912EF /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C7BC16E08A8F0006B3C0 /* SFSDKTestRequestListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -261,6 +262,8 @@
 		82C0C7BD16E08A8F0006B3C0 /* SFSDKTestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKTestRequestListener.m; sourceTree = "<group>"; };
 		82C0C7BE16E08A8F0006B3C0 /* TestSetupUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSetupUtils.h; sourceTree = "<group>"; };
 		82C0C7BF16E08A8F0006B3C0 /* TestSetupUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSetupUtils.m; sourceTree = "<group>"; };
+		82C5598618611B4500B2B687 /* SFSecurityLockoutTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSecurityLockoutTests.h; sourceTree = "<group>"; };
+		82C5598718611B4500B2B687 /* SFSecurityLockoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityLockoutTests.m; sourceTree = "<group>"; };
 		82E16D9017E7DDB500E019AD /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -405,6 +408,8 @@
 				8280EBF316E1559F00768DE8 /* SFPasscodeTests.m */,
 				8280EBF416E1559F00768DE8 /* SFSDKCryptoUtilsTests.h */,
 				8280EBF516E1559F00768DE8 /* SFSDKCryptoUtilsTests.m */,
+				82C5598618611B4500B2B687 /* SFSecurityLockoutTests.h */,
+				82C5598718611B4500B2B687 /* SFSecurityLockoutTests.m */,
 				8280EBF616E1559F00768DE8 /* SFSmartSqlTests.h */,
 				8280EBF716E1559F00768DE8 /* SFSmartSqlTests.m */,
 				8280EBF816E1559F00768DE8 /* SFSmartStoreTestCase.h */,
@@ -811,6 +816,7 @@
 				8280EC0016E155A000768DE8 /* SFSmartStoreTestCase.m in Sources */,
 				8280EC0116E155A000768DE8 /* SFSmartStoreTests.m in Sources */,
 				8251CA4A16ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m in Sources */,
+				82C5598818611B4500B2B687 /* SFSecurityLockoutTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
