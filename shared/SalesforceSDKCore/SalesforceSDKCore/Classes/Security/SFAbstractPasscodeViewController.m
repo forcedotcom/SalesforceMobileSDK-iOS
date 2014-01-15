@@ -13,9 +13,6 @@
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 
 @interface SFAbstractPasscodeViewController ()
-{
-    NSInteger _attempts;
-}
 
 - (void)setupPasscode:(NSString *)passcode;
 
@@ -25,6 +22,7 @@
 
 @synthesize minPasscodeLength = _minPasscodeLength;
 @synthesize mode = _mode;
+@synthesize numAttempts = _numAttempts;
 
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
 {
@@ -36,10 +34,10 @@
         if (mode == SFPasscodeControllerModeCreate) {
             NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
-            _attempts = [self remainingAttempts];
-            if (0 == _attempts) {
-                _attempts = kMaxNumberofAttempts;
-                [self setRemainingAttempts:_attempts];
+            _numAttempts = [self remainingAttempts];
+            if (0 == _numAttempts) {
+                _numAttempts = kMaxNumberofAttempts;
+                [self setRemainingAttempts:_numAttempts];
             }
         }
     }
@@ -59,9 +57,9 @@
 
 - (BOOL)decrementPasscodeAttempts
 {
-    _attempts -= 1;
-    [self setRemainingAttempts:_attempts];
-    BOOL morePasscodeAttempts = (_attempts > 0);
+    _numAttempts -= 1;
+    [self setRemainingAttempts:_numAttempts];
+    BOOL morePasscodeAttempts = (_numAttempts > 0);
     if (!morePasscodeAttempts) {
         [self validatePasscodeFailed];
     }

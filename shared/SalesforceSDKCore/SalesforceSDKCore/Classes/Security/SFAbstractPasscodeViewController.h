@@ -21,6 +21,8 @@
  */
 @property (readonly) SFPasscodeControllerMode mode;
 
+@property (readonly) NSInteger numAttempts;
+
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength;
 - (void)createPasscodeConfirmed:(NSString *)newPasscode;
 - (void)validatePasscodeConfirmed:(NSString *)validPasscode;
