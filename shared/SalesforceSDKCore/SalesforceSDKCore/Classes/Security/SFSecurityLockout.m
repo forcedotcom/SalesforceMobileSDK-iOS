@@ -325,7 +325,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
         UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
-        [[SFRootViewManager sharedManager] pushViewController:[SFSecurityLockout passcodeViewController]];
+        SFPasscodeViewControllerPresentationBlock presentBlock = [SFSecurityLockout presentPasscodeViewControllerBlock];
+        presentBlock(passcodeViewController);
     }
 }
 

@@ -24,21 +24,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SFSecurityLockout.h"
+#import "SFAbstractPasscodeViewController.h"
 
 /**
  * The view controller for managing the passcode screen.
  */
-@interface SFPasscodeViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
-
-/**
- * The minimum passcode length, which this view controller will enforce.
- */
-@property (readonly) NSInteger minPasscodeLength;
-
-/**
- * Whether or not this controller is in a passcode creation or verification mode.
- */
-@property (readonly) SFPasscodeControllerMode mode;
+@interface SFPasscodeViewController : SFAbstractPasscodeViewController <UITextFieldDelegate, UIAlertViewDelegate>
 
 /**
  * Initializes the controller for verifying an existing passcode.

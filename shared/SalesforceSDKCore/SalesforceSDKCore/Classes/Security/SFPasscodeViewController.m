@@ -51,7 +51,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
-    NSInteger _attempts;
 }
 
 /**
@@ -149,16 +148,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)resetInitialCreateView;
 
 /**
- * Gets the (persisted) remaining attempts available for verifying a passcode.
- */
-- (NSInteger)remainingAttempts;
-
-/**
- * Sets the (persisted) remaining attempts for verifying a passcode.
- */
-- (void)setRemainingAttempts:(NSUInteger)remainingAttempts;
-
-/**
  * Sets up the navigation bar for the initial passcode creation screen.
  */
 - (void)addPasscodeCreationNav;
@@ -182,8 +171,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @implementation SFPasscodeViewController
 
-@synthesize mode = _mode;
-@synthesize minPasscodeLength = _minPasscodeLength;
 @synthesize passcodeField = _passcodeField;
 @synthesize errorLabel = _errorLabel;
 @synthesize instructionsLabel = _instructionsLabel;
@@ -202,22 +189,12 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
 {
-    self = [super init];
+    self = [super initWithMode:mode minPasscodeLength:minPasscodeLength];
     if (self) {
-        _mode = mode;
-        _minPasscodeLength = minPasscodeLength;
-        
         if (mode == SFPasscodeControllerModeCreate) {
-            NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
-            
             _firstPasscodeValidated = NO;
             [self addPasscodeCreationNav];
         } else {
-            _attempts = [self remainingAttempts];
-            if (0 == _attempts) {
-                _attempts = kMaxNumberofAttempts;
-                [self setRemainingAttempts:_attempts];
-            }
             [self addPasscodeVerificationNav];
         }
     }
@@ -339,9 +316,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
             NSLog(@"User pressed No");
         } else {
             NSLog(@"User pressed Yes");
-            [self setRemainingAttempts:kMaxNumberofAttempts];
-            [[SFPasscodeManager sharedManager] resetPasscode];
-            [SFSecurityLockout unlock:NO];
+            [self validatePasscodeFailed];
         }
     }
 }
@@ -452,10 +427,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     } else {
         // Set new passcode.
         [self.passcodeField resignFirstResponder];
-        [SFSecurityLockout setPasscode:self.passcodeField.text];
-        [SFSecurityLockout setupTimer];
-        [SFInactivityTimerCenter updateActivityTimestamp];
-        [SFSecurityLockout unlock:YES];
+        [self createPasscodeConfirmed:self.passcodeField.text];
     }
 }
 
@@ -463,20 +435,9 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
-        [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:checkPasscode];
-        [SFSecurityLockout setPasscode:checkPasscode];
-        [SFSecurityLockout unlock:YES];
-        [SFSecurityLockout setupTimer];
-        [self setRemainingAttempts:kMaxNumberofAttempts];
-        [SFInactivityTimerCenter updateActivityTimestamp];
+        [self validatePasscodeConfirmed:checkPasscode];
     } else {
-        _attempts -= 1;
-        [self setRemainingAttempts:_attempts];
-        if (_attempts <= 0) {
-            [self setRemainingAttempts:kMaxNumberofAttempts];
-            [[SFPasscodeManager sharedManager] resetPasscode];
-            [SFSecurityLockout unlock:NO];
-        } else {
+        if ([self decrementPasscodeAttempts]) {
             self.passcodeField.text = @"";
             [self updateErrorLabel:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"]];
         }
@@ -504,15 +465,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
     [self updateErrorLabel:@""];
     [self addPasscodeCreationNav];
-}
-
-- (NSInteger)remainingAttempts {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kRemainingAttemptsKey];
-}
-
-- (void)setRemainingAttempts:(NSUInteger)remainingAttempts {
-    [[NSUserDefaults standardUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)addPasscodeCreationNav
