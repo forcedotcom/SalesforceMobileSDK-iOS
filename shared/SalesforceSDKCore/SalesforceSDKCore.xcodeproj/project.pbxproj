@@ -35,7 +35,7 @@
 		8280EBFF16E155A000768DE8 /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBF716E1559F00768DE8 /* SFSmartSqlTests.m */; };
 		8280EC0016E155A000768DE8 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBF916E1559F00768DE8 /* SFSmartStoreTestCase.m */; };
 		8280EC0116E155A000768DE8 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBFB16E155A000768DE8 /* SFSmartStoreTests.m */; };
-		8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */; };
+		8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */; };
 		82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82867578181C759A007AA18A /* SFAuthenticationViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */; };
