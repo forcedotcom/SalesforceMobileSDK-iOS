@@ -71,9 +71,11 @@
 
 - (void)validatePasscodeFailed
 {
-    [self setRemainingAttempts:kMaxNumberofAttempts];
-    [[SFPasscodeManager sharedManager] resetPasscode];
-    [SFSecurityLockout unlock:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setRemainingAttempts:kMaxNumberofAttempts];
+        [[SFPasscodeManager sharedManager] resetPasscode];
+        [SFSecurityLockout unlock:NO];
+    });
 }
 
 - (NSInteger)remainingAttempts
@@ -91,11 +93,13 @@
 
 - (void)setupPasscode:(NSString *)passcode
 {
-    [self setRemainingAttempts:kMaxNumberofAttempts];
-    [SFSecurityLockout setPasscode:passcode];
-    [SFSecurityLockout setupTimer];
-    [SFInactivityTimerCenter updateActivityTimestamp];
-    [SFSecurityLockout unlock:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setRemainingAttempts:kMaxNumberofAttempts];
+        [SFSecurityLockout setPasscode:passcode];
+        [SFSecurityLockout setupTimer];
+        [SFInactivityTimerCenter updateActivityTimestamp];
+        [SFSecurityLockout unlock:YES];
+    });
 }
 
 @end
