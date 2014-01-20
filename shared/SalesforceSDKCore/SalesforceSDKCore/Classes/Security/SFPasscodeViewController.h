@@ -23,7 +23,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
 #import "SFAbstractPasscodeViewController.h"
 
 /**
