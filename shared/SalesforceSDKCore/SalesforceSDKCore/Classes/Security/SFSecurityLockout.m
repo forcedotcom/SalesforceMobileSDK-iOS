@@ -25,7 +25,6 @@
 #import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
-#import "SFPasscodeViewController.h"
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
 #import "SFAccountManager.h"
@@ -325,7 +324,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
         UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
-        [[SFRootViewManager sharedManager] pushViewController:[SFSecurityLockout passcodeViewController]];
+        SFPasscodeViewControllerPresentationBlock presentBlock = [SFSecurityLockout presentPasscodeViewControllerBlock];
+        presentBlock(passcodeViewController);
     }
 }
 

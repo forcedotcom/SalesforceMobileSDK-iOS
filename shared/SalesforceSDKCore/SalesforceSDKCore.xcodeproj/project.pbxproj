@@ -35,6 +35,8 @@
 		8280EBFF16E155A000768DE8 /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBF716E1559F00768DE8 /* SFSmartSqlTests.m */; };
 		8280EC0016E155A000768DE8 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBF916E1559F00768DE8 /* SFSmartStoreTestCase.m */; };
 		8280EC0116E155A000768DE8 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8280EBFB16E155A000768DE8 /* SFSmartStoreTests.m */; };
+		8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */; };
 		82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82867578181C759A007AA18A /* SFAuthenticationViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */; };
 		82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -192,6 +194,8 @@
 		8280EC1916E1600200768DE8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8280EC1C16E1604900768DE8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8280EC1E16E1605A00768DE8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAbstractPasscodeViewController.h; sourceTree = "<group>"; };
+		8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAbstractPasscodeViewController.m; sourceTree = "<group>"; };
 		82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationViewHandler.h; sourceTree = "<group>"; };
 		82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationViewHandler.m; sourceTree = "<group>"; };
 		82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
@@ -531,6 +535,8 @@
 				82AF842E16DFD95F008912EF /* SFSecurityLockout.m */,
 				82AF842F16DFD95F008912EF /* SFSHA256PasscodeProvider.h */,
 				82AF843016DFD95F008912EF /* SFSHA256PasscodeProvider.m */,
+				8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */,
+				8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -618,6 +624,7 @@
 				82BBB57317909DC400374DD8 /* SFPasscodeManager.h in Headers */,
 				82BBB57417909DD700374DD8 /* SFPasscodeProviderManager.h in Headers */,
 				82BBB57517909DE500374DD8 /* SFQuerySpec.h in Headers */,
+				8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */,
 				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
 				82BBB57617909DF000374DD8 /* SFSDKResourceUtils.h in Headers */,
 				82BBB57717909DFE00374DD8 /* SFSDKWebUtils.h in Headers */,
@@ -783,6 +790,7 @@
 				82AF845C16DFD95F008912EF /* SFSmartSqlHelper.m in Sources */,
 				82AF845D16DFD95F008912EF /* SFSmartStore.m in Sources */,
 				82AF845E16DFD95F008912EF /* SFSmartStoreDatabaseManager.m in Sources */,
+				8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */,
 				82AF845F16DFD95F008912EF /* SFSoupIndex.m in Sources */,
 				82AF846016DFD95F008912EF /* SFStoreCursor.m in Sources */,
 				82AF846116DFD95F008912EF /* SqliteAdditions.c in Sources */,
