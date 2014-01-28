@@ -1034,7 +1034,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     });
     
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidAuthenticate:)]) {
+        if ([delegate respondsToSelector:@selector(authManagerDidAuthenticate:credentials:authInfo:)]) {
             [delegate authManagerDidAuthenticate:self credentials:coordinator.credentials authInfo:info];
         }
     }];
