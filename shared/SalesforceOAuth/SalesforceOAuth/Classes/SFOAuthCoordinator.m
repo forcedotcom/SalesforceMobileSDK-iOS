@@ -156,7 +156,20 @@ static NSString * const kHttpPostContentType                    = @"application/
 
     self.authenticating = YES;
     
-    // TODO: reachability
+    // Don't try to authenticate if there is no network available
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)] &&
+        ![self.delegate oauthCoordinatorIsNetworkAvailable:self]) {
+        NSLog(@"Network is not available, so bypassing login");
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
+        SFOAuthInfo *authInfo;
+        if (self.credentials.refreshToken) {
+            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+        } else {
+            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
+        }
+        [self notifyDelegateOfFailure:error authInfo:authInfo];
+		return;
+    }
     
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow

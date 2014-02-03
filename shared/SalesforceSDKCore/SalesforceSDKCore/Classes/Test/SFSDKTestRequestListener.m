@@ -24,7 +24,7 @@
 
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 
 
 NSString* const kTestRequestStatusWaiting = @"waiting";
@@ -35,7 +35,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @interface SFSDKTestRequestListener ()
 {
-    SFAccountManager *_accountMgr;
+    SFUserAccountManager *_accountMgr;
     SFAccountManagerServiceType _serviceType;
 }
 
@@ -73,7 +73,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 {
     self = [super init];
     if (nil != self) {
-        _accountMgr = [SFAccountManager sharedInstance];
+        _accountMgr = [SFUserAccountManager sharedInstance];
         self.maxWaitTime = 30.0;
         self.returnStatus = kTestRequestStatusWaiting;
     }

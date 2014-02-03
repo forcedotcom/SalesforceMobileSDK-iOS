@@ -77,6 +77,10 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
 }
 
+- (void)setInstanceUrl:(NSURL *)instanceUrl {
+    _instanceUrl = instanceUrl;
+}
+
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
@@ -86,6 +90,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         self.redirectUri    = [coder decodeObjectForKey:@"SFOAuthRedirectUri"];
         self.organizationId = [coder decodeObjectForKey:@"SFOAuthOrganizationId"];
         self.identityUrl    = [coder decodeObjectForKey:@"SFOAuthIdentityUrl"];
+        self.identityInformation       = [coder decodeObjectForKey:@"SFOAuthIdentityInformation"];
         self.instanceUrl    = [coder decodeObjectForKey:@"SFOAuthInstanceUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
         NSString *protocolVal = [coder decodeObjectForKey:@"SFOAuthProtocol"];
@@ -107,6 +112,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     [coder encodeObject:self.redirectUri        forKey:@"SFOAuthRedirectUri"];
     [coder encodeObject:self.organizationId     forKey:@"SFOAuthOrganizationId"];
     [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
+    [coder encodeObject:self.identityInformation         forKey:@"SFOAuthIdentityInformation"];
     [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
@@ -131,19 +137,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         [self updateTokenEncryption];
     }
     return self;
-}
-
-- (void)dealloc {
-    _clientId = nil;
-    _domain = nil;
-    _identifier = nil;
-    _identityUrl = nil;
-    _instanceUrl = nil;
-    _issuedAt = nil;
-    _organizationId = nil;
-    _redirectUri = nil;
-    _userId = nil;
-    _protocol = nil;
 }
 
 #pragma mark - Public Methods
@@ -239,6 +232,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         self.instanceUrl = nil;
         self.issuedAt    = nil;
         self.identityUrl = nil;
+        self.identityInformation = nil;
     }
     if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
         NSLog(@"%@:setActivationCode: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
@@ -285,6 +279,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     self.instanceUrl  = nil;
     self.issuedAt     = nil;
     self.identityUrl  = nil;
+    self.identityInformation = nil;
 }
 
 - (void)revokeActivationCode {
@@ -402,6 +397,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         self.instanceUrl = nil;
         self.issuedAt    = nil;
         self.identityUrl = nil;
+        self.identityInformation = nil;
     }
     if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
         NSLog(@"%@:setRefreshToken: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);

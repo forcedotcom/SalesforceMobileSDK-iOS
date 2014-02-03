@@ -27,7 +27,7 @@
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"
@@ -46,6 +46,16 @@ static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.
 
 NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
 NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
+
+// Notification that will be sent out when passcode is reset
+NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
+NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
 
 // Static vars
 
@@ -141,8 +151,7 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFAccountManager sharedInstance] credentials] != nil
-        && [[SFAccountManager sharedInstance] credentials].accessToken != nil;
+    return [[SFUserAccountManager sharedInstance] haveValidSession];
 }
 
 + (void)setLockoutTime:(NSUInteger)seconds
@@ -255,7 +264,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 		return;
 	}
     
-    if (![[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+    if (![[SFUserAccountManager sharedInstance] mobilePinPolicyConfigured]) {
         [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
         return;
     }

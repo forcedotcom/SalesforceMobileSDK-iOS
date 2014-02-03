@@ -47,7 +47,6 @@
 		82AF844E16DFD95F008912EF /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841216DFD95F008912EF /* SFUserActivityMonitor.m */; };
 		82AF844F16DFD95F008912EF /* SFIdentityCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841616DFD95F008912EF /* SFIdentityCoordinator.m */; };
 		82AF845016DFD95F008912EF /* SFIdentityData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841816DFD95F008912EF /* SFIdentityData.m */; };
-		82AF845116DFD95F008912EF /* SFAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841B16DFD95F008912EF /* SFAccountManager.m */; };
 		82AF845216DFD95F008912EF /* SFAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841D16DFD95F008912EF /* SFAuthenticationManager.m */; };
 		82AF845316DFD95F008912EF /* SFAuthorizingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF841F16DFD95F008912EF /* SFAuthorizingViewController.m */; };
 		82AF845416DFD95F008912EF /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF842216DFD95F008912EF /* SFPasscodeManager.m */; };
@@ -73,7 +72,6 @@
 		82BBB56917909B1A00374DD8 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8221561C16E0130C002E1F56 /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB56A17909D2100374DD8 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 8221562416E0130C002E1F56 /* FMResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB56B17909D3100374DD8 /* SalesforceSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF840E16DFD95F008912EF /* SalesforceSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB56C17909D4100374DD8 /* SFAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841A16DFD95F008912EF /* SFAccountManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB56D17909D5500374DD8 /* SFApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF840F16DFD95F008912EF /* SFApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB56E17909D6800374DD8 /* SFAuthenticationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841C16DFD95F008912EF /* SFAuthenticationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841E16DFD95F008912EF /* SFAuthorizingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,6 +107,13 @@
 		82E16D9917E7DEA600E019AD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC0B16E15FA000768DE8 /* libcrypto.a */; };
 		82E16D9A17E7DEB900E019AD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */; };
 		82E16D9B17E7DEE800E019AD /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBEE16E150DA00768DE8 /* test_credentials.json */; };
+		FDBFFDF91893194D00D8C603 /* SFDirectoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBFFDF71893194D00D8C603 /* SFDirectoryManager.h */; };
+		FDBFFDFA1893194D00D8C603 /* SFDirectoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBFFDF81893194D00D8C603 /* SFDirectoryManager.m */; };
+		FDC461191891EAA600E4456B /* SFUserAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC461131891EAA600E4456B /* SFUserAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDC4611A1891EAA600E4456B /* SFUserAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC461141891EAA600E4456B /* SFUserAccount.m */; };
+		FDC4611B1891EAA600E4456B /* SFUserAccount+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC461151891EAA600E4456B /* SFUserAccount+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDC4611C1891EAA600E4456B /* SFUserAccountManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC461161891EAA600E4456B /* SFUserAccountManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDC4611D1891EAA600E4456B /* SFUserAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC461171891EAA600E4456B /* SFUserAccountManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +274,13 @@
 		82C5598618611B4500B2B687 /* SFSecurityLockoutTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSecurityLockoutTests.h; sourceTree = "<group>"; };
 		82C5598718611B4500B2B687 /* SFSecurityLockoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityLockoutTests.m; sourceTree = "<group>"; };
 		82E16D9017E7DDB500E019AD /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		FDBFFDF71893194D00D8C603 /* SFDirectoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDirectoryManager.h; sourceTree = "<group>"; };
+		FDBFFDF81893194D00D8C603 /* SFDirectoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDirectoryManager.m; sourceTree = "<group>"; };
+		FDC461131891EAA600E4456B /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
+		FDC461141891EAA600E4456B /* SFUserAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccount.m; sourceTree = "<group>"; };
+		FDC461151891EAA600E4456B /* SFUserAccount+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccount+Internal.h"; sourceTree = "<group>"; };
+		FDC461161891EAA600E4456B /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
+		FDC461171891EAA600E4456B /* SFUserAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -512,6 +524,11 @@
 				82A55A731821A48B0002E22A /* SFAuthErrorHandlerList.m */,
 				82AF841A16DFD95F008912EF /* SFAccountManager.h */,
 				82AF841B16DFD95F008912EF /* SFAccountManager.m */,
+				FDC461161891EAA600E4456B /* SFUserAccountManager.h */,
+				FDC461171891EAA600E4456B /* SFUserAccountManager.m */,
+				FDC461131891EAA600E4456B /* SFUserAccount.h */,
+				FDC461141891EAA600E4456B /* SFUserAccount.m */,
+				FDC461151891EAA600E4456B /* SFUserAccount+Internal.h */,
 				82AF841C16DFD95F008912EF /* SFAuthenticationManager.h */,
 				82AF841D16DFD95F008912EF /* SFAuthenticationManager.m */,
 				82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */,
@@ -586,6 +603,8 @@
 				82AF844C16DFD95F008912EF /* SFSDKWebUtils.m */,
 				82B6BC42170276DD0089D182 /* SFRootViewManager.h */,
 				82B6BC43170276DD0089D182 /* SFRootViewManager.m */,
+				FDBFFDF71893194D00D8C603 /* SFDirectoryManager.h */,
+				FDBFFDF81893194D00D8C603 /* SFDirectoryManager.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -609,9 +628,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				82BBB56917909B1A00374DD8 /* FMDatabase.h in Headers */,
+				FDBFFDF91893194D00D8C603 /* SFDirectoryManager.h in Headers */,
 				82BBB56A17909D2100374DD8 /* FMResultSet.h in Headers */,
 				82BBB56B17909D3100374DD8 /* SalesforceSDKConstants.h in Headers */,
-				82BBB56C17909D4100374DD8 /* SFAccountManager.h in Headers */,
+				FDC4611B1891EAA600E4456B /* SFUserAccount+Internal.h in Headers */,
 				82BBB56D17909D5500374DD8 /* SFApplication.h in Headers */,
 				82BBB56E17909D6800374DD8 /* SFAuthenticationManager.h in Headers */,
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
@@ -619,6 +639,7 @@
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
 				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
 				82BBB57017909D9300374DD8 /* SFIdentityCoordinator.h in Headers */,
+				FDC4611C1891EAA600E4456B /* SFUserAccountManager.h in Headers */,
 				82BBB57117909DA500374DD8 /* SFIdentityData.h in Headers */,
 				82BBB57217909DBA00374DD8 /* SFJsonUtils.h in Headers */,
 				82BBB57317909DC400374DD8 /* SFPasscodeManager.h in Headers */,
@@ -628,6 +649,7 @@
 				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
 				82BBB57617909DF000374DD8 /* SFSDKResourceUtils.h in Headers */,
 				82BBB57717909DFE00374DD8 /* SFSDKWebUtils.h in Headers */,
+				FDC461191891EAA600E4456B /* SFUserAccount.h in Headers */,
 				82BBB57817909E0D00374DD8 /* SFSecurityLockout.h in Headers */,
 				82BBB57917909E1700374DD8 /* SFSmartStore.h in Headers */,
 				82BBB57A17909E2100374DD8 /* SFSmartStoreDatabaseManager.h in Headers */,
@@ -776,7 +798,6 @@
 				82AF844F16DFD95F008912EF /* SFIdentityCoordinator.m in Sources */,
 				4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */,
 				82AF845016DFD95F008912EF /* SFIdentityData.m in Sources */,
-				82AF845116DFD95F008912EF /* SFAccountManager.m in Sources */,
 				82AF845216DFD95F008912EF /* SFAuthenticationManager.m in Sources */,
 				82AF845316DFD95F008912EF /* SFAuthorizingViewController.m in Sources */,
 				82AF845416DFD95F008912EF /* SFPasscodeManager.m in Sources */,
@@ -785,7 +806,9 @@
 				82AF845716DFD95F008912EF /* SFPBKDF2PasscodeProvider.m in Sources */,
 				82AF845816DFD95F008912EF /* SFPBKDFData.m in Sources */,
 				82AF845916DFD95F008912EF /* SFSecurityLockout.m in Sources */,
+				FDBFFDFA1893194D00D8C603 /* SFDirectoryManager.m in Sources */,
 				82AF845A16DFD95F008912EF /* SFSHA256PasscodeProvider.m in Sources */,
+				FDC4611A1891EAA600E4456B /* SFUserAccount.m in Sources */,
 				82AF845B16DFD95F008912EF /* SFQuerySpec.m in Sources */,
 				82AF845C16DFD95F008912EF /* SFSmartSqlHelper.m in Sources */,
 				82AF845D16DFD95F008912EF /* SFSmartStore.m in Sources */,
@@ -793,6 +816,7 @@
 				8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */,
 				82AF845F16DFD95F008912EF /* SFSoupIndex.m in Sources */,
 				82AF846016DFD95F008912EF /* SFStoreCursor.m in Sources */,
+				FDC4611D1891EAA600E4456B /* SFUserAccountManager.m in Sources */,
 				82AF846116DFD95F008912EF /* SqliteAdditions.c in Sources */,
 				82AF846216DFD95F008912EF /* NSURL+SFStringUtils.m in Sources */,
 				82AF846316DFD95F008912EF /* SFJsonUtils.m in Sources */,

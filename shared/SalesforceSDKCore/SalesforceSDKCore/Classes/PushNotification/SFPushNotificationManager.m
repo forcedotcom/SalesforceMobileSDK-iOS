@@ -25,7 +25,7 @@
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
@@ -104,7 +104,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (BOOL)registerForSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
@@ -157,7 +157,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (BOOL)unregisterSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: not authenticated"];
         return NO;
@@ -200,8 +200,8 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (void)onAppWillEnterForeground:(NSNotification *)notification
 {
-    // Re-registering with Salesforce if we have a device token unless we are logging out
-    if (![SFAccountManager logoutSettingEnabled] && self.deviceToken) {
+    // Re-registering with Salesforce if we have a device token
+    if (self.deviceToken) {
         [self log:SFLogLevelInfo msg:@"Re-registering for Salesforce notification because application is being foregrounded"];
         [self registerForSalesforceNotifications];
     }

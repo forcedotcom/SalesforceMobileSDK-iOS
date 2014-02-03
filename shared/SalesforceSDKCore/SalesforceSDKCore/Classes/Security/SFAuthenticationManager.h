@@ -87,21 +87,6 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 @end
 
 /**
- Identifies the notification for the login host changing in the app's settings.
- */
-extern NSString * const kSFLoginHostChangedNotification;
-
-/**
- The key for the original host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
-
-/**
- The key for the updated host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-
-/**
  Identifies the notification for the user being logged out of the application.
  */
 extern NSString * const kSFUserLogoutNotification;

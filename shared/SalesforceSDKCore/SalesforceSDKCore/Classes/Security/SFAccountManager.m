@@ -26,6 +26,7 @@
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
+#import <SalesforceNetworkSDK/SFNetworkManager.h>
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityData.h"
 #import "SFPasscodeManager.h"
@@ -54,18 +55,11 @@ NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
 // Key for the custom login host value in the app settings.
 NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_pref";
 
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
-
 // The key for storing the persisted OAuth client ID.
 NSString * const kOAuthClientIdKey = @"oauth_client_id";
 
 // The key for storing the persisted OAuth redirect URI.
 NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
-
-// The key for storing the persisted OAuth scopes.
-NSString * const kOAuthScopesKey = @"oauth_scopes";
 
 // The key prefix for storing the Identity data of the account.  Will be combined with
 // account-specific information to ensure uniqueness across accounts.
@@ -74,17 +68,6 @@ NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
 // The key prefix for storing the OAuth credentials data of the account.  Will be combined with
 // account-specific information to ensure uniqueness across accounts.
 NSString * const kOAuthCredentialsDataKeyPrefix = @"oauth_credentials_data";
-
-
-// Notification that will be sent out when passcode is reset
-NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
-
-// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
-NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
-
-
-// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
-NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
 
 NSString *const SFDefaultAccountIdentifier = @"Default";
 
@@ -154,9 +137,7 @@ static NSString *CurrentAccountIdentifier;
 @implementation SFAccountManager
 
 @synthesize accountIdentifier = _accountIdentifier;
-@synthesize coordinator = _coordinator;
 @synthesize idCoordinator = _idCoordinator;
-@synthesize oauthDelegate = _oauthDelegate;
 @synthesize idDelegate = _idDelegate;
 
 #pragma mark - init / dealloc / etc.
@@ -251,46 +232,6 @@ static NSString *CurrentAccountIdentifier;
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
     [defs synchronize];
-}
-
-+ (NSSet *)scopes
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
-    return [NSSet setWithArray:scopesArray];
-}
-
-+ (void)setScopes:(NSSet *)newScopes
-{
-    NSArray *scopesArray = [newScopes allObjects];
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs setObject:scopesArray forKey:kOAuthScopesKey];
-    [defs synchronize];
-}
-
-- (SFOAuthCoordinator *)coordinator
-{
-    if (_coordinator == nil) {
-        SFOAuthCredentials *creds = self.credentials;
-        if (creds != nil) {
-            _coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-            _coordinator.scopes = [[self class] scopes];
-        }
-    }
-    
-    _coordinator.delegate = self;
-    return _coordinator;
-}
-
-- (SFIdentityCoordinator *)idCoordinator
-{
-    if (_idCoordinator == nil) {
-        SFOAuthCredentials *creds = self.credentials;
-        _idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:creds];
-    }
-    
-    _idCoordinator.delegate = self;
-    return _idCoordinator;
 }
 
 - (SFOAuthCredentials *)credentials
@@ -532,111 +473,6 @@ static NSString *CurrentAccountIdentifier;
     
     // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
     return appSettingsLoginHost;
-}
-
-#pragma mark - Utility methods
-
-+ (BOOL)errorIsNetworkFailure:(NSError *)error
-{
-    BOOL isNetworkFailure = NO;
-    
-    if (error == nil || error.domain == nil)
-        return isNetworkFailure;
-    
-    if ([error.domain isEqualToString:NSURLErrorDomain]) {
-        switch (error.code) {
-            case NSURLErrorTimedOut:
-            case NSURLErrorCannotConnectToHost:
-            case NSURLErrorNetworkConnectionLost:
-            case NSURLErrorNotConnectedToInternet:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    } else if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
-        switch (error.code) {
-            case kSFOAuthErrorTimeout:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    }
-    
-    return isNetworkFailure;
-}
-
-#pragma mark - SFOAuthCoordinatorDelegate methods
-
-// NOTE: The deprecated delegate methods are intentionally not supported here.
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didBeginAuthenticationWithView:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didBeginAuthenticationWithView:view];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didFailWithError:error authInfo:info];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didFinishLoad:view error:errorOrNil];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didStartLoad:view];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:willBeginAuthenticationWithView:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator willBeginAuthenticationWithView:view];
-    }
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
-{
-    self.credentials = coordinator.credentials;
-    
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
-        [self.oauthDelegate oauthCoordinatorDidAuthenticate:coordinator authInfo:info];
-    }
-}
-
-#pragma mark - SFIdentityCoordinatorDelegate methods
-
-- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
-        [self.idDelegate identityCoordinator:coordinator didFailWithError:error];
-    }
-}
-
-- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
-{
-    self.idData = coordinator.idData;
-    
-    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
-        [self.idDelegate identityCoordinatorRetrievedData:coordinator];
-    }
 }
 
 @end

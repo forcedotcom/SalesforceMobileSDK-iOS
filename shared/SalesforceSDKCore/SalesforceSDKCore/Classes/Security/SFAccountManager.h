@@ -29,58 +29,11 @@
 @class SFOAuthCredentials;
 @class SFIdentityData;
 
-/** Notification that will be posted when passcode is reset. This notification will have userInfo populated with old hashed passcode stored with `SFPasscodeResetOldPasscodeKey` key and new hashed passcode stored with `SFPasscodeResetNewPasscodeKey` key
-*/
-extern NSString *const SFPasscodeResetNotification;
-
-/** Key in userInfo published by `SFPasscodeResetNotification`. 
- 
- The value of this key is the old hashed passcode before the passcode reset
- */
-extern NSString *const SFPasscodeResetOldPasscodeKey;
-
-
-/** Key in userInfo published by `SFPasscodeResetNotification`.
- 
- The value of this key is the new hashed passcode that triggers the new passcode reset
- */
-extern NSString *const SFPasscodeResetNewPasscodeKey;
+#warning TODO this class is not enabled for this project but should be removed once the SFUserAccountManager is done and reviewed.
 
 /** The default account identifier for the account manager.
  */
 extern NSString *const SFDefaultAccountIdentifier;
-
-/**
- * Data class for providing information about a login host change.
- */
-@interface SFLoginHostUpdateResult : NSObject
-
-/**
- * The original login host, prior to the change.
- */
-@property (nonatomic, readonly) NSString *originalLoginHost;
-
-/**
- * The updated (new) login host, after the change.
- */
-@property (nonatomic, readonly) NSString *updatedLoginHost;
-
-/**
- * Whether or not the login host actually changed.
- */
-@property (nonatomic, readonly) BOOL loginHostChanged;
-
-/**
- * Designated intializer for the data object.
- * @param originalLoginHost The login host prior to change.
- * @param updatedLoginHost The new login host after the change.
- * @param loginHostChanged Whether or not the login host actually changed.
- */
-- (id)initWithOrigHost:(NSString *)originalLoginHost
-           updatedHost:(NSString *)updatedLoginHost
-           hostChanged:(BOOL)loginHostChanged;
-
-@end
 
 /**
  * Class used to manage common account functions used across the app.
@@ -170,25 +123,6 @@ extern NSString *const SFDefaultAccountIdentifier;
 + (void)setRedirectUri:(NSString *)newRedirectUri;
 
 /**
- * @return The OAuth scopes associated with the app.
- */
-+ (NSSet *)scopes;
-
-/**
- * Sets a new value for the OAuth scopes associated with the app.
- * @param newScopes The new value for the OAuth scopes of the app.
- */
-+ (void)setScopes:(NSSet *)newScopes;
-
-/**
- * Evaluates an NSError object to see if it represents a network failure during
- * an attempted connection.
- * @param error The NSError to evaluate.
- * @return YES if the error represents a network failure, NO otherwise.
- */
-+ (BOOL)errorIsNetworkFailure:(NSError *)error;
-
-/**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
  * instances, etc.
  * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
@@ -208,33 +142,8 @@ extern NSString *const SFDefaultAccountIdentifier;
 @property (nonatomic, readonly) NSString *accountIdentifier;
 
 /**
- * The OAuth Coordinator associated with this account.
- */
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-
-/**
- * The Identity Coordinator associated with this account.
- */
-@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
-
-/**
  * The auth credentials maintained for this app.
  */
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
-
-/**
- * The Identity data associated with this account.
- */
-@property (nonatomic, strong) SFIdentityData *idData;
-
-/**
- * Allows the consumer to set its OAuth delegate for handling authentication responses.
- */
-@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> oauthDelegate;
-
-/**
- * Allows the consumer to set its Identity delegate for handling identity responses.
- */
-@property (nonatomic, strong) id<SFIdentityCoordinatorDelegate> idDelegate;
 
 @end

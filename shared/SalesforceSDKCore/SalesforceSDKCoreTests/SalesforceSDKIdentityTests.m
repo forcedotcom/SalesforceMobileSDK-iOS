@@ -27,7 +27,7 @@
 #import "TestSetupUtils.h"
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFIdentityCoordinator.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
 
 /**

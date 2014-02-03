@@ -28,7 +28,8 @@
 
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
+#import "SFUserAccount.h"
 
 NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
 
@@ -63,14 +64,17 @@ NSString * const kTestAccountIdentifier = @"SalesforceSDKTests-DefaultAccount";
     NSAssert(![refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     
-    [SFAccountManager setLoginHost:loginDomain];
-    [SFAccountManager setClientId:clientID];
-    [SFAccountManager setRedirectUri:redirectUri];
-    [SFAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
-    [SFAccountManager setCurrentAccountIdentifier:kTestAccountIdentifier];
+    [SFUserAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
     
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    SFOAuthCredentials *credentials = accountMgr.credentials;
+    SFUserAccount *account = [[SFUserAccount alloc] initWithIdentifier:kTestAccountIdentifier];
+    account.credentials.clientId = clientID;
+    account.credentials.redirectUri = redirectUri;
+    
+    SFUserAccountManager *accountMgr = [SFUserAccountManager sharedInstance];
+    [accountMgr addAccount:account];
+    accountMgr.loginHost = loginDomain;
+
+    SFOAuthCredentials *credentials = accountMgr.currentUser.credentials;
     credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
