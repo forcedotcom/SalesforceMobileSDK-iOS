@@ -115,22 +115,24 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)configureAccountServiceDelegate
 {
-    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        _accountMgr.idDelegate = self;
-    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        _accountMgr.oauthDelegate = self;
-    } else {
-        NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
-    }
+#warning TODO refactor this test
+//    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+//        _accountMgr.idDelegate = self;
+//    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+//        _accountMgr.oauthDelegate = self;
+//    } else {
+//        NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
+//    }
 }
 
 - (void)clearAccountManagerDelegate
 {
-    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        _accountMgr.idDelegate = nil;
-    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        _accountMgr.oauthDelegate = nil;
-    }
+#warning TODO refactor this test
+//    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+//        _accountMgr.idDelegate = nil;
+//    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+//        _accountMgr.oauthDelegate = nil;
+//    }
 }
 
 - (NSString *)serviceTypeDescription

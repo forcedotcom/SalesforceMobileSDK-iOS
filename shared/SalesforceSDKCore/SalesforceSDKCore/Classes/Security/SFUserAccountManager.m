@@ -26,7 +26,6 @@
 #import "SFUserAccount+Internal.h"
 #import "SFDirectoryManager.h"
 
-#import "SFAuthenticationManager.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFIdentityData.h"
@@ -35,18 +34,11 @@
 #import "SFPasscodeManager.h"
 
 #import <SalesforceCommonUtils/SalesforceCommonUtils.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 
 // Notifications
-NSString * const SFUserAccountManagerCurrentUserDidChangeNotification   = @"SFUserAccountManagerCurrentUserDidChangeNotification";
+NSString * const SFUserAccountManagerDidUpdateCredentialsNotification   = @"SFUserAccountManagerDidUpdateCredentialsNotification";
 NSString * const SFUserAccountManagerDidCreateUserNotification          = @"SFUserAccountManagerDidCreateUserNotification";
-NSString * const SFUserAccountManagerDidLoadNotification                = @"SFUserAccountManagerDidLoadNotification";
-NSString * const SFUserAccountManagerDidSaveNotification                = @"SFUserAccountManagerDidSaveNotification";
-NSString * const SFUserAccountManagerWillOpenLoginViewNotification      = @"SFUserAccountManagerWillOpenLoginViewNotification";
-NSString * const SFUserAccountManagerDidLoginNotification               = @"SFUserAccountManagerDidLoginNotification";
-NSString * const SFUserAccountManagerWillLogoutNotification             = @"SFUserAccountManagerWillLogoutNotification";
-NSString * const SFUserAccountManagerDidLogoutNotification              = @"SFUserAccountManagerDidLogoutNotification";
 
 NSString * const SFUserAccountManagerUserIdKey          = @"userId";
 NSString * const SFUserAccountManagerUserAccountKey     = @"account";
@@ -60,10 +52,6 @@ NSString * const SFUserAccountManagerDefaultUserAccountId = @"TEMP_USER_ID";
 
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
-
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 // The key for storing the persisted OAuth client ID.
 NSString * const kOAuthClientIdKey = @"oauth_client_id";
@@ -79,23 +67,12 @@ static NSString * const kUserDefaultsLastUserIdKey = @"LastUserId";
 static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
 static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri";
-static NSString * const kSFUserAccountOAuthClientIdPreference = @"SFDCOAuthClientIdPreference";
-static NSString * const kSFUserAccountOAuthClientId = @"SFDCOAuthClientId";
-static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
 
-@interface SFUserAccountManager () <SFOAuthCoordinatorDelegate, SFAuthenticationManagerDelegate, SFIdentityCoordinatorDelegate> {
-    UIWebView *_oauthLoginView;
-    NSMutableArray *_delegates;
-}
+@interface SFUserAccountManager ()
 
 /** A map of user accounts by user ID
  */
 @property (nonatomic, retain) NSMutableDictionary *userAccountMap;
-
-/** The current activation code. It is kept in memory only
- and is revoked with the other credentials.
- */
-@property (nonatomic, copy) NSString *activationCode;
 
 @end
 
@@ -133,7 +110,6 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
 - (id)init {
 	self = [super init];
 	if (self) {
-        _delegates = [[NSMutableArray alloc] init];
         self.oauthClientId = [[self class] clientId];
         self.oauthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
         if (nil == self.oauthCompletionUrl) {
@@ -226,31 +202,6 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
     [defs synchronize];
 }
 
-#pragma mark - Delegates
-
-- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate {
-    @synchronized(self) {
-        [_delegates addObject:[NSValue valueWithNonretainedObject:delegate]];
-    }
-}
-
-- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate {
-    @synchronized(self) {
-        [_delegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
-    }
-}
-
-- (void)enumerateDelegates:(void(^)(id<SFUserAccountManagerDelegate> delegate))block {
-    @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFUserAccountManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);                
-            }
-        }];
-    }
-}
-
 #pragma mark -
 #pragma mark Account management
 
@@ -304,10 +255,6 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
     SFUserAccount *newAcct = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier]];
     SFOAuthCredentials *creds = newAcct.credentials;
     creds.accessToken = nil;
-    // Priority is given to any new activation code
-    if (nil != self.activationCode) {
-        creds.activationCode = self.activationCode;
-    }
     creds.domain = self.loginHost;
     creds.redirectUri = self.oauthCompletionUrl;
     creds.clientId = self.oauthClientId;
@@ -338,6 +285,7 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
 
 // called by init
 - (void)loadAccounts {
+#warning TODO reuse old location to avoid migrating this data
 	NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:self.currentUser type:SFDirectoryTypeDocuments];
     NSString *path = [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
 	
@@ -375,18 +323,12 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
     
     // update the client ID in case it's changed (via settings, etc)
     [[[self currentUser] credentials] setClientId:[self oauthClientId]];
-
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerDidUpdateCredentials:)]) {
-            [delegate userAccountManagerDidUpdateCredentials:self];
-        }
-    }];
     
-	[[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidLoadNotification
-														object:self];
+    [self userCredentialsChanged];
 }
 
 - (void)saveAccounts {
+#warning TODO reuse old location to avoid migrating this data
 	NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:self.currentUser type:SFDirectoryTypeDocuments];
     NSString *path = [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
     
@@ -397,9 +339,6 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
     if (!result) {
         [self log:SFLogLevelError format:@"failed to archive user accounts: %@", rootObject];
     }
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidSaveNotification
-														object:self];
 }
 
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
@@ -437,15 +376,6 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
         [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey]; 
     }
     [defs synchronize];
-
-    NSDictionary *userInfo = nil;
-    SFUserAccount *account = [self userAccountForUserId:userId];
-    if (account)
-        userInfo = @{ SFUserAccountManagerUserAccountKey : [self userAccountForUserId:userId] };
-    
-	[[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerCurrentUserDidChangeNotification
-														object:self
-                                                      userInfo:userInfo];
 }
 
 - (void)replaceOldUser:(NSString*)oldUserId withUser:(SFUserAccount*)newUser {
@@ -481,248 +411,7 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
     return nil;
 }
 
-- (void)clearAccountState:(BOOL)clearAccountData {
-    if (clearAccountData) {
-        [self.coordinator revokeAuthentication];
-        [SFSmartStore removeAllStores];
-        [[SFPasscodeManager sharedManager] resetPasscode];
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-        [defs setBool:NO forKey:kAppSettingsAccountLogout];
-        [defs synchronize];
-    }
-    
-    if (self.coordinator.view) {
-        [self.coordinator.view removeFromSuperview];
-    }
-    
-    [SFAuthenticationManager removeAllCookies];
-    [self.coordinator stopAuthentication];
-    self.coordinator.delegate = nil;
-    self.idCoordinator.delegate = nil;
-    SFRelease(_idCoordinator);
-    SFRelease(_coordinator);
-}
-
-- (BOOL)mobilePinPolicyConfigured {
-    return (self.idCoordinator.idData != nil
-            && self.idCoordinator.idData.mobilePoliciesConfigured
-            && self.idCoordinator.idData.mobileAppPinLength > 0
-            && self.idCoordinator.idData.mobileAppScreenLockTimeout > 0);
-}
-
-#pragma mark - Login/Logout
-
-- (void)login {
-    SFUserAccount *currentAccount = [self currentUser];
-	if (nil == currentAccount) {
-        [self log:SFLogLevelInfo format:@"no current user account so creating a new one"];
-        currentAccount = [self createUserAccount];
-	}
-    [self loginWithAccount:currentAccount];
-}
-
-- (void)loginWithAccount:(SFUserAccount*)account {
-    // as soon as someone asks us to login with an account set that account as the current account
-    self.currentUser = account;
-
-    // update the host, if necessary. Note that we should not revoke the access token
-    // here because when switching from one community to another the domain changes but
-    // we need to keep the credentials intact. We let the client of this class to decide
-    // when to revoke the credentials (usually when the app logs out or when the user
-    // actively changes the host to switch to another user).
-    NSString *loginHost = [self loginHost];
-    if (![loginHost isEqualToString:account.credentials.domain]) {
-        account.credentials.domain = loginHost;
-    }
-    
-    // if the account doesn't specify any scopes, let's use the ones
-    // defined in this account manager
-    if (nil == account.accessScopes) {
-        account.accessScopes = [[self class] scopes];
-    }
-
-    // re-create the oauth coordinator for this account
-    self.coordinator.delegate = nil;
-    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
-    self.coordinator.scopes = account.accessScopes;
-    self.coordinator.delegate = self;
-
-    // re-create the identity coordinator for this account
-    self.idCoordinator.delegate = nil;
-    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
-    self.idCoordinator.delegate = self;
-
-    // we always 'authenticate' explictly whether we have a refresh token (in which case we'll do session refresh) or not
-    // so that we trigger an SFUserAccountManagerDidLoginNotification in order to fetch the user org settings and perform
-    // any other login related activities
-    SFAuthenticationManager *authManager = [SFAuthenticationManager sharedManager];
-    [authManager addDelegate:self];
-    authManager.authViewHandler = [[SFAuthenticationViewHandler alloc]
-                                   initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
-                                       if (_oauthLoginView != authWebView) {
-                                           [_oauthLoginView removeFromSuperview];
-                                           _oauthLoginView = authWebView;
-                                       }
-                                       
-                                       [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-                                           if ([delegate respondsToSelector:@selector(userAccountManager:shouldDisplayWebView:)]) {
-                                               [delegate userAccountManager:self shouldDisplayWebView:authWebView];
-                                           }
-                                       }];
-                                   }
-                                   dismissBlock:^(SFAuthenticationManager *authViewManager) {
-                                       // No action here.  Login workflow will take care of view dismissal.
-                                   }];
-    
-#warning TODO mobilesdk: what to do with that? Is this application specific?
-    // Remove default error completion blocks to let our app handle error routing.
-    [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.invalidCredentialsAuthErrorHandler];
-    [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.connectedAppVersionAuthErrorHandler];
-    [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.networkFailureAuthErrorHandler];
-    [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.genericAuthErrorHandler];
-
-    [authManager
-     loginWithCompletion:^(SFOAuthInfo *info) {
-         [self handleAuthCompletion:self.currentUser.credentials info:info];
-     }
-     failure:^(SFOAuthInfo *info, NSError *error) {
-         [self handleAuthFailure:error info:info];
-     }];
-}
-
-- (void)logout {
-    [self logout:SFUserAccountLogoutFlagNone];
-}
-
-- (void)logout:(SFUserAccountLogoutFlags)flags {
-    // Supply the user account to the "Will Logout" notification before the credentials
-    // are revoked.  This will ensure that databases and other resources keyed off of
-    // the userID can be destroyed/cleaned up.
-    SFUserAccount *userAccount = [self currentUser];
-	NSDictionary *userInfo = nil;
-    if (userAccount) {
-        userInfo = @{ @"account": userAccount };
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerWillLogoutNotification
-														object:self
-													  userInfo:userInfo];
-    
-    [[SFAuthenticationManager sharedManager] logout];
-    
-    [self willChangeValueForKey:@"haveValidSession"];
-    [userAccount.credentials revoke];
-    if (!(flags & SFUserAccountLogoutFlagPreserveActivationCode)) {
-        self.activationCode = nil;
-        [userAccount.credentials revokeActivationCode];
-    }
-    self.currentUser = nil;
-    [self didChangeValueForKey:@"haveValidSession"];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidLogoutNotification
-														object:self
-													  userInfo:userInfo];
-}
-
-#pragma mark - Session
-
-- (void)requestSessionRefresh {
-    if (![SFTestContext isRunningTests]) {
-        [self log:SFLogLevelInfo format:@"requestSessionRefresh"];
-        
-        //notify everybody that's listening on the session that the session is being invalidated
-        [self willChangeValueForKey:@"haveValidSession"];
-        SFUserAccount *account = [self currentUser];
-        [account.credentials revokeAccessToken];
-        [self saveAccounts];
-        [self didChangeValueForKey:@"haveValidSession"];
-        
-        [self login];
-    }
-}
-
-- (void)expireAuthenticationInfo {
-    SFUserAccount *userAcct = [self currentUser];
-    [userAcct.credentials revoke];
-}
-
-- (void)expireSession {
-    SFUserAccount *userAcct = [self currentUser];
-    [userAcct.credentials revokeAccessToken];
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerDidUpdateCredentials:)]) {
-            [delegate userAccountManagerDidUpdateCredentials:self];
-        }
-    }];
-}
-
-- (void)applyActivationCode:(NSString*)activationCode {
-    self.activationCode = activationCode;
-    [self currentUser].credentials.activationCode = activationCode;
-}
-
-- (BOOL)haveValidSession {
-    SFUserAccount *userAcct = [self currentUser];
-    BOOL result = [userAcct isSessionValid];
-    return result;
-}
-
-#pragma mark - OAuth support
-
-- (void)notifySessionReady {
-	[self willChangeValueForKey:@"currentUser"];
-    [self didChangeValueForKey:@"currentUser"];
-    
-    [self willChangeValueForKey:@"haveValidSession"];
-    [self didChangeValueForKey:@"haveValidSession"];
-
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerDidUpdateCredentials:)]) {
-            [delegate userAccountManagerDidUpdateCredentials:self];
-        }
-    }];
-
-    NSDictionary *userInfo = nil;
-    if (self.currentUser) {
-        userInfo = @{ @"account" : self.currentUser };
-    }
-	[[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidLoginNotification
-														object:self
-													  userInfo:userInfo];
-}
-
-- (void)handleAuthFailure:(NSError *)error info:(SFOAuthInfo *)authInfo {
-    [self log:SFLogLevelWarning format:@"Error authenticating: %@", error];
-    
-    if (error.code != NSURLErrorNotConnectedToInternet) {
-        // For a network down error, simply don't do anything except making sure the delegate
-        // is notified about it.
-        if (error.code == kSFOAuthErrorAccessDenied ||
-            error.code == kSFOAuthErrorInvalidGrant ||
-            error.code == kSFOAuthErrorInvalidClientCredentials) {     //access denied, expired/invalid credentials
-            
-            // log the tokens
-            // the original reason for logging these tokens is to ensure we are sending the right things prior to receiving
-            // an 'invalid_grant : expired access/refresh token' error
-            // we're about to throw these tokens away, so it's reasonable to log them
-            [self log:SFLogLevelDebug format:@"refreshToken=%@ accessToken=%@",
-             self.currentUser.credentials.refreshToken, self.currentUser.credentials.accessToken];
-            
-            [self expireAuthenticationInfo]; // revoke access and refresh tokens for the current user
-            [self requestSessionRefresh]; // restart the authentication process
-        } else {
-            // Don't do anything on network down and let the delegate handle that
-            if (error.code == kSFOAuthErrorMalformed) {
-                [self log:SFLogLevelError format:@"received malformed oauth response"];
-            }
-            [self expireSession]; // revoke the access token for the current user
-            
-            // don't refresh the session as this leads to an infinite loop when net is down.
-        }
-    }
-    [self notifyLoginCompletedWithError:error];
-}
-
-- (void)handleAuthCompletion:(SFOAuthCredentials*)credentials info:(SFOAuthInfo *)info {
+- (void)applyCredentials:(SFOAuthCredentials*)credentials {
     // If the user is nil, create a new one with the specified credentials
     // otherwise update the current user credentials.
     if (nil == self.currentUser) {
@@ -744,167 +433,13 @@ static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
         [self log:SFLogLevelInfo format:@"Replacing temp user ID with %@",self.currentUser];
         [self replaceOldUser:SFUserAccountManagerDefaultUserAccountId withUser:self.currentUser];
     }
-    //update currentUser and haveValidSession keys, post SFUserAccountManagerDidLoginNotification
-    [self notifySessionReady];
     
-    [self notifyLoginCompletedWithError:nil];
+    [self userCredentialsChanged];
 }
 
-#pragma mark - Delegate methods
-
-- (void)notifyWillOpenLoginView {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerWillBeginLogin:)]) {
-            [delegate userAccountManagerWillBeginLogin:self];
-        }
-    }];    
-}
-
-- (void)notifyLoginCompletedWithError:(NSError*)errorOrNil {
-	SEL method = @selector(userAccountManagerHandleLoginCompletion:withError:);
-    
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:method]) {
-            [delegate userAccountManagerHandleLoginCompletion:self withError:errorOrNil];
-        }        
-    }];
-}
-
-#pragma mark - SFIdentityCoordinatorDelegate
-
-- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
-        [self.idDelegate identityCoordinator:coordinator didFailWithError:error];
-    }
-}
-
-- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
-{
-    // Save the accounts (and credentials) when the identity information
-    // changes so we have the latest stored on disk.
-    [self saveAccounts];
-    
-    if (self.idDelegate != nil && [self.idDelegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
-        [self.idDelegate identityCoordinatorRetrievedData:coordinator];
-    }
-}
-
-#pragma mark - SFOAuthCoordinatorDelegate methods
-
-// NOTE: The deprecated delegate methods are intentionally not supported here.
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didBeginAuthenticationWithView:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didBeginAuthenticationWithView:view];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didFailWithError:error authInfo:info];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didFinishLoad:view error:errorOrNil];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator didStartLoad:view];
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
-{
-    // No action by SFAccountManager here.  Just pass it along.
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinator:willBeginAuthenticationWithView:)]) {
-        [self.oauthDelegate oauthCoordinator:coordinator willBeginAuthenticationWithView:view];
-    }
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
-{
-    if (self.oauthDelegate != nil && [self.oauthDelegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
-        [self.oauthDelegate oauthCoordinatorDidAuthenticate:coordinator authInfo:info];
-    }
-}
-
-- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
-    __block BOOL result = NO;
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerIsNetworkAvailable:)]) {
-            result = [delegate userAccountManagerIsNetworkAvailable:self];
-        }
-    }];
-    return result;
-}
-
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void)authManagerWillBeginAuthWithView:(SFAuthenticationManager *)manager {
-    [self notifyWillOpenLoginView];
-}
-
-- (void)authManagerDidStartAuthWebViewLoad:(SFAuthenticationManager *)authManager {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerDidStartLoad:)]) {
-            [delegate userAccountManagerDidStartLoad:self];
-        }
-    }];
-}
-
-- (void)authManagerDidFinishAuthWebViewLoad:(SFAuthenticationManager *)manager {
-    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManagerDidFinishLoad:)]) {
-            [delegate userAccountManagerDidFinishLoad:self];
-        }
-    }];
-}
-
-#pragma mark - Utility methods
-
-+ (BOOL)errorIsNetworkFailure:(NSError *)error
-{
-    BOOL isNetworkFailure = NO;
-    
-    if (error == nil || error.domain == nil)
-        return isNetworkFailure;
-    
-    if ([error.domain isEqualToString:NSURLErrorDomain]) {
-        switch (error.code) {
-            case NSURLErrorTimedOut:
-            case NSURLErrorCannotConnectToHost:
-            case NSURLErrorNetworkConnectionLost:
-            case NSURLErrorNotConnectedToInternet:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    } else if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
-        switch (error.code) {
-            case kSFOAuthErrorTimeout:
-                isNetworkFailure = YES;
-                break;
-            default:
-                break;
-        }
-    }
-    
-    return isNetworkFailure;
+- (void)userCredentialsChanged {
+    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidUpdateCredentialsNotification
+														object:self];
 }
 
 @end

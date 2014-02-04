@@ -26,8 +26,7 @@
 #import "SFApplication.h"
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+#import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandler.h"
@@ -35,21 +34,28 @@
 #import "SFAuthorizingViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFIdentityData.h"
-#import <SalesforceCommonUtils/NSURL+SFAdditions.h>
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
 #import "SFUserActivityMonitor.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
+#import "SFSmartStore.h"
+
+#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import <SalesforceOAuth/SFOAuthInfo.h>
+#import <SalesforceCommonUtils/NSURL+SFAdditions.h>
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
+#import <SalesforceCommonUtils/SFTestContext.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
 
 // Public notification name constants
 
+NSString * const kSFUserWillLogoutNotification = @"kSFUserWillLogoutNotification";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
+NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
 // Auth error handler name constants
 
@@ -63,6 +69,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
+
+// Key for whether or not the user has chosen the app setting to logout of the
+// app when it is re-opened.
+static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
@@ -170,6 +180,11 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  View controller that will display the security snapshot view.
  */
 @property (nonatomic, strong) UIViewController *snapshotViewController;
+
+/** The current activation code. It is kept in memory only
+ and is revoked with the other credentials.
+ */
+@property (nonatomic, copy) NSString *activationCode;
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -407,9 +422,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 {
     // If this is the initial login, or there's no persisted identity data, get the data
     // from the service.
-    if (self.authInfo.authType == SFOAuthTypeUserAgent || [SFUserAccountManager sharedInstance].idCoordinator.idData == nil) {
-        [SFUserAccountManager sharedInstance].idDelegate = self;
-        [[SFUserAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+    if (self.authInfo.authType == SFOAuthTypeUserAgent || self.idCoordinator.idData == nil) {
+        [self.idCoordinator initiateIdentityDataRetrieval];
     } else {
         // Identity data should exist.  Validate passcode.
         [self postAuthenticationToPasscodeProcessing];
@@ -420,14 +434,41 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 - (void)logout
 {
+    [self logout:SFAuthenticationManagerLogoutFlagNone];
+}
+
+- (void)logout:(SFAuthenticationManagerLogoutFlags)flags
+{
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
 
+    // Supply the user account to the "Will Logout" notification before the credentials
+    // are revoked.  This will ensure that databases and other resources keyed off of
+    // the userID can be destroyed/cleaned up.
+    SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] currentUser];
+	NSDictionary *userInfo = nil;
+    if (userAccount) {
+        userInfo = @{ @"account": userAccount };
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
+														object:self
+													  userInfo:userInfo];
+    
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
     }
     [self cancelAuthentication];
     [self revokeRefreshToken];
-    [[SFUserAccountManager sharedInstance] clearAccountState:YES];
+    [self clearAccountState:YES];
+    
+    [self willChangeValueForKey:@"haveValidSession"];
+    [userAccount.credentials revoke];
+    if (!(flags & SFAuthenticationManagerLogoutFlagPreserveActivationCode)) {
+        self.activationCode = nil;
+        [userAccount.credentials revokeActivationCode];
+    }
+    [SFUserAccountManager sharedInstance].currentUser = nil;
+    [self didChangeValueForKey:@"haveValidSession"];
+    
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
 }
@@ -436,7 +477,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 {
     @synchronized (self.authBlockList) {
         [self log:SFLogLevelInfo format:@"Cancel authentication called.  App %@ currently authenticating.", (self.authenticating ? @"is" : @"is not")];
-        [[SFUserAccountManager sharedInstance].coordinator stopAuthentication];
+        [self.coordinator stopAuthentication];
         [self.authBlockList removeAllObjects];
         self.authInfo = nil;
         self.authError = nil;
@@ -446,6 +487,51 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (BOOL)authenticating
 {
     return ([self.authBlockList count] > 0);
+}
+
+- (BOOL)mobilePinPolicyConfigured {
+    return (self.idCoordinator.idData != nil
+            && self.idCoordinator.idData.mobilePoliciesConfigured
+            && self.idCoordinator.idData.mobileAppPinLength > 0
+            && self.idCoordinator.idData.mobileAppScreenLockTimeout > 0);
+}
+
+- (void)requestSessionRefresh {
+    if (![SFTestContext isRunningTests]) {
+        [self log:SFLogLevelInfo format:@"requestSessionRefresh"];
+        
+        //notify everybody that's listening on the session that the session is being invalidated
+        [self willChangeValueForKey:@"haveValidSession"];
+        SFUserAccount *account = [[SFUserAccountManager sharedInstance] currentUser];
+        [account.credentials revokeAccessToken];
+        [[SFUserAccountManager sharedInstance] saveAccounts];
+        [self didChangeValueForKey:@"haveValidSession"];
+        
+        [self login];
+    }
+}
+
+- (void)expireAuthenticationInfo {
+    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
+    [userAcct.credentials revoke];
+}
+
+- (void)expireSession {
+    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
+    [userAcct.credentials revokeAccessToken];
+    
+    [[SFUserAccountManager sharedInstance] userCredentialsChanged];
+}
+
+- (void)applyActivationCode:(NSString*)activationCode {
+    self.activationCode = activationCode;
+    [[SFUserAccountManager sharedInstance] currentUser].credentials.activationCode = activationCode;
+}
+
+- (BOOL)haveValidSession {
+    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
+    BOOL result = [userAcct isSessionValid];
+    return result;
 }
 
 - (NSString *)preferredPasscodeProvider
@@ -541,11 +627,11 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    domain, NSHTTPCookieDomain,
                                                    @"/", NSHTTPCookiePath,
-                                                   [SFUserAccountManager sharedInstance].coordinator.credentials.accessToken, NSHTTPCookieValue,
+                                                   [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken, NSHTTPCookieValue,
                                                    @"sid", NSHTTPCookieName,
                                                    @"TRUE", NSHTTPCookieDiscard,
                                                    nil];
-    if ([[SFUserAccountManager sharedInstance].coordinator.credentials.protocol isEqualToString:@"https"]) {
+    if ([[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"]) {
         [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
     }
     
@@ -556,7 +642,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 + (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
 {
     NSString *encodedUrl = (isEncoded ? returnUrl : [returnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
-    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:[creds.instanceUrl absoluteString]];
     if (![frontDoorUrl hasSuffix:@"/"])
         [frontDoorUrl appendString:@"/"];
@@ -599,6 +685,43 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     return errorIsInvalidCreds;
 }
 
+/**
+ * Evaluates an NSError object to see if it represents a network failure during
+ * an attempted connection.
+ * @param error The NSError to evaluate.
+ * @return YES if the error represents a network failure, NO otherwise.
+ */
++ (BOOL)errorIsNetworkFailure:(NSError *)error
+{
+    BOOL isNetworkFailure = NO;
+    
+    if (error == nil || error.domain == nil)
+        return isNetworkFailure;
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        switch (error.code) {
+            case NSURLErrorTimedOut:
+            case NSURLErrorCannotConnectToHost:
+            case NSURLErrorNetworkConnectionLost:
+            case NSURLErrorNotConnectedToInternet:
+                isNetworkFailure = YES;
+                break;
+            default:
+                break;
+        }
+    } else if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
+        switch (error.code) {
+            case kSFOAuthErrorTimeout:
+                isNetworkFailure = YES;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return isNetworkFailure;
+}
+
 #pragma mark - Private methods
 
 - (void)setupSnapshotView
@@ -634,14 +757,14 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)savePasscodeActivityInfo
 {
     [SFSecurityLockout removeTimer];
-    if ([SFUserAccountManager sharedInstance].coordinator.credentials != nil) {
+    if (self.coordinator.credentials != nil) {
 		[SFInactivityTimerCenter saveActivityTimestamp];
 	}
 }
 
 - (void)postAuthenticationToPasscodeProcessing
 {
-    if ([[SFUserAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+    if ([self mobilePinPolicyConfigured]) {
         // Auth checks are subject to an inactivity check.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self finalizeAuthCompletion];
@@ -664,9 +787,30 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 - (void)finalizeAuthCompletion
 {
-    if ([[SFUserAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+    if ([self mobilePinPolicyConfigured]) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
+    
+    // Update the user account manager first before invoking the completion blocks
+    [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
+
+    // Notify the session is ready
+    [self willChangeValueForKey:@"currentUser"];
+    [self didChangeValueForKey:@"currentUser"];
+    
+    [self willChangeValueForKey:@"haveValidSession"];
+    [self didChangeValueForKey:@"haveValidSession"];
+    
+    NSDictionary *userInfo = nil;
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user) {
+        userInfo = @{ @"account" : user };
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
     [self execCompletionBlocks];
 }
 
@@ -691,6 +835,12 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
             copiedBlock(localInfo);
         }
     }
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidFinish:info:)]) {
+            [delegate authManagerDidFinish:self info:localInfo];
+        }
+    }];
 }
 
 - (void)execFailureBlocks
@@ -716,11 +866,17 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
             copiedBlock(localInfo, localError);
         }
     }
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidFail:error:info:)]) {
+            [delegate authManagerDidFail:self error:localError info:localInfo];
+        }
+    }];
 }
 
 - (void)revokeRefreshToken
 {
-    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = self.coordinator.credentials;
     NSString *refreshToken = [creds refreshToken];
     if (refreshToken != nil) {
         [self log:SFLogLevelInfo msg:@"Revoking user's credentials."];
@@ -738,8 +894,75 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 - (void)login
 {
-    [SFUserAccountManager sharedInstance].oauthDelegate = self;
-    [[SFUserAccountManager sharedInstance].coordinator authenticate];
+    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+    SFUserAccount *account = userAccountManager.currentUser;
+	if (nil == account) {
+        [self log:SFLogLevelInfo format:@"no current user account so creating a new one"];
+        account = [userAccountManager createUserAccount];
+	}
+    // Priority is given to any new activation code
+    if (nil != self.activationCode) {
+        account.credentials.activationCode = self.activationCode;
+    }
+    userAccountManager.currentUser = account;
+
+    // update the host, if necessary. Note that we should not revoke the access token
+    // here because when switching from one community to another the domain changes but
+    // we need to keep the credentials intact. We let the client of this class to decide
+    // when to revoke the credentials (usually when the app logs out or when the user
+    // actively changes the host to switch to another user).
+    NSString *loginHost = [userAccountManager loginHost];
+    if (![loginHost isEqualToString:account.credentials.domain]) {
+        account.credentials.domain = loginHost;
+    }
+    
+    // if the user doesn't specify any scopes, let's use the ones
+    // defined in this account manager
+    if (nil == account.accessScopes) {
+        account.accessScopes = [[self class] scopes];
+    }
+
+    // re-create the oauth coordinator for the current user
+    self.coordinator.delegate = nil;
+    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
+    self.coordinator.scopes = account.accessScopes;
+    self.coordinator.delegate = self;
+    
+    // re-create the identity coordinator for the current user
+    self.idCoordinator.delegate = nil;
+    self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
+    self.idCoordinator.delegate = self;
+
+    // Trigger the login flow
+    [self.coordinator authenticate];
+}
+
+/**
+ * Clears the account state of the given account (i.e. clears credentials, coordinator
+ * instances, etc.
+ * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
+ *        with the account.
+ */
+- (void)clearAccountState:(BOOL)clearAccountData {
+    if (clearAccountData) {
+        [self.coordinator revokeAuthentication];
+        [SFSmartStore removeAllStores];
+        [[SFPasscodeManager sharedManager] resetPasscode];
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:NO forKey:kAppSettingsAccountLogout];
+        [defs synchronize];
+    }
+    
+    if (self.coordinator.view) {
+        [self.coordinator.view removeFromSuperview];
+    }
+    
+    [SFAuthenticationManager removeAllCookies];
+    [self.coordinator stopAuthentication];
+    self.coordinator.delegate = nil;
+    self.idCoordinator.delegate = nil;
+    SFRelease(_idCoordinator);
+    SFRelease(_coordinator);
 }
 
 - (void)cleanupStatusAlert
@@ -779,9 +1002,13 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)retrievedIdentityData
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
-    NSAssert([SFUserAccountManager sharedInstance].idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     
-    if ([[SFUserAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+    // Save the accounts (and credentials) when the identity information
+    // changes so we have the latest stored on disk.
+    [[SFUserAccountManager sharedInstance] saveAccounts];
+
+    if ([self mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self finalizeAuthCompletion];
@@ -791,8 +1018,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         }];
         
         // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:[SFUserAccountManager sharedInstance].idCoordinator.idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:([SFUserAccountManager sharedInstance].idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
+        [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength];
+        [SFSecurityLockout setLockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
     } else {
         // No additional mobile policies.  So no passcode.
         [self finalizeAuthCompletion];
@@ -866,7 +1093,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     _networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFNetworkFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                     if ([SFUserAccountManager errorIsNetworkFailure:error]) {
+                                                     if ([[self class] errorIsNetworkFailure:error]) {
                                                          [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
                                                          
                                                          [self loggedIn];
@@ -881,7 +1108,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     _genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                     [[SFUserAccountManager sharedInstance] clearAccountState:NO];
+                                                     [self clearAccountState:NO];
                                                      [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
                                                      return YES;
                                                  }];
@@ -1011,6 +1238,16 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     [self processAuthError:error authInfo:info];
 }
 
+- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
+    __block BOOL result = NO;
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerIsNetworkAvailable:)]) {
+            result = [delegate authManagerIsNetworkAvailable:self];
+        }
+    }];
+    return result;
+}
+
 #pragma mark - SFIdentityCoordinatorDelegate
 
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
@@ -1033,7 +1270,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
             [self dismissAuthViewControllerIfPresent];
             [self login];
         } else if (alertView.tag == kIdentityAlertViewTag) {
-            [[SFUserAccountManager sharedInstance].idCoordinator initiateIdentityDataRetrieval];
+            [self.idCoordinator initiateIdentityDataRetrieval];
         } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
             // The OAuth failure block should be followed, after acknowledging the version mismatch.
             [self execFailureBlocks];

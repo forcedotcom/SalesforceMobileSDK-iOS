@@ -109,12 +109,6 @@ extern NSString *const SFDefaultAccountIdentifier;
 - (void)clearAccountState:(BOOL)clearAccountData;
 
 /**
- * Whether or not there is a mobile pin code policy configured for this app.
- * @return YES if so, NO if not.
- */
-- (BOOL)mobilePinPolicyConfigured;
-
-/**
  * The account identifier for a given account manager instance.
  */
 @property (nonatomic, readonly) NSString *accountIdentifier;

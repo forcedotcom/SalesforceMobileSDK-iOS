@@ -24,26 +24,17 @@
 
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFIdentityCoordinator.h"
+#import "SFAuthenticationManager.h"
 
-/** Flags controlling specifics of the logout process
+/** Notification sent when the current user credentials have changed
  */
-typedef NS_ENUM(NSUInteger, SFUserAccountLogoutFlags) {
-    SFUserAccountLogoutFlagNone = 0,
-    
-    /** Flag indicating that the user's activation code should not be revoked on logout.
-     */
-    SFUserAccountLogoutFlagPreserveActivationCode
-};
+extern NSString * const SFUserAccountManagerDidUpdateCredentialsNotification;
 
-// The various notifications
-extern NSString * const SFUserAccountManagerCurrentUserDidChangeNotification;
+/** Notification sent when a new user has been created
+ */
 extern NSString * const SFUserAccountManagerDidCreateUserNotification;
-extern NSString * const SFUserAccountManagerDidLoadNotification;
-extern NSString * const SFUserAccountManagerDidSaveNotification;
-extern NSString * const SFUserAccountManagerWillOpenLoginViewNotification;
-extern NSString * const SFUserAccountManagerDidLoginNotification;
-extern NSString * const SFUserAccountManagerWillLogoutNotification;
-extern NSString * const SFUserAccountManagerDidLogoutNotification;
+
+// The default temporary user ID
 extern NSString * const SFUserAccountManagerDefaultUserAccountId;
 
 /**
@@ -69,50 +60,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 
 @class SFUserAccount;
 @class SFUserAccountManager;
-
-/*!
- Allows you to configure the appearance of UI elements related to login
- */
-@protocol SFUserAccountManagerDelegate<NSObject>
-
-@optional
-
-/*!
- Called whenever the manager starts the login process. 
- */
-- (void)userAccountManagerWillBeginLogin:(SFUserAccountManager*)accountManager;
-
-/*!
- Called whenever the manager completes a login (with or without error).
- */
-- (void)userAccountManagerHandleLoginCompletion:(SFUserAccountManager*)accountManager withError:(NSError*)errorOrNil;
-
-/*!
- Called whenever the manager wants to present a web view containing the login screen.
- */
-- (void)userAccountManager:(SFUserAccountManager*)accountManager shouldDisplayWebView:(UIWebView*)webView;
-
-/*!
- Called when the web view starts to load its content.
- */
-- (void)userAccountManagerDidStartLoad:(SFUserAccountManager*)accountManager;
-
-/*!
- Called when the web view finishes to load its content.
- */
-- (void)userAccountManagerDidFinishLoad:(SFUserAccountManager*)accountManager;
-
-/*!
- Called when the user credentials have changed
- */
-- (void)userAccountManagerDidUpdateCredentials:(SFUserAccountManager*)accountManager;
-
-/**
- The delegate can implement this method to return a BOOL indicating if the network is available or not
- */
-- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager*)accountManager;
-
-@end
 
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
@@ -167,37 +114,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 @property (nonatomic, copy) NSString *oauthCompletionUrl;
 
-/** Do we have a current valid Salesforce session?
- You may use KVO in your app to monitor session validity.
- */
-@property (nonatomic, readonly) BOOL haveValidSession;
-
-/**
- * Whether or not there is a mobile pin code policy configured for this app.
- * @return YES if so, NO if not.
- */
-@property (nonatomic, readonly) BOOL mobilePinPolicyConfigured;
-
-/**
- * The OAuth Coordinator associated with the current account.
- */
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-
-/**
- * The Identity Coordinator associated with the current account.
- */
-@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
-
-/**
- * Allows the consumer to set its OAuth delegate for handling authentication responses.
- */
-@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> oauthDelegate;
-
-/**
- * Allows the consumer to set its Identity delegate for handling identity responses.
- */
-@property (nonatomic, strong) id<SFIdentityCoordinatorDelegate> idDelegate;
-
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
@@ -240,36 +156,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 + (void)setClientId:(NSString *)newClientId;
 
-/** Registers a new delegate
- */
-- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate;
-
-/** Removes a previously registered delegate
- */
-- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate;
-
-/** Main login method. Typically if you don't care about managing account creation yourself, you can simply call this
- when your app is foregrounded to ensure that you have a current Salesforce session ID.
- */
-- (void)login;
-
-/** Use this method only if you wish to select which user account is used for login;
- otherwise, use `login`.
- 
- @param account User account to use for the login, overwriting any existing current user login.
- */
-- (void)loginWithAccount:(SFUserAccount*)account;
-
-/** Revokes the current user's credentials and activation code and resets the client ID to the default value.
- */
-- (void)logout;
-
-/** Revokes the current user's credentials, resets the client ID to the default value, and may perform other functions
- based on the flags specified.
- @param flags used to control specific aspects of the logout
- */
-- (void)logout:(SFUserAccountLogoutFlags)flags;
-
 /** Loads all the accounts.
  */
 - (void)loadAccounts;
@@ -295,39 +181,19 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 - (void)deleteAccountForUserId:(NSString*)userId;
 
-/**
- * Clears the account state of the given account (i.e. clears credentials, coordinator
- * instances, etc.
- * @param clearAccountData Whether to optionally revoke credentials and persisted data associated
- *        with the account.
- */
-- (void)clearAccountState:(BOOL)clearAccountData;
-
-/** Call this method if you wish to refresh the current user's session ID.
- This causes immediate expiration of the current user's session.
- */
-- (void)requestSessionRefresh;
-
-/** Expire both the current session ID as well as any refresh token etc that we may have persisted
- */
-- (void)expireAuthenticationInfo;
-
-/** Call this method to apply the activation code. The activation code
- is not going to be persisted in this account manager (but it will be
- in the user credentials managed by the OAuth library).
- */
-- (void)applyActivationCode:(NSString*)activationCode;
-
 /** Truncate user ID to 15 chars
  */
 - (NSString *)makeUserIdSafe:(NSString*)aUserId;
 
-/**
- * Evaluates an NSError object to see if it represents a network failure during
- * an attempted connection.
- * @param error The NSError to evaluate.
- * @return YES if the error represents a network failure, NO otherwise.
+/** Invoke this method to apply the specified credentials to the
+ current user. If no user exists, a new one is created.
+ @param credentials The credentials to apply
  */
-+ (BOOL)errorIsNetworkFailure:(NSError *)error;
+- (void)applyCredentials:(SFOAuthCredentials*)credentials;
+
+/** Invoke this method to inform this manager
+ that the user credentials have changed.
+ */
+- (void)userCredentialsChanged;
 
 @end

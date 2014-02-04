@@ -151,7 +151,7 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFUserAccountManager sharedInstance] haveValidSession];
+    return [[SFAuthenticationManager sharedManager] haveValidSession];
 }
 
 + (void)setLockoutTime:(NSUInteger)seconds
@@ -264,7 +264,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 		return;
 	}
     
-    if (![[SFUserAccountManager sharedInstance] mobilePinPolicyConfigured]) {
+    if (![[SFAuthenticationManager sharedManager] mobilePinPolicyConfigured]) {
         [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
         return;
     }

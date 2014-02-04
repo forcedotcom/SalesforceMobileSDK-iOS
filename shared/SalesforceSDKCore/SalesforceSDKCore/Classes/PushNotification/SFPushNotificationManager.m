@@ -104,7 +104,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (BOOL)registerForSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
@@ -157,7 +157,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (BOOL)unregisterSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: not authenticated"];
         return NO;

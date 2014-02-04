@@ -84,7 +84,34 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info;
 
+/**
+ Called after the auth manager has successfully authenticated and finished retrieving the identity information.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFinish:(SFAuthenticationManager *)manager info:(SFOAuthInfo *)info;
+
+/**
+ Called after the auth manager had failed to authenticate.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param error The error
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFail:(SFAuthenticationManager *)manager error:(NSError*)error info:(SFOAuthInfo *)info;
+
+/**
+ Called when the auth manager wants to determine if the network is available (best guest).
+ @param manager The instance of SFAuthenticationManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
+
 @end
+
+/**
+ Identifies the notification for the user before being logged out of the application.
+ */
+extern NSString * const kSFUserWillLogoutNotification;
 
 /**
  Identifies the notification for the user being logged out of the application.
@@ -96,6 +123,25 @@ extern NSString * const kSFUserLogoutNotification;
  */
 extern NSString * const kSFUserLoggedInNotification;
 
+/**
+ Identifies the notification when the authentication manager has finished
+ successfully to authorize the user and fetched the identity information.
+ */
+extern NSString * const kSFAuthenticationManagerFinishedNotification;
+
+/** Flags controlling specifics of the logout process
+ */
+typedef NS_ENUM(NSUInteger, SFAuthenticationManagerLogoutFlags) {
+    SFAuthenticationManagerLogoutFlagNone = 0,
+    
+    /** Flag indicating that the user's activation code should not be revoked on logout.
+     */
+    SFAuthenticationManagerLogoutFlagPreserveActivationCode
+};
+
+/**
+ This class handles all the authentication related tasks, which includes login, logout and session refresh
+ */
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
@@ -112,6 +158,11 @@ extern NSString * const kSFUserLoggedInNotification;
  Whether or not the application is currently in the process of authenticating.
  */
 @property (nonatomic, readonly) BOOL authenticating;
+
+/** Do we have a current valid Salesforce session?
+ You may use KVO in your app to monitor session validity.
+ */
+@property (nonatomic, readonly) BOOL haveValidSession;
 
 /**
  If this property is set, the authentication manager will swap a "blank" view in place
@@ -182,6 +233,22 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
 
 /**
+ The OAuth Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+
+/**
+ The Identity Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
+
+/**
+ * Whether or not there is a mobile pin code policy configured for this app.
+ * @return YES if so, NO if not.
+ */
+@property (nonatomic, readonly) BOOL mobilePinPolicyConfigured;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
@@ -209,11 +276,40 @@ extern NSString * const kSFUserLoggedInNotification;
  */
 - (void)logout;
 
+/** Revokes the current user's credentials, resets the client ID to the default value, and may perform other functions
+ based on the flags specified.
+ @param flags used to control specific aspects of the logout
+ */
+- (void)logout:(SFAuthenticationManagerLogoutFlags)flags;
+
 /**
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
 
+/** Call this method if you wish to refresh the current user's session ID.
+ This causes immediate expiration of the current user's session.
+ */
+- (void)requestSessionRefresh;
+
+/** Expire both the current session ID as well as any refresh token etc that we may have persisted
+ */
+- (void)expireAuthenticationInfo;
+
+/** Expire the current session
+ */
+- (void)expireSession;
+
+/** Call this method to apply the activation code. The activation code
+ is not going to be persisted in this account manager (but it will be
+ in the user credentials managed by the OAuth library).
+ */
+- (void)applyActivationCode:(NSString*)activationCode;
+
+/**
+ Notification handler for when the app finishes launching.
+ @param notification The notification data associated with the event.
+ */
 - (void)appDidFinishLaunching:(NSNotification *)notification;
 
 /**
