@@ -101,28 +101,6 @@ extern NSString *const SFDefaultAccountIdentifier;
 + (SFLoginHostUpdateResult *)updateLoginHost;
 
 /**
- * @return The OAuth client ID of the app.
- */
-+ (NSString *)clientId;
-
-/**
- * Sets a new value for the app's OAuth client ID.
- * @param newClientId The new value for the client ID.
- */
-+ (void)setClientId:(NSString *)newClientId;
-
-/**
- * @return The app's OAuth redirect URI.
- */
-+ (NSString *)redirectUri;
-
-/**
- * Sets a new value for the app's OAuth redirect URI.
- * @param newRedirectUri The new value for the app's OAuth redirect URI.
- */
-+ (void)setRedirectUri:(NSString *)newRedirectUri;
-
-/**
  * Clears the account state of the given account (i.e. clears credentials, coordinator
  * instances, etc.
  * @param clearAccountData Whether to optionally revoke credentials and persisted data associated

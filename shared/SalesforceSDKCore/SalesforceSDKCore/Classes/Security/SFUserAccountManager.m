@@ -56,8 +56,6 @@ NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLogi
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
 // Defaults
-#warning TODO mobilesdk
-NSString * const kDefaultRedirectUri = @"sfdc:///axm/detect/oauth/done";
 NSString * const SFUserAccountManagerDefaultUserAccountId = @"TEMP_USER_ID";
 
 // The key for storing the persisted OAuth scopes.
@@ -67,6 +65,11 @@ NSString * const kOAuthScopesKey = @"oauth_scopes";
 // app when it is re-opened.
 NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
+// The key for storing the persisted OAuth client ID.
+NSString * const kOAuthClientIdKey = @"oauth_client_id";
+
+// The key for storing the persisted OAuth redirect URI.
+NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 // Persistence Keys
 static NSString * const kUserAccountsMapCodingKey  = @"accountsMap";
@@ -80,11 +83,7 @@ static NSString * const kSFUserAccountOAuthClientIdPreference = @"SFDCOAuthClien
 static NSString * const kSFUserAccountOAuthClientId = @"SFDCOAuthClientId";
 static NSString * const kSFSessionProtocol = @"SFDCSessionProtocol";
 
-// Client ID
-#warning TODO mobilesdk
-static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
-
-@interface SFUserAccountManager () <SFAuthenticationManagerDelegate, SFIdentityCoordinatorDelegate> {
+@interface SFUserAccountManager () <SFOAuthCoordinatorDelegate, SFAuthenticationManagerDelegate, SFIdentityCoordinatorDelegate> {
     UIWebView *_oauthLoginView;
     NSMutableArray *_delegates;
 }
@@ -131,29 +130,14 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
     }
 }
 
-+ (NSSet *)scopes
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
-    return [NSSet setWithArray:scopesArray];
-}
-
-+ (void)setScopes:(NSSet *)newScopes
-{
-    NSArray *scopesArray = [newScopes allObjects];
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs setObject:scopesArray forKey:kOAuthScopesKey];
-    [defs synchronize];
-}
-
 - (id)init {
 	self = [super init];
 	if (self) {
         _delegates = [[NSMutableArray alloc] init];
-        self.oauthClientId = [[self class] defaultClientIdentifier];
+        self.oauthClientId = [[self class] clientId];
         self.oauthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
         if (nil == self.oauthCompletionUrl) {
-            self.oauthCompletionUrl = kDefaultRedirectUri;
+            self.oauthCompletionUrl = [[self class] redirectUri];
         }
         
         _userAccountMap = [[NSMutableDictionary alloc] init];
@@ -195,6 +179,51 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
         loginHost = kSFUserAccountOAuthLoginHostDefault;
     }
     return loginHost;
+}
+
+#pragma mark - Default Values
+
++ (NSSet *)scopes
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
+    return [NSSet setWithArray:scopesArray];
+}
+
++ (void)setScopes:(NSSet *)newScopes
+{
+    NSArray *scopesArray = [newScopes allObjects];
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setObject:scopesArray forKey:kOAuthScopesKey];
+    [defs synchronize];
+}
+
++ (NSString *)redirectUri
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
+    return redirectUri;
+}
+
++ (void)setRedirectUri:(NSString *)newRedirectUri
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
+    [defs synchronize];
+}
+
++ (NSString *)clientId
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
+    return clientId;
+}
+
++ (void)setClientId:(NSString *)newClientId
+{
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs setObject:newClientId forKey:kOAuthClientIdKey];
+    [defs synchronize];
 }
 
 #pragma mark - Delegates
@@ -265,7 +294,7 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
     NSString *identifier = nil;
     while (nil == identifier || [existingAccountNames containsObject:identifier]) {
         u_int32_t randomNumber = arc4random();
-        identifier = [NSString stringWithFormat:@"%@-%u", [SFUserAccountManager defaultClientIdentifier], randomNumber];
+        identifier = [NSString stringWithFormat:@"%@-%u", [SFUserAccountManager clientId], randomNumber];
     }
 
     return identifier;
@@ -495,13 +524,15 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
 - (void)loginWithAccount:(SFUserAccount*)account {
     // as soon as someone asks us to login with an account set that account as the current account
     self.currentUser = account;
-    
-    // update the host if necessary and revoke the credentials if the host has changed
+
+    // update the host, if necessary. Note that we should not revoke the access token
+    // here because when switching from one community to another the domain changes but
+    // we need to keep the credentials intact. We let the client of this class to decide
+    // when to revoke the credentials (usually when the app logs out or when the user
+    // actively changes the host to switch to another user).
     NSString *loginHost = [self loginHost];
     if (![loginHost isEqualToString:account.credentials.domain]) {
-#warning TODO ignore that when the domain is actually a community falling under the previous domain or should we simply not revek anything here but let the client do it (like it does now on logout)?
-//        account.credentials.domain = loginHost;
-//        [account.credentials revoke];   // we're on a new host, clear previous tokens
+        account.credentials.domain = loginHost;
     }
     
     // if the account doesn't specify any scopes, let's use the ones
@@ -543,7 +574,7 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
                                        // No action here.  Login workflow will take care of view dismissal.
                                    }];
     
-#warning TODO what to do with that? Is this application specific?
+#warning TODO mobilesdk: what to do with that? Is this application specific?
     // Remove default error completion blocks to let our app handle error routing.
     [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.invalidCredentialsAuthErrorHandler];
     [authManager.authErrorHandlerList removeAuthErrorHandler:authManager.connectedAppVersionAuthErrorHandler];
@@ -633,16 +664,6 @@ static NSString * const kSFDCOAuthClientIDiOS = @"SfdcMobileChatteriOS";
     SFUserAccount *userAcct = [self currentUser];
     BOOL result = [userAcct isSessionValid];
     return result;
-}
-
-#pragma mark -
-#pragma mark Private methods
-
-/**
- Starting with version 2 and Mocha 176, the default identifier is SfdcMobileChatteriOS.
- */
-+ (NSString *)defaultClientIdentifier {
-    return kSFDCOAuthClientIDiOS;
 }
 
 #pragma mark - OAuth support

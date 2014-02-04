@@ -207,10 +207,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
 
-/** Default identifier used for initializing SFUserAccount credentials
- */
-+ (NSString *)defaultClientIdentifier;
-
 /**
  * @return The OAuth scopes associated with the app.
  */
@@ -221,6 +217,28 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  * @param newScopes The new value for the OAuth scopes of the app.
  */
 + (void)setScopes:(NSSet *)newScopes;
+
+/**
+ * @return The app's OAuth redirect URI.
+ */
++ (NSString *)redirectUri;
+
+/**
+ * Sets a new value for the app's OAuth redirect URI.
+ * @param newRedirectUri The new value for the app's OAuth redirect URI.
+ */
++ (void)setRedirectUri:(NSString *)newRedirectUri;
+
+/**
+ * @return The OAuth client ID of the app.
+ */
++ (NSString *)clientId;
+
+/**
+ * Sets a new value for the app's OAuth client ID.
+ * @param newClientId The new value for the client ID.
+ */
++ (void)setClientId:(NSString *)newClientId;
 
 /** Registers a new delegate
  */

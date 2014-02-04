@@ -41,13 +41,13 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 }
 
 - (id)init {
-    return [self initWithIdentifier:[SFUserAccountManager defaultClientIdentifier]];
+    return [self initWithIdentifier:[SFUserAccountManager clientId]];
 }
 
 - (id)initWithIdentifier:(NSString*)identifier {
     self = [super init];
     if (self) {
-        NSString *clientId = [SFUserAccountManager defaultClientIdentifier];
+        NSString *clientId = [SFUserAccountManager clientId];
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
@@ -97,7 +97,7 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 - (void)setCommunityId:(NSString *)communityId {
     if (nil == communityId) {
         _communityId = nil;
-#warning TODO for now we use the identityUrl to build the internal community but let's check with the oauth team if we can have it in a better way
+#warning TODO community: for now we use the identityUrl to build the internal community but let's change that once TD-0018672 is completed by the oauth team
         NSURL *identityUrl = self.credentials.identityUrl;
         self.credentials.instanceUrl = [[NSURL alloc] initWithScheme:[identityUrl scheme] host:[identityUrl host] path:@"/"];
     } else {

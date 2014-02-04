@@ -55,12 +55,6 @@ NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
 // Key for the custom login host value in the app settings.
 NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_pref";
 
-// The key for storing the persisted OAuth client ID.
-NSString * const kOAuthClientIdKey = @"oauth_client_id";
-
-// The key for storing the persisted OAuth redirect URI.
-NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
-
 // The key prefix for storing the Identity data of the account.  Will be combined with
 // account-specific information to ensure uniqueness across accounts.
 NSString * const kOAuthIdentityDataKeyPrefix = @"oauth_identity_data";
@@ -204,34 +198,6 @@ static NSString *CurrentAccountIdentifier;
     if (newAccountIdentifier != CurrentAccountIdentifier) {
         CurrentAccountIdentifier = [newAccountIdentifier copy];
     }
-}
-
-+ (NSString *)clientId
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
-    return clientId;
-}
-
-+ (void)setClientId:(NSString *)newClientId
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs setObject:newClientId forKey:kOAuthClientIdKey];
-    [defs synchronize];
-}
-
-+ (NSString *)redirectUri
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
-    return redirectUri;
-}
-
-+ (void)setRedirectUri:(NSString *)newRedirectUri
-{
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
-    [defs synchronize];
 }
 
 - (SFOAuthCredentials *)credentials
