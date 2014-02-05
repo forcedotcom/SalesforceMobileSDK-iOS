@@ -283,15 +283,15 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
     return newAcct;
 }
 
-- (NSString*)userAccountsPlistFile {
-	NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:self.currentUser type:NSLibraryDirectory components:@[@"mobilesdk"]];
++ (NSString*)userAccountsPlistFile {
+	NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:@[@"mobilesdk"]];
     [SFDirectoryManager ensureDirectoryExists:directory];
     return [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
 }
 
 // called by init
 - (void)loadAccounts {
-    NSString *path = self.userAccountsPlistFile;
+    NSString *path = [[self class] userAccountsPlistFile];
 	
     NSMutableDictionary *rootObject = nil;
     @try {
@@ -332,7 +332,7 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 }
 
 - (void)saveAccounts {
-    NSString *path = self.userAccountsPlistFile;
+    NSString *path = [[self class] userAccountsPlistFile];
     
 	NSMutableDictionary *rootObject = [NSMutableDictionary dictionary];    
 	[rootObject setValue:self.userAccountMap forKey:kUserAccountsMapCodingKey];

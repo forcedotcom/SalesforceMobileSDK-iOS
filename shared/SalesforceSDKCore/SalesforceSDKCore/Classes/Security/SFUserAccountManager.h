@@ -114,10 +114,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 @property (nonatomic, copy) NSString *oauthCompletionUrl;
 
-/** Returns the file that contains the user account plist
- */
-@property (nonatomic, strong, readonly) NSString *userAccountsPlistFile;
-
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
@@ -159,6 +155,10 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  * @param newClientId The new value for the client ID.
  */
 + (void)setClientId:(NSString *)newClientId;
+
+/** Returns the file that contains the user account plist
+ */
++ (NSString*)userAccountsPlistFile;
 
 /** Loads all the accounts.
  */
