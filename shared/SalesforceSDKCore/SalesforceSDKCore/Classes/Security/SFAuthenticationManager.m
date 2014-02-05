@@ -919,7 +919,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     // if the user doesn't specify any scopes, let's use the ones
     // defined in this account manager
     if (nil == account.accessScopes) {
-        account.accessScopes = [[self class] scopes];
+        account.accessScopes = [SFUserAccountManager scopes];
     }
 
     // re-create the oauth coordinator for the current user

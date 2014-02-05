@@ -114,6 +114,10 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 @property (nonatomic, copy) NSString *oauthCompletionUrl;
 
+/** Returns the file that contains the user account plist
+ */
+@property (nonatomic, strong, readonly) NSString *userAccountsPlistFile;
+
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
