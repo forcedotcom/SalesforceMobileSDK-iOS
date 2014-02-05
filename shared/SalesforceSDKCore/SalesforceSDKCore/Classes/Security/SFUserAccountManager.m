@@ -284,7 +284,7 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 }
 
 + (NSString*)userAccountsPlistFile {
-	NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:@[@"mobilesdk"]];
+    NSString *directory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:@[@"mobilesdk"]];
     [SFDirectoryManager ensureDirectoryExists:directory];
     return [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
 }
