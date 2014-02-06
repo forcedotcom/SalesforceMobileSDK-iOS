@@ -157,10 +157,6 @@ typedef enum {
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
-/** The identity information (see http://wiki.developerforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com#The_Force.com_Identity_Service)
- */
-@property (nonatomic, copy) NSDictionary *identityInformation;
-
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.
  

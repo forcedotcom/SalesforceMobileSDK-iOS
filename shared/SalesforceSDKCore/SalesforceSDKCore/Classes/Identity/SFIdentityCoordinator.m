@@ -163,7 +163,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     
     SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:idJsonData];
     self.idData = idData;
-    self.credentials.identityInformation = idJsonData;
     
     [self notifyDelegateOfSuccess];
 }
