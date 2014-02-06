@@ -206,8 +206,19 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 #pragma mark Account management
 
 - (NSArray*)allUserIds {
+    // Sort the user id
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:NO selector:@selector(localizedCompare:)];
-    return [[self.userAccountMap allKeys] sortedArrayUsingDescriptors:@[descriptor]];
+    NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingDescriptors:@[descriptor]];
+    
+    // Remove the temporary user id from the array
+    NSMutableArray *filteredKeys = [NSMutableArray array];
+    for (NSString *userId in keys) {
+        if ([userId isEqualToString:SFUserAccountManagerDefaultUserAccountId]) {
+            continue;
+        }
+        [filteredKeys addObject:userId];
+    }
+    return filteredKeys;
 }
 
 /** Returns all existing account names in the keychain

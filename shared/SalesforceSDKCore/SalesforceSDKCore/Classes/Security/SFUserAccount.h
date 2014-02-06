@@ -24,14 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
-
-/** Constants for the keys available in the community dictionary returned by
- the `communityWithId:` method below. They map to the keys
- returned by the server endpoint /services/data/vXX.X/connect/communities
- */
-extern NSString *kCommunityEntityIdKey;
-extern NSString *kCommunityNameKey;
-extern NSString *kCommunitySiteUrlKey;
+#import "SFCommunityData.h"
 
 /** User account restrictions
  */
@@ -59,7 +52,7 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
 // The current community id the user is logged in
 @property (nonatomic, copy) NSString *communityId;
 
-// The list of communities (as dictionary)
+// The list of communities (as SFCommunityData)
 @property (nonatomic, copy) NSArray *communities;
 
 /** Designated initializer
@@ -70,7 +63,7 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
 
 /** Returns the community dictionary for the specified ID
  */
-- (NSDictionary*)communityWithId:(NSString*)communityId;
+- (SFCommunityData*)communityWithId:(NSString*)communityId;
 
 /** Returns YES if the user has an access token and, presumably,
  a valid session.

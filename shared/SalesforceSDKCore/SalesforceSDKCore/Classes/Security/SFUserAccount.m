@@ -28,10 +28,6 @@
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFLogger.h>
 
-NSString *kCommunityEntityIdKey = @"id";
-NSString *kCommunityNameKey = @"name";
-NSString *kCommunitySiteUrlKey = @"siteUrl";
-
 static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
 static NSString * const kUser_CREDENTIALS       = @"credentials";
 static NSString * const kUser_EMAIL             = @"email";
@@ -117,17 +113,23 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
         _communityId = nil;
 #warning TODO community: for now we use the identityUrl to build the internal community but let's change that once TD-0018672 is completed by the oauth team
         NSURL *identityUrl = self.credentials.identityUrl;
-        self.credentials.instanceUrl = [[NSURL alloc] initWithScheme:[identityUrl scheme] host:[identityUrl host] path:@"/"];
+        NSString *host;
+        if ([identityUrl port]) {
+            host = [NSString stringWithFormat:@"%@:%@", [identityUrl host], [identityUrl port]];
+        } else {
+            host = [identityUrl host];
+        }
+        self.credentials.instanceUrl = [[NSURL alloc] initWithScheme:[identityUrl scheme] host:host path:@"/"];
     } else {
-        NSDictionary *communityInfo = [self communityWithId:communityId];
-        _communityId = communityInfo[kCommunityEntityIdKey];
-        self.credentials.instanceUrl = communityInfo[kCommunitySiteUrlKey];
+        SFCommunityData *communityData = [self communityWithId:communityId];
+        _communityId = communityData.identifier;
+        self.credentials.instanceUrl = communityData.siteUrl;
     }
 }
 
-- (NSDictionary*)communityWithId:(NSString*)communityId {
-    for (NSDictionary *info in self.communities) {
-        if ([info[kCommunityEntityIdKey] isEqualToString:communityId]) {
+- (SFCommunityData*)communityWithId:(NSString*)communityId {
+    for (SFCommunityData *info in self.communities) {
+        if ([info.identifier isEqualToString:communityId]) {
             return info;
         }
     }
