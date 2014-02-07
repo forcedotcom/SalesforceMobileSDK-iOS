@@ -14,20 +14,30 @@
 
 /** The community ID
  */
-@property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, strong) NSString *entityId;
 
 /** The community name
  */
 @property (nonatomic, strong) NSString *name;
 
+/** The community description
+ */
+@property (nonatomic, strong) NSString *description;
+
 /** The community siteUrl
  */
 @property (nonatomic, strong) NSURL *siteUrl;
+
+@property (nonatomic, strong) NSURL *url;
+
+@property (nonatomic, strong) NSURL *urlPathPrefix;
 
 /** Flag indicating if the community is live or not
  */
 @property (nonatomic) BOOL enabled;
 
-+ (instancetype)communityData;
+@property (nonatomic) BOOL invitationsEnabled;
+
+@property (nonatomic) BOOL sendWelcomeEmail;
 
 @end

@@ -114,14 +114,14 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
         self.credentials.instanceUrl = [[NSURL alloc] initWithScheme:[identityUrl scheme] host:host path:@"/"];
     } else {
         SFCommunityData *communityData = [self communityWithId:communityId];
-        _communityId = communityData.identifier;
+        _communityId = communityData.entityId;
         self.credentials.instanceUrl = communityData.siteUrl;
     }
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
     for (SFCommunityData *info in self.communities) {
-        if ([info.identifier isEqualToString:communityId]) {
+        if ([info.entityId isEqualToString:communityId]) {
             return info;
         }
     }
