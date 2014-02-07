@@ -25,6 +25,8 @@
 #import "SFUserAccount.h"
 #import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager.h"
+#import "SFDirectoryManager.h"
+
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFLogger.h>
 
@@ -32,7 +34,6 @@ static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
 static NSString * const kUser_CREDENTIALS       = @"credentials";
 static NSString * const kUser_EMAIL             = @"email";
 static NSString * const kUser_FULL_NAME         = @"fullName";
-static NSString * const kUser_ORGANIZATION_ID   = @"organizationId";
 static NSString * const kUser_ORGANIZATION_NAME = @"organizationName";
 static NSString * const kUser_SESSION_EXPIRES   = @"sessionExpiresAt";
 static NSString * const kUser_USER_NAME         = @"userName";
@@ -41,14 +42,7 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 
 @implementation SFUserAccount
 
-@synthesize accessScopes        = _accessScopes;
-@synthesize credentials         = _credentials;
-@synthesize email               = _email;
-@synthesize organizationId      = _organizationId;
-@synthesize organizationName    = _organizationName;
-@synthesize fullName            = _fullName;
-@synthesize userName            = _userName;
-@synthesize sessionExpiresAt    = _sessionExpiresAt; // private
+@synthesize photo = _photo;
 
 + (void)initialize {
     [self setVersion:1];
@@ -73,7 +67,6 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
     [encoder encodeObject:_accessScopes forKey:kUser_ACCESS_SCOPES];
     [encoder encodeObject:_email forKey:kUser_EMAIL];
     [encoder encodeObject:_fullName forKey:kUser_FULL_NAME];
-    [encoder encodeObject:_organizationId forKey:kUser_ORGANIZATION_ID];
     [encoder encodeObject:_organizationName forKey:kUser_ORGANIZATION_NAME];
     [encoder encodeObject:_sessionExpiresAt forKey:kUser_SESSION_EXPIRES];
     [encoder encodeObject:_userName forKey:kUser_USER_NAME];
@@ -89,7 +82,6 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
         _email = [decoder decodeObjectForKey:kUser_EMAIL];
         _fullName = [decoder decodeObjectForKey:kUser_FULL_NAME];
         _credentials = [decoder decodeObjectForKey:kUser_CREDENTIALS];
-        _organizationId = [decoder decodeObjectForKey:kUser_ORGANIZATION_ID];
         _organizationName = [decoder decodeObjectForKey:kUser_ORGANIZATION_NAME];
         _sessionExpiresAt = [decoder decodeObjectForKey:kUser_SESSION_EXPIRES];
         _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
@@ -134,6 +126,44 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
         }
     }
     return nil;
+}
+
+/** Returns the path to the user's photo.
+ */
+- (NSString*)photoPath {
+    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForOrg:self.credentials.organizationId user:self.credentials.userId community:self.communityId type:NSCachesDirectory components:@[@"mobilesdk", @"photos"]];
+    [SFDirectoryManager ensureDirectoryExists:userPhotoPath];
+    return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:self.credentials.userId]];
+}
+
+- (UIImage*)photo {
+    if (nil == _photo) {
+        NSString *photoPath = [self photoPath];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:photoPath]) {
+            _photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
+        }
+    }
+    return _photo;
+}
+
+- (void)setPhoto:(UIImage *)photo {
+    NSError *error = nil;
+    NSString *photoPath = [self photoPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:photoPath]) {
+        if (![fm removeItemAtPath:photoPath error:&error]) {
+            [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+        }
+    }
+    
+    NSData *data = UIImagePNGRepresentation(photo);
+    if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
+        [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
+    }
+    
+    [self willChangeValueForKey:@"photo"];
+    _photo = photo;
+    [self didChangeValueForKey:@"photo"];
 }
 
 - (NSString*)description {

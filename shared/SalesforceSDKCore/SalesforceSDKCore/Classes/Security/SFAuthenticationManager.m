@@ -906,14 +906,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     }
     userAccountManager.currentUser = account;
 
-    // update the host, if necessary. Note that we should not revoke the access token
-    // here because when switching from one community to another the domain changes but
-    // we need to keep the credentials intact. We let the client of this class to decide
-    // when to revoke the credentials (usually when the app logs out or when the user
-    // actively changes the host to switch to another user).
-    NSString *loginHost = [userAccountManager loginHost];
-    if (![loginHost isEqualToString:account.credentials.domain]) {
-        account.credentials.domain = loginHost;
+    // sets the domain if it not set already
+    if (nil == account.credentials.domain) {
+        account.credentials.domain = [userAccountManager loginHost];
     }
     
     // if the user doesn't specify any scopes, let's use the ones

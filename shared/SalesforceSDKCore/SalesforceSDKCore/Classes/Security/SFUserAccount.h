@@ -40,20 +40,53 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
  */
 @interface SFUserAccount : NSObject<NSCoding>
 
+/** The access scopes for this user
+ */
 @property (nonatomic, copy) NSSet *accessScopes;
+
+/** The credentials associated with this user
+ */
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
+
+/** The user's email
+ */
 @property (nonatomic, copy) NSString *email;
-@property (nonatomic, copy) NSString *organizationId;
+
+/** The user's organization name
+ */
 @property (nonatomic, copy) NSString *organizationName;
+
+/** The user's full name
+ */
 @property (nonatomic, copy) NSString *fullName;
+
+/** The user's name
+ */
 @property (nonatomic, copy) NSString *userName;
+
+/** The user's photo. Usually store a thumbnail of the user.
+ Note: the consumer of this class must set the photo at least once,
+ because this class doesn't fetch it from the server but
+ only stores it locally on the disk.
+ */
+@property (nonatomic, strong) UIImage *photo;
+
+/** The access restriction associated with this user
+ */
 @property (nonatomic) SFUserAccountAccessRestriction accessRestrictions;
 
-// The current community id the user is logged in
+/** The current community id the user is logged in
+ */
 @property (nonatomic, copy) NSString *communityId;
 
-// The list of communities (as SFCommunityData)
+/** The list of communities (as SFCommunityData item)
+ */
 @property (nonatomic, copy) NSArray *communities;
+
+/** Returns YES if the user has an access token and, presumably,
+ a valid session.
+ */
+@property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
 /** Designated initializer
  @param identifier The user identifier
@@ -64,10 +97,5 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
 /** Returns the community dictionary for the specified ID
  */
 - (SFCommunityData*)communityWithId:(NSString*)communityId;
-
-/** Returns YES if the user has an access token and, presumably,
- a valid session.
- */
-- (BOOL)isSessionValid;
 
 @end

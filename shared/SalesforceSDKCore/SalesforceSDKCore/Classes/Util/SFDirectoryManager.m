@@ -28,14 +28,6 @@
 
 static NSString * const kDefaultOrgName = @"org";
 
-/** Ensure the specified identifier contains only characters that can be
- safely used to identify a path on the disk.
- */
-static NSString *SafeIdForDiskRepresentation(NSString* identifier) {
-    NSCharacterSet *invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:@"];
-    return [[identifier componentsSeparatedByCharactersInSet:invalidCharacters] componentsJoinedByString:@"_"];
-}
-
 @implementation SFDirectoryManager
 
 + (instancetype)sharedManager {
@@ -66,14 +58,19 @@ static NSString *SafeIdForDiskRepresentation(NSString* identifier) {
     }
 }
 
++ (NSString*)safeStringForDiskRepresentation:(NSString*)candidate {
+    NSCharacterSet *invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:@"];
+    return [[candidate componentsSeparatedByCharactersInSet:invalidCharacters] componentsJoinedByString:@"_"];
+}
+
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components {
     NSString *directory = [NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES) firstObject];
     if (nil != userId) {
-        directory = [directory stringByAppendingPathComponent:SafeIdForDiskRepresentation([NSString stringWithFormat:@"%@-%@", orgId?:kDefaultOrgName, userId])];
+        directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:[NSString stringWithFormat:@"%@-%@", orgId?:kDefaultOrgName, userId]]];
         if (nil == communityId) {
             directory = [directory stringByAppendingPathComponent:@"internal"];
         } else {
-            directory = [directory stringByAppendingPathComponent:SafeIdForDiskRepresentation(communityId)];
+            directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
         }
     }
     
@@ -89,7 +86,8 @@ static NSString *SafeIdForDiskRepresentation(NSString* identifier) {
         user = [SFUserAccountManager sharedInstance].currentUser;
     }
     if (user) {
-        return [self directoryForOrg:user.organizationId?:user.organizationName user:user.credentials.userId community:user.communityId type:type components:components];
+        NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+        return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
     } else {
         return [self directoryForOrg:nil user:nil community:nil type:type components:components];
     }

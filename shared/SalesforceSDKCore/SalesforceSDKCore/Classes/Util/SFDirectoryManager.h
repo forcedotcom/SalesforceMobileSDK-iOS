@@ -57,6 +57,11 @@
  */
 + (BOOL)ensureDirectoryExists:(NSString*)directory;
 
+/** Ensure the specified string contains only characters that can be
+ safely used to identify a path on the disk.
+ */
++ (NSString*)safeStringForDiskRepresentation:(NSString*)candidate;
+
 /** Returns the path to the directory type for the specified org, user and community.
  @param orgId The organization ID. If nil, this method returns the global cache directory (Library/Caches)
  @param userId The user ID. If nil, this method returns the global cache directory (Library/Caches)
