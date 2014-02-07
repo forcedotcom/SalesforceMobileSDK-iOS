@@ -11,6 +11,7 @@
 static NSString * const kIdentifierKey = @"id";
 static NSString * const kNameKey = @"name";
 static NSString * const kSiteUrlKey = @"siteUrl";
+static NSString * const kEnabledKey = @"enabled";
 
 @interface SFCommunityData ()
 
@@ -27,6 +28,7 @@ static NSString * const kSiteUrlKey = @"siteUrl";
     [encoder encodeObject:self.identifier forKey:kIdentifierKey];
     [encoder encodeObject:self.name forKey:kNameKey];
     [encoder encodeObject:self.siteUrl forKey:kSiteUrlKey];
+    [encoder encodeBool:self.enabled forKey:kEnabledKey];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
@@ -35,6 +37,7 @@ static NSString * const kSiteUrlKey = @"siteUrl";
         self.identifier = [decoder decodeObjectForKey:kIdentifierKey];
         self.name = [decoder decodeObjectForKey:kNameKey];
         self.siteUrl = [decoder decodeObjectForKey:kSiteUrlKey];
+        self.enabled = [decoder decodeBoolForKey:kEnabledKey];
 	}
 	return self;
 }

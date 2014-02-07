@@ -24,6 +24,10 @@
  */
 @property (nonatomic, strong) NSURL *siteUrl;
 
+/** Flag indicating if the community is live or not
+ */
+@property (nonatomic) BOOL enabled;
+
 + (instancetype)communityData;
 
 @end
