@@ -395,7 +395,7 @@
     
     <target name="packageLibWithConfiguration">
         <property name="packageOutputDir" value="${artifactsDir}/${buildConfiguration}" />
-        <property name="packageProjectDir" value="${packageOutputDir}/${projectName}" />
+        <property name="packageProjectDir" value="${packageOutputDir}/${projectName}-${buildConfiguration}" />
         
         <mkdir dir="${packageProjectDir}" />
         
