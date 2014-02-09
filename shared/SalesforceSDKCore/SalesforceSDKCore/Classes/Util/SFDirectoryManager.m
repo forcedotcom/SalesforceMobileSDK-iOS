@@ -64,21 +64,26 @@ static NSString * const kDefaultOrgName = @"org";
 }
 
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components {
-    NSString *directory = [NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES) firstObject];
-    if (nil != userId) {
-        directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:[NSString stringWithFormat:@"%@-%@", orgId?:kDefaultOrgName, userId]]];
-        if (nil == communityId) {
-            directory = [directory stringByAppendingPathComponent:@"internal"];
-        } else {
-            directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
+    if (directories.count > 0) {
+        NSString *directory = [directories objectAtIndex:0];
+        if (nil != userId) {
+            directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:[NSString stringWithFormat:@"%@-%@", orgId?:kDefaultOrgName, userId]]];
+            if (nil == communityId) {
+                directory = [directory stringByAppendingPathComponent:@"internal"];
+            } else {
+                directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
+            }
         }
+        
+        for (NSString *component in components) {
+            directory = [directory stringByAppendingPathComponent:component];
+        }
+        
+        return directory;
+    } else {
+        return nil;
     }
-    
-    for (NSString *component in components) {
-        directory = [directory stringByAppendingPathComponent:component];
-    }
-    
-    return directory;
 }
 
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {

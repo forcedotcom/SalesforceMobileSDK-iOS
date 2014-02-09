@@ -25,7 +25,8 @@
 #import "SFRestAPI.h"
 
 @class SFSessionRefresher;
-@class SFAccountManager;
+@class SFUserAccountManager;
+@class SFAuthenticationManager;
 @class SFNetworkEngine;
 
 /**
@@ -36,7 +37,8 @@
  */
 @interface SFRestAPI ()
 {
-    SFAccountManager *_accountMgr;
+    SFUserAccountManager *_accountMgr;
+    SFAuthenticationManager *_authMgr;
     SFNetworkEngine *_networkEngine;
 }
 

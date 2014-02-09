@@ -25,11 +25,11 @@
 #import "SFSessionRefresher.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import "SFRestAPI.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface SFSessionRefresher ()
 {
-    SFAccountManager *_accountMgr;
+    SFAuthenticationManager *_accountMgr;
 }
 
 /**
@@ -55,7 +55,7 @@
     if (nil != self) {
         _refreshLock = [[NSLock alloc] init];
         self.isRefreshing = NO;
-        _accountMgr = [SFAccountManager sharedInstance];
+        _accountMgr = [SFAuthenticationManager sharedManager];
     }
     
     return self;
@@ -77,8 +77,9 @@
         
         // let's refresh the token
         // but first, let's save the previous delegate
-        self.previousOAuthDelegate = _accountMgr.oauthDelegate;
-        _accountMgr.oauthDelegate = self;
+#warning TODO
+//        self.previousOAuthDelegate = _accountMgr.oauthDelegate;
+//        _accountMgr.oauthDelegate = self;
         [_accountMgr.coordinator authenticate];
     }
     //else somebody else owns the lock and will unlock once refresh completes
@@ -131,7 +132,8 @@
 
 - (void)restoreOAuthDelegate {
     if (nil != self.previousOAuthDelegate) {
-        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
+#warning TODO
+//        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
         self.previousOAuthDelegate = nil;
     }
 }
