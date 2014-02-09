@@ -87,9 +87,6 @@ static NSString * const kDefaultOrgName = @"org";
 }
 
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
-    if (nil == user) {
-        user = [SFUserAccountManager sharedInstance].currentUser;
-    }
     if (user) {
         NSAssert(user.credentials.organizationId, @"Organization ID must be set");
         return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
@@ -99,7 +96,7 @@ static NSString * const kDefaultOrgName = @"org";
 }
 
 - (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components {
-    return [self directoryForUser:nil type:type components:components];
+    return [self directoryForUser:[SFUserAccountManager sharedInstance].currentUser type:type components:components];
 }
 
 @end
