@@ -183,9 +183,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
+    /* FIXME - Cordova33
     if (self.useSplashScreen) {
         [self showSplashScreen];
     }
+    */
     
     [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {

@@ -23,7 +23,7 @@
  */
 
 #import "SalesforceOAuthPlugin.h"
-#import "CDVViewController.h"
+#import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFAccountManager.h>

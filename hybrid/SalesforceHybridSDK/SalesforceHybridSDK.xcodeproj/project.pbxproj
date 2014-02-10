@@ -218,6 +218,10 @@
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
 		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FF918D518A98DDC00A713DB /* CDVConnection.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVConnection.h; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.h"; sourceTree = "<group>"; };
+		4FF918D618A98DDC00A713DB /* CDVConnection.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVConnection.m; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.m"; sourceTree = "<group>"; };
+		4FF918D718A98DDC00A713DB /* CDVReachability.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVReachability.h; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.h"; sourceTree = "<group>"; };
+		4FF918D818A98DDC00A713DB /* CDVReachability.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVReachability.m; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.m"; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -425,9 +429,22 @@
 			path = ../../../external/shared/libs;
 			sourceTree = "<group>";
 		};
+		4FF918D918A98DDC00A713DB /* Cordova-Plugin-Network-Information */ = {
+			isa = PBXGroup;
+			children = (
+				4FF918D518A98DDC00A713DB /* CDVConnection.h */,
+				4FF918D618A98DDC00A713DB /* CDVConnection.m */,
+				4FF918D718A98DDC00A713DB /* CDVReachability.h */,
+				4FF918D818A98DDC00A713DB /* CDVReachability.m */,
+			);
+			name = "Cordova-Plugin-Network-Information";
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		82EFF2C716E7C57100A63CDF = {
 			isa = PBXGroup;
 			children = (
+				4FF918D918A98DDC00A713DB /* Cordova-Plugin-Network-Information */,
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* HybridPluginTestApp */,
 				82EFF32C16E8049600A63CDF /* HybridPluginTestAppTests */,

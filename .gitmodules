@@ -16,3 +16,6 @@
 [submodule "external/MKNetworkKit"]
 	path = external/MKNetworkKit
 	url = https://github.com/forcedotcom/MKNetworkKit.git
+[submodule "external/cordova-plugin-network-information"]
+	path = external/cordova-plugin-network-information
+	url = https://github.com/wmathurin/cordova-plugin-network-information

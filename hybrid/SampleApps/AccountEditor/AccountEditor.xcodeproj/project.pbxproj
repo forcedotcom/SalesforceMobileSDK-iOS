@@ -34,6 +34,7 @@
 		4FBFFAE8177A6ECC00D1E36E /* stackrouter.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FBFFAB0177A6E0800D1E36E /* stackrouter.js */; };
 		4FBFFAE9177A6ECC00D1E36E /* UserAndGroupSearch.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FBFFAB1177A6E0800D1E36E /* UserAndGroupSearch.html */; };
 		4FBFFAEA177A6ECC00D1E36E /* UserSearch.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FBFFAB2177A6E0800D1E36E /* UserSearch.html */; };
+		4FF918DC18A9966B00A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918DB18A9966B00A713DB /* AssetsLibrary.framework */; };
 		823856DF17299907007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856DD172998CE007775A8 /* jquery-2.0.0.min.js */; };
 		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
 		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
@@ -201,6 +202,7 @@
 		4FBFFAB1177A6E0800D1E36E /* UserAndGroupSearch.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = UserAndGroupSearch.html; sourceTree = "<group>"; };
 		4FBFFAB2177A6E0800D1E36E /* UserSearch.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = UserSearch.html; sourceTree = "<group>"; };
 		4FBFFACE177A6E4600D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FF918DB18A9966B00A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		823856DD172998CE007775A8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
 		824A9BCE1721FCA400C9BD79 /* AccountEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -263,6 +265,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FF918DC18A9966B00A713DB /* AssetsLibrary.framework in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
 				824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */,
 				824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -366,6 +369,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FF918DB18A9966B00A713DB /* AssetsLibrary.framework */,
 				828B294C174AE06400741BBE /* libCordova.a */,
 				824A9D921724C7C400C9BD79 /* libcrypto.a */,
 				824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */,
