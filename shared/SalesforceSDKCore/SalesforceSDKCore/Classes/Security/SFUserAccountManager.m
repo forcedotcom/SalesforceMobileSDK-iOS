@@ -321,6 +321,9 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
         savedAcctMap = [NSDictionary dictionary];
     }
     NSMutableDictionary *mutableMap = [[NSMutableDictionary alloc] initWithDictionary:savedAcctMap];
+    // Remove the temporary user if one exists
+    [mutableMap removeObjectForKey:SFUserAccountManagerDefaultUserAccountId];
+    
     self.userAccountMap = mutableMap;
     
     NSString *curUserId = [self activeUserId];
@@ -328,8 +331,12 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
     //in case the most recently used account was removed, recover by
     //finding the next available account
     if ((nil == curUserId) && ([self.userAccountMap count] > 0) ) {
-        SFUserAccount *userAcct = [[self.userAccountMap allValues] objectAtIndex:0];
-        curUserId = userAcct.credentials.userId;
+        for (SFUserAccount *account in self.userAccountMap.allValues) {
+            if (account.credentials.userId) {
+                curUserId = account.credentials.userId;
+                break;
+            }
+        }
     }
     if (nil == curUserId) {
         [self log:SFLogLevelInfo msg:@"Current active user id is nil"];
