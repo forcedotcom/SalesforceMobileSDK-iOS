@@ -193,6 +193,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             }
             self.userId = [pathComps objectAtIndex:pathComps.count - 1];
             self.organizationId = [pathComps objectAtIndex:pathComps.count - 2];
+        } else {
+            NSLog(@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl);
         }
     }
 }
