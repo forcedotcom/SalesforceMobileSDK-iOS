@@ -29,7 +29,7 @@
 
 @interface SFSessionRefresher ()
 {
-    SFAuthenticationManager *_accountMgr;
+    SFAuthenticationManager *_authMgr;
 }
 
 /**
@@ -55,7 +55,7 @@
     if (nil != self) {
         _refreshLock = [[NSLock alloc] init];
         self.isRefreshing = NO;
-        _accountMgr = [SFAuthenticationManager sharedManager];
+        _authMgr = [SFAuthenticationManager sharedManager];
     }
     
     return self;
@@ -80,7 +80,7 @@
 #warning TODO
 //        self.previousOAuthDelegate = _accountMgr.oauthDelegate;
 //        _accountMgr.oauthDelegate = self;
-        [_accountMgr.coordinator authenticate];
+        [_authMgr.coordinator authenticate];
     }
     //else somebody else owns the lock and will unlock once refresh completes
     
