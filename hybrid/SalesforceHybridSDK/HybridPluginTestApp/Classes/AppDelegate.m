@@ -205,7 +205,9 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
     }
     
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
-    self.viewController.useSplashScreen = NO;
+    /* FIXME - Cordova33
+     self.viewController.useSplashScreen = NO;
+     */
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }

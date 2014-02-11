@@ -152,7 +152,9 @@
     }
     
     self.viewController = [[SFHybridViewController alloc] init];
-    self.viewController.useSplashScreen = YES;
+    /* FIXME - Cordova33
+     self.viewController.useSplashScreen = YES;
+     */
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }
