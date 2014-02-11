@@ -77,10 +77,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
 }
 
-- (void)setInstanceUrl:(NSURL *)instanceUrl {
-    _instanceUrl = instanceUrl;
-}
-
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
