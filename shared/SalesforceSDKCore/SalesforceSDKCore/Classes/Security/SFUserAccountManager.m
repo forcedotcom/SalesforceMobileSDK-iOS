@@ -176,9 +176,7 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     
     [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [[SFAuthenticationManager sharedManager] cancelAuthentication];
-    
+        
     NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldLoginHost, kSFLoginHostChangedNotificationOriginalHostKey, host, kSFLoginHostChangedNotificationUpdatedHostKey, nil];
     NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
     [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
@@ -219,7 +217,7 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     // If the app settings host value is nil/empty, return default.
     NSString *appSettingsLoginHost = [defs objectForKey:kAppSettingsLoginHost];
     if (nil == appSettingsLoginHost || [appSettingsLoginHost length] == 0) {
-        return kSFUserAccountOAuthLoginHostDefault;
+        return nil;
     }
     
     // If a custom login host value was chosen and configured, return it.  If a custom value is
@@ -246,15 +244,19 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
 {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs synchronize];
-    
+        
 	NSString *previousLoginHost = [self loginHost];
 	NSString *currentLoginHost = [self appSettingsLoginHost];
-    
-	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
-    if (hostnameChanged) {
-        self.loginHost = currentLoginHost;
+    SFLoginHostUpdateResult *result;
+    if (currentLoginHost) {
+        BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
+        if (hostnameChanged) {
+            self.loginHost = currentLoginHost;
+        }
+        result = [[SFLoginHostUpdateResult alloc] initWithOrigHost:previousLoginHost updatedHost:currentLoginHost hostChanged:hostnameChanged];
+    } else {
+        result = [[SFLoginHostUpdateResult alloc] initWithOrigHost:previousLoginHost updatedHost:currentLoginHost hostChanged:NO];
     }
-	SFLoginHostUpdateResult *result = [[SFLoginHostUpdateResult alloc] initWithOrigHost:previousLoginHost updatedHost:currentLoginHost hostChanged:hostnameChanged];
 	return result;
 }
 

@@ -323,7 +323,7 @@ static Class InstanceClass = nil;
 
 + (instancetype)sharedManager
 {
-    static dispatch_once_t once;
+    static dispatch_once_t once = 0;
     dispatch_once(&once, ^{
         if (InstanceClass) {
             sharedInstance = [[InstanceClass alloc] init];
@@ -331,7 +331,6 @@ static Class InstanceClass = nil;
             sharedInstance = [[self alloc] init];
         }
     });
-    
     return sharedInstance;
 }
 
@@ -374,6 +373,7 @@ static Class InstanceClass = nil;
         if (logoutAppSettingEnabled) {
             [self clearAccountState:YES];
         } else if (result.loginHostChanged) {
+            [self cancelAuthentication];
             [self clearAccountState:NO];
         }
     }
