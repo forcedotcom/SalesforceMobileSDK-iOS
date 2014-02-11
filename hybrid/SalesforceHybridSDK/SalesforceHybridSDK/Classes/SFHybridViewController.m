@@ -371,7 +371,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (BOOL)isOffline
 {
-    CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
+    CDVConnection *connection = [self getCommandInstance:@"org.apache.cordova.network-information"];
     NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
     return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
 }
