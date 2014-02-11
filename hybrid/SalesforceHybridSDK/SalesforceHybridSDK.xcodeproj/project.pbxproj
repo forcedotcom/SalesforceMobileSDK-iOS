@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0C177B18A9A41C000FD4E9 /* CDVConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF918D518A98DDC00A713DB /* CDVConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F0C177C18A9A41F000FD4E9 /* CDVReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF918D718A98DDC00A713DB /* CDVReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F0C177D18A9A42C000FD4E9 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF918D618A98DDC00A713DB /* CDVConnection.m */; };
+		4F0C177E18A9A432000FD4E9 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF918D818A98DDC00A713DB /* CDVReachability.m */; };
 		4F1A59F7174FF46600473EE8 /* jquery-2.0.0.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */; };
 		4F1A59F8174FF46600473EE8 /* jquery.mobile-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */; };
 		4F1A59F9174FF46600473EE8 /* jquery.mobile-1.3.1.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */; };
@@ -218,10 +222,10 @@
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
 		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
-		4FF918D518A98DDC00A713DB /* CDVConnection.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVConnection.h; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.h"; sourceTree = "<group>"; };
-		4FF918D618A98DDC00A713DB /* CDVConnection.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVConnection.m; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.m"; sourceTree = "<group>"; };
-		4FF918D718A98DDC00A713DB /* CDVReachability.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVReachability.h; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.h"; sourceTree = "<group>"; };
-		4FF918D818A98DDC00A713DB /* CDVReachability.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = CDVReachability.m; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.m"; sourceTree = "<group>"; };
+		4FF918D518A98DDC00A713DB /* CDVConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.h"; sourceTree = "<group>"; };
+		4FF918D618A98DDC00A713DB /* CDVConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.m"; sourceTree = "<group>"; };
+		4FF918D718A98DDC00A713DB /* CDVReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.h"; sourceTree = "<group>"; };
+		4FF918D818A98DDC00A713DB /* CDVReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.m"; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -674,10 +678,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F0C177B18A9A41C000FD4E9 /* CDVConnection.h in Headers */,
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
 				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
+				4F0C177C18A9A41F000FD4E9 /* CDVReachability.h in Headers */,
 				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
 				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
 			);
@@ -821,7 +827,9 @@
 			files = (
 				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
+				4F0C177E18A9A432000FD4E9 /* CDVReachability.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
+				4F0C177D18A9A42C000FD4E9 /* CDVConnection.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,

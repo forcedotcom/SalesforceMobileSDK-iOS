@@ -265,7 +265,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FF918DC18A9966B00A713DB /* AssetsLibrary.framework in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
 				824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */,
 				824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -293,6 +292,7 @@
 				824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */,
 				824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */,
 				824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */,
+				4FF918DC18A9966B00A713DB /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

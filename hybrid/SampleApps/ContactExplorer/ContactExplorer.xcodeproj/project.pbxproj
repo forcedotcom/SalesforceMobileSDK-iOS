@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */; };
+		4FF918E418A99E6800A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918E318A99E6800A713DB /* AssetsLibrary.framework */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
 		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
 		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
@@ -119,6 +120,7 @@
 
 /* Begin PBXFileReference section */
 		4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FF918E318A99E6800A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		7DBD075C149AA9620043A9E0 /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD0762149AA9620043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -216,6 +218,7 @@
 				7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */,
 				7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */,
 				7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */,
+				4FF918E418A99E6800A713DB /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +257,7 @@
 		7DBD075F149AA9620043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FF918E318A99E6800A713DB /* AssetsLibrary.framework */,
 				8251CA5316ED3BC400BD1EA2 /* libCordova.a */,
 				8251CA5D16ED3C3C00BD1EA2 /* libcrypto.a */,
 				8251CA5F16ED3C5700BD1EA2 /* libSalesforceCommonUtils.a */,
