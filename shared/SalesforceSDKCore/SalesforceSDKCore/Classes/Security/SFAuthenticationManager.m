@@ -508,33 +508,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
             && self.idCoordinator.idData.mobileAppScreenLockTimeout > 0);
 }
 
-- (void)requestSessionRefresh {
-    if (![SFTestContext isRunningTests]) {
-        [self log:SFLogLevelInfo format:@"requestSessionRefresh"];
-        
-        //notify everybody that's listening on the session that the session is being invalidated
-        [self willChangeValueForKey:@"haveValidSession"];
-        SFUserAccount *account = [[SFUserAccountManager sharedInstance] currentUser];
-        [account.credentials revokeAccessToken];
-        [[SFUserAccountManager sharedInstance] saveAccounts];
-        [self didChangeValueForKey:@"haveValidSession"];
-        
-        [self login];
-    }
-}
-
-- (void)expireAuthenticationInfo {
-    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    [userAcct.credentials revoke];
-}
-
-- (void)expireSession {
-    SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    [userAcct.credentials revokeAccessToken];
-    
-    [[SFUserAccountManager sharedInstance] userCredentialsChanged];
-}
-
 - (void)applyActivationCode:(NSString*)activationCode {
     self.activationCode = activationCode;
     [[SFUserAccountManager sharedInstance] currentUser].credentials.activationCode = activationCode;

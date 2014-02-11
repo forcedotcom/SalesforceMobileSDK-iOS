@@ -287,19 +287,6 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerLogoutFlags) {
  */
 - (void)cancelAuthentication;
 
-/** Call this method if you wish to refresh the current user's session ID.
- This causes immediate expiration of the current user's session.
- */
-- (void)requestSessionRefresh;
-
-/** Expire both the current session ID as well as any refresh token etc that we may have persisted
- */
-- (void)expireAuthenticationInfo;
-
-/** Expire the current session
- */
-- (void)expireSession;
-
 /** Call this method to apply the activation code. The activation code
  is not going to be persisted in this account manager (but it will be
  in the user credentials managed by the OAuth library).
