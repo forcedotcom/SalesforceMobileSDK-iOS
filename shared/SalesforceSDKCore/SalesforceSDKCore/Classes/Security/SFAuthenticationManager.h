@@ -129,16 +129,6 @@ extern NSString * const kSFUserLoggedInNotification;
  */
 extern NSString * const kSFAuthenticationManagerFinishedNotification;
 
-/** Flags controlling specifics of the logout process
- */
-typedef NS_ENUM(NSUInteger, SFAuthenticationManagerLogoutFlags) {
-    SFAuthenticationManagerLogoutFlagNone = 0,
-    
-    /** Flag indicating that the user's activation code should not be revoked on logout.
-     */
-    SFAuthenticationManagerLogoutFlagPreserveActivationCode
-};
-
 /**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
@@ -194,9 +184,14 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerLogoutFlags) {
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
+ The class instance to be used to instantiate the singleton.
+ */
++ (void)setInstanceClass:(Class)class;
+
+/**
  The singleton instance of the SFAuthenticationManager class.
  */
-+ (SFAuthenticationManager *)sharedManager;
++ (instancetype)sharedManager;
 
 /**
  The property denoting the block that will handle the display and dismissal of the authentication view.
@@ -276,22 +271,10 @@ typedef NS_ENUM(NSUInteger, SFAuthenticationManagerLogoutFlags) {
  */
 - (void)logout;
 
-/** Revokes the current user's credentials, resets the client ID to the default value, and may perform other functions
- based on the flags specified.
- @param flags used to control specific aspects of the logout
- */
-- (void)logout:(SFAuthenticationManagerLogoutFlags)flags;
-
 /**
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
-
-/** Call this method to apply the activation code. The activation code
- is not going to be persisted in this account manager (but it will be
- in the user credentials managed by the OAuth library).
- */
-- (void)applyActivationCode:(NSString*)activationCode;
 
 /**
  Notification handler for when the app finishes launching.

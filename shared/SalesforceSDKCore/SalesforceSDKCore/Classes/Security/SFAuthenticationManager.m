@@ -24,7 +24,7 @@
  */
 
 #import "SFApplication.h"
-#import "SFAuthenticationManager.h"
+#import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
@@ -181,11 +181,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 @property (nonatomic, strong) UIViewController *snapshotViewController;
 
-/** The current activation code. It is kept in memory only
- and is revoked with the other credentials.
- */
-@property (nonatomic, copy) NSString *activationCode;
-
 /**
  Dismisses the authentication retry alert box, if present.
  */
@@ -320,24 +315,24 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 #pragma mark - Singleton initialization / management
 
-+ (SFAuthenticationManager *)sharedManager
+static Class InstanceClass = nil;
+
++ (void)setInstanceClass:(Class)class {
+    InstanceClass = class;
+}
+
++ (instancetype)sharedManager
 {
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        sharedInstance = [[super allocWithZone:NULL] init];
+        if (InstanceClass) {
+            sharedInstance = [[InstanceClass alloc] init];
+        } else {
+            sharedInstance = [[self alloc] init];
+        }
     });
     
     return sharedInstance;
-}
-
-+ (id)allocWithZone:(NSZone *)zone
-{
-    return [self sharedManager];
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
 }
 
 #pragma mark - Init / dealloc / etc.
@@ -444,13 +439,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
 
-- (void)logout
-{
-    [self logout:SFAuthenticationManagerLogoutFlagNone];
-}
-
-- (void)logout:(SFAuthenticationManagerLogoutFlags)flags
-{
+- (void)logout {
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
 
     // Supply the user account to the "Will Logout" notification before the credentials
@@ -474,10 +463,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     
     [self willChangeValueForKey:@"haveValidSession"];
     [userAccount.credentials revoke];
-    if (!(flags & SFAuthenticationManagerLogoutFlagPreserveActivationCode)) {
-        self.activationCode = nil;
-        [userAccount.credentials revokeActivationCode];
-    }
     [SFUserAccountManager sharedInstance].currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
     
@@ -506,11 +491,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
             && self.idCoordinator.idData.mobilePoliciesConfigured
             && self.idCoordinator.idData.mobileAppPinLength > 0
             && self.idCoordinator.idData.mobileAppScreenLockTimeout > 0);
-}
-
-- (void)applyActivationCode:(NSString*)activationCode {
-    self.activationCode = activationCode;
-    [[SFUserAccountManager sharedInstance] currentUser].credentials.activationCode = activationCode;
 }
 
 - (BOOL)haveValidSession {
@@ -898,21 +878,21 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 - (void)login
 {
-    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
-    SFUserAccount *account = userAccountManager.currentUser;
+    SFUserAccount *account = [SFUserAccountManager sharedInstance].currentUser;
 	if (nil == account) {
         [self log:SFLogLevelInfo format:@"no current user account so creating a new one"];
-        account = [userAccountManager createUserAccount];
+        account = [[SFUserAccountManager sharedInstance] createUserAccount];
 	}
-    // Priority is given to any new activation code
-    if (nil != self.activationCode) {
-        account.credentials.activationCode = self.activationCode;
-    }
-    userAccountManager.currentUser = account;
+    
+    [self loginWithUser:account];
+}
 
+- (void)loginWithUser:(SFUserAccount*)account {
+    [SFUserAccountManager sharedInstance].currentUser = account;
+    
     // sets the domain if it not set already
     if (nil == account.credentials.domain) {
-        account.credentials.domain = [userAccountManager loginHost];
+        account.credentials.domain = [[SFUserAccountManager sharedInstance] loginHost];
     }
     
     // if the user doesn't specify any scopes, let's use the ones
@@ -920,7 +900,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     if (nil == account.accessScopes) {
         account.accessScopes = [SFUserAccountManager scopes];
     }
-
+    
     // re-create the oauth coordinator for the current user
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
@@ -931,7 +911,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     self.idCoordinator.delegate = nil;
     self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
     self.idCoordinator.delegate = self;
-
+    
     // Trigger the login flow
     [self.coordinator authenticate];
 }

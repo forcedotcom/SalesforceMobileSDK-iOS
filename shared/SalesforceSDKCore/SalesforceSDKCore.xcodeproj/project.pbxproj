@@ -109,6 +109,7 @@
 		82E16D9B17E7DEE800E019AD /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBEE16E150DA00768DE8 /* test_credentials.json */; };
 		FD280B8A18A2F14D00CEF12E /* SFCommunityData.h in Headers */ = {isa = PBXBuildFile; fileRef = FD280B8818A2F14D00CEF12E /* SFCommunityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD280B8B18A2F14D00CEF12E /* SFCommunityData.m in Sources */ = {isa = PBXBuildFile; fileRef = FD280B8918A2F14D00CEF12E /* SFCommunityData.m */; };
+		FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FD62914818AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDBFFDF91893194D00D8C603 /* SFDirectoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBFFDF71893194D00D8C603 /* SFDirectoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDBFFDFA1893194D00D8C603 /* SFDirectoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBFFDF81893194D00D8C603 /* SFDirectoryManager.m */; };
 		FDC461191891EAA600E4456B /* SFUserAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC461131891EAA600E4456B /* SFUserAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +277,7 @@
 		82E16D9017E7DDB500E019AD /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		FD280B8818A2F14D00CEF12E /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
 		FD280B8918A2F14D00CEF12E /* SFCommunityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCommunityData.m; sourceTree = "<group>"; };
+		FD62914818AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFAuthenticationManager+Internal.h"; sourceTree = "<group>"; };
 		FDBFFDF71893194D00D8C603 /* SFDirectoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDirectoryManager.h; sourceTree = "<group>"; };
 		FDBFFDF81893194D00D8C603 /* SFDirectoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDirectoryManager.m; sourceTree = "<group>"; };
 		FDC461131891EAA600E4456B /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				FD280B8818A2F14D00CEF12E /* SFCommunityData.h */,
 				FD280B8918A2F14D00CEF12E /* SFCommunityData.m */,
 				82AF841C16DFD95F008912EF /* SFAuthenticationManager.h */,
+				FD62914818AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h */,
 				82AF841D16DFD95F008912EF /* SFAuthenticationManager.m */,
 				82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */,
 				82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */,
@@ -637,6 +640,7 @@
 				82BBB56D17909D5500374DD8 /* SFApplication.h in Headers */,
 				82BBB56E17909D6800374DD8 /* SFAuthenticationManager.h in Headers */,
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
+				FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */,
 				82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */,
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
 				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
