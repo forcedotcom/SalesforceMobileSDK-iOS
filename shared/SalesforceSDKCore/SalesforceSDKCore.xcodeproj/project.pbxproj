@@ -219,8 +219,6 @@
 		82AF841616DFD95F008912EF /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityCoordinator.m; sourceTree = "<group>"; };
 		82AF841716DFD95F008912EF /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
 		82AF841816DFD95F008912EF /* SFIdentityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityData.m; sourceTree = "<group>"; };
-		82AF841A16DFD95F008912EF /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAccountManager.h; sourceTree = "<group>"; };
-		82AF841B16DFD95F008912EF /* SFAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAccountManager.m; sourceTree = "<group>"; };
 		82AF841C16DFD95F008912EF /* SFAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationManager.h; sourceTree = "<group>"; };
 		82AF841D16DFD95F008912EF /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationManager.m; sourceTree = "<group>"; };
 		82AF841E16DFD95F008912EF /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
@@ -526,8 +524,6 @@
 				82A55A6E182020B00002E22A /* SFAuthErrorHandler.m */,
 				82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */,
 				82A55A731821A48B0002E22A /* SFAuthErrorHandlerList.m */,
-				82AF841A16DFD95F008912EF /* SFAccountManager.h */,
-				82AF841B16DFD95F008912EF /* SFAccountManager.m */,
 				FDC461161891EAA600E4456B /* SFUserAccountManager.h */,
 				FDC461171891EAA600E4456B /* SFUserAccountManager.m */,
 				FDC461131891EAA600E4456B /* SFUserAccount.h */,

@@ -68,6 +68,42 @@ static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce
 static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri";
 
+// Key for storing the user's configured login host (deprecated, use kSFUserAccountOAuthLoginHost)
+static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
+
+// Key for the login host as defined in the app settings.
+static NSString * const kAppSettingsLoginHost = @"primary_login_host_pref";
+
+// Key for the custom login host value in the app settings.
+static NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_pref";
+
+// Value for kAppSettingsLoginHost when a custom host is chosen.
+static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
+
+#pragma mark - SFLoginHostUpdateResult
+
+@implementation SFLoginHostUpdateResult
+
+@synthesize originalLoginHost = _originalLoginHost;
+@synthesize updatedLoginHost = _updatedLoginHost;
+@synthesize loginHostChanged = _loginHostChanged;
+
+- (id)initWithOrigHost:(NSString *)originalLoginHost
+           updatedHost:(NSString *)updatedLoginHost
+           hostChanged:(BOOL)loginHostChanged
+{
+    self = [super init];
+    if (self) {
+        _originalLoginHost = [originalLoginHost copy];
+        _updatedLoginHost = [updatedLoginHost copy];
+        _loginHostChanged = loginHostChanged;
+    }
+    
+    return self;
+}
+
+@end
+
 @interface SFUserAccountManager ()
 
 /** A map of user accounts by user ID
@@ -133,6 +169,8 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
     return shortUserId;
 }
 
+#pragma mark - Login Host
+
 - (void)setLoginHost:(NSString*)host {
     NSString *oldLoginHost = [self loginHost];
     
@@ -147,14 +185,77 @@ static NSString * const kSFUserAccountOAuthRedirectUri = @"SFDCOAuthRedirectUri"
 }
 
 - (NSString *)loginHost {
-    NSString *loginHost = [[NSUserDefaults standardUserDefaults] stringForKey:kSFUserAccountOAuthLoginHost];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // First let's import any previously stored settings, if available
+    NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
+    if (host) {
+        [defaults setObject:host forKey:kSFUserAccountOAuthLoginHost];
+        [defaults removeObjectForKey:kDeprecatedLoginHostPrefKey];
+        [defaults synchronize];
+        return host;
+    }
+    
+    // Fetch from the standard defaults or bundle
+    NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
     if (nil == loginHost || 0 == [loginHost length]) {
         loginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
+        if (nil == loginHost || 0 == [loginHost length]) {
+            loginHost = [self appSettingsLoginHost];
+        }
     }
+    
+    // Finaly, default to something reasonnable
     if (nil == loginHost || 0 == [loginHost length]) {
         loginHost = kSFUserAccountOAuthLoginHostDefault;
     }
+    
     return loginHost;
+}
+
+- (NSString *)appSettingsLoginHost {
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    
+    // If the app settings host value is nil/empty, return default.
+    NSString *appSettingsLoginHost = [defs objectForKey:kAppSettingsLoginHost];
+    if (nil == appSettingsLoginHost || [appSettingsLoginHost length] == 0) {
+        return kSFUserAccountOAuthLoginHostDefault;
+    }
+    
+    // If a custom login host value was chosen and configured, return it.  If a custom value is
+    // chosen but the value is *not* configured, reset the app settings login host to a sane
+    // value and return that.
+    if ([appSettingsLoginHost isEqualToString:kAppSettingsLoginHostIsCustom]) {  // User specified to use a custom host.
+        NSString *customLoginHost = [defs objectForKey:kAppSettingsLoginHostCustomValue];
+        if (nil != customLoginHost && [customLoginHost length] > 0) {
+            // Custom value is set.  Return that.
+            return customLoginHost;
+        } else {
+            // The custom host value is empty. Use the default.
+            [defs setValue:kSFUserAccountOAuthLoginHostDefault forKey:kAppSettingsLoginHost];
+            [defs synchronize];
+            return kSFUserAccountOAuthLoginHostDefault;
+        }
+    }
+    
+    // If we got this far, we have a primary host value that exists, and isn't custom.  Return it.
+    return appSettingsLoginHost;
+}
+
+- (SFLoginHostUpdateResult *)updateLoginHost
+{
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [defs synchronize];
+    
+	NSString *previousLoginHost = [self loginHost];
+	NSString *currentLoginHost = [self appSettingsLoginHost];
+    
+	BOOL hostnameChanged = (nil != previousLoginHost && ![previousLoginHost isEqualToString:currentLoginHost]);
+    if (hostnameChanged) {
+        self.loginHost = currentLoginHost;
+    }
+	SFLoginHostUpdateResult *result = [[SFLoginHostUpdateResult alloc] initWithOrigHost:previousLoginHost updatedHost:currentLoginHost hostChanged:hostnameChanged];
+	return result;
 }
 
 #pragma mark - Default Values

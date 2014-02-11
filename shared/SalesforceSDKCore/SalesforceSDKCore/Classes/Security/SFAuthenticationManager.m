@@ -369,6 +369,18 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
         
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
+        
+        // Make sure the login host settings and dependent data are synced at pre-auth app startup.
+        // Note: No event generation necessary here.  This will happen before the first authentication
+        // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
+        // app state as an initialization step.
+        BOOL logoutAppSettingEnabled = [self logoutSettingEnabled];
+        SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
+        if (logoutAppSettingEnabled) {
+            [self clearAccountState:YES];
+        } else if (result.loginHostChanged) {
+            [self clearAccountState:NO];
+        }
     }
     
     return self;
@@ -555,12 +567,23 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
     
     [self removeSnapshotView];
     
-    // Check to display pin code screen.
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+    BOOL shouldLogout = [self logoutSettingEnabled];
+    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
+    if (shouldLogout) {
+        [self log:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
         [self logout];
-    }];
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
-    [SFSecurityLockout validateTimer];
+    } else if (result.loginHostChanged) {
+        [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
+        [self cancelAuthentication];
+        [self clearAccountState:NO];
+    } else {
+        // Check to display pin code screen.
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self logout];
+        }];
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
+        [SFSecurityLockout validateTimer];
+    }
 }
 
 - (void)appDidEnterBackground:(NSNotification *)notification
@@ -723,6 +746,14 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 }
 
 #pragma mark - Private methods
+
+- (BOOL)logoutSettingEnabled {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
+    NSLog(@"userLogoutSettingEnabled: %d", logoutSettingEnabled);
+    return logoutSettingEnabled;
+}
 
 - (void)setupSnapshotView
 {
