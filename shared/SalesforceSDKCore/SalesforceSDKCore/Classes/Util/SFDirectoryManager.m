@@ -67,12 +67,15 @@ static NSString * const kDefaultOrgName = @"org";
     NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
     if (directories.count > 0) {
         NSString *directory = [directories objectAtIndex:0];
-        if (nil != userId) {
-            directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:[NSString stringWithFormat:@"%@-%@", orgId?:kDefaultOrgName, userId]]];
-            if (nil == communityId) {
-                directory = [directory stringByAppendingPathComponent:@"internal"];
-            } else {
-                directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
+        if (orgId) {
+            directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:orgId]];
+            if (userId) {
+                directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:userId]];
+                if (nil == communityId) {
+                    directory = [directory stringByAppendingPathComponent:@"internal"];
+                } else {
+                    directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
+                }
             }
         }
         
@@ -89,6 +92,7 @@ static NSString * const kDefaultOrgName = @"org";
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+        NSAssert(user.credentials.userId, @"User ID must be set");
         return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
     } else {
         return [self directoryForOrg:nil user:nil community:nil type:type components:components];
