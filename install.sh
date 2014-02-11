@@ -34,6 +34,12 @@ cd external/shared
 bower install
 cd $CURRENT_DIR
 
+# Also running bower in samples repo --- NB: remove once we drop hybrid sample apps from the iOS repo
+cd external/samples/hybrid/
+bower install
+cd $CURRENT_DIR
+
+
 # Remove the old Xcode templates, if they still exist.
 hybrid_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Hybrid Force.com App.xctemplate"
 native_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Native Force.com REST App.xctemplate"
