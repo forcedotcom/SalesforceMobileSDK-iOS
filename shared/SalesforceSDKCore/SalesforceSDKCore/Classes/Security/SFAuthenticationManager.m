@@ -1037,6 +1037,7 @@ static Class InstanceClass = nil;
 
 - (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
 {
+    __weak SFAuthenticationManager *weakSelf = self;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
     
     // Invalid credentials handler
@@ -1044,9 +1045,9 @@ static Class InstanceClass = nil;
     _invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                               if ([[self class] errorIsInvalidAuthCredentials:error]) {
-                                                   [self log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
-                                                   [self execFailureBlocks];
+                                               if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
+                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
+                                                   [weakSelf execFailureBlocks];
                                                    return YES;
                                                }
                                                return NO;
@@ -1056,15 +1057,15 @@ static Class InstanceClass = nil;
     // Connected app version mismatch handler
     
     _connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                                                      initWithName:kSFConnectedAppVersionAuthErrorHandler
-                                                      evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                          if (error.code == kSFOAuthErrorWrongVersion) {
-                                                              [self log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
-                                                              [self showAlertForConnectedAppVersionMismatchError];
-                                                              return YES;
-                                                          }
-                                                          return NO;
-                                                      }];
+                                            initWithName:kSFConnectedAppVersionAuthErrorHandler
+                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                if (error.code == kSFOAuthErrorWrongVersion) {
+                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+                                                    [weakSelf showAlertForConnectedAppVersionMismatchError];
+                                                    return YES;
+                                                }
+                                                return NO;
+                                            }];
     [authHandlerList addAuthErrorHandler:_connectedAppVersionAuthErrorHandler];
     
     // Network failure handler
@@ -1072,10 +1073,10 @@ static Class InstanceClass = nil;
     _networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFNetworkFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                     if ([[self class] errorIsNetworkFailure:error]) {
-                                                         [self log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
+                                                     if ([[weakSelf class] errorIsNetworkFailure:error]) {
+                                                         [weakSelf log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
                                                          
-                                                         [self loggedIn];
+                                                         [weakSelf loggedIn];
                                                          return YES;
                                                      }
                                                      return NO;
@@ -1087,8 +1088,8 @@ static Class InstanceClass = nil;
     _genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                                     [self clearAccountState:NO];
-                                                     [self showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
+                                                     [weakSelf clearAccountState:NO];
+                                                     [weakSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
                                                      return YES;
                                                  }];
     [authHandlerList addAuthErrorHandler:_genericAuthErrorHandler];
