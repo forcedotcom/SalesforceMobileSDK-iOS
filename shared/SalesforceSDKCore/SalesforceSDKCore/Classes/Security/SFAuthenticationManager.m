@@ -442,10 +442,16 @@ static Class InstanceClass = nil;
 - (void)logout {
     [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
 
+    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+    
     // Supply the user account to the "Will Logout" notification before the credentials
     // are revoked.  This will ensure that databases and other resources keyed off of
     // the userID can be destroyed/cleaned up.
-    SFUserAccount *userAccount = [[SFUserAccountManager sharedInstance] currentUser];
+    SFUserAccount *userAccount = userAccountManager.currentUser;
+
+    // Also keep the userId around until the end of the process so we can safely refer to it
+    NSString *userId = userAccount.credentials.userId;
+
 	NSDictionary *userInfo = nil;
     if (userAccount) {
         userInfo = @{ @"account": userAccount };
@@ -457,12 +463,14 @@ static Class InstanceClass = nil;
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
     }
+    
     [self cancelAuthentication];
     [self clearAccountState:YES];
     
     [self willChangeValueForKey:@"haveValidSession"];
+    [userAccountManager deleteAccountForUserId:userId];
     [userAccount.credentials revoke];
-    [SFUserAccountManager sharedInstance].currentUser = nil;
+    userAccountManager.currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
     
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
