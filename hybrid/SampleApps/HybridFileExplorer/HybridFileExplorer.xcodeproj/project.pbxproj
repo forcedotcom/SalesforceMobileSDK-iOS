@@ -119,7 +119,7 @@
 		824A9D7A1724C51500C9BD79 /* Copy js Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/css/images;
+			dstPath = www/js;
 			dstSubfolderSpec = 7;
 			files = (
 				4F0C182F18AAE2B5000FD4E9 /* auth.js in Copy js Files */,
