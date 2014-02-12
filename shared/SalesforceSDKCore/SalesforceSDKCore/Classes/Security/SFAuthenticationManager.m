@@ -458,7 +458,6 @@ static Class InstanceClass = nil;
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
     }
     [self cancelAuthentication];
-    [self revokeRefreshToken];
     [self clearAccountState:YES];
     
     [self willChangeValueForKey:@"haveValidSession"];
