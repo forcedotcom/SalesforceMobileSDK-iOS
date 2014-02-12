@@ -200,8 +200,8 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (void)onAppWillEnterForeground:(NSNotification *)notification
 {
-    // Re-registering with Salesforce if we have a device token
-    if (self.deviceToken) {
+    // Re-registering with Salesforce if we have a device token unless we are logging out
+    if (![SFAuthenticationManager sharedManager].logoutSettingEnabled && self.deviceToken) {
         [self log:SFLogLevelInfo msg:@"Re-registering for Salesforce notification because application is being foregrounded"];
         [self registerForSalesforceNotifications];
     }

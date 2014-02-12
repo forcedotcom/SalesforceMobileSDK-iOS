@@ -506,6 +506,14 @@ static Class InstanceClass = nil;
     return result;
 }
 
+- (BOOL)logoutSettingEnabled {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
+    NSLog(@"userLogoutSettingEnabled: %d", logoutSettingEnabled);
+    return logoutSettingEnabled;
+}
+
 - (NSString *)preferredPasscodeProvider
 {
     return [SFPasscodeManager sharedManager].preferredPasscodeProvider;
@@ -706,14 +714,6 @@ static Class InstanceClass = nil;
 }
 
 #pragma mark - Private methods
-
-- (BOOL)logoutSettingEnabled {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
-    NSLog(@"userLogoutSettingEnabled: %d", logoutSettingEnabled);
-    return logoutSettingEnabled;
-}
 
 - (void)setupSnapshotView
 {

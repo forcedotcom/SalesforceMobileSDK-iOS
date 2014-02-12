@@ -155,6 +155,11 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, readonly) BOOL haveValidSession;
 
 /**
+ Returns YES if the logout is requested by the app settings
+ */
+@property (nonatomic, readonly) BOOL logoutSettingEnabled;
+
+/**
  If this property is set, the authentication manager will swap a "blank" view in place
  of the currently displayed view when the app goes into the background, to protect sensitive displayed
  data from being captured in an image file by iOS.  This view will be swapped out for the original
