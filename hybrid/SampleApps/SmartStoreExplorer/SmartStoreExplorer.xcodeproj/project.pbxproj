@@ -10,11 +10,6 @@
 		4F0C17C818A9A948000FD4E9 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C17BF18A9A948000FD4E9 /* bootconfig.json */; };
 		4F0C17C918A9A948000FD4E9 /* jquery.mobile.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C17C118A9A948000FD4E9 /* jquery.mobile.min.css */; };
 		4F0C17CA18A9A948000FD4E9 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C17C218A9A948000FD4E9 /* index.html */; };
-		4F0C17CB18A9A948000FD4E9 /* forcetk.mobilesdk.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17C418A9A948000FD4E9 /* forcetk.mobilesdk.js */; };
-		4F0C17CC18A9A948000FD4E9 /* jquery.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17C518A9A948000FD4E9 /* jquery.min.js */; };
-		4F0C17CD18A9A948000FD4E9 /* jquery.mobile.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17C618A9A948000FD4E9 /* jquery.mobile.min.js */; };
-		4F0C17CE18A9A948000FD4E9 /* smartstoreexplorer.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17C718A9A948000FD4E9 /* smartstoreexplorer.js */; };
-		4F0C17D218A9A989000FD4E9 /* cordova.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17D118A9A989000FD4E9 /* cordova.js */; };
 		4F0C183818AAE2F5000FD4E9 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17D118A9A989000FD4E9 /* cordova.js */; };
 		4F0C183918AAE2F5000FD4E9 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17BF18A9A948000FD4E9 /* bootconfig.json */; };
 		4F0C183A18AAE2F5000FD4E9 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17C218A9A948000FD4E9 /* index.html */; };
@@ -23,14 +18,6 @@
 		4F0C183D18AAE30D000FD4E9 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17C518A9A948000FD4E9 /* jquery.min.js */; };
 		4F0C183E18AAE30D000FD4E9 /* jquery.mobile.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17C618A9A948000FD4E9 /* jquery.mobile.min.js */; };
 		4F0C184018AAE32F000FD4E9 /* jquery.mobile.min.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4F0C17C118A9A948000FD4E9 /* jquery.mobile.min.css */; };
-		4F0C18BE18AAF7F0000FD4E9 /* cordova_plugins.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18A918AAF7F0000FD4E9 /* cordova_plugins.js */; };
-		4F0C18BF18AAF7F0000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18AD18AAF7F0000FD4E9 /* com.salesforce.plugin.oauth.js */; };
-		4F0C18C018AAF7F0000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18AE18AAF7F0000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
-		4F0C18C118AAF7F0000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18AF18AAF7F0000FD4E9 /* com.salesforce.plugin.smartstore.js */; };
-		4F0C18C218AAF7F0000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18B018AAF7F0000FD4E9 /* com.salesforce.util.bootstrap.js */; };
-		4F0C18C318AAF7F0000FD4E9 /* com.salesforce.util.event.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18B118AAF7F0000FD4E9 /* com.salesforce.util.event.js */; };
-		4F0C18C418AAF7F0000FD4E9 /* com.salesforce.util.exec.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18B218AAF7F0000FD4E9 /* com.salesforce.util.exec.js */; };
-		4F0C18C518AAF7F0000FD4E9 /* com.salesforce.util.logger.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18B318AAF7F0000FD4E9 /* com.salesforce.util.logger.js */; };
 		4F0C18CE18AAF7FD000FD4E9 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C18A918AAF7F0000FD4E9 /* cordova_plugins.js */; };
 		4F0C18D018AAF81A000FD4E9 /* com.salesforce.plugin.oauth.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F0C18AD18AAF7F0000FD4E9 /* com.salesforce.plugin.oauth.js */; };
 		4F0C18D118AAF81A000FD4E9 /* com.salesforce.plugin.sdkinfo.js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F0C18AE18AAF7F0000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
@@ -527,20 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8250721615C3513E00F3A529 /* main.m in Sources */,
-				4F0C17CE18A9A948000FD4E9 /* smartstoreexplorer.js in Sources */,
-				4F0C17CB18A9A948000FD4E9 /* forcetk.mobilesdk.js in Sources */,
-				4F0C18C418AAF7F0000FD4E9 /* com.salesforce.util.exec.js in Sources */,
-				4F0C17CD18A9A948000FD4E9 /* jquery.mobile.min.js in Sources */,
-				4F0C18BE18AAF7F0000FD4E9 /* cordova_plugins.js in Sources */,
-				4F0C18C118AAF7F0000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */,
-				4F0C18BF18AAF7F0000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */,
-				4F0C18C518AAF7F0000FD4E9 /* com.salesforce.util.logger.js in Sources */,
-				4F0C18C318AAF7F0000FD4E9 /* com.salesforce.util.event.js in Sources */,
-				4F0C18C018AAF7F0000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */,
-				4F0C17CC18A9A948000FD4E9 /* jquery.min.js in Sources */,
 				8250725215C3514100F3A529 /* AppDelegate.m in Sources */,
-				4F0C18C218AAF7F0000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */,
-				4F0C17D218A9A989000FD4E9 /* cordova.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
