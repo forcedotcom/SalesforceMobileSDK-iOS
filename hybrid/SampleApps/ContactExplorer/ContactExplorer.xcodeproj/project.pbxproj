@@ -34,22 +34,22 @@
 		4F0C192818AAF977000FD4E9 /* ContactOrganization.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191618AAF921000FD4E9 /* ContactOrganization.js */; };
 		4F0C192918AAF977000FD4E9 /* contacts.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191718AAF921000FD4E9 /* contacts.js */; };
 		4F0C192A18AAF97E000FD4E9 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C192018AAF966000FD4E9 /* cordova_plugins.js */; };
+		4F0C194518AC197D000FD4E9 /* CDVContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C194218AC197D000FD4E9 /* CDVContact.m */; };
+		4F0C194618AC197D000FD4E9 /* CDVContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C194418AC197D000FD4E9 /* CDVContacts.m */; };
+		4F0C194818AC1BF5000FD4E9 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C194718AC1BF5000FD4E9 /* config.xml */; };
 		4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */; };
+		4FC7B42D18AC2112006922FD /* Contact.js in Copy contact ios plugin js files */ = {isa = PBXBuildFile; fileRef = 4FC7B42818AC20EA006922FD /* Contact.js */; };
+		4FC7B42E18AC2112006922FD /* contacts.js in Copy contact ios plugin js files */ = {isa = PBXBuildFile; fileRef = 4FC7B42918AC20EA006922FD /* contacts.js */; };
 		4FF918E418A99E6800A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918E318A99E6800A713DB /* AssetsLibrary.framework */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
 		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
-		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
 		7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0766149AA9620043A9E0 /* CoreGraphics.framework */; };
 		7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0768149AA9620043A9E0 /* CoreLocation.framework */; };
-		7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076A149AA9620043A9E0 /* CoreMedia.framework */; };
 		7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076C149AA9620043A9E0 /* QuartzCore.framework */; };
 		7DBD076F149AA9620043A9E0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD076E149AA9620043A9E0 /* Security.framework */; };
 		7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0770149AA9620043A9E0 /* MobileCoreServices.framework */; };
 		7DBD0773149AA9620043A9E0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0772149AA9620043A9E0 /* AddressBook.framework */; };
 		7DBD0775149AA9620043A9E0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0774149AA9620043A9E0 /* AddressBookUI.framework */; };
-		7DBD0777149AA9620043A9E0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0776149AA9620043A9E0 /* AudioToolbox.framework */; };
-		7DBD0779149AA9620043A9E0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0778149AA9620043A9E0 /* AVFoundation.framework */; };
-		7DBD077B149AA9620043A9E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD077A149AA9620043A9E0 /* MediaPlayer.framework */; };
 		7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */; };
 		7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0781149AA9630043A9E0 /* InfoPlist.strings */; };
 		7DBD0785149AA9630043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0784149AA9630043A9E0 /* main.m */; };
@@ -75,9 +75,7 @@
 		8251CA6016ED3C5700BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5F16ED3C5700BD1EA2 /* libSalesforceCommonUtils.a */; };
 		8251CA6216ED3CA900BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6116ED3CA900BD1EA2 /* libsqlcipher.a */; };
 		8251CA6416ED3CB000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6316ED3CB000BD1EA2 /* libssl.a */; };
-		8251CA6616ED3CD200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6516ED3CD200BD1EA2 /* CoreData.framework */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
-		8295460C167A7CE500A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295460B167A7CE500A0FC34 /* config.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -140,6 +138,18 @@
 			name = "Copy contact plugin js files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FC7B42C18AC20FA006922FD /* Copy contact ios plugin js files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/org.apache.cordova.contacts/www/ios;
+			dstSubfolderSpec = 7;
+			files = (
+				4FC7B42D18AC2112006922FD /* Contact.js in Copy contact ios plugin js files */,
+				4FC7B42E18AC2112006922FD /* contacts.js in Copy contact ios plugin js files */,
+			);
+			name = "Copy contact ios plugin js files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7D3FF04F14BE2804004D3FF6 /* Copy Shared www Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -182,7 +192,14 @@
 		4F0C191618AAF921000FD4E9 /* ContactOrganization.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactOrganization.js; sourceTree = "<group>"; };
 		4F0C191718AAF921000FD4E9 /* contacts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = contacts.js; sourceTree = "<group>"; };
 		4F0C192018AAF966000FD4E9 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../shared/hybrid/contacts/cordova_plugins.js; sourceTree = "<group>"; };
+		4F0C194118AC197D000FD4E9 /* CDVContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVContact.h; sourceTree = "<group>"; };
+		4F0C194218AC197D000FD4E9 /* CDVContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVContact.m; sourceTree = "<group>"; };
+		4F0C194318AC197D000FD4E9 /* CDVContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVContacts.h; sourceTree = "<group>"; };
+		4F0C194418AC197D000FD4E9 /* CDVContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVContacts.m; sourceTree = "<group>"; };
+		4F0C194718AC1BF5000FD4E9 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/contacts/config.xml; sourceTree = "<group>"; };
 		4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FC7B42818AC20EA006922FD /* Contact.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Contact.js; sourceTree = "<group>"; };
+		4FC7B42918AC20EA006922FD /* contacts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = contacts.js; sourceTree = "<group>"; };
 		4FF918E318A99E6800A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		7DBD075C149AA9620043A9E0 /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -230,7 +247,6 @@
 		8251CA6316ED3CB000BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		8251CA6516ED3CD200BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8295460B167A7CE500A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,15 +266,9 @@
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
 				7DBD0773149AA9620043A9E0 /* AddressBook.framework in Frameworks */,
 				7DBD0775149AA9620043A9E0 /* AddressBookUI.framework in Frameworks */,
-				7DBD0777149AA9620043A9E0 /* AudioToolbox.framework in Frameworks */,
-				7DBD0779149AA9620043A9E0 /* AVFoundation.framework in Frameworks */,
-				7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */,
-				8251CA6616ED3CD200BD1EA2 /* CoreData.framework in Frameworks */,
 				7DBD0767149AA9620043A9E0 /* CoreGraphics.framework in Frameworks */,
 				7DBD0769149AA9620043A9E0 /* CoreLocation.framework in Frameworks */,
-				7DBD076B149AA9620043A9E0 /* CoreMedia.framework in Frameworks */,
 				7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */,
-				7DBD077B149AA9620043A9E0 /* MediaPlayer.framework in Frameworks */,
 				820275F9165178B200DB814C /* MessageUI.framework in Frameworks */,
 				7DBD0771149AA9620043A9E0 /* MobileCoreServices.framework in Frameworks */,
 				7DBD076D149AA9620043A9E0 /* QuartzCore.framework in Frameworks */,
@@ -336,6 +346,7 @@
 		4F0C190F18AAF921000FD4E9 /* www */ = {
 			isa = PBXGroup;
 			children = (
+				4FC7B42718AC20EA006922FD /* ios */,
 				4F0C191018AAF921000FD4E9 /* Contact.js */,
 				4F0C191118AAF921000FD4E9 /* ContactAddress.js */,
 				4F0C191218AAF921000FD4E9 /* ContactError.js */,
@@ -346,6 +357,27 @@
 				4F0C191718AAF921000FD4E9 /* contacts.js */,
 			);
 			path = www;
+			sourceTree = "<group>";
+		};
+		4F0C194018AC197D000FD4E9 /* org.apache.cordova.contacts */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C194118AC197D000FD4E9 /* CDVContact.h */,
+				4F0C194218AC197D000FD4E9 /* CDVContact.m */,
+				4F0C194318AC197D000FD4E9 /* CDVContacts.h */,
+				4F0C194418AC197D000FD4E9 /* CDVContacts.m */,
+			);
+			name = org.apache.cordova.contacts;
+			path = Plugins/org.apache.cordova.contacts;
+			sourceTree = "<group>";
+		};
+		4FC7B42718AC20EA006922FD /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4FC7B42818AC20EA006922FD /* Contact.js */,
+				4FC7B42918AC20EA006922FD /* contacts.js */,
+			);
+			path = ios;
 			sourceTree = "<group>";
 		};
 		7D3FF01614BE27B2004D3FF6 /* shared-www */ = {
@@ -432,7 +464,7 @@
 		7DBD077F149AA9620043A9E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8295460B167A7CE500A0FC34 /* config.xml */,
+				4F0C194718AC1BF5000FD4E9 /* config.xml */,
 				7DBD0780149AA9620043A9E0 /* ContactExplorer-Info.plist */,
 				7DBD0781149AA9630043A9E0 /* InfoPlist.strings */,
 				7DBD0784149AA9630043A9E0 /* main.m */,
@@ -487,6 +519,7 @@
 		7DBD07D4149AA9650043A9E0 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				4F0C194018AC197D000FD4E9 /* org.apache.cordova.contacts */,
 				7DBD07D5149AA9650043A9E0 /* README */,
 			);
 			name = Plugins;
@@ -507,6 +540,7 @@
 				4F0C184718AAEF76000FD4E9 /* Copy js files */,
 				4F0C18FC18AAF86F000FD4E9 /* Copy salesforce plugin js files */,
 				4F0C190418AAF893000FD4E9 /* Copy contact plugin js files */,
+				4FC7B42C18AC20FA006922FD /* Copy contact ios plugin js files */,
 			);
 			buildRules = (
 			);
@@ -556,11 +590,11 @@
 				7DBD07C1149AA9640043A9E0 /* Default-Landscape~ipad.png in Resources */,
 				7DBD07C3149AA9640043A9E0 /* Default-Portrait~ipad.png in Resources */,
 				7DBD07C5149AA9640043A9E0 /* Default.png in Resources */,
+				4F0C194818AC1BF5000FD4E9 /* config.xml in Resources */,
 				7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */,
 				7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */,
 				4F0C17DE18A9A9CB000FD4E9 /* bootconfig.json in Resources */,
 				7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */,
-				8295460C167A7CE500A0FC34 /* config.xml in Resources */,
 				4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				820BB88817E29B3400263F2E /* Default-568h@2x.png in Resources */,
 				4F0C17E018A9A9CB000FD4E9 /* index.html in Resources */,
@@ -574,6 +608,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F0C194618AC197D000FD4E9 /* CDVContacts.m in Sources */,
+				4F0C194518AC197D000FD4E9 /* CDVContact.m in Sources */,
 				7DBD0785149AA9630043A9E0 /* main.m in Sources */,
 				7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */,
 			);

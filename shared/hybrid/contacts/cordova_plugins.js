@@ -86,7 +86,22 @@ module.exports = [
         "clobbers": [
             "ContactOrganization"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.contacts/www/ios/contacts.js",
+        "id": "org.apache.cordova.contacts.contacts-ios",
+        "merges": [
+            "navigator.contacts"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.contacts/www/ios/Contact.js",
+        "id": "org.apache.cordova.contacts.Contact-iOS",
+        "merges": [
+            "Contact"
+        ]
     }
+                  
 ];
 module.exports.metadata = 
 // TOP OF METADATA
