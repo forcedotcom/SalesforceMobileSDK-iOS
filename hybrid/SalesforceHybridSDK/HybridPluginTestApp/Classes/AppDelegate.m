@@ -26,7 +26,7 @@
 #import "SFHybridViewConfig.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFAccountManager.h>
-#import "CDVCommandDelegateImpl.h"
+#import <Cordova/CDVCommandDelegateImpl.h>
 #import "SFTestRunnerPlugin.h"
 
 NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-DefaultAccount";

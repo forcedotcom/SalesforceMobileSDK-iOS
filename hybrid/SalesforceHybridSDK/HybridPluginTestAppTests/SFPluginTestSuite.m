@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SFPluginTestSuite.h"
-#import "CDVCommandDelegateImpl.h"
+#import <Cordova/CDVCommandDelegateImpl.h>
 #import "AppDelegate.h"
 #import "SFHybridViewController.h"
 #import "SFTestRunnerPlugin.h"

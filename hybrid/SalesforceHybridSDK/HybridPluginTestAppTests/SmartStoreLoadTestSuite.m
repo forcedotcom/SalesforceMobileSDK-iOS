@@ -32,7 +32,7 @@
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
 #import "SFHybridViewController.h"
-#import "CDVCommandDelegateImpl.h"
+#import <Cordova/CDVCommandDelegateImpl.h>
 
 
 
