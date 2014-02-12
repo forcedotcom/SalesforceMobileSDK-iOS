@@ -225,9 +225,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         result = [self writeToKeychain:dict];
     } else {
         result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
-        self.instanceUrl = nil;
-        self.issuedAt    = nil;
-        self.identityUrl = nil;
     }
     if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
         NSLog(@"%@:setActivationCode: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
