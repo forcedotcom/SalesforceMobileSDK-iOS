@@ -123,7 +123,7 @@
     
     self.jsTestName = testName;
     
-    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"salesforce/plugin/testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
+    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"com.salesforce.plugin.testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
