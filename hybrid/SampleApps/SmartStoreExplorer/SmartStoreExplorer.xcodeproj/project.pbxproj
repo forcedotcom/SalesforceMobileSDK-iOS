@@ -32,18 +32,11 @@
 		820BB88A17E29BBC00263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88917E29BBC00263F2E /* Default-568h@2x.png */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
-		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
 		825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F715C3513E00F3A529 /* CoreGraphics.framework */; };
 		825071FA15C3513E00F3A529 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F915C3513E00F3A529 /* CoreLocation.framework */; };
-		825071FC15C3513E00F3A529 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FB15C3513E00F3A529 /* CoreMedia.framework */; };
 		825071FE15C3513E00F3A529 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FD15C3513E00F3A529 /* QuartzCore.framework */; };
 		8250720015C3513E00F3A529 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071FF15C3513E00F3A529 /* Security.framework */; };
 		8250720215C3513E00F3A529 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720115C3513E00F3A529 /* MobileCoreServices.framework */; };
-		8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720315C3513E00F3A529 /* AddressBook.framework */; };
-		8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720515C3513E00F3A529 /* AddressBookUI.framework */; };
-		8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720715C3513E00F3A529 /* AudioToolbox.framework */; };
-		8250720A15C3513E00F3A529 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720915C3513E00F3A529 /* AVFoundation.framework */; };
-		8250720C15C3513E00F3A529 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720B15C3513E00F3A529 /* MediaPlayer.framework */; };
 		8250720E15C3513E00F3A529 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720D15C3513E00F3A529 /* SystemConfiguration.framework */; };
 		8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8250721215C3513E00F3A529 /* InfoPlist.strings */; };
 		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
@@ -68,7 +61,6 @@
 		8251CA9916ED597D00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9816ED597D00BD1EA2 /* libSalesforceCommonUtils.a */; };
 		8251CA9B16ED598A00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9A16ED598A00BD1EA2 /* libcrypto.a */; };
 		8251CA9D16ED599400BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9C16ED599400BD1EA2 /* libCordova.a */; };
-		8251CA9F16ED59AB00BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9E16ED59AB00BD1EA2 /* CoreData.framework */; };
 		82954626167A7E3400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82954625167A7E3400A0FC34 /* config.xml */; };
 /* End PBXBuildFile section */
 
@@ -213,17 +205,9 @@
 				8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */,
 				8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */,
 				8250723915C3514100F3A529 /* libz.dylib in Frameworks */,
-				8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */,
-				8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */,
-				8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */,
-				8250720A15C3513E00F3A529 /* AVFoundation.framework in Frameworks */,
-				825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */,
-				8251CA9F16ED59AB00BD1EA2 /* CoreData.framework in Frameworks */,
 				825071F815C3513E00F3A529 /* CoreGraphics.framework in Frameworks */,
 				825071FA15C3513E00F3A529 /* CoreLocation.framework in Frameworks */,
-				825071FC15C3513E00F3A529 /* CoreMedia.framework in Frameworks */,
 				825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */,
-				8250720C15C3513E00F3A529 /* MediaPlayer.framework in Frameworks */,
 				820276071651792100DB814C /* MessageUI.framework in Frameworks */,
 				8250720215C3513E00F3A529 /* MobileCoreServices.framework in Frameworks */,
 				825071FE15C3513E00F3A529 /* QuartzCore.framework in Frameworks */,

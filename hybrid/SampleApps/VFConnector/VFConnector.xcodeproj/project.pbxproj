@@ -11,18 +11,11 @@
 		4FF918E218A99E5B00A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918E118A99E5B00A713DB /* AssetsLibrary.framework */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
 		7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CB149AA8420043A9E0 /* UIKit.framework */; };
-		7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */; };
 		7DBD06D0149AA8420043A9E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CF149AA8420043A9E0 /* CoreGraphics.framework */; };
 		7DBD06D2149AA8420043A9E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D1149AA8420043A9E0 /* CoreLocation.framework */; };
-		7DBD06D4149AA8420043A9E0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D3149AA8420043A9E0 /* CoreMedia.framework */; };
 		7DBD06D6149AA8420043A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D5149AA8420043A9E0 /* QuartzCore.framework */; };
 		7DBD06D8149AA8420043A9E0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D7149AA8420043A9E0 /* Security.framework */; };
 		7DBD06DA149AA8420043A9E0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D9149AA8420043A9E0 /* MobileCoreServices.framework */; };
-		7DBD06DC149AA8420043A9E0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DB149AA8420043A9E0 /* AddressBook.framework */; };
-		7DBD06DE149AA8420043A9E0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DD149AA8420043A9E0 /* AddressBookUI.framework */; };
-		7DBD06E0149AA8420043A9E0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DF149AA8420043A9E0 /* AudioToolbox.framework */; };
-		7DBD06E2149AA8420043A9E0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E1149AA8420043A9E0 /* AVFoundation.framework */; };
-		7DBD06E4149AA8420043A9E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E3149AA8420043A9E0 /* MediaPlayer.framework */; };
 		7DBD06E6149AA8420043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E5149AA8420043A9E0 /* SystemConfiguration.framework */; };
 		7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */; };
 		7DBD06EE149AA8420043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD06ED149AA8420043A9E0 /* main.m */; };
@@ -50,7 +43,6 @@
 		8251CAAF16ED5FBA00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAAE16ED5FBA00BD1EA2 /* libSalesforceCommonUtils.a */; };
 		8251CAB116ED5FD700BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB016ED5FD700BD1EA2 /* libcrypto.a */; };
 		8251CAB316ED5FEF00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB216ED5FEF00BD1EA2 /* libCordova.a */; };
-		8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB416ED5FF800BD1EA2 /* CoreData.framework */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
 		CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CE21731BF5400CB4C70 /* bootconfig.json */; };
@@ -138,17 +130,9 @@
 				8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */,
 				8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */,
 				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
-				7DBD06DC149AA8420043A9E0 /* AddressBook.framework in Frameworks */,
-				7DBD06DE149AA8420043A9E0 /* AddressBookUI.framework in Frameworks */,
-				7DBD06E0149AA8420043A9E0 /* AudioToolbox.framework in Frameworks */,
-				7DBD06E2149AA8420043A9E0 /* AVFoundation.framework in Frameworks */,
-				7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */,
-				8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */,
 				7DBD06D0149AA8420043A9E0 /* CoreGraphics.framework in Frameworks */,
 				7DBD06D2149AA8420043A9E0 /* CoreLocation.framework in Frameworks */,
-				7DBD06D4149AA8420043A9E0 /* CoreMedia.framework in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
-				7DBD06E4149AA8420043A9E0 /* MediaPlayer.framework in Frameworks */,
 				8202760E1651795300DB814C /* MessageUI.framework in Frameworks */,
 				7DBD06DA149AA8420043A9E0 /* MobileCoreServices.framework in Frameworks */,
 				7DBD06D6149AA8420043A9E0 /* QuartzCore.framework in Frameworks */,

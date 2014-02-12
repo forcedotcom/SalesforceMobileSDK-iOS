@@ -18,8 +18,9 @@
 		4F0C193918AAFF64000FD4E9 /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4F0C193018AAFEBD000FD4E9 /* backbone-min.js */; };
 		4F0C193A18AAFF7F000FD4E9 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4F0C193418AAFEEC000FD4E9 /* qunit.css */; };
 		4F0C193B18AAFF7F000FD4E9 /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4F0C193518AAFEEC000FD4E9 /* qunit.js */; };
-		4F0C193D18AB04F5000FD4E9 /* underscore-min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C193C18AB04F5000FD4E9 /* underscore-min.js */; };
 		4F0C193F18AB051C000FD4E9 /* underscore-min.js in Copy underscore lib */ = {isa = PBXBuildFile; fileRef = 4F0C193C18AB04F5000FD4E9 /* underscore-min.js */; };
+		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
+		4F2603A118AC1DDE00F922E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
 		4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
 		4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
@@ -32,6 +33,8 @@
 		4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
 		4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
+		4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
+		4FFF69E618AC1DC1004343EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
 		8251CA0C16EC3A8C00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */; };
@@ -42,20 +45,10 @@
 		8251CA1616EC3AF900BD1EA2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		8251CA1916EC3B9600BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */; };
 		8251CA1E16ECFA3800BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1D16ECFA3800BD1EA2 /* libSalesforceOAuth.a */; };
-		8251CA2016ECFA5E00BD1EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
 		8251CA2216ECFA7900BD1EA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
 		8251CA2416ECFAB000BD1EA2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2316ECFAB000BD1EA2 /* libSalesforceSDKCore.a */; };
 		8251CA2616ECFACF00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2516ECFACF00BD1EA2 /* libSalesforceCommonUtils.a */; };
-		8251CA2816ECFAE200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2716ECFAE200BD1EA2 /* CoreData.framework */; };
-		8251CA2A16ECFAF900BD1EA2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2916ECFAF900BD1EA2 /* CFNetwork.framework */; };
 		8251CA2C16ECFD4D00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2B16ECFD4D00BD1EA2 /* libCordova.a */; };
-		8251CA3016ED002300BD1EA2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2E16ED002300BD1EA2 /* AddressBook.framework */; };
-		8251CA3116ED002300BD1EA2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2F16ED002300BD1EA2 /* AddressBookUI.framework */; };
-		8251CA3316ED004500BD1EA2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3216ED004500BD1EA2 /* AudioToolbox.framework */; };
-		8251CA3516ED005C00BD1EA2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3416ED005C00BD1EA2 /* AVFoundation.framework */; };
-		8251CA3716ED007000BD1EA2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
-		8251CA3916ED008200BD1EA2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */; };
-		8251CA3B16ED009700BD1EA2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */; };
 		8251CA4216ED1EB400BD1EA2 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3D16ED1EB400BD1EA2 /* SDKInfoTestSuite.m */; };
 		8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3F16ED1EB400BD1EA2 /* SFPluginTestSuite.m */; };
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
@@ -72,9 +65,7 @@
 		82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
 		82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */; };
-		82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		82EFF30416E8049500A63CDF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF30816E8049500A63CDF /* InfoPlist.strings */; };
 		82EFF30C16E8049500A63CDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF30B16E8049500A63CDF /* main.m */; };
 		82EFF31216E8049500A63CDF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF31116E8049500A63CDF /* Default.png */; };
@@ -287,7 +278,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */,
 				8251CA2C16ECFD4D00BD1EA2 /* libCordova.a in Frameworks */,
 				8251CA0C16EC3A8C00BD1EA2 /* libcrypto.a in Frameworks */,
 				8251CA2616ECFACF00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -298,23 +288,16 @@
 				8251CA0E16EC3A9500BD1EA2 /* libssl.a in Frameworks */,
 				8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */,
 				8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */,
-				8251CA3016ED002300BD1EA2 /* AddressBook.framework in Frameworks */,
-				8251CA3116ED002300BD1EA2 /* AddressBookUI.framework in Frameworks */,
-				8251CA3316ED004500BD1EA2 /* AudioToolbox.framework in Frameworks */,
-				8251CA3516ED005C00BD1EA2 /* AVFoundation.framework in Frameworks */,
-				8251CA2A16ECFAF900BD1EA2 /* CFNetwork.framework in Frameworks */,
-				8251CA2816ECFAE200BD1EA2 /* CoreData.framework in Frameworks */,
-				82EFF30416E8049500A63CDF /* CoreGraphics.framework in Frameworks */,
-				8251CA3716ED007000BD1EA2 /* CoreLocation.framework in Frameworks */,
-				8251CA3B16ED009700BD1EA2 /* CoreMedia.framework in Frameworks */,
+				4FFF69E618AC1DC1004343EB /* CoreGraphics.framework in Frameworks */,
+				4F2603A118AC1DDE00F922E7 /* CoreLocation.framework in Frameworks */,
 				82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */,
-				8251CA3916ED008200BD1EA2 /* MediaPlayer.framework in Frameworks */,
-				8251CA2016ECFA5E00BD1EA2 /* MessageUI.framework in Frameworks */,
+				4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */,
 				8251CA1216EC3AC100BD1EA2 /* MobileCoreServices.framework in Frameworks */,
 				8251CA2216ECFA7900BD1EA2 /* QuartzCore.framework in Frameworks */,
 				8251CA1416EC3AE300BD1EA2 /* Security.framework in Frameworks */,
 				8251CA1616EC3AF900BD1EA2 /* SystemConfiguration.framework in Frameworks */,
-				82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */,
+				4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */,
+				4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,7 +765,6 @@
 				82EFF30C16E8049500A63CDF /* main.m in Sources */,
 				82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */,
 				82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */,
-				4F0C193D18AB04F5000FD4E9 /* underscore-min.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
