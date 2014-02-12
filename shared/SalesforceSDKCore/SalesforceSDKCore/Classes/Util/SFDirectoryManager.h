@@ -53,9 +53,10 @@
 
 /** Ensures the specified directory exists on the disk.
  @param directory The directory to ensure exists.
+ @param error The error on output or nil if no error is desired
  @return YES if the directory exists or has been successfully created, NO otherwise.
  */
-+ (BOOL)ensureDirectoryExists:(NSString*)directory;
++ (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error;
 
 /** Ensure the specified string contains only characters that can be
  safely used to identify a path on the disk.

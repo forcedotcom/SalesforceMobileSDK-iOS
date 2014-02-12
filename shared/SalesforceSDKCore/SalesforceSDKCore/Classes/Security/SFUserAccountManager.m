@@ -399,7 +399,7 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
 
 + (NSString*)userAccountsPlistFile {
     NSString *directory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:@[@"mobilesdk"]];
-    [SFDirectoryManager ensureDirectoryExists:directory];
+    [SFDirectoryManager ensureDirectoryExists:directory error:nil];
     return [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
 }
 

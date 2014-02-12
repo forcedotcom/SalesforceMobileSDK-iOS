@@ -39,20 +39,13 @@ static NSString * const kDefaultOrgName = @"org";
     return manager;
 }
 
-+ (BOOL)ensureDirectoryExists:(NSString*)directory {
++ (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
     NSFileManager *manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:directory]) {
-        NSError *error = nil;
-        [manager createDirectoryAtPath:directory
-           withIntermediateDirectories:YES
-                            attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionComplete, NSFileProtectionKey, nil]
-                                 error:&error];
-        if (error) {
-            [self log:SFLogLevelError format:@"Error creating directory path: %@", [error localizedDescription]];
-            return NO;
-        } else {
-            return YES;
-        }
+        return [manager createDirectoryAtPath:directory
+                  withIntermediateDirectories:YES
+                                   attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionComplete, NSFileProtectionKey, nil]
+                                        error:error];
     } else {
         return YES;
     }

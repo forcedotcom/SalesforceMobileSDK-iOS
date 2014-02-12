@@ -132,7 +132,7 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
  */
 - (NSString*)photoPath {
     NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForOrg:self.credentials.organizationId user:self.credentials.userId community:self.communityId type:NSCachesDirectory components:@[@"mobilesdk", @"photos"]];
-    [SFDirectoryManager ensureDirectoryExists:userPhotoPath];
+    [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:nil];
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:self.credentials.userId]];
 }
 
