@@ -29,6 +29,8 @@
 
 @interface SFAuthenticationManager ()
 
+- (void)login;
+
 - (void)loginWithUser:(SFUserAccount*)account;
 
 @end

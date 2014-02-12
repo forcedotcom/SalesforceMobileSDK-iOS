@@ -913,6 +913,9 @@ static Class InstanceClass = nil;
     self.idCoordinator.delegate = self;
     
     // Trigger the login flow
+    if (self.coordinator.isAuthenticating) {
+        [self.coordinator stopAuthentication];        
+    }
     [self.coordinator authenticate];
 }
 
