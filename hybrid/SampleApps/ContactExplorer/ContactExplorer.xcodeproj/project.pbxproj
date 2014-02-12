@@ -15,6 +15,46 @@
 		4F0C17E218A9A9CB000FD4E9 /* forcetk.mobilesdk.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17DB18A9A9CB000FD4E9 /* forcetk.mobilesdk.js */; };
 		4F0C17E318A9A9CB000FD4E9 /* jquery.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17DC18A9A9CB000FD4E9 /* jquery.min.js */; };
 		4F0C17E418A9A9CB000FD4E9 /* jquery.mobile.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17DD18A9A9CB000FD4E9 /* jquery.mobile.min.js */; };
+		4F0C184118AAEF52000FD4E9 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17D518A9A9CB000FD4E9 /* bootconfig.json */; };
+		4F0C184218AAEF52000FD4E9 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17D818A9A9CB000FD4E9 /* index.html */; };
+		4F0C184318AAEF52000FD4E9 /* inline.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17D918A9A9CB000FD4E9 /* inline.js */; };
+		4F0C184418AAEF52000FD4E9 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C17D318A9A9B4000FD4E9 /* cordova.js */; };
+		4F0C184618AAEF6F000FD4E9 /* jquery.mobile.min.css in Copy css files */ = {isa = PBXBuildFile; fileRef = 4F0C17D718A9A9CB000FD4E9 /* jquery.mobile.min.css */; };
+		4F0C184818AAEF8A000FD4E9 /* forcetk.mobilesdk.js in Copy js files */ = {isa = PBXBuildFile; fileRef = 4F0C17DB18A9A9CB000FD4E9 /* forcetk.mobilesdk.js */; };
+		4F0C184918AAEF8A000FD4E9 /* jquery.min.js in Copy js files */ = {isa = PBXBuildFile; fileRef = 4F0C17DC18A9A9CB000FD4E9 /* jquery.min.js */; };
+		4F0C184A18AAEF8A000FD4E9 /* jquery.mobile.min.js in Copy js files */ = {isa = PBXBuildFile; fileRef = 4F0C17DD18A9A9CB000FD4E9 /* jquery.mobile.min.js */; };
+		4F0C18ED18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18DB18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js */; };
+		4F0C18EE18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18DC18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
+		4F0C18EF18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18DD18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js */; };
+		4F0C18F018AAF854000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18DE18AAF854000FD4E9 /* com.salesforce.util.bootstrap.js */; };
+		4F0C18F118AAF854000FD4E9 /* com.salesforce.util.event.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18DF18AAF854000FD4E9 /* com.salesforce.util.event.js */; };
+		4F0C18F218AAF854000FD4E9 /* com.salesforce.util.exec.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18E018AAF854000FD4E9 /* com.salesforce.util.exec.js */; };
+		4F0C18F318AAF854000FD4E9 /* com.salesforce.util.logger.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C18E118AAF854000FD4E9 /* com.salesforce.util.logger.js */; };
+		4F0C18FD18AAF879000FD4E9 /* com.salesforce.plugin.oauth.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18DB18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js */; };
+		4F0C18FE18AAF879000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18DC18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
+		4F0C18FF18AAF879000FD4E9 /* com.salesforce.plugin.smartstore.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18DD18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js */; };
+		4F0C190018AAF879000FD4E9 /* com.salesforce.util.bootstrap.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18DE18AAF854000FD4E9 /* com.salesforce.util.bootstrap.js */; };
+		4F0C190118AAF879000FD4E9 /* com.salesforce.util.event.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18DF18AAF854000FD4E9 /* com.salesforce.util.event.js */; };
+		4F0C190218AAF879000FD4E9 /* com.salesforce.util.exec.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18E018AAF854000FD4E9 /* com.salesforce.util.exec.js */; };
+		4F0C190318AAF879000FD4E9 /* com.salesforce.util.logger.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C18E118AAF854000FD4E9 /* com.salesforce.util.logger.js */; };
+		4F0C191818AAF921000FD4E9 /* Contact.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191018AAF921000FD4E9 /* Contact.js */; };
+		4F0C191918AAF921000FD4E9 /* ContactAddress.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191118AAF921000FD4E9 /* ContactAddress.js */; };
+		4F0C191A18AAF921000FD4E9 /* ContactError.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191218AAF921000FD4E9 /* ContactError.js */; };
+		4F0C191B18AAF921000FD4E9 /* ContactField.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191318AAF921000FD4E9 /* ContactField.js */; };
+		4F0C191C18AAF921000FD4E9 /* ContactFindOptions.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191418AAF921000FD4E9 /* ContactFindOptions.js */; };
+		4F0C191D18AAF921000FD4E9 /* ContactName.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191518AAF921000FD4E9 /* ContactName.js */; };
+		4F0C191E18AAF921000FD4E9 /* ContactOrganization.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191618AAF921000FD4E9 /* ContactOrganization.js */; };
+		4F0C191F18AAF921000FD4E9 /* contacts.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C191718AAF921000FD4E9 /* contacts.js */; };
+		4F0C192118AAF966000FD4E9 /* cordova_plugins.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C192018AAF966000FD4E9 /* cordova_plugins.js */; };
+		4F0C192218AAF977000FD4E9 /* Contact.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191018AAF921000FD4E9 /* Contact.js */; };
+		4F0C192318AAF977000FD4E9 /* ContactAddress.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191118AAF921000FD4E9 /* ContactAddress.js */; };
+		4F0C192418AAF977000FD4E9 /* ContactError.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191218AAF921000FD4E9 /* ContactError.js */; };
+		4F0C192518AAF977000FD4E9 /* ContactField.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191318AAF921000FD4E9 /* ContactField.js */; };
+		4F0C192618AAF977000FD4E9 /* ContactFindOptions.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191418AAF921000FD4E9 /* ContactFindOptions.js */; };
+		4F0C192718AAF977000FD4E9 /* ContactName.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191518AAF921000FD4E9 /* ContactName.js */; };
+		4F0C192818AAF977000FD4E9 /* ContactOrganization.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191618AAF921000FD4E9 /* ContactOrganization.js */; };
+		4F0C192918AAF977000FD4E9 /* contacts.js in Copy contact plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C191718AAF921000FD4E9 /* contacts.js */; };
+		4F0C192A18AAF97E000FD4E9 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4F0C192018AAF966000FD4E9 /* cordova_plugins.js */; };
 		4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */; };
 		4FF918E418A99E6800A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918E318A99E6800A713DB /* AssetsLibrary.framework */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
@@ -62,34 +102,78 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4F0C184518AAEF59000FD4E9 /* Copy css files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/css;
+			dstSubfolderSpec = 7;
+			files = (
+				4F0C184618AAEF6F000FD4E9 /* jquery.mobile.min.css in Copy css files */,
+			);
+			name = "Copy css files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F0C184718AAEF76000FD4E9 /* Copy js files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/js;
+			dstSubfolderSpec = 7;
+			files = (
+				4F0C184818AAEF8A000FD4E9 /* forcetk.mobilesdk.js in Copy js files */,
+				4F0C184918AAEF8A000FD4E9 /* jquery.min.js in Copy js files */,
+				4F0C184A18AAEF8A000FD4E9 /* jquery.mobile.min.js in Copy js files */,
+			);
+			name = "Copy js files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F0C18FC18AAF86F000FD4E9 /* Copy salesforce plugin js files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/com.salesforce/www;
+			dstSubfolderSpec = 7;
+			files = (
+				4F0C18FD18AAF879000FD4E9 /* com.salesforce.plugin.oauth.js in Copy salesforce plugin js files */,
+				4F0C18FE18AAF879000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Copy salesforce plugin js files */,
+				4F0C18FF18AAF879000FD4E9 /* com.salesforce.plugin.smartstore.js in Copy salesforce plugin js files */,
+				4F0C190018AAF879000FD4E9 /* com.salesforce.util.bootstrap.js in Copy salesforce plugin js files */,
+				4F0C190118AAF879000FD4E9 /* com.salesforce.util.event.js in Copy salesforce plugin js files */,
+				4F0C190218AAF879000FD4E9 /* com.salesforce.util.exec.js in Copy salesforce plugin js files */,
+				4F0C190318AAF879000FD4E9 /* com.salesforce.util.logger.js in Copy salesforce plugin js files */,
+			);
+			name = "Copy salesforce plugin js files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F0C190418AAF893000FD4E9 /* Copy contact plugin js files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/org.apache.cordova.contacts/www;
+			dstSubfolderSpec = 7;
+			files = (
+				4F0C192218AAF977000FD4E9 /* Contact.js in Copy contact plugin js files */,
+				4F0C192318AAF977000FD4E9 /* ContactAddress.js in Copy contact plugin js files */,
+				4F0C192418AAF977000FD4E9 /* ContactError.js in Copy contact plugin js files */,
+				4F0C192518AAF977000FD4E9 /* ContactField.js in Copy contact plugin js files */,
+				4F0C192618AAF977000FD4E9 /* ContactFindOptions.js in Copy contact plugin js files */,
+				4F0C192718AAF977000FD4E9 /* ContactName.js in Copy contact plugin js files */,
+				4F0C192818AAF977000FD4E9 /* ContactOrganization.js in Copy contact plugin js files */,
+				4F0C192918AAF977000FD4E9 /* contacts.js in Copy contact plugin js files */,
+			);
+			name = "Copy contact plugin js files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7D3FF04F14BE2804004D3FF6 /* Copy Shared www Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4F0C192A18AAF97E000FD4E9 /* cordova_plugins.js in Copy Shared www Files */,
+				4F0C184118AAEF52000FD4E9 /* bootconfig.json in Copy Shared www Files */,
+				4F0C184218AAEF52000FD4E9 /* index.html in Copy Shared www Files */,
+				4F0C184318AAEF52000FD4E9 /* inline.js in Copy Shared www Files */,
+				4F0C184418AAEF52000FD4E9 /* cordova.js in Copy Shared www Files */,
 			);
 			name = "Copy Shared www Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82C68F4715CC9EAD00A2E9FB /* Copy jQuery Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/jquery;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy jQuery Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82C68F4E15CC9EE500A2E9FB /* Copy jQuery Images Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/jquery/images;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy jQuery Images Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -103,6 +187,22 @@
 		4F0C17DB18A9A9CB000FD4E9 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4F0C17DC18A9A9CB000FD4E9 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
 		4F0C17DD18A9A9CB000FD4E9 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.mobile.min.js; sourceTree = "<group>"; };
+		4F0C18DB18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
+		4F0C18DC18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
+		4F0C18DD18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartstore.js; sourceTree = "<group>"; };
+		4F0C18DE18AAF854000FD4E9 /* com.salesforce.util.bootstrap.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.bootstrap.js; sourceTree = "<group>"; };
+		4F0C18DF18AAF854000FD4E9 /* com.salesforce.util.event.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.event.js; sourceTree = "<group>"; };
+		4F0C18E018AAF854000FD4E9 /* com.salesforce.util.exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.exec.js; sourceTree = "<group>"; };
+		4F0C18E118AAF854000FD4E9 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
+		4F0C191018AAF921000FD4E9 /* Contact.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Contact.js; sourceTree = "<group>"; };
+		4F0C191118AAF921000FD4E9 /* ContactAddress.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactAddress.js; sourceTree = "<group>"; };
+		4F0C191218AAF921000FD4E9 /* ContactError.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactError.js; sourceTree = "<group>"; };
+		4F0C191318AAF921000FD4E9 /* ContactField.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactField.js; sourceTree = "<group>"; };
+		4F0C191418AAF921000FD4E9 /* ContactFindOptions.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactFindOptions.js; sourceTree = "<group>"; };
+		4F0C191518AAF921000FD4E9 /* ContactName.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactName.js; sourceTree = "<group>"; };
+		4F0C191618AAF921000FD4E9 /* ContactOrganization.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactOrganization.js; sourceTree = "<group>"; };
+		4F0C191718AAF921000FD4E9 /* contacts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = contacts.js; sourceTree = "<group>"; };
+		4F0C192018AAF966000FD4E9 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../shared/hybrid/contacts/cordova_plugins.js; sourceTree = "<group>"; };
 		4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4FF918E318A99E6800A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		7DBD075C149AA9620043A9E0 /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,9 +313,67 @@
 			path = ../samples/hybrid/contactexplorer/js;
 			sourceTree = "<group>";
 		};
+		4F0C18D818AAF854000FD4E9 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C190E18AAF921000FD4E9 /* org.apache.cordova.contacts */,
+				4F0C18D918AAF854000FD4E9 /* com.salesforce */,
+			);
+			name = plugins;
+			path = ../../shared/hybrid/plugins;
+			sourceTree = "<group>";
+		};
+		4F0C18D918AAF854000FD4E9 /* com.salesforce */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C18DA18AAF854000FD4E9 /* www */,
+			);
+			path = com.salesforce;
+			sourceTree = "<group>";
+		};
+		4F0C18DA18AAF854000FD4E9 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C18DB18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js */,
+				4F0C18DC18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js */,
+				4F0C18DD18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js */,
+				4F0C18DE18AAF854000FD4E9 /* com.salesforce.util.bootstrap.js */,
+				4F0C18DF18AAF854000FD4E9 /* com.salesforce.util.event.js */,
+				4F0C18E018AAF854000FD4E9 /* com.salesforce.util.exec.js */,
+				4F0C18E118AAF854000FD4E9 /* com.salesforce.util.logger.js */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
+		4F0C190E18AAF921000FD4E9 /* org.apache.cordova.contacts */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C190F18AAF921000FD4E9 /* www */,
+			);
+			name = org.apache.cordova.contacts;
+			path = ../contacts/plugins/org.apache.cordova.contacts;
+			sourceTree = "<group>";
+		};
+		4F0C190F18AAF921000FD4E9 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C191018AAF921000FD4E9 /* Contact.js */,
+				4F0C191118AAF921000FD4E9 /* ContactAddress.js */,
+				4F0C191218AAF921000FD4E9 /* ContactError.js */,
+				4F0C191318AAF921000FD4E9 /* ContactField.js */,
+				4F0C191418AAF921000FD4E9 /* ContactFindOptions.js */,
+				4F0C191518AAF921000FD4E9 /* ContactName.js */,
+				4F0C191618AAF921000FD4E9 /* ContactOrganization.js */,
+				4F0C191718AAF921000FD4E9 /* contacts.js */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
 		7D3FF01614BE27B2004D3FF6 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4F0C192018AAF966000FD4E9 /* cordova_plugins.js */,
+				4F0C18D818AAF854000FD4E9 /* plugins */,
 				4F0C17D518A9A9CB000FD4E9 /* bootconfig.json */,
 				4F0C17D618A9A9CB000FD4E9 /* css */,
 				4F0C17D818A9A9CB000FD4E9 /* index.html */,
@@ -366,8 +524,10 @@
 				7DBD0758149AA9620043A9E0 /* Frameworks */,
 				7DBD0759149AA9620043A9E0 /* Resources */,
 				7D3FF04F14BE2804004D3FF6 /* Copy Shared www Files */,
-				82C68F4715CC9EAD00A2E9FB /* Copy jQuery Files */,
-				82C68F4E15CC9EE500A2E9FB /* Copy jQuery Images Files */,
+				4F0C184518AAEF59000FD4E9 /* Copy css files */,
+				4F0C184718AAEF76000FD4E9 /* Copy js files */,
+				4F0C18FC18AAF86F000FD4E9 /* Copy salesforce plugin js files */,
+				4F0C190418AAF893000FD4E9 /* Copy contact plugin js files */,
 			);
 			buildRules = (
 			);
@@ -436,12 +596,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F0C17E218A9A9CB000FD4E9 /* forcetk.mobilesdk.js in Sources */,
+				4F0C191818AAF921000FD4E9 /* Contact.js in Sources */,
 				7DBD0785149AA9630043A9E0 /* main.m in Sources */,
+				4F0C192118AAF966000FD4E9 /* cordova_plugins.js in Sources */,
 				4F0C17D418A9A9B4000FD4E9 /* cordova.js in Sources */,
+				4F0C18F218AAF854000FD4E9 /* com.salesforce.util.exec.js in Sources */,
 				7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */,
+				4F0C191D18AAF921000FD4E9 /* ContactName.js in Sources */,
 				4F0C17E318A9A9CB000FD4E9 /* jquery.min.js in Sources */,
+				4F0C18EF18AAF854000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */,
+				4F0C191B18AAF921000FD4E9 /* ContactField.js in Sources */,
+				4F0C191E18AAF921000FD4E9 /* ContactOrganization.js in Sources */,
+				4F0C191F18AAF921000FD4E9 /* contacts.js in Sources */,
+				4F0C18ED18AAF854000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */,
+				4F0C18F318AAF854000FD4E9 /* com.salesforce.util.logger.js in Sources */,
+				4F0C18F118AAF854000FD4E9 /* com.salesforce.util.event.js in Sources */,
+				4F0C18EE18AAF854000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */,
+				4F0C191C18AAF921000FD4E9 /* ContactFindOptions.js in Sources */,
 				4F0C17E418A9A9CB000FD4E9 /* jquery.mobile.min.js in Sources */,
 				4F0C17E118A9A9CB000FD4E9 /* inline.js in Sources */,
+				4F0C191A18AAF921000FD4E9 /* ContactError.js in Sources */,
+				4F0C18F018AAF854000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */,
+				4F0C191918AAF921000FD4E9 /* ContactAddress.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

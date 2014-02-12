@@ -12,17 +12,43 @@
 		4F0C17B218A9A8FE000FD4E9 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C17A218A9A8FE000FD4E9 /* styles.css */; };
 		4F0C17B318A9A8FE000FD4E9 /* FileExplorer.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F0C17A318A9A8FE000FD4E9 /* FileExplorer.html */; };
 		4F0C17B418A9A8FE000FD4E9 /* auth.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17A518A9A8FE000FD4E9 /* auth.js */; };
-		4F0C17B518A9A8FE000FD4E9 /* auth_local.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17A618A9A8FE000FD4E9 /* auth_local.js */; };
 		4F0C17B618A9A8FE000FD4E9 /* backbone-min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17A718A9A8FE000FD4E9 /* backbone-min.js */; };
-		4F0C17B718A9A8FE000FD4E9 /* cordova.force.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17A818A9A8FE000FD4E9 /* cordova.force.js */; };
 		4F0C17B818A9A8FE000FD4E9 /* fastclick.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17A918A9A8FE000FD4E9 /* fastclick.js */; };
 		4F0C17B918A9A8FE000FD4E9 /* forcetk.mobilesdk.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AA18A9A8FE000FD4E9 /* forcetk.mobilesdk.js */; };
 		4F0C17BA18A9A8FE000FD4E9 /* jquery.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AB18A9A8FE000FD4E9 /* jquery.min.js */; };
-		4F0C17BB18A9A8FE000FD4E9 /* MockCordova.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AC18A9A8FE000FD4E9 /* MockCordova.js */; };
 		4F0C17BC18A9A8FE000FD4E9 /* smartsync.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AD18A9A8FE000FD4E9 /* smartsync.js */; };
 		4F0C17BD18A9A8FE000FD4E9 /* stackrouter.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AE18A9A8FE000FD4E9 /* stackrouter.js */; };
 		4F0C17BE18A9A8FE000FD4E9 /* underscore-min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17AF18A9A8FE000FD4E9 /* underscore-min.js */; };
 		4F0C17D018A9A96F000FD4E9 /* cordova.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C17CF18A9A96F000FD4E9 /* cordova.js */; };
+		4F0C182A18AAE29E000FD4E9 /* cordova.js in Copy Shared www Files (4 items) */ = {isa = PBXBuildFile; fileRef = 4F0C17CF18A9A96F000FD4E9 /* cordova.js */; };
+		4F0C182B18AAE29E000FD4E9 /* bootconfig.json in Copy Shared www Files (4 items) */ = {isa = PBXBuildFile; fileRef = 4F0C179F18A9A8FE000FD4E9 /* bootconfig.json */; };
+		4F0C182C18AAE29E000FD4E9 /* FileExplorer.html in Copy Shared www Files (4 items) */ = {isa = PBXBuildFile; fileRef = 4F0C17A318A9A8FE000FD4E9 /* FileExplorer.html */; };
+		4F0C182D18AAE2A7000FD4E9 /* ratchet.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4F0C17A118A9A8FE000FD4E9 /* ratchet.css */; };
+		4F0C182E18AAE2A7000FD4E9 /* styles.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4F0C17A218A9A8FE000FD4E9 /* styles.css */; };
+		4F0C182F18AAE2B5000FD4E9 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17A518A9A8FE000FD4E9 /* auth.js */; };
+		4F0C183018AAE2B5000FD4E9 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17A718A9A8FE000FD4E9 /* backbone-min.js */; };
+		4F0C183218AAE2B5000FD4E9 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17A918A9A8FE000FD4E9 /* fastclick.js */; };
+		4F0C183318AAE2B5000FD4E9 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17AA18A9A8FE000FD4E9 /* forcetk.mobilesdk.js */; };
+		4F0C183418AAE2B5000FD4E9 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17AB18A9A8FE000FD4E9 /* jquery.min.js */; };
+		4F0C183518AAE2B5000FD4E9 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17AD18A9A8FE000FD4E9 /* smartsync.js */; };
+		4F0C183618AAE2B5000FD4E9 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17AE18A9A8FE000FD4E9 /* stackrouter.js */; };
+		4F0C183718AAE2B5000FD4E9 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F0C17AF18A9A8FE000FD4E9 /* underscore-min.js */; };
+		4F0C189018AAF740000FD4E9 /* cordova_plugins.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C187B18AAF740000FD4E9 /* cordova_plugins.js */; };
+		4F0C189118AAF740000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C187F18AAF740000FD4E9 /* com.salesforce.plugin.oauth.js */; };
+		4F0C189218AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188018AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
+		4F0C189318AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188118AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js */; };
+		4F0C189418AAF740000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188218AAF740000FD4E9 /* com.salesforce.util.bootstrap.js */; };
+		4F0C189518AAF740000FD4E9 /* com.salesforce.util.event.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188318AAF740000FD4E9 /* com.salesforce.util.event.js */; };
+		4F0C189618AAF740000FD4E9 /* com.salesforce.util.exec.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188418AAF740000FD4E9 /* com.salesforce.util.exec.js */; };
+		4F0C189718AAF740000FD4E9 /* com.salesforce.util.logger.js in Sources */ = {isa = PBXBuildFile; fileRef = 4F0C188518AAF740000FD4E9 /* com.salesforce.util.logger.js */; };
+		4F0C18A118AAF78B000FD4E9 /* com.salesforce.plugin.oauth.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C187F18AAF740000FD4E9 /* com.salesforce.plugin.oauth.js */; };
+		4F0C18A218AAF78B000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188018AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js */; };
+		4F0C18A318AAF78B000FD4E9 /* com.salesforce.plugin.smartstore.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188118AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js */; };
+		4F0C18A418AAF78B000FD4E9 /* com.salesforce.util.bootstrap.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188218AAF740000FD4E9 /* com.salesforce.util.bootstrap.js */; };
+		4F0C18A518AAF78B000FD4E9 /* com.salesforce.util.event.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188318AAF740000FD4E9 /* com.salesforce.util.event.js */; };
+		4F0C18A618AAF78B000FD4E9 /* com.salesforce.util.exec.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188418AAF740000FD4E9 /* com.salesforce.util.exec.js */; };
+		4F0C18A718AAF78B000FD4E9 /* com.salesforce.util.logger.js in Copy salesforce plugin js files */ = {isa = PBXBuildFile; fileRef = 4F0C188518AAF740000FD4E9 /* com.salesforce.util.logger.js */; };
+		4F0C18A818AAF79F000FD4E9 /* cordova_plugins.js in Copy Shared www Files (4 items) */ = {isa = PBXBuildFile; fileRef = 4F0C187B18AAF740000FD4E9 /* cordova_plugins.js */; };
 		4FF918DE18A99E4700A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918DD18A99E4700A713DB /* AssetsLibrary.framework */; };
 		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
 		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
@@ -72,34 +98,35 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		824A9D6B1724C35700C9BD79 /* Copy Shared www Files */ = {
+		4F0C18A018AAF75F000FD4E9 /* Copy salesforce plugin js files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/com.salesforce/www;
+			dstSubfolderSpec = 7;
+			files = (
+				4F0C18A118AAF78B000FD4E9 /* com.salesforce.plugin.oauth.js in Copy salesforce plugin js files */,
+				4F0C18A218AAF78B000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Copy salesforce plugin js files */,
+				4F0C18A318AAF78B000FD4E9 /* com.salesforce.plugin.smartstore.js in Copy salesforce plugin js files */,
+				4F0C18A418AAF78B000FD4E9 /* com.salesforce.util.bootstrap.js in Copy salesforce plugin js files */,
+				4F0C18A518AAF78B000FD4E9 /* com.salesforce.util.event.js in Copy salesforce plugin js files */,
+				4F0C18A618AAF78B000FD4E9 /* com.salesforce.util.exec.js in Copy salesforce plugin js files */,
+				4F0C18A718AAF78B000FD4E9 /* com.salesforce.util.logger.js in Copy salesforce plugin js files */,
+			);
+			name = "Copy salesforce plugin js files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		824A9D6B1724C35700C9BD79 /* Copy Shared www Files (4 items) */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4F0C18A818AAF79F000FD4E9 /* cordova_plugins.js in Copy Shared www Files (4 items) */,
+				4F0C182A18AAE29E000FD4E9 /* cordova.js in Copy Shared www Files (4 items) */,
+				4F0C182B18AAE29E000FD4E9 /* bootconfig.json in Copy Shared www Files (4 items) */,
+				4F0C182C18AAE29E000FD4E9 /* FileExplorer.html in Copy Shared www Files (4 items) */,
 			);
-			name = "Copy Shared www Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		824A9D6F1724C3B100C9BD79 /* Copy jQuery Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/jquery;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy jQuery Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		824A9D711724C3DB00C9BD79 /* Copy backbone Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/backbone;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy backbone Files";
+			name = "Copy Shared www Files (4 items)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		824A9D771724C4F300C9BD79 /* Copy css Files */ = {
@@ -108,18 +135,28 @@
 			dstPath = www/css;
 			dstSubfolderSpec = 7;
 			files = (
+				4F0C182D18AAE2A7000FD4E9 /* ratchet.css in Copy css Files */,
+				4F0C182E18AAE2A7000FD4E9 /* styles.css in Copy css Files */,
 			);
 			name = "Copy css Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		824A9D7A1724C51500C9BD79 /* Copy css Images Files */ = {
+		824A9D7A1724C51500C9BD79 /* Copy js Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/css/images;
 			dstSubfolderSpec = 7;
 			files = (
+				4F0C182F18AAE2B5000FD4E9 /* auth.js in Copy js Files */,
+				4F0C183018AAE2B5000FD4E9 /* backbone-min.js in Copy js Files */,
+				4F0C183218AAE2B5000FD4E9 /* fastclick.js in Copy js Files */,
+				4F0C183318AAE2B5000FD4E9 /* forcetk.mobilesdk.js in Copy js Files */,
+				4F0C183418AAE2B5000FD4E9 /* jquery.min.js in Copy js Files */,
+				4F0C183518AAE2B5000FD4E9 /* smartsync.js in Copy js Files */,
+				4F0C183618AAE2B5000FD4E9 /* stackrouter.js in Copy js Files */,
+				4F0C183718AAE2B5000FD4E9 /* underscore-min.js in Copy js Files */,
 			);
-			name = "Copy css Images Files";
+			name = "Copy js Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -130,17 +167,22 @@
 		4F0C17A218A9A8FE000FD4E9 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
 		4F0C17A318A9A8FE000FD4E9 /* FileExplorer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = FileExplorer.html; path = ../../../../external/samples/hybrid/fileexplorer/FileExplorer.html; sourceTree = "<group>"; };
 		4F0C17A518A9A8FE000FD4E9 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
-		4F0C17A618A9A8FE000FD4E9 /* auth_local.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth_local.js; sourceTree = "<group>"; };
 		4F0C17A718A9A8FE000FD4E9 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
-		4F0C17A818A9A8FE000FD4E9 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
 		4F0C17A918A9A8FE000FD4E9 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
 		4F0C17AA18A9A8FE000FD4E9 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4F0C17AB18A9A8FE000FD4E9 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		4F0C17AC18A9A8FE000FD4E9 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
 		4F0C17AD18A9A8FE000FD4E9 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4F0C17AE18A9A8FE000FD4E9 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4F0C17AF18A9A8FE000FD4E9 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		4F0C17CF18A9A96F000FD4E9 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
+		4F0C187B18AAF740000FD4E9 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../shared/hybrid/cordova_plugins.js; sourceTree = "<group>"; };
+		4F0C187F18AAF740000FD4E9 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
+		4F0C188018AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
+		4F0C188118AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartstore.js; sourceTree = "<group>"; };
+		4F0C188218AAF740000FD4E9 /* com.salesforce.util.bootstrap.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.bootstrap.js; sourceTree = "<group>"; };
+		4F0C188318AAF740000FD4E9 /* com.salesforce.util.event.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.event.js; sourceTree = "<group>"; };
+		4F0C188418AAF740000FD4E9 /* com.salesforce.util.exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.exec.js; sourceTree = "<group>"; };
+		4F0C188518AAF740000FD4E9 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FF918DD18A99E4700A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		824A9BCE1721FCA400C9BD79 /* HybridFileExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HybridFileExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -246,19 +288,47 @@
 			isa = PBXGroup;
 			children = (
 				4F0C17A518A9A8FE000FD4E9 /* auth.js */,
-				4F0C17A618A9A8FE000FD4E9 /* auth_local.js */,
 				4F0C17A718A9A8FE000FD4E9 /* backbone-min.js */,
-				4F0C17A818A9A8FE000FD4E9 /* cordova.force.js */,
 				4F0C17A918A9A8FE000FD4E9 /* fastclick.js */,
 				4F0C17AA18A9A8FE000FD4E9 /* forcetk.mobilesdk.js */,
 				4F0C17AB18A9A8FE000FD4E9 /* jquery.min.js */,
-				4F0C17AC18A9A8FE000FD4E9 /* MockCordova.js */,
 				4F0C17AD18A9A8FE000FD4E9 /* smartsync.js */,
 				4F0C17AE18A9A8FE000FD4E9 /* stackrouter.js */,
 				4F0C17AF18A9A8FE000FD4E9 /* underscore-min.js */,
 			);
 			name = js;
 			path = ../../../../external/samples/hybrid/fileexplorer/js;
+			sourceTree = "<group>";
+		};
+		4F0C187C18AAF740000FD4E9 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C187D18AAF740000FD4E9 /* com.salesforce */,
+			);
+			name = plugins;
+			path = ../../../../shared/hybrid/plugins;
+			sourceTree = "<group>";
+		};
+		4F0C187D18AAF740000FD4E9 /* com.salesforce */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C187E18AAF740000FD4E9 /* www */,
+			);
+			path = com.salesforce;
+			sourceTree = "<group>";
+		};
+		4F0C187E18AAF740000FD4E9 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				4F0C187F18AAF740000FD4E9 /* com.salesforce.plugin.oauth.js */,
+				4F0C188018AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js */,
+				4F0C188118AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js */,
+				4F0C188218AAF740000FD4E9 /* com.salesforce.util.bootstrap.js */,
+				4F0C188318AAF740000FD4E9 /* com.salesforce.util.event.js */,
+				4F0C188418AAF740000FD4E9 /* com.salesforce.util.exec.js */,
+				4F0C188518AAF740000FD4E9 /* com.salesforce.util.logger.js */,
+			);
+			path = www;
 			sourceTree = "<group>";
 		};
 		824A9BC51721FCA400C9BD79 = {
@@ -340,6 +410,8 @@
 		824A9BFB1721FE7E00C9BD79 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4F0C187B18AAF740000FD4E9 /* cordova_plugins.js */,
+				4F0C187C18AAF740000FD4E9 /* plugins */,
 				4F0C17CF18A9A96F000FD4E9 /* cordova.js */,
 				4F0C179F18A9A8FE000FD4E9 /* bootconfig.json */,
 				4F0C17A018A9A8FE000FD4E9 /* css */,
@@ -405,11 +477,10 @@
 				824A9BCA1721FCA400C9BD79 /* Sources */,
 				824A9BCB1721FCA400C9BD79 /* Frameworks */,
 				824A9BCC1721FCA400C9BD79 /* Resources */,
-				824A9D6B1724C35700C9BD79 /* Copy Shared www Files */,
-				824A9D6F1724C3B100C9BD79 /* Copy jQuery Files */,
-				824A9D711724C3DB00C9BD79 /* Copy backbone Files */,
+				824A9D6B1724C35700C9BD79 /* Copy Shared www Files (4 items) */,
 				824A9D771724C4F300C9BD79 /* Copy css Files */,
-				824A9D7A1724C51500C9BD79 /* Copy css Images Files */,
+				824A9D7A1724C51500C9BD79 /* Copy js Files */,
+				4F0C18A018AAF75F000FD4E9 /* Copy salesforce plugin js files */,
 			);
 			buildRules = (
 			);
@@ -481,20 +552,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F0C17B718A9A8FE000FD4E9 /* cordova.force.js in Sources */,
 				4F0C17BA18A9A8FE000FD4E9 /* jquery.min.js in Sources */,
-				4F0C17B518A9A8FE000FD4E9 /* auth_local.js in Sources */,
+				4F0C189418AAF740000FD4E9 /* com.salesforce.util.bootstrap.js in Sources */,
+				4F0C189218AAF740000FD4E9 /* com.salesforce.plugin.sdkinfo.js in Sources */,
 				4F0C17B618A9A8FE000FD4E9 /* backbone-min.js in Sources */,
+				4F0C189618AAF740000FD4E9 /* com.salesforce.util.exec.js in Sources */,
 				4F0C17BC18A9A8FE000FD4E9 /* smartsync.js in Sources */,
 				4F0C17B418A9A8FE000FD4E9 /* auth.js in Sources */,
 				4F0C17BE18A9A8FE000FD4E9 /* underscore-min.js in Sources */,
 				4F0C17B818A9A8FE000FD4E9 /* fastclick.js in Sources */,
 				4F0C17B918A9A8FE000FD4E9 /* forcetk.mobilesdk.js in Sources */,
 				4F0C17BD18A9A8FE000FD4E9 /* stackrouter.js in Sources */,
-				4F0C17BB18A9A8FE000FD4E9 /* MockCordova.js in Sources */,
+				4F0C189318AAF740000FD4E9 /* com.salesforce.plugin.smartstore.js in Sources */,
+				4F0C189118AAF740000FD4E9 /* com.salesforce.plugin.oauth.js in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
+				4F0C189018AAF740000FD4E9 /* cordova_plugins.js in Sources */,
 				824A9BE21721FCA400C9BD79 /* AppDelegate.m in Sources */,
 				4F0C17D018A9A96F000FD4E9 /* cordova.js in Sources */,
+				4F0C189718AAF740000FD4E9 /* com.salesforce.util.logger.js in Sources */,
+				4F0C189518AAF740000FD4E9 /* com.salesforce.util.event.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
