@@ -35,7 +35,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @interface SFSDKTestRequestListener ()
 {
-    SFUserAccountManager *_accountMgr;
+    SFAuthenticationManager *_authMgr;
     SFAccountManagerServiceType _serviceType;
 }
 
@@ -73,7 +73,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 {
     self = [super init];
     if (nil != self) {
-        _accountMgr = [SFUserAccountManager sharedInstance];
+        _authMgr = [SFAuthenticationManager sharedManager];
         self.maxWaitTime = 30.0;
         self.returnStatus = kTestRequestStatusWaiting;
     }
@@ -115,24 +115,22 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)configureAccountServiceDelegate
 {
-#warning TODO refactor this test
-//    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-//        _accountMgr.idDelegate = self;
-//    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-//        _accountMgr.oauthDelegate = self;
-//    } else {
-//        NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
-//    }
+    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+        _authMgr.idCoordinator.delegate = self;
+    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+        _authMgr.coordinator.delegate = self;
+    } else {
+        NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
+    }
 }
 
 - (void)clearAccountManagerDelegate
 {
-#warning TODO refactor this test
-//    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-//        _accountMgr.idDelegate = nil;
-//    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-//        _accountMgr.oauthDelegate = nil;
-//    }
+    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
+        _authMgr.idCoordinator.delegate = nil;
+    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
+        _authMgr.coordinator.delegate = nil;
+    }
 }
 
 - (NSString *)serviceTypeDescription

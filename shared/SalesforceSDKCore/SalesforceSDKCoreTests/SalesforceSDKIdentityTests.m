@@ -74,9 +74,9 @@
 
 - (void)sendSyncIdentityRequest
 {
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
     _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
-    [accountMgr.idCoordinator initiateIdentityDataRetrieval];
+    [authMgr.idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
 }
 
@@ -86,10 +86,10 @@
     
     // With credentials bootstrapped, get an actual set of credentials (we'll need
     // an access token and identity URL for these tests.
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
+    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
     _requestListener = nil;
     _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
-    [accountMgr.coordinator authenticate];
+    [authMgr.coordinator authenticate];
     [_requestListener waitForCompletion];
     if ([_requestListener.returnStatus isEqualToString:kTestRequestStatusDidFail]) {
         STFail([NSString stringWithFormat:@"OAuth refresh did not succeed: %@", _requestListener.lastError]);
@@ -106,7 +106,7 @@
     [self sendSyncIdentityRequest];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
     [self validateIdentityData];
-    [SFAccountManager sharedInstance].idData = nil;
+    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
 }
 
 /**
@@ -114,8 +114,8 @@
  */
 - (void)testRetrieveIdentityFailure
 {
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    SFIdentityCoordinator *idCoord = accountMgr.idCoordinator;
+    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
+    SFIdentityCoordinator *idCoord = authMgr.idCoordinator;
     NSString *origAccessToken = [idCoord.credentials.accessToken copy];
     idCoord.credentials.accessToken = @"";
     [self sendSyncIdentityRequest];
@@ -130,7 +130,7 @@
 
 - (void)validateIdentityData
 {
-    SFIdentityData *idData = [SFAccountManager sharedInstance].idData;
+    SFIdentityData *idData = [SFAuthenticationManager sharedManager].idCoordinator.idData;
     STAssertNotNil(idData, @"Identity data is nil.");
     STAssertNotNil(idData.dictRepresentation, @"idData.dictRepresentation should not be nil.");
     STAssertNotNil(idData.idUrl, @"idUrl should not be nil.");
