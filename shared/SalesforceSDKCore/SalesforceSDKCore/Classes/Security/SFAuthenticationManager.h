@@ -84,22 +84,34 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info;
 
+/**
+ Called after the auth manager has successfully authenticated and finished retrieving the identity information.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFinish:(SFAuthenticationManager *)manager info:(SFOAuthInfo *)info;
+
+/**
+ Called after the auth manager had failed to authenticate.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param error The error
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFail:(SFAuthenticationManager *)manager error:(NSError*)error info:(SFOAuthInfo *)info;
+
+/**
+ Called when the auth manager wants to determine if the network is available (best guest).
+ @param manager The instance of SFAuthenticationManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
+
 @end
 
 /**
- Identifies the notification for the login host changing in the app's settings.
+ Identifies the notification for the user before being logged out of the application.
  */
-extern NSString * const kSFLoginHostChangedNotification;
-
-/**
- The key for the original host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
-
-/**
- The key for the updated host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
+extern NSString * const kSFUserWillLogoutNotification;
 
 /**
  Identifies the notification for the user being logged out of the application.
@@ -111,6 +123,15 @@ extern NSString * const kSFUserLogoutNotification;
  */
 extern NSString * const kSFUserLoggedInNotification;
 
+/**
+ Identifies the notification when the authentication manager has finished
+ successfully to authorize the user and fetched the identity information.
+ */
+extern NSString * const kSFAuthenticationManagerFinishedNotification;
+
+/**
+ This class handles all the authentication related tasks, which includes login, logout and session refresh
+ */
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
 
 /**
@@ -127,6 +148,16 @@ extern NSString * const kSFUserLoggedInNotification;
  Whether or not the application is currently in the process of authenticating.
  */
 @property (nonatomic, readonly) BOOL authenticating;
+
+/** Do we have a current valid Salesforce session?
+ You may use KVO in your app to monitor session validity.
+ */
+@property (nonatomic, readonly) BOOL haveValidSession;
+
+/**
+ Returns YES if the logout is requested by the app settings
+ */
+@property (nonatomic, readonly) BOOL logoutSettingEnabled;
 
 /**
  If this property is set, the authentication manager will swap a "blank" view in place
@@ -158,9 +189,14 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
+ The class instance to be used to instantiate the singleton.
+ */
++ (void)setInstanceClass:(Class)class;
+
+/**
  The singleton instance of the SFAuthenticationManager class.
  */
-+ (SFAuthenticationManager *)sharedManager;
++ (instancetype)sharedManager;
 
 /**
  The property denoting the block that will handle the display and dismissal of the authentication view.
@@ -197,6 +233,22 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
 
 /**
+ The OAuth Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+
+/**
+ The Identity Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
+
+/**
+ * Whether or not there is a mobile pin code policy configured for this app.
+ * @return YES if so, NO if not.
+ */
+@property (nonatomic, readonly) BOOL mobilePinPolicyConfigured;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
@@ -229,6 +281,10 @@ extern NSString * const kSFUserLoggedInNotification;
  */
 - (void)cancelAuthentication;
 
+/**
+ Notification handler for when the app finishes launching.
+ @param notification The notification data associated with the event.
+ */
 - (void)appDidFinishLaunching:(NSNotification *)notification;
 
 /**

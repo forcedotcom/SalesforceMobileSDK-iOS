@@ -133,19 +133,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     return self;
 }
 
-- (void)dealloc {
-    _clientId = nil;
-    _domain = nil;
-    _identifier = nil;
-    _identityUrl = nil;
-    _instanceUrl = nil;
-    _issuedAt = nil;
-    _organizationId = nil;
-    _redirectUri = nil;
-    _userId = nil;
-    _protocol = nil;
-}
-
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
@@ -202,6 +189,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             }
             self.userId = [pathComps objectAtIndex:pathComps.count - 1];
             self.organizationId = [pathComps objectAtIndex:pathComps.count - 2];
+        } else {
+            NSLog(@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl);
         }
     }
 }
@@ -236,9 +225,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         result = [self writeToKeychain:dict];
     } else {
         result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
-        self.instanceUrl = nil;
-        self.issuedAt    = nil;
-        self.identityUrl = nil;
     }
     if (errSecSuccess != result && errSecItemNotFound != result) { // errSecItemNotFound is an expected condition
         NSLog(@"%@:setActivationCode: (%ld) %@", [self class], result, [[self class] stringForKeychainResultCode:result]);
