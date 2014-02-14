@@ -27,6 +27,7 @@
 #import "SFUserAccount.h"
 
 static NSString * const kDefaultOrgName = @"org";
+static NSString * const kDefaultCommunityName = @"internal";
 
 @implementation SFDirectoryManager
 
@@ -64,9 +65,7 @@ static NSString * const kDefaultOrgName = @"org";
             directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:orgId]];
             if (userId) {
                 directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:userId]];
-                if (nil == communityId) {
-                    directory = [directory stringByAppendingPathComponent:@"internal"];
-                } else {
+                if (communityId) {
                     directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
                 }
             }
@@ -86,7 +85,8 @@ static NSString * const kDefaultOrgName = @"org";
     if (user) {
         NSAssert(user.credentials.organizationId, @"Organization ID must be set");
         NSAssert(user.credentials.userId, @"User ID must be set");
-        return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
+        // Note: if the user communityId is nil, we use the default (internal) name for it.
+        return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId?:kDefaultCommunityName type:type components:components];
     } else {
         return [self directoryForOrg:nil user:nil community:nil type:type components:components];
     }

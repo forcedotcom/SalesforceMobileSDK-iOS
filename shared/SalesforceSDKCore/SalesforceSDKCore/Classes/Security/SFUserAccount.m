@@ -131,7 +131,7 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 /** Returns the path to the user's photo.
  */
 - (NSString*)photoPath {
-    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForOrg:self.credentials.organizationId user:self.credentials.userId community:self.communityId type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
+    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForUser:self type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
     [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:nil];
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:self.credentials.userId]];
 }
