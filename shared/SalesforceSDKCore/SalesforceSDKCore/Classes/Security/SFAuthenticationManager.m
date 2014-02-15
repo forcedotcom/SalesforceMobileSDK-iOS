@@ -41,6 +41,7 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFSmartStore.h"
+#import "SalesforceSDKConstants.h"
 
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>

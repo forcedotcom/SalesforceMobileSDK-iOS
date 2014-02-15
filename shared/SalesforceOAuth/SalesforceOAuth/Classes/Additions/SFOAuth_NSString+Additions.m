@@ -26,14 +26,6 @@
 #import "SFOAuth_NSString+Additions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-
-#ifndef FIX_CATEGORY_BUG
-#define FIX_CATEGORY_BUG(name) @interface FIXCATEGORYBUG ## name @end @implementation FIXCATEGORYBUG ## name @end 
-#endif
-
-
-FIX_CATEGORY_BUG(NSString_CryptoAdditions);
-
 @implementation NSString (CryptoAdditions)
 
 + (NSString *)stringWithHexData:(NSData *)data {

@@ -66,7 +66,7 @@
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 /** Returns the path to the directory type for the specified user.
- @param account The user account to use. If nil, the current account is used or nil if no current account
+ @param account The user account to use. If nil, the path returned corresponds to the global path type
  @param type The type of directory to return (see NSSearchPathDirectory)
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
@@ -79,5 +79,13 @@
  @return The path to the directory
  */
 - (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components;
+
+/** Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
+ return "Library/Caches/<bundleIdentifier>/"
+ @param type The type of directory to return (see NSSearchPathDirectory)
+ @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
+ @return The path to the directory
+ */
+- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 @end

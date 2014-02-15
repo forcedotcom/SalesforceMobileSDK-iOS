@@ -88,6 +88,11 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** Returns a key that uniquely identify this user instance.
+ It consists of the orgId+userId+communityId.
+ */
+@property (nonatomic, copy, readonly) NSString *userKey;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance

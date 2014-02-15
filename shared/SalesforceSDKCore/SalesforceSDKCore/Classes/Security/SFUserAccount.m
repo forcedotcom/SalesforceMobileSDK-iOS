@@ -166,6 +166,10 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
     [self didChangeValueForKey:@"photo"];
 }
 
+- (NSString*)userKey {
+    return [NSString stringWithFormat:@"%@-%@-%@", self.credentials.organizationId, self.credentials.userId, self.communityId];
+}
+
 - (NSString*)description {
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
                     self.userName, self.fullName, self.accessScopes, self.credentials, self.communityId];

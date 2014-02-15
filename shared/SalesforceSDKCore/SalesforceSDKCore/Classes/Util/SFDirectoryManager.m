@@ -88,12 +88,16 @@ static NSString * const kDefaultCommunityName = @"internal";
         // Note: if the user communityId is nil, we use the default (internal) name for it.
         return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId?:kDefaultCommunityName type:type components:components];
     } else {
-        return [self directoryForOrg:nil user:nil community:nil type:type components:components];
+        return [self globalDirectoryOfType:type components:components];
     }
 }
 
 - (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components {
     return [self directoryForUser:[SFUserAccountManager sharedInstance].currentUser type:type components:components];
+}
+
+- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components {
+    return [self directoryForOrg:nil user:nil community:nil type:type components:components];
 }
 
 @end
