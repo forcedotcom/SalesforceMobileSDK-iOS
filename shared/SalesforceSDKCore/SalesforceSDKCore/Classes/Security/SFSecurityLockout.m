@@ -66,6 +66,7 @@ static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
+static NSMutableArray *sDelegates = nil;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -75,12 +76,14 @@ static BOOL _showPasscode = YES;
 
 + (void)initialize
 {
-    [SFSecurityLockout upgradeSettings];
-    securityLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
+    [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
+    securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
+    
+    sDelegates = [NSMutableArray array];
     
     [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, NSInteger passcodeLength) {
         SFPasscodeViewController *pvc = nil;
-        if (mode == SFPasscodeControllerModeCreate ) {
+        if (mode == SFPasscodeControllerModeCreate) {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
         } else {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
@@ -118,6 +121,34 @@ static BOOL _showPasscode = YES;
         // Try to fall back to the user defaults if isLocked isn't found in the keychain
         BOOL locked = [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
         [SFSecurityLockout writeIsLockedToKeychain:[NSNumber numberWithBool:locked]];
+    }
+}
+
++ (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate
+{
+    @synchronized (self) {
+        if (delegate && ![sDelegates containsObject:delegate])
+            [sDelegates addObject:[NSValue valueWithNonretainedObject:delegate]];
+    }
+}
+
++ (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate
+{
+    @synchronized (self) {
+        if (delegate)
+            [sDelegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
+    }
+}
+
++ (void)enumerateDelegates:(void (^)(id<SFSecurityLockoutDelegate>))block
+{
+    @synchronized (self) {
+        [sDelegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFSecurityLockoutDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
     }
 }
 
@@ -245,6 +276,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             else
                 [SFSecurityLockout unlockFailurePostProcessing];
         }
+        [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
+                [delegate passcodeFlowDidComplete:success];
+            }
+        }];
 	} 
 }
 
@@ -330,6 +366,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self setIsLocked:YES];
     if (_showPasscode) {
         [self sendPasscodeFlowWillBeginNotification:modeValue];
+        [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(passcodeFlowWillBegin:)]) {
+                [delegate passcodeFlowWillBegin:modeValue];
+            }
+        }];
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
         UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];

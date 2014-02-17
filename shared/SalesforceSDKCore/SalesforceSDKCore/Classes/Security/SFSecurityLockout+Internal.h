@@ -95,4 +95,10 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
  */
 + (void)upgradeSettings;
 
+/**
+ Runs the given block of code against the list of security lockout delegates.
+ @param block The block of code to execute for each delegate.
+ */
++ (void)enumerateDelegates:(void(^)(id<SFSecurityLockoutDelegate> delegate))block;
+
 @end

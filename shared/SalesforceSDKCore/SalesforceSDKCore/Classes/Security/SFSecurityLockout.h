@@ -65,13 +65,48 @@ typedef UIViewController* (^SFPasscodeViewControllerCreationBlock)(SFPasscodeCon
  */
 typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 
+/**
+ Delegate protocol for SFSecurityLockout events and callbacks.
+ */
+@protocol SFSecurityLockoutDelegate <NSObject>
+
+@optional
+
+/**
+ Called just before the passcode flow begins and the view is displayed.
+ @param mode The mode of the passcode flow, i.e. passcode creation or verification.
+ */
+- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode;
+
+/**
+ Called after the passcode flow has completed.
+ @param success Whether or not the passcode flow was successful, i.e. the passcode was successfully
+ created or verified.
+ */
+- (void)passcodeFlowDidComplete:(BOOL)success;
+
+@end
+
 @class SFOAuthCredentials;
 
 /**
  This class interacts with the inactivity timer.
  It is responsible for locking and unlocking the device by presenting the passcode modal controller when the timer expires.
  */
-@interface SFSecurityLockout : NSObject 
+@interface SFSecurityLockout : NSObject
+
+/**
+ Adds a delegate to the list of SFSecurityLockout delegates.
+ @param delegate The delegate to add to the list.
+ */
++ (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate;
+
+/**
+ Removes a delegate from the list of SFSecurityLockout delegates.
+ @param delegate The delegate to remove from the list.
+ */
++ (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate;
+
 
 /** Get the current lockout time, in seconds
  */
