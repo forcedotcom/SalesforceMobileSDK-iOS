@@ -28,6 +28,8 @@
 
 @property (atomic, readwrite, strong) NSDate *lastEventDate;
 
+- (void)keyPressed:(NSNotification *)notification;
+
 @end
 
 @implementation SFApplication
@@ -41,14 +43,18 @@
     self = [super init];
     if (self) {
         self.lastEventDate = [NSDate date];
+        NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
+        [ctr addObserver:self selector:@selector(keyPressed:) name:UITextFieldTextDidChangeNotification object:nil];
+        [ctr addObserver:self selector:@selector(keyPressed:) name:UITextViewTextDidChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    SFRelease(_lastEventDate);
-    
+    NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
+    [ctr removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+    [ctr removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
 #pragma mark - Event handling
@@ -58,12 +64,17 @@
     NSSet *allTouches = [event allTouches];
     if ([allTouches count] > 0) {
         UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
-        if (phase == UITouchPhaseBegan || phase == UITouchPhaseEnded) {
+        if (phase == UITouchPhaseEnded) {
             self.lastEventDate = [NSDate date];
         }
     }
     
     [super sendEvent:event];
+}
+
+- (void)keyPressed:(NSNotification *)notification
+{
+    self.lastEventDate = [NSDate date];
 }
 
 @end
