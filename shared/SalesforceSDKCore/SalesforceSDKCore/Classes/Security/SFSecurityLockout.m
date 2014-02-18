@@ -67,6 +67,7 @@ static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBloc
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
 static NSMutableArray *sDelegates = nil;
+static BOOL sForcePasscodeDisplay = NO;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -293,16 +294,29 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 	[SFSecurityLockout lock];
 }
 
++ (void)setForcePasscodeDisplay:(BOOL)forceDisplay
+{
+    sForcePasscodeDisplay = forceDisplay;
+}
+
++ (BOOL)forcePasscodeDisplay
+{
+    return sForcePasscodeDisplay;
+}
+
 + (void)lock
 {
-	if(![SFSecurityLockout hasValidSession]) {
-		[self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
-		return;
-	}
-    
-    if (![[SFAuthenticationManager sharedManager] mobilePinPolicyConfigured]) {
-        [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
-        return;
+    if (!sForcePasscodeDisplay) {
+        // Only go through sanity checks for locking if we don't want to force the passcode screen.
+        if (![SFSecurityLockout hasValidSession]) {
+            [self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
+            return;
+        }
+        
+        if (![[SFAuthenticationManager sharedManager] mobilePinPolicyConfigured]) {
+            [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
+            return;
+        }
     }
     
 	if(![[SFPasscodeManager sharedManager] passcodeIsSet]) {
@@ -311,6 +325,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
     }
     [self log:SFLogLevelInfo msg:@"Device locked."];
+    sForcePasscodeDisplay = NO;
 }
 
 + (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock
@@ -417,6 +432,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
 	if(securityLockoutTime == 0) return YES; // no passcode is required.
     return([[SFPasscodeManager sharedManager] passcodeIsSet]);
+}
+
++ (BOOL)isPasscodeNeeded
+{
+    BOOL result = [self inactivityExpired] || ![self isPasscodeValid];
+    result = result || sForcePasscodeDisplay;
+    return result;
 }
 
 + (BOOL)isLockoutEnabled

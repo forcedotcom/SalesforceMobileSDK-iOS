@@ -162,6 +162,10 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  */
 + (BOOL)isPasscodeValid;
 
+/** Check to see if the passcode screen is needed.
+ */
++ (BOOL)isPasscodeNeeded;
+
 /** Set the passcode
  @param passcode The passcode to set.
  */
@@ -243,6 +247,19 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  * is not currently displayed.
  */
 + (UIViewController *)passcodeViewController;
+
+/**
+ * Whether to force the passcode screen to be displayed, despite sanity conditions for whether passcodes
+ * are configured.  This method is only useful for unit test code, and the value should otherwise be left
+ * to its default value of NO.
+ * @param forceDisplay Whether to force the passcode screen to be displayed.  Default value is NO.
+ */
++ (void)setForcePasscodeDisplay:(BOOL)forceDisplay;
+
+/**
+ * @return Whether or not the app is configured to force the display of the passcode screen.
+ */
++ (BOOL)forcePasscodeDisplay;
 
 @end
 
