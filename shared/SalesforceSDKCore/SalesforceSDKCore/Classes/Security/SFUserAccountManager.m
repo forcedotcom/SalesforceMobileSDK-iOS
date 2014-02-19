@@ -411,7 +411,7 @@ static NSString * const kUserPrefix = @"005";
 // called by init
 - (BOOL)loadAccounts:(NSError**)error {
     // Make sure we start from a blank state
-    [self removeAllAccounts];
+    [self clearAllAccountState];
     
     // Get the root directory, usually ~/Library/<appBundleId>/
     NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
@@ -539,7 +539,7 @@ static NSString * const kUserPrefix = @"005";
     }
 }
 
-- (void)removeAllAccounts {
+- (void)clearAllAccountState {
     [self.userAccountMap removeAllObjects];
 }
 

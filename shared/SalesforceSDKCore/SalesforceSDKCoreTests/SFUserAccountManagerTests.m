@@ -22,7 +22,7 @@
 @implementation SFUserAccountManagerTests
 
 - (void)setUp {
-    [SFUserAccountManager setClientId:@"SfdcMobileChatteriOS"];
+    [SFUserAccountManager setClientId:@"fakeClientIdForTesting"];
 
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
@@ -30,7 +30,7 @@
 
     // Ensure the user account manager doesn't contain any account
     self.uam = [SFUserAccountManager sharedInstance];
-    [self.uam removeAllAccounts];
+    [self.uam clearAllAccountState];
     
     [super setUp];
 }
@@ -56,7 +56,7 @@
     STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
     
     // Now remove all the users and re-load
-    [self.uam removeAllAccounts];
+    [self.uam clearAllAccountState];
     STAssertEquals(self.uam.allUserIds.count, (NSUInteger)0, @"There should be no accounts");
 
     STAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);
@@ -94,7 +94,7 @@
     
     // Remove and re-load all accounts
     {
-        [self.uam removeAllAccounts];
+        [self.uam clearAllAccountState];
         STAssertEquals(self.uam.allUserIds.count, (NSUInteger)0, @"There should be no accounts");
 
         STAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);

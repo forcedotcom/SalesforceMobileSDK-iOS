@@ -231,9 +231,9 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 - (void)deleteAccountForUserId:(NSString*)userId;
 
-/** Removes all the accounts
+/** Clear all the accounts state (but do not change anything on the disk).
  */
-- (void)removeAllAccounts;
+- (void)clearAllAccountState;
 
 /** Truncate user ID to 15 chars
  */
