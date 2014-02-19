@@ -80,13 +80,18 @@ static NSString * const kAppSettingsLoginHostCustomValue = @"custom_login_host_p
 // Value for kAppSettingsLoginHost when a custom host is chosen.
 static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
 
+// Name of the individual file containing the archived SFUserAccount class
+static NSString * const kUserAccountPlistFileName = @"UserAccount.plist";
+
+// Prefix of an org ID
+static NSString * const kOrgPrefix = @"00D";
+
+// Prefix of a user ID
+static NSString * const kUserPrefix = @"005";
+
 #pragma mark - SFLoginHostUpdateResult
 
 @implementation SFLoginHostUpdateResult
-
-@synthesize originalLoginHost = _originalLoginHost;
-@synthesize updatedLoginHost = _updatedLoginHost;
-@synthesize loginHostChanged = _loginHostChanged;
 
 - (id)initWithOrigHost:(NSString *)originalLoginHost
            updatedHost:(NSString *)updatedLoginHost
@@ -154,7 +159,7 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
         
         _userAccountMap = [[NSMutableDictionary alloc] init];
         
-        [self loadAccounts];
+        [self loadAccounts:nil];
 	}
 	return self;
 }
@@ -381,7 +386,7 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     //don't set this as the current user account until somebody
     //asks us to login with this account.
     [self addAccount:newAcct];
-    
+
     return newAcct;
 }
 
@@ -397,37 +402,71 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     return newAcct;
 }
 
-+ (NSString*)userAccountsPlistFile {
-    NSString *directory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:@[@"mobilesdk"]];
++ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user {
+    NSString *directory = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
     [SFDirectoryManager ensureDirectoryExists:directory error:nil];
-    return [directory stringByAppendingPathComponent:@"UserAccounts.plist"];
+    return [directory stringByAppendingPathComponent:kUserAccountPlistFileName];
 }
 
 // called by init
-- (void)loadAccounts {
-    NSString *path = [[self class] userAccountsPlistFile];
-	
-    NSMutableDictionary *rootObject = nil;
-    @try {
-        rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    }
-    @catch (NSException *exception) {
-        // If we received an exception when unarchiving this object, remove
-        // it from disk and return a nil object
-        rootObject = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-        [self log:SFLogLevelError format:@"Error decrypting user accounts %@: %@", path, exception];
-    }
-
-    NSDictionary *savedAcctMap =  [rootObject objectForKey:kUserAccountsMapCodingKey];
-    if (nil == savedAcctMap) {
-        savedAcctMap = [NSDictionary dictionary];
-    }
-    NSMutableDictionary *mutableMap = [[NSMutableDictionary alloc] initWithDictionary:savedAcctMap];
-    // Remove the temporary user if one exists
-    [mutableMap removeObjectForKey:SFUserAccountManagerDefaultUserAccountId];
+- (BOOL)loadAccounts:(NSError**)error {
+    // Make sure we start from a blank state
+    [self removeAllAccounts];
     
-    self.userAccountMap = mutableMap;
+    // Get the root directory, usually ~/Library/<appBundleId>/
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:rootDirectory]) {
+        // There is no root directory, that's fine, probably a fresh app install,
+        // new user will be created later on.
+        return YES;
+    }
+    
+    // Now iterate over the org and then user directories to load
+    // each individual user account file.
+    // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
+    NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
+    if (nil == rootContents) {
+        [self log:SFLogLevelError format:@"Unable to enumerate the content at %@: %@", rootDirectory, error];
+        return NO;
+    } else {
+        for (NSString *rootContent in rootContents) {
+            // Ignore content that don't represent an organization
+            if (![rootContent hasPrefix:kOrgPrefix]) continue;
+
+            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+            
+            // Fetch the content of the org directory
+            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
+            if (nil == orgContents) {
+                [self log:SFLogLevelError format:@"Unable to enumerate the content at %@: %@", rootPath, error];
+                continue;
+            }
+            
+            for (NSString *orgContent in orgContents) {
+                // Ignore content that don't represent a user
+                if (![orgContent hasPrefix:kUserPrefix]) continue;
+
+                NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
+                
+                // Now let's try to load the user account file in there
+                NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
+                if ([fm fileExistsAtPath:userAccountPath]) {
+                    SFUserAccount *userAccount = nil;
+                    @try {
+                        userAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:userAccountPath];
+                        [self addAccount:userAccount];
+                    }
+                    @catch (NSException *exception) {
+                        [[NSFileManager defaultManager] removeItemAtPath:userAccountPath error:nil];
+                        [self log:SFLogLevelError format:@"Error decrypting user account %@: %@", userAccountPath, exception];
+                    }
+                } else {
+                    [self log:SFLogLevelWarning format:@"There is no user account file in this user directory: %@", orgPath];
+                }
+            }
+        }
+    }
     
     NSString *curUserId = [self activeUserId];
     
@@ -450,18 +489,40 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     [[[self currentUser] credentials] setClientId:[self oauthClientId]];
     
     [self userCredentialsChanged];
+    
+    return YES;
 }
 
-- (void)saveAccounts {
-    NSString *path = [[self class] userAccountsPlistFile];
-    
-	NSMutableDictionary *rootObject = [NSMutableDictionary dictionary];    
-	[rootObject setValue:self.userAccountMap forKey:kUserAccountsMapCodingKey];
-    
-	BOOL result = [NSKeyedArchiver archiveRootObject:rootObject toFile:path];
-    if (!result) {
-        [self log:SFLogLevelError format:@"failed to archive user accounts: %@", rootObject];
+- (BOOL)saveAccounts:(NSError**)error {
+    for (NSString *userId in self.userAccountMap) {
+        // Don't save the temporary user id
+        if ([userId isEqualToString:SFUserAccountManagerDefaultUserAccountId]) {
+            continue;
+        }
+        
+        // Grab the user account...
+        SFUserAccount *user = self.userAccountMap[userId];
+        
+        // And it's persistent file path
+        NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
+        
+        // Make sure to remove any existing file
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:userAccountPath]) {
+            if (![fm removeItemAtPath:userAccountPath error:error]) {
+                [self log:SFLogLevelError format:@"failed to remove old user account %@: %@", userAccountPath, error];
+                return NO;
+            }
+        }
+        
+        // And now save its content
+        if (![NSKeyedArchiver archiveRootObject:user toFile:userAccountPath]) {
+            [self log:SFLogLevelError format:@"failed to archive user account: %@", userAccountPath];
+            return NO;
+        }
     }
+    
+    return YES;
 }
 
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
@@ -475,14 +536,16 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     SFUserAccount *acct = [self userAccountForUserId:safeUserId];
     if (nil != acct) {
         [self.userAccountMap removeObjectForKey:safeUserId];
-        [self saveAccounts];
     }
+}
+
+- (void)removeAllAccounts {
+    [self.userAccountMap removeAllObjects];
 }
 
 - (void)addAccount:(SFUserAccount*)acct {
     NSString *safeUserId = [self makeUserIdSafe:acct.credentials.userId];
     [self.userAccountMap setObject:acct forKey:safeUserId];
-	[self saveAccounts];
 }
 
 - (NSString *)activeUserId {
@@ -511,7 +574,6 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     if (!defUserId || [defUserId isEqualToString:oldUserId]) {
         [self setActiveUserId:newUserId];
     }
-    [self saveAccounts]; //persist the data
 }
 
 - (void)setCurrentUser:(SFUserAccount*)user {    
@@ -547,8 +609,6 @@ static NSString * const kAppSettingsLoginHostIsCustom = @"CUSTOM";
     } else {
         self.currentUser.credentials = credentials;
     }
-    
-    [self saveAccounts];
     
     //if our default user id is currently the temporary user id,
     //we need to update it with the latest known good user id

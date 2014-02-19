@@ -470,6 +470,7 @@ static Class InstanceClass = nil;
     
     [self willChangeValueForKey:@"haveValidSession"];
     [userAccountManager deleteAccountForUserId:userId];
+    [userAccountManager saveAccounts:nil];
     [userAccount.credentials revoke];
     userAccountManager.currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
@@ -785,6 +786,7 @@ static Class InstanceClass = nil;
     
     // Update the user account manager first before invoking the completion blocks
     [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
+    [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     // Notify the session is ready
     [self willChangeValueForKey:@"currentUser"];
@@ -890,6 +892,7 @@ static Class InstanceClass = nil;
 	if (nil == account) {
         [self log:SFLogLevelInfo format:@"no current user account so creating a new one"];
         account = [[SFUserAccountManager sharedInstance] createUserAccount];
+        [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 	}
     
     [self loginWithUser:account];
@@ -996,7 +999,7 @@ static Class InstanceClass = nil;
     
     // Save the accounts (and credentials) when the identity information
     // changes so we have the latest stored on disk.
-    [[SFUserAccountManager sharedInstance] saveAccounts];
+    [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     if ([self mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
