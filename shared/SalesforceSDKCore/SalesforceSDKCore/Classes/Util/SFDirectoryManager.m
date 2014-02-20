@@ -81,6 +81,27 @@ static NSString * const kDefaultCommunityName = @"internal";
     }
 }
 
+- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components {
+    switch (scope) {
+        case SFUserAccountScopeGlobal:
+            return [self directoryForOrg:nil user:nil community:nil type:type components:components];
+            
+        case SFUserAccountScopeOrg:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
+            
+        case SFUserAccountScopeUser:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            NSAssert(user.credentials.userId, @"User ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
+            
+        case SFUserAccountScopeCommunity:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            NSAssert(user.credentials.userId, @"User ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
+    }
+}
+
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         NSAssert(user.credentials.organizationId, @"Organization ID must be set");

@@ -23,10 +23,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFUserAccountConstants.h"
 
 @class SFUserAccount;
 
-/** Global directory manager that returns scoped directory. The scoping is enforced 
+/** Global directory manager that returns scoped directory. The scoping is enforced
  by taking into account the organizationId, the userId and the communityId.
  
  The general structure follows this general template:
@@ -64,6 +65,15 @@
  @return The path to the directory
  */
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components;
+
+/** Returns the path to the directory type for the specified user and scope
+ @param user The user account to use. If nil, the path returned corresponds to the global path type
+ @param scope The scope to use
+ @param type The type of directory to return (see NSSearchPathDirectory)
+ @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
+ @return The path to the directory
+ */
+- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components;
 
 /** Returns the path to the directory type for the specified user.
  @param account The user account to use. If nil, the path returned corresponds to the global path type
