@@ -475,6 +475,11 @@ static Class InstanceClass = nil;
     
     NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
+            [delegate authManagerDidLogout:self];
+        }
+    }];
 }
 
 - (void)cancelAuthentication
@@ -544,6 +549,12 @@ static Class InstanceClass = nil;
         [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
         [self cancelAuthentication];
         [self clearAccountState:NO];
+        [SFUserAccountManager sharedInstance].currentUser = nil;
+        [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(authManager:didChangeLoginHost:)]) {
+                [delegate authManager:self didChangeLoginHost:result];
+            }
+        }];
     } else {
         // Check to display pin code screen.
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
@@ -1086,8 +1097,14 @@ static Class InstanceClass = nil;
                                                      if ([[weakSelf class] errorIsNetworkFailure:error]) {
                                                          [weakSelf log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
                                                          
-                                                         [weakSelf loggedIn];
-                                                         return YES;
+                                                         if (authInfo.authType == SFOAuthTypeUserAgent) {
+                                                             [weakSelf log:SFLogLevelError msg:@"Network failure for OAuth User Agent flow is a fatal error."];
+                                                             return NO;  // Default error handler will show the error.
+                                                         } else {
+                                                             [weakSelf log:SFLogLevelInfo msg:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
+                                                             [weakSelf loggedIn];
+                                                             return YES;
+                                                         }
                                                      }
                                                      return NO;
                                                  }];
@@ -1229,12 +1246,13 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator {
-    __block BOOL result = NO;
+    __block BOOL result = YES;
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManagerIsNetworkAvailable:)]) {
             result = [delegate authManagerIsNetworkAvailable:self];
         }
     }];
+    
     return result;
 }
 
@@ -1255,6 +1273,7 @@ static Class InstanceClass = nil;
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (alertView == _statusAlert) {
+        _statusAlert = nil;
         [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
         if (alertView.tag == kOAuthGenericAlertViewTag) {
             [self dismissAuthViewControllerIfPresent];
@@ -1265,8 +1284,6 @@ static Class InstanceClass = nil;
             // The OAuth failure block should be followed, after acknowledging the version mismatch.
             [self execFailureBlocks];
         }
-        
-        SFRelease(_statusAlert);
     }
 }
 
