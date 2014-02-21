@@ -27,6 +27,7 @@
 #import "SFUserAccount.h"
 
 static NSString * const kDefaultOrgName = @"org";
+static NSString * const kDefaultCommunityName = @"internal";
 
 @implementation SFDirectoryManager
 
@@ -64,9 +65,7 @@ static NSString * const kDefaultOrgName = @"org";
             directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:orgId]];
             if (userId) {
                 directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:userId]];
-                if (nil == communityId) {
-                    directory = [directory stringByAppendingPathComponent:@"internal"];
-                } else {
+                if (communityId) {
                     directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:communityId]];
                 }
             }
@@ -82,18 +81,44 @@ static NSString * const kDefaultOrgName = @"org";
     }
 }
 
+- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components {
+    switch (scope) {
+        case SFUserAccountScopeGlobal:
+            return [self directoryForOrg:nil user:nil community:nil type:type components:components];
+            
+        case SFUserAccountScopeOrg:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
+            
+        case SFUserAccountScopeUser:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            NSAssert(user.credentials.userId, @"User ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
+            
+        case SFUserAccountScopeCommunity:
+            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            NSAssert(user.credentials.userId, @"User ID must be set");
+            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
+    }
+}
+
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         NSAssert(user.credentials.organizationId, @"Organization ID must be set");
         NSAssert(user.credentials.userId, @"User ID must be set");
-        return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
+        // Note: if the user communityId is nil, we use the default (internal) name for it.
+        return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId?:kDefaultCommunityName type:type components:components];
     } else {
-        return [self directoryForOrg:nil user:nil community:nil type:type components:components];
+        return [self globalDirectoryOfType:type components:components];
     }
 }
 
 - (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components {
     return [self directoryForUser:[SFUserAccountManager sharedInstance].currentUser type:type components:components];
+}
+
+- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components {
+    return [self directoryForOrg:nil user:nil community:nil type:type components:components];
 }
 
 @end

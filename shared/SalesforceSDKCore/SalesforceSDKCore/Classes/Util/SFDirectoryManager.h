@@ -23,28 +23,21 @@
  */
 
 #import <Foundation/Foundation.h>
-
-/** Global directory manager that returns various scoped persistent or cached directories.
- The scoping is enforced by taking into account the user and the community the user is logged in.
- The general structure is as follow:
- Documents
-	<orgId+userId>
-		<internal> : internal community or base org
-		[<communityId>]* : zero or more community specific folder
-
- Library
-	Caches
-		<orgId+userId>
-			<internal> : internal community or base org
-			[<communityId>]* : zero or more community specific folder
-
- For example:
-    Library/Caches/005R0000000HiM9/0DBR00000004CECOA2/
-    Library/Caches/005R0000000HiM9/internal/    : "internal" refers to the internal (or base) community
- */
+#import "SFUserAccountConstants.h"
 
 @class SFUserAccount;
 
+/** Global directory manager that returns scoped directory. The scoping is enforced
+ by taking into account the organizationId, the userId and the communityId.
+ 
+ The general structure follows this general template:
+ <NSSearchPathDirectory> <-- For example, NSCachesDirectory will return Library/Caches
+    <bundleIdentifier>   <-- For example, com.salesforce.chatter
+        <orgId>
+            <userId>
+                <internal> : internal community or base org
+                [<communityId>]* : zero or more community specific folder
+ */
 @interface SFDirectoryManager : NSObject
 
 /** Returns the singleton of this manager
@@ -64,17 +57,26 @@
 + (NSString*)safeStringForDiskRepresentation:(NSString*)candidate;
 
 /** Returns the path to the directory type for the specified org, user and community.
- @param orgId The organization ID. If nil, this method returns the global cache directory (Library/Caches)
- @param userId The user ID. If nil, this method returns the global cache directory (Library/Caches)
- @param communityId The community ID. If nil, this method returns the directory to the internal org (Library/Caches/.../internal/)
+ @param orgId The organization ID. If nil, this method returns the global directory type requested (eg Library/Caches)
+ @param userId The user ID. If nil, this method returns the directory type requested, scoped at the org level (eg Library/Caches/<orgId>/)
+ @param communityId The community ID. If nil, this method returns the directory type requested, scoped at the user level (eg Library/Caches/<orgId>/<userId>)
  @param type The type of directory to return (see NSSearchPathDirectory)
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components;
 
+/** Returns the path to the directory type for the specified user and scope
+ @param user The user account to use. If nil, the path returned corresponds to the global path type
+ @param scope The scope to use
+ @param type The type of directory to return (see NSSearchPathDirectory)
+ @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
+ @return The path to the directory
+ */
+- (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components;
+
 /** Returns the path to the directory type for the specified user.
- @param account The user account to use. If nil, the current account is used or nil if no current account
+ @param account The user account to use. If nil, the path returned corresponds to the global path type
  @param type The type of directory to return (see NSSearchPathDirectory)
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
@@ -87,5 +89,13 @@
  @return The path to the directory
  */
 - (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components;
+
+/** Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
+ return "Library/Caches/<bundleIdentifier>/"
+ @param type The type of directory to return (see NSSearchPathDirectory)
+ @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
+ @return The path to the directory
+ */
+- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components;
 
 @end

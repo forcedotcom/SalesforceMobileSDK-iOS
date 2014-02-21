@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
- Author: Amol Prabhu
+ Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,25 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuth_NSString+Additions.h"
-#import <CommonCrypto/CommonDigest.h>
+/** User account restrictions
+ */
+typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
+    SFUserAccountAccessRestrictionNone    = 0,
+    SFUserAccountAccessRestrictionChatter = 1 << 0,
+    SFUserAccountAccessRestrictionREST    = 1 << 1,
+    SFUserAccountAccessRestrictionOther   = 1 << 2,
+};
 
-@implementation NSString (CryptoAdditions)
+/** The various scopes related to a user account
+ */
+typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
+    /** Global scope (one per application)
+     */
+    SFUserAccountScopeGlobal = 0,
+    
+    /** Scope by organization
+     */
+    SFUserAccountScopeOrg,
+    
+    /** Scope by user
+     */
+    SFUserAccountScopeUser,
+    
+    /** Scope by community
+     */
+    SFUserAccountScopeCommunity
+};
 
-+ (NSString *)stringWithHexData:(NSData *)data {
-    if (nil == data) return nil;
-    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
-	const unsigned char *dataBuffer = [data bytes];
-	for (int i = 0; i < [data length]; ++i) {
-		[stringBuffer appendFormat:@"%02lx", (unsigned long)dataBuffer[ i ]];
-    }
-    return [NSString stringWithString:stringBuffer];
-}
-
-- (NSData *)sha256 {
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
-    CC_SHA256([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
-    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-}
-
-@end

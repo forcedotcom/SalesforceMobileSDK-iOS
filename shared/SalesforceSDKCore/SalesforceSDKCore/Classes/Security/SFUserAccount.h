@@ -25,15 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFCommunityData.h"
-
-/** User account restrictions
- */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
-    SFUserAccountAccessRestrictionNone    = 0,
-    SFUserAccountAccessRestrictionChatter = 1 << 0,
-    SFUserAccountAccessRestrictionREST    = 1 << 1,
-    SFUserAccountAccessRestrictionOther   = 1 << 2,
-};
+#import "SFUserAccountConstants.h"
 
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
@@ -97,5 +89,15 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
 /** Returns the community dictionary for the specified ID
  */
 - (SFCommunityData*)communityWithId:(NSString*)communityId;
+
+/** Function that returns a key that uniquely identifies this user account for the
+ given scope. Note that if you use SFUserAccountScopeGlobal,
+ the same key will be returned regardless of the user account.
+ 
+ @user The user
+ @scope The scope
+ @return a key identifying this user account for the specified scope
+ */
+NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope);
 
 @end

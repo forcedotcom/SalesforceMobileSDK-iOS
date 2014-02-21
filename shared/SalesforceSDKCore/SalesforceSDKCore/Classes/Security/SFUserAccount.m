@@ -40,6 +40,10 @@ static NSString * const kUser_USER_NAME         = @"userName";
 static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
 
+/** Key that identifies the global scope
+ */
+static NSString * const kGlobalScopingKey = @"-global-";
+
 @implementation SFUserAccount
 
 @synthesize photo = _photo;
@@ -131,7 +135,7 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 /** Returns the path to the user's photo.
  */
 - (NSString*)photoPath {
-    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForOrg:self.credentials.organizationId user:self.credentials.userId community:self.communityId type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
+    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForUser:self type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
     [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:nil];
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:self.credentials.userId]];
 }
@@ -166,17 +170,46 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
     [self didChangeValueForKey:@"photo"];
 }
 
+- (BOOL)isSessionValid {
+    return (self.credentials.accessToken != nil);
+}
+
 - (NSString*)description {
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
                     self.userName, self.fullName, self.accessScopes, self.credentials, self.communityId];
     return s;
 }
 
-#pragma mark -
-#pragma mark Public
-
-- (BOOL)isSessionValid {
-    return (self.credentials.accessToken != nil);
+NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
+    if (SFUserAccountScopeGlobal == scope) {
+        return kGlobalScopingKey;
+    } else {
+        assert(user);
+        NSString *key;
+        switch (scope) {
+            case SFUserAccountScopeGlobal:
+                key = kGlobalScopingKey;
+                break;
+                
+            case SFUserAccountScopeOrg:
+                assert(user.credentials.organizationId);
+                key = user.credentials.organizationId;
+                break;
+                
+            case SFUserAccountScopeUser:
+                assert(user.credentials.organizationId);
+                assert(user.credentials.userId);
+                key = [NSString stringWithFormat:@"%@-%@", user.credentials.organizationId, user.credentials.userId];
+                break;
+                
+            case SFUserAccountScopeCommunity:
+                assert(user.credentials.organizationId);
+                assert(user.credentials.userId);
+                key = [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
+                break;
+        }
+        return key;
+    }
 }
 
 @end

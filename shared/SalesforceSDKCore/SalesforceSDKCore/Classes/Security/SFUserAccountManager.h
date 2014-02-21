@@ -188,9 +188,12 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 + (void)setClientId:(NSString *)newClientId;
 
-/** Returns the file that contains the user account plist
+/**
+ Returns the path of the user account plist file for the specified user
+ @param user The user
+ @return the path to the user account plist of the specified user
  */
-+ (NSString*)userAccountsPlistFile;
++ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 /**
  * Synchronizes the app-level login host setting with the value in app settings.
@@ -200,12 +203,16 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 - (SFLoginHostUpdateResult *)updateLoginHost;
 
 /** Loads all the accounts.
+ @param error On output, the error if the return value is NO
+ @return YES if the accounts were loaded properly, NO in case of error
  */
-- (void)loadAccounts;
+- (BOOL)loadAccounts:(NSError**)error;
 
 /** Save all the accounts.
+ @param error On output, the error if the return value is NO
+ @return YES if the accounts were saved properly, NO in case of error
  */
-- (void)saveAccounts;
+- (BOOL)saveAccounts:(NSError**)error;
 
 /** Can be used to create an empty user account if you wish to configure all of the account info yourself.
  Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
@@ -223,6 +230,10 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 /** Allows you to remove a user account associated with the given user ID.
  */
 - (void)deleteAccountForUserId:(NSString*)userId;
+
+/** Clear all the accounts state (but do not change anything on the disk).
+ */
+- (void)clearAllAccountState;
 
 /** Truncate user ID to 15 chars
  */
