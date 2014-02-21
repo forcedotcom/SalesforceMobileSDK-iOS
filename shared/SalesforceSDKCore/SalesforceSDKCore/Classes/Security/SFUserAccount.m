@@ -40,6 +40,10 @@ static NSString * const kUser_USER_NAME         = @"userName";
 static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
 
+/** Key that identifies the global scope
+ */
+static NSString * const kGlobalScopingKey = @"-global-";
+
 @implementation SFUserAccount
 
 @synthesize photo = _photo;
@@ -166,8 +170,8 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
     [self didChangeValueForKey:@"photo"];
 }
 
-- (NSString*)userKey {
-    return [NSString stringWithFormat:@"%@-%@-%@", self.credentials.organizationId, self.credentials.userId, self.communityId];
+- (BOOL)isSessionValid {
+    return (self.credentials.accessToken != nil);
 }
 
 - (NSString*)description {
@@ -176,11 +180,36 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
     return s;
 }
 
-#pragma mark -
-#pragma mark Public
-
-- (BOOL)isSessionValid {
-    return (self.credentials.accessToken != nil);
+NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
+    if (SFUserAccountScopeGlobal == scope) {
+        return kGlobalScopingKey;
+    } else {
+        assert(user);
+        NSString *key;
+        switch (scope) {
+            case SFUserAccountScopeGlobal:
+                key = kGlobalScopingKey;
+                break;
+                
+            case SFUserAccountScopeOrg:
+                assert(user.credentials.organizationId);
+                key = user.credentials.organizationId;
+                break;
+                
+            case SFUserAccountScopeUser:
+                assert(user.credentials.organizationId);
+                assert(user.credentials.userId);
+                key = [NSString stringWithFormat:@"%@-%@", user.credentials.organizationId, user.credentials.userId];
+                break;
+                
+            case SFUserAccountScopeCommunity:
+                assert(user.credentials.organizationId);
+                assert(user.credentials.userId);
+                key = [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
+                break;
+        }
+        return key;
+    }
 }
 
 @end
