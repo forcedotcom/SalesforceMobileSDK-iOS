@@ -104,7 +104,16 @@ static NSString * const kGlobalScopingKey = @"-global-";
 	return self;
 }
 
+- (void)setCredentials:(SFOAuthCredentials *)credentials {
+    [self willChangeValueForKey:@"credentials"];
+    _credentials = credentials;
+#warning TODO community: until TD-0018672 is completed, we have to hack around the instanceUrl being not set to the proper community (so we hack it here by applying the communityId which will update the instanceUrl to the correct value).
+    self.communityId = self.communityId;
+    [self didChangeValueForKey:@"credentials"];
+}
+
 - (void)setCommunityId:(NSString *)communityId {
+    [self willChangeValueForKey:@"communityId"];
     if (nil == communityId) {
         _communityId = nil;
 #warning TODO community: for now we use the identityUrl to build the internal community but let's change that once TD-0018672 is completed by the oauth team
@@ -121,6 +130,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _communityId = communityData.entityId;
         self.credentials.instanceUrl = communityData.siteUrl;
     }
+    [self didChangeValueForKey:@"communityId"];
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
