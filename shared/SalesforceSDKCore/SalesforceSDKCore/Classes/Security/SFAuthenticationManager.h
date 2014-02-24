@@ -33,6 +33,7 @@
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
+@class SFLoginHostUpdateResult;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -105,6 +106,20 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  @return YES if the network is available, NO otherwise
  */
 - (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
+
+/**
+ Called when the login host changes from one value to another.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param updateResult The results of the update, including previous login host, new login host, and whether there was
+ an actual change.
+ */
+- (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult;
+
+/**
+ Called after the auth manager logs out.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidLogout:(SFAuthenticationManager *)manager;
 
 @end
 
