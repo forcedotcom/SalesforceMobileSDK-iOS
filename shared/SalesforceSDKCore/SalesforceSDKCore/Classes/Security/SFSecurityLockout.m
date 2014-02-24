@@ -66,7 +66,7 @@ static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
-static NSMutableArray *sDelegates = nil;
+static NSMutableOrderedSet *sDelegates = nil;
 static BOOL sForcePasscodeDisplay = NO;
 
 // Flag used to prevent the display of the passcode view controller.
@@ -80,7 +80,7 @@ static BOOL _showPasscode = YES;
     [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
     securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
     
-    sDelegates = [NSMutableArray array];
+    sDelegates = [NSMutableOrderedSet orderedSet];
     
     [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, NSInteger passcodeLength) {
         SFPasscodeViewController *pvc = nil;
@@ -128,16 +128,20 @@ static BOOL _showPasscode = YES;
 + (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate
 {
     @synchronized (self) {
-        if (delegate && ![sDelegates containsObject:delegate])
-            [sDelegates addObject:[NSValue valueWithNonretainedObject:delegate]];
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [sDelegates addObject:nonretainedDelegate];
+        }
     }
 }
 
 + (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate
 {
     @synchronized (self) {
-        if (delegate)
-            [sDelegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [sDelegates removeObject:nonretainedDelegate];
+        }
     }
 }
 

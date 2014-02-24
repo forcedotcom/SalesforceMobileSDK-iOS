@@ -41,7 +41,6 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFSmartStore.h"
-#import "SalesforceSDKConstants.h"
 
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
@@ -157,7 +156,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
      */
     BOOL _isAppLaunch;
     
-    NSMutableArray *_delegates;
+    NSMutableOrderedSet *_delegates;
 }
 
 /**
@@ -342,7 +341,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        _delegates = [[NSMutableArray alloc] init];
+        _delegates = [[NSMutableOrderedSet alloc] init];
         self.preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -1152,14 +1151,20 @@ static Class InstanceClass = nil;
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate
 {
     @synchronized(self) {
-        [_delegates addObject:[NSValue valueWithNonretainedObject:delegate]];
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates addObject:nonretainedDelegate];
+        }
     }
 }
 
 - (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate
 {
     @synchronized(self) {
-        [_delegates removeObject:[NSValue valueWithNonretainedObject:delegate]];
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates removeObject:nonretainedDelegate];
+        }
     }
 }
 
