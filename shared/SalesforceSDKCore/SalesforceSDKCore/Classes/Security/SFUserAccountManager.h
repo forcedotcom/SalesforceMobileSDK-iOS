@@ -35,7 +35,7 @@ extern NSString * const SFUserAccountManagerDidUpdateCredentialsNotification;
 extern NSString * const SFUserAccountManagerDidCreateUserNotification;
 
 // The default temporary user ID
-extern NSString * const SFUserAccountManagerDefaultUserAccountId;
+extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 /**
  Identifies the notification for the login host changing in the app's settings.

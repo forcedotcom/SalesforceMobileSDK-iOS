@@ -39,6 +39,7 @@ static NSString * const kUser_SESSION_EXPIRES   = @"sessionExpiresAt";
 static NSString * const kUser_USER_NAME         = @"userName";
 static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
+static NSString * const kUser_ID_DATA           = @"idData";
 
 /** Key that identifies the global scope
  */
@@ -47,10 +48,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
 @implementation SFUserAccount
 
 @synthesize photo = _photo;
-
-+ (void)initialize {
-    [self setVersion:1];
-}
 
 - (id)init {
     return [self initWithIdentifier:[SFUserAccountManager clientId]];
@@ -75,8 +72,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_sessionExpiresAt forKey:kUser_SESSION_EXPIRES];
     [encoder encodeObject:_userName forKey:kUser_USER_NAME];
     [encoder encodeObject:_credentials forKey:kUser_CREDENTIALS];
-    [encoder encodeObject:self.communityId forKey:kUser_COMMUNITY_ID];
-    [encoder encodeObject:self.communities forKey:kUser_COMMUNITIES];
+    [encoder encodeObject:_idData forKey:kUser_ID_DATA];
+    [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
+    [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
@@ -86,20 +84,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _email = [decoder decodeObjectForKey:kUser_EMAIL];
         _fullName = [decoder decodeObjectForKey:kUser_FULL_NAME];
         _credentials = [decoder decodeObjectForKey:kUser_CREDENTIALS];
+        _idData = [decoder decodeObjectForKey:kUser_ID_DATA];
         _organizationName = [decoder decodeObjectForKey:kUser_ORGANIZATION_NAME];
         _sessionExpiresAt = [decoder decodeObjectForKey:kUser_SESSION_EXPIRES];
         _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
-        switch ([decoder versionForClassName:NSStringFromClass([self class])]) {
-            case 0: // Version before community support
-                self.communityId = nil;
-                self.communities = nil;
-                break;
-                
-            case 1: // Community support
-                self.communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
-                self.communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
-                break;
-        };
+        _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
+        _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
 	}
 	return self;
 }
@@ -181,7 +171,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isSessionValid {
-    return (self.credentials.accessToken != nil);
+    // A session is considered "valid" when the user
+    // has an access token as well as the identity data
+    return self.credentials.accessToken != nil && self.idData != nil;
 }
 
 - (NSString*)description {
