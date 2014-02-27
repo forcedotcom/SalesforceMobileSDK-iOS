@@ -148,9 +148,10 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(NSArray *)fieldList failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    NSString *fields = fieldList ? [[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","] : nil;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:objectType 
                                                                                  objectId:objectId 
-                                                                                fieldList:[[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","]];
+                                                                                fieldList:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
