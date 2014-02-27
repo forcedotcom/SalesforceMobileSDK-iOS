@@ -294,6 +294,11 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 - (void)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
+/**
+ Adds the sid cookie to the cookie store for the current authenticated instance.
+ */
++ (void)addSidCookieForInstance;
+
 @end
 
 @implementation SFAuthenticationManager
@@ -584,8 +589,8 @@ static Class InstanceClass = nil;
 + (void)resetSessionCookie
 {
     [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", nil]];
-    [self addSidCookieForDomain:@".salesforce.com"];
+            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", @".cloudforce.com", nil]];
+    [self addSidCookieForInstance];
 }
 
 + (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames
@@ -616,6 +621,11 @@ static Class InstanceClass = nil;
     for (NSHTTPCookie *cookie in fullCookieList) {
         [cookieStorage deleteCookie:cookie];
     }
+}
+
++ (void)addSidCookieForInstance
+{
+    [self addSidCookieForDomain:[[SFAccountManager sharedInstance].credentials.instanceUrl host]];
 }
 
 + (void)addSidCookieForDomain:(NSString*)domain
