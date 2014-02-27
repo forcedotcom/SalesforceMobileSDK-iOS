@@ -24,16 +24,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "SFRestAPI.h"
-
-@class SFNativeRestRequestListener;
-
-@interface SalesforceNativeSDKTests : SenTestCase  {
-    /// The main request listener used when we only have one outstanding request
-    SFNativeRestRequestListener *_requestListener;
-    /// The number of blocks awaiting completion
-    NSInteger _blocksUncompletedCount;
-}
-
+@interface SalesforceNativeSDKTests : SenTestCase
 
 @end
