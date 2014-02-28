@@ -91,7 +91,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2D9A2E5A18BEA87A00644C0E /* readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 		4F03412E17F0D76700B4EC6B /* SFRestAPI+Files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Files.h"; sourceTree = "<group>"; };
 		4F03412F17F0D76700B4EC6B /* SFRestAPI+Files.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Files.m"; sourceTree = "<group>"; };
 		4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -214,7 +213,6 @@
 		82C0C72516E076DE0006B3C0 = {
 			isa = PBXGroup;
 			children = (
-				2D9A2E5A18BEA87A00644C0E /* readme.markdown */,
 				82C0C73316E076DE0006B3C0 /* SalesforceNativeSDK */,
 				82C0C74816E076DF0006B3C0 /* SalesforceNativeSDKTests */,
 				82C0C76216E07DEB0006B3C0 /* SalesforceNativeSDKUnitTestApp */,
@@ -490,7 +488,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.markdown\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.md\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
 		};
 		82C0C73D16E076DE0006B3C0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
