@@ -6,10 +6,24 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		2D9A2E5518BE9B5400644C0E /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2D9A2E5818BE9B5400644C0E /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				2D9A2E5918BE9E5000644C0E /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		4F0E604417F242AD00EB71A0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
 		4F03413017F0D78500B4EC6B /* SFRestAPI+Files.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F03412E17F0D76700B4EC6B /* SFRestAPI+Files.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F03413117F0D78F00B4EC6B /* SFRestAPI+Files.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F03412F17F0D76700B4EC6B /* SFRestAPI+Files.m */; };
+		4F0E604417F242AD00EB71A0 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
 		4FC0D99317DFE51F0031AE7D /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC0D99217DFE5130031AE7D /* SFRestAPI+Blocks.m */; };
 		4FC0D99417DFE5240031AE7D /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FD8EE3A17DE9C4300471205 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD8EE3817DE941500471205 /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,6 +91,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D9A2E5A18BEA87A00644C0E /* readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 		4F03412E17F0D76700B4EC6B /* SFRestAPI+Files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Files.h"; sourceTree = "<group>"; };
 		4F03412F17F0D76700B4EC6B /* SFRestAPI+Files.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Files.m"; sourceTree = "<group>"; };
 		4FC0D99117DFE5130031AE7D /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
@@ -199,6 +214,7 @@
 		82C0C72516E076DE0006B3C0 = {
 			isa = PBXGroup;
 			children = (
+				2D9A2E5A18BEA87A00644C0E /* readme.markdown */,
 				82C0C73316E076DE0006B3C0 /* SalesforceNativeSDK */,
 				82C0C74816E076DF0006B3C0 /* SalesforceNativeSDKTests */,
 				82C0C76216E07DEB0006B3C0 /* SalesforceNativeSDKUnitTestApp */,
@@ -430,6 +446,7 @@
 				82C0C72D16E076DE0006B3C0 /* SalesforceNativeSDK */,
 				82C0C75C16E07DEB0006B3C0 /* SalesforceNativeSDKUnitTestApp */,
 				82C0C73E16E076DE0006B3C0 /* SalesforceNativeSDKTests */,
+				2D9A2E5518BE9B5400644C0E /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -462,6 +479,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2D9A2E5918BE9E5000644C0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.markdown\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+		};
 		82C0C73D16E076DE0006B3C0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -561,6 +591,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2D9A2E5618BE9B5400644C0E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2D9A2E5718BE9B5400644C0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		82C0C75116E076DF0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -755,6 +799,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2D9A2E5818BE9B5400644C0E /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D9A2E5618BE9B5400644C0E /* Debug */,
+				2D9A2E5718BE9B5400644C0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		82C0C72916E076DE0006B3C0 /* Build configuration list for PBXProject "SalesforceNativeSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
