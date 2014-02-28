@@ -31,7 +31,7 @@
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import "CDVConnection.h"
+#import <MKNetworkKit/Reachability.h>
 
 // Public constants
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -183,12 +183,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
-    /* FIXME - Cordova33
-    if (self.useSplashScreen) {
-        [self showSplashScreen];
-    }
-    */
-    
     [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
         // Device is offline, and we have to try to load cached content.

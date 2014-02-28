@@ -152,9 +152,6 @@
     }
     
     self.viewController = [[SFHybridViewController alloc] init];
-    /* FIXME - cordova 3.3
-    self.viewController.useSplashScreen = YES;
-    */
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }
