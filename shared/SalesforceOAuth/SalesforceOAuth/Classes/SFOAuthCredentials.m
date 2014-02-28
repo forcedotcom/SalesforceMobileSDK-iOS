@@ -87,6 +87,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         self.organizationId = [coder decodeObjectForKey:@"SFOAuthOrganizationId"];
         self.identityUrl    = [coder decodeObjectForKey:@"SFOAuthIdentityUrl"];
         self.instanceUrl    = [coder decodeObjectForKey:@"SFOAuthInstanceUrl"];
+        self.communityId    = [coder decodeObjectForKey:@"SFOAuthCommunityId"];
+        self.communityUrl   = [coder decodeObjectForKey:@"SFOAuthCommunityUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
         NSString *protocolVal = [coder decodeObjectForKey:@"SFOAuthProtocol"];
         if (nil != protocolVal)
@@ -108,6 +110,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     [coder encodeObject:self.organizationId     forKey:@"SFOAuthOrganizationId"];
     [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
     [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
+    [coder encodeObject:self.communityId        forKey:@"SFOAuthCommunityId"];
+    [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
 
@@ -243,9 +247,11 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 
 - (NSString *)description {
     NSString *format = @"<%@ identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" "
+                       @"communityId=\"%@\" communityUrl=\"%@\" "
                        @"issuedAt=\"%@\" organizationId=\"%@\" protocol=\"%@\" redirectUri=\"%@\">";
     return [NSString stringWithFormat:format, [self class], 
-            self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl, 
+            self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl,
+            self.communityId, self.communityUrl,
             self.issuedAt, self.organizationId, self.protocol, self.redirectUri];
 }
 
@@ -269,6 +275,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
     self.refreshToken = nil;
     self.instanceUrl  = nil;
+    self.communityId  = nil;
+    self.communityUrl = nil;
     self.issuedAt     = nil;
     self.identityUrl  = nil;
 }
@@ -386,6 +394,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     } else {
         result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
         self.instanceUrl = nil;
+        self.communityId  = nil;
+        self.communityUrl = nil;
         self.issuedAt    = nil;
         self.identityUrl = nil;
     }

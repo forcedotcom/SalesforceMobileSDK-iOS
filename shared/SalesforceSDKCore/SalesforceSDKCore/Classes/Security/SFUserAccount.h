@@ -45,6 +45,12 @@
  */
 @property (nonatomic, strong) SFIdentityData *idData;
 
+/** The URL that can be used to invoke any API
+ on the server-side. This URL takes into account the
+ current community if available (see `communityId`).
+ */
+@property (nonatomic, copy, readonly) NSURL *apiUrl;
+
 /** The user's email
  */
 @property (nonatomic, copy) NSString *email;

@@ -610,6 +610,18 @@ static NSString * const kUserPrefix = @"005";
         self.currentUser.credentials = credentials;
     }
     
+    // If the user has logged using a community-base URL, then let's create the community data
+    // related to this community using the information we have from oauth.
+    self.currentUser.communityId = credentials.communityId;
+    if (self.currentUser.communityId) {
+        SFCommunityData *communityData = [[SFCommunityData alloc] init];
+        communityData.entityId = credentials.communityId;
+        communityData.siteUrl = credentials.communityUrl;
+        self.currentUser.communities = @[ communityData ];
+    } else {
+        self.currentUser.communities = nil;
+    }
+    
     //if our default user id is currently the temporary user id,
     //we need to update it with the latest known good user id
     if ([[self activeUserId] isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
