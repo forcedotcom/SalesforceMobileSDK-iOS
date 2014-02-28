@@ -94,6 +94,13 @@
                  actualOutUrlString);
 }
 
+- (void)testStringUrlWithBaseUrlAndComponents {
+    STAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com"] pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080"] pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"http://test.salesforce.com:8080/customers", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v30.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v30.0"]]), @"Invalid URL string");
+}
+
 - (void)testStringUrlWithComponents
 {
     STAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:nil pathComponents:nil], @"Invalid URL string");

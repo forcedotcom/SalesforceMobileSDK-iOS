@@ -49,6 +49,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 @synthesize photo = _photo;
 
++ (NSSet*)keyPathsForValuesAffectingApiUrl {
+    return [NSSet setWithObjects:@"communityId", @"credentials", nil];
+}
+
 - (id)init {
     return [self initWithIdentifier:[SFUserAccountManager clientId]];
 }
@@ -94,33 +98,21 @@ static NSString * const kGlobalScopingKey = @"-global-";
 	return self;
 }
 
-- (void)setCredentials:(SFOAuthCredentials *)credentials {
-    [self willChangeValueForKey:@"credentials"];
-    _credentials = credentials;
-#warning TODO community: until TD-0018672 is completed, we have to hack around the instanceUrl being not set to the proper community (so we hack it here by applying the communityId which will update the instanceUrl to the correct value).
-    self.communityId = self.communityId;
-    [self didChangeValueForKey:@"credentials"];
-}
-
-- (void)setCommunityId:(NSString *)communityId {
-    [self willChangeValueForKey:@"communityId"];
-    if (nil == communityId) {
-        _communityId = nil;
-#warning TODO community: for now we use the identityUrl to build the internal community but let's change that once TD-0018672 is completed by the oauth team
-        NSURL *identityUrl = self.credentials.identityUrl;
-        NSString *host;
-        if ([identityUrl port]) {
-            host = [NSString stringWithFormat:@"%@:%@", [identityUrl host], [identityUrl port]];
-        } else {
-            host = [identityUrl host];
-        }
-        self.credentials.instanceUrl = [[NSURL alloc] initWithScheme:[identityUrl scheme] host:host path:@"/"];
+- (NSURL*)apiUrl {
+    if (nil == self.communityId) {
+        // If there is no current community, let's use the instanceUrl which always refers
+        // to the base organization URL (aka internal community or community zero)
+        return self.credentials.instanceUrl;
     } else {
-        SFCommunityData *communityData = [self communityWithId:communityId];
-        _communityId = communityData.entityId;
-        self.credentials.instanceUrl = communityData.siteUrl;
+        // If there is a current community, let's grab its data
+        SFCommunityData *communityData = [self communityWithId:self.communityId];
+        if (nil == communityData) {
+            [self log:SFLogLevelError format:@"Unable to find any data for community %@, switching to base org URL", self.communityId];
+            return self.credentials.instanceUrl;
+        } else {
+            return communityData.siteUrl;
+        }
     }
-    [self didChangeValueForKey:@"communityId"];
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
