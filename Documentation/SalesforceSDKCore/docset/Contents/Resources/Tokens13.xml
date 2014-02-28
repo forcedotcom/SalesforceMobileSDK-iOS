@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFAuthenticationManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationManager</TokenIdentifier>
+			<Abstract type="html">Identifies the notification for the user being logged in to the application.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
+			
+			<NodeRef refid="13"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setStatusAlert:</TokenIdentifier>
+			<Abstract type="html">Alert view for displaying auth-related status messages.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) UIAlertView *statusAlert</Declaration>
+			
+			
+			<Anchor>//api/name/statusAlert</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/statusAlert</TokenIdentifier>
+			<Abstract type="html">Alert view for displaying auth-related status messages.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) UIAlertView *statusAlert</Declaration>
+			
+			
+			<Anchor>//api/name/statusAlert</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/statusAlert</TokenIdentifier>
+			<Abstract type="html">Alert view for displaying auth-related status messages.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) UIAlertView *statusAlert</Declaration>
+			
+			
+			<Anchor>//api/name/statusAlert</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setAuthViewController:</TokenIdentifier>
+			<Abstract type="html">The view controller used to present the authentication dialog.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthorizingViewController *authViewController</Declaration>
+			
+			
+			<Anchor>//api/name/authViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/authViewController</TokenIdentifier>
+			<Abstract type="html">The view controller used to present the authentication dialog.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthorizingViewController *authViewController</Declaration>
+			
+			
+			<Anchor>//api/name/authViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/authViewController</TokenIdentifier>
+			<Abstract type="html">The view controller used to present the authentication dialog.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthorizingViewController *authViewController</Declaration>
+			
+			
+			<Anchor>//api/name/authViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setAuthenticating:</TokenIdentifier>
+			<Abstract type="html">Whether or not the application is currently in the process of authenticating.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/authenticating</TokenIdentifier>
+			<Abstract type="html">Whether or not the application is currently in the process of authenticating.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/authenticating</TokenIdentifier>
+			<Abstract type="html">Whether or not the application is currently in the process of authenticating.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setUseSnapshotView:</TokenIdentifier>
+			<Abstract type="html">If this property is set, the authentication manager will swap a &quot;blank&quot; view in place
+of the currently displayed view when the app goes into the background, to protect sensitive displayed
+data from being captured in an image file by iOS.  This view will be swapped out for the original
+view when the app enters the foreground.  This property is set to YES by default.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/snapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/useSnapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/useSnapshotView</TokenIdentifier>
+			<Abstract type="html">If this property is set, the authentication manager will swap a &quot;blank&quot; view in place
+of the currently displayed view when the app goes into the background, to protect sensitive displayed
+data from being captured in an image file by iOS.  This view will be swapped out for the original
+view when the app enters the foreground.  This property is set to YES by default.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/snapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/useSnapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/useSnapshotView</TokenIdentifier>
+			<Abstract type="html">If this property is set, the authentication manager will swap a &quot;blank&quot; view in place
+of the currently displayed view when the app goes into the background, to protect sensitive displayed
+data from being captured in an image file by iOS.  This view will be swapped out for the original
+view when the app enters the foreground.  This property is set to YES by default.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/snapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/useSnapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setSnapshotView:</TokenIdentifier>
+			<Abstract type="html">A view to be swapped in for the currently displayed view when the app enters the background, to prevent
+iOS from capturing sensitive data into an image file.  By default, this will be an opaque white screen,
+but you can set this property to any UIView, prior to app backgrounding, to use that view instead.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/useSnapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/snapshotView</TokenIdentifier>
+			<Abstract type="html">A view to be swapped in for the currently displayed view when the app enters the background, to prevent
+iOS from capturing sensitive data into an image file.  By default, this will be an opaque white screen,
+but you can set this property to any UIView, prior to app backgrounding, to use that view instead.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/useSnapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/snapshotView</TokenIdentifier>
+			<Abstract type="html">A view to be swapped in for the currently displayed view when the app enters the background, to prevent
+iOS from capturing sensitive data into an image file.  By default, this will be an opaque white screen,
+but you can set this property to any UIView, prior to app backgrounding, to use that view instead.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/useSnapshotView</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotView</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setPreferredPasscodeProvider:</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider to use.  In this release, defaults to
+kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
+NOTE: If you wanted to set your own provider, you could do the following:
+         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SFAuthenticationManager sharedManager].preferredPasscodeProvider = myProviderName;</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider to use.  In this release, defaults to
+kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
+NOTE: If you wanted to set your own provider, you could do the following:
+         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SFAuthenticationManager sharedManager].preferredPasscodeProvider = myProviderName;</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider to use.  In this release, defaults to
+kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
+NOTE: If you wanted to set your own provider, you could do the following:
+         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SFAuthenticationManager sharedManager].preferredPasscodeProvider = myProviderName;</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SFAuthenticationManager class.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (SFAuthenticationManager *)sharedManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedManager</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setAuthViewHandler:</TokenIdentifier>
+			<Abstract type="html">The property denoting the block that will handle the display and dismissal of the authentication view.
+You can override this handler if you want to have a custom work flow for displaying the authentication
+view.  If you&apos;d simply prefer to display the view in your own style, you can leave this property set
+to the default, and override the authViewController property with your style changes.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/authViewHandler</TokenIdentifier>
+			<Abstract type="html">The property denoting the block that will handle the display and dismissal of the authentication view.
+You can override this handler if you want to have a custom work flow for displaying the authentication
+view.  If you&apos;d simply prefer to display the view in your own style, you can leave this property set
+to the default, and override the authViewController property with your style changes.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/authViewHandler</TokenIdentifier>
+			<Abstract type="html">The property denoting the block that will handle the display and dismissal of the authentication view.
+You can override this handler if you want to have a custom work flow for displaying the authentication
+view.  If you&apos;d simply prefer to display the view in your own style, you can leave this property set
+to the default, and override the authViewController property with your style changes.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthenticationViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setInvalidCredentialsAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">The auth handler for invalid credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/invalidCredentialsAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/invalidCredentialsAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for invalid credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/invalidCredentialsAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/invalidCredentialsAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for invalid credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/invalidCredentialsAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setConnectedAppVersionAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">The auth handler for Connected App version errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/connectedAppVersionAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for Connected App version errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/connectedAppVersionAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for Connected App version errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setNetworkFailureAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">The auth handler for failures due to network connectivity.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/networkFailureAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/networkFailureAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for failures due to network connectivity.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/networkFailureAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/networkFailureAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The auth handler for failures due to network connectivity.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *networkFailureAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/networkFailureAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setGenericAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">The generic auth handler for any unhandled errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/genericAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/genericAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The generic auth handler for any unhandled errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/genericAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/genericAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">The generic auth handler for any unhandled errors.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandler *genericAuthErrorHandler</Declaration>
+			
+			
+			<Anchor>//api/name/genericAuthErrorHandler</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/setAuthErrorHandlerList:</TokenIdentifier>
+			<Abstract type="html">The list of auth error handler filters to pass each authentication error through.  You can add or
+remove items from this list to change the flow of auth error handling.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList</Declaration>
+			
+			
+			<Anchor>//api/name/authErrorHandlerList</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/authErrorHandlerList</TokenIdentifier>
+			<Abstract type="html">The list of auth error handler filters to pass each authentication error through.  You can add or
+remove items from this list to change the flow of auth error handling.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList</Declaration>
+			
+			
+			<Anchor>//api/name/authErrorHandlerList</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationManager/authErrorHandlerList</TokenIdentifier>
+			<Abstract type="html">The list of auth error handler filters to pass each authentication error through.  You can add or
+remove items from this list to change the flow of auth error handling.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList</Declaration>
+			
+			
+			<Anchor>//api/name/authErrorHandlerList</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Adds a delegate to the list of authentication manager delegates.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFAuthenticationManagerDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to add to the list.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addDelegate:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)removeDelegate:(id&lt;SFAuthenticationManagerDelegate&gt;)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/removeDelegate:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/loginWithCompletion:failure:</TokenIdentifier>
+			<Abstract type="html">Kick off the login process.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process successfully completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process has a fatal failure.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</Abstract></ReturnValue>
+			<Anchor>//api/name/loginWithCompletion:failure:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/logout</TokenIdentifier>
+			<Abstract type="html">Forces a logout from the current account, redirecting the user to the login process.
+This throws out the OAuth refresh token.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)logout</Declaration>
+			
+			
+			<Anchor>//api/name/logout</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/cancelAuthentication</TokenIdentifier>
+			<Abstract type="html">Cancels an in-progress authentication.  In-progress authentication state will be cleared.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)cancelAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/cancelAuthentication</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/appDidFinishLaunching:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)appDidFinishLaunching:(NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/appDidFinishLaunching:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/appWillEnterForeground:</TokenIdentifier>
+			<Abstract type="html">Notification handler for when the app enters the foreground.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)appWillEnterForeground:(NSNotification *)notification</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notification</Name>
+					<Abstract type="html">The notification data associated with the event.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/appWillEnterForeground:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/appDidEnterBackground:</TokenIdentifier>
+			<Abstract type="html">Notification handler for when the app enters the background.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)appDidEnterBackground:(NSNotification *)notification</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notification</Name>
+					<Abstract type="html">The notification data associated with the event.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/appDidEnterBackground:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationManager/appWillTerminate:</TokenIdentifier>
+			<Abstract type="html">Notification handler for when the app will be terminated.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)appWillTerminate:(NSNotification *)notification</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notification</Name>
+					<Abstract type="html">The notification data associated with the event.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/appWillTerminate:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/resetSessionCookie</TokenIdentifier>
+			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
+OAuth credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (void)resetSessionCookie</Declaration>
+			
+			
+			<Anchor>//api/name/resetSessionCookie</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/frontDoorUrlWithReturnUrl:returnUrlIsEncoded:</TokenIdentifier>
+			<Abstract type="html">Creates an absolute URL to frontdoor with the given destination URL.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>returnUrl</Name>
+					<Abstract type="html">The destination URL to hit after going through frontdoor.</Abstract>
+				</Parameter><Parameter>
+					<Name>isEncoded</Name>
+					<Abstract type="html">Whether or not the returnUrl value is URL-encoded.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An NSURL object representing the configured frontdoor URL.</Abstract></ReturnValue>
+			<Anchor>//api/name/frontDoorUrlWithReturnUrl:returnUrlIsEncoded:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/isLoginRedirectUrl:</TokenIdentifier>
+			<Abstract type="html">Whether or not the given URL can be identified as a redirect to the login URL, loaded when the
+session expires.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (BOOL)isLoginRedirectUrl:(NSURL *)url</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL to evaluate.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the URL matches the login redirect URL pattern, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/isLoginRedirectUrl:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/errorIsInvalidAuthCredentials:</TokenIdentifier>
+			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error to check against an invalid credentials error.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/removeCookies:fromDomains:</TokenIdentifier>
+			<Abstract type="html">Remove any cookies with the given names from the given domains.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cookieNames</Name>
+					<Abstract type="html">The names of the cookies to remove.</Abstract>
+				</Parameter><Parameter>
+					<Name>domainNames</Name>
+					<Abstract type="html">The names of the domains where the cookies are set.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeCookies:fromDomains:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/removeAllCookies</TokenIdentifier>
+			<Abstract type="html">Remove all cookies from the cookie store.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (void)removeAllCookies</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllCookies</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFAuthenticationManager/addSidCookieForDomain:</TokenIdentifier>
+			<Abstract type="html">Adds the access (session) token cookie to the web view, for authentication.</Abstract>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>			
+			
+			<Declaration>+ (void)addSidCookieForDomain:(NSString *)domain</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>domain</Name>
+					<Abstract type="html">The domain on which to set the cookie.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addSidCookieForDomain:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

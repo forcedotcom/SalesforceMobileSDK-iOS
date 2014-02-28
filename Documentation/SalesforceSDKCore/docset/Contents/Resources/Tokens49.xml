@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/NSURL+SFStringUtils.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
+			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			
+			<NodeRef refid="49"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
+			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
+parameter values redacted.  Useful for logging URL values without sensitive data
+included.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>queryStringParamsToRedact</Name>
+					<Abstract type="html">An array of querystring parameter names whose values
+should be redacted.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
+			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

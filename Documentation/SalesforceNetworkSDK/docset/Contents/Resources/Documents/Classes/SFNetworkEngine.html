@@ -1,0 +1,2607 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SFNetworkEngine Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFNetworkEngine Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/accessTokenBeingRefreshed">&nbsp;&nbsp;&nbsp;&nbsp;accessTokenBeingRefreshed</option>
+	
+	<option value="//api/name/apiPath">&nbsp;&nbsp;&nbsp;&nbsp;apiPath</option>
+	
+	<option value="//api/name/coordinator">&nbsp;&nbsp;&nbsp;&nbsp;coordinator</option>
+	
+	<option value="//api/name/customHeaders">&nbsp;&nbsp;&nbsp;&nbsp;customHeaders</option>
+	
+	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
+	
+	<option value="//api/name/enableHttpPipeling">&nbsp;&nbsp;&nbsp;&nbsp;enableHttpPipeling</option>
+	
+	<option value="//api/name/internalNetworkEngine">&nbsp;&nbsp;&nbsp;&nbsp;internalNetworkEngine</option>
+	
+	<option value="//api/name/networkChangeShouldTriggerTokenRefresh">&nbsp;&nbsp;&nbsp;&nbsp;networkChangeShouldTriggerTokenRefresh</option>
+	
+	<option value="//api/name/networkStatus">&nbsp;&nbsp;&nbsp;&nbsp;networkStatus</option>
+	
+	<option value="//api/name/operationTimeout">&nbsp;&nbsp;&nbsp;&nbsp;operationTimeout</option>
+	
+	<option value="//api/name/operationsWaitingForAccessToken">&nbsp;&nbsp;&nbsp;&nbsp;operationsWaitingForAccessToken</option>
+	
+	<option value="//api/name/operationsWaitingForNetwork">&nbsp;&nbsp;&nbsp;&nbsp;operationsWaitingForNetwork</option>
+	
+	<option value="//api/name/reachabilityChangedHandler">&nbsp;&nbsp;&nbsp;&nbsp;reachabilityChangedHandler</option>
+	
+	<option value="//api/name/remoteHost">&nbsp;&nbsp;&nbsp;&nbsp;remoteHost</option>
+	
+	<option value="//api/name/supportLocalTestData">&nbsp;&nbsp;&nbsp;&nbsp;supportLocalTestData</option>
+	
+	<option value="//api/name/suspendRequestsWhenAppEntersBackground">&nbsp;&nbsp;&nbsp;&nbsp;suspendRequestsWhenAppEntersBackground</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/activeOperationWithUrl:params:httpMethod:">&nbsp;&nbsp;&nbsp;&nbsp;- activeOperationWithUrl:params:httpMethod:</option>
+	
+	<option value="//api/name/cancelAllOperations">&nbsp;&nbsp;&nbsp;&nbsp;- cancelAllOperations</option>
+	
+	<option value="//api/name/cancelAllOperationsWithTag:">&nbsp;&nbsp;&nbsp;&nbsp;- cancelAllOperationsWithTag:</option>
+	
+	<option value="//api/name/cleanup">&nbsp;&nbsp;&nbsp;&nbsp;- cleanup</option>
+	
+	<option value="//api/name/cloneInternalOperation:">&nbsp;&nbsp;&nbsp;&nbsp;- cloneInternalOperation:</option>
+	
+	<option value="//api/name/delete:params:">&nbsp;&nbsp;&nbsp;&nbsp;- delete:params:</option>
+	
+	<option value="//api/name/enqueueOperation:">&nbsp;&nbsp;&nbsp;&nbsp;- enqueueOperation:</option>
+	
+	<option value="//api/name/failOperationsWaitingForAccessTokenWithError:">&nbsp;&nbsp;&nbsp;&nbsp;- failOperationsWaitingForAccessTokenWithError:</option>
+	
+	<option value="//api/name/get:params:">&nbsp;&nbsp;&nbsp;&nbsp;- get:params:</option>
+	
+	<option value="//api/name/hasPendingOperationsWithTag:">&nbsp;&nbsp;&nbsp;&nbsp;- hasPendingOperationsWithTag:</option>
+	
+	<option value="//api/name/head:params:">&nbsp;&nbsp;&nbsp;&nbsp;- head:params:</option>
+	
+	<option value="//api/name/isReachable">&nbsp;&nbsp;&nbsp;&nbsp;- isReachable</option>
+	
+	<option value="//api/name/operationWithUrl:params:httpMethod:">&nbsp;&nbsp;&nbsp;&nbsp;- operationWithUrl:params:httpMethod:</option>
+	
+	<option value="//api/name/operationWithUrl:params:httpMethod:ssl:">&nbsp;&nbsp;&nbsp;&nbsp;- operationWithUrl:params:httpMethod:ssl:</option>
+	
+	<option value="//api/name/operationsWithTag:">&nbsp;&nbsp;&nbsp;&nbsp;- operationsWithTag:</option>
+	
+	<option value="//api/name/patch:params:">&nbsp;&nbsp;&nbsp;&nbsp;- patch:params:</option>
+	
+	<option value="//api/name/post:params:">&nbsp;&nbsp;&nbsp;&nbsp;- post:params:</option>
+	
+	<option value="//api/name/put:params:">&nbsp;&nbsp;&nbsp;&nbsp;- put:params:</option>
+	
+	<option value="//api/name/queueOperationOnExpiredAccessToken:">&nbsp;&nbsp;&nbsp;&nbsp;- queueOperationOnExpiredAccessToken:</option>
+	
+	<option value="//api/name/queueOperationOnNetworkError:">&nbsp;&nbsp;&nbsp;&nbsp;- queueOperationOnNetworkError:</option>
+	
+	<option value="//api/name/readDataFromTestFile:">&nbsp;&nbsp;&nbsp;&nbsp;- readDataFromTestFile:</option>
+	
+	<option value="//api/name/replayOperationsWaitingForAccessToken">&nbsp;&nbsp;&nbsp;&nbsp;- replayOperationsWaitingForAccessToken</option>
+	
+	<option value="//api/name/replayOperationsWaitingForNetwork">&nbsp;&nbsp;&nbsp;&nbsp;- replayOperationsWaitingForNetwork</option>
+	
+	<option value="//api/name/resumeAllOperations">&nbsp;&nbsp;&nbsp;&nbsp;- resumeAllOperations</option>
+	
+	<option value="//api/name/setHeaderValue:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setHeaderValue:forKey:</option>
+	
+	<option value="//api/name/startRefreshAccessTokenFlow">&nbsp;&nbsp;&nbsp;&nbsp;- startRefreshAccessTokenFlow</option>
+	
+	<option value="//api/name/suspendAllOperations">&nbsp;&nbsp;&nbsp;&nbsp;- suspendAllOperations</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Extension Methods">Extension Methods</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/accessTokenBeingRefreshed">accessTokenBeingRefreshed</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/apiPath">apiPath</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/coordinator">coordinator</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/customHeaders">customHeaders</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/enableHttpPipeling">enableHttpPipeling</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/internalNetworkEngine">internalNetworkEngine</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/networkChangeShouldTriggerTokenRefresh">networkChangeShouldTriggerTokenRefresh</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/networkStatus">networkStatus</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationTimeout">operationTimeout</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationsWaitingForAccessToken">operationsWaitingForAccessToken</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationsWaitingForNetwork">operationsWaitingForNetwork</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/reachabilityChangedHandler">reachabilityChangedHandler</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/remoteHost">remoteHost</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/supportLocalTestData">supportLocalTestData</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/suspendRequestsWhenAppEntersBackground">suspendRequestsWhenAppEntersBackground</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/activeOperationWithUrl:params:httpMethod:">activeOperationWithUrl:params:httpMethod:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cancelAllOperations">cancelAllOperations</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cancelAllOperationsWithTag:">cancelAllOperationsWithTag:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cleanup">cleanup</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cloneInternalOperation:">cloneInternalOperation:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delete:params:">delete:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/enqueueOperation:">enqueueOperation:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/failOperationsWaitingForAccessTokenWithError:">failOperationsWaitingForAccessTokenWithError:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/get:params:">get:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/hasPendingOperationsWithTag:">hasPendingOperationsWithTag:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/head:params:">head:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isReachable">isReachable</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationWithUrl:params:httpMethod:">operationWithUrl:params:httpMethod:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationWithUrl:params:httpMethod:ssl:">operationWithUrl:params:httpMethod:ssl:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/operationsWithTag:">operationsWithTag:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/patch:params:">patch:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/post:params:">post:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/put:params:">put:params:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queueOperationOnExpiredAccessToken:">queueOperationOnExpiredAccessToken:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queueOperationOnNetworkError:">queueOperationOnNetworkError:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/readDataFromTestFile:">readDataFromTestFile:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/replayOperationsWaitingForAccessToken">replayOperationsWaitingForAccessToken</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/replayOperationsWaitingForNetwork">replayOperationsWaitingForNetwork</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/resumeAllOperations">resumeAllOperations</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setHeaderValue:forKey:">setHeaderValue:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/startRefreshAccessTokenFlow">startRefreshAccessTokenFlow</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/suspendAllOperations">suspendAllOperations</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFNetworkEngine Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFNetworkEngine Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFNetworkEngine.h</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Main class used to manage and send <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a></p>
+
+<p>Caller of SFNetworkEngine should call <a href="#//api/name/sharedInstance"><code>sharedInstance</code></a> to initalize the SFNetworkEngine when OAuth is completed successfully and set <a href="#//api/name/coordinator"><code>coordinator</code></a>.</p>
+
+<p>SFNetworkEngine will perform the following task by default
+- Detect duplication request and associate callback blocks for the duplicate operation to the existing operation
+- Monitor network change and publish  a <code>SFNetworkOperationReachabilityChangedNotification</code> notification will be posted when reachability changed with <code>SFNetworkStatus</code> wraped in NSNumber as the <code>[notification object]</code>
+- Manange network concurrence based on network type
+- Automatically start background handling for running operation
+- Suspend all pending operations when app enters background and resumes them when app becomes active. Set <a href="#//api/name/suspendRequestsWhenAppEntersBackground"><code>suspendRequestsWhenAppEntersBackground</code></a> to change this behavior
+- Encrypt downloaded content that will be stored as a local file. Change <a href="../Classes/SFNetworkOperation.html#//api/name/encryptDownloadedFile"><code>[SFNetworkOperation encryptDownloadedFile]</code></a> to change this behavior</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/coordinator">&nbsp;&nbsp;coordinator</a></code>
+		<span class="tooltip"><p><code>​SFNetwork​Engine</code> relies on <a href="../Classes/SFNetworkCoordinator.html"><code>SFNetworkCoordinator</code></a> to know where to connect and who to connect as and with what access token</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/remoteHost">&nbsp;&nbsp;remoteHost</a></code>
+		<span class="tooltip"><p>If plan to use <code>SFNetworkEngine</code> against a non-SFDC source, use remote host to initialize the <code>SFNetworkEngine</code> instead.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/customHeaders">&nbsp;&nbsp;customHeaders</a></code>
+		<span class="tooltip"><p>Custom HTTP headers that will be set for all <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> before executing</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/reachabilityChangedHandler">&nbsp;&nbsp;reachabilityChangedHandler</a></code>
+		<span class="tooltip"><p>Handler that you implement to monitor reachability changes</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/networkStatus">&nbsp;&nbsp;networkStatus</a></code>
+		<span class="tooltip"><p>Return current network status</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/apiPath">&nbsp;&nbsp;apiPath</a></code>
+		<span class="tooltip"><p>Server API root path. In the case of salesforce REST API, apiPath could be /services/data/v25.0 etc.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationTimeout">&nbsp;&nbsp;operationTimeout</a></code>
+		<span class="tooltip"><p>Default time out for all <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> executed by <code>SFNetworkEngine</code> in seconds. Default is 180 seconds</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/enableHttpPipeling">&nbsp;&nbsp;enableHttpPipeling</a></code>
+		<span class="tooltip"><p>Set to YES if enable HTTP Pipeling for HTTP GET requests. Default value is YES</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/supportLocalTestData">&nbsp;&nbsp;supportLocalTestData</a></code>
+		<span class="tooltip"><p>Set to YES to allow <code>SFNetworkEngine</code> to let <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> to use local test file to simulate server response if <a href="../Classes/SFNetworkOperation.html#//api/name/localTestDataPath"><code>[SFNetworkOperation localTestDataPath]</code></a> is set. Default value is NO</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/suspendRequestsWhenAppEntersBackground">&nbsp;&nbsp;suspendRequestsWhenAppEntersBackground</a></code>
+		<span class="tooltip"><p>Set to true to suspend all pending requests when app enters background. Default is YES</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+		<span class="tooltip"><p>NetworkEngine delegate responsible for refresh session</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
+		<span class="tooltip"><p>Returns the singleton instance of <code>SFNetworkEngine</code>
+After a successful oauth login with an SFOAuthCoordinator, you
+should set the <a href="#//api/name/coordinator">coordinator</a> property of this instance.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setHeaderValue:forKey:">&ndash;&nbsp;setHeaderValue:forKey:</a></code>
+		<span class="tooltip"><p>Set value for the specified HTTP header</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationWithUrl:params:httpMethod:ssl:">&ndash;&nbsp;operationWithUrl:params:httpMethod:ssl:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationWithUrl:params:httpMethod:">&ndash;&nbsp;operationWithUrl:params:httpMethod:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote request under SSL.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/get:params:">&ndash;&nbsp;get:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationGetMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/post:params:">&ndash;&nbsp;post:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPostMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/put:params:">&ndash;&nbsp;put:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPutMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delete:params:">&ndash;&nbsp;delete:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationDeleteMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/patch:params:">&ndash;&nbsp;patch:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPathMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/head:params:">&ndash;&nbsp;head:params:</a></code>
+		<span class="tooltip"><p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPathMethod</code> method under SSL</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/activeOperationWithUrl:params:httpMethod:">&ndash;&nbsp;activeOperationWithUrl:params:httpMethod:</a></code>
+		<span class="tooltip"><p>Returns <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> for the specified condition</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/enqueueOperation:">&ndash;&nbsp;enqueueOperation:</a></code>
+		<span class="tooltip"><p>Enqueues <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> for execution</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cleanup">&ndash;&nbsp;cleanup</a></code>
+		<span class="tooltip"><p>Clean up the SFNetworkEngine due to host change or logout</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isReachable">&ndash;&nbsp;isReachable</a></code>
+		<span class="tooltip"><p>Returns YES if <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> is reachable
+    If <a href="#//api/name/coordinator"><code>coordinator</code></a> is not set before this method is called, it will return NO</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/failOperationsWaitingForAccessTokenWithError:">&ndash;&nbsp;failOperationsWaitingForAccessTokenWithError:</a></code>
+		<span class="tooltip"><p>Fatal OAuth error happened. Call error block of all operations stored in <a href="#//api/name/operationsWaitingForAccessToken"><code>operationsWaitingForAccessToken</code></a> queue</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cancelAllOperations">&ndash;&nbsp;cancelAllOperations</a></code>
+		<span class="tooltip"><p>Cancel all operations that are waiting to be excecuted</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cancelAllOperationsWithTag:">&ndash;&nbsp;cancelAllOperationsWithTag:</a></code>
+		<span class="tooltip"><p>Cancel all operations with a specific tag that are waiting to be excecuted</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/suspendAllOperations">&ndash;&nbsp;suspendAllOperations</a></code>
+		<span class="tooltip"><p>Suspend all operations that are waiting to be excecuted</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/resumeAllOperations">&ndash;&nbsp;resumeAllOperations</a></code>
+		<span class="tooltip"><p>Resume all operations that are suspended</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/hasPendingOperationsWithTag:">&ndash;&nbsp;hasPendingOperationsWithTag:</a></code>
+		<span class="tooltip"><p>Returns YES of there are pending requests matching the specified operation tag</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationsWithTag:">&ndash;&nbsp;operationsWithTag:</a></code>
+		<span class="tooltip"><p>Returns an array of operations that matches the tag</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/replayOperationsWaitingForAccessToken">&ndash;&nbsp;replayOperationsWaitingForAccessToken</a></code>
+		<span class="tooltip"><p>Replay all operations stored in <a href="#//api/name/operationsWaitingForAccessToken"><code>operationsWaitingForAccessToken</code></a> queue</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h3 class="subsubtitle task-title">Extension Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/internalNetworkEngine">&nbsp;&nbsp;internalNetworkEngine</a></code>
+		
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationsWaitingForAccessToken">&nbsp;&nbsp;operationsWaitingForAccessToken</a></code>
+		<span class="tooltip"><p>Queue to store all operations queued up due to expired access token</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/operationsWaitingForNetwork">&nbsp;&nbsp;operationsWaitingForNetwork</a></code>
+		<span class="tooltip"><p>Queue to store all operations queued up due to network error</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/accessTokenBeingRefreshed">&nbsp;&nbsp;accessTokenBeingRefreshed</a></code>
+		<span class="tooltip"><p>Flag to indicate whether or not <code>SFNetworkEngine</code> token refresh flow is in progress or not</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/networkChangeShouldTriggerTokenRefresh">&nbsp;&nbsp;networkChangeShouldTriggerTokenRefresh</a></code>
+		<span class="tooltip"><p>Flag to indicate whether network status change should trigger access token refresh</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/readDataFromTestFile:">&ndash;&nbsp;readDataFromTestFile:</a></code>
+		<span class="tooltip"><p>Read and return data from local test file</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/startRefreshAccessTokenFlow">&ndash;&nbsp;startRefreshAccessTokenFlow</a></code>
+		<span class="tooltip"><p>Start refresh access token flow</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/queueOperationOnExpiredAccessToken:">&ndash;&nbsp;queueOperationOnExpiredAccessToken:</a></code>
+		<span class="tooltip"><p>Queue <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> due to expired access token</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/queueOperationOnNetworkError:">&ndash;&nbsp;queueOperationOnNetworkError:</a></code>
+		<span class="tooltip"><p>Queue <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> due to network error</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/replayOperationsWaitingForNetwork">&ndash;&nbsp;replayOperationsWaitingForNetwork</a></code>
+		<span class="tooltip"><p>Replay all operations stored in <a href="#//api/name/operationsWaitingForNetwork"><code>operationsWaitingForNetwork</code></a> queue</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cloneInternalOperation:">&ndash;&nbsp;cloneInternalOperation:</a></code>
+		<span class="tooltip"><p>Clone the internal operation. Used to re-queue a failed operation</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/accessTokenBeingRefreshed" title="accessTokenBeingRefreshed"></a>
+	<h3 class="subsubtitle method-title">accessTokenBeingRefreshed</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Flag to indicate whether or not <code>SFNetworkEngine</code> token refresh flow is in progress or not</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly, getter=isAccessTokenBeingRefreshed) BOOL accessTokenBeingRefreshed</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/apiPath" title="apiPath"></a>
+	<h3 class="subsubtitle method-title">apiPath</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Server API root path. In the case of salesforce REST API, apiPath could be /services/data/v25.0 etc.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *apiPath</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>If this value is set and a relative URL is passed to <code>operationWithUrl</code>, <code>apiPath</code> will be used to construct the full URL. See <code>operationWithUrl</code> for details</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/coordinator" title="coordinator"></a>
+	<h3 class="subsubtitle method-title">coordinator</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p><code>​SFNetwork​Engine</code> relies on <a href="../Classes/SFNetworkCoordinator.html"><code>SFNetworkCoordinator</code></a> to know where to connect and who to connect as and with what access token</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFNetworkCoordinator *coordinator</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p><a href="../Protocols/SFNetworkEngineDelegate.html"><code>SFNetworkEngineDelegate</code></a> should call this method when access token is refreshed</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/customHeaders" title="customHeaders"></a>
+	<h3 class="subsubtitle method-title">customHeaders</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Custom HTTP headers that will be set for all <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> before executing</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSDictionary *customHeaders</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p><code>SFNetworkEngine</code> will automatically set the following headers if customHeaders is nil or do not contain the specific header key
+- Authorization header with <code>[[SFOAuthCoordinator credentials] accessToken]</code>
+- User-Agent header with application name, version and OS information</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="subsubtitle method-title">delegate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>NetworkEngine delegate responsible for refresh session</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (weak) id&lt;SFNetworkEngineDelegate&gt; delegate</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/enableHttpPipeling" title="enableHttpPipeling"></a>
+	<h3 class="subsubtitle method-title">enableHttpPipeling</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set to YES if enable HTTP Pipeling for HTTP GET requests. Default value is YES</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL enableHttpPipeling</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/internalNetworkEngine" title="internalNetworkEngine"></a>
+	<h3 class="subsubtitle method-title">internalNetworkEngine</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) MKNetworkEngine *internalNetworkEngine</code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/networkChangeShouldTriggerTokenRefresh" title="networkChangeShouldTriggerTokenRefresh"></a>
+	<h3 class="subsubtitle method-title">networkChangeShouldTriggerTokenRefresh</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Flag to indicate whether network status change should trigger access token refresh</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL networkChangeShouldTriggerTokenRefresh</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/networkStatus" title="networkStatus"></a>
+	<h3 class="subsubtitle method-title">networkStatus</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Return current network status</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) SFNetworkStatus networkStatus</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationTimeout" title="operationTimeout"></a>
+	<h3 class="subsubtitle method-title">operationTimeout</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Default time out for all <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> executed by <code>SFNetworkEngine</code> in seconds. Default is 180 seconds</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval operationTimeout</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationsWaitingForAccessToken" title="operationsWaitingForAccessToken"></a>
+	<h3 class="subsubtitle method-title">operationsWaitingForAccessToken</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Queue to store all operations queued up due to expired access token</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property NSMutableArray *operationsWaitingForAccessToken</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This queue will contain all operations that failed due to expired token and all incoming pending operations that requires access token</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationsWaitingForNetwork" title="operationsWaitingForNetwork"></a>
+	<h3 class="subsubtitle method-title">operationsWaitingForNetwork</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Queue to store all operations queued up due to network error</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property NSMutableArray *operationsWaitingForNetwork</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This queue will contain all operations that failed due to network error, has greater than 0 <a href="../Classes/SFNetworkOperation.html#//api/name/maximumNumOfRetriesForNetworkError"><code>[SFNetworkOperation maximumNumOfRetriesForNetworkError]</code></a> value and <a href="../Classes/SFNetworkOperation.html#//api/name/numOfRetriesForNetworkError"><code>[SFNetworkOperation numOfRetriesForNetworkError]</code></a> is less than `<a href="../Classes/SFNetworkOperation.html#//api/name/maximumNumOfRetriesForNetworkError">[SFNetworkOperation maximumNumOfRetriesForNetworkError]</a></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/reachabilityChangedHandler" title="reachabilityChangedHandler"></a>
+	<h3 class="subsubtitle method-title">reachabilityChangedHandler</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Handler that you implement to monitor reachability changes</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) void ( ^ ) ( SFNetworkStatus ns ) reachabilityChangedHandler</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>if <code>reachabilityChangedHandler</code> is not set, caller of SFNetworkEngine can also observe <code>SFNetworkOperationReachabilityChangedNotification</code> notification. <code>SFNetworkEngine</code> will be posted when reachability changed with <code>NetworkStatus</code> wrapped in NSNumber as the <code>[notification object]</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/remoteHost" title="remoteHost"></a>
+	<h3 class="subsubtitle method-title">remoteHost</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>If plan to use <code>SFNetworkEngine</code> against a non-SFDC source, use remote host to initialize the <code>SFNetworkEngine</code> instead.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *remoteHost</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<pre><code>When initialized this way without setting coordinator, requiresAccessToken will be set 
+to NO for `SFNetworkOperation`. Caller is responsible for using `customHeaders` to set necessary authorization header if needed
+</code></pre>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/supportLocalTestData" title="supportLocalTestData"></a>
+	<h3 class="subsubtitle method-title">supportLocalTestData</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set to YES to allow <code>SFNetworkEngine</code> to let <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> to use local test file to simulate server response if <a href="../Classes/SFNetworkOperation.html#//api/name/localTestDataPath"><code>[SFNetworkOperation localTestDataPath]</code></a> is set. Default value is NO</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL supportLocalTestData</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>When this property is set to YES, you can set <a href="../Classes/SFNetworkOperation.html#//api/name/localTestDataPath"><code>[SFNetworkOperation localTestDataPath]</code></a> with the full path to a
+local test file, and when <code>[SFNetworkEngine enqueueOperation]</code> is called, the operation
+will read response data from the specified test file instead of making a remote call and invoke completion blocks
+following the normal flow</p>
+
+<p>Make sure you set this property to NO in release build</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/suspendRequestsWhenAppEntersBackground" title="suspendRequestsWhenAppEntersBackground"></a>
+	<h3 class="subsubtitle method-title">suspendRequestsWhenAppEntersBackground</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set to true to suspend all pending requests when app enters background. Default is YES</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=shouldSuspendRequestsWhenAppEntersBackground) BOOL suspendRequestsWhenAppEntersBackground</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
+	<h3 class="subsubtitle method-title">sharedInstance</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the singleton instance of <code>SFNetworkEngine</code>
+After a successful oauth login with an SFOAuthCoordinator, you
+should set the <a href="#//api/name/coordinator">coordinator</a> property of this instance.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SFNetworkEngine *)sharedInstance</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/activeOperationWithUrl:params:httpMethod:" title="activeOperationWithUrl:params:httpMethod:"></a>
+	<h3 class="subsubtitle method-title">activeOperationWithUrl:params:httpMethod:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> for the specified condition</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)activeOperationWithUrl:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em> httpMethod:(NSString *)<em>method</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. This url does not start with HTTP protocol (http or https), <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to the url that will be executed</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+<li>@param method the http method to use. Valid value include GET, POST, DELETE, PUT and PATCH</li>
+<li>@return SFNetworkOperation` object if there is a pending or running operation matching the specified url, parameters and HTTP method. If no matching operation object is found in the queue, it will return nil</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/cancelAllOperations" title="cancelAllOperations"></a>
+	<h3 class="subsubtitle method-title">cancelAllOperations</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Cancel all operations that are waiting to be excecuted</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)cancelAllOperations</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/cancelAllOperationsWithTag:" title="cancelAllOperationsWithTag:"></a>
+	<h3 class="subsubtitle method-title">cancelAllOperationsWithTag:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Cancel all operations with a specific tag that are waiting to be excecuted</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)cancelAllOperationsWithTag:(NSString *)<em>operationTag</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>operationTag</em></dt>
+			<dd><p>Operation tag</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This method will cancel all operations that are either running or waiting to be executed that matches the specific operation tag</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/cleanup" title="cleanup"></a>
+	<h3 class="subsubtitle method-title">cleanup</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Clean up the SFNetworkEngine due to host change or logout</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)cleanup</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This method should be called upon user logout</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/cloneInternalOperation:" title="cloneInternalOperation:"></a>
+	<h3 class="subsubtitle method-title">cloneInternalOperation:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Clone the internal operation. Used to re-queue a failed operation</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)cloneInternalOperation:(SFNetworkOperation *)<em>operation</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>operation</em></dt>
+			<dd><p>Existing <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> to clone from</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delete:params:" title="delete:params:"></a>
+	<h3 class="subsubtitle method-title">delete:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationDeleteMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)delete:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/enqueueOperation:" title="enqueueOperation:"></a>
+	<h3 class="subsubtitle method-title">enqueueOperation:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Enqueues <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> for execution</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)enqueueOperation:(SFNetworkOperation *)<em>operation</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>operation</em></dt>
+			<dd><p><a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> object to be enqueued and executed by <code>SFNetworkEngine</code></p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Enqueued operation will be executed by <code>SFNetworkEngine</code> based on it&rsquo;s priority and dependencies if any</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/failOperationsWaitingForAccessTokenWithError:" title="failOperationsWaitingForAccessTokenWithError:"></a>
+	<h3 class="subsubtitle method-title">failOperationsWaitingForAccessTokenWithError:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Fatal OAuth error happened. Call error block of all operations stored in <a href="#//api/name/operationsWaitingForAccessToken"><code>operationsWaitingForAccessToken</code></a> queue</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)failOperationsWaitingForAccessTokenWithError:(NSError *)<em>error</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/get:params:" title="get:params:"></a>
+	<h3 class="subsubtitle method-title">get:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationGetMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)get:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/hasPendingOperationsWithTag:" title="hasPendingOperationsWithTag:"></a>
+	<h3 class="subsubtitle method-title">hasPendingOperationsWithTag:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns YES of there are pending requests matching the specified operation tag</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)hasPendingOperationsWithTag:(NSString *)<em>operationTag</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>operationTag</em></dt>
+			<dd><p>Operation tag</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/head:params:" title="head:params:"></a>
+	<h3 class="subsubtitle method-title">head:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPathMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)head:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isReachable" title="isReachable"></a>
+	<h3 class="subsubtitle method-title">isReachable</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns YES if <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> is reachable
+    If <a href="#//api/name/coordinator"><code>coordinator</code></a> is not set before this method is called, it will return NO</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)isReachable</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationWithUrl:params:httpMethod:" title="operationWithUrl:params:httpMethod:"></a>
+	<h3 class="subsubtitle method-title">operationWithUrl:params:httpMethod:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote request under SSL.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)operationWithUrl:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em> httpMethod:(NSString *)<em>method</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>url</em></dt>
+			<dd><p>Url to the remote service to invoke.  If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>params</em></dt>
+			<dd><p>Key &amp; value pair as request parameters</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>method</em></dt>
+			<dd><p>the http method to use. Valid value include GET, POST, DELETE, PUT and PATCH</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> object that can be executed by calling `enqueueOperation method</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationWithUrl:params:httpMethod:ssl:" title="operationWithUrl:params:httpMethod:ssl:"></a>
+	<h3 class="subsubtitle method-title">operationWithUrl:params:httpMethod:ssl:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)operationWithUrl:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em> httpMethod:(NSString *)<em>method</em> ssl:(BOOL)<em>useSSL</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>url</em></dt>
+			<dd><p>Url to the remote service to invoke. If this url is a relative URL, <code>SFNetworkEngine</code> will automatically construct the full URL using the format of <code>[[SFOAuthCoordinator credentials] instanceUrl]</code>/<a href="#//api/name/apiPath"><code>apiPath</code></a>/url if <code></code>apiPath<code> is not nil or</code>[[SFOAuthCoordinator credentials] instanceUrl]<code>/url if</code><a href="#//api/name/apiPath">apiPath</a> is nil.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>params</em></dt>
+			<dd><p>Key &amp; value pair as request parameters</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>method</em></dt>
+			<dd><p>the http method to use. Valid value include GET, POST, DELETE, PUT and PATCH</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>useSSL</em></dt>
+			<dd><p>Set to YES to use SSL connection</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> object that can be executed by calling `enqueueOperation method</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/operationsWithTag:" title="operationsWithTag:"></a>
+	<h3 class="subsubtitle method-title">operationsWithTag:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns an array of operations that matches the tag</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)operationsWithTag:(NSString *)<em>operationTag</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/patch:params:" title="patch:params:"></a>
+	<h3 class="subsubtitle method-title">patch:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPathMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)patch:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/post:params:" title="post:params:"></a>
+	<h3 class="subsubtitle method-title">post:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPostMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)post:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/put:params:" title="put:params:"></a>
+	<h3 class="subsubtitle method-title">put:params:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> that can be used to execute the specified remote call using <code>SFNetworkOperationPutMethod</code> method under SSL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFNetworkOperation *)put:(NSString *)<em>url</em> params:(NSDictionary *)<em>params</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>@param url Url to the remote service to invoke. If this url is a relative URL, <code>[[SFOAuthCoordinator credentials] instanceUrl]</code> will be automatically added to it</li>
+<li>@param params Key &amp; value pair as request parameters</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/queueOperationOnExpiredAccessToken:" title="queueOperationOnExpiredAccessToken:"></a>
+	<h3 class="subsubtitle method-title">queueOperationOnExpiredAccessToken:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Queue <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> due to expired access token</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)queueOperationOnExpiredAccessToken:(SFNetworkOperation *)<em>operation</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/queueOperationOnNetworkError:" title="queueOperationOnNetworkError:"></a>
+	<h3 class="subsubtitle method-title">queueOperationOnNetworkError:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Queue <a href="../Classes/SFNetworkOperation.html"><code>SFNetworkOperation</code></a> due to network error</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)queueOperationOnNetworkError:(SFNetworkOperation *)<em>operation</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/readDataFromTestFile:" title="readDataFromTestFile:"></a>
+	<h3 class="subsubtitle method-title">readDataFromTestFile:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Read and return data from local test file</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSData *)readDataFromTestFile:(NSString *)<em>localDataFilePath</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>localDataFilePath</em></dt>
+			<dd><p>Path to the local test data file. Full path must be provided</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>See <a href="#//api/name/supportLocalTestData"><code>supportLocalTestData</code></a> for more details</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/replayOperationsWaitingForAccessToken" title="replayOperationsWaitingForAccessToken"></a>
+	<h3 class="subsubtitle method-title">replayOperationsWaitingForAccessToken</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Replay all operations stored in <a href="#//api/name/operationsWaitingForAccessToken"><code>operationsWaitingForAccessToken</code></a> queue</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)replayOperationsWaitingForAccessToken</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/replayOperationsWaitingForNetwork" title="replayOperationsWaitingForNetwork"></a>
+	<h3 class="subsubtitle method-title">replayOperationsWaitingForNetwork</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Replay all operations stored in <a href="#//api/name/operationsWaitingForNetwork"><code>operationsWaitingForNetwork</code></a> queue</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)replayOperationsWaitingForNetwork</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/resumeAllOperations" title="resumeAllOperations"></a>
+	<h3 class="subsubtitle method-title">resumeAllOperations</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resume all operations that are suspended</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)resumeAllOperations</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setHeaderValue:forKey:" title="setHeaderValue:forKey:"></a>
+	<h3 class="subsubtitle method-title">setHeaderValue:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set value for the specified HTTP header</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)setHeaderValue:(NSString *)<em>value</em> forKey:(NSString *)<em>key</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>value</em></dt>
+			<dd><p>Header value.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>Header key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/startRefreshAccessTokenFlow" title="startRefreshAccessTokenFlow"></a>
+	<h3 class="subsubtitle method-title">startRefreshAccessTokenFlow</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Start refresh access token flow</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)startRefreshAccessTokenFlow</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/suspendAllOperations" title="suspendAllOperations"></a>
+	<h3 class="subsubtitle method-title">suspendAllOperations</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Suspend all operations that are waiting to be excecuted</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)suspendAllOperations</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFNetworkEngine.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

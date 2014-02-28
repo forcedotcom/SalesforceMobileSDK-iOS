@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/FMStatement.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/FMStatement</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>
+			
+			<NodeRef refid="7"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/setUseCount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) long useCount</Declaration>
+			
+			
+			<Anchor>//api/name/useCount</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/useCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) long useCount</Declaration>
+			
+			
+			<Anchor>//api/name/useCount</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/FMStatement/useCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) long useCount</Declaration>
+			
+			
+			<Anchor>//api/name/useCount</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/setQuery:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/query</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/FMStatement/query</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/setStatement:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) sqlite3_stmt *statement</Declaration>
+			
+			
+			<Anchor>//api/name/statement</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/statement</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) sqlite3_stmt *statement</Declaration>
+			
+			
+			<Anchor>//api/name/statement</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/FMStatement/statement</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, assign) sqlite3_stmt *statement</Declaration>
+			
+			
+			<Anchor>//api/name/statement</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/close</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>- (void)close</Declaration>
+			
+			
+			<Anchor>//api/name/close</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMStatement/reset</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabase.h</DeclaredIn>			
+			
+			<Declaration>- (void)reset</Declaration>
+			
+			
+			<Anchor>//api/name/reset</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

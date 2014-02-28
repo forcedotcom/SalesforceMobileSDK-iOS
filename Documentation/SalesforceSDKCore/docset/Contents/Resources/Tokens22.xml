@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFPasscodeManager.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeManager</TokenIdentifier>
+			<Abstract type="html">Class for managing storage, retrieval, and verification of passcodes.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			
+			<NodeRef refid="22"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">The shared instance of the passcode manager.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>+ (SFPasscodeManager *)sharedManager</Declaration>
+			
+			<ReturnValue><Abstract type="html">The shared instance of the passcode manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedManager</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key associated with the app.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
+the passcode manager will automatically update to the preferred provider at the next passcode
+update or verification.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			
+			
+			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeIsSet</TokenIdentifier>
+			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)passcodeIsSet</Declaration>
+			
+			<ReturnValue><Abstract type="html">Whether or not a passcode has been set.</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeIsSet</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/resetPasscode</TokenIdentifier>
+			<Abstract type="html">Reset the passcode in the keychain.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)resetPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/resetPasscode</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify the passcode.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the passcode verifies, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscode:</TokenIdentifier>
+			<Abstract type="html">Set the passcode.</Abstract>
+			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			
+			<Declaration>- (void)setPasscode:(NSString *)newPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The passcode to set.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPasscode:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Set a value for the encryption key.  Note: this is just the internal setter for
+the encryptionKey property.  I.e. the value you set should be the end-result
+encryption key value.  Call setEncryptionKeyForPasscode if you want validation
+and encryption based on a plain-text passcode value.</Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>			
+			
+			<Declaration>- (void)setEncryptionKey:(NSString *)newEncryptionKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newEncryptionKey</Name>
+					<Abstract type="html">The new value for the encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKey:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKeyForPasscode:</TokenIdentifier>
+			<Abstract type="html">Set the value of the encryption key, based on the input passcode.  Note: this method
+will not set the encryption key if a verification passcode is not set and valid, in
+the interests of maintaining a consistent passcode state.</Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>			
+			
+			<Declaration>- (void)setEncryptionKeyForPasscode:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to convert into an encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKeyForPasscode:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

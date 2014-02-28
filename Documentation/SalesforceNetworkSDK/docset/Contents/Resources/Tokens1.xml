@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFNetworkCoordinator.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNetworkCoordinator</TokenIdentifier>
+			<Abstract type="html">Main class to encapulate information for making network request</Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>
+			
+			<NodeRef refid="1"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/host</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/host</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setOrganizationId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *organizationId</Declaration>
+			
+			
+			<Anchor>//api/name/organizationId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/organizationId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *organizationId</Declaration>
+			
+			
+			<Anchor>//api/name/organizationId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/organizationId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *organizationId</Declaration>
+			
+			
+			<Anchor>//api/name/organizationId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setUserId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *userId</Declaration>
+			
+			
+			<Anchor>//api/name/userId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/userId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *userId</Declaration>
+			
+			
+			<Anchor>//api/name/userId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/userId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *userId</Declaration>
+			
+			
+			<Anchor>//api/name/userId</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setPortNumber:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *portNumber</Declaration>
+			
+			
+			<Anchor>//api/name/portNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/portNumber</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *portNumber</Declaration>
+			
+			
+			<Anchor>//api/name/portNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/portNumber</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *portNumber</Declaration>
+			
+			
+			<Anchor>//api/name/portNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setSslPortNumber:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *sslPortNumber</Declaration>
+			
+			
+			<Anchor>//api/name/sslPortNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/sslPortNumber</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *sslPortNumber</Declaration>
+			
+			
+			<Anchor>//api/name/sslPortNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/sslPortNumber</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSNumber *sslPortNumber</Declaration>
+			
+			
+			<Anchor>//api/name/sslPortNumber</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/setAccessToken:</TokenIdentifier>
+			<Abstract type="html">Access token</Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkCoordinator/accessToken</TokenIdentifier>
+			<Abstract type="html">Access token</Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkCoordinator/accessToken</TokenIdentifier>
+			<Abstract type="html">Access token</Abstract>
+			<DeclaredIn>SFNetworkCoordinator.h</DeclaredIn>			
+			
+			<Declaration>@property (strong) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

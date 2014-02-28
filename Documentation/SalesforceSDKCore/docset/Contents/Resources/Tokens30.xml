@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKCryptoUtilsTests.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCryptoUtilsTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCryptoUtilsTests.h</DeclaredIn>
+			
+			<NodeRef refid="30"/>
+		</Token>
+		
+		
+	</File>
+</Tokens>

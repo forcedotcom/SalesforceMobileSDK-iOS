@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKResourceUtils.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			
+			<NodeRef refid="31"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
+			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>			
+			
+			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
+			
+			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
+			<Anchor>//api/name/mainSdkBundle</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
+			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>			
+			
+			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>localizationKey</Name>
+					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
+			<Anchor>//api/name/localizedString:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

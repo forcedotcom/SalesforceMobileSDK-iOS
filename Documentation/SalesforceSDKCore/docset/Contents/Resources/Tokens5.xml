@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/FMDatabaseQueue.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/FMDatabaseQueue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/setPath:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/path</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/FMDatabaseQueue/path</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>@property (atomic, retain) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/FMDatabaseQueue/databaseQueueWithPath:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>+ (id)databaseQueueWithPath:(NSString *)aPath</Declaration>
+			
+			
+			<Anchor>//api/name/databaseQueueWithPath:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/initWithPath:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (id)initWithPath:(NSString *)aPath</Declaration>
+			
+			
+			<Anchor>//api/name/initWithPath:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/close</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (void)close</Declaration>
+			
+			
+			<Anchor>//api/name/close</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inDatabase:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (void)inDatabase:(void ( ^ ) ( FMDatabase *db ))block</Declaration>
+			
+			
+			<Anchor>//api/name/inDatabase:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inTransaction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (void)inTransaction:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
+			
+			
+			<Anchor>//api/name/inTransaction:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inDeferredTransaction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (void)inDeferredTransaction:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
+			
+			
+			<Anchor>//api/name/inDeferredTransaction:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inSavePoint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>			
+			
+			<Declaration>- (NSError *)inSavePoint:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
+			
+			
+			<Anchor>//api/name/inSavePoint:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

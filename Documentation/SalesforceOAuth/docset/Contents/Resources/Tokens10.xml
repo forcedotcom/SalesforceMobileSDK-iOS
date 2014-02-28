@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIDevice+Hardware.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(Hardware)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
+			
+			<NodeRef refid="10"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)platform</Declaration>
+			
+			
+			<Anchor>//api/name/platform</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)hwmodel</Declaration>
+			
+			
+			<Anchor>//api/name/hwmodel</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSUInteger)platformType</Declaration>
+			
+			
+			<Anchor>//api/name/platformType</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)platformString</Declaration>
+			
+			
+			<Anchor>//api/name/platformString</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
+			
+			
+			<Anchor>//api/name/cpuFrequency</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSUInteger)busFrequency</Declaration>
+			
+			
+			<Anchor>//api/name/busFrequency</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSUInteger)totalMemory</Declaration>
+			
+			
+			<Anchor>//api/name/totalMemory</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSUInteger)userMemory</Declaration>
+			
+			
+			<Anchor>//api/name/userMemory</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/totalDiskSpace</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/freeDiskSpace</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)macaddress</Declaration>
+			
+			
+			<Anchor>//api/name/macaddress</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

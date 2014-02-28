@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>SalesforceNativeSDK</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
+						<NodeRef refid="7"/>
+						<NodeRef refid="8"/>
+						<NodeRef refid="9"/>
+						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="14"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1" type="file">
+			<Name>AppDelegate</Name>
+			<Path>Classes/AppDelegate.html</Path>
+		</Node>
+		<Node id="2" type="file">
+			<Name>SDKInfoTestSuite</Name>
+			<Path>Classes/SDKInfoTestSuite.html</Path>
+		</Node>
+		<Node id="3" type="file">
+			<Name>SFHybridViewConfig</Name>
+			<Path>Classes/SFHybridViewConfig.html</Path>
+		</Node>
+		<Node id="4" type="file">
+			<Name>SFHybridViewController</Name>
+			<Path>Classes/SFHybridViewController.html</Path>
+		</Node>
+		<Node id="5" type="file">
+			<Name>SFPluginTestSuite</Name>
+			<Path>Classes/SFPluginTestSuite.html</Path>
+		</Node>
+		<Node id="6" type="file">
+			<Name>SFSDKInfoPlugin</Name>
+			<Path>Classes/SFSDKInfoPlugin.html</Path>
+		</Node>
+		<Node id="7" type="file">
+			<Name>SFSmartStorePlugin</Name>
+			<Path>Classes/SFSmartStorePlugin.html</Path>
+		</Node>
+		<Node id="8" type="file">
+			<Name>SFTestResult</Name>
+			<Path>Classes/SFTestResult.html</Path>
+		</Node>
+		<Node id="9" type="file">
+			<Name>SFTestRunnerPlugin</Name>
+			<Path>Classes/SFTestRunnerPlugin.html</Path>
+		</Node>
+		<Node id="10" type="file">
+			<Name>SalesforceOAuthPlugin</Name>
+			<Path>Classes/SalesforceOAuthPlugin.html</Path>
+		</Node>
+		<Node id="11" type="file">
+			<Name>SmartStoreLoadTestSuite</Name>
+			<Path>Classes/SmartStoreLoadTestSuite.html</Path>
+		</Node>
+		<Node id="12" type="file">
+			<Name>SmartStoreTestSuite</Name>
+			<Path>Classes/SmartStoreTestSuite.html</Path>
+		</Node>
+		<Node id="13" type="file">
+			<Name>SmartSyncTestSuite</Name>
+			<Path>Classes/SmartSyncTestSuite.html</Path>
+		</Node>
+		
+		<Node id="14" type="file">
+			<Name>CDVPlugin(SFAdditions)</Name>
+			<Path>Categories/CDVPlugin+SFAdditions.html</Path>
+		</Node>
+		
+		
+	</Library>
+</DocSetNodes>

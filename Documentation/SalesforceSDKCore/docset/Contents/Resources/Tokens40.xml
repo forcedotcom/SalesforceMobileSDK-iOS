@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSmartStoreTestCase.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreTestCase</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<NodeRef refid="40"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>			
+			
+			<Declaration>- (void)assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONWithExpected:actual:message:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONArrayWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>			
+			
+			<Declaration>- (void)assertSameJSONArrayWithExpected:(NSArray *)expected actual:(NSArray *)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONArrayWithExpected:actual:message:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONMapWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>			
+			
+			<Declaration>- (void)assertSameJSONMapWithExpected:(NSDictionary *)expected actual:(NSDictionary *)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONMapWithExpected:actual:message:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

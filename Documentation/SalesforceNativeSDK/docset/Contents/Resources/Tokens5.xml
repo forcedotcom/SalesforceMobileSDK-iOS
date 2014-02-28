@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSessionRefresher.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSessionRefresher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSessionRefresher/setPreviousOAuthDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; previousOAuthDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/previousOAuthDelegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSessionRefresher/previousOAuthDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; previousOAuthDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/previousOAuthDelegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSessionRefresher/previousOAuthDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; previousOAuthDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/previousOAuthDelegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSessionRefresher/setIsRefreshing:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) BOOL isRefreshing</Declaration>
+			
+			
+			<Anchor>//api/name/isRefreshing</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSessionRefresher/isRefreshing</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) BOOL isRefreshing</Declaration>
+			
+			
+			<Anchor>//api/name/isRefreshing</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSessionRefresher/isRefreshing</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) BOOL isRefreshing</Declaration>
+			
+			
+			<Anchor>//api/name/isRefreshing</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSessionRefresher/refreshAccessToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSessionRefresher.h</DeclaredIn>			
+			
+			<Declaration>- (void)refreshAccessToken</Declaration>
+			
+			
+			<Anchor>//api/name/refreshAccessToken</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFPasscodeViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeViewController</TokenIdentifier>
+			<Abstract type="html">The view controller for managing the passcode screen.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			
+			<NodeRef refid="25"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/setMinPasscodeLength:</TokenIdentifier>
+			<Abstract type="html">The minimum passcode length, which this view controller will enforce.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) NSInteger minPasscodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/minPasscodeLength</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/minPasscodeLength</TokenIdentifier>
+			<Abstract type="html">The minimum passcode length, which this view controller will enforce.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) NSInteger minPasscodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/minPasscodeLength</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeViewController/minPasscodeLength</TokenIdentifier>
+			<Abstract type="html">The minimum passcode length, which this view controller will enforce.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) NSInteger minPasscodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/minPasscodeLength</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/setMode:</TokenIdentifier>
+			<Abstract type="html">Whether or not this controller is in a passcode creation or verification mode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) SFPasscodeControllerMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/mode</TokenIdentifier>
+			<Abstract type="html">Whether or not this controller is in a passcode creation or verification mode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) SFPasscodeControllerMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeViewController/mode</TokenIdentifier>
+			<Abstract type="html">Whether or not this controller is in a passcode creation or verification mode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (readonly) SFPasscodeControllerMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeVerification</TokenIdentifier>
+			<Abstract type="html">Initializes the controller for verifying an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>- (id)initForPasscodeVerification</Declaration>
+			
+			
+			<Anchor>//api/name/initForPasscodeVerification</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeCreation:</TokenIdentifier>
+			<Abstract type="html">Initializes the controller for creating a new passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>			
+			
+			<Declaration>- (id)initForPasscodeCreation:(NSInteger)minPasscodeLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>minPasscodeLength</Name>
+					<Abstract type="html">The minimum passcode length for the new passcode.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initForPasscodeCreation:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

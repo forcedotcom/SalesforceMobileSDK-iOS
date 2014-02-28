@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>SalesforceNativeSDK</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
+						<NodeRef refid="7"/>
+						<NodeRef refid="8"/>
+						<NodeRef refid="9"/>
+						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
+						<NodeRef refid="15"/>
+						<NodeRef refid="16"/>
+						<NodeRef refid="17"/>
+						<NodeRef refid="18"/>
+						<NodeRef refid="19"/>
+						<NodeRef refid="20"/>
+						<NodeRef refid="21"/>
+						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
+						<NodeRef refid="24"/>
+						<NodeRef refid="25"/>
+						<NodeRef refid="26"/>
+						<NodeRef refid="27"/>
+						<NodeRef refid="28"/>
+						<NodeRef refid="29"/>
+						<NodeRef refid="30"/>
+						<NodeRef refid="31"/>
+						<NodeRef refid="32"/>
+						<NodeRef refid="33"/>
+						<NodeRef refid="34"/>
+						<NodeRef refid="35"/>
+						<NodeRef refid="36"/>
+						<NodeRef refid="37"/>
+						<NodeRef refid="38"/>
+						<NodeRef refid="39"/>
+						<NodeRef refid="40"/>
+						<NodeRef refid="41"/>
+						<NodeRef refid="42"/>
+						<NodeRef refid="43"/>
+						<NodeRef refid="44"/>
+						<NodeRef refid="45"/>
+						<NodeRef refid="46"/>
+						<NodeRef refid="47"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="48"/>
+						<NodeRef refid="49"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Protocols</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="50"/>
+						<NodeRef refid="51"/>
+						<NodeRef refid="52"/>
+						<NodeRef refid="53"/>
+						
+					</Subnodes>
+				</Node>
+				
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1" type="file">
+			<Name>AppDelegate</Name>
+			<Path>Classes/AppDelegate.html</Path>
+		</Node>
+		<Node id="2" type="file">
+			<Name>FIXCATEGORYBUG</Name>
+			<Path>Classes/FIXCATEGORYBUG.html</Path>
+		</Node>
+		<Node id="3" type="file">
+			<Name>FMDatabase</Name>
+			<Path>Classes/FMDatabase.html</Path>
+		</Node>
+		<Node id="4" type="file">
+			<Name>FMDatabasePool</Name>
+			<Path>Classes/FMDatabasePool.html</Path>
+		</Node>
+		<Node id="5" type="file">
+			<Name>FMDatabaseQueue</Name>
+			<Path>Classes/FMDatabaseQueue.html</Path>
+		</Node>
+		<Node id="6" type="file">
+			<Name>FMResultSet</Name>
+			<Path>Classes/FMResultSet.html</Path>
+		</Node>
+		<Node id="7" type="file">
+			<Name>FMStatement</Name>
+			<Path>Classes/FMStatement.html</Path>
+		</Node>
+		<Node id="8" type="file">
+			<Name>NSURL_SFStringUtilsTests</Name>
+			<Path>Classes/NSURL_SFStringUtilsTests.html</Path>
+		</Node>
+		<Node id="9" type="file">
+			<Name>SFAccountManager</Name>
+			<Path>Classes/SFAccountManager.html</Path>
+		</Node>
+		<Node id="10" type="file">
+			<Name>SFApplication</Name>
+			<Path>Classes/SFApplication.html</Path>
+		</Node>
+		<Node id="11" type="file">
+			<Name>SFAuthErrorHandler</Name>
+			<Path>Classes/SFAuthErrorHandler.html</Path>
+		</Node>
+		<Node id="12" type="file">
+			<Name>SFAuthErrorHandlerList</Name>
+			<Path>Classes/SFAuthErrorHandlerList.html</Path>
+		</Node>
+		<Node id="13" type="file">
+			<Name>SFAuthenticationManager</Name>
+			<Path>Classes/SFAuthenticationManager.html</Path>
+		</Node>
+		<Node id="14" type="file">
+			<Name>SFAuthenticationViewHandler</Name>
+			<Path>Classes/SFAuthenticationViewHandler.html</Path>
+		</Node>
+		<Node id="15" type="file">
+			<Name>SFAuthorizingViewController</Name>
+			<Path>Classes/SFAuthorizingViewController.html</Path>
+		</Node>
+		<Node id="16" type="file">
+			<Name>SFIdentityCoordinator</Name>
+			<Path>Classes/SFIdentityCoordinator.html</Path>
+		</Node>
+		<Node id="17" type="file">
+			<Name>SFIdentityData</Name>
+			<Path>Classes/SFIdentityData.html</Path>
+		</Node>
+		<Node id="18" type="file">
+			<Name>SFJsonUtils</Name>
+			<Path>Classes/SFJsonUtils.html</Path>
+		</Node>
+		<Node id="19" type="file">
+			<Name>SFLoginHostUpdateResult</Name>
+			<Path>Classes/SFLoginHostUpdateResult.html</Path>
+		</Node>
+		<Node id="20" type="file">
+			<Name>SFPBKDF2PasscodeProvider</Name>
+			<Path>Classes/SFPBKDF2PasscodeProvider.html</Path>
+		</Node>
+		<Node id="21" type="file">
+			<Name>SFPBKDFData</Name>
+			<Path>Classes/SFPBKDFData.html</Path>
+		</Node>
+		<Node id="22" type="file">
+			<Name>SFPasscodeManager</Name>
+			<Path>Classes/SFPasscodeManager.html</Path>
+		</Node>
+		<Node id="23" type="file">
+			<Name>SFPasscodeProviderManager</Name>
+			<Path>Classes/SFPasscodeProviderManager.html</Path>
+		</Node>
+		<Node id="24" type="file">
+			<Name>SFPasscodeTests</Name>
+			<Path>Classes/SFPasscodeTests.html</Path>
+		</Node>
+		<Node id="25" type="file">
+			<Name>SFPasscodeViewController</Name>
+			<Path>Classes/SFPasscodeViewController.html</Path>
+		</Node>
+		<Node id="26" type="file">
+			<Name>SFPushNotificationManager</Name>
+			<Path>Classes/SFPushNotificationManager.html</Path>
+		</Node>
+		<Node id="27" type="file">
+			<Name>SFQuerySpec</Name>
+			<Path>Classes/SFQuerySpec.html</Path>
+		</Node>
+		<Node id="28" type="file">
+			<Name>SFRootViewManager</Name>
+			<Path>Classes/SFRootViewManager.html</Path>
+		</Node>
+		<Node id="29" type="file">
+			<Name>SFSDKCryptoUtils</Name>
+			<Path>Classes/SFSDKCryptoUtils.html</Path>
+		</Node>
+		<Node id="30" type="file">
+			<Name>SFSDKCryptoUtilsTests</Name>
+			<Path>Classes/SFSDKCryptoUtilsTests.html</Path>
+		</Node>
+		<Node id="31" type="file">
+			<Name>SFSDKResourceUtils</Name>
+			<Path>Classes/SFSDKResourceUtils.html</Path>
+		</Node>
+		<Node id="32" type="file">
+			<Name>SFSDKTestRequestListener</Name>
+			<Path>Classes/SFSDKTestRequestListener.html</Path>
+		</Node>
+		<Node id="33" type="file">
+			<Name>SFSDKWebUtils</Name>
+			<Path>Classes/SFSDKWebUtils.html</Path>
+		</Node>
+		<Node id="34" type="file">
+			<Name>SFSHA256PasscodeProvider</Name>
+			<Path>Classes/SFSHA256PasscodeProvider.html</Path>
+		</Node>
+		<Node id="35" type="file">
+			<Name>SFSecurityLockout</Name>
+			<Path>Classes/SFSecurityLockout.html</Path>
+		</Node>
+		<Node id="36" type="file">
+			<Name>SFSmartSqlHelper</Name>
+			<Path>Classes/SFSmartSqlHelper.html</Path>
+		</Node>
+		<Node id="37" type="file">
+			<Name>SFSmartSqlTests</Name>
+			<Path>Classes/SFSmartSqlTests.html</Path>
+		</Node>
+		<Node id="38" type="file">
+			<Name>SFSmartStore</Name>
+			<Path>Classes/SFSmartStore.html</Path>
+		</Node>
+		<Node id="39" type="file">
+			<Name>SFSmartStoreDatabaseManager</Name>
+			<Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+		</Node>
+		<Node id="40" type="file">
+			<Name>SFSmartStoreTestCase</Name>
+			<Path>Classes/SFSmartStoreTestCase.html</Path>
+		</Node>
+		<Node id="41" type="file">
+			<Name>SFSmartStoreTests</Name>
+			<Path>Classes/SFSmartStoreTests.html</Path>
+		</Node>
+		<Node id="42" type="file">
+			<Name>SFSoupIndex</Name>
+			<Path>Classes/SFSoupIndex.html</Path>
+		</Node>
+		<Node id="43" type="file">
+			<Name>SFStoreCursor</Name>
+			<Path>Classes/SFStoreCursor.html</Path>
+		</Node>
+		<Node id="44" type="file">
+			<Name>SFUserActivityMonitor</Name>
+			<Path>Classes/SFUserActivityMonitor.html</Path>
+		</Node>
+		<Node id="45" type="file">
+			<Name>SalesforceSDKIdentityTests</Name>
+			<Path>Classes/SalesforceSDKIdentityTests.html</Path>
+		</Node>
+		<Node id="46" type="file">
+			<Name>TestSetupUtils</Name>
+			<Path>Classes/TestSetupUtils.html</Path>
+		</Node>
+		<Node id="47" type="file">
+			<Name>ViewController</Name>
+			<Path>Classes/ViewController.html</Path>
+		</Node>
+		
+		<Node id="48" type="file">
+			<Name>NSObject(FMDatabasePoolDelegate)</Name>
+			<Path>Categories/NSObject+FMDatabasePoolDelegate.html</Path>
+		</Node>
+		<Node id="49" type="file">
+			<Name>NSURL(SFStringUtils)</Name>
+			<Path>Categories/NSURL+SFStringUtils.html</Path>
+		</Node>
+		
+		<Node id="50" type="file">
+			<Name>SFAuthenticationManagerDelegate</Name>
+			<Path>Protocols/SFAuthenticationManagerDelegate.html</Path>
+		</Node>
+		<Node id="51" type="file">
+			<Name>SFIdentityCoordinatorDelegate</Name>
+			<Path>Protocols/SFIdentityCoordinatorDelegate.html</Path>
+		</Node>
+		<Node id="52" type="file">
+			<Name>SFPasscodeProvider</Name>
+			<Path>Protocols/SFPasscodeProvider.html</Path>
+		</Node>
+		<Node id="53" type="file">
+			<Name>SFSDKAppDelegate</Name>
+			<Path>Protocols/SFSDKAppDelegate.html</Path>
+		</Node>
+		
+	</Library>
+</DocSetNodes>

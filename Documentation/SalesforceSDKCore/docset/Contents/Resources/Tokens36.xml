@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSmartSqlHelper.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlHelper</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
+			
+			<NodeRef refid="36"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSqlHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the smart sql helper.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>			
+			
+			<Declaration>+ (SFSmartSqlHelper *)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlHelper/convertSmartSql:withStore:</TokenIdentifier>
+			<Abstract type="html">Converts a smart sql query to sql.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>			
+			
+			<Declaration>- (NSString *)convertSmartSql:(NSString *)smartSql withStore:(SFSmartStore *)store</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>smartSql</Name>
+					<Abstract type="html">The smart sql query to convert.</Abstract>
+				</Parameter><Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The smart store.</Abstract>
+				</Parameter><Parameter>
+					<Name>The</Name>
+					<Abstract type="html">sql query.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/convertSmartSql:withStore:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

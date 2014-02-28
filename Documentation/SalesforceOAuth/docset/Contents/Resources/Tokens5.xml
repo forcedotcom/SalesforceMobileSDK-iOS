@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SalesforceOAuthTestAppDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthTestAppDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestAppDelegate/setWindow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) UIWindow *window</Declaration>
+			
+			
+			<Anchor>//api/name/window</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestAppDelegate/window</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) UIWindow *window</Declaration>
+			
+			
+			<Anchor>//api/name/window</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestAppDelegate/window</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) UIWindow *window</Declaration>
+			
+			
+			<Anchor>//api/name/window</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestAppDelegate/setViewController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) SalesforceOAuthTestViewController *viewController</Declaration>
+			
+			
+			<Anchor>//api/name/viewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestAppDelegate/viewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) SalesforceOAuthTestViewController *viewController</Declaration>
+			
+			
+			<Anchor>//api/name/viewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestAppDelegate/viewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) SalesforceOAuthTestViewController *viewController</Declaration>
+			
+			
+			<Anchor>//api/name/viewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceOAuthTestAppDelegate/archiveCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>+ (void)archiveCredentials:(SFOAuthCredentials *)creds</Declaration>
+			
+			
+			<Anchor>//api/name/archiveCredentials:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceOAuthTestAppDelegate/unarchiveCredentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>+ (SFOAuthCredentials *)unarchiveCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/unarchiveCredentials</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceOAuthTestAppDelegate/archivePath</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthTestAppDelegate.h</DeclaredIn>			
+			
+			<Declaration>+ (NSString *)archivePath</Declaration>
+			
+			
+			<Anchor>//api/name/archivePath</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/TestSetupUtils.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
+			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			
+			<NodeRef refid="46"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile</TokenIdentifier>
+			<Abstract type="html">Forces a reload of authorization credentials from the configuration file.</Abstract>
+			<DeclaredIn>TestSetupUtils.h</DeclaredIn>			
+			
+			<Declaration>+ (void)populateAuthCredentialsFromConfigFile</Declaration>
+			
+			
+			<Anchor>//api/name/populateAuthCredentialsFromConfigFile</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>
