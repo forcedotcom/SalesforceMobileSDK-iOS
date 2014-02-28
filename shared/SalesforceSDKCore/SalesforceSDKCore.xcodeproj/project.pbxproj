@@ -765,7 +765,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.markdown\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.markdown\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
 		};
 		8280EBB016E14E9F00768DE8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1107,6 +1107,7 @@
 				2DE48CC718BFAD45008345C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8220B74616D804CA00EC3921 /* Build configuration list for PBXProject "SalesforceSDKCore" */ = {
 			isa = XCConfigurationList;
