@@ -369,6 +369,12 @@ static Class InstanceClass = nil;
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
         
+        // Set up the current user, if available
+        SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+        if (user) {
+            [self setupWithUser:user];
+        }
+        
         // Make sure the login host settings and dependent data are synced at pre-auth app startup.
         // Note: No event generation necessary here.  This will happen before the first authentication
         // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
@@ -512,9 +518,19 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)haveValidSession {
+    // Check that we have a valid current user
+    NSString *userId = [[SFUserAccountManager sharedInstance] currentUserId];
+    if (nil == userId || [userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+        return NO;
+    }
+    
+    // Check that the current user itself has a valid session
     SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    BOOL result = [userAcct isSessionValid];
-    return result;
+    if ([userAcct isSessionValid]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (BOOL)logoutSettingEnabled {
@@ -625,7 +641,7 @@ static Class InstanceClass = nil;
 
 + (void)addSidCookieForInstance
 {
-    [self addSidCookieForDomain:[[SFAccountManager sharedInstance].credentials.instanceUrl host]];
+    [self addSidCookieForDomain:[[SFUserAccountManager sharedInstance].currentUser.credentials.instanceUrl host]];
 }
 
 + (void)addSidCookieForDomain:(NSString*)domain
@@ -804,8 +820,15 @@ static Class InstanceClass = nil;
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
     
-    // Update the user account manager first before invoking the completion blocks
+    // Apply the credentials that will ensure there is a current user and that this
+    // current user as the proper credentials.
     [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
+    
+    // Assign the identity data to the current user
+    NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
+    [SFUserAccountManager sharedInstance].currentUser.idData = self.idCoordinator.idData;
+    
+    // Save the accounts
     [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     // Notify the session is ready
@@ -921,6 +944,17 @@ static Class InstanceClass = nil;
 - (void)loginWithUser:(SFUserAccount*)account {
     [SFUserAccountManager sharedInstance].currentUser = account;
     
+    // Setup the internal logic for the specified user
+    [self setupWithUser:account];
+    
+    // Trigger the login flow
+    if (self.coordinator.isAuthenticating) {
+        [self.coordinator stopAuthentication];        
+    }
+    [self.coordinator authenticate];
+}
+
+- (void)setupWithUser:(SFUserAccount*)account {
     // sets the domain if it not set already
     if (nil == account.credentials.domain) {
         account.credentials.domain = [[SFUserAccountManager sharedInstance] loginHost];
@@ -941,13 +975,8 @@ static Class InstanceClass = nil;
     // re-create the identity coordinator for the current user
     self.idCoordinator.delegate = nil;
     self.idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:account.credentials];
+    self.idCoordinator.idData = account.idData;
     self.idCoordinator.delegate = self;
-    
-    // Trigger the login flow
-    if (self.coordinator.isAuthenticating) {
-        [self.coordinator stopAuthentication];        
-    }
-    [self.coordinator authenticate];
 }
 
 /**
@@ -1017,10 +1046,6 @@ static Class InstanceClass = nil;
     // NB: This method is assumed to run after identity data has been refreshed from the service.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     
-    // Save the accounts (and credentials) when the identity information
-    // changes so we have the latest stored on disk.
-    [[SFUserAccountManager sharedInstance] saveAccounts:nil];
-
     if ([self mobilePinPolicyConfigured]) {
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{

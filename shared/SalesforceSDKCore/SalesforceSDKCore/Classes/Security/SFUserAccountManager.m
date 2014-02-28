@@ -47,8 +47,8 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// Defaults
-NSString * const SFUserAccountManagerDefaultUserAccountId = @"TEMP_USER_ID";
+// The temporary user ID
+NSString * const SFUserAccountManagerTemporaryUserAccountId = @"TEMP_USER_ID";
 
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
@@ -321,7 +321,7 @@ static NSString * const kUserPrefix = @"005";
     // Remove the temporary user id from the array
     NSMutableArray *filteredKeys = [NSMutableArray array];
     for (NSString *userId in keys) {
-        if ([userId isEqualToString:SFUserAccountManagerDefaultUserAccountId]) {
+        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
             continue;
         }
         [filteredKeys addObject:userId];
@@ -380,7 +380,7 @@ static NSString * const kUserPrefix = @"005";
 
     //when creating a fresh user account, always use a default user ID 
     // until the server tells us what the actual user ID is
-    creds.userId = SFUserAccountManagerDefaultUserAccountId;
+    creds.userId = SFUserAccountManagerTemporaryUserAccountId;
 
     //add the account to our list of possible accounts, but
     //don't set this as the current user account until somebody
@@ -496,7 +496,7 @@ static NSString * const kUserPrefix = @"005";
 - (BOOL)saveAccounts:(NSError**)error {
     for (NSString *userId in self.userAccountMap) {
         // Don't save the temporary user id
-        if ([userId isEqualToString:SFUserAccountManagerDefaultUserAccountId]) {
+        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
             continue;
         }
         
@@ -612,9 +612,9 @@ static NSString * const kUserPrefix = @"005";
     
     //if our default user id is currently the temporary user id,
     //we need to update it with the latest known good user id
-    if ([[self activeUserId] isEqualToString:SFUserAccountManagerDefaultUserAccountId]) {
+    if ([[self activeUserId] isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
         [self log:SFLogLevelInfo format:@"Replacing temp user ID with %@",self.currentUser];
-        [self replaceOldUser:SFUserAccountManagerDefaultUserAccountId withUser:self.currentUser];
+        [self replaceOldUser:SFUserAccountManagerTemporaryUserAccountId withUser:self.currentUser];
     }
     
     [self userCredentialsChanged];

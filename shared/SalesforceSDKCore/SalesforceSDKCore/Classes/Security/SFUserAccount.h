@@ -26,6 +26,7 @@
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFCommunityData.h"
 #import "SFUserAccountConstants.h"
+#import "SFIdentityData.h"
 
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
@@ -39,6 +40,10 @@
 /** The credentials associated with this user
  */
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
+
+/** The identity data associated with this user
+ */
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /** The user's email
  */

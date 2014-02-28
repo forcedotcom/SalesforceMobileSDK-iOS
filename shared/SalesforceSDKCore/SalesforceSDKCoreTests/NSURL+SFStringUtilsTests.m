@@ -94,4 +94,17 @@
                  actualOutUrlString);
 }
 
+- (void)testStringUrlWithComponents
+{
+    STAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:nil pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:@(8080) pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:nil], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers"]], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers"]], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers/"]], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/"]], @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v30.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v30.0/", @"settings"]]), @"Invalid URL string");
+    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v30.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v30.0/", @"/settings"]]), @"Invalid URL string");
+}
+
 @end
