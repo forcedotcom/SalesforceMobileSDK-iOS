@@ -57,6 +57,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		821C8F3118C5317C000FAF96 /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
+		821C8F3218C5317C000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
+		821C8F3318C5317C000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
+		821C8F3418C5317C000FAF96 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
 		824AA08B1725140400C9BD79 /* __HybridTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__HybridTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		824AA08E1725140400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824AA0901725140400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -197,7 +201,6 @@
 		82BBB5D71793997A00374DD8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		82BBB5D81793997A00374DD8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		82BBB5D91793997A00374DD8 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKConstants.h; sourceTree = "<group>"; };
-		82BBB5DA1793997A00374DD8 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAccountManager.h; sourceTree = "<group>"; };
 		82BBB5DB1793997A00374DD8 /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
 		82BBB5DC1793997A00374DD8 /* SFAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationManager.h; sourceTree = "<group>"; };
 		82BBB5DD1793997A00374DD8 /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
@@ -610,13 +613,13 @@
 				82BBB5D71793997A00374DD8 /* FMDatabase.h */,
 				82BBB5D81793997A00374DD8 /* FMResultSet.h */,
 				82BBB5D91793997A00374DD8 /* SalesforceSDKConstants.h */,
-				82BBB5DA1793997A00374DD8 /* SFAccountManager.h */,
 				82BBB5DB1793997A00374DD8 /* SFApplication.h */,
 				82BBB5DC1793997A00374DD8 /* SFAuthenticationManager.h */,
 				82B36E3F1828884F00B0C975 /* SFAuthenticationViewHandler.h */,
 				82B36E401828884F00B0C975 /* SFAuthErrorHandler.h */,
 				82B36E411828884F00B0C975 /* SFAuthErrorHandlerList.h */,
 				82BBB5DD1793997A00374DD8 /* SFAuthorizingViewController.h */,
+				821C8F3118C5317C000FAF96 /* SFCommunityData.h */,
 				82BBB5DE1793997A00374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5DF1793997A00374DD8 /* SFIdentityData.h */,
 				82BBB5E01793997A00374DD8 /* SFJsonUtils.h */,
@@ -631,6 +634,9 @@
 				82BBB5E81793997A00374DD8 /* SFSmartStoreDatabaseManager.h */,
 				82BBB5E91793997A00374DD8 /* SFSoupIndex.h */,
 				82BBB5EA1793997A00374DD8 /* SFStoreCursor.h */,
+				821C8F3218C5317C000FAF96 /* SFUserAccount.h */,
+				821C8F3318C5317C000FAF96 /* SFUserAccountConstants.h */,
+				821C8F3418C5317C000FAF96 /* SFUserAccountManager.h */,
 			);
 			path = SalesforceSDKCore;
 			sourceTree = "<group>";
