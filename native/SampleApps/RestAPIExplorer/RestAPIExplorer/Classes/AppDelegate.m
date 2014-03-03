@@ -74,9 +74,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         [SFLogger setLogLevel:SFLogLevelDebug];
         
         // These SFAccountManager settings are the minimum required to identify the Connected App.
-        [SFUserAccountManager setClientId:RemoteAccessConsumerKey];
-        [SFUserAccountManager setRedirectUri:OAuthRedirectURI];
-        [SFUserAccountManager setScopes:[NSSet setWithObjects:@"web", @"api", nil]];
+        [SFUserAccountManager sharedInstance].oauthClientId = RemoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = OAuthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
         
         // Auth manager delegate, for receiving logout and login host change events.
         [[SFAuthenticationManager sharedManager] addDelegate:self];

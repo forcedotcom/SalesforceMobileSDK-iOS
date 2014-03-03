@@ -963,7 +963,7 @@ static Class InstanceClass = nil;
     // if the user doesn't specify any scopes, let's use the ones
     // defined in this account manager
     if (nil == account.accessScopes) {
-        account.accessScopes = [SFUserAccountManager scopes];
+        account.accessScopes = [SFUserAccountManager sharedInstance].scopes;
     }
     
     // re-create the oauth coordinator for the current user

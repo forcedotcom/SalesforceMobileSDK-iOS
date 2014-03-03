@@ -40,13 +40,6 @@
 - (void)sendSyncIdentityRequest;
 
 /**
- * Takes the OAuth credentials from the test file configuration, and retrieves a
- * bona fide set of SFOAuthCredentials from the service.  The ID requests need a
- * valid access token and identity URL.
- */
-- (void)bootstrapAuthCredentials;
-
-/**
  * Does a cursory pass on the identity data, to sanity check values.
  */
 - (void)validateIdentityData;
@@ -56,18 +49,19 @@
 
 #pragma mark - Test / class setup
 
++ (void)setUp
+{
+    [TestSetupUtils populateAuthCredentialsFromConfigFile];
+    [TestSetupUtils synchronousAuthRefresh];
+    [super setUp];
+}
+
 - (void)setUp
 {
     // Set-up code here.
     _requestListener = nil;
-    [self bootstrapAuthCredentials];
     
     [super setUp];
-}
-
-- (void)dealloc
-{
-    _requestListener = nil;
 }
 
 #pragma mark - Helper methods
@@ -80,22 +74,6 @@
     [_requestListener waitForCompletion];
 }
 
-- (void)bootstrapAuthCredentials
-{
-    [TestSetupUtils populateAuthCredentialsFromConfigFile];
-    
-    // With credentials bootstrapped, get an actual set of credentials (we'll need
-    // an access token and identity URL for these tests.
-    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
-    _requestListener = nil;
-    _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeOAuth];
-    [authMgr.coordinator authenticate];
-    [_requestListener waitForCompletion];
-    if ([_requestListener.returnStatus isEqualToString:kTestRequestStatusDidFail]) {
-        STFail([NSString stringWithFormat:@"OAuth refresh did not succeed: %@", _requestListener.lastError]);
-    }
-}
-
 #pragma mark - Tests
 
 /**
@@ -103,10 +81,10 @@
  */
 - (void)testRetrieveIdentitySuccess
 {
+    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
     [self sendSyncIdentityRequest];
     STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
     [self validateIdentityData];
-    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
 }
 
 /**
@@ -118,12 +96,12 @@
     SFIdentityCoordinator *idCoord = authMgr.idCoordinator;
     NSString *origAccessToken = [idCoord.credentials.accessToken copy];
     idCoord.credentials.accessToken = @"";
-    [self sendSyncIdentityRequest];
-    STAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should not have succeeded.");
-    NSError *error = _requestListener.lastError;
-    STAssertTrue([error.domain isEqualToString:kSFIdentityErrorDomain], [NSString stringWithFormat:@"Error domain should have been '%@'.  Got '%@'", kSFIdentityErrorDomain, error.domain]);
-    STAssertTrue(error.code == kSFIdentityErrorBadHttpResponse, [NSString stringWithFormat:@"Expected error code %d.  Got %d", kSFIdentityErrorBadHttpResponse, error.code]);
-    idCoord.credentials.accessToken = origAccessToken;
+    @try {
+        STAssertThrows([self sendSyncIdentityRequest], @"Identity request should fail with no access token.");
+    }
+    @finally {
+        idCoord.credentials.accessToken = origAccessToken;
+    }
 }
 
 #pragma mark - Private helper methods

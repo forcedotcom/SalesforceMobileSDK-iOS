@@ -33,13 +33,15 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+QueryBuilder.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFRestAPI+Files.h"
 
 @interface SalesforceNativeSDKTests ()
 {
-    SFAccountManager *_accountMgr;
     NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion
+    SFUserAccount *_currentUser;
 }
 - (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request;
 - (BOOL)waitForAllBlockCompletions;
@@ -54,14 +56,15 @@
 + (void)setUp
 {
     [TestSetupUtils populateAuthCredentialsFromConfigFile];
+    [TestSetupUtils synchronousAuthRefresh];
     [super setUp];
 }
 
 - (void)setUp
 {
     // Set-up code here.
-    _accountMgr = [SFAccountManager sharedInstance];
-    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
+    [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
+    _currentUser = [SFUserAccountManager sharedInstance].currentUser;
     [super setUp];
 }
 
@@ -69,9 +72,9 @@
 {
     // Tear-down code here.
     [[SFRestAPI sharedInstance] cleanup];
+    [NSThread sleepForTimeInterval:0.1];  // Some test runs were failing, saying the run didn't complete.  This seems to fix that.
     [super tearDown];
 }
-
 
 #pragma mark - help methods
 
@@ -85,9 +88,9 @@
 }
 
 - (void)changeOauthTokens:(NSString *)accessToken refreshToken:(NSString *)refreshToken {
-    _accountMgr.coordinator.credentials.accessToken = accessToken;
-    if (nil != refreshToken) _accountMgr.coordinator.credentials.refreshToken = refreshToken;
-    [[SFRestAPI sharedInstance] setCoordinator:_accountMgr.coordinator];
+    _currentUser.credentials.accessToken = accessToken;
+    if (nil != refreshToken) _currentUser.credentials.refreshToken = refreshToken;
+    [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
 }
 
 #pragma mark - tests
@@ -417,7 +420,7 @@
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
-    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_accountMgr.credentials.userId page:0];
+    request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -429,7 +432,7 @@
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
-    request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_accountMgr.credentials.userId page:0];
+    request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -441,7 +444,7 @@
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
-    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_accountMgr.credentials.userId page:0];
+    request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -592,7 +595,7 @@
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
     STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
 
     // get count files shared with other user
@@ -612,7 +615,7 @@
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals((int)[listener.dataResponse[@"shares"] count], 2, @"expected two shares");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
     STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     STAssertEqualObjects(listener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
     STAssertEqualObjects(listener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
@@ -633,7 +636,7 @@
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _accountMgr.credentials.userId, @"expected share with current user");
+    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
     STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     
     // get count files shared with other user
@@ -652,7 +655,7 @@
 #pragma mark - files tests helpers
 // Return id of another user in org
 - (NSString *) getOtherUser {
-    NSString *soql = [NSString stringWithFormat:@"SELECT Id FROM User WHERE Id != '%@'", _accountMgr.credentials.userId];
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id FROM User WHERE Id != '%@'", _currentUser.credentials.userId];
     
     // query
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:soql];
@@ -747,10 +750,10 @@
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSLog(@"latest access token: %@", _accountMgr.coordinator.credentials.accessToken);
+    NSLog(@"latest access token: %@", _currentUser.credentials.accessToken);
     
     // let's make sure we have another access token
-    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
     STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
@@ -771,7 +774,7 @@
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     
     // let's make sure we have another access token
-    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
     STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
@@ -781,8 +784,8 @@
 // - ensure all requests are failed with the proper error
 - (void)testInvalidAccessAndRefreshToken {
     // save valid tokens
-    NSString *origAccessToken = _accountMgr.credentials.accessToken;
-    NSString *origRefreshToken = _accountMgr.credentials.refreshToken;
+    NSString *origAccessToken = _currentUser.credentials.accessToken;
+    NSString *origRefreshToken = _currentUser.credentials.refreshToken;
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -852,7 +855,7 @@
     STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
     
     // let's make sure we have a new access token
-    NSString *newAccessToken = _accountMgr.coordinator.credentials.accessToken;
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
     STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
@@ -863,8 +866,8 @@
 // - ensure all requests are failed with the proper error code
 - (void)testInvalidAccessAndRefreshToken_MultipleRequests {
     // save valid tokens
-    NSString *origAccessToken = _accountMgr.credentials.accessToken;
-    NSString *origRefreshToken = _accountMgr.credentials.refreshToken;
+    NSString *origAccessToken = _currentUser.credentials.accessToken;
+    NSString *origRefreshToken = _currentUser.credentials.refreshToken;
     
     // set invalid tokens
     NSString *invalidAccessToken = @"xyz";
@@ -1225,17 +1228,17 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 
 - (void)testSFRestAPICoordinatorProperty
 {
-    // [SFRestAPI sharedInstance].coordinator tracks [SFAccountManager sharedInstance].coordinator by default.
-    SFOAuthCoordinator *acctMgrCoord = _accountMgr.coordinator;
+    // [SFRestAPI sharedInstance].coordinator tracks [SFAuthenticationManager sharedManager].coordinator by default.
+    SFOAuthCoordinator *acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
     SFOAuthCoordinator *restApiCoord = [SFRestAPI sharedInstance].coordinator;
     STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
     
-    // Updating [SFRestAPI sharedInstance].coordinator updates [SFAccountManager sharedInstance].coordinator as well.
-    SFOAuthCredentials *creds = _accountMgr.credentials;
+    // Updating [SFRestAPI sharedInstance].coordinator updates [SFAuthenticationManager sharedManager].coordinator as well.
+    SFOAuthCredentials *creds = _currentUser.credentials;
     SFOAuthCoordinator *newRestApiCoord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    STAssertFalse(newRestApiCoord == _accountMgr.coordinator, @"Object references shouldn't be equal with new object.");
+    STAssertFalse(newRestApiCoord == [SFAuthenticationManager sharedManager].coordinator, @"Object references shouldn't be equal with new object.");
     [SFRestAPI sharedInstance].coordinator = newRestApiCoord;
-    acctMgrCoord = _accountMgr.coordinator;
+    acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
     restApiCoord = [SFRestAPI sharedInstance].coordinator;
     STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
     

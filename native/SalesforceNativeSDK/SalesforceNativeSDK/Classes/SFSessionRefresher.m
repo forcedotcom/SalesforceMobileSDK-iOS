@@ -23,124 +23,39 @@
  */
 
 #import "SFSessionRefresher.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import "SFRestAPI.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
-@interface SFSessionRefresher ()
-{
-    SFAuthenticationManager *_authMgr;
-}
-
-/**
- * Ensure that the original OAuth coordinator delegate, if any, is restored.
- */
-- (void)restoreOAuthDelegate;
-
-/**
- * Do the necessary cleanup following refresh
- */
-- (void)cleanupAfterRefresh;
-
-@end
-
-
 @implementation SFSessionRefresher
 
-@synthesize previousOAuthDelegate = _previousOAuthDelegate;
 @synthesize isRefreshing = _isRefreshing;
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (nil != self) {
-        _refreshLock = [[NSLock alloc] init];
-        self.isRefreshing = NO;
-        _authMgr = [SFAuthenticationManager sharedManager];
+        _isRefreshing = NO;
     }
     
     return self;
 }
 
-- (void)dealloc {
-    [self restoreOAuthDelegate];
-    SFRelease(_refreshLock);
-}
-
 #pragma mark - Public
 
-- (void)refreshAccessToken {
-    
-    if ([_refreshLock tryLock]) {
-        //we now own the lock and can go crazy
-        self.isRefreshing = YES;
-        NSLog(@"Refreshing access token");
-        
-        // let's refresh the token
-        // but first, let's save the previous delegate
-#warning TODO
-//        self.previousOAuthDelegate = _accountMgr.oauthDelegate;
-//        _accountMgr.oauthDelegate = self;
-        [_authMgr.coordinator authenticate];
-    }
-    //else somebody else owns the lock and will unlock once refresh completes
-    
-}
-
-
-#pragma mark - SFOAuthCoordinatorDelegate
-
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
-    NSLog(@"oauthCoordinator:didBeginAuthenticationWithView");    
-    // we are in the token exchange flow so this should never happen
-    //TODO we should probably hand back control to the original coordinator delegate at this point,
-    //since we don't expect to be able to handle this condition!
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:nil];
-    [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
-    
-    // we are creating a temp view here since the oauth library verifies that the view
-    // has a subview after calling oauthCoordinator:didBeginAuthenticationWithView:
-    UIView *tempView = [[UIView alloc] initWithFrame:CGRectZero];
-    [tempView addSubview:view];    
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
+- (void)refreshAccessToken
 {
-    NSLog(@"oauthCoordinatorDidAuthenticate, user: %@, authInfo: %@", coordinator.credentials.userId, info);
+    [self log:SFLogLevelInfo msg:@"Session timed out.  Refreshing session to replay unauthorized requests."];
+    _isRefreshing = YES;
     
-    // The token exchange worked.
-    [self restoreOAuthDelegate];
-    [[SFRestAPI sharedInstance] setCoordinator:coordinator];
-    [self cleanupAfterRefresh];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
-{
-    NSLog(@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info);
-    
-    // oauth error
-    [self restoreOAuthDelegate];
-    [coordinator stopAuthentication];
-    NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-    [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
-    [self cleanupAfterRefresh];
-}
-
-#pragma mark - Completion
-
-- (void)restoreOAuthDelegate {
-    if (nil != self.previousOAuthDelegate) {
-#warning TODO
-//        _accountMgr.oauthDelegate = self.previousOAuthDelegate;
-        self.previousOAuthDelegate = nil;
-    }
-}
-
-- (void)cleanupAfterRefresh {
-    self.isRefreshing = NO;
-    [_refreshLock unlock];
+    // Let's refresh the token via SFAuthenticationManager.
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
+        _isRefreshing = NO;
+    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+        NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
+        [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
+        _isRefreshing = NO;
+    }];
 }
 
 @end

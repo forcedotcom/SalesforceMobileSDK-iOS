@@ -22,7 +22,7 @@
 @implementation SFUserAccountManagerTests
 
 - (void)setUp {
-    [SFUserAccountManager setClientId:@"fakeClientIdForTesting"];
+    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
 
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
