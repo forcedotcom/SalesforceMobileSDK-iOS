@@ -54,13 +54,13 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (id)init {
-    return [self initWithIdentifier:[SFUserAccountManager clientId]];
+    return [self initWithIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
 }
 
 - (id)initWithIdentifier:(NSString*)identifier {
     self = [super init];
     if (self) {
-        NSString *clientId = [SFUserAccountManager clientId];
+        NSString *clientId = [SFUserAccountManager sharedInstance].oauthClientId;
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;

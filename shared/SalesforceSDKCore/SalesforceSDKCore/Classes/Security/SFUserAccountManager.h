@@ -146,6 +146,11 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 @property (nonatomic, copy) NSString *oauthCompletionUrl;
 
+/**
+ The OAuth scopes associated with the app.
+ */
+@property (nonatomic, copy) NSSet *scopes;
+
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
@@ -154,39 +159,6 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  controls the oauth library log level.
  */
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
-
-/**
- * @return The OAuth scopes associated with the app.
- */
-+ (NSSet *)scopes;
-
-/**
- * Sets a new value for the OAuth scopes associated with the app.
- * @param newScopes The new value for the OAuth scopes of the app.
- */
-+ (void)setScopes:(NSSet *)newScopes;
-
-/**
- * @return The app's OAuth redirect URI.
- */
-+ (NSString *)redirectUri;
-
-/**
- * Sets a new value for the app's OAuth redirect URI.
- * @param newRedirectUri The new value for the app's OAuth redirect URI.
- */
-+ (void)setRedirectUri:(NSString *)newRedirectUri;
-
-/**
- * @return The OAuth client ID of the app.
- */
-+ (NSString *)clientId;
-
-/**
- * Sets a new value for the app's OAuth client ID.
- * @param newClientId The new value for the client ID.
- */
-+ (void)setClientId:(NSString *)newClientId;
 
 /**
  Returns the path of the user account plist file for the specified user

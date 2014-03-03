@@ -53,6 +53,8 @@
 		8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */; };
 		82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82867578181C759A007AA18A /* SFAuthenticationViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */; };
+		8288C96A18C154C100FEB73D /* SFSDKTestCredentialsData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8288C96818C154C100FEB73D /* SFSDKTestCredentialsData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8288C96B18C154C100FEB73D /* SFSDKTestCredentialsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8288C96918C154C100FEB73D /* SFSDKTestCredentialsData.m */; };
 		82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A55A70182020B00002E22A /* SFAuthErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A55A6E182020B00002E22A /* SFAuthErrorHandler.m */; };
 		82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -225,6 +227,8 @@
 		8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAbstractPasscodeViewController.m; sourceTree = "<group>"; };
 		82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationViewHandler.h; sourceTree = "<group>"; };
 		82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationViewHandler.m; sourceTree = "<group>"; };
+		8288C96818C154C100FEB73D /* SFSDKTestCredentialsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKTestCredentialsData.h; sourceTree = "<group>"; };
+		8288C96918C154C100FEB73D /* SFSDKTestCredentialsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKTestCredentialsData.m; sourceTree = "<group>"; };
 		82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
 		82A55A6E182020B00002E22A /* SFAuthErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthErrorHandler.m; sourceTree = "<group>"; };
 		82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
@@ -650,6 +654,8 @@
 				82C0C7BD16E08A8F0006B3C0 /* SFSDKTestRequestListener.m */,
 				82C0C7BE16E08A8F0006B3C0 /* TestSetupUtils.h */,
 				82C0C7BF16E08A8F0006B3C0 /* TestSetupUtils.m */,
+				8288C96818C154C100FEB73D /* SFSDKTestCredentialsData.h */,
+				8288C96918C154C100FEB73D /* SFSDKTestCredentialsData.m */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -683,6 +689,7 @@
 				82BBB57517909DE500374DD8 /* SFQuerySpec.h in Headers */,
 				8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */,
 				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
+				8288C96A18C154C100FEB73D /* SFSDKTestCredentialsData.h in Headers */,
 				FD8BB16F18B6730B00F6927C /* SFPreferences.h in Headers */,
 				82BBB57617909DF000374DD8 /* SFSDKResourceUtils.h in Headers */,
 				82BBB57717909DFE00374DD8 /* SFSDKWebUtils.h in Headers */,
@@ -845,6 +852,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8288C96B18C154C100FEB73D /* SFSDKTestCredentialsData.m in Sources */,
 				82AF844D16DFD95F008912EF /* SFApplication.m in Sources */,
 				82AF844E16DFD95F008912EF /* SFUserActivityMonitor.m in Sources */,
 				82AF844F16DFD95F008912EF /* SFIdentityCoordinator.m in Sources */,

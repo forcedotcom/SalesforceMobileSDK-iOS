@@ -23,20 +23,17 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import "SFRestAPI.h"
 
-@interface SFSessionRefresher : NSObject <SFOAuthCoordinatorDelegate> {
-    id<SFOAuthCoordinatorDelegate> __weak _previousOAuthDelegate;
-    NSLock *_refreshLock;
-    BOOL    _isRefreshing;
-}
+@interface SFSessionRefresher : NSObject
 
-@property (nonatomic, weak) id<SFOAuthCoordinatorDelegate> previousOAuthDelegate;
+/**
+ Whether or not A session is currently being refreshed.
+ */
+@property (nonatomic, readonly) BOOL isRefreshing;
 
-@property (nonatomic, assign) BOOL isRefreshing;
-
+/**
+ Refreshes the access token, presumably after receiving a 401 Unauthorized error from the service.
+ */
 - (void)refreshAccessToken;
 
 

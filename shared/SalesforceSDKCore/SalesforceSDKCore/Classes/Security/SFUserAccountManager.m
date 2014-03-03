@@ -115,6 +115,13 @@ static NSString * const kUserPrefix = @"005";
  */
 @property (nonatomic, retain) NSMutableDictionary *userAccountMap;
 
+/**
+ Updates the login host in app settings, for apps that utilize login host switching from
+ the Settings app.
+ @param newLoginHost The login host to update.
+ */
+- (void)updateAppSettingsLoginHost:(NSString *)newLoginHost;
+
 @end
 
 @implementation SFUserAccountManager
@@ -151,10 +158,9 @@ static NSString * const kUserPrefix = @"005";
 - (id)init {
 	self = [super init];
 	if (self) {
-        self.oauthClientId = [[self class] clientId];
-        self.oauthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
-        if (nil == self.oauthCompletionUrl) {
-            self.oauthCompletionUrl = [[self class] redirectUri];
+        NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
+        if (bundleOAuthCompletionUrl != nil) {
+            self.oauthCompletionUrl = bundleOAuthCompletionUrl;
         }
         
         _userAccountMap = [[NSMutableDictionary alloc] init];
@@ -181,10 +187,16 @@ static NSString * const kUserPrefix = @"005";
     
     [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
     [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldLoginHost, kSFLoginHostChangedNotificationOriginalHostKey, host, kSFLoginHostChangedNotificationUpdatedHostKey, nil];
-    NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
-    [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
+    
+    // Update app settings, for apps that use it.
+    [self updateAppSettingsLoginHost:host];
+    
+    // Only post the login host change notification if the host actually changed.
+    if (![host isEqualToString:oldLoginHost]) {
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldLoginHost, kSFLoginHostChangedNotificationOriginalHostKey, host, kSFLoginHostChangedNotificationUpdatedHostKey, nil];
+        NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
+        [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
+    }
 }
 
 - (NSString *)loginHost {
@@ -201,6 +213,7 @@ static NSString * const kUserPrefix = @"005";
     
     // Fetch from the standard defaults or bundle
     NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
+    BOOL loginHostInitialized = (loginHost != nil);
     if (nil == loginHost || 0 == [loginHost length]) {
         loginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
         if (nil == loginHost || 0 == [loginHost length]) {
@@ -213,7 +226,30 @@ static NSString * const kUserPrefix = @"005";
         loginHost = kSFUserAccountOAuthLoginHostDefault;
     }
     
+    // If the login host wasn't previously initialized, set it up.
+    if (!loginHostInitialized) {
+        [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
+        [defaults synchronize];
+        [self updateAppSettingsLoginHost:loginHost];
+    }
+    
     return loginHost;
+}
+
+- (void)updateAppSettingsLoginHost:(NSString *)newLoginHost {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    newLoginHost = [newLoginHost lowercaseString];
+    newLoginHost = [newLoginHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (![newLoginHost isEqualToString:@"login.salesforce.com"]
+        && ![newLoginHost isEqualToString:@"test.salesforce.com"]) {
+        // Custom login host.
+        [userDefaults setObject:kAppSettingsLoginHostIsCustom forKey:kAppSettingsLoginHost];
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHostCustomValue];
+    } else {
+        [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHost];
+    }
+    
+    [userDefaults synchronize];
 }
 
 - (NSString *)appSettingsLoginHost {
@@ -250,7 +286,7 @@ static NSString * const kUserPrefix = @"005";
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs synchronize];
         
-	NSString *previousLoginHost = [self loginHost];
+	NSString *previousLoginHost = self.loginHost;
 	NSString *currentLoginHost = [self appSettingsLoginHost];
     SFLoginHostUpdateResult *result;
     if (currentLoginHost) {
@@ -267,14 +303,14 @@ static NSString * const kUserPrefix = @"005";
 
 #pragma mark - Default Values
 
-+ (NSSet *)scopes
+- (NSSet *)scopes
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
     return [NSSet setWithArray:scopesArray];
 }
 
-+ (void)setScopes:(NSSet *)newScopes
+- (void)setScopes:(NSSet *)newScopes
 {
     NSArray *scopesArray = [newScopes allObjects];
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -282,28 +318,28 @@ static NSString * const kUserPrefix = @"005";
     [defs synchronize];
 }
 
-+ (NSString *)redirectUri
+- (NSString *)oauthCompletionUrl
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
     return redirectUri;
 }
 
-+ (void)setRedirectUri:(NSString *)newRedirectUri
+- (void)setOauthCompletionUrl:(NSString *)newRedirectUri
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
     [defs synchronize];
 }
 
-+ (NSString *)clientId
+- (NSString *)oauthClientId
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
     return clientId;
 }
 
-+ (void)setClientId:(NSString *)newClientId
+- (void)setOauthClientId:(NSString *)newClientId
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
@@ -364,7 +400,7 @@ static NSString * const kUserPrefix = @"005";
     NSString *identifier = nil;
     while (nil == identifier || [existingAccountNames containsObject:identifier]) {
         u_int32_t randomNumber = arc4random();
-        identifier = [NSString stringWithFormat:@"%@-%u", [SFUserAccountManager clientId], randomNumber];
+        identifier = [NSString stringWithFormat:@"%@-%u", self.oauthClientId, randomNumber];
     }
 
     return identifier;
@@ -486,7 +522,7 @@ static NSString * const kUserPrefix = @"005";
     [self setCurrentUser:[self userAccountForUserId:curUserId]];
     
     // update the client ID in case it's changed (via settings, etc)
-    [[[self currentUser] credentials] setClientId:[self oauthClientId]];
+    [[[self currentUser] credentials] setClientId:self.oauthClientId];
     
     [self userCredentialsChanged];
     
