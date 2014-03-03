@@ -48,28 +48,31 @@
             <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceNativeSDK-Debug.zip" />
         </exec>
+        <move file="${nativeTemplateDependenciesDir}/SalesforceNativeSDK-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNativeSDK" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
         </exec>
+        <move file="${nativeTemplateDependenciesDir}/SalesforceOAuth-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceOAuth" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
         </exec>
-        
+        <move file="${nativeTemplateDependenciesDir}/SalesforceSDKCore-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSDKCore" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceNetworkSDK-Debug.zip" />
         </exec>
-
+        <move file="${nativeTemplateDependenciesDir}/SalesforceNetworkSDK-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNetworkSDK" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/MKNetworkKit-iOS-Debug.zip" />
         </exec>
+        <move file="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS-Debug" tofile="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS" />
 
         <!-- SDK resources -->
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
@@ -117,21 +120,25 @@
             <arg file="${hybridTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/Cordova-Debug.zip" />
         </exec>
+        <move file="${hybridTemplateDependenciesDir}/Cordova-Debug" tofile="${hybridTemplateDependenciesDir}/Cordova" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${hybridTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceHybridSDK-Debug.zip" />
         </exec>
+        <move file="${hybridTemplateDependenciesDir}/SalesforceHybridSDK-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceHybridSDK" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${hybridTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
         </exec>
+        <move file="${hybridTemplateDependenciesDir}/SalesforceOAuth-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceOAuth" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${hybridTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
         </exec>
+        <move file="${hybridTemplateDependenciesDir}/SalesforceSDKCore-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceSDKCore" />
         
         <!-- SDK and Cordova resources -->
         <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/${sdkResourcesBundleName}">

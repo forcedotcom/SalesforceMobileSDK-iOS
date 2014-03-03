@@ -25,7 +25,7 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "RootViewController.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFOAuthInfo.h"
@@ -35,7 +35,7 @@
 static NSString * const RemoteAccessConsumerKey = @"__ConnectedAppIdentifier__";
 static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__";
 
-@interface AppDelegate ()
+@interface AppDelegate () <SFAuthenticationManagerDelegate>
 
 /**
  * Success block to call when authentication completes.
@@ -46,21 +46,6 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
  * Failure block to calls if authentication fails.
  */
 @property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock initialLoginFailureBlock;
-
-/**
- * Handles the notification from SFAuthenticationManager that a logout has been initiated.
- * @param notification The notification containing the details of the logout.
- */
-- (void)logoutInitiated:(NSNotification *)notification;
-
-/**
- * Handles the notification from SFAuthenticationManager that the login host has changed in
- * the Settings application for this app.
- * @param The notification whose userInfo dictionary contains:
- *        - kSFLoginHostChangedNotificationOriginalHostKey: The original host, prior to host change.
- *        - kSFLoginHostChangedNotificationUpdatedHostKey: The updated (new) login host.
- */
-- (void)loginHostChanged:(NSNotification *)notification;
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -88,13 +73,12 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
         [SFLogger setLogLevel:SFLogLevelDebug];
         
         // These SFAccountManager settings are the minimum required to identify the Connected App.
-        [SFAccountManager setClientId:RemoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:OAuthRedirectURI];
-        [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
+        [SFUserAccountManager sharedInstance].oauthClientId = RemoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = OAuthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
         
-        // Logout and login host change handlers.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginHostChanged:) name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
+        // Auth manager delegate, for receiving logout and login host change events.
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
         
         // Blocks to execute once authentication has completed.  You could define these at the different boundaries where
         // authentication is initiated, if you have specific logic for each case.
@@ -112,8 +96,7 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 #pragma mark - App delegate lifecycle
@@ -168,16 +151,18 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
     self.window.rootViewController = navVC;
 }
 
-- (void)logoutInitiated:(NSNotification *)notification
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
-    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
+    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
 
-- (void)loginHostChanged:(NSNotification *)notification
+- (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult
 {
-    [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager changed the login host.  Resetting app."];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
