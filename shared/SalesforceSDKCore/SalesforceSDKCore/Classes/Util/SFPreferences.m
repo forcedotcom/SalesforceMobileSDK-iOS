@@ -95,6 +95,10 @@ static NSMutableDictionary *instances = nil;
     return self;
 }
 
+- (NSDictionary*)dictionaryRepresentation {
+    return [self.attributes copy];
+}
+
 - (id)objectForKey:(NSString*)key {
     return self.attributes[key];
 }
@@ -121,6 +125,25 @@ static NSMutableDictionary *instances = nil;
 
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key {
     [self setObject:@(value) forKey:key];
+}
+
+- (NSString*)stringForKey:(NSString *)key {
+    id value = [self objectForKey:key];
+    if ([value isKindOfClass:[NSNumber class]]) {
+        return [((NSNumber*)value) stringValue];
+    } else if ([value isKindOfClass:[NSString class]]) {
+        return value;
+    } else {
+        return nil;
+    }
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+    [self setObject:value forKey:key];
+}
+
+- (id)valueForKey:(NSString *)key {
+    return [self objectForKey:key];
 }
 
 - (void)synchronize {

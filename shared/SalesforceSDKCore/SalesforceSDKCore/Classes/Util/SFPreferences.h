@@ -34,6 +34,10 @@
  */
 @property (nonatomic, strong, readonly) NSString *path;
 
+/** Returns the underlying dictionary representation
+ */
+@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
+
 /** Returns the global instance of the preferences (one per application)
  */
 + (instancetype)globalPreferences;
@@ -63,6 +67,8 @@
 - (NSInteger)integerForKey:(NSString *)key;
 
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key;
+
+- (NSString*)stringForKey:(NSString*)key;
 
 /** Saves the preferences to the disk
  */

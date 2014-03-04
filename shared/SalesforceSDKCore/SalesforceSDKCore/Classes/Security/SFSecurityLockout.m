@@ -32,6 +32,7 @@
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"
 #import "SFRootViewManager.h"
+#import "SFPreferences.h"
 
 // Private constants
 
@@ -175,13 +176,13 @@ static BOOL _showPasscode = YES;
 + (void)setPasscodeLength:(NSInteger)passcodeLength
 {
     NSNumber *nPasscodeLength = [NSNumber numberWithInt:passcodeLength];
-    [[NSUserDefaults standardUserDefaults] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[SFPreferences currentUserLevelPreferences] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
+    [[SFPreferences currentUserLevelPreferences] synchronize];
 }
 
 + (NSInteger)passcodeLength
 {
-    NSNumber *nPasscodeLength = [[NSUserDefaults standardUserDefaults] objectForKey:kPasscodeLengthKey];
+    NSNumber *nPasscodeLength = [[SFPreferences currentUserLevelPreferences] objectForKey:kPasscodeLengthKey];
     return (nPasscodeLength != nil ? [nPasscodeLength intValue] : kDefaultPasscodeLength);
 }
 
