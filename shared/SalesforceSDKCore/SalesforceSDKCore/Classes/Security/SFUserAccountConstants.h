@@ -51,3 +51,31 @@ typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
     SFUserAccountScopeCommunity
 };
 
+/** The various changes that can affect a user account
+ */
+typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
+    /** Unknown change
+     */
+    SFUserAccountChangeUnknown      = 1 << 0,
+    
+    /** A new user account has been created
+     */
+    SFUserAccountChangeNewUser      = 1 << 1,
+    
+    /** The credentials changed
+     */
+    SFUserAccountChangeCredentials  = 1 << 2,
+    
+    /** The organization ID changed
+     */
+    SFUserAccountChangeOrgId        = 1 << 3,
+    
+    /** The user ID changed
+     */
+    SFUserAccountChangeUserId       = 1 << 4,
+    
+    /** The community ID changed
+     */
+    SFUserAccountChangeCommunityId  = 1 << 5,
+};
+

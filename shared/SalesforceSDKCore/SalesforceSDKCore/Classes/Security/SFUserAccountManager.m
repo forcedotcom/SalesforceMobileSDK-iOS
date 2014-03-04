@@ -37,11 +37,9 @@
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 
 // Notifications
-NSString * const SFUserAccountManagerDidUpdateCredentialsNotification   = @"SFUserAccountManagerDidUpdateCredentialsNotification";
-NSString * const SFUserAccountManagerDidCreateUserNotification          = @"SFUserAccountManagerDidCreateUserNotification";
+NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
 
-NSString * const SFUserAccountManagerUserIdKey          = @"userId";
-NSString * const SFUserAccountManagerUserAccountKey     = @"account";
+NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
@@ -113,7 +111,11 @@ static NSString * const kUserPrefix = @"005";
 
 /** A map of user accounts by user ID
  */
-@property (nonatomic, retain) NSMutableDictionary *userAccountMap;
+@property (nonatomic, strong) NSMutableDictionary *userAccountMap;
+
+@property (nonatomic, strong) NSString *lastChangedOrgId;
+@property (nonatomic, strong) NSString *lastChangedUserId;
+@property (nonatomic, strong) NSString *lastChangedCommunityId;
 
 /**
  Updates the login host in app settings, for apps that utilize login host switching from
@@ -524,7 +526,7 @@ static NSString * const kUserPrefix = @"005";
     // update the client ID in case it's changed (via settings, etc)
     [[[self currentUser] credentials] setClientId:self.oauthClientId];
     
-    [self userCredentialsChanged];
+    [self userChanged:SFUserAccountChangeCredentials];
     
     return YES;
 }
@@ -621,6 +623,12 @@ static NSString * const kUserPrefix = @"005";
         _currentUser = user;
         [self didChangeValueForKey:@"currentUser"];
     }
+    
+    // It's important to call this method even if the isEqual
+    // statement above returns YES, because the user account
+    // object can still be the same but some internal
+    // properties might have changed (eg the communityId).
+    [self userChanged:SFUserAccountChangeUnknown];
 }
 
 // property accessor
@@ -633,15 +641,13 @@ static NSString * const kUserPrefix = @"005";
 }
 
 - (void)applyCredentials:(SFOAuthCredentials*)credentials {
+    SFUserAccountChange change = SFUserAccountChangeCredentials;
+    
     // If the user is nil, create a new one with the specified credentials
     // otherwise update the current user credentials.
     if (nil == self.currentUser) {
         self.currentUser = [self createUserAccountWithCredentials:credentials];
-        
-        // Post a notification when a new user is being created
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidCreateUserNotification
-                                                            object:self
-                                                          userInfo:@{SFUserAccountManagerUserIdKey:self.currentUserId}];
+        change |= SFUserAccountChangeNewUser;
     } else {
         self.currentUser.credentials = credentials;
     }
@@ -665,12 +671,31 @@ static NSString * const kUserPrefix = @"005";
         [self replaceOldUser:SFUserAccountManagerTemporaryUserAccountId withUser:self.currentUser];
     }
     
-    [self userCredentialsChanged];
+    [self userChanged:change];
 }
 
-- (void)userCredentialsChanged {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidUpdateCredentialsNotification
-														object:self];
+- (void)userChanged:(SFUserAccountChange)change {
+    if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {
+        self.lastChangedOrgId = self.currentUser.credentials.organizationId;
+        change |= SFUserAccountChangeOrgId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    if (![self.lastChangedUserId isEqualToString:self.currentUser.credentials.userId]) {
+        self.lastChangedUserId = self.currentUser.credentials.userId;
+        change |= SFUserAccountChangeUserId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    if (![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId]) {
+        self.lastChangedCommunityId = self.currentUser.communityId;
+        change |= SFUserAccountChangeCommunityId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidChangeCurrentUserNotification
+														object:self
+                                                      userInfo:@{ SFUserAccountManagerUserChangeKey : @(change) }];
 }
 
 @end
