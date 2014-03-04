@@ -25,17 +25,16 @@
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFIdentityCoordinator.h"
 #import "SFAuthenticationManager.h"
+#import "SFUserAccountConstants.h"
 
-/** Notification sent when the current user credentials have changed
+/** Notification sent when something has changed with the current user
  */
-extern NSString * const SFUserAccountManagerDidUpdateCredentialsNotification;
+extern NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
 
-/** Notification sent when a new user has been created
+/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
+ The value is a NSNumber that can be casted to the option SFUserAccountChange
  */
-extern NSString * const SFUserAccountManagerDidCreateUserNotification;
-
-// The default temporary user ID
-extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
+extern NSString * const SFUserAccountManagerUserChangeKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -52,11 +51,8 @@ extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
  */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
-// Key containing the user id in the notification userInfo dictionary for SFUserAccountManagerDidCreateUserNotification
-extern NSString * const SFUserAccountManagerUserIdKey;
-
-// Key containing the user account in the notification userInfo dictionary for SFUserAccountManagerCurrentUserDidChangeNotification
-extern NSString * const SFUserAccountManagerUserAccountKey;
+// The default temporary user ID
+extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 /**
  * Data class for providing information about a login host change.
@@ -218,8 +214,11 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 - (void)applyCredentials:(SFOAuthCredentials*)credentials;
 
 /** Invoke this method to inform this manager
- that the user credentials have changed.
+ that something has changed for the current user.
+ @param change The type of change (enum type). Use SFUserAccountChangeUnknown
+ if you don't know what kind of change was made to this object and this method
+ will try to determine that.
  */
-- (void)userCredentialsChanged;
+- (void)userChanged:(SFUserAccountChange)change;
 
 @end

@@ -70,15 +70,42 @@ static NSMutableDictionary *instances = nil;
 }
 
 + (instancetype)currentOrgLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeOrg user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [self currentValidUserAccount];
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeOrg user:user];
+    } else {
+        return nil;
+    }
 }
 
 + (instancetype)currentUserLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeUser user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [self currentValidUserAccount];
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeUser user:user];
+    } else {
+        return nil;
+    }
 }
 
 + (instancetype)currentCommunityLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeCommunity user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [self currentValidUserAccount];
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeCommunity user:user];
+    } else {
+        return nil;
+    }
+}
+
+/** Returns a SFUserAccount only if there is a current user and if that user
+ is not the temporary user.
+ */
++ (SFUserAccount*)currentValidUserAccount {
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user && user.credentials.userId && ![user.credentials.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+        return user;
+    } else {
+        return nil;
+    }
 }
 
 - (id)initWithPath:(NSString*)path {
@@ -93,6 +120,10 @@ static NSMutableDictionary *instances = nil;
         }
     }
     return self;
+}
+
+- (NSDictionary*)dictionaryRepresentation {
+    return [self.attributes copy];
 }
 
 - (id)objectForKey:(NSString*)key {
@@ -121,6 +152,25 @@ static NSMutableDictionary *instances = nil;
 
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key {
     [self setObject:@(value) forKey:key];
+}
+
+- (NSString*)stringForKey:(NSString *)key {
+    id value = [self objectForKey:key];
+    if ([value isKindOfClass:[NSNumber class]]) {
+        return [((NSNumber*)value) stringValue];
+    } else if ([value isKindOfClass:[NSString class]]) {
+        return value;
+    } else {
+        return nil;
+    }
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+    [self setObject:value forKey:key];
+}
+
+- (id)valueForKey:(NSString *)key {
+    return [self objectForKey:key];
 }
 
 - (void)synchronize {
