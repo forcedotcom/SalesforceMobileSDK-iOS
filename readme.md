@@ -67,7 +67,7 @@ HTML5 is quickly emerging as a powerful technology for developing cross-platform
 The Mobile SDK provides the means to generate your new app from a template, to quickly construct the foundation of native and hybrid applications.  These apps come with a fully functioning demo app, as well as configurable Settings bundles that allow the user to log out of the app or switch between Production and Sandbox orgs.  See [build.md](build.md) for more information on how to generate and use the templates.
 
 **Native App Template**
-For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
+For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction.
 
 **Hybrid App Template**
 To create hybrid apps that use the Salesforce REST API or access Visualforce pages, create your app using the hybrid app template. By providing the SalesforceOAuthPlugin for our PhoneGap-based container, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.  In addition, our SFSmartStorePlugin will allow you to store your app data securely on the device.
@@ -76,9 +76,11 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
-* [Salesforce Native SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
-* [Salesforce OAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
-* [Salesforce Hybrid SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/HybridContainer/index.html)
+* [Salesforce Hybrid SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
+* [Salesforce Native SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNativeSDK/html/index.html)
+* [Salesforce Network SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetworkSDK/html/index.html)
+* [Salesforce OAuth](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/html/index.html)
+* [Salesforce SDK Core](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
 
 
 Discussion
