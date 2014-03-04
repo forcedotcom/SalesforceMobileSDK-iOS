@@ -70,7 +70,7 @@ static NSMutableDictionary *instances = nil;
 }
 
 + (instancetype)currentOrgLevelPreferences {
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    SFUserAccount *user = [self currentValidUserAccount];
     if (user) {
         return [self sharedPreferencesForScope:SFUserAccountScopeOrg user:user];
     } else {
@@ -79,7 +79,7 @@ static NSMutableDictionary *instances = nil;
 }
 
 + (instancetype)currentUserLevelPreferences {
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    SFUserAccount *user = [self currentValidUserAccount];
     if (user) {
         return [self sharedPreferencesForScope:SFUserAccountScopeUser user:user];
     } else {
@@ -88,9 +88,21 @@ static NSMutableDictionary *instances = nil;
 }
 
 + (instancetype)currentCommunityLevelPreferences {
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    SFUserAccount *user = [self currentValidUserAccount];
     if (user) {
         return [self sharedPreferencesForScope:SFUserAccountScopeCommunity user:user];
+    } else {
+        return nil;
+    }
+}
+
+/** Returns a SFUserAccount only if there is a current user and if that user
+ is not the temporary user.
+ */
++ (SFUserAccount*)currentValidUserAccount {
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user && user.credentials.userId && ![user.credentials.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+        return user;
     } else {
         return nil;
     }
