@@ -165,9 +165,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         // There are a number of required values from the config file.
         [self validateHybridViewConfig];
         
-        [SFUserAccountManager setClientId:_hybridViewConfig.remoteAccessConsumerKey];
-        [SFUserAccountManager setRedirectUri:_hybridViewConfig.oauthRedirectURI];
-        [SFUserAccountManager setScopes:_hybridViewConfig.oauthScopes];
+        [SFUserAccountManager sharedInstance].oauthClientId = _hybridViewConfig.remoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = _hybridViewConfig.oauthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = _hybridViewConfig.oauthScopes;
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;

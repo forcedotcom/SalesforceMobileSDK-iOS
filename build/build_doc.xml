@@ -1,0 +1,111 @@
+<project name="SalesforceMobileSDK-iOS-docs" basedir="." default="all">
+    <property name="artifactsDir" location="artifacts" />
+    <property name="deviceBuildName" value="iphoneos" />
+    <property name="simulatorBuildName" value="iphonesimulator" />
+    <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
+
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="nativeSdkDoc, hybridSdkDoc, coreSdkDoc, networkSdkDoc, oauthSdkDoc" />
+    
+    <target name="nativeSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceNativeSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../native" />
+            <param name="PROJECT_NAME" value="SalesforceNativeSDK" />
+        </antcall>
+    </target>
+    
+    <target name="hybridSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceHybridSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../hybrid" />
+            <param name="PROJECT_NAME" value="SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="coreSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceSDKCore" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceSDKCore" />
+        </antcall>
+    </target>
+    
+    <target name="networkSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceNetworkSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceNetworkSDK" />
+        </antcall>
+    </target>
+    
+    <target name="oauthSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceOAuth" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceOAuth" />
+        </antcall>
+    </target>
+    
+    <target name="clean">
+        <property name="baseBuildOutputDir" value="${artifactsDir}/doc/${buildConfiguration}" />
+        <delete dir="${baseBuildOutputDir}" />
+    </target>
+    
+    <target name="buildDoc">
+		<exec executable="/usr/local/bin/appledoc">
+            <arg value="--project-name" />
+            <arg value="SalesforceNativeSDK" />
+            <arg value="--project-company" />
+            <arg value="Salesforce.com" />
+            <arg value="--company-id" />
+            <arg value="com.salesforce" />
+            <arg value="--output" />
+            <arg value="${artifactsDir}/doc/${PROJECT_NAME}" />
+            <arg value="--install-docset" />
+            <arg value="--logformat" />
+            <arg value="xcode" />
+            <arg value="--keep-undocumented-objects" />
+            <arg value="--keep-undocumented-members" />
+            <arg value="--keep-intermediate-files" />
+            <arg value="--no-repeat-first-par" />
+            <arg value="--no-warn-invalid-crossref" />
+            <arg value="--merge-categories" />
+            <arg value="--exit-threshold" />
+            <arg value="2" />
+            <arg value="--docset-platform-family" />
+            <arg value="iphoneos" />
+            <arg value="--ignore" />
+            <arg value="*.m" />
+            <arg value="--include" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images" />
+            <arg value="--ignore" />
+            <arg value="LoadableCategory.h" />
+            <arg value="--index-desc" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/readme.md" />
+            <arg file="${PROJECT_DIR}/${PROJECT_NAME}" />
+        </exec>        
+    </target>
+
+<!-- Not currently used (or usable in this script), but might come in handy later -->
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k" /> <!-- PKZip format -->
+            <arg value="-c" /> <!-- compress -->
+            <arg value="--keepParent" />
+            <arg value="--norsrc" />
+            <arg value="${baseDir}" />
+            <arg file="${destFile}" />
+        </exec>
+    </target>
+    
+</project>
