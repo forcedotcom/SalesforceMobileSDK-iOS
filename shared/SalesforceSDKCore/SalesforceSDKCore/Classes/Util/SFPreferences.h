@@ -43,14 +43,17 @@
 + (instancetype)globalPreferences;
 
 /** Returns the preferences instance related to the currrent user's organization
+ or nil if there is no current user.
  */
 + (instancetype)currentOrgLevelPreferences;
 
 /** Returns the preferences instance related to the currrent user
+ or nil if there is no current user.
  */
 + (instancetype)currentUserLevelPreferences;
 
 /** Returns the preferences instance related to the currrent user's community
+ or nil if there is no current user.
  */
 + (instancetype)currentCommunityLevelPreferences;
 

@@ -70,15 +70,30 @@ static NSMutableDictionary *instances = nil;
 }
 
 + (instancetype)currentOrgLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeOrg user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeOrg user:user];
+    } else {
+        return nil;
+    }
 }
 
 + (instancetype)currentUserLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeUser user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeUser user:user];
+    } else {
+        return nil;
+    }
 }
 
 + (instancetype)currentCommunityLevelPreferences {
-    return [self sharedPreferencesForScope:SFUserAccountScopeCommunity user:[SFUserAccountManager sharedInstance].currentUser];
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    if (user) {
+        return [self sharedPreferencesForScope:SFUserAccountScopeCommunity user:user];
+    } else {
+        return nil;
+    }
 }
 
 - (id)initWithPath:(NSString*)path {
