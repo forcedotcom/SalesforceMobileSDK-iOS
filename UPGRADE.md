@@ -80,6 +80,7 @@ Update the header search paths of your project in Xcode:
 #### Native SDK network library changes
 In 2.1, the Mobile SDK has replaced RestKit with MKNetworkKit as the network library for native apps.  MKNetworkKit is wrapped by the new SalesforceNetworkSDK library, which in turn is wrapped by the `SFRestAPI` class and its supporting classes.  Most of the interfaces remain the same.  Some notable changes include:
 
+- REST requests are now automatically initiated on background threads, and their responses will be returned to your delegate on the same thread as the request.  This means that if you plan to do UI-related updates from your delegate methods, you need to explicitly ensure that such code runs on the main thread, via `dispatch_async(dispatch_get_main_queue(), ^{ })` or a similar construct.
 - `[SFRestAPI sharedInstance].rkClient` no longer exists.
 - `[SFRestAPI send:delegate:]` now returns the new `SFNetworkOperation` associated with the request.
 - `SFRestRequest.networkOperation` points to the underlying `SFNetworkOperation` object associated with the request.
