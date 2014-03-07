@@ -21,6 +21,9 @@
       location = "container:"
       name = "Hybrid SDK">
       <FileRef
+         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
    </Group>

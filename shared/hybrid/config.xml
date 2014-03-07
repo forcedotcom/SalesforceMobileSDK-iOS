@@ -42,7 +42,6 @@
     <preference name="PaginationBreakingMode" value="page" /> <!-- page, column -->
     <preference name="PaginationMode" value="unpaginated" /> <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
 
-    <feature name="org.apache.cordova.network-information"><param name="ios-package" value="CDVConnection"/></feature>
     <feature name="com.salesforce.oauth"><param name="ios-package" value="SalesforceOAuthPlugin"/></feature>
     <feature name="com.salesforce.sdkinfo"><param name="ios-package" value="SFSDKInfoPlugin"/></feature>
     <feature name="com.salesforce.smartstore"><param name="ios-package" value="SFSmartStorePlugin"/></feature>
