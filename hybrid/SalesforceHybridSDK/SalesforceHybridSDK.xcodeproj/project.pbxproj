@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F0C177B18A9A41C000FD4E9 /* CDVConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF918D518A98DDC00A713DB /* CDVConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4F0C177C18A9A41F000FD4E9 /* CDVReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF918D718A98DDC00A713DB /* CDVReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4F0C177D18A9A42C000FD4E9 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF918D618A98DDC00A713DB /* CDVConnection.m */; };
-		4F0C177E18A9A432000FD4E9 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF918D818A98DDC00A713DB /* CDVReachability.m */; };
 		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -35,6 +31,10 @@
 		4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DA18AC3C47006922FD /* backbone-min.js */; };
 		4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DC18AC3C56006922FD /* jquery.min.js */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
+		4FD72F2818C955E200610988 /* SFConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFConnection.h */; };
+		4FD72F2918C955E200610988 /* SFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFConnection.m */; };
+		4FD72F2A18C955E200610988 /* SFReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2618C955E200610988 /* SFReachability.m */; };
+		4FD72F2B18C955E200610988 /* SFReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2718C955E200610988 /* SFReachability.h */; };
 		4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
 		4FFF69E618AC1DC1004343EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
@@ -195,10 +195,10 @@
 		4FC7B5DC18AC3C56006922FD /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../bower_components/jquery/jquery.min.js; sourceTree = "<group>"; };
 		4FC7B5DE18AC3C69006922FD /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = ../bower_components/qunit/qunit/qunit.css; sourceTree = "<group>"; };
 		4FC7B5DF18AC3C69006922FD /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = ../bower_components/qunit/qunit/qunit.js; sourceTree = "<group>"; };
-		4FF918D518A98DDC00A713DB /* CDVConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.h"; sourceTree = "<group>"; };
-		4FF918D618A98DDC00A713DB /* CDVConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "external/cordova-plugin-network-information/src/ios/CDVConnection.m"; sourceTree = "<group>"; };
-		4FF918D718A98DDC00A713DB /* CDVReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.h"; sourceTree = "<group>"; };
-		4FF918D818A98DDC00A713DB /* CDVReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "external/cordova-plugin-network-information/src/ios/CDVReachability.m"; sourceTree = "<group>"; };
+		4FD72F2418C955E200610988 /* SFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFConnection.h; sourceTree = "<group>"; };
+		4FD72F2518C955E200610988 /* SFConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFConnection.m; sourceTree = "<group>"; };
+		4FD72F2618C955E200610988 /* SFReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFReachability.m; sourceTree = "<group>"; };
+		4FD72F2718C955E200610988 /* SFReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFReachability.h; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -349,22 +349,9 @@
 			path = ../../../external/shared/libs;
 			sourceTree = "<group>";
 		};
-		4FF918D918A98DDC00A713DB /* Cordova-Plugin-Network-Information */ = {
-			isa = PBXGroup;
-			children = (
-				4FF918D518A98DDC00A713DB /* CDVConnection.h */,
-				4FF918D618A98DDC00A713DB /* CDVConnection.m */,
-				4FF918D718A98DDC00A713DB /* CDVReachability.h */,
-				4FF918D818A98DDC00A713DB /* CDVReachability.m */,
-			);
-			name = "Cordova-Plugin-Network-Information";
-			path = ../..;
-			sourceTree = "<group>";
-		};
 		82EFF2C716E7C57100A63CDF = {
 			isa = PBXGroup;
 			children = (
-				4FF918D918A98DDC00A713DB /* Cordova-Plugin-Network-Information */,
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* HybridPluginTestApp */,
 				82EFF32C16E8049600A63CDF /* HybridPluginTestAppTests */,
@@ -440,6 +427,10 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E216E7C84900A63CDF /* Plugins */,
+				4FD72F2418C955E200610988 /* SFConnection.h */,
+				4FD72F2518C955E200610988 /* SFConnection.m */,
+				4FD72F2618C955E200610988 /* SFReachability.m */,
+				4FD72F2718C955E200610988 /* SFReachability.h */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
 				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
@@ -595,12 +586,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F0C177B18A9A41C000FD4E9 /* CDVConnection.h in Headers */,
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
+				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
+				4FD72F2818C955E200610988 /* SFConnection.h in Headers */,
 				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
-				4F0C177C18A9A41F000FD4E9 /* CDVReachability.h in Headers */,
 				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
 				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
 			);
@@ -746,10 +737,10 @@
 			files = (
 				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
-				4F0C177E18A9A432000FD4E9 /* CDVReachability.m in Sources */,
+				4FD72F2918C955E200610988 /* SFConnection.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
-				4F0C177D18A9A42C000FD4E9 /* CDVConnection.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
+				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);
