@@ -123,19 +123,27 @@ static NSMutableDictionary *instances = nil;
 }
 
 - (NSDictionary*)dictionaryRepresentation {
-    return [self.attributes copy];
+    @synchronized (self) {
+        return [self.attributes copy];
+    }
 }
 
 - (id)objectForKey:(NSString*)key {
-    return self.attributes[key];
+    @synchronized (self) {
+        return self.attributes[key];
+    }
 }
 
 - (void)setObject:(id)object forKey:(NSString*)key {
-    self.attributes[key] = object;
+    @synchronized (self) {
+        self.attributes[key] = object;
+    }
 }
 
 - (void)removeObjectForKey:(NSString*)key {
-    [self.attributes removeObjectForKey:key];
+    @synchronized (self) {
+        [self.attributes removeObjectForKey:key];
+    }
 }
 
 - (BOOL)boolForKey:(NSString*)key {
