@@ -25,7 +25,6 @@
 
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationViewHandler.h"
@@ -185,6 +184,12 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  Dismisses the authentication retry alert box, if present.
  */
 - (void)cleanupStatusAlert;
+
+/**
+ Clears the account state associated with the current account.
+ @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
+ */
+- (void)clearAccountState:(BOOL)clearAccountData;
 
 /**
  Method to present the authorizing view controller with the given auth webView.
@@ -1213,6 +1218,15 @@ static Class InstanceClass = nil;
             }
         }];
     }
+}
+
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+        willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
+{
+    [self clearAccountState:NO];
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate

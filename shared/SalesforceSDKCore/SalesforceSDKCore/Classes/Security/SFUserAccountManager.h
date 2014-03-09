@@ -22,9 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import "SFIdentityCoordinator.h"
-#import "SFAuthenticationManager.h"
+#import "SFUserAccount.h"
+#import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFUserAccountConstants.h"
 
 /** Notification sent when something has changed with the current user
@@ -86,8 +85,38 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 @end
 
-@class SFUserAccount;
 @class SFUserAccountManager;
+
+/**
+ Protocol for handling callbacks from SFUserAccountManager.
+ */
+@protocol SFUserAccountManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Called before the user account manager switches from one user to another.
+ @param userAccountManager The SFUserAccountManager instance making the switch.
+ @param fromUser The user being switched away from.
+ @param toUser The user to be switched to.  `nil` if the user context is being switched back
+ to no user.
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+        willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser;
+
+/**
+ Called after the user account manager switches from one user to another.
+ @param userAccountManager The SFUserAccountManager instance making the switch.
+ @param fromUser The user that was switched away from.
+ @param toUser The user that was switched to.  `nil` if the user context is being switched back
+ to no user.
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser;
+
+@end
 
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
@@ -108,6 +137,10 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  This property is an alias for `currentUser.communityId`
  */
 @property (nonatomic, readonly) NSString *currentCommunityId;
+
+/** An NSArray of all the SFUserAccount instances for the app.
+ */
+@property (nonatomic, readonly) NSArray *allUserAccounts;
 
 /** Returns all the user ids
  */
@@ -164,6 +197,18 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 /**
+ Adds a delegate to this user account manager.
+ @param delegate The delegate to add.
+ */
+- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate;
+
+/**
+ Removes a delegate from this user account manager.
+ @param delegate The delegate to remove.
+ */
+- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate;
+
+/**
  * Synchronizes the app-level login host setting with the value in app settings.
  * @return SFLoginHostUpdateResult object containing the original hostname, the new hostname
  * (possibly the same), and whether or not the hostname changed.
@@ -212,6 +257,17 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  @param credentials The credentials to apply
  */
 - (void)applyCredentials:(SFOAuthCredentials*)credentials;
+
+/**
+ Switches away from the current user, to a new user context.
+ */
+- (void)switchToNewUser;
+
+/**
+ Switches away from the current user, to the given user account.
+ @param newCurrentUser The user to switch to.
+ */
+- (void)switchToUser:(SFUserAccount *)newCurrentUser;
 
 /** Invoke this method to inform this manager
  that something has changed for the current user.

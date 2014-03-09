@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,34 +24,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class RestAPIExplorerViewController;
-
-
-//action constants
-extern NSString *const kActionVersions;
-extern NSString *const kActionResources;
-extern NSString *const kActionDescribeGlobal;
-extern NSString *const kActionObjectMetadata;
-extern NSString *const kActionObjectDescribe;
-extern NSString *const kActionRetrieveObject;
-extern NSString *const kActionCreateObject;
-extern NSString *const kActionUpsertObject;
-extern NSString *const kActionUpdateObject;
-extern NSString *const kActionDeleteObject;
-extern NSString *const kActionQuery;
-extern NSString *const kActionSearch;
-extern NSString *const kActionLogout;
-extern NSString *const kActionSwitchUser;
-extern NSString *const kActionExportCredentialsForTesting;
-
-@interface QueryListViewController : UITableViewController {
-    NSArray *_actions;
-    RestAPIExplorerViewController *_appViewController;
-}
-
-@property (nonatomic, strong) NSArray *actions;
-@property (nonatomic, strong) RestAPIExplorerViewController *appViewController;
-
-- (id)initWithAppViewController:(RestAPIExplorerViewController *)appViewController;
+/**
+ View controller for managing the different users of the app.
+ */
+@interface SFDefaultUserManagementViewController : UINavigationController
 
 @end

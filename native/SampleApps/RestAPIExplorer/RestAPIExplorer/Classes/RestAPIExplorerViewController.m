@@ -32,6 +32,7 @@
 #import <SalesforceNativeSDK/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 
 @interface RestAPIExplorerViewController ()
 
@@ -177,7 +178,7 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 600);
+    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 660);
     
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
     self.popoverController = myPopover;
@@ -301,7 +302,10 @@
                                                      otherButtonTitles:nil];
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
-    } 
+    } else if ([text isEqualToString:kActionSwitchUser]) {
+        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:umvc animated:YES completion:NULL];
+    }
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate exportTestingCredentials];        
@@ -329,7 +333,6 @@
         [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
     }
 }
-
 
 #pragma mark - UITextFieldDelegate
 

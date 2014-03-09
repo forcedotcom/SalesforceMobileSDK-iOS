@@ -39,6 +39,7 @@ NSString *const kActionDeleteObject = @"requestForDeleteWithObjectType:objectId:
 NSString *const kActionQuery = @"query:";
 NSString *const kActionSearch = @"search:";
 NSString *const kActionLogout = @"logout";
+NSString *const kActionSwitchUser = @"switch user";
 NSString *const kActionExportCredentialsForTesting = @"Export credentials to pasteboard";
 
 
@@ -65,6 +66,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionQuery, @"params: query",
                         kActionSearch, @"params: search",
                         kActionLogout, @"no params",
+                        kActionSwitchUser, @"no params",
                         kActionExportCredentialsForTesting, @"no params",
                         nil];
     }

@@ -23,18 +23,8 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFUserAccount+Internal.h"
 #import "SFDirectoryManager.h"
-
-#import "SFAuthenticationViewHandler.h"
-#import "SFAuthErrorHandlerList.h"
-#import "SFIdentityData.h"
-
-#import "SFSmartStore.h"
-#import "SFPasscodeManager.h"
-
-#import <SalesforceCommonUtils/SalesforceCommonUtils.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFCommunityData.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -108,6 +98,9 @@ static NSString * const kUserPrefix = @"005";
 @end
 
 @interface SFUserAccountManager ()
+{
+    NSMutableOrderedSet *_delegates;
+}
 
 /** A map of user accounts by user ID
  */
@@ -116,6 +109,13 @@ static NSString * const kUserPrefix = @"005";
 @property (nonatomic, strong) NSString *lastChangedOrgId;
 @property (nonatomic, strong) NSString *lastChangedUserId;
 @property (nonatomic, strong) NSString *lastChangedCommunityId;
+@property (nonatomic, readonly) SFUserAccount *temporaryUser;
+
+/**
+ Executes the given block for each configured delegate.
+ @param block The block to execute for each delegate.
+ */
+- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block;
 
 /**
  Updates the login host in app settings, for apps that utilize login host switching from
@@ -160,6 +160,7 @@ static NSString * const kUserPrefix = @"005";
 - (id)init {
 	self = [super init];
 	if (self) {
+        _delegates = [[NSMutableOrderedSet alloc] init];
         NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
         if (bundleOAuthCompletionUrl != nil) {
             self.oauthCompletionUrl = bundleOAuthCompletionUrl;
@@ -348,8 +349,62 @@ static NSString * const kUserPrefix = @"005";
     [defs synchronize];
 }
 
-#pragma mark -
+#pragma mark - SFUserAccountDelegate management
+
+- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates addObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates removeObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFUserAccountManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
+}
+
 #pragma mark Account management
+
+- (NSArray *)allUserAccounts
+{
+    // Only load accounts if they haven't yet been loaded.
+    if ([self.userAccountMap count] == 0) {
+        [self loadAccounts:nil];
+    }
+    if ([self.userAccountMap count] == 0) {
+        return nil;
+    }
+    
+    NSMutableArray *accounts = [NSMutableArray array];
+    for (NSString *userId in [self.userAccountMap allKeys]) {
+        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+            continue;
+        }
+        [accounts addObject:[self.userAccountMap objectForKey:userId]];
+    }
+    
+    return [accounts mutableCopy];
+}
 
 - (NSArray*)allUserIds {
     // Sort the user id
@@ -508,9 +563,9 @@ static NSString * const kUserPrefix = @"005";
     
     NSString *curUserId = [self activeUserId];
     
-    //in case the most recently used account was removed, recover by
-    //finding the next available account
-    if ((nil == curUserId) && ([self.userAccountMap count] > 0) ) {
+    // In case the most recently used account was removed, or the most recent account is the temporary account,
+    // see if we can load another available account.
+    if (nil == curUserId || [curUserId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
         for (SFUserAccount *account in self.userAccountMap.allValues) {
             if (account.credentials.userId) {
                 curUserId = account.credentials.userId;
@@ -561,6 +616,10 @@ static NSString * const kUserPrefix = @"005";
     }
     
     return YES;
+}
+
+- (SFUserAccount *)temporaryUser {
+    return [self.userAccountMap objectForKey:SFUserAccountManagerTemporaryUserAccountId];
 }
 
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
@@ -672,6 +731,42 @@ static NSString * const kUserPrefix = @"005";
     }
     
     [self userChanged:change];
+}
+
+- (void)switchToNewUser {
+    [self switchToUser:nil];
+}
+
+- (void)switchToUser:(SFUserAccount *)newCurrentUser {
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
+            [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
+        }
+    }];
+    
+    // "Local" new user, since we don't want to send back the temporary user to the delegates if we're
+    // creating a new user.  We'll send back the original value (nil) in that case.
+    SFUserAccount *tempNewCurrentUser = newCurrentUser;
+    
+    // If newCurrentUser is nil, we're switching to a "new" (unconfigured) user.
+    if (newCurrentUser == nil) {
+        if (self.temporaryUser == nil) {
+            tempNewCurrentUser = [self createUserAccount];
+        } else {
+            // Don't know what the app state would be that you would be switching to a new user while the temporary
+            // account still exists, but in any case, don't create an additional temporary account instance.
+            tempNewCurrentUser = self.temporaryUser;
+        }
+    }
+    
+    SFUserAccount *origCurrentUser = self.currentUser;
+    self.currentUser = tempNewCurrentUser;
+    
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
+            [delegate userAccountManager:self didSwitchFromUser:origCurrentUser toUser:newCurrentUser];
+        }
+    }];
 }
 
 - (void)userChanged:(SFUserAccountChange)change {

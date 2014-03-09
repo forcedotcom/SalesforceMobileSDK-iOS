@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
+#import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;
@@ -147,7 +148,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
-@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
+@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
 
 /**
  Alert view for displaying auth-related status messages.

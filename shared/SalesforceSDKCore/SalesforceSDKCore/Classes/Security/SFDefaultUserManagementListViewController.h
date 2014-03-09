@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,10 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFUserAccount.h"
+#import <UIKit/UIKit.h>
 
-@interface SFUserAccount ()
-
-@property (nonatomic, retain) NSDate *sessionExpiresAt;
+/**
+ Shows the list of users who have authenticated to this app, allowing the user to switch between
+ users, revoke credentials, etc.
+ */
+@interface SFDefaultUserManagementListViewController : UITableViewController
 
 @end

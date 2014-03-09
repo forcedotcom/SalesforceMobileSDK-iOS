@@ -267,23 +267,8 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [super viewDidLoad];
     NSLog(@"SFPasscodeViewController viewDidLoad");
     
-    // This code block is a convoluted but necessary way of saying, "If we're on iOS 7, run this selector."
-    // Being able to use performSelector would be nice here, except the method argument is not an object,
-    // throwing us into NSInvocation land, and nine lines of code for the price of one.
-    // NB: When we move to iOS 7 as a minimum target, we can remove all of this and simply call
-    // [self setEdgesForExtendedLayout:UIRectEdgeNone].
-    SEL setEdgesSelector = @selector(setEdgesForExtendedLayout:);
-    if ([self respondsToSelector:setEdgesSelector]) {
-        Method method = class_getInstanceMethod([self class], setEdgesSelector);
-        struct objc_method_description *desc = method_getDescription(method);
-        NSMethodSignature *methodSignature = [NSMethodSignature signatureWithObjCTypes:desc->types];
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
-        
-        int uiRectEdgeNoneInt = 0;  // UIRectEdgeNone value for the UIRectEdge enum in iOS 7.
-        [invocation setTarget:self];
-        [invocation setSelector:setEdgesSelector];
-        [invocation setArgument:&uiRectEdgeNoneInt atIndex:2];
-        [invocation invoke];
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     
     [self layoutSubviews];

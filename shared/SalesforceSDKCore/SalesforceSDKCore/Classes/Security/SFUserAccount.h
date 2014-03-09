@@ -53,7 +53,7 @@
 
 /** The user's email
  */
-@property (nonatomic, copy) NSString *email;
+@property (nonatomic, readonly) NSString *email;
 
 /** The user's organization name
  */
@@ -61,11 +61,11 @@
 
 /** The user's full name
  */
-@property (nonatomic, copy) NSString *fullName;
+@property (nonatomic, readonly) NSString *fullName;
 
 /** The user's name
  */
-@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, readonly) NSString *userName;
 
 /** The user's photo. Usually store a thumbnail of the user.
  Note: the consumer of this class must set the photo at least once,
