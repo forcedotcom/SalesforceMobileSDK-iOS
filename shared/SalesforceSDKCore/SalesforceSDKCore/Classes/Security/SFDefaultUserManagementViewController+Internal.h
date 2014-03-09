@@ -22,32 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFDefaultUserManagementViewController+Internal.h"
-#import "SFDefaultUserManagementListViewController.h"
+#import "SFDefaultUserManagementViewController.h"
 
-@implementation SFDefaultUserManagementViewController
+@interface SFDefaultUserManagementViewController ()
 
-- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock
-{
-    self = [super initWithNibName:nil bundle:nil];
-    if (self) {
-        self.completionBlock = completionBlock;
-    }
-    return self;
-}
+/**
+ Completion block to execute, once a user management action has taken place.
+ */
+@property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock;
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	SFDefaultUserManagementListViewController *rvc = [[SFDefaultUserManagementListViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self pushViewController:rvc animated:NO];
-}
-
-- (void)execCompletionBlock:(SFUserManagementAction)action
-{
-    if (self.completionBlock) {
-        self.completionBlock(action);
-    }
-}
+/**
+ Executes the completion block.
+ @param action The user management action to pass to the completion block.
+ */
+- (void)execCompletionBlock:(SFUserManagementAction)action;
 
 @end

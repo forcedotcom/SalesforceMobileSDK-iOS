@@ -303,7 +303,7 @@
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
     } else if ([text isEqualToString:kActionSwitchUser]) {
-        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithNibName:nil bundle:nil];
+        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:NULL];
         [self presentViewController:umvc animated:YES completion:NULL];
     }
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {

@@ -23,10 +23,42 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "SFUserAccount.h"
+
+/** The various actions that may have been taken for account management.
+ */
+typedef NS_ENUM(NSUInteger, SFUserManagementAction) {
+    /** No action was taken.
+     */
+    SFUserManagementActionCancel = 0,
+    
+    /** A user was logged out.
+     */
+    SFUserManagementActionLogoutUser,
+    
+    /** Switched from one user to another.
+     */
+    SFUserManagementActionSwitchUser,
+    
+    /** Logging in as a new user.
+     */
+    SFUserManagementActionCreateNewUser
+};
+
+/**
+ Type definition for the user management completion block.
+ */
+typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action);
 
 /**
  View controller for managing the different users of the app.
  */
 @interface SFDefaultUserManagementViewController : UINavigationController
+
+/**
+ Creates an instance with the given completion block.
+ @param completionBlock The (optional) completion block to execute once action has been taken.
+ */
+- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock;
 
 @end

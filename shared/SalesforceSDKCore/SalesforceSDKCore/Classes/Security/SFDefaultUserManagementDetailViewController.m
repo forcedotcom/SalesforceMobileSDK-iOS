@@ -23,6 +23,7 @@
  */
 
 #import "SFDefaultUserManagementDetailViewController.h"
+#import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 
@@ -42,6 +43,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
 @property (nonatomic, strong) UIButton *logoutUserButton;
 
 - (void)layoutSubviews;
+- (IBAction)switchUserButtonClicked:(id)sender;
 
 @end
 
@@ -83,6 +85,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     self.switchToUserButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.switchToUserButton setTitle:@"Switch to User" forState:UIControlStateNormal];
     self.switchToUserButton.enabled = ![_user isEqual:[SFUserAccountManager sharedInstance].currentUser];
+    [self.switchToUserButton addTarget:self action:@selector(switchUserButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.switchToUserButton];
     
     // Logout user button
@@ -132,6 +135,15 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     CGFloat logoutUserY = CGRectGetMaxY(self.userNameLabel.frame) + kControlVerticalPadding;
     CGRect logoutUserRect = CGRectMake(logoutUserX, logoutUserY, logoutUserWidth, logoutUserHeight);
     self.logoutUserButton.frame = logoutUserRect;
+}
+
+- (IBAction)switchUserButtonClicked:(id)sender
+{
+    SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
+    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [[SFUserAccountManager sharedInstance] switchToUser:_user];
+        [mainController execCompletionBlock:SFUserManagementActionSwitchUser];
+    }];
 }
 
 @end

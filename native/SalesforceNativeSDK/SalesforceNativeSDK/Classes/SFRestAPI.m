@@ -26,7 +26,6 @@
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFSessionRefresher.h"
-#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
@@ -46,6 +45,7 @@ static dispatch_once_t _sharedInstanceGuard;
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
 @synthesize sessionRefresher = _sessionRefresher;
+@synthesize networkCoordinatorNeedsRefresh = _networkCoordinatorNeedsRefresh;
 
 #pragma mark - init/setup
 
@@ -56,6 +56,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
         _accountMgr = [SFUserAccountManager sharedInstance];
+        [_accountMgr addDelegate:self];
         _authMgr = [SFAuthenticationManager sharedManager];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
@@ -75,6 +76,7 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - Cleanup / cancel all
 - (void) cleanup {
     [_activeRequests removeAllObjects];
+    self.networkCoordinatorNeedsRefresh = YES;
     [[SFNetworkEngine sharedInstance] cleanup];
 }
 
@@ -165,6 +167,7 @@ static dispatch_once_t _sharedInstanceGuard;
     if (_authMgr.coordinator != nil) {
         _networkEngine.coordinator = [self createNetworkCoordinator:_authMgr.coordinator];
     }
+    self.networkCoordinatorNeedsRefresh = NO;
 }
 
 - (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
@@ -182,6 +185,14 @@ static dispatch_once_t _sharedInstanceGuard;
     [_sessionRefresher refreshAccessToken];
 }
 
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+        willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser {
+    [self cleanup];
+}
+
 #pragma mark - send method
 
 
@@ -189,6 +200,10 @@ static dispatch_once_t _sharedInstanceGuard;
     
     if (nil != delegate) {
         request.delegate = delegate;
+    }
+    
+    if (self.networkCoordinatorNeedsRefresh) {
+        [self setupNetworkCoordinator];
     }
     
     [self.activeRequests addObject:request];

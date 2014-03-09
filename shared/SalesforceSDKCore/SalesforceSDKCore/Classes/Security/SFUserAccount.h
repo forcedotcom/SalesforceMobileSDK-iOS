@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFCommunityData.h"
 #import "SFUserAccountConstants.h"

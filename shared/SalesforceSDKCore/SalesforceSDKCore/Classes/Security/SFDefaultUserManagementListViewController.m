@@ -23,7 +23,7 @@
  */
 
 #import "SFDefaultUserManagementListViewController.h"
-#import "SFDefaultUserManagementViewController.h"
+#import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFDefaultUserManagementDetailViewController.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
@@ -36,6 +36,7 @@
 
 - (NSArray *)accountListMinusCurrentUser:(NSArray *)originalAccountList;
 - (void)createNewUser;
+- (void)cancel;
 
 @end
 
@@ -61,6 +62,8 @@
     
     UIBarButtonItem *newUserItem = [[UIBarButtonItem alloc] initWithTitle:@"New User" style:UIBarButtonItemStylePlain target:self action:@selector(createNewUser)];
     self.navigationItem.rightBarButtonItem = newUserItem;
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,8 +92,18 @@
 
 - (void)createNewUser
 {
-    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+    SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
+    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
         [[SFUserAccountManager sharedInstance] switchToNewUser];
+        [mainController execCompletionBlock:SFUserManagementActionCreateNewUser];
+    }];
+}
+
+- (void)cancel
+{
+    SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
+    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [mainController execCompletionBlock:SFUserManagementActionCancel];
     }];
 }
 
