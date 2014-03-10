@@ -178,7 +178,7 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 660);
+    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 700);
     
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
     self.popoverController = myPopover;
@@ -293,6 +293,19 @@
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
+    }
+    else if ([text isEqualToString:kActionUserInfo]) {
+        SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+        NSString *userInfoString = [NSString stringWithFormat:@"Name: %@\nID: %@\nEmail: %@",
+                                    currentAccount.fullName,
+                                    currentAccount.userName,
+                                    currentAccount.email];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"User Info"
+                                                            message:userInfoString
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+        [alertView show];
     }
     else if ([text isEqualToString:kActionLogout]) {
         self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
