@@ -628,12 +628,32 @@ static NSString * const kUserPrefix = @"005";
 	return result;
 }
 
-- (void)deleteAccountForUserId:(NSString*)userId {
+- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *acct = [self userAccountForUserId:safeUserId];
     if (nil != acct) {
+        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:acct.credentials.organizationId
+                                                                                 user:acct.credentials.userId
+                                                                            community:nil
+                                                                                 type:NSLibraryDirectory
+                                                                           components:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
+            NSError *folderRemovalError = nil;
+            BOOL removeUserFolderSucceeded = [[NSFileManager defaultManager] removeItemAtPath:userDirectory error:&folderRemovalError];
+            if (!removeUserFolderSucceeded) {
+                [self log:SFLogLevelError
+                   format:@"Error removing the user folder for '%@': %@", acct.userName, [folderRemovalError localizedDescription]];
+                if (error) {
+                    *error = folderRemovalError;
+                }
+                return removeUserFolderSucceeded;
+            }
+        } else {
+            [self log:SFLogLevelInfo format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", acct.userName];
+        }
         [self.userAccountMap removeObjectForKey:safeUserId];
     }
+    return YES;
 }
 
 - (void)clearAllAccountState {

@@ -74,6 +74,7 @@
     // the current user, if present, will be separated from the other users in the table view.
     _userAccountList = [self accountListMinusCurrentUser:[SFUserAccountManager sharedInstance].allUserAccounts];
     _hasCurrentUser = ([SFUserAccountManager sharedInstance].currentUser != nil);
+    [self.tableView reloadData];
 }
 
 #pragma mark - Private methods

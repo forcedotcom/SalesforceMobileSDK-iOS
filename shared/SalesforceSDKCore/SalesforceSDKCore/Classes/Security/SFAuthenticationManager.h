@@ -276,7 +276,8 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
 
 /**
- Kick off the login process.
+ Kick off the login process for either the current user, or a new user if the current user is not
+ configured.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
@@ -287,10 +288,31 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
+ Kick off the login process for the given user.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @param 
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+                    account:(SFUserAccount *)account;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
 - (void)logout;
+
+/**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ */
+- (void)logoutUser:(SFUserAccount *)user;
 
 /**
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.

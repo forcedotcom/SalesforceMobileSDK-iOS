@@ -26,6 +26,7 @@
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
+#import "SFAuthenticationManager.h"
 
 static CGFloat const kButtonWidth = 150.0f;
 static CGFloat const kButtonHeight = 40.0f;
@@ -44,6 +45,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
 
 - (void)layoutSubviews;
 - (IBAction)switchUserButtonClicked:(id)sender;
+- (IBAction)logoutUserButtonClicked:(id)sender;
 
 @end
 
@@ -91,6 +93,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     // Logout user button
     self.logoutUserButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.logoutUserButton setTitle:@"Logout User" forState:UIControlStateNormal];
+    [self.logoutUserButton addTarget:self action:@selector(logoutUserButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.logoutUserButton];
     
     [self layoutSubviews];
@@ -144,6 +147,23 @@ static CGFloat const kControlVerticalPadding = 5.0f;
         [[SFUserAccountManager sharedInstance] switchToUser:_user];
         [mainController execCompletionBlock:SFUserManagementActionSwitchUser];
     }];
+}
+
+- (IBAction)logoutUserButtonClicked:(id)sender
+{
+    if ([_user isEqual:[SFUserAccountManager sharedInstance].currentUser]) {
+        // Current user is a full logout and app state change.
+        SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
+        [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            [[SFAuthenticationManager sharedManager] logout];
+            [mainController execCompletionBlock:SFUserManagementActionLogoutUser];
+        }];
+    } else {
+        // Logging out a different user than the current user.  Clear the account state and go
+        // back to the user list.
+        [[SFAuthenticationManager sharedManager] logoutUser:_user];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

@@ -240,9 +240,15 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (void)addAccount:(SFUserAccount *)acct;
 
-/** Allows you to remove a user account associated with the given user ID.
+/**
+ Allows you to remove a user account associated with the given user ID.
+ @param userId The User ID of the account to remove.
+ @param error Output error parameter, populated if there was an error deleting
+ the account (likely from the filesystem operations).
+ @return YES if the deletion was successful, NO otherwise.  Note: If no account matching the userId
+ parameter is found, no action will be taken, and deletion will be reported as successful.
  */
-- (void)deleteAccountForUserId:(NSString*)userId;
+- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error;
 
 /** Clear all the accounts state (but do not change anything on the disk).
  */

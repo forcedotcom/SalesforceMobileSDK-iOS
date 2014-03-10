@@ -249,7 +249,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  Revoke the existing refresh token, in a fire-and-forget manner, such that
  we don't await a response from the server.
  */
-- (void)revokeRefreshToken;
+- (void)revokeRefreshToken:(SFUserAccount *)user;
 
 /**
  Displays an alert in the event of an unknown failure for OAuth or Identity requests, allowing the user
@@ -418,6 +418,22 @@ static Class InstanceClass = nil;
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
+    return [self loginWithCompletion:completionBlock failure:failureBlock account:nil];
+}
+
+- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+                    account:(SFUserAccount *)account
+{
+    if (account == nil) {
+        account = [SFUserAccountManager sharedInstance].currentUser;
+        if (account == nil) {
+            [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
+            account = [[SFUserAccountManager sharedInstance] createUserAccount];
+            [[SFUserAccountManager sharedInstance] saveAccounts:nil];
+        }
+    }
+    
     SFAuthBlockPair *blockPair = [[SFAuthBlockPair alloc] initWithSuccessBlock:completionBlock
                                                                   failureBlock:failureBlock];
     @synchronized (self.authBlockList) {
@@ -425,7 +441,7 @@ static Class InstanceClass = nil;
             // Kick off (async) authentication.
             [self log:SFLogLevelDebug msg:@"No authentication in progress.  Initiating new authentication request."];
             [self.authBlockList addObject:blockPair];
-            [self login];
+            [self loginWithUser:account];
             
             return YES;
         } else {
@@ -455,15 +471,33 @@ static Class InstanceClass = nil;
     [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
 
-- (void)logout {
-    [self log:SFLogLevelInfo msg:@"Logout requested.  Logging out the current user."];
+- (void)logout
+{
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
 
+- (void)logoutUser:(SFUserAccount *)user
+{
+    [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
+    
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     
-    // Supply the user account to the "Will Logout" notification before the credentials
-    // are revoked.  This will ensure that databases and other resources keyed off of
-    // the userID can be destroyed/cleaned up.
-    SFUserAccount *userAccount = userAccountManager.currentUser;
+    [self revokeRefreshToken:user];
+    
+    // If it's not the current user, this is really just about clearing the account data and
+    // user-specific state for the given account.
+    if (![user isEqual:userAccountManager.currentUser]) {
+        [userAccountManager deleteAccountForUserId:user.credentials.userId error:nil];
+        [user.credentials revoke];
+#warning TODO: SmartStore clear stores per user, once available.
+#warning TODO: Clear per-user Push Notification token, once available.
+        return;
+    }
+    
+    // Otherwise, the current user is being logged out.  Supply the user account to the
+    // "Will Logout" notification before the credentials are revoked.  This will ensure
+    // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
+    SFUserAccount *userAccount = user;
 
     // Also keep the userId around until the end of the process so we can safely refer to it
     NSString *userId = userAccount.credentials.userId;
@@ -484,7 +518,7 @@ static Class InstanceClass = nil;
     [self clearAccountState:YES];
     
     [self willChangeValueForKey:@"haveValidSession"];
-    [userAccountManager deleteAccountForUserId:userId];
+    [userAccountManager deleteAccountForUserId:userId error:nil];
     [userAccountManager saveAccounts:nil];
     [userAccount.credentials revoke];
     userAccountManager.currentUser = nil;
@@ -916,15 +950,13 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)revokeRefreshToken
+- (void)revokeRefreshToken:(SFUserAccount *)user
 {
-    SFOAuthCredentials *creds = self.coordinator.credentials;
-    NSString *refreshToken = [creds refreshToken];
-    if (refreshToken != nil) {
-        [self log:SFLogLevelInfo msg:@"Revoking user's credentials."];
-        NSMutableString *host = [NSMutableString stringWithString:[[creds instanceUrl] absoluteString]];
+    if (user.credentials.refreshToken != nil) {
+        [self log:SFLogLevelInfo format:@"Revoking credentials on the server for '%@'.", user.userName];
+        NSMutableString *host = [NSMutableString stringWithString:[user.credentials.instanceUrl absoluteString]];
         [host appendString:@"/services/oauth2/revoke?token="];
-        [host appendString:refreshToken];
+        [host appendString:user.credentials.refreshToken];
         NSURL *url = [NSURL URLWithString:host];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
@@ -947,6 +979,7 @@ static Class InstanceClass = nil;
 }
 
 - (void)loginWithUser:(SFUserAccount*)account {
+    NSAssert(account != nil, @"Account should be set at this point.");
     [SFUserAccountManager sharedInstance].currentUser = account;
     
     // Setup the internal logic for the specified user
