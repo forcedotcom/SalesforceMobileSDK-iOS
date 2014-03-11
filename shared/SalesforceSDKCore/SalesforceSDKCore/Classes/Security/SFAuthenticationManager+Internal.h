@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,67 +23,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFNativeRestRequestListener.h"
+#import "SFAuthenticationManager.h"
 
-int class_uid = 0;
+@class SFUserAccount;
 
-@interface SFNativeRestRequestListener ()
-{
-    int uid;
-}
+@interface SFAuthenticationManager ()
 
-@end
+- (void)login;
 
-@implementation SFNativeRestRequestListener
-
-@synthesize request = _request;
-
-- (id)initWithRequest:(SFRestRequest *)request {
-    self = [super init];
-    if (self) {
-        self.request = request;
-        self.request.delegate = self;
-        self->uid = class_uid++;
-    }
-
-    NSLog(@"## created listener %d", self->uid);
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    self.request.delegate = nil;
-    self.request = nil;
-}
-
-- (NSString *)serviceTypeDescription
-{
-    return @"SFRestRequest";
-}
-
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    self.dataResponse = dataResponse;
-    self.returnStatus = kTestRequestStatusDidLoad;
-}
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"## error for request %d", self->uid);
-    
-    self.lastError = error;
-    self.returnStatus = kTestRequestStatusDidFail;
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"## cancel for request %d", self->uid);
-
-    self.returnStatus = kTestRequestStatusDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
-}
+- (void)loginWithUser:(SFUserAccount*)account;
 
 @end
+

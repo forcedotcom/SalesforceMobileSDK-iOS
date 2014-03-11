@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 @class SFOAuthCoordinator;
+@class SFSDKTestCredentialsData;
 
 /**
  This class provides utilities useful to all unit tests based on the Salesforce SDK
@@ -32,8 +33,20 @@
 @interface TestSetupUtils : NSObject
 
 /**
- Forces a reload of authorization credentials from the configuration file.
+ Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle
+ of the app, and configures SFUserAccountManager and the current account with the data from
+ that file.
+ @return The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
+ apps which need the data to bootstrap SFHybridViewController).
  */
-+ (void)populateAuthCredentialsFromConfigFile;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFile;
+
+/**
+ Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
+ data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
+ `populateAuthCredentialsFromConfigFile` is required to run once before this method will attempt
+ to refresh authentication.
+ */
++ (void)synchronousAuthRefresh;
 
 @end

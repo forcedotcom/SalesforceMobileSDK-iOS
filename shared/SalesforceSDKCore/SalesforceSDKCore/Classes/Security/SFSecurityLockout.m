@@ -27,7 +27,7 @@
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"
@@ -47,6 +47,16 @@ static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.
 NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
 NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
 
+// Notification that will be sent out when passcode is reset
+NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
+NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
 // Static vars
 
 static NSUInteger              securityLockoutTime;
@@ -56,6 +66,8 @@ static SFLockScreenCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
+static NSMutableOrderedSet *sDelegates = nil;
+static BOOL sForcePasscodeDisplay = NO;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -65,12 +77,14 @@ static BOOL _showPasscode = YES;
 
 + (void)initialize
 {
-    [SFSecurityLockout upgradeSettings];
-    securityLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
+    [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
+    securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
+    
+    sDelegates = [NSMutableOrderedSet orderedSet];
     
     [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, NSInteger passcodeLength) {
         SFPasscodeViewController *pvc = nil;
-        if (mode == SFPasscodeControllerModeCreate ) {
+        if (mode == SFPasscodeControllerModeCreate) {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
         } else {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
@@ -111,6 +125,38 @@ static BOOL _showPasscode = YES;
     }
 }
 
++ (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate
+{
+    @synchronized (self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [sDelegates addObject:nonretainedDelegate];
+        }
+    }
+}
+
++ (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate
+{
+    @synchronized (self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [sDelegates removeObject:nonretainedDelegate];
+        }
+    }
+}
+
++ (void)enumerateDelegates:(void (^)(id<SFSecurityLockoutDelegate>))block
+{
+    @synchronized (self) {
+        [sDelegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFSecurityLockoutDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
+}
+
 + (void)validateTimer;
 {
     if ([SFSecurityLockout isPasscodeValid]) {
@@ -141,8 +187,7 @@ static BOOL _showPasscode = YES;
 
 + (BOOL)hasValidSession
 {
-    return [[SFAccountManager sharedInstance] credentials] != nil
-        && [[SFAccountManager sharedInstance] credentials].accessToken != nil;
+    return [[SFAuthenticationManager sharedManager] haveValidSession];
 }
 
 + (void)setLockoutTime:(NSUInteger)seconds
@@ -236,6 +281,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             else
                 [SFSecurityLockout unlockFailurePostProcessing];
         }
+        [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
+                [delegate passcodeFlowDidComplete:success];
+            }
+        }];
 	} 
 }
 
@@ -248,16 +298,29 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 	[SFSecurityLockout lock];
 }
 
++ (void)setForcePasscodeDisplay:(BOOL)forceDisplay
+{
+    sForcePasscodeDisplay = forceDisplay;
+}
+
++ (BOOL)forcePasscodeDisplay
+{
+    return sForcePasscodeDisplay;
+}
+
 + (void)lock
 {
-	if(![SFSecurityLockout hasValidSession]) {
-		[self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
-		return;
-	}
-    
-    if (![[SFAccountManager sharedInstance] mobilePinPolicyConfigured]) {
-        [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
-        return;
+    if (!sForcePasscodeDisplay) {
+        // Only go through sanity checks for locking if we don't want to force the passcode screen.
+        if (![SFSecurityLockout hasValidSession]) {
+            [self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
+            return;
+        }
+        
+        if (![[SFAuthenticationManager sharedManager] mobilePinPolicyConfigured]) {
+            [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
+            return;
+        }
     }
     
 	if(![[SFPasscodeManager sharedManager] passcodeIsSet]) {
@@ -266,6 +329,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
     }
     [self log:SFLogLevelInfo msg:@"Device locked."];
+    sForcePasscodeDisplay = NO;
 }
 
 + (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock
@@ -321,6 +385,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self setIsLocked:YES];
     if (_showPasscode) {
         [self sendPasscodeFlowWillBeginNotification:modeValue];
+        [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(passcodeFlowWillBegin:)]) {
+                [delegate passcodeFlowWillBegin:modeValue];
+            }
+        }];
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
         UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
@@ -367,6 +436,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
 	if(securityLockoutTime == 0) return YES; // no passcode is required.
     return([[SFPasscodeManager sharedManager] passcodeIsSet]);
+}
+
++ (BOOL)isPasscodeNeeded
+{
+    BOOL result = [self inactivityExpired] || ![self isPasscodeValid];
+    result = result || sForcePasscodeDisplay;
+    return result;
 }
 
 + (BOOL)isLockoutEnabled

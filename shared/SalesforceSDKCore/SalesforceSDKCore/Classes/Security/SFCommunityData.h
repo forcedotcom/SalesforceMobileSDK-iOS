@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,67 +22,38 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFNativeRestRequestListener.h"
+#import <Foundation/Foundation.h>
 
-int class_uid = 0;
+/** Class that groups the data describing a community
+ */
+@interface SFCommunityData : NSObject <NSCoding>
 
-@interface SFNativeRestRequestListener ()
-{
-    int uid;
-}
+/** The community ID
+ */
+@property (nonatomic, strong) NSString *entityId;
 
-@end
+/** The community name
+ */
+@property (nonatomic, strong) NSString *name;
 
-@implementation SFNativeRestRequestListener
+/** The community description
+ */
+@property (nonatomic, strong) NSString *description;
 
-@synthesize request = _request;
+/** The community siteUrl
+ */
+@property (nonatomic, strong) NSURL *siteUrl;
 
-- (id)initWithRequest:(SFRestRequest *)request {
-    self = [super init];
-    if (self) {
-        self.request = request;
-        self.request.delegate = self;
-        self->uid = class_uid++;
-    }
+@property (nonatomic, strong) NSURL *url;
 
-    NSLog(@"## created listener %d", self->uid);
-    
-    return self;
-}
+@property (nonatomic, strong) NSURL *urlPathPrefix;
 
-- (void)dealloc
-{
-    self.request.delegate = nil;
-    self.request = nil;
-}
+/** Flag indicating if the community is live or not
+ */
+@property (nonatomic) BOOL enabled;
 
-- (NSString *)serviceTypeDescription
-{
-    return @"SFRestRequest";
-}
+@property (nonatomic) BOOL invitationsEnabled;
 
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    self.dataResponse = dataResponse;
-    self.returnStatus = kTestRequestStatusDidLoad;
-}
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"## error for request %d", self->uid);
-    
-    self.lastError = error;
-    self.returnStatus = kTestRequestStatusDidFail;
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"## cancel for request %d", self->uid);
-
-    self.returnStatus = kTestRequestStatusDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
-}
+@property (nonatomic) BOOL sendWelcomeEmail;
 
 @end

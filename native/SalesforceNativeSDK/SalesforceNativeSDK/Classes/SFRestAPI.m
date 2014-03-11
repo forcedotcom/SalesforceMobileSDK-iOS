@@ -26,7 +26,8 @@
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFSessionRefresher.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 
@@ -54,7 +55,8 @@ static dispatch_once_t _sharedInstanceGuard;
         _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
-        _accountMgr = [SFAccountManager sharedInstance];
+        _accountMgr = [SFUserAccountManager sharedInstance];
+        _authMgr = [SFAuthenticationManager sharedManager];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
         [self setupNetworkCoordinator];
@@ -118,12 +120,12 @@ static dispatch_once_t _sharedInstanceGuard;
 
 - (SFOAuthCoordinator *)coordinator
 {
-    return _accountMgr.coordinator;
+    return _authMgr.coordinator;
 }
 
 - (void)setCoordinator:(SFOAuthCoordinator *)coordinator
 {
-    _accountMgr.coordinator = coordinator;
+    _authMgr.coordinator = coordinator;
     [self setupNetworkCoordinator];
 }
 
@@ -160,8 +162,8 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - SFNetworkEngine Delegate
 
 - (void) setupNetworkCoordinator {
-    if (_accountMgr.coordinator != nil) {
-        _networkEngine.coordinator = [self createNetworkCoordinator:_accountMgr.coordinator];
+    if (_authMgr.coordinator != nil) {
+        _networkEngine.coordinator = [self createNetworkCoordinator:_authMgr.coordinator];
     }
 }
 
@@ -193,7 +195,8 @@ static dispatch_once_t _sharedInstanceGuard;
 
     SFNetworkOperation* networkOperation = nil;
     // If there are no demonstrable auth credentials, login before sending.
-    if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
+    SFUserAccount *user = _accountMgr.currentUser;
+    if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             [request send:_networkEngine];
