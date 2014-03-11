@@ -7,21 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F056FE818CFCF3A009D06F1 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4F056FE718CFCF3A009D06F1 /* config.xml */; };
+		4F101D8218CA8F9E007CF336 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F101D8118CA8F9E007CF336 /* bootconfig.json */; };
+		4F101D8318CA8FAE007CF336 /* bootconfig.json in Copy Shared www Files (1 item) */ = {isa = PBXBuildFile; fileRef = 4F101D8118CA8F9E007CF336 /* bootconfig.json */; };
 		4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */; };
+		4FF918E218A99E5B00A713DB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF918E118A99E5B00A713DB /* AssetsLibrary.framework */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
 		7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CB149AA8420043A9E0 /* UIKit.framework */; };
-		7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */; };
 		7DBD06D0149AA8420043A9E0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CF149AA8420043A9E0 /* CoreGraphics.framework */; };
 		7DBD06D2149AA8420043A9E0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D1149AA8420043A9E0 /* CoreLocation.framework */; };
-		7DBD06D4149AA8420043A9E0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D3149AA8420043A9E0 /* CoreMedia.framework */; };
 		7DBD06D6149AA8420043A9E0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D5149AA8420043A9E0 /* QuartzCore.framework */; };
 		7DBD06D8149AA8420043A9E0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D7149AA8420043A9E0 /* Security.framework */; };
 		7DBD06DA149AA8420043A9E0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06D9149AA8420043A9E0 /* MobileCoreServices.framework */; };
-		7DBD06DC149AA8420043A9E0 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DB149AA8420043A9E0 /* AddressBook.framework */; };
-		7DBD06DE149AA8420043A9E0 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DD149AA8420043A9E0 /* AddressBookUI.framework */; };
-		7DBD06E0149AA8420043A9E0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06DF149AA8420043A9E0 /* AudioToolbox.framework */; };
-		7DBD06E2149AA8420043A9E0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E1149AA8420043A9E0 /* AVFoundation.framework */; };
-		7DBD06E4149AA8420043A9E0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E3149AA8420043A9E0 /* MediaPlayer.framework */; };
 		7DBD06E6149AA8420043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E5149AA8420043A9E0 /* SystemConfiguration.framework */; };
 		7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */; };
 		7DBD06EE149AA8420043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD06ED149AA8420043A9E0 /* main.m */; };
@@ -49,28 +46,28 @@
 		8251CAAF16ED5FBA00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAAE16ED5FBA00BD1EA2 /* libSalesforceCommonUtils.a */; };
 		8251CAB116ED5FD700BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB016ED5FD700BD1EA2 /* libcrypto.a */; };
 		8251CAB316ED5FEF00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB216ED5FEF00BD1EA2 /* libCordova.a */; };
-		8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB416ED5FF800BD1EA2 /* CoreData.framework */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
-		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
-		CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CE21731BF5400CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CE361CE61731BFF700CB4C70 /* Copy Shared www Files */ = {
+		CE361CE61731BFF700CB4C70 /* Copy Shared www Files (1 item) */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */,
+				4F101D8318CA8FAE007CF336 /* bootconfig.json in Copy Shared www Files (1 item) */,
 			);
-			name = "Copy Shared www Files";
+			name = "Copy Shared www Files (1 item)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F056FE718CFCF3A009D06F1 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		4F101D8118CA8F9E007CF336 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 		4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FF918E118A99E5B00A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		7DBD06C5149AA8420043A9E0 /* VFConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD06C9149AA8420043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD06CB149AA8420043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -117,8 +114,6 @@
 		8251CAB216ED5FEF00BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CAB416ED5FF800BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8295462F167A7F5B00A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
-		CE361CE21731BF5400CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/SampleApps/vfconnector/bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,29 +131,30 @@
 				8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */,
 				8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */,
 				82707C12157C49EB00B50291 /* libz.dylib in Frameworks */,
-				7DBD06DC149AA8420043A9E0 /* AddressBook.framework in Frameworks */,
-				7DBD06DE149AA8420043A9E0 /* AddressBookUI.framework in Frameworks */,
-				7DBD06E0149AA8420043A9E0 /* AudioToolbox.framework in Frameworks */,
-				7DBD06E2149AA8420043A9E0 /* AVFoundation.framework in Frameworks */,
-				7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */,
-				8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */,
 				7DBD06D0149AA8420043A9E0 /* CoreGraphics.framework in Frameworks */,
 				7DBD06D2149AA8420043A9E0 /* CoreLocation.framework in Frameworks */,
-				7DBD06D4149AA8420043A9E0 /* CoreMedia.framework in Frameworks */,
 				7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */,
-				7DBD06E4149AA8420043A9E0 /* MediaPlayer.framework in Frameworks */,
 				8202760E1651795300DB814C /* MessageUI.framework in Frameworks */,
 				7DBD06DA149AA8420043A9E0 /* MobileCoreServices.framework in Frameworks */,
 				7DBD06D6149AA8420043A9E0 /* QuartzCore.framework in Frameworks */,
 				7DBD06D8149AA8420043A9E0 /* Security.framework in Frameworks */,
 				7DBD06E6149AA8420043A9E0 /* SystemConfiguration.framework in Frameworks */,
 				7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */,
+				4FF918E218A99E5B00A713DB /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F101D8018CA8F9E007CF336 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				4F101D8118CA8F9E007CF336 /* bootconfig.json */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
 		7DBD06B9149AA8420043A9E0 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +175,7 @@
 		7DBD06C8149AA8420043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FF918E118A99E5B00A713DB /* AssetsLibrary.framework */,
 				8251CAB216ED5FEF00BD1EA2 /* libCordova.a */,
 				8251CAB016ED5FD700BD1EA2 /* libcrypto.a */,
 				8251CAAE16ED5FBA00BD1EA2 /* libSalesforceCommonUtils.a */,
@@ -213,7 +210,7 @@
 		7DBD06E7149AA8420043A9E0 /* VFConnector */ = {
 			isa = PBXGroup;
 			children = (
-				CE361CE01731BE5100CB4C70 /* shared-www */,
+				4F101D8018CA8F9E007CF336 /* www */,
 				7DBD0733149AA8430043A9E0 /* readme.md */,
 				7DBD0720149AA8430043A9E0 /* Resources */,
 				7DBD0735149AA8430043A9E0 /* Classes */,
@@ -226,7 +223,7 @@
 		7DBD06E8149AA8420043A9E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8295462F167A7F5B00A0FC34 /* config.xml */,
+				4F056FE718CFCF3A009D06F1 /* config.xml */,
 				7DBD06E9149AA8420043A9E0 /* VFConnector-Info.plist */,
 				7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */,
 				7DBD06ED149AA8420043A9E0 /* main.m */,
@@ -286,14 +283,6 @@
 			name = Plugins;
 			sourceTree = "<group>";
 		};
-		CE361CE01731BE5100CB4C70 /* shared-www */ = {
-			isa = PBXGroup;
-			children = (
-				CE361CE21731BF5400CB4C70 /* bootconfig.json */,
-			);
-			name = "shared-www";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -304,7 +293,7 @@
 				7DBD06C0149AA8420043A9E0 /* Sources */,
 				7DBD06C1149AA8420043A9E0 /* Frameworks */,
 				7DBD06C2149AA8420043A9E0 /* Resources */,
-				CE361CE61731BFF700CB4C70 /* Copy Shared www Files */,
+				CE361CE61731BFF700CB4C70 /* Copy Shared www Files (1 item) */,
 			);
 			buildRules = (
 			);
@@ -352,13 +341,14 @@
 				7DBD0727149AA8430043A9E0 /* icon@2x.png in Resources */,
 				7DBD072A149AA8430043A9E0 /* Default-Landscape~ipad.png in Resources */,
 				7DBD072C149AA8430043A9E0 /* Default-Portrait~ipad.png in Resources */,
+				4F101D8218CA8F9E007CF336 /* bootconfig.json in Resources */,
 				7DBD072E149AA8430043A9E0 /* Default.png in Resources */,
+				4F056FE818CFCF3A009D06F1 /* config.xml in Resources */,
 				7DBD0730149AA8430043A9E0 /* Default@2x.png in Resources */,
 				7DBD0732149AA8430043A9E0 /* Default~iPad.png in Resources */,
 				7DBD0734149AA8430043A9E0 /* readme.md in Resources */,
 				7DBD073F149AA8430043A9E0 /* README in Resources */,
 				7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */,
-				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */,
 			);

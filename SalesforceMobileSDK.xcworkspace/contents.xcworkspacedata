@@ -21,22 +21,10 @@
       location = "container:"
       name = "Hybrid SDK">
       <FileRef
-         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
    </Group>
    <FileRef
@@ -685,16 +673,6 @@
    <Group
       location = "container:"
       name = "shared">
-      <Group
-         location = "group:shared/hybrid"
-         name = "hybrid">
-         <FileRef
-            location = "group:config.xml">
-         </FileRef>
-         <FileRef
-            location = "group:cordova-2.3.0.js">
-         </FileRef>
-      </Group>
       <Group
          location = "group:shared/resources"
          name = "resources">

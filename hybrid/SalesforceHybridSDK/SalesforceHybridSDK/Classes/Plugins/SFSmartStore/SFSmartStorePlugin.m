@@ -26,12 +26,11 @@
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
-#import "CDVCommandDelegateImpl.h"
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFHybridViewController.h"
-#import "CDVPluginResult.h"
-#import "CDVInvokedUrlCommand.h"
+#import <Cordova/CDVPluginResult.h>
+#import <Cordova/CDVInvokedUrlCommand.h>
 
 //NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";

@@ -7,20 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F1A59F7174FF46600473EE8 /* jquery-2.0.0.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */; };
-		4F1A59F8174FF46600473EE8 /* jquery.mobile-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */; };
-		4F1A59F9174FF46600473EE8 /* jquery.mobile-1.3.1.min.js in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */; };
-		4F1A59FA174FF46600473EE8 /* jquery.mobile.structure-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */; };
-		4F1A59FB174FF46600473EE8 /* jquery.mobile.theme-1.3.1.min.css in Copy jquery/ to www/jquery */ = {isa = PBXBuildFile; fileRef = 4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */; };
-		4F1A59FC174FF49300473EE8 /* ajax-loader.gif in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */; };
-		4F1A59FD174FF49300473EE8 /* icons-18-black.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */; };
-		4F1A59FE174FF49300473EE8 /* icons-18-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */; };
-		4F1A59FF174FF49300473EE8 /* icons-36-black.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */; };
-		4F1A5A00174FF49300473EE8 /* icons-36-white.png in Copy jquery/images to www/jquery/images */ = {isa = PBXBuildFile; fileRef = 4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */; };
-		4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */; };
-		4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */ = {isa = PBXBuildFile; fileRef = 4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */; };
-		4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C1174FEF7C00473EE8 /* qunit.css */; };
-		4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */ = {isa = PBXBuildFile; fileRef = 4F1A59C2174FEF7C00473EE8 /* qunit.js */; };
+		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
+		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
+		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
+		4F2603A118AC1DDE00F922E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
 		4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
 		4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
@@ -33,6 +23,20 @@
 		4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
 		4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
+		4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
+		4FC7B5E018AC3C69006922FD /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5DE18AC3C69006922FD /* qunit.css */; };
+		4FC7B5E218AC3C81006922FD /* underscore-min.js in Copy underscore lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5D818AC3C19006922FD /* underscore-min.js */; };
+		4FC7B5E318AC3C8E006922FD /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DE18AC3C69006922FD /* qunit.css */; };
+		4FC7B5E418AC3C8E006922FD /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DF18AC3C69006922FD /* qunit.js */; };
+		4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DA18AC3C47006922FD /* backbone-min.js */; };
+		4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DC18AC3C56006922FD /* jquery.min.js */; };
+		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
+		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
+		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
+		4FD72F2A18C955E200610988 /* SFReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2618C955E200610988 /* SFReachability.m */; };
+		4FD72F2B18C955E200610988 /* SFReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2718C955E200610988 /* SFReachability.h */; };
+		4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
+		4FFF69E618AC1DC1004343EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */; };
 		8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0916EC3A7500BD1EA2 /* libz.dylib */; };
 		8251CA0C16EC3A8C00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */; };
@@ -43,20 +47,10 @@
 		8251CA1616EC3AF900BD1EA2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		8251CA1916EC3B9600BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */; };
 		8251CA1E16ECFA3800BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1D16ECFA3800BD1EA2 /* libSalesforceOAuth.a */; };
-		8251CA2016ECFA5E00BD1EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
 		8251CA2216ECFA7900BD1EA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
 		8251CA2416ECFAB000BD1EA2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2316ECFAB000BD1EA2 /* libSalesforceSDKCore.a */; };
 		8251CA2616ECFACF00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2516ECFACF00BD1EA2 /* libSalesforceCommonUtils.a */; };
-		8251CA2816ECFAE200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2716ECFAE200BD1EA2 /* CoreData.framework */; };
-		8251CA2A16ECFAF900BD1EA2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2916ECFAF900BD1EA2 /* CFNetwork.framework */; };
 		8251CA2C16ECFD4D00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2B16ECFD4D00BD1EA2 /* libCordova.a */; };
-		8251CA3016ED002300BD1EA2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2E16ED002300BD1EA2 /* AddressBook.framework */; };
-		8251CA3116ED002300BD1EA2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2F16ED002300BD1EA2 /* AddressBookUI.framework */; };
-		8251CA3316ED004500BD1EA2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3216ED004500BD1EA2 /* AudioToolbox.framework */; };
-		8251CA3516ED005C00BD1EA2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3416ED005C00BD1EA2 /* AVFoundation.framework */; };
-		8251CA3716ED007000BD1EA2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
-		8251CA3916ED008200BD1EA2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */; };
-		8251CA3B16ED009700BD1EA2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */; };
 		8251CA4216ED1EB400BD1EA2 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3D16ED1EB400BD1EA2 /* SDKInfoTestSuite.m */; };
 		8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3F16ED1EB400BD1EA2 /* SFPluginTestSuite.m */; };
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
@@ -73,9 +67,7 @@
 		82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
 		82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */; };
-		82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		82EFF30416E8049500A63CDF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF30816E8049500A63CDF /* InfoPlist.strings */; };
 		82EFF30C16E8049500A63CDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF30B16E8049500A63CDF /* main.m */; };
 		82EFF31216E8049500A63CDF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF31116E8049500A63CDF /* Default.png */; };
@@ -88,7 +80,6 @@
 		82EFF33C16E805E300A63CDF /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33B16E805E300A63CDF /* config.xml */; };
 		82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
-		82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
@@ -112,58 +103,49 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4F1A5A01174FF4AD00473EE8 /* Copy backbone to www/backbone */ = {
+		4F0C193E18AB0509000FD4E9 /* Copy underscore lib */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/underscore;
+			dstSubfolderSpec = 7;
+			files = (
+				4FC7B5E218AC3C81006922FD /* underscore-min.js in Copy underscore lib */,
+			);
+			name = "Copy underscore lib";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F1A5A01174FF4AD00473EE8 /* Copy backbone lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/backbone;
 			dstSubfolderSpec = 7;
 			files = (
-				4F1A5A03174FF4C400473EE8 /* backbone-1.0.0.min.js in Copy backbone to www/backbone */,
-				4F1A5A04174FF4C400473EE8 /* underscore-1.4.4.min.js in Copy backbone to www/backbone */,
+				4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */,
 			);
-			name = "Copy backbone to www/backbone";
+			name = "Copy backbone lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */ = {
+		4F1A5A091750090700473EE8 /* Copy qunit lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/qunit;
+			dstPath = www/qunit/qunit;
 			dstSubfolderSpec = 7;
 			files = (
-				4F1A5A0A1750092300473EE8 /* qunit.css in Copy qunit/ to www/qunit/ */,
-				4F1A5A0B1750092300473EE8 /* qunit.js in Copy qunit/ to www/qunit/ */,
+				4FC7B5E318AC3C8E006922FD /* qunit.css in Copy qunit lib */,
+				4FC7B5E418AC3C8E006922FD /* qunit.js in Copy qunit lib */,
 			);
-			name = "Copy qunit/ to www/qunit/";
+			name = "Copy qunit lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */ = {
+		82EFF35D16E80E0B00A63CDF /* Copy jquery lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = www/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				4F1A59F7174FF46600473EE8 /* jquery-2.0.0.min.js in Copy jquery/ to www/jquery */,
-				4F1A59F8174FF46600473EE8 /* jquery.mobile-1.3.1.min.css in Copy jquery/ to www/jquery */,
-				4F1A59F9174FF46600473EE8 /* jquery.mobile-1.3.1.min.js in Copy jquery/ to www/jquery */,
-				4F1A59FA174FF46600473EE8 /* jquery.mobile.structure-1.3.1.min.css in Copy jquery/ to www/jquery */,
-				4F1A59FB174FF46600473EE8 /* jquery.mobile.theme-1.3.1.min.css in Copy jquery/ to www/jquery */,
+				4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */,
 			);
-			name = "Copy jquery/ to www/jquery";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82EFF36816E8134E00A63CDF /* Copy jquery/images to www/jquery/images */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/jquery/images;
-			dstSubfolderSpec = 7;
-			files = (
-				4F1A59FC174FF49300473EE8 /* ajax-loader.gif in Copy jquery/images to www/jquery/images */,
-				4F1A59FD174FF49300473EE8 /* icons-18-black.png in Copy jquery/images to www/jquery/images */,
-				4F1A59FE174FF49300473EE8 /* icons-18-white.png in Copy jquery/images to www/jquery/images */,
-				4F1A59FF174FF49300473EE8 /* icons-36-black.png in Copy jquery/images to www/jquery/images */,
-				4F1A5A00174FF49300473EE8 /* icons-36-white.png in Copy jquery/images to www/jquery/images */,
-			);
-			name = "Copy jquery/images to www/jquery/images";
+			name = "Copy jquery lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82EFF37016E8147C00A63CDF /* Copy files to www/ */ = {
@@ -172,6 +154,8 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */,
+				4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */,
 				4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */,
 				4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */,
 				4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */,
@@ -183,7 +167,6 @@
 				4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */,
 				4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */,
 				4FAA891D1750263200807E13 /* index.html in Copy files to www/ */,
-				82EFF37116E8149E00A63CDF /* cordova-2.3.0.js in Copy files to www/ */,
 			);
 			name = "Copy files to www/";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,20 +174,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-1.0.0.min.js"; sourceTree = "<group>"; };
-		4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-1.4.4.min.js"; sourceTree = "<group>"; };
-		4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
-		4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
-		4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
-		4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-black.png"; sourceTree = "<group>"; };
-		4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-36-white.png"; sourceTree = "<group>"; };
-		4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.0.0.min.js"; sourceTree = "<group>"; };
-		4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile-1.3.1.min.css"; sourceTree = "<group>"; };
-		4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery.mobile-1.3.1.min.js"; sourceTree = "<group>"; };
-		4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.structure-1.3.1.min.css"; sourceTree = "<group>"; };
-		4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "jquery.mobile.theme-1.3.1.min.css"; sourceTree = "<group>"; };
-		4F1A59C1174FEF7C00473EE8 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
-		4F1A59C2174FEF7C00473EE8 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
+		4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		4F0C192D18AAFE41000FD4E9 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
 		4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFAbstractSmartStoreTestSuite.js; sourceTree = "<group>"; };
 		4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSDKInfoTestSuite.js; sourceTree = "<group>"; };
 		4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartStoreLoadTestSuite.js; sourceTree = "<group>"; };
@@ -218,6 +189,16 @@
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
 		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
+		4FC7B5D818AC3C19006922FD /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "underscore-min.js"; path = "../bower_components/underscore/underscore-min.js"; sourceTree = "<group>"; };
+		4FC7B5DA18AC3C47006922FD /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "backbone-min.js"; path = "../bower_components/backbone/backbone-min.js"; sourceTree = "<group>"; };
+		4FC7B5DC18AC3C56006922FD /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../bower_components/jquery/jquery.min.js; sourceTree = "<group>"; };
+		4FC7B5DE18AC3C69006922FD /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = ../bower_components/qunit/qunit/qunit.css; sourceTree = "<group>"; };
+		4FC7B5DF18AC3C69006922FD /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = ../bower_components/qunit/qunit/qunit.js; sourceTree = "<group>"; };
+		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
+		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
+		4FD72F2618C955E200610988 /* SFReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFReachability.m; sourceTree = "<group>"; };
+		4FD72F2718C955E200610988 /* SFReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFReachability.h; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA0916EC3A7500BD1EA2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -281,7 +262,6 @@
 		82EFF33D16E8063700A63CDF /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		82EFF34216E80B6300A63CDF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
 		82EFF3A016E817BC00A63CDF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -312,23 +292,16 @@
 				8251CA0E16EC3A9500BD1EA2 /* libssl.a in Frameworks */,
 				8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */,
 				8251CA0A16EC3A7500BD1EA2 /* libz.dylib in Frameworks */,
-				8251CA3016ED002300BD1EA2 /* AddressBook.framework in Frameworks */,
-				8251CA3116ED002300BD1EA2 /* AddressBookUI.framework in Frameworks */,
-				8251CA3316ED004500BD1EA2 /* AudioToolbox.framework in Frameworks */,
-				8251CA3516ED005C00BD1EA2 /* AVFoundation.framework in Frameworks */,
-				8251CA2A16ECFAF900BD1EA2 /* CFNetwork.framework in Frameworks */,
-				8251CA2816ECFAE200BD1EA2 /* CoreData.framework in Frameworks */,
-				82EFF30416E8049500A63CDF /* CoreGraphics.framework in Frameworks */,
-				8251CA3716ED007000BD1EA2 /* CoreLocation.framework in Frameworks */,
-				8251CA3B16ED009700BD1EA2 /* CoreMedia.framework in Frameworks */,
+				4FFF69E618AC1DC1004343EB /* CoreGraphics.framework in Frameworks */,
+				4F2603A118AC1DDE00F922E7 /* CoreLocation.framework in Frameworks */,
 				82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */,
-				8251CA3916ED008200BD1EA2 /* MediaPlayer.framework in Frameworks */,
-				8251CA2016ECFA5E00BD1EA2 /* MessageUI.framework in Frameworks */,
+				4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */,
 				8251CA1216EC3AC100BD1EA2 /* MobileCoreServices.framework in Frameworks */,
 				8251CA2216ECFA7900BD1EA2 /* QuartzCore.framework in Frameworks */,
 				8251CA1416EC3AE300BD1EA2 /* Security.framework in Frameworks */,
 				8251CA1616EC3AF900BD1EA2 /* SystemConfiguration.framework in Frameworks */,
-				82EFF30116E8049500A63CDF /* UIKit.framework in Frameworks */,
+				4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */,
+				4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,60 +318,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4F1A59AF174FEF7C00473EE8 /* external */ = {
-			isa = PBXGroup;
-			children = (
-				4F1A59B0174FEF7C00473EE8 /* backbone */,
-				4F1A59B4174FEF7C00473EE8 /* jquery */,
-				4F1A59C0174FEF7C00473EE8 /* qunit */,
-			);
-			name = external;
-			path = ../../../external/shared/external;
-			sourceTree = "<group>";
-		};
-		4F1A59B0174FEF7C00473EE8 /* backbone */ = {
-			isa = PBXGroup;
-			children = (
-				4F1A59B2174FEF7C00473EE8 /* backbone-1.0.0.min.js */,
-				4F1A59B3174FEF7C00473EE8 /* underscore-1.4.4.min.js */,
-			);
-			path = backbone;
-			sourceTree = "<group>";
-		};
-		4F1A59B4174FEF7C00473EE8 /* jquery */ = {
-			isa = PBXGroup;
-			children = (
-				4F1A59B5174FEF7C00473EE8 /* images */,
-				4F1A59BB174FEF7C00473EE8 /* jquery-2.0.0.min.js */,
-				4F1A59BC174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.css */,
-				4F1A59BD174FEF7C00473EE8 /* jquery.mobile-1.3.1.min.js */,
-				4F1A59BE174FEF7C00473EE8 /* jquery.mobile.structure-1.3.1.min.css */,
-				4F1A59BF174FEF7C00473EE8 /* jquery.mobile.theme-1.3.1.min.css */,
-			);
-			path = jquery;
-			sourceTree = "<group>";
-		};
-		4F1A59B5174FEF7C00473EE8 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				4F1A59B6174FEF7C00473EE8 /* ajax-loader.gif */,
-				4F1A59B7174FEF7C00473EE8 /* icons-18-black.png */,
-				4F1A59B8174FEF7C00473EE8 /* icons-18-white.png */,
-				4F1A59B9174FEF7C00473EE8 /* icons-36-black.png */,
-				4F1A59BA174FEF7C00473EE8 /* icons-36-white.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		4F1A59C0174FEF7C00473EE8 /* qunit */ = {
-			isa = PBXGroup;
-			children = (
-				4F1A59C1174FEF7C00473EE8 /* qunit.css */,
-				4F1A59C2174FEF7C00473EE8 /* qunit.js */,
-			);
-			path = qunit;
-			sourceTree = "<group>";
-		};
 		4F1A59D2174FF02500473EE8 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +336,11 @@
 		4F1A59F0174FF0B100473EE8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				4FC7B5DE18AC3C69006922FD /* qunit.css */,
+				4FC7B5DF18AC3C69006922FD /* qunit.js */,
+				4FC7B5DC18AC3C56006922FD /* jquery.min.js */,
+				4FC7B5DA18AC3C47006922FD /* backbone-min.js */,
+				4FC7B5D818AC3C19006922FD /* underscore-min.js */,
 				4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */,
 				4FBFFAF1177A715300D1E36E /* smartsync.js */,
 				4F1A59F1174FF0B100473EE8 /* cordova.force.js */,
@@ -449,6 +373,7 @@
 		82EFF2D216E7C57100A63CDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */,
 				8251CA2B16ECFD4D00BD1EA2 /* libCordova.a */,
 				8251CA0B16EC3A8C00BD1EA2 /* libcrypto.a */,
 				8251CA2516ECFACF00BD1EA2 /* libSalesforceCommonUtils.a */,
@@ -502,6 +427,10 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E216E7C84900A63CDF /* Plugins */,
+				4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */,
+				4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */,
+				4FD72F2618C955E200610988 /* SFReachability.m */,
+				4FD72F2718C955E200610988 /* SFReachability.h */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
 				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
@@ -632,11 +561,11 @@
 		82EFF34616E80D8800A63CDF /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4FC7B5D618AC3BB8006922FD /* bootconfig.json */,
+				4F0C192D18AAFE41000FD4E9 /* cordova.js */,
 				4FAA891B175025DF00807E13 /* index.html */,
 				4F1A59F0174FF0B100473EE8 /* libs */,
 				4F1A59D2174FF02500473EE8 /* test */,
-				4F1A59AF174FEF7C00473EE8 /* external */,
-				82EFF36E16E8146400A63CDF /* cordova-2.3.0.js */,
 			);
 			name = "shared-www";
 			sourceTree = "<group>";
@@ -658,8 +587,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
+				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
+				4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */,
 				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
 				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
 				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
@@ -694,10 +625,10 @@
 				82EFF2FC16E8049500A63CDF /* Frameworks */,
 				82EFF2FD16E8049500A63CDF /* Resources */,
 				82EFF37016E8147C00A63CDF /* Copy files to www/ */,
-				82EFF35D16E80E0B00A63CDF /* Copy jquery/ to www/jquery */,
-				82EFF36816E8134E00A63CDF /* Copy jquery/images to www/jquery/images */,
-				4F1A5A01174FF4AD00473EE8 /* Copy backbone to www/backbone */,
-				4F1A5A091750090700473EE8 /* Copy qunit/ to www/qunit/ */,
+				82EFF35D16E80E0B00A63CDF /* Copy jquery lib */,
+				4F1A5A01174FF4AD00473EE8 /* Copy backbone lib */,
+				4F1A5A091750090700473EE8 /* Copy qunit lib */,
+				4F0C193E18AB0509000FD4E9 /* Copy underscore lib */,
 			);
 			buildRules = (
 			);
@@ -762,9 +693,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */,
+				4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */,
 				82EFF31216E8049500A63CDF /* Default.png in Resources */,
 				82EFF31416E8049500A63CDF /* Default@2x.png in Resources */,
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
+				4FC7B5E018AC3C69006922FD /* qunit.css in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
 				82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */,
@@ -804,8 +737,10 @@
 			files = (
 				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
+				4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
+				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);

@@ -31,7 +31,7 @@
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import "CDVConnection.h"
+#import "SFHybridConnectionMonitor.h"
 
 // Public constants
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -183,10 +183,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
-    if (self.useSplashScreen) {
-        [self showSplashScreen];
-    }
-    
     [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
         // Device is offline, and we have to try to load cached content.
@@ -369,7 +365,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (BOOL)isOffline
 {
-    CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
+    SFHybridConnectionMonitor *connection = [SFHybridConnectionMonitor sharedInstance];
     NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
     return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
 }

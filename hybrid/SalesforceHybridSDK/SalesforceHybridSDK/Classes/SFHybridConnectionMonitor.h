@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,41 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <Cordova/CDVPlugin.h>
+#import "SFReachability.h"
 
-@class CDVInvokedUrlCommand;
+@interface SFHybridConnectionMonitor : NSObject {
+    SFReachability* internetReach;
+}
 
-/**
- * Cordova plugin for managing authentication with the Salesforce service, via OAuth.
+@property (copy) NSString* connectionType;
+@property (strong) SFReachability* internetReach;
+
+/** Returns the singleton instance of `SFConnection`
  */
-@interface SalesforceOAuthPlugin : CDVPlugin
-
-#pragma mark - Plugin exported to javascript
-
-/**
- * Cordova plug-in method to obtain the current login credentials, authenticating if needed.
- * @param command Cordova plugin command object, containing input parameters.
- */
-- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command;
-
-/**
- * Cordova plug-in method to authenticate a user to the application.
- * @param command Cordova plugin command object, containing the OAuth configuration properties.
- */
-- (void)authenticate:(CDVInvokedUrlCommand *)command;
-
-/**
- * Clear the current user's authentication credentials.
- * @param command Standard Cordova plugin arguments, not used in this method.
- */
-- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command;
-
-/**
- * Get the app's homepage URL, which can be used for loading the app in scenarios where it's offline.
- * @param command Standard Cordova plugin arguments, nominally used in this method.
- */
-- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command;
++ (SFHybridConnectionMonitor *)sharedInstance;
 
 @end
