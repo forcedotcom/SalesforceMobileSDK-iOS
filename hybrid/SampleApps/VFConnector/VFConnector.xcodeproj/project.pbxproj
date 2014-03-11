@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F056FE818CFCF3A009D06F1 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4F056FE718CFCF3A009D06F1 /* config.xml */; };
 		4F101D8218CA8F9E007CF336 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F101D8118CA8F9E007CF336 /* bootconfig.json */; };
 		4F101D8318CA8FAE007CF336 /* bootconfig.json in Copy Shared www Files (1 item) */ = {isa = PBXBuildFile; fileRef = 4F101D8118CA8F9E007CF336 /* bootconfig.json */; };
 		4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */; };
@@ -46,7 +47,6 @@
 		8251CAB116ED5FD700BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB016ED5FD700BD1EA2 /* libcrypto.a */; };
 		8251CAB316ED5FEF00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB216ED5FEF00BD1EA2 /* libCordova.a */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
-		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F056FE718CFCF3A009D06F1 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		4F101D8118CA8F9E007CF336 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 		4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4FF918E118A99E5B00A713DB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -113,7 +114,6 @@
 		8251CAB216ED5FEF00BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CAB416ED5FF800BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8295462F167A7F5B00A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,7 +223,7 @@
 		7DBD06E8149AA8420043A9E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8295462F167A7F5B00A0FC34 /* config.xml */,
+				4F056FE718CFCF3A009D06F1 /* config.xml */,
 				7DBD06E9149AA8420043A9E0 /* VFConnector-Info.plist */,
 				7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */,
 				7DBD06ED149AA8420043A9E0 /* main.m */,
@@ -343,12 +343,12 @@
 				7DBD072C149AA8430043A9E0 /* Default-Portrait~ipad.png in Resources */,
 				4F101D8218CA8F9E007CF336 /* bootconfig.json in Resources */,
 				7DBD072E149AA8430043A9E0 /* Default.png in Resources */,
+				4F056FE818CFCF3A009D06F1 /* config.xml in Resources */,
 				7DBD0730149AA8430043A9E0 /* Default@2x.png in Resources */,
 				7DBD0732149AA8430043A9E0 /* Default~iPad.png in Resources */,
 				7DBD0734149AA8430043A9E0 /* readme.md in Resources */,
 				7DBD073F149AA8430043A9E0 /* README in Resources */,
 				7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */,
-				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */,
 			);

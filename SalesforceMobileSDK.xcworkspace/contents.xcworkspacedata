@@ -674,16 +674,6 @@
       location = "container:"
       name = "shared">
       <Group
-         location = "group:shared/hybrid"
-         name = "hybrid">
-         <FileRef
-            location = "group:config.xml">
-         </FileRef>
-         <FileRef
-            location = "group:cordova-2.3.0.js">
-         </FileRef>
-      </Group>
-      <Group
          location = "group:shared/resources"
          name = "resources">
          <FileRef
