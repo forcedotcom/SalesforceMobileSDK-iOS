@@ -28,6 +28,7 @@
 
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
