@@ -24,7 +24,7 @@
 
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 
 
 NSString* const kTestRequestStatusWaiting = @"waiting";
@@ -35,7 +35,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @interface SFSDKTestRequestListener ()
 {
-    SFAccountManager *_accountMgr;
+    SFAuthenticationManager *_authMgr;
     SFAccountManagerServiceType _serviceType;
 }
 
@@ -73,7 +73,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 {
     self = [super init];
     if (nil != self) {
-        _accountMgr = [SFAccountManager sharedInstance];
+        _authMgr = [SFAuthenticationManager sharedManager];
         self.maxWaitTime = 30.0;
         self.returnStatus = kTestRequestStatusWaiting;
     }
@@ -116,9 +116,9 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 - (void)configureAccountServiceDelegate
 {
     if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        _accountMgr.idDelegate = self;
+        _authMgr.idCoordinator.delegate = self;
     } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        _accountMgr.oauthDelegate = self;
+        _authMgr.coordinator.delegate = self;
     } else {
         NSAssert1(NO, @"Service type '%d' is not supported as a service object.", _serviceType);
     }
@@ -127,9 +127,9 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 - (void)clearAccountManagerDelegate
 {
     if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        _accountMgr.idDelegate = nil;
+        _authMgr.idCoordinator.delegate = nil;
     } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        _accountMgr.oauthDelegate = nil;
+        _authMgr.coordinator.delegate = nil;
     }
 }
 

@@ -45,4 +45,22 @@ extern NSString * const kSFRedactedQuerystringValue;
  */
 - (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact;
 
+/**
+ Helper method that constructs an absolute URL string given the specified components.
+ @param baseUrl The base URL
+ @param pathComponents The components of the path
+ @return an absolute string URL representation
+ */
++ (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents;
+
+/**
+ Helper method that constructs an absolute URL string given the specified components.
+ @param scheme The scheme of the URL
+ @param host The host of the URL
+ @param port The port of the URL
+ @param pathComponents The components of the path
+ @return an absolute string URL representation
+ */
++ (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents;
+
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,67 +22,55 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFNativeRestRequestListener.h"
+#import "SFSDKTestCredentialsData.h"
 
-int class_uid = 0;
-
-@interface SFNativeRestRequestListener ()
+@interface SFSDKTestCredentialsData ()
 {
-    int uid;
+    NSDictionary *_credentialsDict;
 }
 
 @end
 
-@implementation SFNativeRestRequestListener
+@implementation SFSDKTestCredentialsData
 
-@synthesize request = _request;
-
-- (id)initWithRequest:(SFRestRequest *)request {
+- (id)initWithDict:(NSDictionary *)credentialsDict
+{
     self = [super init];
     if (self) {
-        self.request = request;
-        self.request.delegate = self;
-        self->uid = class_uid++;
+        _credentialsDict = credentialsDict;
     }
-
-    NSLog(@"## created listener %d", self->uid);
     
     return self;
 }
 
-- (void)dealloc
+- (NSString *)accessToken
 {
-    self.request.delegate = nil;
-    self.request = nil;
+    return [_credentialsDict objectForKey:@"access_token"];
 }
 
-- (NSString *)serviceTypeDescription
+- (NSString *)refreshToken
 {
-    return @"SFRestRequest";
+    return [_credentialsDict objectForKey:@"refresh_token"];
 }
 
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    self.dataResponse = dataResponse;
-    self.returnStatus = kTestRequestStatusDidLoad;
+- (NSString *)instanceUrl
+{
+    return [_credentialsDict objectForKey:@"instance_url"];
 }
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"## error for request %d", self->uid);
-    
-    self.lastError = error;
-    self.returnStatus = kTestRequestStatusDidFail;
+- (NSString *)clientId
+{
+    return [_credentialsDict objectForKey:@"test_client_id"];
 }
 
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"## cancel for request %d", self->uid);
-
-    self.returnStatus = kTestRequestStatusDidCancel;
+- (NSString *)redirectUri
+{
+    return [_credentialsDict objectForKey:@"test_redirect_uri"];
 }
 
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
+- (NSString *)loginHost
+{
+    return [_credentialsDict objectForKey:@"test_login_domain"];
 }
 
 @end

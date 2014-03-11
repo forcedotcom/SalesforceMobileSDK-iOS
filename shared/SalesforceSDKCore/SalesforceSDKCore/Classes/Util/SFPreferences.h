@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,67 +22,50 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFNativeRestRequestListener.h"
+#import <Foundation/Foundation.h>
 
-int class_uid = 0;
+/** Preferences class that handles scoped preferences.
+ A scope allows to bounds the preferences to a specific user,
+ org or community.
+ */
+@interface SFPreferences : NSObject
 
-@interface SFNativeRestRequestListener ()
-{
-    int uid;
-}
+/** Returns the path in which the preferences file exists
+ */
+@property (nonatomic, strong, readonly) NSString *path;
 
-@end
+/** Returns the global instance of the preferences (one per application)
+ */
++ (instancetype)globalPreferences;
 
-@implementation SFNativeRestRequestListener
+/** Returns the preferences instance related to the currrent user's organization
+ */
++ (instancetype)currentOrgLevelPreferences;
 
-@synthesize request = _request;
+/** Returns the preferences instance related to the currrent user
+ */
++ (instancetype)currentUserLevelPreferences;
 
-- (id)initWithRequest:(SFRestRequest *)request {
-    self = [super init];
-    if (self) {
-        self.request = request;
-        self.request.delegate = self;
-        self->uid = class_uid++;
-    }
+/** Returns the preferences instance related to the currrent user's community
+ */
++ (instancetype)currentCommunityLevelPreferences;
 
-    NSLog(@"## created listener %d", self->uid);
-    
-    return self;
-}
+- (id)objectForKey:(NSString*)key;
 
-- (void)dealloc
-{
-    self.request.delegate = nil;
-    self.request = nil;
-}
+- (void)setObject:(id)object forKey:(NSString*)key;
 
-- (NSString *)serviceTypeDescription
-{
-    return @"SFRestRequest";
-}
+- (void)removeObjectForKey:(NSString*)key;
 
-#pragma mark - SFRestDelegate
+- (BOOL)boolForKey:(NSString*)key;
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    self.dataResponse = dataResponse;
-    self.returnStatus = kTestRequestStatusDidLoad;
-}
+- (void)setBool:(BOOL)value forKey:(NSString*)key;
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"## error for request %d", self->uid);
-    
-    self.lastError = error;
-    self.returnStatus = kTestRequestStatusDidFail;
-}
+- (NSInteger)integerForKey:(NSString *)key;
 
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"## cancel for request %d", self->uid);
+- (void)setInteger:(NSInteger)value forKey:(NSString *)key;
 
-    self.returnStatus = kTestRequestStatusDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
-}
+/** Saves the preferences to the disk
+ */
+- (void)synchronize;
 
 @end

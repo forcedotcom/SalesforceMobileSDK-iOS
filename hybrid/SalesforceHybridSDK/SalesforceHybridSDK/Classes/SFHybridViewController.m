@@ -26,7 +26,7 @@
 #import "SFHybridViewController.h"
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
@@ -165,9 +165,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         // There are a number of required values from the config file.
         [self validateHybridViewConfig];
         
-        [SFAccountManager setClientId:_hybridViewConfig.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:_hybridViewConfig.oauthRedirectURI];
-        [SFAccountManager setScopes:_hybridViewConfig.oauthScopes];
+        [SFUserAccountManager sharedInstance].oauthClientId = _hybridViewConfig.remoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = _hybridViewConfig.oauthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = _hybridViewConfig.oauthScopes;
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;
@@ -318,7 +318,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 + (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -580,7 +580,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)loadVFPingPage
 {
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     NSString *instanceUrlString = creds.instanceUrl.absoluteString;
     if (nil != instanceUrlString) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
