@@ -24,7 +24,7 @@
 
 #import "SFReachability.h"
 
-@interface SFConnection : NSObject {
+@interface SFHybridConnectionMonitor : NSObject {
     SFReachability* internetReach;
 }
 
@@ -33,6 +33,6 @@
 
 /** Returns the singleton instance of `SFConnection`
  */
-+ (SFConnection *)sharedInstance;
++ (SFHybridConnectionMonitor *)sharedInstance;
 
 @end

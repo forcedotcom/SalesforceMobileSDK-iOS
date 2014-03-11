@@ -31,8 +31,8 @@
 		4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DA18AC3C47006922FD /* backbone-min.js */; };
 		4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DC18AC3C56006922FD /* jquery.min.js */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
-		4FD72F2818C955E200610988 /* SFConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFConnection.h */; };
-		4FD72F2918C955E200610988 /* SFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFConnection.m */; };
+		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
+		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
 		4FD72F2A18C955E200610988 /* SFReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2618C955E200610988 /* SFReachability.m */; };
 		4FD72F2B18C955E200610988 /* SFReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2718C955E200610988 /* SFReachability.h */; };
 		4FF6E0EB18AC1E0A004CCEA7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
@@ -195,8 +195,8 @@
 		4FC7B5DC18AC3C56006922FD /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../bower_components/jquery/jquery.min.js; sourceTree = "<group>"; };
 		4FC7B5DE18AC3C69006922FD /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = ../bower_components/qunit/qunit/qunit.css; sourceTree = "<group>"; };
 		4FC7B5DF18AC3C69006922FD /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = ../bower_components/qunit/qunit/qunit.js; sourceTree = "<group>"; };
-		4FD72F2418C955E200610988 /* SFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFConnection.h; sourceTree = "<group>"; };
-		4FD72F2518C955E200610988 /* SFConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFConnection.m; sourceTree = "<group>"; };
+		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
+		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
 		4FD72F2618C955E200610988 /* SFReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFReachability.m; sourceTree = "<group>"; };
 		4FD72F2718C955E200610988 /* SFReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFReachability.h; sourceTree = "<group>"; };
 		8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -427,8 +427,8 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E216E7C84900A63CDF /* Plugins */,
-				4FD72F2418C955E200610988 /* SFConnection.h */,
-				4FD72F2518C955E200610988 /* SFConnection.m */,
+				4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */,
+				4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */,
 				4FD72F2618C955E200610988 /* SFReachability.m */,
 				4FD72F2718C955E200610988 /* SFReachability.h */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
@@ -590,7 +590,7 @@
 				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
-				4FD72F2818C955E200610988 /* SFConnection.h in Headers */,
+				4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */,
 				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
 				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
 				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
@@ -737,7 +737,7 @@
 			files = (
 				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
-				4FD72F2918C955E200610988 /* SFConnection.m in Sources */,
+				4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
 				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,

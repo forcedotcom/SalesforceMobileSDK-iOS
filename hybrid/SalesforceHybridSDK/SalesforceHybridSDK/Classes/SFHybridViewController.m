@@ -31,7 +31,7 @@
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import "SFConnection.h"
+#import "SFHybridConnectionMonitor.h"
 
 // Public constants
 NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
@@ -365,7 +365,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (BOOL)isOffline
 {
-    SFConnection *connection = [SFConnection sharedInstance];
+    SFHybridConnectionMonitor *connection = [SFHybridConnectionMonitor sharedInstance];
     NSString *connectionType = [[connection.connectionType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
     return (connectionType == nil || [connectionType length] == 0 || [connectionType isEqualToString:@"unknown"] || [connectionType isEqualToString:@"none"]);
 }

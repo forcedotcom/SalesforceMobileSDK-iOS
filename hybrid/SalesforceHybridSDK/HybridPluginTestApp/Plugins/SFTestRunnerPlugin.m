@@ -24,7 +24,6 @@
 
 #import "SFTestRunnerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import <Cordova/CDVInvokedUrlCommand.h>
 
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 

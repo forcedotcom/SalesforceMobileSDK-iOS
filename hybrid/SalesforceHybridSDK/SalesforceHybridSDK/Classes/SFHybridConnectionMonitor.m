@@ -22,15 +22,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFConnection.h"
+#import "SFHybridConnectionMonitor.h"
 #import "SFReachability.h"
 
-@interface SFConnection (PrivateMethods)
+@interface SFHybridConnectionMonitor (PrivateMethods)
 - (void)updateOnlineStatus;
 - (void)sendPluginResult;
 @end
 
-@implementation SFConnection
+@implementation SFHybridConnectionMonitor
 
 @synthesize connectionType, internetReach;
 
@@ -48,9 +48,9 @@
     return self;
 }
 
-+ (SFConnection *)sharedInstance {
++ (SFHybridConnectionMonitor *)sharedInstance {
     static dispatch_once_t pred;
-    static SFConnection *connection = nil;
+    static SFHybridConnectionMonitor *connection = nil;
 	
     dispatch_once(&pred, ^{
 		connection = [[self alloc] init];
