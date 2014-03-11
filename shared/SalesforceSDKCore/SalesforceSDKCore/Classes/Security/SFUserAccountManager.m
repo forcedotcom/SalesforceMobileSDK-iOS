@@ -403,7 +403,7 @@ static NSString * const kUserPrefix = @"005";
         [accounts addObject:[self.userAccountMap objectForKey:userId]];
     }
     
-    return [accounts mutableCopy];
+    return accounts;
 }
 
 - (NSArray*)allUserIds {
@@ -632,11 +632,10 @@ static NSString * const kUserPrefix = @"005";
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *acct = [self userAccountForUserId:safeUserId];
     if (nil != acct) {
-        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:acct.credentials.organizationId
-                                                                                 user:acct.credentials.userId
-                                                                            community:nil
-                                                                                 type:NSLibraryDirectory
-                                                                           components:nil];
+        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:acct
+                                                                                 scope:SFUserAccountScopeUser
+                                                                                  type:NSLibraryDirectory
+                                                                            components:nil];
         if ([[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
             NSError *folderRemovalError = nil;
             BOOL removeUserFolderSucceeded = [[NSFileManager defaultManager] removeItemAtPath:userDirectory error:&folderRemovalError];
