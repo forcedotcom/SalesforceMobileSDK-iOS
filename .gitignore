@@ -2,6 +2,7 @@
 xcuserdata
 project.xcworkspace
 artifacts
+/SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xccheckout
 
 /hybrid/SampleApps/ContactExplorer/build/
 /native/SalesforceNativeSDK/build/
