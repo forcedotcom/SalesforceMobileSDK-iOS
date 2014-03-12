@@ -36,7 +36,7 @@
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
-@interface AppDelegate () <SFAuthenticationManagerDelegate>
+@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 /**
  * Success block to call when authentication completes.
@@ -80,6 +80,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         
         // Auth manager delegate, for receiving logout and login host change events.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
         
         // Blocks to execute once authentication has completed.  You could define these at the different boundaries where
         // authentication is initiated, if you have specific logic for each case.
@@ -157,12 +158,31 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
     [self initializeAppViewState];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    
+    // If there are one or more existing accounts after logout, try to authenticate one of those.
+    // Alternatively, you could just call [[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]
+    // if you know your app does not support multiple accounts.  The logic below will work either way.
+    SFUserAccount *existingAccount = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
+                                                         failure:self.initialLoginFailureBlock
+                                                         account:existingAccount];
 }
 
 - (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult
 {
     [self log:SFLogLevelDebug msg:@"SFAuthenticationManager changed the login host.  Resetting app."];
+    [self initializeAppViewState];
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+}
+
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
+{
+    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+     fromUser.userName, toUser.userName];
     [self initializeAppViewState];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }

@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceSDKCore/SFPreferences.h>
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
@@ -57,7 +58,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         _queue = [[NSOperationQueue alloc] init];
         
         // Restore device token from user defaults if available
-        _deviceToken = [[NSUserDefaults standardUserDefaults] stringForKey:kSFDeviceToken];
+        _deviceToken = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceToken];
 
         
         // Watching logged in events (to register)
@@ -97,7 +98,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     [self log:SFLogLevelInfo msg:@"Registration with Apple for remote push notifications succeeded"];
     _deviceToken = [NSString stringWithHexData:deviceTokenData];
-    [[NSUserDefaults standardUserDefaults] setObject:_deviceToken forKey:kSFDeviceToken];
+    [[SFPreferences currentUserLevelPreferences] setObject:_deviceToken forKey:kSFDeviceToken];
 }
 
 #pragma mark - Salesforce registration

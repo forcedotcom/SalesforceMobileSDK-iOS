@@ -23,7 +23,6 @@
  */
 
 #import "SFUserAccount.h"
-#import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFDirectoryManager.h"
 
@@ -32,11 +31,7 @@
 
 static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
 static NSString * const kUser_CREDENTIALS       = @"credentials";
-static NSString * const kUser_EMAIL             = @"email";
-static NSString * const kUser_FULL_NAME         = @"fullName";
 static NSString * const kUser_ORGANIZATION_NAME = @"organizationName";
-static NSString * const kUser_SESSION_EXPIRES   = @"sessionExpiresAt";
-static NSString * const kUser_USER_NAME         = @"userName";
 static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
 static NSString * const kUser_ID_DATA           = @"idData";
@@ -70,11 +65,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
     [encoder encodeObject:_accessScopes forKey:kUser_ACCESS_SCOPES];
-    [encoder encodeObject:_email forKey:kUser_EMAIL];
-    [encoder encodeObject:_fullName forKey:kUser_FULL_NAME];
     [encoder encodeObject:_organizationName forKey:kUser_ORGANIZATION_NAME];
-    [encoder encodeObject:_sessionExpiresAt forKey:kUser_SESSION_EXPIRES];
-    [encoder encodeObject:_userName forKey:kUser_USER_NAME];
     [encoder encodeObject:_credentials forKey:kUser_CREDENTIALS];
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
@@ -85,13 +76,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
 	self = [super init];
 	if (self) {
         _accessScopes = [decoder decodeObjectForKey:kUser_ACCESS_SCOPES];
-        _email = [decoder decodeObjectForKey:kUser_EMAIL];
-        _fullName = [decoder decodeObjectForKey:kUser_FULL_NAME];
         _credentials = [decoder decodeObjectForKey:kUser_CREDENTIALS];
         _idData = [decoder decodeObjectForKey:kUser_ID_DATA];
         _organizationName = [decoder decodeObjectForKey:kUser_ORGANIZATION_NAME];
-        _sessionExpiresAt = [decoder decodeObjectForKey:kUser_SESSION_EXPIRES];
-        _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
         _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
         _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
 	}
@@ -160,6 +147,18 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [self willChangeValueForKey:@"photo"];
     _photo = photo;
     [self didChangeValueForKey:@"photo"];
+}
+
+- (NSString *)fullName {
+    return _idData.displayName;
+}
+
+- (NSString *)userName {
+    return _idData.username;
+}
+
+- (NSString *)email {
+    return _idData.email;
 }
 
 - (BOOL)isSessionValid {

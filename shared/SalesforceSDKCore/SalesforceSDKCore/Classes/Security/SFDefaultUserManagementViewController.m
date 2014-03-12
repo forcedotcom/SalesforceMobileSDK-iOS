@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,60 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** User account restrictions
- */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
-    SFUserAccountAccessRestrictionNone    = 0,
-    SFUserAccountAccessRestrictionChatter = 1 << 0,
-    SFUserAccountAccessRestrictionREST    = 1 << 1,
-    SFUserAccountAccessRestrictionOther   = 1 << 2,
-};
+#import "SFDefaultUserManagementViewController+Internal.h"
+#import "SFDefaultUserManagementListViewController.h"
 
-/** The various scopes related to a user account
- */
-typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
-    /** Global scope (one per application)
-     */
-    SFUserAccountScopeGlobal = 0,
-    
-    /** Scope by organization
-     */
-    SFUserAccountScopeOrg,
-    
-    /** Scope by user
-     */
-    SFUserAccountScopeUser,
-    
-    /** Scope by community
-     */
-    SFUserAccountScopeCommunity
-};
+@implementation SFDefaultUserManagementViewController
 
-/** The various changes that can affect a user account
- */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
-    /** Unknown change
-     */
-    SFUserAccountChangeUnknown      = 1 << 0,
-    
-    /** A new user account has been created
-     */
-    SFUserAccountChangeNewUser      = 1 << 1,
-    
-    /** The credentials changed
-     */
-    SFUserAccountChangeCredentials  = 1 << 2,
-    
-    /** The organization ID changed
-     */
-    SFUserAccountChangeOrgId        = 1 << 3,
-    
-    /** The user ID changed
-     */
-    SFUserAccountChangeUserId       = 1 << 4,
-    
-    /** The community ID changed
-     */
-    SFUserAccountChangeCommunityId  = 1 << 5,
-};
+- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        self.completionBlock = completionBlock;
+    }
+    return self;
+}
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	SFDefaultUserManagementListViewController *rvc = [[SFDefaultUserManagementListViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self pushViewController:rvc animated:NO];
+}
+
+- (void)execCompletionBlock:(SFUserManagementAction)action
+{
+    if (self.completionBlock) {
+        self.completionBlock(action);
+    }
+}
+
+@end

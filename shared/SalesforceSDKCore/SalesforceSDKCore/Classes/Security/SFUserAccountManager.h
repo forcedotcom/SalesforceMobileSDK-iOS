@@ -22,20 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import "SFIdentityCoordinator.h"
-#import "SFAuthenticationManager.h"
+#import "SFUserAccount.h"
+#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFUserAccountConstants.h"
 
-/** Notification sent when the current user credentials have changed
+/** Notification sent when something has changed with the current user
  */
-extern NSString * const SFUserAccountManagerDidUpdateCredentialsNotification;
+extern NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
 
-/** Notification sent when a new user has been created
+/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
+ The value is a NSNumber that can be casted to the option SFUserAccountChange
  */
-extern NSString * const SFUserAccountManagerDidCreateUserNotification;
-
-// The default temporary user ID
-extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
+extern NSString * const SFUserAccountManagerUserChangeKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
@@ -52,11 +50,8 @@ extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
  */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
-// Key containing the user id in the notification userInfo dictionary for SFUserAccountManagerDidCreateUserNotification
-extern NSString * const SFUserAccountManagerUserIdKey;
-
-// Key containing the user account in the notification userInfo dictionary for SFUserAccountManagerCurrentUserDidChangeNotification
-extern NSString * const SFUserAccountManagerUserAccountKey;
+// The default temporary user ID
+extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 /**
  * Data class for providing information about a login host change.
@@ -90,8 +85,38 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 
 @end
 
-@class SFUserAccount;
 @class SFUserAccountManager;
+
+/**
+ Protocol for handling callbacks from SFUserAccountManager.
+ */
+@protocol SFUserAccountManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Called before the user account manager switches from one user to another.
+ @param userAccountManager The SFUserAccountManager instance making the switch.
+ @param fromUser The user being switched away from.
+ @param toUser The user to be switched to.  `nil` if the user context is being switched back
+ to no user.
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+        willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser;
+
+/**
+ Called after the user account manager switches from one user to another.
+ @param userAccountManager The SFUserAccountManager instance making the switch.
+ @param fromUser The user that was switched away from.
+ @param toUser The user that was switched to.  `nil` if the user context is being switched back
+ to no user.
+ */
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser;
+
+@end
 
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
@@ -112,6 +137,10 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  This property is an alias for `currentUser.communityId`
  */
 @property (nonatomic, readonly) NSString *currentCommunityId;
+
+/** An NSArray of all the SFUserAccount instances for the app.
+ */
+@property (nonatomic, readonly) NSArray *allUserAccounts;
 
 /** Returns all the user ids
  */
@@ -168,6 +197,18 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 /**
+ Adds a delegate to this user account manager.
+ @param delegate The delegate to add.
+ */
+- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate;
+
+/**
+ Removes a delegate from this user account manager.
+ @param delegate The delegate to remove.
+ */
+- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate;
+
+/**
  * Synchronizes the app-level login host setting with the value in app settings.
  * @return SFLoginHostUpdateResult object containing the original hostname, the new hostname
  * (possibly the same), and whether or not the hostname changed.
@@ -199,9 +240,15 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 - (void)addAccount:(SFUserAccount *)acct;
 
-/** Allows you to remove a user account associated with the given user ID.
+/**
+ Allows you to remove a user account associated with the given user ID.
+ @param userId The User ID of the account to remove.
+ @param error Output error parameter, populated if there was an error deleting
+ the account (likely from the filesystem operations).
+ @return YES if the deletion was successful, NO otherwise.  Note: If no account matching the userId
+ parameter is found, no action will be taken, and deletion will be reported as successful.
  */
-- (void)deleteAccountForUserId:(NSString*)userId;
+- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error;
 
 /** Clear all the accounts state (but do not change anything on the disk).
  */
@@ -217,9 +264,23 @@ extern NSString * const SFUserAccountManagerUserAccountKey;
  */
 - (void)applyCredentials:(SFOAuthCredentials*)credentials;
 
-/** Invoke this method to inform this manager
- that the user credentials have changed.
+/**
+ Switches away from the current user, to a new user context.
  */
-- (void)userCredentialsChanged;
+- (void)switchToNewUser;
+
+/**
+ Switches away from the current user, to the given user account.
+ @param newCurrentUser The user to switch to.
+ */
+- (void)switchToUser:(SFUserAccount *)newCurrentUser;
+
+/** Invoke this method to inform this manager
+ that something has changed for the current user.
+ @param change The type of change (enum type). Use SFUserAccountChangeUnknown
+ if you don't know what kind of change was made to this object and this method
+ will try to determine that.
+ */
+- (void)userChanged:(SFUserAccountChange)change;
 
 @end
