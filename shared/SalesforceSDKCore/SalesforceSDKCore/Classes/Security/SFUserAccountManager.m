@@ -23,25 +23,13 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFUserAccount+Internal.h"
 #import "SFDirectoryManager.h"
-
-#import "SFAuthenticationViewHandler.h"
-#import "SFAuthErrorHandlerList.h"
-#import "SFIdentityData.h"
-
-#import "SFSmartStore.h"
-#import "SFPasscodeManager.h"
-
-#import <SalesforceCommonUtils/SalesforceCommonUtils.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFCommunityData.h"
 
 // Notifications
-NSString * const SFUserAccountManagerDidUpdateCredentialsNotification   = @"SFUserAccountManagerDidUpdateCredentialsNotification";
-NSString * const SFUserAccountManagerDidCreateUserNotification          = @"SFUserAccountManagerDidCreateUserNotification";
+NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
 
-NSString * const SFUserAccountManagerUserIdKey          = @"userId";
-NSString * const SFUserAccountManagerUserAccountKey     = @"account";
+NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 
 NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
@@ -110,10 +98,24 @@ static NSString * const kUserPrefix = @"005";
 @end
 
 @interface SFUserAccountManager ()
+{
+    NSMutableOrderedSet *_delegates;
+}
 
 /** A map of user accounts by user ID
  */
-@property (nonatomic, retain) NSMutableDictionary *userAccountMap;
+@property (nonatomic, strong) NSMutableDictionary *userAccountMap;
+
+@property (nonatomic, strong) NSString *lastChangedOrgId;
+@property (nonatomic, strong) NSString *lastChangedUserId;
+@property (nonatomic, strong) NSString *lastChangedCommunityId;
+@property (nonatomic, readonly) SFUserAccount *temporaryUser;
+
+/**
+ Executes the given block for each configured delegate.
+ @param block The block to execute for each delegate.
+ */
+- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block;
 
 /**
  Updates the login host in app settings, for apps that utilize login host switching from
@@ -158,6 +160,7 @@ static NSString * const kUserPrefix = @"005";
 - (id)init {
 	self = [super init];
 	if (self) {
+        _delegates = [[NSMutableOrderedSet alloc] init];
         NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
         if (bundleOAuthCompletionUrl != nil) {
             self.oauthCompletionUrl = bundleOAuthCompletionUrl;
@@ -346,8 +349,62 @@ static NSString * const kUserPrefix = @"005";
     [defs synchronize];
 }
 
-#pragma mark -
+#pragma mark - SFUserAccountDelegate management
+
+- (void)addDelegate:(id<SFUserAccountManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates addObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates removeObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFUserAccountManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
+}
+
 #pragma mark Account management
+
+- (NSArray *)allUserAccounts
+{
+    // Only load accounts if they haven't yet been loaded.
+    if ([self.userAccountMap count] == 0) {
+        [self loadAccounts:nil];
+    }
+    if ([self.userAccountMap count] == 0) {
+        return nil;
+    }
+    
+    NSMutableArray *accounts = [NSMutableArray array];
+    for (NSString *userId in [self.userAccountMap allKeys]) {
+        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+            continue;
+        }
+        [accounts addObject:[self.userAccountMap objectForKey:userId]];
+    }
+    
+    return accounts;
+}
 
 - (NSArray*)allUserIds {
     // Sort the user id
@@ -506,9 +563,9 @@ static NSString * const kUserPrefix = @"005";
     
     NSString *curUserId = [self activeUserId];
     
-    //in case the most recently used account was removed, recover by
-    //finding the next available account
-    if ((nil == curUserId) && ([self.userAccountMap count] > 0) ) {
+    // In case the most recently used account was removed, or the most recent account is the temporary account,
+    // see if we can load another available account.
+    if (nil == curUserId || [curUserId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
         for (SFUserAccount *account in self.userAccountMap.allValues) {
             if (account.credentials.userId) {
                 curUserId = account.credentials.userId;
@@ -524,7 +581,7 @@ static NSString * const kUserPrefix = @"005";
     // update the client ID in case it's changed (via settings, etc)
     [[[self currentUser] credentials] setClientId:self.oauthClientId];
     
-    [self userCredentialsChanged];
+    [self userChanged:SFUserAccountChangeCredentials];
     
     return YES;
 }
@@ -561,18 +618,41 @@ static NSString * const kUserPrefix = @"005";
     return YES;
 }
 
+- (SFUserAccount *)temporaryUser {
+    return [self.userAccountMap objectForKey:SFUserAccountManagerTemporaryUserAccountId];
+}
+
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *result = [self.userAccountMap objectForKey:safeUserId];
 	return result;
 }
 
-- (void)deleteAccountForUserId:(NSString*)userId {
+- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *acct = [self userAccountForUserId:safeUserId];
     if (nil != acct) {
+        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:acct
+                                                                                 scope:SFUserAccountScopeUser
+                                                                                  type:NSLibraryDirectory
+                                                                            components:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
+            NSError *folderRemovalError = nil;
+            BOOL removeUserFolderSucceeded = [[NSFileManager defaultManager] removeItemAtPath:userDirectory error:&folderRemovalError];
+            if (!removeUserFolderSucceeded) {
+                [self log:SFLogLevelError
+                   format:@"Error removing the user folder for '%@': %@", acct.userName, [folderRemovalError localizedDescription]];
+                if (error) {
+                    *error = folderRemovalError;
+                }
+                return removeUserFolderSucceeded;
+            }
+        } else {
+            [self log:SFLogLevelInfo format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", acct.userName];
+        }
         [self.userAccountMap removeObjectForKey:safeUserId];
     }
+    return YES;
 }
 
 - (void)clearAllAccountState {
@@ -621,6 +701,12 @@ static NSString * const kUserPrefix = @"005";
         _currentUser = user;
         [self didChangeValueForKey:@"currentUser"];
     }
+    
+    // It's important to call this method even if the isEqual
+    // statement above returns YES, because the user account
+    // object can still be the same but some internal
+    // properties might have changed (eg the communityId).
+    [self userChanged:SFUserAccountChangeUnknown];
 }
 
 // property accessor
@@ -633,15 +719,13 @@ static NSString * const kUserPrefix = @"005";
 }
 
 - (void)applyCredentials:(SFOAuthCredentials*)credentials {
+    SFUserAccountChange change = SFUserAccountChangeCredentials;
+    
     // If the user is nil, create a new one with the specified credentials
     // otherwise update the current user credentials.
     if (nil == self.currentUser) {
         self.currentUser = [self createUserAccountWithCredentials:credentials];
-        
-        // Post a notification when a new user is being created
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidCreateUserNotification
-                                                            object:self
-                                                          userInfo:@{SFUserAccountManagerUserIdKey:self.currentUserId}];
+        change |= SFUserAccountChangeNewUser;
     } else {
         self.currentUser.credentials = credentials;
     }
@@ -665,12 +749,67 @@ static NSString * const kUserPrefix = @"005";
         [self replaceOldUser:SFUserAccountManagerTemporaryUserAccountId withUser:self.currentUser];
     }
     
-    [self userCredentialsChanged];
+    [self userChanged:change];
 }
 
-- (void)userCredentialsChanged {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidUpdateCredentialsNotification
-														object:self];
+- (void)switchToNewUser {
+    [self switchToUser:nil];
+}
+
+- (void)switchToUser:(SFUserAccount *)newCurrentUser {
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:willSwitchFromUser:toUser:)]) {
+            [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
+        }
+    }];
+    
+    // "Local" new user, since we don't want to send back the temporary user to the delegates if we're
+    // creating a new user.  We'll send back the original value (nil) in that case.
+    SFUserAccount *tempNewCurrentUser = newCurrentUser;
+    
+    // If newCurrentUser is nil, we're switching to a "new" (unconfigured) user.
+    if (newCurrentUser == nil) {
+        if (self.temporaryUser == nil) {
+            tempNewCurrentUser = [self createUserAccount];
+        } else {
+            // Don't know what the app state would be that you would be switching to a new user while the temporary
+            // account still exists, but in any case, don't create an additional temporary account instance.
+            tempNewCurrentUser = self.temporaryUser;
+        }
+    }
+    
+    SFUserAccount *origCurrentUser = self.currentUser;
+    self.currentUser = tempNewCurrentUser;
+    
+    [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
+            [delegate userAccountManager:self didSwitchFromUser:origCurrentUser toUser:newCurrentUser];
+        }
+    }];
+}
+
+- (void)userChanged:(SFUserAccountChange)change {
+    if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {
+        self.lastChangedOrgId = self.currentUser.credentials.organizationId;
+        change |= SFUserAccountChangeOrgId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    if (![self.lastChangedUserId isEqualToString:self.currentUser.credentials.userId]) {
+        self.lastChangedUserId = self.currentUser.credentials.userId;
+        change |= SFUserAccountChangeUserId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    if (![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId]) {
+        self.lastChangedCommunityId = self.currentUser.communityId;
+        change |= SFUserAccountChangeCommunityId;
+        change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidChangeCurrentUserNotification
+														object:self
+                                                      userInfo:@{ SFUserAccountManagerUserChangeKey : @(change) }];
 }
 
 @end

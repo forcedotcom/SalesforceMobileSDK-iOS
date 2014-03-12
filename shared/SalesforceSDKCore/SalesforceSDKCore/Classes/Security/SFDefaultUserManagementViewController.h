@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,60 +22,43 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** User account restrictions
+#import <UIKit/UIKit.h>
+#import "SFUserAccount.h"
+
+/** The various actions that may have been taken for account management.
  */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
-    SFUserAccountAccessRestrictionNone    = 0,
-    SFUserAccountAccessRestrictionChatter = 1 << 0,
-    SFUserAccountAccessRestrictionREST    = 1 << 1,
-    SFUserAccountAccessRestrictionOther   = 1 << 2,
+typedef NS_ENUM(NSUInteger, SFUserManagementAction) {
+    /** No action was taken.
+     */
+    SFUserManagementActionCancel = 0,
+    
+    /** A user was logged out.
+     */
+    SFUserManagementActionLogoutUser,
+    
+    /** Switched from one user to another.
+     */
+    SFUserManagementActionSwitchUser,
+    
+    /** Logging in as a new user.
+     */
+    SFUserManagementActionCreateNewUser
 };
 
-/** The various scopes related to a user account
+/**
+ Type definition for the user management completion block.
  */
-typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
-    /** Global scope (one per application)
-     */
-    SFUserAccountScopeGlobal = 0,
-    
-    /** Scope by organization
-     */
-    SFUserAccountScopeOrg,
-    
-    /** Scope by user
-     */
-    SFUserAccountScopeUser,
-    
-    /** Scope by community
-     */
-    SFUserAccountScopeCommunity
-};
+typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action);
 
-/** The various changes that can affect a user account
+/**
+ View controller for managing the different users of the app.
  */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
-    /** Unknown change
-     */
-    SFUserAccountChangeUnknown      = 1 << 0,
-    
-    /** A new user account has been created
-     */
-    SFUserAccountChangeNewUser      = 1 << 1,
-    
-    /** The credentials changed
-     */
-    SFUserAccountChangeCredentials  = 1 << 2,
-    
-    /** The organization ID changed
-     */
-    SFUserAccountChangeOrgId        = 1 << 3,
-    
-    /** The user ID changed
-     */
-    SFUserAccountChangeUserId       = 1 << 4,
-    
-    /** The community ID changed
-     */
-    SFUserAccountChangeCommunityId  = 1 << 5,
-};
+@interface SFDefaultUserManagementViewController : UINavigationController
 
+/**
+ Creates an instance with the given completion block.
+ @param completionBlock The (optional) completion block to execute once action has been taken.
+ */
+- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock;
+
+@end

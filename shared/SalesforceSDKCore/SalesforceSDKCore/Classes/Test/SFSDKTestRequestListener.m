@@ -24,6 +24,7 @@
 
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
+#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 
 

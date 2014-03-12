@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,60 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** User account restrictions
- */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
-    SFUserAccountAccessRestrictionNone    = 0,
-    SFUserAccountAccessRestrictionChatter = 1 << 0,
-    SFUserAccountAccessRestrictionREST    = 1 << 1,
-    SFUserAccountAccessRestrictionOther   = 1 << 2,
-};
+#import <UIKit/UIKit.h>
 
-/** The various scopes related to a user account
+/**
+ Shows the list of users who have authenticated to this app, allowing the user to switch between
+ users, revoke credentials, etc.
  */
-typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
-    /** Global scope (one per application)
-     */
-    SFUserAccountScopeGlobal = 0,
-    
-    /** Scope by organization
-     */
-    SFUserAccountScopeOrg,
-    
-    /** Scope by user
-     */
-    SFUserAccountScopeUser,
-    
-    /** Scope by community
-     */
-    SFUserAccountScopeCommunity
-};
+@interface SFDefaultUserManagementListViewController : UITableViewController
 
-/** The various changes that can affect a user account
- */
-typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
-    /** Unknown change
-     */
-    SFUserAccountChangeUnknown      = 1 << 0,
-    
-    /** A new user account has been created
-     */
-    SFUserAccountChangeNewUser      = 1 << 1,
-    
-    /** The credentials changed
-     */
-    SFUserAccountChangeCredentials  = 1 << 2,
-    
-    /** The organization ID changed
-     */
-    SFUserAccountChangeOrgId        = 1 << 3,
-    
-    /** The user ID changed
-     */
-    SFUserAccountChangeUserId       = 1 << 4,
-    
-    /** The community ID changed
-     */
-    SFUserAccountChangeCommunityId  = 1 << 5,
-};
-
+@end

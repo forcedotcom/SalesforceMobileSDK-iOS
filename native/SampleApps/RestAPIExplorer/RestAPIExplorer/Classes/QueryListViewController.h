@@ -41,6 +41,8 @@ extern NSString *const kActionDeleteObject;
 extern NSString *const kActionQuery;
 extern NSString *const kActionSearch;
 extern NSString *const kActionLogout;
+extern NSString *const kActionSwitchUser;
+extern NSString *const kActionUserInfo;
 extern NSString *const kActionExportCredentialsForTesting;
 
 @interface QueryListViewController : UITableViewController {
