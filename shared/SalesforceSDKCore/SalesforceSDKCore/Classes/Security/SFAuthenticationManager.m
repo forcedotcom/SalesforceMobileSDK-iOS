@@ -1025,7 +1025,6 @@ static Class InstanceClass = nil;
  */
 - (void)clearAccountState:(BOOL)clearAccountData {
     if (clearAccountData) {
-        [self.coordinator revokeAuthentication];
         [SFSmartStore removeAllStores];
         [[SFPasscodeManager sharedManager] resetPasscode];
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
