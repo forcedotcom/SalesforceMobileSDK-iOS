@@ -99,6 +99,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 - (void)dealloc
 {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - App delegate lifecycle
@@ -162,7 +163,10 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     // If there are one or more existing accounts after logout, try to authenticate one of those.
     // Alternatively, you could just call [[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]
     // if you know your app does not support multiple accounts.  The logic below will work either way.
-    SFUserAccount *existingAccount = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+    SFUserAccount *existingAccount = nil;
+    if ([[SFUserAccountManager sharedInstance].allUserAccounts count] > 0) {
+        existingAccount = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+    }
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
                                                          failure:self.initialLoginFailureBlock
                                                          account:existingAccount];

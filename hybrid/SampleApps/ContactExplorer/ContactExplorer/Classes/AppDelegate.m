@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 
-@interface AppDelegate () <SFAuthenticationManagerDelegate>
+@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 - (void)initializeAppViewState;
 
@@ -49,6 +49,7 @@
         
         // Auth manager delegate, for receiving logout and login host change events.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     
     return self;
@@ -57,6 +58,7 @@
 - (void)dealloc
 {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - App event lifecycle
@@ -120,6 +122,17 @@
 - (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult
 {
     [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    [self initializeAppViewState];
+}
+
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
+{
+    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+     fromUser.userName, toUser.userName];
     [self initializeAppViewState];
 }
 

@@ -109,7 +109,6 @@ static NSString * const kUserPrefix = @"005";
 @property (nonatomic, strong) NSString *lastChangedOrgId;
 @property (nonatomic, strong) NSString *lastChangedUserId;
 @property (nonatomic, strong) NSString *lastChangedCommunityId;
-@property (nonatomic, readonly) SFUserAccount *temporaryUser;
 
 /**
  Executes the given block for each configured delegate.
@@ -619,7 +618,11 @@ static NSString * const kUserPrefix = @"005";
 }
 
 - (SFUserAccount *)temporaryUser {
-    return [self.userAccountMap objectForKey:SFUserAccountManagerTemporaryUserAccountId];
+    SFUserAccount *tempAccount = [self.userAccountMap objectForKey:SFUserAccountManagerTemporaryUserAccountId];
+    if (tempAccount == nil) {
+        tempAccount = [self createUserAccount];
+    }
+    return tempAccount;
 }
 
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
