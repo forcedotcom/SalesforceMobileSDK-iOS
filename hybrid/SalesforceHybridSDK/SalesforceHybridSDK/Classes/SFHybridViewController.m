@@ -204,19 +204,30 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     } else {
         // Device is online.
         if (_hybridViewConfig.shouldAuthenticate) {
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                [self authenticationCompletion:nil authInfo:authInfo];
-                [self configureStartPage];
-                [super viewDidLoad];
-            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                if ([self logoutOnInvalidCredentials:error]) {
-                    [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-                    [[SFAuthenticationManager sharedManager] logout];
-                } else {
-                    // Error is not invalid credentials, or developer otherwise wants to handle it.
-                    [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
-                }
-            }];
+            
+            SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+            SFUserAccount *accountToLogin = userAccountManager.currentUser;
+            
+            // If account is nil, try to load another authenticated user.
+            if (accountToLogin == nil && [userAccountManager.allUserAccounts count] > 0) {
+                accountToLogin = [userAccountManager.allUserAccounts objectAtIndex:0];
+            }
+            [[SFAuthenticationManager sharedManager]
+             loginWithCompletion:^(SFOAuthInfo *authInfo) {
+                 [self authenticationCompletion:nil authInfo:authInfo];
+                 [self configureStartPage];
+                 [super viewDidLoad];
+             }
+             failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
+                 }
+             }
+             account:accountToLogin];
         } else {
             // Start page already set.  Just try to load through Cordova.
             [super viewDidLoad];

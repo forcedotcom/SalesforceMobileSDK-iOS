@@ -128,6 +128,10 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, strong) SFUserAccount *currentUser;
 
+/** The "temporary" account user.  Useful for determining whether there's a valid user context.
+ */
+@property (nonatomic, readonly) SFUserAccount *temporaryUser;
+
 /**  Convenience property to retrieve the current user's ID.
  This property is an alias for `currentUser.credentials.userId`
  */

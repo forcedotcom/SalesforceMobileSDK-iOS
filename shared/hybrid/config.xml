@@ -37,6 +37,7 @@
         <plugin name="com.salesforce.sdkinfo" value="SFSDKInfoPlugin" />
         <plugin name="com.salesforce.oauth" value="SalesforceOAuthPlugin" />
         <plugin name="com.salesforce.smartstore" value="SFSmartStorePlugin" />
+        <plugin name="com.salesforce.sfaccountmanager" value="SFAccountManagerPlugin" />
         <plugin name="Device" value="CDVDevice" />
         <plugin name="Logger" value="CDVLogger" />
         <plugin name="Compass" value="CDVLocation" />
