@@ -316,7 +316,9 @@
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
     } else if ([text isEqualToString:kActionSwitchUser]) {
-        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:NULL];
+        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
         [self presentViewController:umvc animated:YES completion:NULL];
     }
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {

@@ -94,18 +94,13 @@
 - (void)createNewUser
 {
     SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
-    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [[SFUserAccountManager sharedInstance] switchToNewUser];
-        [mainController execCompletionBlock:SFUserManagementActionCreateNewUser];
-    }];
+    [mainController execCompletionBlock:SFUserManagementActionCreateNewUser account:nil];
 }
 
 - (void)cancel
 {
     SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
-    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [mainController execCompletionBlock:SFUserManagementActionCancel];
-    }];
+    [mainController execCompletionBlock:SFUserManagementActionCancel account:nil];
 }
 
 #pragma mark - Table view delegate
