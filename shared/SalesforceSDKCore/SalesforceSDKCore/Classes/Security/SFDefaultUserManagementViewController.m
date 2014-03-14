@@ -24,6 +24,7 @@
 
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFDefaultUserManagementListViewController.h"
+#import "SFAuthenticationManager.h"
 
 @implementation SFDefaultUserManagementViewController
 
@@ -43,8 +44,48 @@
     [self pushViewController:rvc animated:NO];
 }
 
-- (void)execCompletionBlock:(SFUserManagementAction)action
+// Don't take action before the user inteface is cleared.  Allow the consumer to drive the
+// flow of the app, avoid async state issues, etc.
+- (void)viewDidDisappear:(BOOL)animated
 {
+    switch (self.action) {
+        case SFUserManagementActionLogoutUser:
+            // If it's in this controller, it's logging out the current user.
+            [self actionLogout];
+            break;
+        case SFUserManagementActionSwitchUser:
+            [self actionSwitchUser:self.actionAccount];
+            break;
+        case SFUserManagementActionCreateNewUser:
+            [self actionCreateNewUser];
+            break;
+        case SFUserManagementActionCancel:
+        default:
+            break;
+    }
+    [super viewDidDisappear:animated];
+}
+
+- (void)actionLogout
+{
+    // If we got here, logging out the current user is implied.
+    [[SFAuthenticationManager sharedManager] logout];
+}
+
+- (void)actionSwitchUser:(SFUserAccount *)user
+{
+    [[SFUserAccountManager sharedInstance] switchToUser:user];
+}
+
+- (void)actionCreateNewUser
+{
+    [[SFUserAccountManager sharedInstance] switchToNewUser];
+}
+
+- (void)execCompletionBlock:(SFUserManagementAction)action account:(SFUserAccount *)actionAccount
+{
+    self.action = action;
+    self.actionAccount = actionAccount;
     if (self.completionBlock) {
         self.completionBlock(action);
     }
