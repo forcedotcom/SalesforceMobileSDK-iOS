@@ -437,7 +437,7 @@
 		CFA9ADCB13AA86D80024260E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Salesforce.com;
 			};
 			buildConfigurationList = CFA9ADCE13AA86D80024260E /* Build configuration list for PBXProject "SalesforceOAuth" */;
@@ -572,6 +572,7 @@
 		2DE48CD018BFAF08008345C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -579,6 +580,7 @@
 		2DE48CD118BFAF08008345C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
