@@ -143,10 +143,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
 - (IBAction)switchUserButtonClicked:(id)sender
 {
     SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
-    [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [[SFUserAccountManager sharedInstance] switchToUser:_user];
-        [mainController execCompletionBlock:SFUserManagementActionSwitchUser];
-    }];
+    [mainController execCompletionBlock:SFUserManagementActionSwitchUser account:_user];
 }
 
 - (IBAction)logoutUserButtonClicked:(id)sender
@@ -154,10 +151,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     if ([_user isEqual:[SFUserAccountManager sharedInstance].currentUser]) {
         // Current user is a full logout and app state change.
         SFDefaultUserManagementViewController *mainController = (SFDefaultUserManagementViewController *)self.navigationController;
-        [mainController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-            [[SFAuthenticationManager sharedManager] logout];
-            [mainController execCompletionBlock:SFUserManagementActionLogoutUser];
-        }];
+        [mainController execCompletionBlock:SFUserManagementActionLogoutUser account:nil];
     } else {
         // Logging out a different user than the current user.  Clear the account state and go
         // back to the user list.

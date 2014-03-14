@@ -27,14 +27,41 @@
 @interface SFDefaultUserManagementViewController ()
 
 /**
- Completion block to execute, once a user management action has taken place.
+ The action to take, once the user interface has been cleared by the consumer.
+ */
+@property (nonatomic, assign) SFUserManagementAction action;
+
+/**
+ The optional account associated with the action to take.
+ */
+@property (nonatomic, strong) SFUserAccount *actionAccount;
+
+/**
+ Completion block to execute, once a user management action has been selected.
  */
 @property (nonatomic, copy) SFUserManagementCompletionBlock completionBlock;
 
 /**
+ Logs out the current user, once the user interface is cleared.
+ */
+- (void)actionLogout;
+
+/**
+ Switches to the given user, once the user interface is cleared.
+ @param user The user to switch to.
+ */
+- (void)actionSwitchUser:(SFUserAccount *)user;
+
+/**
+ Creates a new user and switches to that user, once the user interface is cleared.
+ */
+- (void)actionCreateNewUser;
+
+/**
  Executes the completion block.
  @param action The user management action to pass to the completion block.
+ @param actionAccount The optional account on which the action will be taken.
  */
-- (void)execCompletionBlock:(SFUserManagementAction)action;
+- (void)execCompletionBlock:(SFUserManagementAction)action account:(SFUserAccount *)actionAccount;
 
 @end
