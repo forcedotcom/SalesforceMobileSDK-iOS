@@ -26,6 +26,7 @@
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import "SFAuthenticationManager.h"
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
@@ -45,19 +46,32 @@
 - (void)validateIdentityData;
 @end
 
+static NSException *authException = nil;
+
 @implementation SalesforceSDKIdentityTests
 
 #pragma mark - Test / class setup
 
 + (void)setUp
 {
-    [TestSetupUtils populateAuthCredentialsFromConfigFile];
-    [TestSetupUtils synchronousAuthRefresh];
+    @try {
+        [TestSetupUtils populateAuthCredentialsFromConfigFile];
+        [TestSetupUtils synchronousAuthRefresh];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Populating auth from config failed: %@", exception);
+        authException = exception;
+    }
+    
     [super setUp];
 }
 
 - (void)setUp
 {
+    if (authException) {
+        STFail(@"Setting up authentication failed: %@", authException);
+    }
+    
     // Set-up code here.
     _requestListener = nil;
     

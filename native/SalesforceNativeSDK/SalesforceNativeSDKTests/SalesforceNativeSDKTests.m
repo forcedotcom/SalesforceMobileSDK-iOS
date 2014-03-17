@@ -50,18 +50,30 @@
 - (void)compareMultipleFileAttributes:(NSArray *)actualFileAttrsArray expected:(NSArray *)expectedFileAttrsArray;
 @end
 
+static NSException *authException = nil;
 
 @implementation SalesforceNativeSDKTests
 
 + (void)setUp
 {
-    [TestSetupUtils populateAuthCredentialsFromConfigFile];
-    [TestSetupUtils synchronousAuthRefresh];
+    @try {
+        [TestSetupUtils populateAuthCredentialsFromConfigFile];
+        [TestSetupUtils synchronousAuthRefresh];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Populating auth from config failed: %@", exception);
+        authException = exception;
+    }
+    
     [super setUp];
 }
 
 - (void)setUp
 {
+    if (authException) {
+        STFail(@"Setting up authentication failed: %@", authException);
+    }
+    
     // Set-up code here.
     [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
     _currentUser = [SFUserAccountManager sharedInstance].currentUser;
