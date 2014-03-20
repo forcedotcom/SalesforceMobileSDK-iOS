@@ -1148,8 +1148,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSUInteger result = 0;
 
     // SQL
-    NSString* sql = [self convertSmartSql: querySpec.smartSql];
-    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+    NSString* countSql = [self convertSmartSql:querySpec.countSmartSql];
+    [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
+//    NSString* sql = [self convertSmartSql: querySpec.smartSql];
+//    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
 
     // Args
