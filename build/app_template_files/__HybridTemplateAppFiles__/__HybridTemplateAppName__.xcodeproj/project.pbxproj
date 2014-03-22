@@ -52,7 +52,7 @@
 		821C8F3218C5317C000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
 		821C8F3318C5317C000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
 		821C8F3418C5317C000FAF96 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
-		824AA08B1725140400C9BD79 /* __HybridTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __HybridTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824AA08B1725140400C9BD79 /* __HybridTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__HybridTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		824AA08E1725140400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824AA0901725140400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824AA0921725140400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -291,7 +291,7 @@
 				824AA0DF17251CDE00C9BD79 /* Plugins */,
 				824AA0951725140400C9BD79 /* Supporting Files */,
 			);
-			path = __HybridTemplateAppName__;
+			path = "__HybridTemplateAppName__";
 			sourceTree = "<group>";
 		};
 		824AA0951725140400C9BD79 /* Supporting Files */ = {
@@ -610,8 +610,8 @@
 			);
 			dependencies = (
 			);
-			name = __HybridTemplateAppName__;
-			productName = __HybridTemplateAppName__;
+			name = "__HybridTemplateAppName__";
+			productName = "__HybridTemplateAppName__";
 			productReference = 824AA08B1725140400C9BD79 /* __HybridTemplateAppName__.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -622,7 +622,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = __OrganizationName__;
+				ORGANIZATIONNAME = "__OrganizationName__";
 			};
 			buildConfigurationList = 824AA0861725140400C9BD79 /* Build configuration list for PBXProject "__HybridTemplateAppName__" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -63,7 +63,7 @@
 		821C8F2E18C5309B000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
 		821C8F2F18C5309B000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
 		821C8F3018C5309B000FAF96 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
-		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__NativeTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -300,7 +300,7 @@
 				824A9E421724EF9800C9BD79 /* Resources */,
 				824A9DDF1724E16400C9BD79 /* Supporting Files */,
 			);
-			path = __NativeTemplateAppName__;
+			path = "__NativeTemplateAppName__";
 			sourceTree = "<group>";
 		};
 		824A9DDF1724E16400C9BD79 /* Supporting Files */ = {
@@ -550,8 +550,8 @@
 			);
 			dependencies = (
 			);
-			name = __NativeTemplateAppName__;
-			productName = __NativeTemplateAppName__;
+			name = "__NativeTemplateAppName__";
+			productName = "__NativeTemplateAppName__";
 			productReference = 824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -562,7 +562,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = __OrganizationName__;
+				ORGANIZATIONNAME = "__OrganizationName__";
 			};
 			buildConfigurationList = 824A9DD01724E16400C9BD79 /* Build configuration list for PBXProject "__NativeTemplateAppName__" */;
 			compatibilityVersion = "Xcode 3.2";
