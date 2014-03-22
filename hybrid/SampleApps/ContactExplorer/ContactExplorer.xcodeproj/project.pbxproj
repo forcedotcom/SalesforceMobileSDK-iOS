@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */; };
+		4F84FE0018DD080B006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFF18DD080B006A7699 /* Images.xcassets */; };
 		7DBD0761149AA9620043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0760149AA9620043A9E0 /* Foundation.framework */; };
 		7DBD0763149AA9620043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0762149AA9620043A9E0 /* UIKit.framework */; };
 		7DBD0765149AA9620043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD0764149AA9620043A9E0 /* CFNetwork.framework */; };
@@ -26,18 +27,9 @@
 		7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0781149AA9630043A9E0 /* InfoPlist.strings */; };
 		7DBD0785149AA9630043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0784149AA9630043A9E0 /* main.m */; };
 		7DBD0787149AA9630043A9E0 /* ContactExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0786149AA9630043A9E0 /* ContactExplorer-Prefix.pch */; };
-		7DBD07BA149AA9640043A9E0 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07B9149AA9640043A9E0 /* icon-72.png */; };
-		7DBD07BC149AA9640043A9E0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07BB149AA9640043A9E0 /* icon.png */; };
-		7DBD07BE149AA9640043A9E0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07BD149AA9640043A9E0 /* icon@2x.png */; };
-		7DBD07C1149AA9640043A9E0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */; };
-		7DBD07C3149AA9640043A9E0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */; };
-		7DBD07C5149AA9640043A9E0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C4149AA9640043A9E0 /* Default.png */; };
-		7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C6149AA9640043A9E0 /* Default@2x.png */; };
-		7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07C8149AA9640043A9E0 /* Default~iPad.png */; };
 		7DBD07CF149AA9640043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD07CE149AA9640043A9E0 /* AppDelegate.m */; };
 		7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD07DC149AA9650043A9E0 /* Settings.bundle */; };
 		820275F9165178B200DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F8165178B200DB814C /* MessageUI.framework */; };
-		820BB88817E29B3400263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88717E29B3400263F2E /* Default-568h@2x.png */; };
 		823856F6172999E8007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856E717299989007775A8 /* jquery-2.0.0.min.js */; };
 		823856F7172999E8007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856E817299989007775A8 /* jquery.mobile-1.3.1.min.css */; };
 		823856F8172999E8007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 823856E917299989007775A8 /* jquery.mobile-1.3.1.min.js */; };
@@ -119,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4F84FDFF18DD080B006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DBD075C149AA9620043A9E0 /* ContactExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD0760149AA9620043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD0762149AA9620043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -139,21 +132,12 @@
 		7DBD0782149AA9630043A9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DBD0784149AA9630043A9E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD0786149AA9630043A9E0 /* ContactExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContactExplorer-Prefix.pch"; sourceTree = "<group>"; };
-		7DBD07B9149AA9640043A9E0 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
-		7DBD07BB149AA9640043A9E0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		7DBD07BD149AA9640043A9E0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		7DBD07C4149AA9640043A9E0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
-		7DBD07C6149AA9640043A9E0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
-		7DBD07C8149AA9640043A9E0 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
 		7DBD07CA149AA9640043A9E0 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		7DBD07CD149AA9640043A9E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DBD07CE149AA9640043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DBD07D5149AA9650043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD07DC149AA9650043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		820275F8165178B200DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		820BB88717E29B3400263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		823856E217299989007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
 		823856E317299989007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		823856E417299989007775A8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
@@ -313,35 +297,11 @@
 		7DBD07B7149AA9640043A9E0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7DBD07B8149AA9640043A9E0 /* icons */,
-				7DBD07BF149AA9640043A9E0 /* splash */,
+				4F84FDFF18DD080B006A7699 /* Images.xcassets */,
 				4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */,
 				7DBD07DC149AA9650043A9E0 /* Settings.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		7DBD07B8149AA9640043A9E0 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD07B9149AA9640043A9E0 /* icon-72.png */,
-				7DBD07BB149AA9640043A9E0 /* icon.png */,
-				7DBD07BD149AA9640043A9E0 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		7DBD07BF149AA9640043A9E0 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				820BB88717E29B3400263F2E /* Default-568h@2x.png */,
-				7DBD07C0149AA9640043A9E0 /* Default-Landscape~ipad.png */,
-				7DBD07C2149AA9640043A9E0 /* Default-Portrait~ipad.png */,
-				7DBD07C4149AA9640043A9E0 /* Default.png */,
-				7DBD07C6149AA9640043A9E0 /* Default@2x.png */,
-				7DBD07C8149AA9640043A9E0 /* Default~iPad.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		7DBD07CC149AA9640043A9E0 /* Classes */ = {
@@ -469,18 +429,10 @@
 			files = (
 				7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */,
 				7DBD0787149AA9630043A9E0 /* ContactExplorer-Prefix.pch in Resources */,
-				7DBD07BA149AA9640043A9E0 /* icon-72.png in Resources */,
-				7DBD07BC149AA9640043A9E0 /* icon.png in Resources */,
-				7DBD07BE149AA9640043A9E0 /* icon@2x.png in Resources */,
-				7DBD07C1149AA9640043A9E0 /* Default-Landscape~ipad.png in Resources */,
-				7DBD07C3149AA9640043A9E0 /* Default-Portrait~ipad.png in Resources */,
-				7DBD07C5149AA9640043A9E0 /* Default.png in Resources */,
-				7DBD07C7149AA9640043A9E0 /* Default@2x.png in Resources */,
-				7DBD07C9149AA9640043A9E0 /* Default~iPad.png in Resources */,
+				4F84FE0018DD080B006A7699 /* Images.xcassets in Resources */,
 				7DBD07DD149AA9650043A9E0 /* Settings.bundle in Resources */,
 				8295460C167A7CE500A0FC34 /* config.xml in Resources */,
 				4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
-				820BB88817E29B3400263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +553,8 @@
 		7DBD07E3149AA9650043A9E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -615,6 +569,8 @@
 		7DBD07E4149AA9650043A9E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
