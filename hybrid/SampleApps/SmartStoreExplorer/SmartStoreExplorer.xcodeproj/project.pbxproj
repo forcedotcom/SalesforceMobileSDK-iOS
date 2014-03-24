@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
+		4FDB132B18DD0C65008CBDAE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB132A18DD0C65008CBDAE /* Images.xcassets */; };
 		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
-		820BB88A17E29BBC00263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88917E29BBC00263F2E /* Default-568h@2x.png */; };
 		8238573617299B0F007775A8 /* jquery-2.0.0.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572717299AEC007775A8 /* jquery-2.0.0.min.js */; };
 		8238573717299B0F007775A8 /* jquery.mobile-1.3.1.min.css in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572817299AEC007775A8 /* jquery.mobile-1.3.1.min.css */; };
 		8238573817299B0F007775A8 /* jquery.mobile-1.3.1.min.js in Copy jQuery Files */ = {isa = PBXBuildFile; fileRef = 8238572917299AEC007775A8 /* jquery.mobile-1.3.1.min.js */; };
@@ -42,14 +42,6 @@
 		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
 		8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */; };
 		8250723915C3514100F3A529 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250723815C3514100F3A529 /* libz.dylib */; };
-		8250723D15C3514100F3A529 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250723C15C3514100F3A529 /* icon-72.png */; };
-		8250723F15C3514100F3A529 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250723E15C3514100F3A529 /* icon.png */; };
-		8250724115C3514100F3A529 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724015C3514100F3A529 /* icon@2x.png */; };
-		8250724415C3514100F3A529 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724315C3514100F3A529 /* Default-Landscape~ipad.png */; };
-		8250724615C3514100F3A529 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724515C3514100F3A529 /* Default-Portrait~ipad.png */; };
-		8250724815C3514100F3A529 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724715C3514100F3A529 /* Default.png */; };
-		8250724A15C3514100F3A529 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724915C3514100F3A529 /* Default@2x.png */; };
-		8250724C15C3514100F3A529 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8250724B15C3514100F3A529 /* Default~iPad.png */; };
 		8250725215C3514100F3A529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250725115C3514100F3A529 /* AppDelegate.m */; };
 		8250725915C3514100F3A529 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8250725815C3514100F3A529 /* Settings.bundle */; };
 		8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */; };
@@ -119,8 +111,8 @@
 
 /* Begin PBXFileReference section */
 		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FDB132A18DD0C65008CBDAE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		820BB88917E29BBC00263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		8238572217299AEC007775A8 /* ajax-loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ajax-loader.gif"; sourceTree = "<group>"; };
 		8238572317299AEC007775A8 /* icons-18-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-black.png"; sourceTree = "<group>"; };
 		8238572417299AEC007775A8 /* icons-18-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons-18-white.png"; sourceTree = "<group>"; };
@@ -155,14 +147,6 @@
 		8250721515C3513E00F3A529 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartStoreExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		8250723815C3514100F3A529 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
-		8250723C15C3514100F3A529 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
-		8250723E15C3514100F3A529 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		8250724015C3514100F3A529 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		8250724315C3514100F3A529 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		8250724515C3514100F3A529 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		8250724715C3514100F3A529 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
-		8250724915C3514100F3A529 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
-		8250724B15C3514100F3A529 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
 		8250724D15C3514100F3A529 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		8250725015C3514100F3A529 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		8250725115C3514100F3A529 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -356,35 +340,11 @@
 		8250723A15C3514100F3A529 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8250723B15C3514100F3A529 /* icons */,
-				8250724215C3514100F3A529 /* splash */,
+				4FDB132A18DD0C65008CBDAE /* Images.xcassets */,
 				8250725815C3514100F3A529 /* Settings.bundle */,
 				4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		8250723B15C3514100F3A529 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				8250723C15C3514100F3A529 /* icon-72.png */,
-				8250723E15C3514100F3A529 /* icon.png */,
-				8250724015C3514100F3A529 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		8250724215C3514100F3A529 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				820BB88917E29BBC00263F2E /* Default-568h@2x.png */,
-				8250724315C3514100F3A529 /* Default-Landscape~ipad.png */,
-				8250724515C3514100F3A529 /* Default-Portrait~ipad.png */,
-				8250724715C3514100F3A529 /* Default.png */,
-				8250724915C3514100F3A529 /* Default@2x.png */,
-				8250724B15C3514100F3A529 /* Default~iPad.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		8250724F15C3514100F3A529 /* Classes */ = {
@@ -471,18 +431,10 @@
 			files = (
 				8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */,
 				8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */,
-				8250723D15C3514100F3A529 /* icon-72.png in Resources */,
-				8250723F15C3514100F3A529 /* icon.png in Resources */,
-				8250724115C3514100F3A529 /* icon@2x.png in Resources */,
-				8250724415C3514100F3A529 /* Default-Landscape~ipad.png in Resources */,
-				8250724615C3514100F3A529 /* Default-Portrait~ipad.png in Resources */,
-				8250724815C3514100F3A529 /* Default.png in Resources */,
-				8250724A15C3514100F3A529 /* Default@2x.png in Resources */,
-				8250724C15C3514100F3A529 /* Default~iPad.png in Resources */,
+				4FDB132B18DD0C65008CBDAE /* Images.xcassets in Resources */,
 				8250725915C3514100F3A529 /* Settings.bundle in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
 				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
-				820BB88A17E29BBC00263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +555,8 @@
 		8250725F15C3514100F3A529 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -617,6 +571,8 @@
 		8250726015C3514100F3A529 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
