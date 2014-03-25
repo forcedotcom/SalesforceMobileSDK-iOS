@@ -58,7 +58,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 {
     NSData *stringToHashAsData = [stringToHash dataUsingEncoding:NSUTF8StringEncoding];
     unsigned char key[derivedKeyLength];
-    int result = CCKeyDerivationPBKDF(kCCPBKDF2, [stringToHashAsData bytes], [stringToHashAsData length], [salt bytes], [salt length], kCCPRFHmacAlgSHA256, numDerivationRounds, key, derivedKeyLength);
+    int result = CCKeyDerivationPBKDF(kCCPBKDF2, [stringToHashAsData bytes], [stringToHashAsData length], [salt bytes], [salt length], kCCPRFHmacAlgSHA256, (uint)numDerivationRounds, key, derivedKeyLength);
     
     if (result != 0) {
         // Error

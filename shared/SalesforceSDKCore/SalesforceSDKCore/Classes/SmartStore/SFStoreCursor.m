@@ -61,7 +61,7 @@
     
     if (nil != self) {
         _store = store;
-        [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
+        [self setCursorId:[NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]]];
         
         self.querySpec = querySpec;
         

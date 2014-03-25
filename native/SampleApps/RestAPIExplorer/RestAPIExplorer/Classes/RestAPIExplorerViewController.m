@@ -162,7 +162,7 @@
                                  : (NSDictionary *)[SFJsonUtils objectFromJSONString:params]
                                  );
                                  
-    SFRestMethod method = _segmentMethod.selectedSegmentIndex;
+    SFRestMethod method = (SFRestMethod)_segmentMethod.selectedSegmentIndex;
     NSString *path = self.tfPath.text;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 

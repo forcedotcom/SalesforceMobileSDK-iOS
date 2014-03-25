@@ -214,10 +214,10 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-    int statusCode = [(NSHTTPURLResponse *)response statusCode];
+    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode != 200) {
         self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %d", statusCode]];
+                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
     }
     
 	// reset the response data for a new refresh response
