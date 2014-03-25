@@ -178,7 +178,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        NSLog(@"pgQuerySoup retrieved %d pages in %f seconds",[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
+        NSLog(@"pgQuerySoup retrieved %ld pages in %f seconds",(long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
     } else {
         NSLog(@"No cursor for query: %@", querySpec);
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
@@ -201,7 +201,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        NSLog(@"pgRunSmartQuery retrieved %d pages in %f seconds",[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
+        NSLog(@"pgRunSmartQuery retrieved %ld pages in %f seconds",(long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
     } else {
         NSLog(@"No cursor for query: %@", querySpec);
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
@@ -295,7 +295,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
-    NSLog(@"pgMoveCursorToPageIndex: %@ [%d]",cursorId,[newPageIndex integerValue]);
+    NSLog(@"pgMoveCursorToPageIndex: %@ [%ld]",cursorId,(long)[newPageIndex integerValue]);
     
     SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
     [cursor setCurrentPageIndex:newPageIndex];

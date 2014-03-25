@@ -406,7 +406,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     NSMutableString *errorPageUrlString = [NSMutableString stringWithString:[rootUrl absoluteString]];
     [rootUrl query] == nil ? [errorPageUrlString appendString:@"?"] : [errorPageUrlString appendString:@"&"];
-    [errorPageUrlString appendFormat:@"%@=%d", kErrorCodeParameterName, errorCode];
+    [errorPageUrlString appendFormat:@"%@=%ld", kErrorCodeParameterName, (long)errorCode];
     [errorPageUrlString appendFormat:@"&%@=%@",
      kErrorDescriptionParameterName,
      [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -425,11 +425,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                              </head>\
                              <body>\
                                <h1>Bootstrap Error Page</h1>\
-                               <p>Error code: %d</p>\
+                               <p>Error code: %ld</p>\
                                <p>Error description: %@</p>\
                                <p>Error context: %@</p>\
                              </body>\
-                             </html>", errorCode, errorDescription, errorContext];
+                             </html>", (long)errorCode, errorDescription, errorContext];
     return htmlContent;
 }
 
