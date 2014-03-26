@@ -26,6 +26,8 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
 
@@ -629,6 +631,22 @@ static NSString * const kUserPrefix = @"005";
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *result = [self.userAccountMap objectForKey:safeUserId];
 	return result;
+}
+
+- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
+    NSString *org = [orgId entityIdWithLength18];
+    NSString *comm = [communityId entityIdWithLength18];
+    for (SFUserAccount *account in self.userAccountMap) {
+        NSString *accountOrg = [account.credentials.organizationId entityIdWithLength18];
+        if ([accountOrg isEqualToString:org]) {
+            if (comm) {
+                account.communityId = comm;
+            }
+            return account;
+        }
+    }
+    
+    return nil;
 }
 
 - (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {

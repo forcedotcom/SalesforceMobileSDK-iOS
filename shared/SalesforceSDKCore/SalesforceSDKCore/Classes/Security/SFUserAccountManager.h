@@ -240,6 +240,13 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId;
 
+/** Allows you to look up the user account for a particular org and community
+ @param orgId The org you want a user for
+ @param communityId The community id for the user as well, can be nil
+ @return The user accoun that matches or nil
+ */
+- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId;
+
 /** Adds a user account
  */
 - (void)addAccount:(SFUserAccount *)acct;
