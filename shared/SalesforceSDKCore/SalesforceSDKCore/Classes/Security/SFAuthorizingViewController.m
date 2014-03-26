@@ -38,7 +38,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation:%d",interfaceOrientation);
+    NSLog(@"SFAuthorizingViewController shouldAutorotateToInterfaceOrientation: %ld", interfaceOrientation);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
     } else {

@@ -61,7 +61,7 @@
     
     if (nil != self) {
         _store = store;
-        [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
+        [self setCursorId:[NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]]];
         
         self.querySpec = querySpec;
         
@@ -138,11 +138,11 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%lu] \n querySpec: %@ \n }",
             self,self.cursorId,
             self.totalPages,
             self.currentPageIndex,
-            [self.currentPageOrderedEntries count],
+            (unsigned long)[self.currentPageOrderedEntries count],
             self.querySpec
             ];
 }

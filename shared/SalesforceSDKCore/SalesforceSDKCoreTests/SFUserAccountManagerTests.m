@@ -114,8 +114,8 @@
     // Ensure all directories have been correctly created
     {
         for (NSUInteger index=0; index<10; index++) {
-            NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%d", index];
-            NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%d", index];
+            NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%lu", (unsigned long)index];
+            NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index];
             NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
             location = [location stringByAppendingPathComponent:@"UserAccount.plist"];
             STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"Unable to find new UserAccount.plist at %@", location);
@@ -131,27 +131,27 @@
         
         for (NSUInteger index=0; index<10; index++) {
             // Note: we always use index 0 because of the way the allUserIds are sorted out
-            STAssertEqualObjects(self.uam.allUserIds[9-index], ([NSString stringWithFormat:@"005R0000000Dsl%d", index]), @"User ID doesn't match");
+            STAssertEqualObjects(self.uam.allUserIds[9-index], ([NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index]), @"User ID doesn't match");
         }
     }
     
     // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
-    STAssertEquals([self.uam.allUserIds count], 0U, @"There should be no accounts.");
-    STAssertEquals([self.uam.allUserAccounts count], 10U, @"Should still be 10 accounts on disk.");
-    STAssertEquals([self.uam.allUserIds count], 10U, @"There should now be 10 accounts in memory.");
+    STAssertEquals([self.uam.allUserIds count], (NSUInteger)0, @"There should be no accounts.");
+    STAssertEquals([self.uam.allUserAccounts count], (NSUInteger)10, @"Should still be 10 accounts on disk.");
+    STAssertEquals([self.uam.allUserIds count], (NSUInteger)10, @"There should now be 10 accounts in memory.");
     
     // Now make sure each account has a different access token to ensure
     // they are not overlapping in the keychain.
     for (NSUInteger index=0; index<10; index++) {
         SFUserAccount *user = [self.uam userAccountForUserId:self.uam.allUserIds[9-index]];
-        STAssertEqualObjects(user.credentials.accessToken, ([NSString stringWithFormat:@"accesstoken-%d", index]), @"Access token mismatch");
+        STAssertEqualObjects(user.credentials.accessToken, ([NSString stringWithFormat:@"accesstoken-%lu", (unsigned long)index]), @"Access token mismatch");
     }
     
     // Remove each account and verify that its user folder is gone.
     for (NSUInteger index = 0; index < 10; index++) {
-        NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%d", index];
-        NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%d", index];
+        NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%lu", (unsigned long)index];
+        NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index];
         NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
         
         STAssertNotNil([self.uam userAccountForUserId:userId], @"User acccount with ID '%@' should exist.", userId);
@@ -207,12 +207,12 @@
     NSMutableArray *accounts = [NSMutableArray array];
     for (NSUInteger index = 0; index < numAccounts; index++) {
         SFUserAccount *user = [self createNewUserWithIndex:index];
-        user.credentials.accessToken = [NSString stringWithFormat:@"accesstoken-%d", index];
+        user.credentials.accessToken = [NSString stringWithFormat:@"accesstoken-%lu", (unsigned long)index];
         STAssertNotNil(user.credentials, @"User credentials shouldn't be nil");
         
         [self.uam addAccount:user];
         // Note: we always use index 0 because of the way the allUserIds are sorted out
-        STAssertEqualObjects(self.uam.allUserIds[0], ([NSString stringWithFormat:@"005R0000000Dsl%d", index]), @"User ID doesn't match");
+        STAssertEqualObjects(self.uam.allUserIds[0], ([NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index]), @"User ID doesn't match");
         
         // Add to the output array.
         [accounts addObject:user];
@@ -223,8 +223,8 @@
 
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     STAssertTrue(index < 10, @"Supports only index up to 9");
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%d", index]];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/00D000000000062EA%d/005R0000000Dsl%d", index, index]];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index]];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/00D000000000062EA%lu/005R0000000Dsl%lu", (unsigned long)index, (unsigned long)index]];
     return user;
 }
 

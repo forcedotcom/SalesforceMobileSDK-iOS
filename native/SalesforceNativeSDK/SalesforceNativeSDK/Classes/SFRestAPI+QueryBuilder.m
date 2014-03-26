@@ -83,7 +83,7 @@ NSInteger const kMaxSOSLSearchLimit      = 200;
 	}
 
 	if( limit > 0 )
-		[query appendFormat:@" LIMIT %i", ( limit > kMaxSOSLSearchLimit ? kMaxSOSLSearchLimit : limit )];
+		[query appendFormat:@" LIMIT %ld", (long)( limit > kMaxSOSLSearchLimit ? kMaxSOSLSearchLimit : limit )];
 
 	return query;
 }
@@ -123,7 +123,7 @@ NSInteger const kMaxSOSLSearchLimit      = 200;
 		[query appendFormat:@" order by %@", [orderBy componentsJoinedByString:@","]];
 
 	if( limit > 0 )
-		[query appendFormat:@" limit %i", limit];
+		[query appendFormat:@" limit %ld", (long)limit];
 
 	return query;
 }

@@ -175,7 +175,7 @@ static BOOL _showPasscode = YES;
 
 + (void)setPasscodeLength:(NSInteger)passcodeLength
 {
-    NSNumber *nPasscodeLength = [NSNumber numberWithInt:passcodeLength];
+    NSNumber *nPasscodeLength = [NSNumber numberWithInteger:passcodeLength];
     [[SFPreferences currentUserLevelPreferences] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
     [[SFPreferences currentUserLevelPreferences] synchronize];
 }

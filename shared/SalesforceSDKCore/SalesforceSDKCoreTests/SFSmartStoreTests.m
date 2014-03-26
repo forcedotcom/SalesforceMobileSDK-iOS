@@ -184,10 +184,10 @@ NSString * const kTestSoupName   = @"testSoup";
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
     NSUInteger querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
-    uint expectedPageSize = 42;
+    NSUInteger expectedPageSize = 42;
     NSDictionary *allQueryWithPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
                                         @"a/path", kQuerySpecParamIndexPath,
-                                          [NSNumber numberWithInt:expectedPageSize], kQuerySpecParamPageSize,
+                                          [NSNumber numberWithUnsignedInteger:expectedPageSize], kQuerySpecParamPageSize,
                                         nil];
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
     querySpecPageSize = querySpec.pageSize;
@@ -354,8 +354,8 @@ NSString * const kTestSoupName   = @"testSoup";
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     NSArray *noStoresArray = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     if (noStoresArray != nil) {
-        int expectedCount = [noStoresArray count];
-        STAssertEquals(expectedCount, 0, @"There should not be any stores defined.  Count = %d", expectedCount);
+        NSUInteger expectedCount = [noStoresArray count];
+        STAssertEquals(expectedCount, (NSUInteger)0, @"There should not be any stores defined.  Count = %lu", expectedCount);
     }
     
     // Create some stores.  Verify them.
@@ -565,7 +565,7 @@ NSString * const kTestSoupName   = @"testSoup";
 {
     FMResultSet *frs = [_store.storeDb executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
 
-    int result = NSNotFound;
+    NSInteger result = NSNotFound;
     if ([frs next]) {        
         result = [frs intForColumnIndex:0];
     }
@@ -680,8 +680,8 @@ NSString * const kTestSoupName   = @"testSoup";
     _store = nil;
     [SFSmartStore removeAllStores];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
-    int allStoreCount = [allStoreNames count];
-    STAssertEquals(allStoreCount, 0, @"Should not be any stores after removing them all.");
+    NSUInteger allStoreCount = [allStoreNames count];
+    STAssertEquals(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
 }
 
 @end
