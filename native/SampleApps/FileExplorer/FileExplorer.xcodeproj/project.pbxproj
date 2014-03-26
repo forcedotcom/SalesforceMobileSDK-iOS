@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */; };
 		4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */; };
+		4F84FDFA18DD078C006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDF918DD078C006A7699 /* Images.xcassets */; };
 		4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
@@ -22,17 +23,6 @@
 		824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3C1724E9F400C9BD79 /* readme.txt */; };
 		824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3E1724EC6300C9BD79 /* Settings.bundle */; };
 		824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */; };
-		824A9E5F1724F02D00C9BD79 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5B1724F02D00C9BD79 /* icon-72.png */; };
-		824A9E601724F02D00C9BD79 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */; };
-		824A9E611724F02D00C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5D1724F02D00C9BD79 /* icon.png */; };
-		824A9E621724F02D00C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5E1724F02D00C9BD79 /* icon@2x.png */; };
-		824A9E6A1724F03D00C9BD79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E631724F03D00C9BD79 /* Default-568h@2x.png */; };
-		824A9E6B1724F03D00C9BD79 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */; };
-		824A9E6C1724F03D00C9BD79 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */; };
-		824A9E6D1724F03D00C9BD79 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */; };
-		824A9E6E1724F03D00C9BD79 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */; };
-		824A9E6F1724F03D00C9BD79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E681724F03D00C9BD79 /* Default.png */; };
-		824A9E701724F03D00C9BD79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E691724F03D00C9BD79 /* Default@2x.png */; };
 		824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FE71725098F00C9BD79 /* libxml2.dylib */; };
 		824A9FEA1725099600C9BD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FE91725099600C9BD79 /* libz.dylib */; };
 		824A9FEC17250ADA00C9BD79 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FEB17250ADA00C9BD79 /* CFNetwork.framework */; };
@@ -54,6 +44,7 @@
 /* Begin PBXFileReference section */
 		4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMKNetworkKit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4F84FDF918DD078C006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD51724E16400C9BD79 /* FileExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -73,17 +64,6 @@
 		824A9E3C1724E9F400C9BD79 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		824A9E3E1724EC6300C9BD79 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SalesforceSDKResources.bundle; sourceTree = "<group>"; };
-		824A9E5B1724F02D00C9BD79 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
-		824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
-		824A9E5D1724F02D00C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		824A9E5E1724F02D00C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		824A9E631724F03D00C9BD79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
-		824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		824A9E681724F03D00C9BD79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		824A9E691724F03D00C9BD79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		824A9FE71725098F00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		824A9FE91725099600C9BD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		824A9FEB17250ADA00C9BD79 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -220,37 +200,11 @@
 		824A9E421724EF9800C9BD79 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				824A9E591724F01500C9BD79 /* icons */,
-				824A9E5A1724F01D00C9BD79 /* splash */,
+				4F84FDF918DD078C006A7699 /* Images.xcassets */,
 				824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */,
 				824A9E3E1724EC6300C9BD79 /* Settings.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		824A9E591724F01500C9BD79 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				824A9E5B1724F02D00C9BD79 /* icon-72.png */,
-				824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */,
-				824A9E5D1724F02D00C9BD79 /* icon.png */,
-				824A9E5E1724F02D00C9BD79 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		824A9E5A1724F01D00C9BD79 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				824A9E631724F03D00C9BD79 /* Default-568h@2x.png */,
-				824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */,
-				824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */,
-				824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */,
-				824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */,
-				824A9E681724F03D00C9BD79 /* Default.png */,
-				824A9E691724F03D00C9BD79 /* Default@2x.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,17 +263,7 @@
 				824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */,
 				824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */,
 				824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */,
-				824A9E5F1724F02D00C9BD79 /* icon-72.png in Resources */,
-				824A9E601724F02D00C9BD79 /* icon-72@2x.png in Resources */,
-				824A9E611724F02D00C9BD79 /* icon.png in Resources */,
-				824A9E621724F02D00C9BD79 /* icon@2x.png in Resources */,
-				824A9E6A1724F03D00C9BD79 /* Default-568h@2x.png in Resources */,
-				824A9E6B1724F03D00C9BD79 /* Default-Landscape@2x~ipad.png in Resources */,
-				824A9E6C1724F03D00C9BD79 /* Default-Landscape~ipad.png in Resources */,
-				824A9E6D1724F03D00C9BD79 /* Default-Portrait@2x~ipad.png in Resources */,
-				824A9E6E1724F03D00C9BD79 /* Default-Portrait~ipad.png in Resources */,
-				824A9E6F1724F03D00C9BD79 /* Default.png in Resources */,
-				824A9E701724F03D00C9BD79 /* Default@2x.png in Resources */,
+				4F84FDFA18DD078C006A7699 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +374,8 @@
 		824A9DFC1724E16400C9BD79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileExplorer/FileExplorer-Prefix.pch";
@@ -446,6 +392,8 @@
 		824A9DFD1724E16400C9BD79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileExplorer/FileExplorer-Prefix.pch";

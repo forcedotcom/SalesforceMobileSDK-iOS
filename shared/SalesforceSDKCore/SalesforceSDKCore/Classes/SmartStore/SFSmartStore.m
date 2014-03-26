@@ -808,7 +808,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
     
     if ([frs next]) {
-        NSUInteger colIdx = [frs columnIndexForName:ID_COL];
+        int colIdx = [frs columnIndexForName:ID_COL];
         long soupId = [frs longForColumnIndex:colIdx];
         result = [self tableNameBySoupId:soupId];
     } else {
@@ -970,7 +970,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithIndexSpec:rawIndexSpec];
         
         // for creating the soup table itself in the store db
-        NSString *columnName = [NSString stringWithFormat:@"%@_%d",soupTableName,i];
+        NSString *columnName = [NSString stringWithFormat:@"%@_%lu",soupTableName,(unsigned long)i];
         NSString * columnType = [indexSpec columnType];
         [createTableStmt appendFormat:@", %@ %@ ",columnName,columnType];
         [self log:SFLogLevelDebug format:@"adding indexPath: %@ %@  ('%@')",columnName, columnType, [indexSpec path]];
@@ -984,7 +984,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         [soupIndexMapInserts addObject:values];
         
         // for creating an index on the soup table
-        NSString *indexName = [NSString stringWithFormat:@"%@_%d_idx",soupTableName,i];
+        NSString *indexName = [NSString stringWithFormat:@"%@_%lu_idx",soupTableName,(unsigned long)i];
         [createIndexStmts addObject:
          [NSString stringWithFormat:@"CREATE INDEX IF NOT EXISTS %@ ON %@ ( %@ )",indexName, soupTableName, columnName]
          ];
@@ -1148,8 +1148,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSUInteger result = 0;
 
     // SQL
-    NSString* sql = [self convertSmartSql: querySpec.smartSql];
-    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+    NSString* countSql = [self convertSmartSql:querySpec.countSmartSql];
+    [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
+//    NSString* sql = [self convertSmartSql: querySpec.smartSql];
+//    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
 
     // Args
@@ -1174,7 +1176,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // Page
     NSUInteger offsetRows = querySpec.pageSize * pageIndex;
     NSUInteger numberRows = querySpec.pageSize;
-    NSString* limit = [NSString stringWithFormat:@"%d,%d",offsetRows,numberRows];
+    NSString* limit = [NSString stringWithFormat:@"%lu,%lu",(unsigned long)offsetRows,(unsigned long)numberRows];
 
     // SQL
     NSString* sql = [self convertSmartSql: querySpec.smartSql];

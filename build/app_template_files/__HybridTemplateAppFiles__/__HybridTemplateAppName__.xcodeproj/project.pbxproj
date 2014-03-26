@@ -7,22 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F8C1D5618DD127300A972FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8C1D5518DD127300A972FD /* Images.xcassets */; };
 		824AA08F1725140400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA08E1725140400C9BD79 /* UIKit.framework */; };
 		824AA0911725140400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA0901725140400C9BD79 /* Foundation.framework */; };
 		824AA0931725140400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824AA0921725140400C9BD79 /* CoreGraphics.framework */; };
 		824AA0991725140400C9BD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0971725140400C9BD79 /* InfoPlist.strings */; };
 		824AA09B1725140400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824AA09A1725140400C9BD79 /* main.m */; };
-		824AA0BB1725154300C9BD79 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0B71725154300C9BD79 /* icon-72.png */; };
-		824AA0BC1725154300C9BD79 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0B81725154300C9BD79 /* icon-72@2x.png */; };
-		824AA0BD1725154300C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0B91725154300C9BD79 /* icon.png */; };
-		824AA0BE1725154300C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0BA1725154300C9BD79 /* icon@2x.png */; };
-		824AA0CA172516B200C9BD79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C3172516B200C9BD79 /* Default-568h@2x.png */; };
-		824AA0CB172516B200C9BD79 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C4172516B200C9BD79 /* Default-Landscape@2x~ipad.png */; };
-		824AA0CC172516B200C9BD79 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C5172516B200C9BD79 /* Default-Landscape~ipad.png */; };
-		824AA0CD172516B200C9BD79 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C6172516B200C9BD79 /* Default-Portrait@2x~ipad.png */; };
-		824AA0CE172516B200C9BD79 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C7172516B200C9BD79 /* Default-Portrait~ipad.png */; };
-		824AA0CF172516B200C9BD79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C8172516B200C9BD79 /* Default.png */; };
-		824AA0D0172516B200C9BD79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0C9172516B200C9BD79 /* Default@2x.png */; };
 		824AA0D41725171D00C9BD79 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824AA0D31725171D00C9BD79 /* AppDelegate.m */; };
 		824AA0DA172518B000C9BD79 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0D9172518B000C9BD79 /* www */; };
 		824AA0DD17251BD000C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824AA0DB17251BD000C9BD79 /* SalesforceSDKResources.bundle */; };
@@ -57,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F8C1D5518DD127300A972FD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		821C8F3118C5317C000FAF96 /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
 		821C8F3218C5317C000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
 		821C8F3318C5317C000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
@@ -69,17 +60,6 @@
 		824AA0981725140400C9BD79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		824AA09A1725140400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		824AA09C1725140400C9BD79 /* __HybridTemplateAppName__-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "__HybridTemplateAppName__-Prefix.pch"; sourceTree = "<group>"; };
-		824AA0B71725154300C9BD79 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
-		824AA0B81725154300C9BD79 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
-		824AA0B91725154300C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		824AA0BA1725154300C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		824AA0C3172516B200C9BD79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		824AA0C4172516B200C9BD79 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
-		824AA0C5172516B200C9BD79 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		824AA0C6172516B200C9BD79 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		824AA0C7172516B200C9BD79 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		824AA0C8172516B200C9BD79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		824AA0C9172516B200C9BD79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		824AA0D21725171D00C9BD79 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		824AA0D31725171D00C9BD79 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		824AA0D9172518B000C9BD79 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
@@ -329,37 +309,11 @@
 		824AA0B41725151C00C9BD79 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				824AA0B51725152500C9BD79 /* icons */,
-				824AA0B61725152C00C9BD79 /* splash */,
+				4F8C1D5518DD127300A972FD /* Images.xcassets */,
 				824AA0DB17251BD000C9BD79 /* SalesforceSDKResources.bundle */,
 				824AA0DC17251BD000C9BD79 /* Settings.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		824AA0B51725152500C9BD79 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				824AA0B71725154300C9BD79 /* icon-72.png */,
-				824AA0B81725154300C9BD79 /* icon-72@2x.png */,
-				824AA0B91725154300C9BD79 /* icon.png */,
-				824AA0BA1725154300C9BD79 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		824AA0B61725152C00C9BD79 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				824AA0C3172516B200C9BD79 /* Default-568h@2x.png */,
-				824AA0C4172516B200C9BD79 /* Default-Landscape@2x~ipad.png */,
-				824AA0C5172516B200C9BD79 /* Default-Landscape~ipad.png */,
-				824AA0C6172516B200C9BD79 /* Default-Portrait@2x~ipad.png */,
-				824AA0C7172516B200C9BD79 /* Default-Portrait~ipad.png */,
-				824AA0C8172516B200C9BD79 /* Default.png */,
-				824AA0C9172516B200C9BD79 /* Default@2x.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		824AA0D11725171D00C9BD79 /* Classes */ = {
@@ -693,20 +647,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				824AA0991725140400C9BD79 /* InfoPlist.strings in Resources */,
-				824AA0BB1725154300C9BD79 /* icon-72.png in Resources */,
-				824AA0BC1725154300C9BD79 /* icon-72@2x.png in Resources */,
-				824AA0BD1725154300C9BD79 /* icon.png in Resources */,
-				824AA0BE1725154300C9BD79 /* icon@2x.png in Resources */,
-				824AA0CA172516B200C9BD79 /* Default-568h@2x.png in Resources */,
-				824AA0CB172516B200C9BD79 /* Default-Landscape@2x~ipad.png in Resources */,
-				824AA0CC172516B200C9BD79 /* Default-Landscape~ipad.png in Resources */,
-				824AA0CD172516B200C9BD79 /* Default-Portrait@2x~ipad.png in Resources */,
-				824AA0CE172516B200C9BD79 /* Default-Portrait~ipad.png in Resources */,
-				824AA0CF172516B200C9BD79 /* Default.png in Resources */,
-				824AA0D0172516B200C9BD79 /* Default@2x.png in Resources */,
 				824AA0DA172518B000C9BD79 /* www in Resources */,
 				824AA0DD17251BD000C9BD79 /* SalesforceSDKResources.bundle in Resources */,
 				824AA0DE17251BD000C9BD79 /* Settings.bundle in Resources */,
+				4F8C1D5618DD127300A972FD /* Images.xcassets in Resources */,
 				824AA0E31725A40A00C9BD79 /* config.xml in Resources */,
 				824AA2181725AA3F00C9BD79 /* openssl_license.txt in Resources */,
 				824AA21E1725AA4000C9BD79 /* LICENSE in Resources */,
@@ -800,6 +744,8 @@
 		824AA0B21725140500C9BD79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__HybridTemplateAppName__/__HybridTemplateAppName__-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -831,6 +777,8 @@
 		824AA0B31725140500C9BD79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__HybridTemplateAppName__/__HybridTemplateAppName__-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

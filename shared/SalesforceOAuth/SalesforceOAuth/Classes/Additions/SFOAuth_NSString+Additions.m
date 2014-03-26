@@ -40,7 +40,7 @@
 
 - (NSData *)sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
-    CC_SHA256([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
+    CC_SHA256([self UTF8String], (CC_LONG)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
     return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
 }
 

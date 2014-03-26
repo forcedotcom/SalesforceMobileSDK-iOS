@@ -107,7 +107,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 }
             }
             else if ([parts count] > 2) {
-                NSLog(@"Invalid soup/path reference: %@ at character: %u", foundString, position);
+                NSLog(@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position);
                 return nil;
             }
             
