@@ -32,6 +32,7 @@
 		824A9FF417250BF300C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF317250BF300C9BD79 /* QuartzCore.framework */; };
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
+		82AA406C18E3B2E100BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */; };
 		CE006E5A176A822300411A4C /* ResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE006E59176A822300411A4C /* ResultViewController.xib */; };
 		CE006E5E176A829200411A4C /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE006E5D176A829100411A4C /* ResultViewController.m */; };
 		CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E5F176BD23B00411A4C /* libcrypto.a */; };
@@ -77,6 +78,7 @@
 		824A9FF317250BF300C9BD79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		824A9FF517250BFA00C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E59176A822300411A4C /* ResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultViewController.xib; sourceTree = "<group>"; };
 		CE006E5C176A829100411A4C /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
 		CE006E5D176A829100411A4C /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				CE006E6C176BD2AB00411A4C /* libSalesforceNativeSDK.a in Frameworks */,
 				CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */,
 				CE006E6E176BD2AB00411A4C /* libSalesforceSDKCore.a in Frameworks */,
+				82AA406C18E3B2E100BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				CE006E68176BD26700411A4C /* libsqlcipher.a in Frameworks */,
 				CE006E66176BD25B00411A4C /* libSalesforceCommonUtils.a in Frameworks */,
 				CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */,
@@ -145,15 +148,15 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */,
+				CE006E5F176BD23B00411A4C /* libcrypto.a */,
 				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
+				CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */,
 				4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */,
 				CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */,
 				CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */,
 				CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */,
+				82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */,
 				CE006E67176BD26700411A4C /* libsqlcipher.a */,
-				CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */,
-				CE006E5F176BD23B00411A4C /* libcrypto.a */,
 				CE006E60176BD23B00411A4C /* libssl.a */,
 				824A9FE71725098F00C9BD79 /* libxml2.dylib */,
 				824A9FE91725099600C9BD79 /* libz.dylib */,
@@ -161,6 +164,7 @@
 				824A9FED17250AE500C9BD79 /* CoreData.framework */,
 				824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */,
 				824A9DDA1724E16400C9BD79 /* Foundation.framework */,
+				4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */,
 				824A9FEF17250B7C00C9BD79 /* MessageUI.framework */,
 				824A9FF117250B8300C9BD79 /* MobileCoreServices.framework */,
 				824A9FF317250BF300C9BD79 /* QuartzCore.framework */,

@@ -31,9 +31,9 @@
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
-#import "SFPasscodeManager.h"
-#import "SFPasscodeManager+Internal.h"
-#import "SFPasscodeProviderManager.h"
+#import <SalesforceSecurity/SFPasscodeManager.h>
+#import <SalesforceSecurity/SFPasscodeManager+Internal.h>
+#import <SalesforceSecurity/SFPasscodeProviderManager.h>
 #import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
