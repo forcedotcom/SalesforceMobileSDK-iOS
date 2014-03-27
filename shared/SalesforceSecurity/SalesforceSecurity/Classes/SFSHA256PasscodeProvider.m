@@ -44,11 +44,6 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
     return self;
 }
 
-- (void)dealloc
-{
-    SFRelease(_providerName);
-}
-
 - (void)resetPasscodeData
 {
     SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];

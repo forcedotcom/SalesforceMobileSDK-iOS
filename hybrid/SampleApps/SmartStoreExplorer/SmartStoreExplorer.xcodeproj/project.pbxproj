@@ -56,6 +56,7 @@
 		8251CA9F16ED59AB00BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9E16ED59AB00BD1EA2 /* CoreData.framework */; };
 		82954626167A7E3400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82954625167A7E3400A0FC34 /* config.xml */; };
 		82954627167A7F0E00A0FC34 /* cordova-2.3.0.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82954623167A7E1500A0FC34 /* cordova-2.3.0.js */; };
+		82AA406818E3B22E00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406718E3B22E00BD34D8 /* libSalesforceSecurity.a */; };
 		CE1AA9BB1762A5A500DC3A3A /* forcetk.mobilesdk.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE1AA9B91762A59B00DC3A3A /* forcetk.mobilesdk.js */; };
 		CE361CDF1731BD0D00CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CDC1731BD0500CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
@@ -164,6 +165,7 @@
 		8251CA9E16ED59AB00BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82954623167A7E1500A0FC34 /* cordova-2.3.0.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "cordova-2.3.0.js"; path = "../../../../shared/hybrid/cordova-2.3.0.js"; sourceTree = "<group>"; };
 		82954625167A7E3400A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		82AA406718E3B22E00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1AA9B91762A59B00DC3A3A /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		CE361CDC1731BD0500CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +181,7 @@
 				8251CA9716ED595200BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */,
 				8251CA9516ED594400BD1EA2 /* libSalesforceOAuth.a in Frameworks */,
 				8251CA9316ED592A00BD1EA2 /* libSalesforceSDKCore.a in Frameworks */,
+				82AA406818E3B22E00BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8251CA9116ED591C00BD1EA2 /* libsqlcipher.a in Frameworks */,
 				8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */,
 				8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */,
@@ -287,6 +290,7 @@
 				8251CA9616ED595200BD1EA2 /* libSalesforceHybridSDK.a */,
 				8251CA9416ED594400BD1EA2 /* libSalesforceOAuth.a */,
 				8251CA9216ED592A00BD1EA2 /* libSalesforceSDKCore.a */,
+				82AA406718E3B22E00BD34D8 /* libSalesforceSecurity.a */,
 				8251CA9016ED591C00BD1EA2 /* libsqlcipher.a */,
 				8251CA8E16ED590E00BD1EA2 /* libssl.a */,
 				8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */,

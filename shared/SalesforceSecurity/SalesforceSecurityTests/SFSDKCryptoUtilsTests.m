@@ -22,9 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKCryptoUtilsTests.h"
+#import <XCTest/XCTest.h>
 #import "SFSDKCryptoUtils.h"
 #import "SFPBKDFData.h"
+
+@interface SFSDKCryptoUtilsTests : XCTestCase
+
+@end
 
 @implementation SFSDKCryptoUtilsTests
 
@@ -34,13 +38,13 @@
     NSUInteger const numDataStrings = 5000;
     
     NSMutableArray *dataStringArray = [NSMutableArray array];
-    for (int i = 0; i < numDataStrings; i++) {
+    for (NSUInteger i = 0; i < numDataStrings; i++) {
         [dataStringArray addObject:[SFSDKCryptoUtils randomByteDataWithLength:randomStringByteLength]];
     }
     
-    for (int i = 0; i < numDataStrings; i++) {
-        for (int j = i + 1; j < numDataStrings; j++) {
-            STAssertFalse([[dataStringArray objectAtIndex:i] isEqualToData:[dataStringArray objectAtIndex:j]], @"Random data strings at index %d and %d are equal.  Not enough entropy!", i, j);
+    for (NSUInteger i = 0; i < numDataStrings; i++) {
+        for (NSUInteger j = i + 1; j < numDataStrings; j++) {
+            XCTAssertFalse([[dataStringArray objectAtIndex:i] isEqualToData:[dataStringArray objectAtIndex:j]], @"Random data strings at index %d and %d are equal.  Not enough entropy!", i, j);
         }
     }
 }
@@ -49,9 +53,9 @@
 {
     NSString *myString = @"HelloWorld321";
     SFPBKDFData *origData = [SFSDKCryptoUtils createPBKDF2DerivedKey:myString];
-    STAssertEquals(origData.numDerivationRounds, kSFPBKDFDefaultNumberOfDerivationRounds, @"Expected default number of key generation rounds.");
-    STAssertEquals([origData.salt length], kSFPBKDFDefaultSaltByteLength, @"Expected default salt length.");
-    STAssertEquals(origData.derivedKeyLength, kSFPBKDFDefaultDerivedKeyByteLength, @"Expected default derived key length.");
+    XCTAssertEqual(origData.numDerivationRounds, kSFPBKDFDefaultNumberOfDerivationRounds, @"Expected default number of key generation rounds.");
+    XCTAssertEqual([origData.salt length], kSFPBKDFDefaultSaltByteLength, @"Expected default salt length.");
+    XCTAssertEqual(origData.derivedKeyLength, kSFPBKDFDefaultDerivedKeyByteLength, @"Expected default derived key length.");
 }
 
 - (void)testSamePBKDFKeysWithSameInputs
@@ -70,10 +74,10 @@
                                                                        salt:salt
                                                            derivationRounds:numDerivationRounds
                                                                   keyLength:derivedKeyLength];
-    STAssertTrue([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with same input parameters should be equal.");
-    STAssertTrue([initialPBKDFData.salt isEqualToData:verifyPBKDFData.salt], @"Salt data with the same input parameters should be equal.");
-    STAssertEquals(initialPBKDFData.numDerivationRounds, verifyPBKDFData.numDerivationRounds, @"Number of derivation rounds with the same input parameters should be equal.");
-    STAssertEquals(initialPBKDFData.derivedKeyLength, verifyPBKDFData.derivedKeyLength, @"Derived key length values with the same input parameters should be equal.");
+    XCTAssertTrue([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with same input parameters should be equal.");
+    XCTAssertTrue([initialPBKDFData.salt isEqualToData:verifyPBKDFData.salt], @"Salt data with the same input parameters should be equal.");
+    XCTAssertEqual(initialPBKDFData.numDerivationRounds, verifyPBKDFData.numDerivationRounds, @"Number of derivation rounds with the same input parameters should be equal.");
+    XCTAssertEqual(initialPBKDFData.derivedKeyLength, verifyPBKDFData.derivedKeyLength, @"Derived key length values with the same input parameters should be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentSalt
@@ -93,7 +97,7 @@
                                                                        salt:newSalt
                                                            derivationRounds:numDerivationRounds
                                                                   keyLength:derivedKeyLength];
-    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different salts should not be equal.");
+    XCTAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different salts should not be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentDerivationRounds
@@ -113,7 +117,7 @@
                                                                        salt:salt
                                                            derivationRounds:newNumDerivationRounds
                                                                   keyLength:derivedKeyLength];
-    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derivation rounds should not be equal.");
+    XCTAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derivation rounds should not be equal.");
 }
 
 - (void)testDifferentPBKDFKeyWithDifferentDerivedKeyLength
@@ -133,7 +137,7 @@
                                                                        salt:salt
                                                            derivationRounds:numDerivationRounds
                                                                   keyLength:newDerivedKeyLength];
-    STAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derived key lengths should not be equal.");
+    XCTAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derived key lengths should not be equal.");
 }
 
 @end

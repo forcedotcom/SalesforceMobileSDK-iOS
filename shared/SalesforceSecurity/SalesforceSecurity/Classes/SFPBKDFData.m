@@ -51,12 +51,6 @@ static NSString * const kSFPBKDFDataDerivedKeyLengthCodingKey    = @"derivedKeyL
     return self;
 }
 
-- (void) dealloc
-{
-    SFRelease(_derivedKey);
-    SFRelease(_salt);
-}
-
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder

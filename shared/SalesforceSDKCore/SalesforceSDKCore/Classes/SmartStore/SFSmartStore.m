@@ -33,7 +33,7 @@
 #import "SFStoreCursor.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "SFPasscodeManager.h"
+#import <SalesforceSecurity/SFPasscodeManager.h>
 #import "SFSmartStoreDatabaseManager.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>

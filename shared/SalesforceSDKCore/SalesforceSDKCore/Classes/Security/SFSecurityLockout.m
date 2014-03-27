@@ -28,7 +28,7 @@
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
 #import "SFUserAccountManager.h"
-#import "SFPasscodeManager.h"
+#import <SalesforceSecurity/SFPasscodeManager.h>
 #import "SFSmartStore.h"
 #import "SFAuthenticationManager.h"
 #import "SFRootViewManager.h"

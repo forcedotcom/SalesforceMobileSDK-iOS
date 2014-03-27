@@ -44,6 +44,7 @@
 		82BBB5CB1793994300374DD8 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5CA1793994300374DD8 /* libSalesforceHybridSDK.a */; };
 		82BBB5D31793995B00374DD8 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5D21793995B00374DD8 /* libSalesforceOAuth.a */; };
 		82BBB5EC1793997A00374DD8 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5EB1793997A00374DD8 /* libSalesforceSDKCore.a */; };
+		82F6F66218E4B3F20033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F66118E4B3F20033CACD /* libSalesforceSecurity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -187,8 +188,6 @@
 		82BBB5DE1793997A00374DD8 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
 		82BBB5DF1793997A00374DD8 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
 		82BBB5E01793997A00374DD8 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
-		82BBB5E11793997A00374DD8 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
-		82BBB5E21793997A00374DD8 /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
 		82BBB5E31793997A00374DD8 /* SFQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFQuerySpec.h; sourceTree = "<group>"; };
 		82BBB5E41793997A00374DD8 /* SFSDKResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKResourceUtils.h; sourceTree = "<group>"; };
 		82BBB5E51793997A00374DD8 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
@@ -198,6 +197,10 @@
 		82BBB5E91793997A00374DD8 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
 		82BBB5EA1793997A00374DD8 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFStoreCursor.h; sourceTree = "<group>"; };
 		82BBB5EB1793997A00374DD8 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = "<group>"; };
+		82F6F65E18E4B3F20033CACD /* SFPasscodeManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeManager+Internal.h"; sourceTree = "<group>"; };
+		82F6F65F18E4B3F20033CACD /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
+		82F6F66018E4B3F20033CACD /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
+		82F6F66118E4B3F20033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +216,7 @@
 				82BBB5D31793995B00374DD8 /* libSalesforceOAuth.a in Frameworks */,
 				82BBB5EC1793997A00374DD8 /* libSalesforceSDKCore.a in Frameworks */,
 				824AA21D1725AA3F00C9BD79 /* libsqlcipher.a in Frameworks */,
+				82F6F66218E4B3F20033CACD /* libSalesforceSecurity.a in Frameworks */,
 				824AA1701725A69400C9BD79 /* libxml2.dylib in Frameworks */,
 				824AA1721725A69B00C9BD79 /* libz.dylib in Frameworks */,
 				824AA1741725A6A400C9BD79 /* AddressBook.framework in Frameworks */,
@@ -342,6 +346,7 @@
 				82BBB5C11793994300374DD8 /* SalesforceHybridSDK */,
 				82BBB5CC1793995B00374DD8 /* SalesforceOAuth */,
 				82BBB5D41793997A00374DD8 /* SalesforceSDKCore */,
+				82F6F65B18E4B3F20033CACD /* SalesforceSecurity */,
 				824AA2121725AA3F00C9BD79 /* sqlcipher */,
 			);
 			path = Dependencies;
@@ -577,8 +582,6 @@
 				82BBB5DE1793997A00374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5DF1793997A00374DD8 /* SFIdentityData.h */,
 				82BBB5E01793997A00374DD8 /* SFJsonUtils.h */,
-				82BBB5E11793997A00374DD8 /* SFPasscodeManager.h */,
-				82BBB5E21793997A00374DD8 /* SFPasscodeProviderManager.h */,
 				82B36E421828884F00B0C975 /* SFPushNotificationManager.h */,
 				82BBB5E31793997A00374DD8 /* SFQuerySpec.h */,
 				82BBB5E41793997A00374DD8 /* SFSDKResourceUtils.h */,
@@ -593,6 +596,33 @@
 				821C8F3418C5317C000FAF96 /* SFUserAccountManager.h */,
 			);
 			path = SalesforceSDKCore;
+			sourceTree = "<group>";
+		};
+		82F6F65B18E4B3F20033CACD /* SalesforceSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F65C18E4B3F20033CACD /* Headers */,
+				82F6F66118E4B3F20033CACD /* libSalesforceSecurity.a */,
+			);
+			path = SalesforceSecurity;
+			sourceTree = "<group>";
+		};
+		82F6F65C18E4B3F20033CACD /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F65D18E4B3F20033CACD /* SalesforceSecurity */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		82F6F65D18E4B3F20033CACD /* SalesforceSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F65E18E4B3F20033CACD /* SFPasscodeManager+Internal.h */,
+				82F6F65F18E4B3F20033CACD /* SFPasscodeManager.h */,
+				82F6F66018E4B3F20033CACD /* SFPasscodeProviderManager.h */,
+			);
+			path = SalesforceSecurity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -753,6 +783,7 @@
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
 				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -764,6 +795,7 @@
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -786,6 +818,7 @@
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceHybridSDK/Headers",
+					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
 				);
 				INFOPLIST_FILE = "__HybridTemplateAppName__/__HybridTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -797,6 +830,7 @@
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceOAuth\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSDKCore\"",
 					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
