@@ -36,8 +36,8 @@
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
 #import "SFUserActivityMonitor.h"
-#import "SFPasscodeManager.h"
-#import "SFPasscodeProviderManager.h"
+#import <SalesforceSecurity/SFPasscodeManager.h>
+#import <SalesforceSecurity/SFPasscodeProviderManager.h>
 #import "SFPushNotificationManager.h"
 #import "SFSmartStore.h"
 

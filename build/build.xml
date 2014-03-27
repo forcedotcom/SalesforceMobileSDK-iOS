@@ -24,7 +24,7 @@
     
     <target name="buildAll" depends="nativeAppTemplate, hybridAppTemplate" />
     
-    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageCordova" />
+    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageCordova" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -73,6 +73,12 @@
             <arg file="${artifactsDir}/MKNetworkKit-iOS-Debug.zip" />
         </exec>
         <move file="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS-Debug" tofile="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS" />
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSecurity-Debug.zip" />
+        </exec>
+        <move file="${nativeTemplateDependenciesDir}/SalesforceSecurity-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSecurity" />
 
         <!-- SDK resources -->
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
@@ -139,6 +145,12 @@
             <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
         </exec>
         <move file="${hybridTemplateDependenciesDir}/SalesforceSDKCore-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceSDKCore" />
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${hybridTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSecurity-Debug.zip" />
+        </exec>
+        <move file="${hybridTemplateDependenciesDir}/SalesforceSecurity-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceSecurity" />
         
         <!-- SDK and Cordova resources -->
         <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/${sdkResourcesBundleName}">
@@ -359,6 +371,32 @@
         </antcall>
     </target>
     
+    <target name="packageSalesforceSecurity" depends="buildSalesforceSecurity" description="Builds the Salesforce Security library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceSecurity" />
+            <param name="libName" value="libSalesforceSecurity.a" />
+            <param name="headerDir" value="Headers/SalesforceSecurity" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceSecurity">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceSecurity" />
+            <param name="libName" value="libSalesforceSecurity.a" />
+            <param name="headerDir" value="Headers/SalesforceSecurity" />
+            <param name="schemeName" value="SalesforceSecurity" />
+        </antcall>
+    </target>
+    
+    <target name="cleanSalesforceSecurity" description="Cleans the build artifacts and output of the Salesforce Security library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceSecurity" />
+            <param name="libName" value="libSalesforceSecurity.a" />
+            <param name="headerDir" value="Headers/SalesforceSecurity" />
+            <param name="schemeName" value="SalesforceSecurity" />
+        </antcall>
+    </target>
+    
     <target name="buildLib" description="Builds the Debug and Release candidates for one of the libraries, as defined by the input scheme.">
         <antcall target="buildLibWithConfiguration">
             <param name="buildConfiguration" value="Debug" />
@@ -507,7 +545,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanCordova, cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanCordova, cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
         <delete dir="${artifactsDir}" />
     </target>
 </project>
