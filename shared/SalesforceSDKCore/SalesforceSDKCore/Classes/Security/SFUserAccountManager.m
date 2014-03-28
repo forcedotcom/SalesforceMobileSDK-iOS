@@ -634,10 +634,12 @@ static NSString * const kUserPrefix = @"005";
 }
 
 - (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
-    NSString *org = [orgId entityIdWithLength18];
-    NSString *comm = [communityId entityIdWithLength18];
-    for (SFUserAccount *account in self.userAccountMap) {
-        NSString *accountOrg = [account.credentials.organizationId entityIdWithLength18];
+    NSString *org = [orgId entityId18];
+    NSString *comm = [communityId entityId18];
+    for (NSString *key in self.userAccountMap) {
+        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        NSString *accountOrg = account.credentials.organizationId;
+        accountOrg = [accountOrg entityId18];
         if ([accountOrg isEqualToString:org]) {
             if (comm) {
                 account.communityId = comm;
