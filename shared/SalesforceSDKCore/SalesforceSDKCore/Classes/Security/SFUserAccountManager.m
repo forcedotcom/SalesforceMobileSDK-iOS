@@ -636,13 +636,22 @@ static NSString * const kUserPrefix = @"005";
 - (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
     NSString *org = [orgId entityId18];
     NSString *comm = [communityId entityId18];
+    
+    //Check each user we're logged in to
     for (NSString *key in self.userAccountMap) {
         SFUserAccount *account = [self.userAccountMap objectForKey:key];
         NSString *accountOrg = account.credentials.organizationId;
         accountOrg = [accountOrg entityId18];
+        
+        //If the account org matches, set the community.
+        //TODO: Check if user can access the nil community
         if ([accountOrg isEqualToString:org]) {
             if (comm) {
-                account.communityId = comm;
+                if ([account communityWithId:comm] || comm == nil) {
+                    account.communityId = comm;
+                } else {
+                    account = nil;
+                }
             }
             return account;
         }
