@@ -660,6 +660,19 @@ static NSString * const kUserPrefix = @"005";
     return nil;
 }
 
+- (SFUserAccount*)firstAccountForInstanceURL:(NSString *)instanceURL {
+    //TODO: Remove this method when we move from 190
+    //Check each user we're logged in to
+    for (NSString *key in self.userAccountMap) {
+        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
+            return account;
+        }
+    }
+    
+    return nil;
+}
+
 - (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *acct = [self userAccountForUserId:safeUserId];

@@ -247,6 +247,12 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId;
 
+/** Temporary method to enable account switching for orgs pre-190
+ @param instanceURL the instance URL from the email
+ @return The first user that matches that instance URL
+ */
+- (SFUserAccount*)firstAccountForInstanceURL:(NSString *)instanceURL;
+
 /** Adds a user account
  */
 - (void)addAccount:(SFUserAccount *)acct;
