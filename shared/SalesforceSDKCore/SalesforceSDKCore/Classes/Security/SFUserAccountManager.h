@@ -240,6 +240,12 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId;
 
+/** Returns all accounts that have access to a particular org
+ @param orgId The org to match accounts against
+ @return An array of accounts that can access that org
+ */
+- (NSArray *)accountsForOrgId:(NSString *)orgId;
+
 /** Allows you to look up the user account for a particular org and community
  @param orgId The org you want a user for
  @param communityId The community id for the user as well, can be nil

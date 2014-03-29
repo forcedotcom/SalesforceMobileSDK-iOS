@@ -633,26 +633,38 @@ static NSString * const kUserPrefix = @"005";
 	return result;
 }
 
-- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
+- (NSArray *)accountsForOrgId:(NSString *)orgId {
+    NSMutableArray *array = [NSMutableArray array];
     NSString *org = [orgId entityId18];
-    NSString *comm = [communityId entityId18];
     
-    //Check each user we're logged in to
     for (NSString *key in self.userAccountMap) {
         SFUserAccount *account = [self.userAccountMap objectForKey:key];
         NSString *accountOrg = account.credentials.organizationId;
         accountOrg = [accountOrg entityId18];
         
+        if ([accountOrg isEqualToString:org]) {
+            [array addObject:account];
+        }
+    }
+    
+    return array;
+}
+
+- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
+    NSString *org = [orgId entityId18];
+    NSString *comm = [communityId entityId18];
+    
+    NSArray *accounts = [self accountsForOrgId:org];
+    //Check each user we're logged in to
+    for (SFUserAccount *account in accounts) {
         //If the account org matches, set the community.
         //TODO: Check if user can access the nil community
-        if ([accountOrg isEqualToString:org]) {
-            if (comm) {
-                if ([account communityWithId:comm] || comm == nil) {
-                    account.communityId = comm;
-                } else {
-                    account = nil;
-                }
+        if (comm) {
+            if ([account communityWithId:comm] || comm == nil) {
+                account.communityId = comm;
+                return account;
             }
+        } else {
             return account;
         }
     }
