@@ -650,39 +650,17 @@ static NSString * const kUserPrefix = @"005";
     return array;
 }
 
-- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
-    NSString *org = [orgId entityId18];
-    NSString *comm = [communityId entityId18];
+- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
+    NSMutableArray *responseArray = [NSMutableArray array];
     
-    NSArray *accounts = [self accountsForOrgId:org];
-    //Check each user we're logged in to
-    for (SFUserAccount *account in accounts) {
-        //If the account org matches, set the community.
-        //TODO: Check if user can access the nil community
-        if (comm) {
-            if ([account communityWithId:comm] || comm == nil) {
-                account.communityId = comm;
-                return account;
-            }
-        } else {
-            return account;
-        }
-    }
-    
-    return nil;
-}
-
-- (SFUserAccount*)firstAccountForInstanceURL:(NSString *)instanceURL {
-    //TODO: Remove this method when we move from 190
-    //Check each user we're logged in to
     for (NSString *key in self.userAccountMap) {
         SFUserAccount *account = [self.userAccountMap objectForKey:key];
         if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
-            return account;
+            [responseArray addObject:account];
         }
     }
     
-    return nil;
+    return responseArray;
 }
 
 - (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {

@@ -246,18 +246,11 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (NSArray *)accountsForOrgId:(NSString *)orgId;
 
-/** Allows you to look up the user account for a particular org and community
- @param orgId The org you want a user for
- @param communityId The community id for the user as well, can be nil
- @return The user accoun that matches or nil
+/** Returns all accounts that match a particular instance URL
+ @param instanceURL The host parameter of a given instance URL
+ @return An array of accounts that match that instance URL
  */
-- (SFUserAccount*)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId;
-
-/** Temporary method to enable account switching for orgs pre-190
- @param instanceURL the instance URL from the email
- @return The first user that matches that instance URL
- */
-- (SFUserAccount*)firstAccountForInstanceURL:(NSString *)instanceURL;
+- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL;
 
 /** Adds a user account
  */
