@@ -23,6 +23,7 @@
  */
 
 #import "SFRestAPI.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @class SFSessionRefresher;
 @class SFAccountManager;
@@ -34,7 +35,7 @@
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI ()
+@interface SFRestAPI () <SFAuthenticationManagerDelegate>
 {
     SFAccountManager *_accountMgr;
     SFNetworkEngine *_networkEngine;
@@ -44,6 +45,12 @@
  * Active requests property
  */
 @property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
+
+/**
+ Whether the network coordinator is in a "dirty" state.  SFRestAPI will rehydrate the network
+ coordinator before the next REST request.
+ */
+@property (nonatomic, assign) BOOL networkCoordinatorNeedsRefresh;
 
 /**
  * Session refresher property

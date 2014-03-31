@@ -45,6 +45,7 @@ static dispatch_once_t _sharedInstanceGuard;
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
 @synthesize sessionRefresher = _sessionRefresher;
+@synthesize networkCoordinatorNeedsRefresh = _networkCoordinatorNeedsRefresh;
 
 #pragma mark - init/setup
 
@@ -57,6 +58,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _accountMgr = [SFAccountManager sharedInstance];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
         [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanup) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
@@ -65,6 +67,7 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     SFRelease(_sessionRefresher);
     SFRelease(_activeRequests);
@@ -73,6 +76,7 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - Cleanup / cancel all
 - (void) cleanup {
     [_activeRequests removeAllObjects];
+    self.networkCoordinatorNeedsRefresh = YES;
     [[SFNetworkEngine sharedInstance] cleanup];
 }
 
@@ -163,6 +167,7 @@ static dispatch_once_t _sharedInstanceGuard;
     if (_accountMgr.coordinator != nil) {
         _networkEngine.coordinator = [self createNetworkCoordinator:_accountMgr.coordinator];
     }
+    self.networkCoordinatorNeedsRefresh = NO;
 }
 
 - (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
@@ -180,6 +185,12 @@ static dispatch_once_t _sharedInstanceGuard;
     [_sessionRefresher refreshAccessToken];
 }
 
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info {
+    self.networkCoordinatorNeedsRefresh = YES;
+}
+
 #pragma mark - send method
 
 
@@ -187,6 +198,10 @@ static dispatch_once_t _sharedInstanceGuard;
     
     if (nil != delegate) {
         request.delegate = delegate;
+    }
+    
+    if (self.networkCoordinatorNeedsRefresh) {
+        [self setupNetworkCoordinator];
     }
     
     [self.activeRequests addObject:request];
