@@ -24,9 +24,9 @@
 
 #import "SFRestAPI.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @class SFSessionRefresher;
-@class SFAuthenticationManager;
 @class SFNetworkEngine;
 
 /**
@@ -35,7 +35,7 @@
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI () <SFUserAccountManagerDelegate>
+@interface SFRestAPI () <SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 {
     SFUserAccountManager *_accountMgr;
     SFAuthenticationManager *_authMgr;

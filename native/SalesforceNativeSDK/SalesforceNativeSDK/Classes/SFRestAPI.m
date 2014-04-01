@@ -60,6 +60,7 @@ static dispatch_once_t _sharedInstanceGuard;
         _authMgr = [SFAuthenticationManager sharedManager];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
         [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanup) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
@@ -68,6 +69,7 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     SFRelease(_sessionRefresher);
     SFRelease(_activeRequests);
@@ -191,6 +193,12 @@ static dispatch_once_t _sharedInstanceGuard;
         willSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser {
     [self cleanup];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info {
+    self.networkCoordinatorNeedsRefresh = YES;
 }
 
 #pragma mark - send method
