@@ -1,4 +1,4 @@
-# Salesforce.com Mobile SDK for iOS
+# Salesforce.com Mobile SDK Source Repo For iOS
 
 You have arrived at the **source repository** for the Salesforce Mobile SDK for iOS. ** Welcome!  **
 Starting with our 2.0 release, there are couple different ways to get started.
