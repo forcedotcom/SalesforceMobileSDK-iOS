@@ -25,6 +25,26 @@
 #import <Foundation/Foundation.h>
 
 /**
+ Notification that will be posted when passcode is reset. This notification will have userInfo
+ populated with old passcode stored with `SFPasscodeResetOldPasscodeKey` key and new passcode
+ stored with `SFPasscodeResetNewPasscodeKey` key.
+ */
+extern NSString *const SFPasscodeResetNotification;
+
+/** Key in userInfo published by `SFPasscodeResetNotification`.
+ 
+ The value of this key is the old hashed passcode before the passcode reset
+ */
+extern NSString *const SFPasscodeResetOldPasscodeKey;
+
+
+/** Key in userInfo published by `SFPasscodeResetNotification`.
+ 
+ The value of this key is the new hashed passcode that triggers the new passcode reset
+ */
+extern NSString *const SFPasscodeResetNewPasscodeKey;
+
+/**
  Class for managing storage, retrieval, and verification of passcodes.
  */
 @interface SFPasscodeManager : NSObject
@@ -62,6 +82,15 @@
  @return YES if the passcode verifies, NO otherwise.
  */
 - (BOOL)verifyPasscode:(NSString *)passcode;
+
+/**
+ Change the current passcode.  This method serves as an entry point for managing the change
+ or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
+ comparison, handles the internals of actually setting a new passcode value.
+ @param newPasscode The new passcode to change to.  If nil or empty, this method will unset the
+ existing passcode.
+ */
+- (void)changePasscode:(NSString *)newPasscode;
 
 /**
  Set the passcode.

@@ -28,6 +28,21 @@
 
 static SFPasscodeManager *sharedInstance = nil;
 
+//
+// Public constants
+//
+
+// Notification that will be sent out when passcode is reset
+NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
+NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
+
+// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
+
+
 @implementation SFPasscodeManager
 
 @synthesize encryptionKey = _encryptionKey;
@@ -108,6 +123,37 @@ static SFPasscodeManager *sharedInstance = nil;
     } else {
         return [currentProvider verifyPasscode:passcode];
     }
+}
+
+- (void)changePasscode:(NSString *)newPasscode
+{
+    // Get the old encryption key, before changing.
+    NSString *oldEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
+    if (oldEncryptionKey == nil) oldEncryptionKey = @"";
+    
+    if ([newPasscode length] == 0) {
+        [self resetPasscode];
+    } else {
+        [self setPasscode:newPasscode];
+    }
+    
+    NSString *newEncryptionKey = self.encryptionKey;
+    if (newEncryptionKey == nil) newEncryptionKey = @"";
+    
+    if (![oldEncryptionKey isEqualToString:newEncryptionKey]) {
+        // Passcode changed.  Post the notification.
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldEncryptionKey,
+                                      SFPasscodeResetOldPasscodeKey,
+                                      newEncryptionKey,
+                                      SFPasscodeResetNewPasscodeKey,
+                                      nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification
+                                                            object:nil
+                                                          userInfo:userInfoDict];
+    }
+    
+#warning TODO: Update SFSmartStore key changes.
+//    [SFSmartStore changeKeyForStores:oldEncryptionKey newKey:newEncryptionKey];
 }
 
 - (void)setPasscode:(NSString *)newPasscode

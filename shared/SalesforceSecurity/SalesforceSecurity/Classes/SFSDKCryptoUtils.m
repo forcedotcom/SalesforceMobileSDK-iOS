@@ -24,6 +24,7 @@
 
 #import "SFSDKCryptoUtils.h"
 #import "SFPBKDFData.h"
+#import <Security/Security.h>
 
 // Public constants
 NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds = 4000;
@@ -34,12 +35,13 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes
 {
-    unsigned char str[lengthInBytes];
-    for (int i = 0; i < lengthInBytes; i++) {
-        str[i] = (unsigned char)arc4random();
+    NSMutableData *data = [NSMutableData dataWithLength:lengthInBytes];
+    int result = SecRandomCopyBytes(kSecRandomDefault, lengthInBytes, [data mutableBytes]);
+    if (result != 0) {
+        [self log:SFLogLevelWarning format:@"Failed to generate random bytes (errno = %d, desc = %s)", errno, strerror(errno)];
+        return nil;
     }
-    
-    return [NSData dataWithBytes:str length:lengthInBytes];
+    return data;
 }
 
 + (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
