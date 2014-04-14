@@ -803,6 +803,7 @@ static Class InstanceClass = nil;
             self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
             [self.snapshotViewController.view addSubview:self.snapshotView];
         }
+        [self removeSnapshotView];
         [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
     }
 }
