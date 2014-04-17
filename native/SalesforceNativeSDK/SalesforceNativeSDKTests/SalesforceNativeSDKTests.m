@@ -286,6 +286,13 @@ static NSException *authException = nil;
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
+    
+    // check the deleted object is here
+    request = [[SFRestAPI sharedInstance] requestForQueryAll:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]];
+    listener = [self sendSyncRequest:request];
+    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+    STAssertEquals((int)[records count], 1, @"expected just one query result");
 
     // now search object
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
@@ -1140,6 +1147,10 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                        failBlock:failWithExpectedFail
                                    completeBlock:successWithUnexpectedSuccessBlock];
     _blocksUncompletedCount++;
+    [api performSOQLQueryAll:nil 
+                                       failBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
+    _blocksUncompletedCount++;
     [api performSOSLSearch:nil
                                         failBlock:failWithExpectedFail
                                     completeBlock:arrayUnexpectedSuccessBlock];
@@ -1161,6 +1172,11 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     [api performSOQLQuery:@"select id from user limit 10"
                                        failBlock:failWithUnexpectedFail
                                    completeBlock:DICT_SUCCESS_BLOCK(@"performSOQLQuery")
+     ];
+    _blocksUncompletedCount++;
+    [api performSOQLQueryAll:@"select id from user limit 10"
+                                       failBlock:failWithUnexpectedFail
+                                   completeBlock:DICT_SUCCESS_BLOCK(@"performSOQLQueryAll")
      ];
     _blocksUncompletedCount++;
     [api performSOSLSearch:@"find {batman}"
