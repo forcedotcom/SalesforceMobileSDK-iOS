@@ -302,6 +302,12 @@ static dispatch_once_t _sharedInstanceGuard;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql {
+    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
+    NSString *path = [NSString stringWithFormat:@"/%@/queryAll", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
 - (SFRestRequest *)requestForSearch:(NSString *)sosl {
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:sosl, @"q", nil];
     NSString *path = [NSString stringWithFormat:@"/%@/search", self.apiVersion];
