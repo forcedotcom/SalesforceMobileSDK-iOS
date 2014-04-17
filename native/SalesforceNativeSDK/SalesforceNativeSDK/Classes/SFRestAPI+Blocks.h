@@ -59,6 +59,17 @@ typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
+ * Executes a SOQL query that returns the deleted objects.
+ * @param query the SOQL query to be executed
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
+ */
+- (SFRestRequest *) performSOQLQueryAll:(NSString *)query
+                              failBlock:(SFRestFailBlock)failBlock
+                          completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+
+/**
  * Executes a SOSL search.
  * @param search the SOSL search to be executed
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
