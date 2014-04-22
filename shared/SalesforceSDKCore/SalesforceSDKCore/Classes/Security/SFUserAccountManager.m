@@ -26,6 +26,8 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
 
@@ -629,6 +631,36 @@ static NSString * const kUserPrefix = @"005";
     NSString *safeUserId = [self makeUserIdSafe:userId];
     SFUserAccount *result = [self.userAccountMap objectForKey:safeUserId];
 	return result;
+}
+
+- (NSArray *)accountsForOrgId:(NSString *)orgId {
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *org = [orgId entityId18];
+    
+    for (NSString *key in self.userAccountMap) {
+        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        NSString *accountOrg = account.credentials.organizationId;
+        accountOrg = [accountOrg entityId18];
+        
+        if ([accountOrg isEqualToString:org]) {
+            [array addObject:account];
+        }
+    }
+    
+    return array;
+}
+
+- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
+    NSMutableArray *responseArray = [NSMutableArray array];
+    
+    for (NSString *key in self.userAccountMap) {
+        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
+            [responseArray addObject:account];
+        }
+    }
+    
+    return responseArray;
 }
 
 - (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {

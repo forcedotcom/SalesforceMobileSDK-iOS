@@ -240,6 +240,18 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId;
 
+/** Returns all accounts that have access to a particular org
+ @param orgId The org to match accounts against
+ @return An array of accounts that can access that org
+ */
+- (NSArray *)accountsForOrgId:(NSString *)orgId;
+
+/** Returns all accounts that match a particular instance URL
+ @param instanceURL The host parameter of a given instance URL
+ @return An array of accounts that match that instance URL
+ */
+- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL;
+
 /** Adds a user account
  */
 - (void)addAccount:(SFUserAccount *)acct;
