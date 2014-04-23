@@ -21,10 +21,22 @@
       location = "container:"
       name = "Hybrid SDK">
       <FileRef
-         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+         location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
       </FileRef>
    </Group>
    <FileRef

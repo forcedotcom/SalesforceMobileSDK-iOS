@@ -16,3 +16,6 @@
 [submodule "external/MKNetworkKit"]
 	path = external/MKNetworkKit
 	url = https://github.com/forcedotcom/MKNetworkKit.git
+[submodule "external/samples"]
+	path = external/samples
+	url = https://github.com/wmathurin/SalesforceMobileSDK-Samples.git
