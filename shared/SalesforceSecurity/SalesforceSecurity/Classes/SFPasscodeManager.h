@@ -44,6 +44,25 @@ extern NSString *const SFPasscodeResetOldPasscodeKey;
  */
 extern NSString *const SFPasscodeResetNewPasscodeKey;
 
+@class SFPasscodeManager;
+
+/**
+ Delegate protocol for SFPasscodeManager callbacks
+ */
+@protocol SFPasscodeManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Notifies delegates of an encryption key change.
+ @param manager The passcode manager instance making the change.
+ @param oldKey The old encryption key.
+ @param newKey The new encryption key.
+ */
+- (void)passcodeManager:(SFPasscodeManager *)manager didChangeEncryptionKey:(NSString *)oldKey toEncryptionKey:(NSString *)newKey;
+
+@end
+
 /**
  Class for managing storage, retrieval, and verification of passcodes.
  */
@@ -65,6 +84,17 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  update or verification.
  */
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
+
+/**
+ Adds a delegate to the list of passcode manager delegates.
+ @param delegate The delegate to add to the list.
+ */
+- (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate;
+
+/**
+ Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
+ */
+- (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate;
 
 /**
  @return Whether or not a passcode has been set.

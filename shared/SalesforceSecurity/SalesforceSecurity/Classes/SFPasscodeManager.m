@@ -40,8 +40,7 @@ NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey"
 
 
 // Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
-NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
-
+NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey";
 
 @implementation SFPasscodeManager
 
@@ -68,6 +67,49 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey"
 - (id)copyWithZone:(NSZone *)zone
 {
     return self;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _delegates = [[NSMutableOrderedSet alloc] init];
+    }
+    return self;
+}
+
+#pragma mark - Delegate management methods
+
+- (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates addObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates removeObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFPasscodeManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
 }
 
 #pragma mark - Passcode management
@@ -141,19 +183,22 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey"
     if (newEncryptionKey == nil) newEncryptionKey = @"";
     
     if (![oldEncryptionKey isEqualToString:newEncryptionKey]) {
-        // Passcode changed.  Post the notification.
+        // Passcode changed.  Tell delegates, post the notification.
+        [self enumerateDelegates:^(id<SFPasscodeManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(passcodeManager:didChangeEncryptionKey:toEncryptionKey:)]) {
+                [delegate passcodeManager:self didChangeEncryptionKey:oldEncryptionKey toEncryptionKey:newEncryptionKey];
+            }
+        }];
+        
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldEncryptionKey,
                                       SFPasscodeResetOldPasscodeKey,
                                       newEncryptionKey,
                                       SFPasscodeResetNewPasscodeKey,
                                       nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification
-                                                            object:nil
+                                                            object:self
                                                           userInfo:userInfoDict];
     }
-    
-#warning TODO: Update SFSmartStore key changes.
-//    [SFSmartStore changeKeyForStores:oldEncryptionKey newKey:newEncryptionKey];
 }
 
 - (void)setPasscode:(NSString *)newPasscode

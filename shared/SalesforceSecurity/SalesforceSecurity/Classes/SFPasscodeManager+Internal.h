@@ -23,6 +23,15 @@
  */
 
 @interface SFPasscodeManager ()
+{
+    NSMutableOrderedSet *_delegates;
+}
+
+/**
+ Executes the given block against the set of delegates.
+ @param block The block to execute against each delegate.
+ */
+- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block;
 
 /**
  Set a value for the encryption key.  Note: this is just the internal setter for
