@@ -115,7 +115,7 @@
 		4FF15EF0190891AA00705FE0 /* Copy contact-ios plugins Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
+			dstPath = www/plugins/org.apache.cordova.contacts/www/ios;
 			dstSubfolderSpec = 7;
 			files = (
 				4FF15EF1190891C300705FE0 /* Contact.js in Copy contact-ios plugins Files */,
