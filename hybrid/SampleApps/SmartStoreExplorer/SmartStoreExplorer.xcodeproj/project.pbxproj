@@ -9,20 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		4FDB132B18DD0C65008CBDAE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB132A18DD0C65008CBDAE /* Images.xcassets */; };
-		4FFEF96519087FBC00C7A193 /* forcetk.mobilesdk.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF94819087FBC00C7A193 /* forcetk.mobilesdk.js */; };
-		4FFEF96619087FBC00C7A193 /* jquery.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF94919087FBC00C7A193 /* jquery.min.js */; };
-		4FFEF96719087FBC00C7A193 /* jquery.mobile.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF94A19087FBC00C7A193 /* jquery.mobile.min.js */; };
-		4FFEF96819087FBC00C7A193 /* smartstoreexplorer.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF94B19087FBC00C7A193 /* smartstoreexplorer.js */; };
-		4FFEF96A1908801100C7A193 /* cordova.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9691908801100C7A193 /* cordova.js */; };
-		4FFEF9761908802B00C7A193 /* cordova_plugins.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF96B1908802B00C7A193 /* cordova_plugins.js */; };
-		4FFEF9771908802B00C7A193 /* com.salesforce.plugin.oauth.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF96E1908802B00C7A193 /* com.salesforce.plugin.oauth.js */; };
-		4FFEF9781908802B00C7A193 /* com.salesforce.plugin.sdkinfo.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF96F1908802B00C7A193 /* com.salesforce.plugin.sdkinfo.js */; };
-		4FFEF9791908802B00C7A193 /* com.salesforce.plugin.sfaccountmanager.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9701908802B00C7A193 /* com.salesforce.plugin.sfaccountmanager.js */; };
-		4FFEF97A1908802B00C7A193 /* com.salesforce.plugin.smartstore.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9711908802B00C7A193 /* com.salesforce.plugin.smartstore.js */; };
-		4FFEF97B1908802B00C7A193 /* com.salesforce.util.bootstrap.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9721908802B00C7A193 /* com.salesforce.util.bootstrap.js */; };
-		4FFEF97C1908802B00C7A193 /* com.salesforce.util.event.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9731908802B00C7A193 /* com.salesforce.util.event.js */; };
-		4FFEF97D1908802B00C7A193 /* com.salesforce.util.exec.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9741908802B00C7A193 /* com.salesforce.util.exec.js */; };
-		4FFEF97E1908802B00C7A193 /* com.salesforce.util.logger.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEF9751908802B00C7A193 /* com.salesforce.util.logger.js */; };
 		4FFEF97F1908814300C7A193 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF96B1908802B00C7A193 /* cordova_plugins.js */; };
 		4FFEF9801908814300C7A193 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF9691908801100C7A193 /* cordova.js */; };
 		4FFEF9811908814300C7A193 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF92219087FBC00C7A193 /* bootconfig.json */; };
@@ -470,22 +456,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FFEF97B1908802B00C7A193 /* com.salesforce.util.bootstrap.js in Sources */,
-				4FFEF97E1908802B00C7A193 /* com.salesforce.util.logger.js in Sources */,
-				4FFEF96719087FBC00C7A193 /* jquery.mobile.min.js in Sources */,
-				4FFEF96819087FBC00C7A193 /* smartstoreexplorer.js in Sources */,
-				4FFEF96619087FBC00C7A193 /* jquery.min.js in Sources */,
-				4FFEF97A1908802B00C7A193 /* com.salesforce.plugin.smartstore.js in Sources */,
-				4FFEF96A1908801100C7A193 /* cordova.js in Sources */,
-				4FFEF9791908802B00C7A193 /* com.salesforce.plugin.sfaccountmanager.js in Sources */,
-				4FFEF9781908802B00C7A193 /* com.salesforce.plugin.sdkinfo.js in Sources */,
 				8250721615C3513E00F3A529 /* main.m in Sources */,
-				4FFEF9771908802B00C7A193 /* com.salesforce.plugin.oauth.js in Sources */,
-				4FFEF9761908802B00C7A193 /* cordova_plugins.js in Sources */,
 				8250725215C3514100F3A529 /* AppDelegate.m in Sources */,
-				4FFEF96519087FBC00C7A193 /* forcetk.mobilesdk.js in Sources */,
-				4FFEF97D1908802B00C7A193 /* com.salesforce.util.exec.js in Sources */,
-				4FFEF97C1908802B00C7A193 /* com.salesforce.util.event.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
