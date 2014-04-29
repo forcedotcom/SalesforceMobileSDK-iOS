@@ -1298,6 +1298,12 @@ static Class InstanceClass = nil;
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
     
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManager:willDisplayAuthWebView:)]) {
+            [delegate authManager:self willDisplayAuthWebView:view];
+        }
+    }];
+    
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
