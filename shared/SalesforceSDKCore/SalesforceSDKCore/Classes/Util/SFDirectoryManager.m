@@ -101,7 +101,7 @@ static NSString * const kDefaultCommunityName = @"internal";
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
             
         case SFUserAccountScopeCommunity:
-            if (!user.credentials.organizationId || !user.credentials.userId || !user.communityId ) {
+            if (!user.credentials.organizationId || !user.credentials.userId) {
                 [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
                 return nil;
             }
