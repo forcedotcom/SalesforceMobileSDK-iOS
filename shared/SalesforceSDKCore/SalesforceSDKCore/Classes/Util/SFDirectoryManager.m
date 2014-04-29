@@ -87,25 +87,34 @@ static NSString * const kDefaultCommunityName = @"internal";
             return [self directoryForOrg:nil user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeOrg:
-            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
+            if (!user.credentials.organizationId) {
+                [self log:SFLogLevelWarning format:@"Credentials missing for user %@ ", user];
+                return nil;
+            }
             return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeUser:
-            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
-            NSAssert(user.credentials.userId, @"User ID must be set");
+            if (!user.credentials.organizationId || !user.credentials.userId) {
+                [self log:SFLogLevelWarning format:@"Credentials missing for user %@ ", user];
+                return nil;
+            }
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
             
         case SFUserAccountScopeCommunity:
-            NSAssert(user.credentials.organizationId, @"Organization ID must be set");
-            NSAssert(user.credentials.userId, @"User ID must be set");
+            if (!user.credentials.organizationId || !user.credentials.userId || !user.communityId ) {
+                [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
+                return nil;
+            }
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
     }
 }
 
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
-        NSAssert(user.credentials.organizationId, @"Organization ID must be set");
-        NSAssert(user.credentials.userId, @"User ID must be set");
+        if (!user.credentials.organizationId || !user.credentials.userId) {
+            [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
+            return nil;
+        }
         // Note: if the user communityId is nil, we use the default (internal) name for it.
         return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId?:kDefaultCommunityName type:type components:components];
     } else {
