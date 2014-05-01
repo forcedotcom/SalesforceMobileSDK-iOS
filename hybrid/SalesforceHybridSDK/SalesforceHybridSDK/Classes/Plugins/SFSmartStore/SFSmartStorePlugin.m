@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -304,6 +303,52 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSLog(@"pgMoveCursorToPageIndex took: %f seconds", -[startTime timeIntervalSinceNow]);
 }
 
+- (void)pgClearSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
 
+- (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:0];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+- (void)pgAlterSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+//    NSArray *indexes = [argsDict nonNullObjectForKey:kIndexesArg];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+- (void)pgReIndexSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+- (void)pgShowInspector:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+//    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
 
 @end

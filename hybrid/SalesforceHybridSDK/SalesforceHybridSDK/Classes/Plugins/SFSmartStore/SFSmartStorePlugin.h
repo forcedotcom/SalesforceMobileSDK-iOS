@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -123,7 +122,40 @@ extern NSString * const kSmartStorePluginIdentifier;
  */
 - (void)pgRemoveFromSoup:(CDVInvokedUrlCommand *)command;
 
+/**
+ * Removes soup entries from a soup. See [SFSmartStore clearSoup:].
+ * @param command Cordova arguments object containing "soupName".
+ *
+ */
+- (void)pgClearSoup:(CDVInvokedUrlCommand *)command;
 
+/**
+ * Removes soup entries from a soup. See [SFSmartStore getDatabaseSize:].
+ * @param command Cordova arguments object.
+ *
+ */
+- (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Alter soup indexes. See [SFSmartStore alterSoup:withIndexSpecs:withReIndexData].
+ * @param command Cordova arguments object containing "soupName" and "indexSpecs" and "reIndexData".
+ *
+ */
+- (void)pgAlterSoup:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Re-index soup. See [SFSmartStore reIndexSoup:withIndexPaths:].
+ * @param command Cordova arguments object containing "soupName" and "indexPaths" and "reIndexData".
+ *
+ */
+- (void)pgReIndexSoup:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Show SmartStore inspector See [SFSmartStore showInspector:].
+ * @param command Cordova arguments object.
+ *
+ */
+- (void)pgShowInspector:(CDVInvokedUrlCommand *)command;
 
 
 #pragma mark - Object bridging helpers
