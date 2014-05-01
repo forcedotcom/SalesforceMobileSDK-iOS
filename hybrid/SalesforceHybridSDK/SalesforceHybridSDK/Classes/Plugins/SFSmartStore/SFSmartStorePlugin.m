@@ -46,7 +46,6 @@ NSString * const kEntriesArg          = @"entries";
 NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 
-
 @interface SFSmartStorePlugin() 
 
 - (void)closeCursorWithId:(NSString *)cursorId;
@@ -306,7 +305,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 - (void)pgClearSoup:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"pgClearSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
@@ -316,7 +315,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 - (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"pgGetDatabaseSize" withArguments:command.arguments];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:0];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
@@ -324,7 +323,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 - (void)pgAlterSoup:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"pgAlterSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
 //    NSArray *indexes = [argsDict nonNullObjectForKey:kIndexesArg];
@@ -335,7 +334,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 - (void)pgReIndexSoup:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"pgReIndexSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
@@ -345,10 +344,24 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
+    /* NSString* jsVersionStr = */[self getVersion:@"pgShowInspector" withArguments:command.arguments];
 //    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+    
+- (void)pgGetSoupIndexSpecs:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgGetSoupIndexes" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexSpecs = [self.store indicesForSoup:soupName];
+    NSMutableArray *indexSpecsAsDicts = [NSMutableArray array];
+    for (id indexSpec in indexSpecs) {
+        [indexSpecsAsDicts addObject:[indexSpec asDictionary]];
+    }
+    [self writeSuccessArrayToJsRealm:indexSpecsAsDicts callbackId:callbackId];
 }
 
 @end

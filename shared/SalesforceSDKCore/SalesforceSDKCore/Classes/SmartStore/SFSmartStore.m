@@ -967,7 +967,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
         NSDictionary *rawIndexSpec = [indexSpecs objectAtIndex:i];
-        SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithIndexSpec:rawIndexSpec];
+        SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithDictionary:rawIndexSpec];
         
         // for creating the soup table itself in the store db
         NSString *columnName = [NSString stringWithFormat:@"%@_%d",soupTableName,i];

@@ -24,9 +24,13 @@
 
 #import "SFSoupIndex.h"
 
-NSString * const kSoupIndexTypeString = @"string";
-NSString * const kSoupIndexTypeInteger = @"integer";
+NSString * const kSoupIndexTypeString   = @"string";
+NSString * const kSoupIndexTypeInteger  = @"integer";
 NSString * const kSoupIndexTypeFloating = @"floating";
+NSString * const kSoupIndexPath         = @"path";
+NSString * const kSoupIndexType         = @"type";
+NSString * const kSoupIndexColumnName   = @"columnName";
+
 
 @implementation SFSoupIndex
 
@@ -44,9 +48,9 @@ NSString * const kSoupIndexTypeFloating = @"floating";
     return self;
 }
 
-- (id)initWithIndexSpec:(NSDictionary*)indexSpec {
-    self = [self initWithPath:[indexSpec objectForKey:@"path"] 
-                    indexType:[indexSpec objectForKey:@"type"]  
+- (id)initWithDictionary:(NSDictionary*)dict {
+    self = [self initWithPath:[dict objectForKey:kSoupIndexPath]
+                    indexType:[dict objectForKey:kSoupIndexType]
                    columnName:nil
             ];
     return self;
@@ -72,5 +76,16 @@ NSString * const kSoupIndexTypeFloating = @"floating";
     }
     return  result;
 }
+    
+#pragma mark - Converting to JSON
+    
+- (NSDictionary*)asDictionary
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    [result setObject:self.path forKey:kSoupIndexPath];
+    [result setObject:self.indexType forKey:kSoupIndexType];
+    return result;
+}
+
 
 @end

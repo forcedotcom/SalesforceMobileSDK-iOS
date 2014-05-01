@@ -157,7 +157,13 @@ extern NSString * const kSmartStorePluginIdentifier;
  */
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command;
 
-
+/**
+ * Get soup index specs. See [SFSmartStore indicesForSoup:].
+ * @param command Cordova arguments object containing "soupName".
+ *
+ */
+- (void)pgGetSoupIndexSpecs:(CDVInvokedUrlCommand *)command;
+    
 #pragma mark - Object bridging helpers
 
 /**

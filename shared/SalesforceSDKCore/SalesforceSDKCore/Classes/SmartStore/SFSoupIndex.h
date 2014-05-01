@@ -68,9 +68,14 @@ extern NSString * const kSoupIndexTypeFloating;
 
 /**
  * Creates an SFSoupIndex based on the given NSDictionary index spec.
- * @param indexSpec the indexSpec to use
+ * @param dict the dictionary to use
  * @return Initialized SFSoupIndex object.
  */
-- (id)initWithIndexSpec:(NSDictionary*)indexSpec;
+- (id)initWithDictionary:(NSDictionary*)dict;
+    
+/**
+  * Return dictionary for this SFSoupIndex object
+  */
+- (NSDictionary*)asDictionary;
 
 @end
