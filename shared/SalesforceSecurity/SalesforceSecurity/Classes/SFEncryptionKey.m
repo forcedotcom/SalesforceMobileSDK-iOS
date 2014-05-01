@@ -7,25 +7,21 @@
 //
 
 #import "SFEncryptionKey.h"
-#import "SFSDKCryptoUtils.h"
 
-static NSString * const kEncryptionKeyCodingValue = @"com.salesforce.encryption.key";
-
-@interface SFEncryptionKey ()
-
-- (id)initWithData:(NSData *)keyData;
-
-@end
+static NSString * const kEncryptionKeyCodingValue = @"com.salesforce.encryption.key.data";
+static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encryption.key.iv";
 
 @implementation SFEncryptionKey
 
-@synthesize dataValue = _dataValue;
+@synthesize key = _key;
+@synthesize initializationVector = _initializationVector;
 
-- (id)initWithData:(NSData *)keyData
+- (id)initWithData:(NSData *)key initializationVector:(NSData *)iv
 {
     self = [super init];
     if (self) {
-        self.dataValue = keyData;
+        self.key = key;
+        self.initializationVector = iv;
     }
     return self;
 }
@@ -34,57 +30,30 @@ static NSString * const kEncryptionKeyCodingValue = @"com.salesforce.encryption.
 {
     self = [super init];
     if (self) {
-        self.dataValue = [aDecoder decodeObjectForKey:kEncryptionKeyCodingValue];
+        self.key = [aDecoder decodeObjectForKey:kEncryptionKeyCodingValue];
+        self.initializationVector = [aDecoder decodeObjectForKey:kInitializationVectorCodingValue];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:self.dataValue forKey:kEncryptionKeyCodingValue];
+    [aCoder encodeObject:self.key forKey:kEncryptionKeyCodingValue];
+    [aCoder encodeObject:self.initializationVector forKey:kInitializationVectorCodingValue];
 }
 
-+ (instancetype)keyWithRandomValue:(NSUInteger)keySizeInBytes
+- (NSString *)keyAsString
 {
-    if (keySizeInBytes == 0)
-        return nil;
-    
-    NSData *keyData = [SFSDKCryptoUtils randomByteDataWithLength:keySizeInBytes];
-    SFEncryptionKey *key = [[[self class] alloc] initWithData:keyData];
-    return key;
+    if (!self.key) return nil;
+    // TODO: Replace with [NSData base64EncodedStringWithOptions:] when iOS7 is baseline.
+    return [self.key base64Encoding];
 }
 
-+ (instancetype)keyWithDataValue:(NSData *)keyValueData
+- (NSString *)initializationVectorAsString
 {
-    SFEncryptionKey *key = [[[self class] alloc] initWithData:keyValueData];
-    return key;
-}
-
-- (NSString *)stringRepesentation
-{
-    if (!self.dataValue) return nil;
-    [self.dataValue isEqual:nil];
-    return [self.dataValue base64Encoding];
-}
-
-- (BOOL)isEqual:(id)object
-{
-    if (![object isKindOfClass:[self class]])
-        return NO;
-    
-    SFEncryptionKey *keyObj = (SFEncryptionKey *)object;
-    if (_dataValue == nil && keyObj.dataValue == nil)
-        return YES;
-    
-    return [_dataValue isEqual:keyObj.dataValue];
-}
-
-- (NSUInteger)hash
-{
-    if (_dataValue)
-        return [_dataValue hash];
-    else
-        return [super hash];
+    if (!self.initializationVector) return nil;
+    // TODO: Replace with [NSData base64EncodedStringWithOptions:] when iOS7 is baseline.
+    return [self.initializationVector base64Encoding];
 }
 
 @end

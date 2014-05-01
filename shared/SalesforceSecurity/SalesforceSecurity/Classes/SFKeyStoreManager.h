@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "SFEncryptionKey.h"
 
-extern NSString * const kSFKeyStoreManagerErrorDomain;
-
 @interface SFKeyStoreManager : NSObject
 
 + (instancetype)sharedInstance;
@@ -19,5 +17,13 @@ extern NSString * const kSFKeyStoreManagerErrorDomain;
 - (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel;
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
+
+/**
+ Returns a key with a random value for the key and initialization vector.  The key size
+ will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
+ vector will be the block size associated with AES encryption (kCCBlockSizeAES128).
+ @return An instance of SFEncryptionKey with the described values.
+ */
+- (SFEncryptionKey *)keyWithRandomValue;
 
 @end

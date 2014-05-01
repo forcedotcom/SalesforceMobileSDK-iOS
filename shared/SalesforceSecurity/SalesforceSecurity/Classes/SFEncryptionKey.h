@@ -10,14 +10,19 @@
 
 @interface SFEncryptionKey : NSObject <NSCoding>
 
-+ (instancetype)keyWithRandomValue:(NSUInteger)keySizeInBytes;
-+ (instancetype)keyWithDataValue:(NSData *)keyValueData;
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
 
-@property (nonatomic, copy) NSData *dataValue;
+@property (nonatomic, copy) NSData *key;
+@property (nonatomic, copy) NSData *initializationVector;
 
 /**
- The base64 representation of the data value.
+ The base64 representation of the key data.
  */
-@property (nonatomic, readonly) NSString *stringRepesentation;
+@property (nonatomic, readonly) NSString *keyAsString;
+
+/**
+ The base64 representation of the initialization vector data.
+ */
+@property (nonatomic, readonly) NSString *initializationVectorAsString;
 
 @end
