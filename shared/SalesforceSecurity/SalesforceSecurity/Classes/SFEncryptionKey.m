@@ -56,4 +56,21 @@ static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encr
     return [self.initializationVector base64Encoding];
 }
 
+- (BOOL)isEqual:(id)object
+{
+    if (object == self) return YES;
+    if (object == nil || ![object isKindOfClass:[SFEncryptionKey class]]) return NO;
+    
+    SFEncryptionKey *objectAsKey = (SFEncryptionKey *)object;
+    return ([self.key isEqualToData:objectAsKey.key] && [self.initializationVector isEqualToData:objectAsKey.initializationVector]);
+}
+
+- (NSUInteger)hash
+{
+    NSUInteger result = 43;
+    result = 43 * result + [_key hash];
+    result = 43 * result + [_initializationVector hash];
+    return result;
+}
+
 @end

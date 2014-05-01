@@ -8,9 +8,7 @@
 
 #import <CommonCrypto/CommonCrypto.h>
 
-#import "SFKeyStoreManager.h"
-#import "SFKeyStoreKey.h"
-#import "SFPasscodeManager.h"
+#import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
 
@@ -22,20 +20,6 @@ static NSString * const kKeyStoreEncryptionKeyDataArchiveKey = @"com.salesforce.
 // Static log messages/format strings
 static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt key store with existing key store key.  Key store is invalid.";
 static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store key type: %lu.  Key store is invalid.";
-
-@interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
-
-@property (nonatomic, strong) NSDictionary *keyStoreDictionary;
-@property (nonatomic, strong) SFKeyStoreKey *keyStoreKey;
-
-- (SFKeyStoreKey *)createDefaultKey;
-- (SFKeyStoreKey *)createNewPasscodeKey;
-- (NSData *)keyStringToData:(NSString *)keyString;
-- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFEncryptionKey *)decryptKey;
-- (NSData *)encryptDictionary:(NSDictionary *)dictionary;
-- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey;
-
-@end
 
 @implementation SFKeyStoreManager
 
@@ -53,6 +37,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 {
     self = [super init];
     if (self) {
+        [[SFPasscodeManager sharedManager] addDelegate:self];
         if (self.keyStoreKey == nil) {
             self.keyStoreKey = [self createDefaultKey];
         }
@@ -228,9 +213,18 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
                                                                        iv:decryptKey.initializationVector];
     if (decryptedDictionaryData == nil)
         return nil;
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:decryptedDictionaryData];
-    NSDictionary *keyStoreDict = [unarchiver decodeObjectForKey:kKeyStoreDataArchiveKey];
-    [unarchiver finishDecoding];
+    
+    NSDictionary *keyStoreDict = nil;
+    @try {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:decryptedDictionaryData];
+        keyStoreDict = [unarchiver decodeObjectForKey:kKeyStoreDataArchiveKey];
+        [unarchiver finishDecoding];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelError msg:@"Unable to decrypt key store data.  Key store is invalid."];
+        return nil;
+    }
+
     return keyStoreDict;
 }
 
