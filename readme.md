@@ -1,16 +1,27 @@
-# Salesforce.com Mobile SDK for iOS
+# Salesforce.com Mobile SDK Source Repo For iOS
 
-You have arrived at the source repository for the Salesforce Mobile SDK for iOS.  Welcome!  Starting with our 2.0 release, there are now three ways you can choose to work with the Mobile SDK:
+You have arrived at the **source repository** for the Salesforce Mobile SDK for iOS. ** Welcome!  **
+Starting with our 2.0 release, there are couple different ways to get started.
 
-- If you'd like to work with the source code of the SDK itself, you've come to the right place!  You can browse sample app source code and debug down through the layers to get a feel for how everything works under the covers.  Read on for instructions on how to get started with the SDK in your development environment.
-- If you're just eager to start developing your own new application, the quickest way is to use our npm binary distribution package, called [forceios](https://npmjs.org/package/forceios), which is hosted on [npmjs.org](https://npmjs.org/).  Getting started is as simple as installing the npm package and launching your template app.  You'll find more details on the forceios package page.
-- If you would like to add the Mobile SDK components to your existing native application, check out the [SalesforceMobileSDK-iOS-Distribution repository](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution), which contains our binary distributions as well as information on how to add them to your native app.
+## Different SDK flavors
+- If you would like to create a brand new native or hybrid Mobile SDK app for iOS, take a look at our [forceios npm package](https://npmjs.org/package/forceios) tool. Checkout this video for a demo:
+[![Alt text for your video](http://img.youtube.com/vi/zNw59KEUF24/0.jpg)](http://www.youtube.com/watch?v=zNw59KEUF24)
+
+
+- If you have an existing app and/or want to manually add Salesforce Authentication, you should use [SalesforceMobileSDK-iOS-Distribution repository](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution). Check out this video for a demo:
+[![Alt text for your video](http://img.youtube.com/vi/X4jhhmnvjAI/0.jpg)](http://www.youtube.com/watch?v=X4jhhmnvjAI)
+
+- If you want to configure Salesforce communities login page, check out this video for a demo:
+[![Alt text for your video](http://img.youtube.com/vi/USFPo2u7jpU/0.jpg)](http://www.youtube.com/watch?v=USFPo2u7jpU)
+
+
+- If you'd like to **work with the 'source code' of the SDK itself (i.e. perhaps for open-source contribution)**, you should use this repo.  You can browse sample app source code and debug down through the layers to get a feel for how everything works under the covers.  Read on for instructions on how to get started with the SDK in your development environment.
 
 Installation (do this first - really)
 ==
 Working with this repository requires working with git.  Any workflow that leaves you with a functioning git clone of this repository should set you up for success.  Downloading the ZIP file from GitHub, on the other hand, is likely to put you at a dead end.
 
-## Setting up the repo
+## Setting up the repo for SDK-development
 First, clone the repo:
 
 - Open the Terminal App
