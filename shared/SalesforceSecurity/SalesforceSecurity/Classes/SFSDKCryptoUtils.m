@@ -24,22 +24,33 @@
 
 #import "SFSDKCryptoUtils.h"
 #import "SFPBKDFData.h"
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <Security/Security.h>
 
 // Public constants
 NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds = 4000;
 NSUInteger const kSFPBKDFDefaultDerivedKeyByteLength = 128;
 NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 
+@interface SFSDKCryptoUtils ()
+
+/**
+ Executes the encryption/decryption operation (depending on the configuration of the cryptor).
+ @param inData The data to encrypt/decrypt.
+ @param cryptor The CCCryptor doing the encryption/decryption.
+ @param resultData Output parameter containing the encrypted/decrypted result of the operation.
+ @return YES if the operation was successful, NO otherwise.
+ */
++ (BOOL)executeCrypt:(NSData *)inData cryptor:(CCCryptorRef)cryptor resultData:(NSData **)resultData;
+
+@end
+
 @implementation SFSDKCryptoUtils
 
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes
 {
-    unsigned char str[lengthInBytes];
-    for (int i = 0; i < lengthInBytes; i++) {
-        str[i] = (unsigned char)arc4random();
-    }
-    
-    return [NSData dataWithBytes:str length:lengthInBytes];
+    NSData *data = [[NSMutableData dataWithLength:lengthInBytes] randomDataOfLength:lengthInBytes];
+    return data;
 }
 
 + (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
@@ -70,5 +81,89 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
     }
 }
 
++ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    // Ensure the proper key, IV sizes.
+    NSMutableData *mutableKey = [key mutableCopy];
+    [mutableKey setLength:kCCKeySizeAES256];
+    NSMutableData *mutableIv = [iv mutableCopy];
+    [mutableIv setLength:kCCBlockSizeAES128];
+	
+	CCCryptorRef cryptor = NULL;
+	CCCryptorStatus status = CCCryptorCreate(kCCEncrypt,
+                                             kCCAlgorithmAES,
+                                             kCCOptionPKCS7Padding,
+                                             [mutableKey bytes],
+                                             [mutableKey length],
+                                             [mutableIv bytes],
+                                             &cryptor);
+	if (status != kCCSuccess) {
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating cryptor with CCCryptorCreate().  Status code: %d", status];
+		return nil;
+	}
+	
+    NSData *resultData = nil;
+	BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
+	CCCryptorRelease(cryptor);
+    return (executeCryptSuccess ? resultData : nil);
+}
+
++ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
+{
+    // Ensure the proper key, IV sizes.
+    NSMutableData *mutableKey = [key mutableCopy];
+    [mutableKey setLength:kCCKeySizeAES256];
+    NSMutableData *mutableIv = [iv mutableCopy];
+    [mutableIv setLength:kCCBlockSizeAES128];
+	
+	CCCryptorRef cryptor = NULL;
+	CCCryptorStatus status = CCCryptorCreate(kCCDecrypt,
+                                             kCCAlgorithmAES,
+                                             kCCOptionPKCS7Padding,
+                                             [mutableKey bytes],
+                                             [mutableKey length],
+                                             [mutableIv bytes],
+                                             &cryptor);
+	if (status != kCCSuccess) {
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating cryptor with CCCryptorCreate().  Status code: %d", status];
+		return nil;
+	}
+	
+    NSData *resultData = nil;
+	BOOL executeCryptSuccess = [self executeCrypt:data cryptor:cryptor resultData:&resultData];
+	CCCryptorRelease(cryptor);
+    return (executeCryptSuccess ? resultData : nil);
+}
+
+#pragma mark - Private methods
+
++ (BOOL)executeCrypt:(NSData *)inData cryptor:(CCCryptorRef)cryptor resultData:(NSData **)resultData
+{
+    size_t buffersize = CCCryptorGetOutputLength(cryptor, (size_t)[inData length], true);
+	void *buffer = malloc(buffersize);
+	size_t bufferused = 0;
+    size_t totalbytes = 0;
+	CCCryptorStatus status = CCCryptorUpdate(cryptor, [inData bytes], (size_t)[inData length], buffer, buffersize, &bufferused);
+	if (status != kCCSuccess) {
+        [SFLogger log:[self class] level:SFLogLevelError format:@"CCCryptorUpdate() failed with status code: %d", status];
+		free(buffer);
+		return NO;
+	}
+    
+    totalbytes += bufferused;
+	
+	status = CCCryptorFinal(cryptor, buffer + bufferused, buffersize - bufferused, &bufferused);
+	if (status != kCCSuccess) {
+        [SFLogger log:[self class] level:SFLogLevelError format:@"CCCryptoFinal() failed with status code: %d", status];
+		free(buffer);
+		return NO;
+	}
+    
+    totalbytes += bufferused;
+	
+    if (resultData != nil)
+        *resultData = [NSData dataWithBytesNoCopy:buffer length:totalbytes];
+	return YES;
+}
 
 @end

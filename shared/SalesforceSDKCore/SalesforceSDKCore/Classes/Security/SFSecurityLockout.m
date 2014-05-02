@@ -48,16 +48,6 @@ static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.
 NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
 NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
 
-// Notification that will be sent out when passcode is reset
-NSString *const SFPasscodeResetNotification = @"SFPasscodeResetNotification";
-
-// Key in userInfo published by `SFPasscodeResetNotification` to store old hashed passcode before the passcode reset
-NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey";
-
-
-// Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
-NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetOldPasswordKey";
-
 // Static vars
 
 static NSUInteger              securityLockoutTime;
@@ -205,8 +195,9 @@ static BOOL _showPasscode = YES;
         }
         [SFSecurityLockout unlock:YES];
         
-        // Call setPasscode to trigger extra clean up logic.
-        [SFSecurityLockout setPasscode:nil];
+        // Call changePasscode to trigger extra clean up logic.
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Lockout time set to nil, so resetting passcode."];
+        [[SFPasscodeManager sharedManager] changePasscode:nil];
         
         [SFInactivityTimerCenter removeTimer:kTimerSecurity];
     } else {
@@ -522,32 +513,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 #pragma mark keychain methods
-
-+ (void)setPasscode:(NSString *)passcode
-{
-    // Get the old encryption key, before changing.
-    NSString *oldEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
-    if (oldEncryptionKey == nil) oldEncryptionKey = @"";
-    
-    if (passcode == nil || [passcode length] == 0) {
-        [[SFPasscodeManager sharedManager] resetPasscode];
-    } else if (securityLockoutTime == 0) {
-        [self log:SFLogLevelInfo msg:@"Skipping passcode set since lockout timer is 0."];
-        [[SFPasscodeManager sharedManager] resetPasscode];
-    } else {
-        [[SFPasscodeManager sharedManager] setPasscode:passcode];
-    }
-    
-    NSString *newEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
-    if (newEncryptionKey == nil) newEncryptionKey = @"";
-    
-    if (![oldEncryptionKey isEqualToString:newEncryptionKey]) {
-        //Passcode changed, post the notification
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:oldEncryptionKey, SFPasscodeResetOldPasscodeKey, newEncryptionKey, SFPasscodeResetNewPasscodeKey, nil]];
-    }
-    
-    [SFSmartStore changeKeyForStores:oldEncryptionKey newKey:newEncryptionKey];
-}
 
 + (void)setCanShowPasscode:(BOOL)showPasscode
 {

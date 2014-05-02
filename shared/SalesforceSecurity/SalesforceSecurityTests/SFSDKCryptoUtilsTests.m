@@ -140,4 +140,28 @@
     XCTAssertFalse([initialPBKDFData.derivedKey isEqualToData:verifyPBKDFData.derivedKey], @"Generated keys with different derived key lengths should not be equal.");
 }
 
+- (void)testAesEncryptionDecryption
+{
+    NSData *origData = [@"The quick brown fox..." dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *keyData = [@"My encryption key" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ivData = [@"Here's an iv staging string" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSData *encryptedData = [SFSDKCryptoUtils aes256EncryptData:origData withKey:keyData iv:ivData];
+    XCTAssertFalse([encryptedData isEqualToData:origData], @"Encrypted data should not be the same as original data.");
+    
+    // Clean decryption should pass.
+    NSData *decryptedData = [SFSDKCryptoUtils aes256DecryptData:encryptedData withKey:keyData iv:ivData];
+    XCTAssertTrue([decryptedData isEqualToData:origData], @"Decrypted data should match original data.");
+    
+    // Bad decryption key data should return different data.
+    NSData *badKey = [@"The wrong key" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *badIv = [@"The wrong iv" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *badDecryptData = [SFSDKCryptoUtils aes256DecryptData:encryptedData withKey:badKey iv:ivData];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong encryption key should return different data on decrypt.");
+    badDecryptData = [SFSDKCryptoUtils aes256DecryptData:encryptedData withKey:keyData iv:badIv];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong initialization vector should return different data on decrypt.");
+    badDecryptData = [SFSDKCryptoUtils aes256DecryptData:encryptedData withKey:badKey iv:badIv];
+    XCTAssertFalse([badDecryptData isEqualToData:origData], @"Wrong key and initialization vector should return different data on decrypt.");
+}
+
 @end

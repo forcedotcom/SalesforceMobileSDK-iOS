@@ -461,7 +461,7 @@ NSString * const kTestSoupName   = @"testSoup";
             [SFSecurityLockout setLockoutTimeInternal:600];
             NSString *newPasscode = @"blah";
             NSArray *storeNames = [self variedStores:@""];
-            [SFSecurityLockout setPasscode:newPasscode];
+            [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
             NSString *encryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
             for (NSString *storeName in storeNames) {
                 FMDatabase *db = [self openDatabase:storeName key:encryptionKey openShouldFail:NO];
@@ -477,7 +477,7 @@ NSString * const kTestSoupName   = @"testSoup";
             
             // Passcode to no passcode.
             newPasscode = [SFSmartStore defaultKey];
-            [SFSecurityLockout setPasscode:@""];
+            [[SFPasscodeManager sharedManager] changePasscode:@""];
             for (NSString *storeName in storeNames) {
                 FMDatabase *db = [self openDatabase:storeName key:newPasscode openShouldFail:NO];
                 BOOL canReadDb = [self canReadDatabase:db];

@@ -95,6 +95,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // We do this as the very first thing, because there are so many class methods that access
     // the data stores without initializing an SFSmartStore instance.
     [self updateDefaultEncryption];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:SFPasscodeResetNotification
+                                                      object:[SFPasscodeManager sharedManager]
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *note) {
+                                                      NSDictionary *passcodeChangeData = [note userInfo];
+                                                      NSString *oldEncryptionKey = [passcodeChangeData objectForKey:SFPasscodeResetOldPasscodeKey];
+                                                      NSString *newEncryptionKey = [passcodeChangeData objectForKey:SFPasscodeResetNewPasscodeKey];
+                                                      [self changeKeyForStores:oldEncryptionKey newKey:newEncryptionKey];
+                                                  }];
 }
 
 - (id) initWithName:(NSString*)name {

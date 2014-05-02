@@ -248,8 +248,6 @@
 		82AF841D16DFD95F008912EF /* SFAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationManager.m; sourceTree = "<group>"; };
 		82AF841E16DFD95F008912EF /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
 		82AF841F16DFD95F008912EF /* SFAuthorizingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthorizingViewController.m; sourceTree = "<group>"; };
-		82AF842016DFD95F008912EF /* SFPasscodeManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeManager+Internal.h"; sourceTree = "<group>"; };
-		82AF842316DFD95F008912EF /* SFPasscodeProviderManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeProviderManager+Internal.h"; sourceTree = "<group>"; };
 		82AF842616DFD95F008912EF /* SFPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeViewController.h; sourceTree = "<group>"; };
 		82AF842716DFD95F008912EF /* SFPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeViewController.m; sourceTree = "<group>"; };
 		82AF842C16DFD95F008912EF /* SFSecurityLockout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSecurityLockout+Internal.h"; sourceTree = "<group>"; };
@@ -560,8 +558,6 @@
 				821C8F4818C980D0000FAF96 /* SFDefaultUserManagementViewController.h */,
 				821C8F5618CD162E000FAF96 /* SFDefaultUserManagementViewController+Internal.h */,
 				821C8F4918C980D0000FAF96 /* SFDefaultUserManagementViewController.m */,
-				82AF842016DFD95F008912EF /* SFPasscodeManager+Internal.h */,
-				82AF842316DFD95F008912EF /* SFPasscodeProviderManager+Internal.h */,
 				82AF842616DFD95F008912EF /* SFPasscodeViewController.h */,
 				82AF842716DFD95F008912EF /* SFPasscodeViewController.m */,
 				82AF842C16DFD95F008912EF /* SFSecurityLockout+Internal.h */,
