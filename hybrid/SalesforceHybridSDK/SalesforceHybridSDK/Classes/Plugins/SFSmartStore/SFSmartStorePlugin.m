@@ -308,7 +308,9 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     /* NSString* jsVersionStr = */[self getVersion:@"pgClearSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+    [self.store clearSoup:soupName];
+    
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 

@@ -1032,8 +1032,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return  result;
 }
 
-
-
 - (void)removeSoup:(NSString*)soupName {
     [self log:SFLogLevelDebug format:@"removeSoup: %@", soupName];
     NSString *soupTableName = [self tableNameForSoup:soupName];
@@ -1483,5 +1481,21 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
 }
+
+- (void)clearSoup:(NSString*)soupName {
+    if ([self soupExists:soupName]) {
+        NSString *soupTableName = [self tableNameForSoup:soupName];
+        NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@", soupTableName];
+        BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
+        if (!ranOK) {
+            [self log:SFLogLevelError format:@"ERROR %d clearing soup: '%@'",
+             [self.storeDb lastErrorCode],
+             [self.storeDb lastErrorMessage]];
+        }
+    }
+}
+
+
+
 
 @end

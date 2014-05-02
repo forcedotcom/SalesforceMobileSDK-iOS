@@ -202,6 +202,12 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;
 
+/**
+ Remove all elements from soup.
+ 
+ @param soupName The name of the soup to clear.
+ */
+- (void)clearSoup:(NSString*)soupName;
 
 /**
  Remove soup completely from the store.
