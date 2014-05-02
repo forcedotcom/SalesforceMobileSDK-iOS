@@ -221,6 +221,11 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 - (void)removeAllSoups;
 
+/**
+ Return database file size
+ */
+- (long)getDatabaseSize;
+
 
 #pragma mark - Utility methods
 

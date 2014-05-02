@@ -318,7 +318,8 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 {
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgGetDatabaseSize" withArguments:command.arguments];
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:0];
+    long databaseSize = [self.store getDatabaseSize];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize]; // XXX cast to int will cause issues if database is more than 2GB
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
 
