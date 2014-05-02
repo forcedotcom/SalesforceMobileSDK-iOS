@@ -38,7 +38,7 @@ Introduction
 **Multi User Support**
 - The Salesforce Mobile SDK now supports the ability to log into multiple user accounts simultaneously.
 	- The different accounts could be different users on the same org, or different users on different orgs (such as production and sandbox, for instance).
-	- Once a user signs in, his/her credentials are saved, so that he/she can switch between accounts seamlessly, without having to re-authenticate against the server.
+	- After sign-in the user's credentials are saved, so that the user can switch between accounts seamlessly without having to re-authenticate against the server.
 - Access to SmartStore is also now scoped by user account.
 - Push notifications are now supported across multiple users.
 - The ability to add multiple custom login endpoints has been added as well.
