@@ -44,6 +44,8 @@ NSString * const kIndexesArg          = @"indexes";
 NSString * const kQuerySpecArg        = @"querySpec";
 NSString * const kEntriesArg          = @"entries";
 NSString * const kExternalIdPathArg   = @"externalIdPath";
+NSString * const kPathsArg            = @"paths";
+NSString * const kReIndexDataArg      = @"reIndexData";
 
 
 @interface SFSmartStorePlugin() 
@@ -329,9 +331,17 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     /* NSString* jsVersionStr = */[self getVersion:@"pgAlterSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-//    NSArray *indexes = [argsDict nonNullObjectForKey:kIndexesArg];
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    NSArray *indexSpecs = [argsDict nonNullObjectForKey:kIndexesArg];
+    BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
+
+    BOOL regOk = [self.store alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+    if (regOk) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
 }
 
 - (void)pgReIndexSoup:(CDVInvokedUrlCommand *)command
@@ -340,8 +350,16 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     /* NSString* jsVersionStr = */[self getVersion:@"pgReIndexSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    NSArray *indexPaths = [argsDict nonNullObjectForKey:kPathsArg];
+
+    BOOL regOk = [self.store reIndexSoup:soupName withIndexPaths:indexPaths];
+    if (regOk) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
 }
 
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command

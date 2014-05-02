@@ -226,6 +226,26 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 - (long)getDatabaseSize;
 
+/**
+ Alter soup indexes
+
+ @param soupName The name of the soup to alter
+ @param indexSpecs Array of one ore more IndexSpec objects as dictionaries to replace existing index specs
+ @param reIndexData pass true if you want existing records to be re-indexed for new index specs
+ @return YES if the soup got altered OK
+ */
+- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+
+
+/**
+ Re-index soup
+ 
+ @param soupName The name of the soup to alter
+ @param indexPaths Array of one ore more paths that should be re-indexed
+ @return YES if the soup got re-indexed OK
+ */
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
+
 
 #pragma mark - Utility methods
 

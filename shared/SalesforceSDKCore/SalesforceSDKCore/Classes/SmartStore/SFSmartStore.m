@@ -1500,5 +1500,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return [[[NSFileManager defaultManager] attributesOfItemAtPath:dbPath error:nil] fileSize];
 }
 
+- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData {
+    return NO;
+}
+
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths {
+    return NO;
+}
+
 
 @end
