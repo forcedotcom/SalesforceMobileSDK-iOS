@@ -20,7 +20,11 @@
 {
     [super setUp];
     
+    // No passcode, to start.
+    [[SFPasscodeManager sharedManager] changePasscode:nil];
+    
     // No key store keys, to start.
+    [SFKeyStoreManager sharedInstance].keyStoreKey = [[SFKeyStoreManager sharedInstance] createDefaultKey];
     [SFKeyStoreManager sharedInstance].keyStoreDictionary = nil;
 }
 
@@ -82,6 +86,67 @@
     SFEncryptionKey *badKey = [[SFEncryptionKey alloc] initWithData:[@"badKey" dataUsingEncoding:NSUTF8StringEncoding] initializationVector:[@"badIv" dataUsingEncoding:NSUTF8StringEncoding]];
     NSDictionary *badDict = [[SFKeyStoreManager sharedInstance] keyStoreDictionaryWithKey:badKey];
     XCTAssertNil(badDict, @"If dictionary can't be decrypted, it should be nil.");
+}
+
+#pragma mark - Passcode change tests
+
+- (void)testNoPasscodeToPasscode
+{
+    SFKeyStoreKey *origKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(origKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Key store key should be the default generated key.");
+    SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+    NSString *origKeyLabel = @"origKey";
+    [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:origKeyLabel];
+    
+    NSString *newPasscode = @"IAddedAPasscode!";
+    [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
+    
+    SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Key store key should be passcode-based.");
+    XCTAssertNotEqualObjects(origKeyStoreKey.encryptionKey, updatedKeyStoreKey.encryptionKey, @"Key store key should have changed with passcode change.");
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
+}
+
+- (void)testPasscodeToNoPasscode
+{
+    NSString *origPasscode = @"My orig passcode";
+    [[SFPasscodeManager sharedManager] changePasscode:origPasscode];
+    SFKeyStoreKey *origPasscodeKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(origPasscodeKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Key store key should be a passcode-based key.");
+    
+    SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+    NSString *origKeyLabel = @"origKey";
+    [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:origKeyLabel];
+    
+    [[SFPasscodeManager sharedManager] changePasscode:nil];
+    
+    SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Updated key store key should be generated.");
+    XCTAssertNotEqualObjects(updatedKeyStoreKey.encryptionKey, origPasscodeKeyStoreKey.encryptionKey, @"Encryption keys should not be equal after passcode change.");
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
+}
+
+- (void)testPasscodeToPasscode
+{
+    NSString *origPasscode = @"My orig passcode";
+    [[SFPasscodeManager sharedManager] changePasscode:origPasscode];
+    SFKeyStoreKey *origPasscodeKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(origPasscodeKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Key store key should be a passcode-based key.");
+    
+    SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+    NSString *origKeyLabel = @"origKey";
+    [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:origKeyLabel];
+    
+    NSString *updatedPasscode = @"Here's a new passcode, whee!";
+    [[SFPasscodeManager sharedManager] changePasscode:updatedPasscode];
+    
+    SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
+    XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Updated key store key should still be a passcode-based key.");
+    XCTAssertNotEqualObjects(updatedKeyStoreKey.encryptionKey, origPasscodeKeyStoreKey.encryptionKey, @"Encryption keys should not be equal after passcode change.");
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
 }
 
 @end
