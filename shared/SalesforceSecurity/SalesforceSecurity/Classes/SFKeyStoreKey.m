@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,32 +22,43 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SFPasscodeManager ()
+#import "SFKeyStoreKey.h"
+
+// NSCoding constants
+static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyDataArchive";
+static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyTypeDataArchive";
+
+@implementation SFKeyStoreKey
+
+@synthesize encryptionKey = _encryptionKey;
+@synthesize keyType = _keyType;
+
+- (id)initWithKey:(SFEncryptionKey *)key type:(SFKeyStoreKeyType)keyType
 {
-    NSMutableOrderedSet *_delegates;
+    self = [super init];
+    if (self) {
+        self.encryptionKey = key;
+        self.keyType = keyType;
+    }
+    return self;
 }
 
-/**
- Executes the given block against the set of delegates.
- @param block The block to execute against each delegate.
- */
-- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block;
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        self.encryptionKey = [aDecoder decodeObjectForKey:kKeyStoreKeyDataArchiveKey];
+        NSNumber *keyTypeNum = [aDecoder decodeObjectForKey:kKeyStoreKeyTypeDataArchiveKey];
+        self.keyType = [keyTypeNum unsignedIntegerValue];
+    }
+    return self;
+}
 
-/**
- Set a value for the encryption key.  Note: this is just the internal setter for
- the encryptionKey property.  I.e. the value you set should be the end-result
- encryption key value.  Call setEncryptionKeyForPasscode if you want validation
- and encryption based on a plain-text passcode value.
- @param newEncryptionKey The new value for the encryption key.
- */
-- (void)setEncryptionKey:(NSString *)newEncryptionKey;
-
-/**
- Set the value of the encryption key, based on the input passcode.  Note: this method
- will not set the encryption key if a verification passcode is not set and valid, in
- the interests of maintaining a consistent passcode state.
- @param passcode The passcode to convert into an encryption key.
- */
-- (void)setEncryptionKeyForPasscode:(NSString *)passcode;
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.encryptionKey forKey:kKeyStoreKeyDataArchiveKey];
+    NSNumber *keyTypeNum = [NSNumber numberWithUnsignedInteger:self.keyType];
+    [aCoder encodeObject:keyTypeNum forKey:kKeyStoreKeyTypeDataArchiveKey];
+}
 
 @end

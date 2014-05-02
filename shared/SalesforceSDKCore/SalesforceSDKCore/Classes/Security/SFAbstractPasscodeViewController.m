@@ -118,7 +118,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.remainingAttempts = kMaxNumberofAttempts;
-        [SFSecurityLockout setPasscode:passcode];
+        [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
         [SFInactivityTimerCenter updateActivityTimestamp];
         [SFSecurityLockout unlock:YES];

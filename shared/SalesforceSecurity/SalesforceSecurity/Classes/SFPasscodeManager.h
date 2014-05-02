@@ -25,6 +25,45 @@
 #import <Foundation/Foundation.h>
 
 /**
+ Notification that will be posted when passcode is reset. This notification will have userInfo
+ populated with old passcode stored with `SFPasscodeResetOldPasscodeKey` key and new passcode
+ stored with `SFPasscodeResetNewPasscodeKey` key.
+ */
+extern NSString *const SFPasscodeResetNotification;
+
+/** Key in userInfo published by `SFPasscodeResetNotification`.
+ 
+ The value of this key is the old hashed passcode before the passcode reset
+ */
+extern NSString *const SFPasscodeResetOldPasscodeKey;
+
+
+/** Key in userInfo published by `SFPasscodeResetNotification`.
+ 
+ The value of this key is the new hashed passcode that triggers the new passcode reset
+ */
+extern NSString *const SFPasscodeResetNewPasscodeKey;
+
+@class SFPasscodeManager;
+
+/**
+ Delegate protocol for SFPasscodeManager callbacks
+ */
+@protocol SFPasscodeManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Notifies delegates of an encryption key change.
+ @param manager The passcode manager instance making the change.
+ @param oldKey The old encryption key.
+ @param newKey The new encryption key.
+ */
+- (void)passcodeManager:(SFPasscodeManager *)manager didChangeEncryptionKey:(NSString *)oldKey toEncryptionKey:(NSString *)newKey;
+
+@end
+
+/**
  Class for managing storage, retrieval, and verification of passcodes.
  */
 @interface SFPasscodeManager : NSObject
@@ -47,6 +86,17 @@
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
+ Adds a delegate to the list of passcode manager delegates.
+ @param delegate The delegate to add to the list.
+ */
+- (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate;
+
+/**
+ Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
+ */
+- (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate;
+
+/**
  @return Whether or not a passcode has been set.
  */
 - (BOOL)passcodeIsSet;
@@ -62,6 +112,15 @@
  @return YES if the passcode verifies, NO otherwise.
  */
 - (BOOL)verifyPasscode:(NSString *)passcode;
+
+/**
+ Change the current passcode.  This method serves as an entry point for managing the change
+ or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
+ comparison, handles the internals of actually setting a new passcode value.
+ @param newPasscode The new passcode to change to.  If nil or empty, this method will unset the
+ existing passcode.
+ */
+- (void)changePasscode:(NSString *)newPasscode;
 
 /**
  Set the passcode.

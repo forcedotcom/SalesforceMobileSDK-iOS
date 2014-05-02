@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,32 +22,38 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SFPasscodeManager ()
-{
-    NSMutableOrderedSet *_delegates;
-}
+#import <Foundation/Foundation.h>
 
 /**
- Executes the given block against the set of delegates.
- @param block The block to execute against each delegate.
+ Data object representing an symmetric encryption key, with a key value and initialization vector.
  */
-- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block;
+@interface SFEncryptionKey : NSObject <NSCoding>
 
 /**
- Set a value for the encryption key.  Note: this is just the internal setter for
- the encryptionKey property.  I.e. the value you set should be the end-result
- encryption key value.  Call setEncryptionKeyForPasscode if you want validation
- and encryption based on a plain-text passcode value.
- @param newEncryptionKey The new value for the encryption key.
+ Designated initializer.
+ @param keyData The key component, represented as NSData.
+ @param iv The initialization vector, represented as NSData.
  */
-- (void)setEncryptionKey:(NSString *)newEncryptionKey;
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
 
 /**
- Set the value of the encryption key, based on the input passcode.  Note: this method
- will not set the encryption key if a verification passcode is not set and valid, in
- the interests of maintaining a consistent passcode state.
- @param passcode The passcode to convert into an encryption key.
+ The key component of the object.
  */
-- (void)setEncryptionKeyForPasscode:(NSString *)passcode;
+@property (nonatomic, copy) NSData *key;
+
+/**
+ The initialization vector component of the object.
+ */
+@property (nonatomic, copy) NSData *initializationVector;
+
+/**
+ The base64 representation of the key data.
+ */
+@property (nonatomic, readonly) NSString *keyAsString;
+
+/**
+ The base64 representation of the initialization vector data.
+ */
+@property (nonatomic, readonly) NSString *initializationVectorAsString;
 
 @end

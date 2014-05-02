@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonKeyDerivation.h>
+#import <CommonCrypto/CommonCrypto.h>
 
 @class SFPBKDFData;
 
@@ -77,5 +77,23 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
                                    salt:(NSData *)salt
                        derivationRounds:(NSUInteger)numDerivationRounds
                               keyLength:(NSUInteger)derivedKeyLength;
+
+/**
+ * Encrypt the given data using the AES-256 algorithm.
+ * @param data The data to encrypt.
+ * @param key The encryption key used to encrypt the data.
+ * @param iv The initialization vector data used for the encryption.
+ * @return The encrypted data, or `nil` if encryption was not successful.
+ */
++ (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
+
+/**
+ * Decrypt the given data using the AES-256 algorithm.
+ * @param data The data to decrypt.
+ * @param key The decryption key used to decrypt the data.
+ * @param iv The initialization vector data used for the decryption.
+ * @return The decrypted data, or `nil` if decryption was not successful.
+ */
++ (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv;
 
 @end
