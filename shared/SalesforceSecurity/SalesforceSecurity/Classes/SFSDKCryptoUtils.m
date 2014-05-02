@@ -24,6 +24,7 @@
 
 #import "SFSDKCryptoUtils.h"
 #import "SFPBKDFData.h"
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <Security/Security.h>
 
 // Public constants
@@ -48,12 +49,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes
 {
-    NSMutableData *data = [NSMutableData dataWithLength:lengthInBytes];
-    int result = SecRandomCopyBytes(kSecRandomDefault, lengthInBytes, [data mutableBytes]);
-    if (result != 0) {
-        [self log:SFLogLevelWarning format:@"Failed to generate random bytes (errno = %d, desc = %s)", errno, strerror(errno)];
-        return nil;
-    }
+    NSData *data = [[NSMutableData dataWithLength:lengthInBytes] randomDataOfLength:lengthInBytes];
     return data;
 }
 
