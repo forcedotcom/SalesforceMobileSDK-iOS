@@ -62,11 +62,17 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     return self;
 }
 
-- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel
+- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create
 {
     if (keyLabel == nil) return nil;
     
     SFEncryptionKey *key = [self.keyStoreDictionary objectForKey:keyLabel];
+    
+    if (!key && create) {
+        key = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+        [self storeKey:key withLabel:keyLabel];
+    }
+    
     return key;
 }
 
@@ -91,7 +97,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel
 {
-    SFEncryptionKey *key = [self retrieveKeyWithLabel:keyLabel];
+    SFEncryptionKey *key = [self retrieveKeyWithLabel:keyLabel autoCreate:NO];
     return (key != nil);
 }
 
