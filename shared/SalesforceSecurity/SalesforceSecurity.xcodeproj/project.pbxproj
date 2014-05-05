@@ -37,9 +37,9 @@
 		82E0D87A190EF4B700A8FC23 /* SFKeyStoreKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D878190EF4B700A8FC23 /* SFKeyStoreKey.m */; };
 		82E0D87C1912F01300A8FC23 /* SFKeyStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D87B1912F01300A8FC23 /* SFKeyStoreTests.m */; };
 		82E0D87E1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D87D1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h */; };
-		82F6F67D18E5F5880033CACD /* SFEncryptionKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67718E5F5880033CACD /* SFEncryptionKey.h */; };
+		82F6F67D18E5F5880033CACD /* SFEncryptionKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67718E5F5880033CACD /* SFEncryptionKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F6F67E18E5F5880033CACD /* SFEncryptionKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67818E5F5880033CACD /* SFEncryptionKey.m */; };
-		82F6F68118E5F5880033CACD /* SFKeyStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */; };
+		82F6F68118E5F5880033CACD /* SFKeyStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F6F68218E5F5880033CACD /* SFKeyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67C18E5F5880033CACD /* SFKeyStoreManager.m */; };
 /* End PBXBuildFile section */
 

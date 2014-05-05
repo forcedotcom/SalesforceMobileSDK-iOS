@@ -36,11 +36,12 @@
 + (instancetype)sharedInstance;
 
 /**
- Retrieves a key with the given label from the key store, or `nil` if it does not exist.
+ Retrieves a key with the given label from the key store, or `nil` depending on the autoCreate value.
  @param keyLabel The label associated with the stored key.
- @return The encryption key, or `nil` if it does not exist.
+ @param autoCreate Indicates whether a new key should be created if one does not exist.
+ @return The encryption key, or `nil` depending on the autoCreate value.
  */
-- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel;
+- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
 
 /**
  Stores a key with the given label in the key store.

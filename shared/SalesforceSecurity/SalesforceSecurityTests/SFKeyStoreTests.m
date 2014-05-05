@@ -37,19 +37,19 @@
 - (void)testKeyStorageRetrievalRemoval
 {
     NSString *keyLabel = @"testKeyLabel";
-    SFEncryptionKey *nonExistentKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel];
+    SFEncryptionKey *nonExistentKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel autoCreate:NO];
     XCTAssertNil(nonExistentKey, @"Key with label '%@' should not exist.", keyLabel);
     SFEncryptionKey *keyToStore = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
     [[SFKeyStoreManager sharedInstance] storeKey:keyToStore withLabel:keyLabel];
     BOOL keyExists = [[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyLabel];
     XCTAssertTrue(keyExists, @"Stored key should be present in the key store.");
-    SFEncryptionKey *retrievedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel];
+    SFEncryptionKey *retrievedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel autoCreate:NO];
     XCTAssertTrue([keyToStore.key isEqualToData:retrievedKey.key], @"Stored key is not the same as retrieved key.");
     XCTAssertTrue([keyToStore.initializationVector isEqualToData:retrievedKey.initializationVector], @"Stored iv is not the same as retrieved iv.");
     [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:keyLabel];
     keyExists = [[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyLabel];
     XCTAssertFalse(keyExists, @"Removed key should not be present in the key store.");
-    nonExistentKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel];
+    nonExistentKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyLabel autoCreate:NO];
     XCTAssertNil(nonExistentKey, @"Key with label '%@' should not exist after removal.", keyLabel);
 }
 
@@ -104,7 +104,7 @@
     SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
     XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Key store key should be passcode-based.");
     XCTAssertNotEqualObjects(origKeyStoreKey.encryptionKey, updatedKeyStoreKey.encryptionKey, @"Key store key should have changed with passcode change.");
-    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel autoCreate:NO];
     XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
 }
 
@@ -124,7 +124,7 @@
     SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
     XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Updated key store key should be generated.");
     XCTAssertNotEqualObjects(updatedKeyStoreKey.encryptionKey, origPasscodeKeyStoreKey.encryptionKey, @"Encryption keys should not be equal after passcode change.");
-    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel autoCreate:NO];
     XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
 }
 
@@ -145,7 +145,7 @@
     SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
     XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Updated key store key should still be a passcode-based key.");
     XCTAssertNotEqualObjects(updatedKeyStoreKey.encryptionKey, origPasscodeKeyStoreKey.encryptionKey, @"Encryption keys should not be equal after passcode change.");
-    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel];
+    SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel autoCreate:NO];
     XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
 }
 
