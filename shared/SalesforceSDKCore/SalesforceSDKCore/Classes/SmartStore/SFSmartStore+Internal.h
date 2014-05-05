@@ -72,6 +72,12 @@ typedef enum {
 - (BOOL)createMetaTables;
 
 /**
+ Create long operations status table (LONG_OPERATIONS_STATUS_TABLE)
+ @return YES if we were able to create the table, NO otherwise.
+ */
+- (BOOL) createLongOperationsStatusTable;
+
+/**
  Register the new soup in SOUP_NAMES_TABLE.
  @return The table name associated with the new soup.
  */

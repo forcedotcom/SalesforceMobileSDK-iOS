@@ -80,7 +80,15 @@ static NSString *const CREATED_COL = @"created";
 static NSString *const LAST_MODIFIED_COL = @"lastModified";
 static NSString *const SOUP_COL = @"soup";
 
-// JSON fields added to soup element on insert/update 
+// Table to keep track of status of long operations in flight
+static NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
+
+// Columns of long operations status table
+static NSString *const TYPE_COL = @"type";
+static NSString *const DETAILS_COL = @"details";
+static NSString *const STATUS_COL = @"status";
+
+// JSON fields added to soup element on insert/update
 static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
 static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
@@ -460,10 +468,39 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         }
     }
     
-    
     return result;
 }
 
+- (BOOL) createLongOperationsStatusTable {
+    BOOL result = NO;
+    
+    // Create SOUP_INDEX_MAP_TABLE
+    NSString *createLongOperationsStatusTableSql =
+        [NSString stringWithFormat:
+            @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ INTEGER, %@ INTEGER )",
+            LONG_OPERATIONS_STATUS_TABLE,
+            TYPE_COL,
+            DETAILS_COL,
+            STATUS_COL,
+            CREATED_COL,
+            LAST_MODIFIED_COL
+         ];
+    
+    [self log:SFLogLevelDebug format:@"createLongOperationsStatusTableSql: %@",createLongOperationsStatusTableSql];
+    @try {
+        result = [self.storeDb executeUpdate:createLongOperationsStatusTableSql];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelError format:@"Exception creating long operations status table: %@", exception];
+    }
+    @finally {
+        if (!result) {
+            [self log:SFLogLevelError format:@"ERROR %d creating long operations status table: '%@'",
+             [self.storeDb lastErrorCode],
+             [self.storeDb lastErrorMessage]];
+        }
+    }
+}
 
 #pragma mark - Utility methods
 
