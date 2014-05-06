@@ -87,5 +87,16 @@ NSString * const kSoupIndexColumnName   = @"columnName";
     return result;
 }
 
+#pragma mark - Useful methods
+
++ (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes
+{
+    NSMutableDictionary* map = [NSMutableDictionary dictionary];
+    for (SFSoupIndex* soupIndex in soupIndexes) {
+        map[soupIndex.path] = soupIndex;
+    }
+    return map;
+}
+
 
 @end

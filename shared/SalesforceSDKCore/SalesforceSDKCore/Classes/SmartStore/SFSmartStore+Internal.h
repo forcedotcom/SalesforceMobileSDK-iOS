@@ -286,4 +286,18 @@ whereArgs:(NSArray*)whereArgs;
  */
 - (NSString*) convertSmartSql:(NSString*)smartSql;
 
+/**
+ Register soup with the given soupTableName
+ @param soupName The name of the soup to register
+ @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param soupTableName The name of the table to use for the soup
+ @return YES if the soup registered OK
+ */
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName;
+
+/**
+ Remove soup from cache
+ @param soupName The name of the soup to remove
+ */
+- (void)removeFromCache:(NSString*) soupName;
 @end

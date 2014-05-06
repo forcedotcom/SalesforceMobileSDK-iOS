@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartStore.h"
+#import "FMDatabase.h"
 
 // Enum for alter steps
 typedef enum {

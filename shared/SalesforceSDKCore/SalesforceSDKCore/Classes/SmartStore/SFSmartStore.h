@@ -37,6 +37,15 @@ extern NSString *const kDefaultSmartStoreName;
  */
 extern NSString * const kSFSmartStoreErrorDomain;
 
+
+/**
+ The columns of a soup table
+ */
+extern NSString *const ID_COL;
+extern NSString *const CREATED_COL;
+extern NSString *const LAST_MODIFIED_COL;
+extern NSString *const SOUP_COL;
+
 @class FMDatabase;
 @class SFStoreCursor;
 @class SFQuerySpec;

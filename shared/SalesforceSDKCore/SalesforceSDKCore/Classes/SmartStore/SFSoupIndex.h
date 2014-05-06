@@ -78,4 +78,10 @@ extern NSString * const kSoupIndexTypeFloating;
   */
 - (NSDictionary*)asDictionary;
 
+/*
+ * Return map path to SFSoupIndex
+ * @param soupIndexes array of SFSoupIndex objects
+ */
++ (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes;
+
 @end
