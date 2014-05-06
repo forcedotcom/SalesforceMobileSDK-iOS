@@ -27,6 +27,7 @@
 #import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
+#import <SalesforceCommonUtils/SFCrypto.h>
 
 // Keychain and NSCoding constants
 static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
@@ -119,7 +120,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey
 {
     @synchronized (self) {
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeyStoreKeychainIdentifier account:nil];
+        NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreKeychainIdentifier];
+        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         NSData *keyStoreData = [keychainItem valueData];
         // NB: We will return an empty dictionary if one doesn't exist, and nil if an existing dictionary
         // couldn't be decrypted.  This allows us to differentiate between a non-existent key store dictionary
@@ -136,7 +138,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary
 {
     @synchronized (self) {
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeyStoreKeychainIdentifier account:nil];
+        NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreKeychainIdentifier];
+        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         if (keyStoreDictionary == nil) {
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
@@ -155,7 +158,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeyStoreEncryptionKeyKeychainIdentifier account:nil];
+        NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreEncryptionKeyKeychainIdentifier];
+        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         NSData *keyStoreKeyData = [keychainItem valueData];
         if (keyStoreKeyData == nil) {
             return nil;
@@ -177,7 +181,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (void)setKeyStoreKey:(SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeyStoreEncryptionKeyKeychainIdentifier account:nil];
+        NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreEncryptionKeyKeychainIdentifier];
+        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         if (keyStoreKey == nil) {
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
@@ -258,6 +263,12 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
                                                         withKey:self.keyStoreKey.encryptionKey.key
                                                              iv:self.keyStoreKey.encryptionKey.initializationVector];
     return encryptedData;
+}
+
+- (NSString *)buildUniqueKeychainId:(NSString *)baseKeychainId
+{
+    NSString *baseAppId = [SFCrypto baseAppIdentifier];
+    return [NSString stringWithFormat:@"%@_%@", baseKeychainId, baseAppId];
 }
 
 #pragma mark - SFPasscodeManagerDelegate

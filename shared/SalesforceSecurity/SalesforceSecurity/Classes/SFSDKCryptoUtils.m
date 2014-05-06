@@ -84,6 +84,10 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 + (NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
 {
     // Ensure the proper key, IV sizes.
+    if (key == nil) {
+        [SFLogger log:[self class] level:SFLogLevelError msg:@"aes256EncryptData: encryption key is nil.  Cannot encrypt data."];
+        return nil;
+    }
     NSMutableData *mutableKey = [key mutableCopy];
     [mutableKey setLength:kCCKeySizeAES256];
     NSMutableData *mutableIv = [iv mutableCopy];
@@ -98,7 +102,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
                                              [mutableIv bytes],
                                              &cryptor);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating cryptor with CCCryptorCreate().  Status code: %d", status];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating encryption cryptor with CCCryptorCreate().  Status code: %d", status];
 		return nil;
 	}
 	
@@ -111,6 +115,10 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 + (NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv
 {
     // Ensure the proper key, IV sizes.
+    if (key == nil) {
+        [SFLogger log:[self class] level:SFLogLevelError msg:@"aes256DecryptData: decryption key is nil.  Cannot decrypt data."];
+        return nil;
+    }
     NSMutableData *mutableKey = [key mutableCopy];
     [mutableKey setLength:kCCKeySizeAES256];
     NSMutableData *mutableIv = [iv mutableCopy];
@@ -125,7 +133,7 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
                                              [mutableIv bytes],
                                              &cryptor);
 	if (status != kCCSuccess) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating cryptor with CCCryptorCreate().  Status code: %d", status];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Error creating decryption cryptor with CCCryptorCreate().  Status code: %d", status];
 		return nil;
 	}
 	
