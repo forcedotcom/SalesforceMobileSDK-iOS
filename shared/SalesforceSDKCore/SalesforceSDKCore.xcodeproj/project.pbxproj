@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */; };
+		4FF99A4F19185C6700405BCB /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */; };
+		4FF99A5019185C6700405BCB /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */; };
 		8220B75016D804CA00EC3921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		8221562716E0130C002E1F56 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221561D16E0130C002E1F56 /* FMDatabase.m */; };
 		8221562816E0130C002E1F56 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221561F16E0130C002E1F56 /* FMDatabaseAdditions.m */; };
@@ -131,6 +133,8 @@
 /* Begin PBXFileReference section */
 		4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotificationManager.h; path = PushNotification/SFPushNotificationManager.h; sourceTree = "<group>"; };
 		4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManager.m; path = PushNotification/SFPushNotificationManager.m; sourceTree = "<group>"; };
+		4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAlterSoupLongOperation.m; sourceTree = "<group>"; };
+		4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAlterSoupLongOperation.h; sourceTree = "<group>"; };
 		8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8220B74F16D804CA00EC3921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -544,6 +548,8 @@
 		82AF843116DFD95F008912EF /* SmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */,
+				4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */,
 				82AF843216DFD95F008912EF /* SFQuerySpec.h */,
 				82AF843316DFD95F008912EF /* SFQuerySpec.m */,
 				82AF843416DFD95F008912EF /* SFSmartSqlHelper.h */,
@@ -617,6 +623,7 @@
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
 				82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */,
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
+				4FF99A5019185C6700405BCB /* SFAlterSoupLongOperation.h in Headers */,
 				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
 				82BBB57017909D9300374DD8 /* SFIdentityCoordinator.h in Headers */,
 				82BBB57117909DA500374DD8 /* SFIdentityData.h in Headers */,
@@ -785,6 +792,7 @@
 				82AF845716DFD95F008912EF /* SFPBKDF2PasscodeProvider.m in Sources */,
 				82AF845816DFD95F008912EF /* SFPBKDFData.m in Sources */,
 				82AF845916DFD95F008912EF /* SFSecurityLockout.m in Sources */,
+				4FF99A4F19185C6700405BCB /* SFAlterSoupLongOperation.m in Sources */,
 				82AF845A16DFD95F008912EF /* SFSHA256PasscodeProvider.m in Sources */,
 				82AF845B16DFD95F008912EF /* SFQuerySpec.m in Sources */,
 				82AF845C16DFD95F008912EF /* SFSmartSqlHelper.m in Sources */,
