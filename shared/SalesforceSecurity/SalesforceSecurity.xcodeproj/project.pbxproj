@@ -14,7 +14,7 @@
 		820AB73C18E230EC00E25E1D /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */; };
 		820AB74218E230EC00E25E1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 820AB74018E230EC00E25E1D /* InfoPlist.strings */; };
 		82AA402F18E397C200BD34D8 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA402E18E397C200BD34D8 /* SFSDKCryptoUtils.m */; };
-		82AA403118E398B800BD34D8 /* SFSDKCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA402D18E397C200BD34D8 /* SFSDKCryptoUtils.h */; };
+		82AA403118E398B800BD34D8 /* SFSDKCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA402D18E397C200BD34D8 /* SFSDKCryptoUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AA403418E39A1900BD34D8 /* SFPBKDFData.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403218E39A1900BD34D8 /* SFPBKDFData.h */; };
 		82AA403518E39A1900BD34D8 /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA403318E39A1900BD34D8 /* SFPBKDFData.m */; };
 		82AA403818E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403618E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.h */; };
