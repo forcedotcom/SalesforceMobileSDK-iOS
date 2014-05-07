@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStore.h"
-#import "FMDatabase.h"
+@class FMDatabase;
+@class SFSmartStore;
 
 // Enum for alter steps
 typedef enum {

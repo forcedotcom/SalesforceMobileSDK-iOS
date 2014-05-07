@@ -23,6 +23,7 @@
  */
 
 #import "SFAlterSoupLongOperation.h"
+#import "FMDatabase.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 
