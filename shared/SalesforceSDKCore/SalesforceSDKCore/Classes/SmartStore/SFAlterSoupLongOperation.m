@@ -174,7 +174,8 @@
         _indexSpecs = [self.store indicesForSoup:self.soupName];
 		
         // Move data (core columns + indexed paths that we are still indexing)
-        [self.db executeUpdate:[self computeCopyTableStatement]];
+        NSString* copySql = [self computeCopyTableStatement];
+        [self.db executeUpdate:copySql];
         
         // Update row in alter status table
         [self updateLongOperationDbRow:COPY_TABLE];
@@ -248,7 +249,7 @@
     // Figuring out paths we are keeping
     NSSet* oldPaths = [NSSet setWithArray:[mapOldSpecs allKeys]];
     NSMutableSet* keptPaths = [NSMutableSet setWithArray:[mapNewSpecs allKeys]];
-    [keptPaths intersectsSet:oldPaths];
+    [keptPaths intersectSet:oldPaths];
     
     // Compute list of columns to copy from / list of columns to copy into
     NSMutableArray* oldColumns = [NSMutableArray arrayWithObjects:ID_COL, SOUP_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
@@ -258,7 +259,7 @@
     for (NSString* keptPath in keptPaths) {
         SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
         SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
-        if (oldIndexSpec.indexType == newIndexSpec.indexType) {
+        if ([oldIndexSpec.indexType isEqualToString:newIndexSpec.indexType]) {
             [oldColumns addObject:oldIndexSpec.columnName];
             [newColumns addObject:newIndexSpec.columnName];
         }
