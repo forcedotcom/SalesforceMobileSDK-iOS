@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "820AB72318E230EC00E25E1D"
+               BuildableName = "libSalesforceSecurity.a"
+               BlueprintName = "SalesforceSecurity"
+               ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
                BuildableName = "libSalesforceOAuth.a"
                BlueprintName = "SalesforceOAuth"
