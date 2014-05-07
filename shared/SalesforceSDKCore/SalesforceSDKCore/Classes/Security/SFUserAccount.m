@@ -38,6 +38,10 @@ static NSString * const kUser_USER_NAME         = @"userName";
 static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
 static NSString * const kUser_ID_DATA           = @"idData";
+static NSString * const kUser_ORG_SETTINGS      = @"orgSettings";
+
+static NSString * const kORG_SETTINGS_USER_SETTINGS             = @"userSettings";
+static NSString * const kUSER_SETTINGS_INTERNAL_COMMUNITY       = @"hasAccessToInternalOrg";
 
 /** Key that identifies the global scope
  */
@@ -76,6 +80,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
+    [encoder encodeObject:_orgSettings forKey:kUser_ORG_SETTINGS];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
@@ -90,6 +95,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
         _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
         _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
+        _orgSettings = [decoder decodeObjectForKey:kUser_ORG_SETTINGS];
 	}
 	return self;
 }
@@ -173,6 +179,11 @@ static NSString * const kGlobalScopingKey = @"-global-";
     // A session is considered "valid" when the user
     // has an access token as well as the identity data
     return self.credentials.accessToken != nil && self.idData != nil;
+}
+
+- (BOOL)hasAccessToInternalCommunity {
+    NSDictionary *userSettings = [self.orgSettings objectForKey:kORG_SETTINGS_USER_SETTINGS];
+    return [[userSettings objectForKey:kUSER_SETTINGS_INTERNAL_COMMUNITY] boolValue];
 }
 
 - (NSString*)description {

@@ -92,6 +92,15 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** The org settings for user's org.
+ */
+@property (nonatomic, copy) NSDictionary *orgSettings;
+
+/** Quick access to whether the user has access to the internal community.
+ Only works if orgSettings is filled
+ */
+@property (nonatomic, readonly) BOOL hasAccessToInternalCommunity;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance

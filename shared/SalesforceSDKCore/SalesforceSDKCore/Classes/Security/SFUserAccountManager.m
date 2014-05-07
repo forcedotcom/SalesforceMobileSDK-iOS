@@ -787,6 +787,10 @@ static NSString * const kUserPrefix = @"005";
     [self userChanged:change];
 }
 
+- (void)applyOrgSettingsToCurrentUser:(NSDictionary *)orgSettings {
+    self.currentUser.orgSettings = orgSettings;
+}
+
 - (void)switchToNewUser {
     [self switchToUser:nil];
 }
