@@ -84,4 +84,9 @@ extern NSString * const kSoupIndexTypeFloating;
  */
 + (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes;
 
+/*
+ * Return path -- type
+ */
+- (NSString*) getPathType;
+
 @end

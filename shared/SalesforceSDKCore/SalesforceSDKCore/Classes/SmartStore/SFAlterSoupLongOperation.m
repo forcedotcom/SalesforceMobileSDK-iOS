@@ -129,25 +129,18 @@
         [self.db executeUpdate:sql];
     }
 	
-    @try {
-        [self.db beginTransaction];
-        NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
-                                    SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
-        [self.db executeUpdate:sql];
+    [self.db beginTransaction];
+    NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
+                                SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
+    [self.db executeUpdate:sql];
     
-        // Update row in alter status table - auto commit
-        [self updateLongOperationDbRow:DROP_OLD_INDEXES];
+    // Update row in alter status table - auto commit
+    [self updateLongOperationDbRow:DROP_OLD_INDEXES];
 
-        // Remove soup from cache
-        [self.store removeFromCache:self.soupName];
-        
-        [self.db commit];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelDebug format:@"exception dropOldIndexes: %@", exception];
-        [self.db rollback];
-    }
-
+    // Remove soup from cache
+    [self.store removeFromCache:self.soupName];
+    
+    [self.db commit];
 }
 
 
@@ -169,22 +162,18 @@
 - (void) copyTable
 {
     [self.db beginTransaction];
-    @try {
-        // We need column names in the index specs
-        _indexSpecs = [self.store indicesForSoup:self.soupName];
+    // We need column names in the index specs
+    _indexSpecs = [self.store indicesForSoup:self.soupName];
 		
-        // Move data (core columns + indexed paths that we are still indexing)
-        NSString* copySql = [self computeCopyTableStatement];
-        [self.db executeUpdate:copySql];
+    // Move data (core columns + indexed paths that we are still indexing)
+    NSString* copySql = [self computeCopyTableStatement];
+    [self.db executeUpdate:copySql];
         
-        // Update row in alter status table
-        [self updateLongOperationDbRow:COPY_TABLE];
+    // Update row in alter status table
+    [self updateLongOperationDbRow:COPY_TABLE];
 
-        // Commit
-        [self.db commit];
-    }
-    @finally {
-    }
+    // Commit
+    [self.db commit];
 }
 
 
@@ -193,7 +182,31 @@
  */
 - (void) reIndexSoup
 {
-    // TODO
+    NSMutableSet* oldPathTypeSet = [NSMutableSet set];
+    // Putting path--type of old index specs in a set
+    for(SFSoupIndex* oldIndexSpec in self.oldIndexSpecs) {
+        [oldPathTypeSet addObject:[oldIndexSpec getPathType]];
+    }
+
+    // Filtering out the ones that do not have their path--type in oldPathTypeSet
+    NSMutableArray * indexPaths = [NSMutableArray array];
+    for (SFSoupIndex* indexSpec in self.indexSpecs) {
+        if (![oldPathTypeSet containsObject:[indexSpec getPathType]]) {
+            [indexPaths addObject:indexSpec.path];
+        }
+    }
+    
+    // Start transaction
+    [self.db beginTransaction];
+    
+    // Re-index soup
+    [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths handleTx:FALSE];
+    
+    // Update row in alter status table
+    [self updateLongOperationDbRow:RE_INDEX_SOUP];
+    
+     // Commit
+    [self.db commit];
 }
 
 

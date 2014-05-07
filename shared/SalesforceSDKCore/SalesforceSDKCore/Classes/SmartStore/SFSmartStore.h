@@ -266,9 +266,10 @@ extern NSString *const COLUMN_TYPE_COL;
  
  @param soupName The name of the soup to alter
  @param indexPaths Array of one ore more paths that should be re-indexed
+ @param handleTx TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction
  @return YES if the soup got re-indexed OK
  */
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL)handleTx;
 
 
 #pragma mark - Utility methods

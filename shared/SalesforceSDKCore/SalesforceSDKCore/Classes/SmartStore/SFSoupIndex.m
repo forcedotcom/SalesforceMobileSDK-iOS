@@ -98,5 +98,11 @@ NSString * const kSoupIndexColumnName   = @"columnName";
     return map;
 }
 
+- (NSString*) getPathType
+{
+    // XXX shouldn't create a new string every time
+    return [NSString stringWithFormat:@"%@--%@", self.path, self.indexType];
+}
+
 
 @end

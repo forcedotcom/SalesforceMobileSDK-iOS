@@ -352,7 +352,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *indexPaths = [argsDict nonNullObjectForKey:kPathsArg];
 
-    BOOL regOk = [self.store reIndexSoup:soupName withIndexPaths:indexPaths];
+    BOOL regOk = [self.store reIndexSoup:soupName withIndexPaths:indexPaths handleTx:TRUE];
     if (regOk) {
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         [self writeSuccessResultToJsRealm:result callbackId:callbackId];
