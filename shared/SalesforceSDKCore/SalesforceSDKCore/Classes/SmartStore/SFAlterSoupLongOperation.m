@@ -79,15 +79,12 @@
 {
     switch(self.afterStep) {
 		case STARTING:
-            [self dropOldIndexes];
-			if (toStep == DROP_OLD_INDEXES) break;
-		case DROP_OLD_INDEXES:
-			[self removeOldSoupFromCache];
-			if (toStep == REMOVE_OLD_SOUP_FROM_CACHE) break;
-		case REMOVE_OLD_SOUP_FROM_CACHE:
 			[self renameOldSoupTable];
 			if (toStep == RENAME_OLD_SOUP_TABLE) break;
 		case RENAME_OLD_SOUP_TABLE:
+            [self dropOldIndexes];
+			if (toStep == DROP_OLD_INDEXES) break;
+		case DROP_OLD_INDEXES:
 			[self registerSoupUsingTableName];
 			if (toStep == REGISTER_SOUP_USING_TABLE_NAME) break;
 		case REGISTER_SOUP_USING_TABLE_NAME:
@@ -107,9 +104,22 @@
     }
 }
 
+/**
+ Step 1: rename old table
+ */
+- (void) renameOldSoupTable
+{
+    // Rename backing table for soup
+    NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@ RENAME TO %@_old", self.soupTableName, self.soupTableName];
+    [self.db executeUpdate:sql];
+    
+    // Update row in alter status table - auto commit
+    [self updateLongOperationDbRow:RENAME_OLD_SOUP_TABLE];
+}
+
 
 /**
- Step 1: drop old indexes since we are about to create indexes with the same names
+ Step 2: drop old indexes / remove entries in soup_index_map / cleaanup cache
  */
 - (void) dropOldIndexes
 {
@@ -119,40 +129,30 @@
         [self.db executeUpdate:sql];
     }
 	
-    // Update row in alter status table - auto commit
-    [self updateLongOperationDbRow:DROP_OLD_INDEXES];
-}
-
-
-/**
- Step 2: rename old table
- */
-- (void) renameOldSoupTable
-{
-    // Rename backing table for soup
-    NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@ RENAME TO %@_old", self.soupTableName, self.soupTableName];
-    [self.db executeUpdate:sql];
-	
-    // Update row in alter status table - auto commit
-    [self updateLongOperationDbRow:RENAME_OLD_SOUP_TABLE];
-}
-
-
-/**
- Step 3: remove old soup from cache since we about to register a soup with the same name
- */
-- (void) removeOldSoupFromCache
-{
-    // Remove soup from cache
-    [self.store removeFromCache:self.soupName];
+    @try {
+        [self.db beginTransaction];
+        NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
+                                    SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
+        [self.db executeUpdate:sql];
     
-    // Update row in alter status table - auto commit
-    [self updateLongOperationDbRow:REMOVE_OLD_SOUP_FROM_CACHE];
+        // Update row in alter status table - auto commit
+        [self updateLongOperationDbRow:DROP_OLD_INDEXES];
+
+        // Remove soup from cache
+        [self.store removeFromCache:self.soupName];
+        
+        [self.db commit];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelDebug format:@"exception dropOldIndexes: %@", exception];
+        [self.db rollback];
+    }
+
 }
 
 
 /**
- Step 4: register soup with new indexes
+ Step 3: register soup with new indexes
  */
 - (void) registerSoupUsingTableName
 {
@@ -164,7 +164,7 @@
 
 
 /**
- Step 5: copy data from old soup table to new soup table
+ Step 4: copy data from old soup table to new soup table
  */
 - (void) copyTable
 {
@@ -178,15 +178,17 @@
         
         // Update row in alter status table
         [self updateLongOperationDbRow:COPY_TABLE];
+
+        // Commit
+        [self.db commit];
     }
     @finally {
-        [self.db commit]; // XXX should only commit if successful
     }
 }
 
 
 /**
- Step 6: re-index soup for new indexes (optional step)
+ Step 5: re-index soup for new indexes (optional step)
  */
 - (void) reIndexSoup
 {
@@ -195,7 +197,7 @@
 
 
 /**
- Step 7: drop old soup table
+ Step 6: drop old soup table
  */
 - (void) dropOldTable
 {

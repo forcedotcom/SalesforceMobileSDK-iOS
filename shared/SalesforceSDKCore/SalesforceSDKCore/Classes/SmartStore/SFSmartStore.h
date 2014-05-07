@@ -46,9 +46,24 @@ extern NSString *const CREATED_COL;
 extern NSString *const LAST_MODIFIED_COL;
 extern NSString *const SOUP_COL;
 
+/**
+ Soup index map table
+ */
+extern NSString *const SOUP_INDEX_MAP_TABLE;
+
+/*
+ Columns of the soup index map table
+ */
+extern NSString *const SOUP_NAME_COL;
+extern NSString *const PATH_COL;
+extern NSString *const COLUMN_NAME_COL;
+extern NSString *const COLUMN_TYPE_COL;
+
 @class FMDatabase;
 @class SFStoreCursor;
 @class SFQuerySpec;
+
+
 
 @interface SFSmartStore : NSObject {
 

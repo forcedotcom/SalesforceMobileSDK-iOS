@@ -66,14 +66,13 @@ static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.
 static NSString *const SOUP_NAMES_TABLE = @"soup_names";
 
 // Table to keep track of soup's index specs
-static NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
+NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
 
 // Columns of the soup index map table
-static NSString *const SOUP_NAME_COL = @"soupName";
-
-static NSString *const PATH_COL = @"path";
-static NSString *const COLUMN_NAME_COL = @"columnName";
-static NSString *const COLUMN_TYPE_COL = @"columnType";
+NSString *const SOUP_NAME_COL = @"soupName";
+NSString *const PATH_COL = @"path";
+NSString *const COLUMN_NAME_COL = @"columnName";
+NSString *const COLUMN_TYPE_COL = @"columnType";
 
 // Columns of a soup table
 NSString *const ID_COL = @"id";
