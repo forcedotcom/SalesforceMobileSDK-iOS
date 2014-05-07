@@ -512,7 +512,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
         NSLog(@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: (navType=%ld): host=%@ : path=%@",
-              navigationType, request.URL.host, request.URL.path);
+              (long)navigationType, request.URL.host, request.URL.path);
     }
     
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];

@@ -171,6 +171,9 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 	
     if (resultData != nil)
         *resultData = [NSData dataWithBytesNoCopy:buffer length:totalbytes];
+    else
+        free(buffer);
+    
 	return YES;
 }
 
