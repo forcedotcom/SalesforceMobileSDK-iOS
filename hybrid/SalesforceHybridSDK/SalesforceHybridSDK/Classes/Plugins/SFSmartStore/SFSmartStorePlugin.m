@@ -378,11 +378,16 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *indexSpecs = [self.store indicesForSoup:soupName];
-    NSMutableArray *indexSpecsAsDicts = [NSMutableArray array];
-    for (id indexSpec in indexSpecs) {
-        [indexSpecsAsDicts addObject:[indexSpec asDictionary]];
+    if ([indexSpecs count] > 0) {
+        NSMutableArray *indexSpecsAsDicts = [NSMutableArray array];
+        for (id indexSpec in indexSpecs) {
+            [indexSpecsAsDicts addObject:[indexSpec asDictionary]];
+        }
+        [self writeSuccessArrayToJsRealm:indexSpecsAsDicts callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
-    [self writeSuccessArrayToJsRealm:indexSpecsAsDicts callbackId:callbackId];
 }
 
 @end

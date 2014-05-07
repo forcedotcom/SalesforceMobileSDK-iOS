@@ -1550,9 +1550,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData {
-    SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] init:self withSoupName:soupName withNewIndexSpecs:indexSpecs withReIndexData:reIndexData];
-    [operation run];
-    return YES;
+    if ([self soupExists:soupName]) {
+        SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] init:self withSoupName:soupName withNewIndexSpecs:indexSpecs withReIndexData:reIndexData];
+        [operation run];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL) handleTx {
@@ -1588,9 +1592,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         if (handleTx) {
             [self.storeDb commit];
         }
+        
+        return YES;
     }
-    
-    return YES;
+    else {
+        return NO;
+    }
 }
 
 
