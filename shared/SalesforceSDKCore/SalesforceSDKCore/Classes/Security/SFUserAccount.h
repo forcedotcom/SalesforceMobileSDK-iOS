@@ -92,6 +92,10 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** The custom data for the user, should be encodeable by NSCoder
+ */
+@property (nonatomic, copy) NSDictionary *customData;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance
