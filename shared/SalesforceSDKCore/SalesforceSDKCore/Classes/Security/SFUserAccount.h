@@ -92,7 +92,7 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
-/** The org settings for user's org.
+/** The custom data for the user, should be encodeable by NSCoder
  */
 @property (nonatomic, copy) NSDictionary *customData;
 
