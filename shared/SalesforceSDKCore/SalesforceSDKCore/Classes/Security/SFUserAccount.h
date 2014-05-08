@@ -96,11 +96,6 @@
  */
 @property (nonatomic, copy) NSDictionary *customData;
 
-/** Quick access to whether the user has access to the internal community.
- Only works if orgSettings is filled
- */
-@property (nonatomic, readonly) BOOL hasAccessToInternalCommunity;
-
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance
