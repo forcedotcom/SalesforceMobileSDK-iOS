@@ -94,7 +94,7 @@
 
 /** The org settings for user's org.
  */
-@property (nonatomic, copy) NSDictionary *orgSettings;
+@property (nonatomic, copy) NSDictionary *customData;
 
 /** Quick access to whether the user has access to the internal community.
  Only works if orgSettings is filled

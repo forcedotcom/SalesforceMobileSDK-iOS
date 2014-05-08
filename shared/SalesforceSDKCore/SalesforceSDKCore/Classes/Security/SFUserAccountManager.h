@@ -280,12 +280,13 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (void)applyCredentials:(SFOAuthCredentials*)credentials;
 
-/** Apply the org settings given to the current user.
- These ideally should be settings returned by /connect/organization/
- but you can store anything that you'd like in here.
- @param orgSettings The dictionary of org settings to attach to this user.
+/** Apply custom data to the SFUserAccount that can be
+ accessed outside that user's sandbox. This data will be persisted
+ between launches and should only be used for non-sensitive information.
+ The NSDictionary should be NSCoder encodeable.
+ @param orgSettings The dictionary of custom data to attach to this user.
  */
-- (void)applyOrgSettingsToCurrentUser:(NSDictionary *)orgSettings;
+- (void)applyCustomDataToCurrentUser:(NSDictionary *)customData;
 
 /**
  Switches away from the current user, to a new user context.
