@@ -10,7 +10,7 @@
 #import "SFEncryptionKey.h"
 #import "SFKeyStoreManager+Internal.h"
 
-static NSUInteger kNumThreadsInSafetyTest = 50;
+static NSUInteger const kNumThreadsInSafetyTest = 50;
 
 @interface SFKeyStoreTests : XCTestCase
 {
