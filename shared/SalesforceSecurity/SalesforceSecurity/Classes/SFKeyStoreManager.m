@@ -67,14 +67,16 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 {
     if (keyLabel == nil) return nil;
     
-    SFEncryptionKey *key = [self.keyStoreDictionary objectForKey:keyLabel];
-    
-    if (!key && create) {
-        key = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
-        [self storeKey:key withLabel:keyLabel];
+    @synchronized (self) {
+        SFEncryptionKey *key = [self.keyStoreDictionary objectForKey:keyLabel];
+        
+        if (!key && create) {
+            key = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+            [self storeKey:key withLabel:keyLabel];
+        }
+        
+        return key;
     }
-    
-    return key;
 }
 
 - (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel
@@ -82,24 +84,30 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     NSAssert(key != nil, @"key must have a value.");
     NSAssert(keyLabel != nil, @"key label must have a value.");
     
-    NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
-    [mutableKeyStoreDict setObject:key forKey:keyLabel];
-    self.keyStoreDictionary = mutableKeyStoreDict;
+    @synchronized (self) {
+        NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
+        [mutableKeyStoreDict setObject:key forKey:keyLabel];
+        self.keyStoreDictionary = mutableKeyStoreDict;
+    }
 }
 
 - (void)removeKeyWithLabel:(NSString *)keyLabel
 {
     if (keyLabel == nil) return;
     
-    NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
-    [mutableKeyStoreDict removeObjectForKey:keyLabel];
-    self.keyStoreDictionary = mutableKeyStoreDict;
+    @synchronized (self) {
+        NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
+        [mutableKeyStoreDict removeObjectForKey:keyLabel];
+        self.keyStoreDictionary = mutableKeyStoreDict;
+    }
 }
 
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel
 {
-    SFEncryptionKey *key = [self retrieveKeyWithLabel:keyLabel autoCreate:NO];
-    return (key != nil);
+    @synchronized (self) {
+        SFEncryptionKey *key = [self retrieveKeyWithLabel:keyLabel autoCreate:NO];
+        return (key != nil);
+    }
 }
 
 - (SFEncryptionKey *)keyWithRandomValue

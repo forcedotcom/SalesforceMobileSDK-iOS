@@ -10,7 +10,15 @@
 #import "SFEncryptionKey.h"
 #import "SFKeyStoreManager+Internal.h"
 
+static NSUInteger const kNumThreadsInSafetyTest = 50;
+
 @interface SFKeyStoreTests : XCTestCase
+{
+    BOOL _threadSafetyTestCompleted;
+    NSMutableArray *_completedThreads;
+}
+
+- (void)keyStoreThreadSafeHelper;
 
 @end
 
@@ -19,6 +27,8 @@
 - (void)setUp
 {
     [super setUp];
+    
+    [SFLogger setLogLevel:SFLogLevelDebug];
     
     // No passcode, to start.
     [[SFPasscodeManager sharedManager] changePasscode:nil];
@@ -88,6 +98,20 @@
     XCTAssertNil(badDict, @"If dictionary can't be decrypted, it should be nil.");
 }
 
+- (void)testKeyStoreThreadSafety
+{
+    _threadSafetyTestCompleted = NO;
+    _completedThreads = [NSMutableArray array];
+    for (NSInteger i = 0; i < kNumThreadsInSafetyTest; i++) {
+        [self performSelectorInBackground:@selector(keyStoreThreadSafeHelper) withObject:nil];
+    }
+    
+    while (!_threadSafetyTestCompleted) {
+        NSLog(@"## Thread safety test sleeping...");
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+}
+
 #pragma mark - Passcode change tests
 
 - (void)testNoPasscodeToPasscode
@@ -147,6 +171,29 @@
     XCTAssertNotEqualObjects(updatedKeyStoreKey.encryptionKey, origPasscodeKeyStoreKey.encryptionKey, @"Encryption keys should not be equal after passcode change.");
     SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel autoCreate:NO];
     XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
+}
+
+#pragma mark - Private methods
+
+- (void)keyStoreThreadSafeHelper
+{
+    static NSUInteger keyId = 1;
+    
+    NSString *keyName = [NSString stringWithFormat:@"%@%ld", @"threadSafeKeyName", (unsigned long)keyId++];
+    SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
+    [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:keyName];
+    XCTAssertTrue([[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyName], @"Key '%@' should exist in the key store.", keyName);
+    SFEncryptionKey *retrievedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyName autoCreate:NO];
+    XCTAssertEqualObjects(origKey, retrievedKey, @"Keys with label '%@' are not equal", keyName);
+    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:keyName];
+    XCTAssertFalse([[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyName], @"Key '%@' should no longer exist in key store after removal.", keyName);
+    
+    @synchronized (self) {
+        [_completedThreads addObject:keyName];
+        if ([_completedThreads count] == kNumThreadsInSafetyTest) {
+            _threadSafetyTestCompleted = YES;
+        }
+    }
 }
 
 @end
