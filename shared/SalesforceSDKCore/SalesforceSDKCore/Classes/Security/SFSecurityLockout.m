@@ -226,7 +226,7 @@ static BOOL _showPasscode = YES;
 + (BOOL)inactivityExpired
 {
 	NSInteger elapsedTime = [[NSDate date] timeIntervalSinceDate:[SFInactivityTimerCenter lastActivityTimestamp]];
-	return (securityLockoutTime > 0) && (elapsedTime > securityLockoutTime);
+	return (securityLockoutTime > 0) && (elapsedTime >= securityLockoutTime);
 }
 
 + (void)setupTimer
