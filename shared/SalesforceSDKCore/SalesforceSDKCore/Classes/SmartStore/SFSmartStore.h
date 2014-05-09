@@ -37,7 +37,7 @@ extern NSString *const kDefaultSmartStoreName;
  */
 extern NSString * const kSFSmartStoreErrorDomain;
 
-@class FMDatabase;
+@class FMDatabaseQueue;
 @class SFStoreCursor;
 @class SFQuerySpec;
 
@@ -48,7 +48,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
     id      _dataProtectAvailObserverToken;
     id      _dataProtectUnavailObserverToken;
     
-    FMDatabase *_storeDb;
+    FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
     
     NSMutableDictionary *_indexSpecsBySoup;
@@ -59,12 +59,6 @@ extern NSString * const kSFSmartStoreErrorDomain;
  The name of this store. 
  */
 @property (nonatomic, readonly, strong) NSString *storeName;
-
-/**
- The db access object for this store.
- */
-@property (nonatomic, readonly, strong) FMDatabase *storeDb;
-
 
 
 /**
@@ -153,7 +147,6 @@ extern NSString * const kSFSmartStoreErrorDomain;
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
- 
  @return A set of entries given the pageSize provided in the querySpec
  */
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;

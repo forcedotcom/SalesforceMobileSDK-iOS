@@ -112,17 +112,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 - (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-    [db setLogsErrors:YES];
-    [db setCrashOnErrors:NO];
-    if ([db open]) {
-        [db setKey:key];
+        [db setLogsErrors:YES];
+        [db setCrashOnErrors:NO];
+        if ([db open]) {
+            [db setKey:key];
         return db;
-    } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
-        if (error != nil)
-            *error = [db lastError];
+        } else {
+            NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
+            if (error != nil)
+                *error = [db lastError];
         return nil;
-    }
+        }
 }
 
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error
