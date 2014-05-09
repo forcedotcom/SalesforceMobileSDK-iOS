@@ -630,7 +630,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (BOOL)canReadDatabaseQueue:(FMDatabaseQueue *)queue
 {
-    __block BOOL readable = FALSE;
+    __block BOOL readable = NO;
     
     [queue inDatabase:^(FMDatabase* db) {
         // Turn off hard errors from FMDB first.
