@@ -916,6 +916,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self.storeQueue inDatabase:^(FMDatabase* db) {
         result = [self soupExists:soupName withDb:db];
     }];
+    return result;
 }
 
 - (BOOL)soupExists:(NSString*)soupName withDb:(FMDatabase*) db {
@@ -1089,8 +1090,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupTableName];
     [db executeUpdate:dropSql];
-    
-    [db beginTransaction];
     
     NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                                 SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
@@ -1309,7 +1308,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     NSUInteger totalEntries = [self  countWithQuerySpec:querySpec withDb:db];
-    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
+    NSArray* firstPageEntries = (totalEntries > 0
+                                 ? [self queryWithQuerySpec:querySpec pageIndex:0 withDb:db]
+                                 : [NSArray array]);
+    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
     
     return result;
 }
@@ -1509,7 +1511,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // Specific NSError messages are generated exclusively around user-defined external ID logic.
     // Ignore them here, and preserve the interface.
     NSError* error = nil;
-    return [self upsertEntries:entries toSoup:soupName withExternalIdPath:nil error:&error];
+    return [self upsertEntries:entries toSoup:soupName withExternalIdPath:SOUP_ENTRY_ID error:&error];
 }
 
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error

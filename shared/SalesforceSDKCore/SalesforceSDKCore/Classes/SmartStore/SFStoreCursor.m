@@ -56,11 +56,12 @@
 - (id)initWithStore:(SFSmartStore*)store
              querySpec:(SFQuerySpec*)querySpec  
           totalEntries:(NSUInteger)totalEntries
+   firstPageEntries:(NSArray*) firstPageEntries
 {
     self = [super init];
     
     if (nil != self) {
-        _store = store;
+        _store = nil;
         [self setCursorId:[NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]]];
         
         self.querySpec = querySpec;
@@ -76,8 +77,8 @@
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
-                
-        [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
+        _currentPageIndex = [NSNumber numberWithInt:0];
+        self.currentPageOrderedEntries = firstPageEntries;
     }
     return self;
 }
