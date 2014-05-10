@@ -329,6 +329,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if ([oldKey isEqualToString:newKey])
         return;
     
+    
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     for (NSString *storeName in allStoreNames) {
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
@@ -336,7 +337,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             [self log:SFLogLevelDebug format:@"Updating key for opened store '%@'", storeName];
             [currentStore.storeQueue close];
             [SFSmartStore changeKeyforStoreName:storeName withOldKey:oldKey withNewKey:newKey];
-            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:storeName key:newKey error:nil];
+            // Never going un-encrypted // XXX duplicate logic in changeKeyForDb
+            NSString* actualNewKey = ([newKey length] == 0 ? [self defaultKey] : newKey);
+            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:storeName key:actualNewKey error:nil];
         }
         else {
             [self log:SFLogLevelDebug format:@"Updating key for store '%@' on filesystem", storeName];
