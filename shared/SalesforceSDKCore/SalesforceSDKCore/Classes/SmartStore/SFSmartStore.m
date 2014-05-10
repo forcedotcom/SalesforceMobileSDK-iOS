@@ -265,7 +265,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     if (db) {
-        self.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithPath:self.storeName key:key error:nil];
+        self.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:self.storeName key:key error:nil];
         [db close];
     }
         
@@ -334,38 +334,41 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
         if (currentStore != nil) {
             [self log:SFLogLevelDebug format:@"Updating key for opened store '%@'", storeName];
-            FMDatabase* currentDb = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:oldKey error:nil];
-            FMDatabase *updatedDb = [self changeKeyForDb:currentDb name:storeName oldKey:oldKey newKey:newKey];
-            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithPath:storeName key:oldKey error:nil];
-            [currentDb close];
-            [updatedDb close];
-        } else {
-            // Store database is not resident in memory.  Open it long enough to make the change, then close it.
+            [currentStore.storeQueue close];
+            [SFSmartStore changeKeyforStoreName:storeName withOldKey:oldKey withNewKey:newKey];
+            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:storeName key:newKey error:nil];
+        }
+        else {
             [self log:SFLogLevelDebug format:@"Updating key for store '%@' on filesystem", storeName];
-            NSString *keyUsedToOpen;
-            if ([oldKey length] == 0) {
-                // No old key.  Are we using the default key?
-                if ([self usesDefaultKey:storeName]) {
-                    keyUsedToOpen = [self defaultKey];
-                } else {
-                    keyUsedToOpen = @"";
-                }
-            } else {
-                // There's a previously-defined key.  Use that.
-                keyUsedToOpen = oldKey;
-            }
-            NSError *openError = nil;
-            FMDatabase *nonStoreDb = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
-                                                                                                                key:keyUsedToOpen
-                                                                                                              error:&openError];
-            if (nonStoreDb == nil || openError != nil) {
-                [self log:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]];
-            } else {
-                nonStoreDb = [self changeKeyForDb:nonStoreDb name:storeName oldKey:oldKey newKey:newKey];
-            }
-            [nonStoreDb close];
+            [SFSmartStore changeKeyforStoreName:storeName withOldKey:oldKey withNewKey:newKey];
         }
     }
+}
+
++ (void)changeKeyforStoreName:(NSString*)storeName withOldKey:(NSString*)oldKey withNewKey:(NSString*)newKey
+{
+    NSString *keyUsedToOpen;
+    if ([oldKey length] == 0) {
+        // No old key.  Are we using the default key?
+        if ([self usesDefaultKey:storeName]) {
+            keyUsedToOpen = [self defaultKey];
+        } else {
+            keyUsedToOpen = @"";
+        }
+    } else {
+        // There's a previously-defined key.  Use that.
+        keyUsedToOpen = oldKey;
+    }
+    NSError *openError = nil;
+    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
+                                                                                                key:keyUsedToOpen
+                                                                                              error:&openError];
+    if (db == nil || openError != nil) {
+        [self log:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]];
+    } else {
+        db = [self changeKeyForDb:db name:storeName oldKey:oldKey newKey:newKey];
+    }
+    [db close];
 }
 
 + (FMDatabase *)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey

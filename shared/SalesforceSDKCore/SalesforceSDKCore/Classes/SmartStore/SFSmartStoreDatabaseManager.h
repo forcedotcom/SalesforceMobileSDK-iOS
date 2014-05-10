@@ -62,7 +62,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error Returned if there's an error with the process.
  @return The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.
  */
-- (FMDatabaseQueue *)openStoreQueueWithPath:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 
 /**
  Encrypts an existing unencrypted database.
