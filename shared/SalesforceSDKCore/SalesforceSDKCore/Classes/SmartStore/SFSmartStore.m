@@ -265,7 +265,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     if (db) {
-        self.storeQueue = [FMDatabaseQueue databaseQueueWithPath:[db databasePath]];
+        self.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithPath:self.storeName key:key error:nil];
         [db close];
     }
         
@@ -336,7 +336,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             [self log:SFLogLevelDebug format:@"Updating key for opened store '%@'", storeName];
             FMDatabase* currentDb = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:oldKey error:nil];
             FMDatabase *updatedDb = [self changeKeyForDb:currentDb name:storeName oldKey:oldKey newKey:newKey];
-            currentStore.storeQueue = [FMDatabaseQueue databaseQueueWithPath:[updatedDb databasePath]];
+            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithPath:storeName key:oldKey error:nil];
             [currentDb close];
             [updatedDb close];
         } else {
