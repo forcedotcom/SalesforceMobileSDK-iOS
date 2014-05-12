@@ -559,6 +559,30 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertFalse(storeExists, @"Un-decryptable store should have been removed on default encryption update.");
 }
 
+- (void) testGetDatabaseSize
+{
+    // Before
+    long initialSize = [_store getDatabaseSize];
+    
+    // Register
+    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    
+    // Upserts
+    NSMutableArray* entries = [NSMutableArray array];
+    for (int i=0; i<100; i++) {
+        NSMutableDictionary* soupElt = [NSMutableDictionary dictionary];
+        soupElt[@"name"] = [NSString stringWithFormat:@"name_%d", i];
+        soupElt[@"value"] = [NSString stringWithFormat:@"value_%d", i];
+        [entries addObject:soupElt];
+    }
+    [_store upsertEntries:entries toSoup:kTestSoupName];
+    
+    // After
+    STAssertTrue([_store getDatabaseSize] > initialSize, @"Database size should be larger");
+    
+}
+
 #pragma mark - helper methods
 
 - (BOOL) hasTable:(NSString*)tableName
