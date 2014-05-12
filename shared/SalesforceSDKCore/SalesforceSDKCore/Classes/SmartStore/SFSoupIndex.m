@@ -81,9 +81,28 @@ NSString * const kSoupIndexColumnName   = @"columnName";
     
 - (NSDictionary*)asDictionary
 {
+    return [self asDictionary:NO];
+}
+
+- (NSDictionary*)asDictionary:(BOOL)withColumnName
+{
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:self.path forKey:kSoupIndexPath];
     [result setObject:self.indexType forKey:kSoupIndexType];
+    if (withColumnName)
+        [result setObject:self.columnName forKey:kSoupIndexColumnName];
+    return result;
+}
+
++ (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName
+{
+    NSMutableArray* result = [NSMutableArray array];
+    for (id soupIndex in arrayOfSoupIndexes) {
+        NSDictionary* soupIndexAsDictionary = [soupIndex isKindOfClass:[SFSoupIndex class]]
+                                               ? [(SFSoupIndex*) soupIndex asDictionary:withColumnName]
+                                               : (NSDictionary*) soupIndex;
+        [result addObject:soupIndexAsDictionary];
+    }
     return result;
 }
 

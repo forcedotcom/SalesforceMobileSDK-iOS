@@ -74,9 +74,23 @@ extern NSString * const kSoupIndexTypeFloating;
 - (id)initWithDictionary:(NSDictionary*)dict;
     
 /**
-  * Return dictionary for this SFSoupIndex object
+  * Return dictionary for this SFSoupIndex object without column name
   */
 - (NSDictionary*)asDictionary;
+
+/**
+  * Return dictionary for this SFSoupIndex object with or without column name
+  * @param withColumnName if YES, column name is included in returned dictionary
+  */
+- (NSDictionary*)asDictionary:(BOOL)withColumnName;
+
+/**
+  * Return array of dictionaries given an array of SFSoupIndex or NSDictionary
+  * @param arrayOfSoupIndexes
+  * @param withColumnName
+  * @return array of dictionaries.
+  */
++ (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName;
 
 /*
  * Return map path to SFSoupIndex
