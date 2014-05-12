@@ -84,9 +84,9 @@ NSString *const SOUP_COL = @"soup";
 static NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
 
 // Columns of long operations status table
-static NSString *const TYPE_COL = @"type";
-static NSString *const DETAILS_COL = @"details";
-static NSString *const STATUS_COL = @"status";
+NSString *const TYPE_COL = @"type";
+NSString *const DETAILS_COL = @"details";
+NSString *const STATUS_COL = @"status";
 
 // JSON fields added to soup element on insert/update
 static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
@@ -451,9 +451,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         result =[self.storeDb  executeUpdate:createSoupIndexTableSql];
         if (result) {
             result =[self.storeDb  executeUpdate:createSoupNamesTableSql];
-            // Add index on SOUP_NAME_COL
             if (result) {
-                result = [self.storeDb executeUpdate:createSoupNamesIndexSql];
+                result = [self createLongOperationsStatusTable];
+                // Add index on SOUP_NAME_COL
+                if (result) {
+                    result = [self.storeDb executeUpdate:createSoupNamesIndexSql];
+                }
             }
         }
     }
