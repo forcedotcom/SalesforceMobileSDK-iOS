@@ -490,19 +490,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
          ];
     
     [self log:SFLogLevelDebug format:@"createLongOperationsStatusTableSql: %@",createLongOperationsStatusTableSql];
-    @try {
-        result = [self.storeDb executeUpdate:createLongOperationsStatusTableSql];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelError format:@"Exception creating long operations status table: %@", exception];
-    }
-    @finally {
-        if (!result) {
-            [self log:SFLogLevelError format:@"ERROR %d creating long operations status table: '%@'",
-             [self.storeDb lastErrorCode],
-             [self.storeDb lastErrorMessage]];
-        }
-    }
+    result = [self.storeDb executeUpdate:createLongOperationsStatusTableSql];
+    return result;
 }
 
 #pragma mark - Utility methods
