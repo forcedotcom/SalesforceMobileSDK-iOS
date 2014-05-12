@@ -27,6 +27,9 @@
 #import "SFKeyStoreKey.h"
 
 @interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
+{
+    SFKeyStoreKey *_keyStoreKey;
+}
 
 /**
  The dictionary that holds the key store.
@@ -36,7 +39,7 @@
 /**
  The key store key, used for encrypting and decrypting the key store.
  */
-@property (nonatomic, strong) SFKeyStoreKey *keyStoreKey;
+@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey;
 
 /**
  Creates a default key store key from random generated key and IV values.  Used when a passcode

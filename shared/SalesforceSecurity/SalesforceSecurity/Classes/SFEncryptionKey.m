@@ -59,6 +59,14 @@ static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encr
     [aCoder encodeObject:self.initializationVector forKey:kInitializationVectorCodingValue];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    SFEncryptionKey *keyCopy = [[[self class] allocWithZone:zone] init];
+    keyCopy.key = [NSData dataWithData:self.key];
+    keyCopy.initializationVector = [NSData dataWithData:self.initializationVector];
+    return keyCopy;
+}
+
 - (NSString *)keyAsString
 {
     if (!self.key) return nil;

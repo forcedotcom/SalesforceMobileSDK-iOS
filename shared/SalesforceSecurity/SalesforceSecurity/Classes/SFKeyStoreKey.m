@@ -61,4 +61,12 @@ static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keysto
     [aCoder encodeObject:keyTypeNum forKey:kKeyStoreKeyTypeDataArchiveKey];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    SFKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
+    keyCopy.encryptionKey = [self.encryptionKey copy];
+    keyCopy.keyType = self.keyType;
+    return keyCopy;
+}
+
 @end
