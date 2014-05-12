@@ -51,6 +51,8 @@
         _indexSpecs = newIndexSpecs;
         _oldIndexSpecs = [store indicesForSoup:soupName];
         _reIndexData = reIndexData;
+        _rowId = [self createLongOperationDbRow];
+        _afterStep = STARTING;
     }
     return self;
 }
@@ -231,24 +233,41 @@
  */
 - (long) createLongOperationDbRow
 {
-    return 0L;
-    // TODO
+    NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
+    NSMutableDictionary* values = [NSMutableDictionary dictionary];
+    values[TYPE_COL] = @"AlterSoup";
+    values[DETAILS_COL] = [self getDetails];
+    values[STATUS_COL] = [NSNumber numberWithInt:STARTING];
+    values[CREATED_COL] = now;
+    values[LAST_MODIFIED_COL] = now;
+    [self.store insertIntoTable:self.soupTableName values:values];
+    return [self.store.storeDb lastInsertRowId];
 }
 
 - (NSDictionary*) getDetails
 {
-    return nil;
-    // TODO
+    NSMutableDictionary* details = [NSMutableDictionary dictionary];
+    details[SOUP_NAME] = self.soupName;
+    details[SOUP_TABLE_NAME] = self.soupTableName;
+    details[OLD_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES];
+    details[NEW_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES];
+    details[RE_INDEX_DATA] = [NSNumber numberWithBool:self.reIndexData];
+    return details;
 }
 
 /**
  Update row in long operations status table for on-going alter soup operation
  Delete row if newStatus is AlterStatus.LAST
  @param newStatus
+ @return YES if successful
  */
-- (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus
+- (BOOL) updateLongOperationDbRow:(SFAlterSoupStep)newStatus
 {
-    // TODO
+    NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
+    NSMutableDictionary* values = [NSMutableDictionary dictionary];
+    values[STATUS_COL] = [NSNumber numberWithInt:self.afterStep];
+    values[LAST_MODIFIED_COL] = now;
+    return [self.store updateTable:self.soupTableName values:values entryId:[NSNumber numberWithLong:self.rowId]];
 }
 
 /**

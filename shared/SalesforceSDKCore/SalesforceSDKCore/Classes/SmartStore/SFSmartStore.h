@@ -37,7 +37,6 @@ extern NSString *const kDefaultSmartStoreName;
  */
 extern NSString * const kSFSmartStoreErrorDomain;
 
-
 /**
  The columns of a soup table
  */
@@ -58,6 +57,13 @@ extern NSString *const SOUP_NAME_COL;
 extern NSString *const PATH_COL;
 extern NSString *const COLUMN_NAME_COL;
 extern NSString *const COLUMN_TYPE_COL;
+
+/*
+ Columns of the long operations status table
+ */
+extern NSString *const TYPE_COL;
+extern NSString *const DETAILS_COL;
+extern NSString *const STATUS_COL;
 
 @class FMDatabase;
 @class SFStoreCursor;
