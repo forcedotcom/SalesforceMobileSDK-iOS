@@ -27,6 +27,7 @@
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
@@ -110,15 +111,29 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [self openDatabaseWithPath:fullDbFilePath key:key error:error];
 }
 
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
+    __block BOOL result = YES;
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
+    [queue inDatabase:^(FMDatabase* db) {
+        result = ([self setKeyForDb:db key:key error:error] != nil);
+    }];
+    return (result ? queue : nil);
+}
+
 - (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    return [self setKeyForDb:db key:key error:error];
+}
+
+- (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
     if ([db open]) {
         [db setKey:key];
         return db;
     } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
+        NSLog(@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]);
         if (error != nil)
             *error = [db lastError];
         return nil;

@@ -56,6 +56,7 @@
 - (id)initWithStore:(SFSmartStore*)store
              querySpec:(SFQuerySpec*)querySpec  
           totalEntries:(NSUInteger)totalEntries
+   firstPageEntries:(NSArray*) firstPageEntries
 {
     self = [super init];
     
@@ -76,8 +77,8 @@
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
-                
-        [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
+        _currentPageIndex = [NSNumber numberWithInt:0];
+        self.currentPageOrderedEntries = firstPageEntries;
     }
     return self;
 }

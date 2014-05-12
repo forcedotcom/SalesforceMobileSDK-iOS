@@ -26,6 +26,7 @@
 #import "SFJsonUtils.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
+#import "FMDatabaseQueue.h"
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -165,20 +166,22 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Register second time.  Should only create one soup per unique soup name.
     [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
-    int rowCount = [_store.storeDb intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
+    __block int rowCount;
+    [_store.storeQueue inDatabase:^(FMDatabase* db) {
+        rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
+    }];
     STAssertEquals(rowCount, 1, @"Soup names should be unique within a store.");
     
     // Remove
     [_store removeSoup:kTestSoupName];
     testSoupExists = [_store soupExists:kTestSoupName];
     STAssertFalse(testSoupExists, @"Soup %@ should no longer exist", kTestSoupName);
-    
 }
 
 - (void)testQuerySpecPageSize
 {
     NSDictionary *allQueryNoPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                              @"a/path", kQuerySpecParamIndexPath,
+                              @"a", kQuerySpecParamIndexPath,
                               nil];
     
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
@@ -186,7 +189,7 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
     NSUInteger expectedPageSize = 42;
     NSDictionary *allQueryWithPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                                        @"a/path", kQuerySpecParamIndexPath,
+                                        @"a", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithUnsignedInteger:expectedPageSize], kQuerySpecParamPageSize,
                                         nil];
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
@@ -202,11 +205,11 @@ NSString * const kTestSoupName   = @"testSoup";
     uint evenDividePageSize = 25;
     int expectedPageSize = totalEntries / evenDividePageSize;
     NSDictionary *allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                                          @"a/path", kQuerySpecParamIndexPath,
+                                          @"a", kQuerySpecParamIndexPath,
                                           [NSNumber numberWithInt:evenDividePageSize], kQuerySpecParamPageSize,
                                           nil];
-    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
-    SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
+    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
+    SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     int cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
 
@@ -214,11 +217,11 @@ NSString * const kTestSoupName   = @"testSoup";
     uint unevenDividePageSize = 24;
     expectedPageSize = totalEntries / unevenDividePageSize + 1;
     allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                              @"a/path", kQuerySpecParamIndexPath,
+                              @"a", kQuerySpecParamIndexPath,
                               [NSNumber numberWithInt:unevenDividePageSize], kQuerySpecParamPageSize,
                               nil];
-    querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:@"test"];
-    cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries];
+    querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
+    cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
 }
@@ -391,9 +394,9 @@ NSString * const kTestSoupName   = @"testSoup";
         NSString *newNoPasscodeStoreName = @"new_no_passcode_store";
         STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:newNoPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newNoPasscodeStoreName);
         SFSmartStore *newNoPasscodeStore = [SFSmartStore sharedStoreWithName:newNoPasscodeStoreName];
-        BOOL canReadSmartStoreDb = [self canReadDatabase:newNoPasscodeStore.storeDb];
+        BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
         STAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-        [newNoPasscodeStore.storeDb close];
+        [newNoPasscodeStore.storeQueue close];
         FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName key:@"" openShouldFail:NO];
         canReadSmartStoreDb = [self canReadDatabase:rawDb];
         STAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
@@ -409,9 +412,9 @@ NSString * const kTestSoupName   = @"testSoup";
         [[SFPasscodeManager sharedManager] setPasscode:passcode];
         STAssertFalse([[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:newPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newPasscodeStoreName);
         SFSmartStore *newPasscodeStore = [SFSmartStore sharedStoreWithName:newPasscodeStoreName];
-        canReadSmartStoreDb = [self canReadDatabase:newPasscodeStore.storeDb];
+        canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
         STAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-        [newPasscodeStore.storeDb close];
+        [newPasscodeStore.storeQueue close];
         rawDb = [self openDatabase:newPasscodeStoreName key:@"" openShouldFail:NO];
         canReadSmartStoreDb = [self canReadDatabase:rawDb];
         STAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
@@ -425,11 +428,11 @@ NSString * const kTestSoupName   = @"testSoup";
         [SFSmartStore clearSharedStoreMemoryState];
         [[SFPasscodeManager sharedManager] setEncryptionKey:nil];
         SFSmartStore *existingDefaultKeyStore = [SFSmartStore sharedStoreWithName:newNoPasscodeStoreName];
-        canReadSmartStoreDb = [self canReadDatabase:existingDefaultKeyStore.storeDb];
+        canReadSmartStoreDb = [self canReadDatabaseQueue:existingDefaultKeyStore.storeQueue];
         STAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with default key.", passcodeProviderName);
         [[SFPasscodeManager sharedManager] setPasscode:passcode];
         SFSmartStore *existingPasscodeStore = [SFSmartStore sharedStoreWithName:newPasscodeStoreName];
-        canReadSmartStoreDb = [self canReadDatabase:existingPasscodeStore.storeDb];
+        canReadSmartStoreDb = [self canReadDatabaseQueue:existingPasscodeStore.storeQueue];
         STAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with passcode key.", passcodeProviderName);
         
         // Cleanup.
@@ -469,7 +472,7 @@ NSString * const kTestSoupName   = @"testSoup";
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
                 [db close];
                 SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName];
-                canReadDb = [self canReadDatabase:store.storeDb];
+                canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
                 BOOL usesDefault = [SFSmartStore usesDefaultKey:storeName];
                 STAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- None of the smart store instances should be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
@@ -484,7 +487,7 @@ NSString * const kTestSoupName   = @"testSoup";
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
                 [db close];
                 SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName];
-                canReadDb = [self canReadDatabase:store.storeDb];
+                canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
                 BOOL usesDefault = [SFSmartStore usesDefaultKey:storeName];
                 STAssertTrue(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- All of the smart store instances should be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
@@ -563,13 +566,16 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (BOOL) hasTable:(NSString*)tableName
 {
-    FMResultSet *frs = [_store.storeDb executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
+    __block NSInteger result = NSNotFound;
 
-    NSInteger result = NSNotFound;
-    if ([frs next]) {        
-        result = [frs intForColumnIndex:0];
-    }
-    [frs close];
+    [_store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
+        
+        if ([frs next]) {
+            result = [frs intForColumnIndex:0];
+        }
+        [frs close];
+    }];
     
     return result == 1;
 }
@@ -620,6 +626,25 @@ NSString * const kTestSoupName   = @"testSoup";
     [rs close];
     [db setCrashOnErrors:origCrashOnErrors];
     return (rs != nil);
+}
+
+- (BOOL)canReadDatabaseQueue:(FMDatabaseQueue *)queue
+{
+    __block BOOL readable = NO;
+    
+    [queue inDatabase:^(FMDatabase* db) {
+        // Turn off hard errors from FMDB first.
+        BOOL origCrashOnErrors = [db crashOnErrors];
+        [db setCrashOnErrors:NO];
+        
+        NSString *querySql = @"SELECT * FROM sqlite_master LIMIT 1";
+        FMResultSet *rs = [db executeQuery:querySql];
+        [rs close];
+        [db setCrashOnErrors:origCrashOnErrors];
+        readable = (rs != nil);
+    }];
+    
+    return readable;
 }
 
 - (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db

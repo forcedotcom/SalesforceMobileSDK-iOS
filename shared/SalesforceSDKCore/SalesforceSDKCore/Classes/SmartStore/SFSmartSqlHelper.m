@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSqlHelper.h"
-#import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
 
 static SFSmartSqlHelper *sharedInstance = nil;
@@ -40,7 +39,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
     return sharedInstance;
 }
 
-- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store
+- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store withDb:(FMDatabase *)db
 {
     // Select's only
     NSString* smartSqlLowerCase = [[smartSql lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -69,7 +68,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = [parts objectAtIndex:0];
-            NSString* soupTableName = [store tableNameForSoup:soupName];
+            NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
             if (nil == soupTableName) {
                 return nil;
             }
@@ -99,7 +98,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 }
                 // {soupName:path}
                 else {
-                    NSString* columnName = [store columnNameForPath:path inSoup:soupName];
+                    NSString* columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
                     if (nil == columnName) {
                         return nil;
                     }

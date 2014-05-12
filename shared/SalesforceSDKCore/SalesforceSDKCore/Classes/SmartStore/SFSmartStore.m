@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
+#import "FMDatabaseQueue.h"
 #import "SFJsonUtils.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
@@ -80,14 +81,13 @@ static NSString *const CREATED_COL = @"created";
 static NSString *const LAST_MODIFIED_COL = @"lastModified";
 static NSString *const SOUP_COL = @"soup";
 
-// JSON fields added to soup element on insert/update 
+// JSON fields added to soup element on insert/update
 static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
 static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 @implementation SFSmartStore
 
-
-@synthesize storeDb = _storeDb;
+@synthesize storeQueue = _storeQueue;
 @synthesize storeName = _storeName;
 
 + (void)initialize
@@ -113,30 +113,30 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if (nil != self)  {
         [self log:SFLogLevelDebug format:@"SFSmartStore initWithStoreName: %@",name];
         
-         _storeName = name;
+        _storeName = name;
         //Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         //we use this so that addObserverForName doesn't retain us
         __strong SFSmartStore *this = self;
-        _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter] 
-                                          addObserverForName:UIApplicationProtectedDataDidBecomeAvailable 
+        _dataProtectAvailObserverToken = [[NSNotificationCenter defaultCenter]
+                                          addObserverForName:UIApplicationProtectedDataDidBecomeAvailable
                                           object:nil
-                                          queue:nil 
+                                          queue:nil
                                           usingBlock:^(NSNotification *note) {
                                               [self log:SFLogLevelDebug format:@"SFSmartStore UIApplicationProtectedDataDidBecomeAvailable"];
                                               this->_dataProtectionKnownAvailable = YES;
                                           }];
         
-        _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter] 
-                                            addObserverForName:UIApplicationProtectedDataWillBecomeUnavailable 
+        _dataProtectUnavailObserverToken = [[NSNotificationCenter defaultCenter]
+                                            addObserverForName:UIApplicationProtectedDataWillBecomeUnavailable
                                             object:nil
-                                            queue:nil 
+                                            queue:nil
                                             usingBlock:^(NSNotification *note) {
                                                 [self log:SFLogLevelDebug format:@"SFSmartStore UIApplicationProtectedDataWillBecomeUnavailable"];
                                                 this->_dataProtectionKnownAvailable = NO;
                                             }];
         
-                
+        
         _indexSpecsBySoup = [[NSMutableDictionary alloc] init];
         
         _smartSqlToSql = [[NSMutableDictionary alloc] init];
@@ -151,14 +151,14 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             }
         }
         
-
+        
     }
     return self;
 }
 
-- (void)dealloc {    
+- (void)dealloc {
     [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
-    [self.storeDb close];
+    [self.storeQueue close];
     SFRelease(_indexSpecsBySoup);
     SFRelease(_smartSqlToSql);
     
@@ -173,9 +173,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (BOOL)firstTimeStoreDatabaseSetup {
     BOOL result = NO;
     NSError *createErr = nil, *protectErr = nil;
-
+    
     if (![self isFileDataProtectionActive]) {
-        //This is expected on simulator and when user does not have unlock passcode set 
+        //This is expected on simulator and when user does not have unlock passcode set
         [self log:SFLogLevelDebug format:@"WARNING file data protection inactive when creating store db."];
     }
     
@@ -185,7 +185,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         //need to create the db file itself before we can encrypt it
         if ([self openStoreDatabase:YES]) {
             if ([self createMetaTables]) {
-                [self.storeDb close];  _storeDb = nil; // Need to close before setting encryption.
+                [self.storeQueue close];  self.storeQueue = nil; // Need to close before setting encryption.
                 [[SFSmartStoreDatabaseManager sharedManager] protectStoreDir:self.storeName error:&protectErr];
                 if (protectErr != nil) {
                     [self log:SFLogLevelDebug format:@"Couldn't protect store: %@", protectErr];
@@ -195,7 +195,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 }
             }
         }
-    } 
+    }
     
     if (!result) {
         [self log:SFLogLevelDebug format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
@@ -221,7 +221,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         // User-defined key.  Create or open the database with that.
         db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
         if (db) {
-            self.storeDb = db;
             result = YES;
         } else {
             [self log:SFLogLevelError format:kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]];
@@ -231,7 +230,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         key = [[self class] defaultKey];
         db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
         if (db) {
-            self.storeDb = db;
             [[self class] setUsesDefaultKey:YES forStore:self.storeName];
             result = YES;
         } else {
@@ -251,7 +249,6 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 if (encryptDbError) {
                     [self log:SFLogLevelError format:kEncryptDatabaseError, self.storeName, [encryptDbError localizedDescription]];
                 } else {
-                    self.storeDb = db;
                     [[self class] setUsesDefaultKey:YES forStore:self.storeName];
                     result = YES;
                 }
@@ -260,13 +257,18 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             // Already uses the default encryption key.
             db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:self.storeName key:key error:&openDbError];
             if (db) {
-                self.storeDb = db;
                 result = YES;
             } else {
                 [self log:SFLogLevelError format:kOpenExistingDatabaseError, self.storeName, [openDbError localizedDescription]];
             }
         }
     }
+    
+    if (db) {
+        self.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:self.storeName key:key error:nil];
+        [db close];
+    }
+        
     
     return result;
 }
@@ -289,7 +291,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         store = [[SFSmartStore alloc] initWithName:storeName];
         if (store)
             [_allSharedStores setObject:store forKey:storeName];
-         //the store is retained by _allSharedStores so we can return it
+        //the store is retained by _allSharedStores so we can return it
     }
     
     return store;
@@ -299,7 +301,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self log:SFLogLevelDebug format:@"removeSharedStoreWithName: %@", storeName];
     SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
     if (nil != existingStore) {
-        [existingStore.storeDb close];
+        [existingStore.storeQueue close];
         [_allSharedStores removeObjectForKey:storeName];
     }
     [[self class] setUsesDefaultKey:NO forStore:storeName];
@@ -327,41 +329,49 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if ([oldKey isEqualToString:newKey])
         return;
     
+    
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     for (NSString *storeName in allStoreNames) {
         SFSmartStore *currentStore = [_allSharedStores objectForKey:storeName];
         if (currentStore != nil) {
-            // Existing store (whose DB should be initialized and open, if it's in _allSharedStores).
             [self log:SFLogLevelDebug format:@"Updating key for opened store '%@'", storeName];
-            FMDatabase *updatedDb = [self changeKeyForDb:currentStore.storeDb name:storeName oldKey:oldKey newKey:newKey];
-            currentStore.storeDb = updatedDb;
-        } else {
-            // Store database is not resident in memory.  Open it long enough to make the change, then close it.
+            [currentStore.storeQueue close];
+            [SFSmartStore changeKeyforStoreName:storeName withOldKey:oldKey withNewKey:newKey];
+            // Never going un-encrypted // XXX duplicate logic in changeKeyForDb
+            NSString* actualNewKey = ([newKey length] == 0 ? [self defaultKey] : newKey);
+            currentStore.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:storeName key:actualNewKey error:nil];
+        }
+        else {
             [self log:SFLogLevelDebug format:@"Updating key for store '%@' on filesystem", storeName];
-            NSString *keyUsedToOpen;
-            if ([oldKey length] == 0) {
-                // No old key.  Are we using the default key?
-                if ([self usesDefaultKey:storeName]) {
-                    keyUsedToOpen = [self defaultKey];
-                } else {
-                    keyUsedToOpen = @"";
-                }
-            } else {
-                // There's a previously-defined key.  Use that.
-                keyUsedToOpen = oldKey;
-            }
-            NSError *openError = nil;
-            FMDatabase *nonStoreDb = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
-                                                                                                        key:keyUsedToOpen
-                                                                                                      error:&openError];
-            if (nonStoreDb == nil || openError != nil) {
-                [self log:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]];
-            } else {
-                nonStoreDb = [self changeKeyForDb:nonStoreDb name:storeName oldKey:oldKey newKey:newKey];
-            }
-            [nonStoreDb close];
+            [SFSmartStore changeKeyforStoreName:storeName withOldKey:oldKey withNewKey:newKey];
         }
     }
+}
+
++ (void)changeKeyforStoreName:(NSString*)storeName withOldKey:(NSString*)oldKey withNewKey:(NSString*)newKey
+{
+    NSString *keyUsedToOpen;
+    if ([oldKey length] == 0) {
+        // No old key.  Are we using the default key?
+        if ([self usesDefaultKey:storeName]) {
+            keyUsedToOpen = [self defaultKey];
+        } else {
+            keyUsedToOpen = @"";
+        }
+    } else {
+        // There's a previously-defined key.  Use that.
+        keyUsedToOpen = oldKey;
+    }
+    NSError *openError = nil;
+    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
+                                                                                                key:keyUsedToOpen
+                                                                                              error:&openError];
+    if (db == nil || openError != nil) {
+        [self log:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openError localizedDescription]];
+    } else {
+        db = [self changeKeyForDb:db name:storeName oldKey:oldKey newKey:newKey];
+    }
+    [db close];
 }
 
 + (FMDatabase *)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey
@@ -413,63 +423,74 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
 }
 
-
 - (BOOL)createMetaTables {
-    // Create SOUP_INDEX_MAP_TABLE
-    NSString *createSoupIndexTableSql = [NSString stringWithFormat:
-                                    @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
-                                    SOUP_INDEX_MAP_TABLE,
-                                    SOUP_NAME_COL,
-                                    PATH_COL,
-                                    COLUMN_NAME_COL,
-                                    COLUMN_TYPE_COL
-                                    ];
+    __block BOOL result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self createMetaTablesWithDb:db];
+    }];
     
-    [self log:SFLogLevelDebug format:@"createSoupIndexTableSql: %@",createSoupIndexTableSql];
-            
-    
-    // Create SOUP_NAMES_TABLE 
-    // The table name for the soup will simply be TABLE_<soupId>
-    NSString *createSoupNamesTableSql = [NSString stringWithFormat:
-                                    @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT )",
-                                    SOUP_NAMES_TABLE,
-                                    ID_COL,
-                                    SOUP_NAME_COL
-                                    ];
-
-    
-    [self log:SFLogLevelDebug format:@"createSoupNamesTableSql: %@",createSoupNamesTableSql];
-    
-    // Create an index for SOUP_NAME_COL in SOUP_NAMES_TABLE
-    NSString *createSoupNamesIndexSql = [NSString stringWithFormat:
-                                        @"CREATE INDEX %@_0 on %@ ( %@ )", 
-                                         SOUP_NAMES_TABLE, SOUP_NAMES_TABLE, SOUP_NAME_COL];
-    [self log:SFLogLevelDebug format:@"createSoupNamesIndexSql: %@",createSoupNamesIndexSql];
-    
-    
-    BOOL result = NO;
-    
+    /*
+     TODO bring back
     @try {
-        result =[self.storeDb  executeUpdate:createSoupIndexTableSql];
-        if (result) {
-            result =[self.storeDb  executeUpdate:createSoupNamesTableSql];
-            // Add index on SOUP_NAME_COL
-            if (result) {
-                result = [self.storeDb executeUpdate:createSoupNamesIndexSql];
-            }
-        }
     }
     @catch (NSException *exception) {
         [self log:SFLogLevelError format:@"Exception creating meta tables: %@", exception];
     }
     @finally {
         if (!result) {
-            [self log:SFLogLevelError format:@"ERROR %d creating meta tables: '%@'", 
-            [self.storeDb lastErrorCode], 
-            [self.storeDb lastErrorMessage]];
+            [self log:SFLogLevelError format:@"ERROR %d creating meta tables: '%@'",
+             [db lastErrorCode],
+             [db lastErrorMessage]];
         }
     }
+    */
     
+    return result;
+}
+
+
+- (BOOL)createMetaTablesWithDb:(FMDatabase*) db {
+    // Create SOUP_INDEX_MAP_TABLE
+    NSString *createSoupIndexTableSql = [NSString stringWithFormat:
+                                         @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT )",
+                                         SOUP_INDEX_MAP_TABLE,
+                                         SOUP_NAME_COL,
+                                         PATH_COL,
+                                         COLUMN_NAME_COL,
+                                         COLUMN_TYPE_COL
+                                         ];
+    
+    [self log:SFLogLevelDebug format:@"createSoupIndexTableSql: %@",createSoupIndexTableSql];
+    
+    
+    // Create SOUP_NAMES_TABLE
+    // The table name for the soup will simply be TABLE_<soupId>
+    NSString *createSoupNamesTableSql = [NSString stringWithFormat:
+                                         @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT )",
+                                         SOUP_NAMES_TABLE,
+                                         ID_COL,
+                                         SOUP_NAME_COL
+                                         ];
+    
+    
+    [self log:SFLogLevelDebug format:@"createSoupNamesTableSql: %@",createSoupNamesTableSql];
+    
+    // Create an index for SOUP_NAME_COL in SOUP_NAMES_TABLE
+    NSString *createSoupNamesIndexSql = [NSString stringWithFormat:
+                                         @"CREATE INDEX %@_0 on %@ ( %@ )",
+                                         SOUP_NAMES_TABLE, SOUP_NAMES_TABLE, SOUP_NAME_COL];
+    [self log:SFLogLevelDebug format:@"createSoupNamesIndexSql: %@",createSoupNamesIndexSql];
+    
+    
+    BOOL result = NO;
+    result =[db  executeUpdate:createSoupIndexTableSql];
+    if (result) {
+        result =[db  executeUpdate:createSoupNamesTableSql];
+        // Add index on SOUP_NAME_COL
+        if (result) {
+            result = [db executeUpdate:createSoupNamesIndexSql];
+        }
+    }
     
     return result;
 }
@@ -665,8 +686,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 #pragma mark - Data access utility methods
 
-
-- (BOOL)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map  {    
+- (BOOL)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map withDb:(FMDatabase *) db {
     // map all of the columns and values from soupIndexMapInserts
     __strong NSMutableString *fieldNames = [[NSMutableString alloc] init];
     __strong NSMutableArray *binds = [[NSMutableArray alloc] init];
@@ -687,16 +707,16 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
      }];
     
     
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", 
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)",
                            tableName, fieldNames, fieldValueMarkers];
-    //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
-    BOOL result = [self.storeDb executeUpdate:insertSql withArgumentsInArray:binds];
-        
+    //[self log:SFLogLevelDebug format:@"insertSql: %@ binds: %@",insertSql,binds];
+    BOOL result = [db executeUpdate:insertSql withArgumentsInArray:binds];
+    
     return result;
     
 }
 
-- (BOOL)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId
+- (BOOL)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*) db
 {
     NSAssert(entryId != nil, @"Entry ID must have a value.");
     
@@ -721,14 +741,13 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@ = ?",
                            tableName, fieldEntries, ID_COL];
     //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
-    BOOL result = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
+    BOOL result = [db executeUpdate:updateSql withArgumentsInArray:binds];
     
     return result;
     
 }
 
-
-- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName {
+- (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName withDb:(FMDatabase*) db {
     //TODO cache these with soupName:path ? if slow...
     NSString *result = nil;
     if (nil == path) {
@@ -736,30 +755,39 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ? AND %@ = ?",
-                        COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE, 
-                        SOUP_NAME_COL,
-                        PATH_COL
-                        ];
-    FMResultSet *frs = [self.storeDb executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObjects:soupName, path, nil]];
-    if ([frs next]) {        
-        result = [frs stringForColumnIndex:0];         
+                          COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE,
+                          SOUP_NAME_COL,
+                          PATH_COL
+                          ];
+    FMResultSet *frs = [db executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObjects:soupName, path, nil]];
+    if ([frs next]) {
+        result = [frs stringForColumnIndex:0];
     }
     [frs close];
-          
+    
     if (nil == result) {
         [self log:SFLogLevelDebug format:@"Unknown index path '%@' in soup '%@' ",path,soupName];
     }
     return result;
-
+    
 }
 
 - (NSString*) convertSmartSql:(NSString*)smartSql
+{
+    __block NSString* result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self convertSmartSql:smartSql withDb:db];
+    }];
+    return result;
+}
+
+- (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*)db
 {
     [self log:SFLogLevelDebug format:@"convertSmartSQl:%@", smartSql];
     NSObject* sql = [_smartSqlToSql objectForKey:smartSql];
     
     if (nil == sql) {
-        sql = [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self];
+        sql = [[SFSmartSqlHelper sharedInstance] convertSmartSql:smartSql withStore:self withDb:db];
         
         // Conversion failed, putting the NULL in the cache so that we don't retry conversion
         if (sql == nil) {
@@ -780,42 +808,42 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return (NSString*) sql;
 }
 
-- (FMResultSet *)queryTable:(NSString*)table 
-                 forColumns:(NSArray*)columns 
-                    orderBy:(NSString*)orderBy 
-                      limit:(NSString*)limit 
-                whereClause:(NSString*)whereClause 
-                  whereArgs:(NSArray*)whereArgs 
+- (FMResultSet *)queryTable:(NSString*)table
+                 forColumns:(NSArray*)columns
+                    orderBy:(NSString*)orderBy
+                      limit:(NSString*)limit
+                whereClause:(NSString*)whereClause
+                  whereArgs:(NSArray*)whereArgs
+                     withDb:(FMDatabase*)db
 {
     NSString *columnsStr = (nil == columns) ? @"" : [columns componentsJoinedByString:@","];
     columnsStr = ([@"" isEqualToString:columnsStr]) ? @"*" : columnsStr;
     
-    NSString *orderByStr = (nil == orderBy) ? 
-        @"" : 
-        [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
-    NSString *selectionStr = (nil == whereClause) ? 
-        @"" : 
-        [NSString stringWithFormat:@"WHERE %@",whereClause ];
-    NSString *limitStr = (nil == limit) ? 
-        @"" : 
-        [NSString stringWithFormat:@"LIMIT %@",limit ];
-
-    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@", 
+    NSString *orderByStr = (nil == orderBy) ?
+    @"" :
+    [NSString stringWithFormat:@"ORDER BY %@",orderBy ];
+    NSString *selectionStr = (nil == whereClause) ?
+    @"" :
+    [NSString stringWithFormat:@"WHERE %@",whereClause ];
+    NSString *limitStr = (nil == limit) ?
+    @"" :
+    [NSString stringWithFormat:@"LIMIT %@",limit ];
+    
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ %@ %@ %@",
                      columnsStr, table, selectionStr, orderByStr, limitStr];
-    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:whereArgs];
+    FMResultSet *frs = [db executeQuery:sql withArgumentsInArray:whereArgs];
     return frs;
 }
 
 
 #pragma mark - Soup maniupulation methods
 
-
-- (NSString*)tableNameForSoup:(NSString*)soupName {
+- (NSString*)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db {
     NSString *result  = nil;
     
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_NAMES_TABLE,SOUP_NAME_COL];
-//    [self log:SFLogLevelDebug format:@"tableName query: %@",sql];
-    FMResultSet *frs = [self.storeDb executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
+    //    [self log:SFLogLevelDebug format:@"tableName query: %@",sql];
+    FMResultSet *frs = [db executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
     
     if ([frs next]) {
         int colIdx = [frs columnIndexForName:ID_COL];
@@ -834,24 +862,28 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return [NSString stringWithFormat:@"TABLE_%ld",soupId];
 }
 
-- (NSArray *)tableNamesForAllSoups {
+- (NSArray *)tableNamesForAllSoupsWithDb:(FMDatabase*) db{
     NSMutableArray* result = [NSMutableArray array]; // equivalent to: [[[NSMutableArray alloc] init] autorelease]
     NSString* sql = [NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_NAMES_TABLE];
-    FMResultSet *frs = [self.storeDb executeQuery:sql];
+    FMResultSet *frs = [db executeQuery:sql];
     while ([frs next]) {
         NSString* tableName = [frs stringForColumn:SOUP_NAME_COL];
         [result addObject:tableName];
     }
-
+    
     [frs close];
     return result;
 }
 
-/**
- @param soupName the name of the soup
- @return NSArray of SFSoupIndex for the given soup
- */
 - (NSArray*)indicesForSoup:(NSString*)soupName {
+    __block NSArray* result;
+    [self.storeQueue inDatabase:^(FMDatabase * db) {
+        result = [self indicesForSoup:soupName withDb:db];
+    }];
+    return result;
+}
+
+- (NSArray*)indicesForSoup:(NSString*)soupName withDb:(FMDatabase *)db {
     //look in the cache first
     NSMutableArray *result = [_indexSpecsBySoup objectForKey:soupName];
     if (nil == result) {
@@ -863,7 +895,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                               SOUP_INDEX_MAP_TABLE,
                               SOUP_NAME_COL];
         [self log:SFLogLevelDebug format:@"indices sql: %@",querySql];
-        FMResultSet *frs = [self.storeDb executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
+        FMResultSet *frs = [db executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
         
         while([frs next]) {
             NSString *path = [frs stringForColumn:PATH_COL];
@@ -871,10 +903,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *type = [frs stringForColumn:COLUMN_TYPE_COL];
             
             SFSoupIndex *spec = [[SFSoupIndex alloc] initWithPath:path indexType:type columnName:columnName];
-            [result addObject:spec];   
+            [result addObject:spec];
         }
         [frs close];
-                              
+        
         //update the cache
         [_indexSpecsBySoup setObject:result forKey:soupName];
     }
@@ -886,35 +918,42 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL)soupExists:(NSString*)soupName {
+    __block BOOL result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self soupExists:soupName withDb:db];
+    }];
+    return result;
+}
+
+- (BOOL)soupExists:(NSString*)soupName withDb:(FMDatabase*) db {
     BOOL result = NO;
     //first verify that we have this soup name in our soup names table
-    NSString *soupTableName = [self tableNameForSoup:soupName];
+    NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     if (nil != soupTableName) {
         //double-check that we actually have this table
-        result = [self.storeDb tableExists:soupTableName];
+        result = [db tableExists:soupTableName];
     }
-
+    
     return result;
 }
 
 
-- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts {
+- (BOOL)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts withDb:(FMDatabase*)db {
     BOOL result = YES;
     
     // update the mapping table for this soup's columns
     for (NSDictionary *map in soupIndexMapInserts) {
-        BOOL runOk = [self insertIntoTable:SOUP_INDEX_MAP_TABLE values:map ];
+        BOOL runOk = [self insertIntoTable:SOUP_INDEX_MAP_TABLE values:map withDb:db];
         if (!runOk) {
             result = NO;
             break;
         }
     }
-                    
+    
     return result;
 }
 
-
-- (NSString *)registerNewSoupName:(NSString*)soupName {
+- (NSString *)registerNewSoupName:(NSString*)soupName withDb:(FMDatabase*) db {
     NSString *soupTableName = nil;
     
     //Get a safe table name for the soupName
@@ -922,13 +961,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                    soupName, SOUP_NAME_COL,
                                    nil];
     
-    [self.storeDb beginTransaction];
-    BOOL insertSucceeded = [self insertIntoTable:SOUP_NAMES_TABLE values:soupMapValues];
+    BOOL insertSucceeded = [self insertIntoTable:SOUP_NAMES_TABLE values:soupMapValues withDb:db];
     if (insertSucceeded) {
-        [self.storeDb commit];
-        soupTableName = [self tableNameForSoup:soupName];
-    } else
-        [self.storeDb rollback];
+        soupTableName = [self tableNameForSoup:soupName withDb:db];
+    }
     
     if (nil == soupTableName) {
         [self log:SFLogLevelDebug format:@"couldn't properly register soupName: '%@' ",soupName];
@@ -937,7 +973,19 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return soupTableName;
 }
 
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs {
+    __block BOOL result;
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        result = [self registerSoup:soupName withIndexSpecs:indexSpecs withDb:db];
+        
+        if (!result) {
+            *rollback = YES;
+        }
+    }];
+    return result;
+}
+
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withDb:(FMDatabase*) db
 {
     BOOL result = NO;
     
@@ -953,12 +1001,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     // If soup with soupName already exists, just return success.
-    if ([self soupExists:soupName]) {
+    if ([self soupExists:soupName withDb:db]) {
         result = YES;
         return result;
     }
     
-    NSString *soupTableName = [self registerNewSoupName:soupName];
+    NSString *soupTableName = [self registerNewSoupName:soupName withDb:db];
     if (nil == soupTableName) {
         return result;
     } else {
@@ -971,9 +1019,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [createTableStmt appendFormat:@"CREATE TABLE IF NOT EXISTS %@ (",soupTableName];
     [createTableStmt appendFormat:@"%@ INTEGER PRIMARY KEY AUTOINCREMENT",ID_COL];
     [createTableStmt appendFormat:@", %@ TEXT",SOUP_COL]; //this is the column where the raw json is stored
-    [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL]; 
+    [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL];
     [createTableStmt appendFormat:@", %@ INTEGER",LAST_MODIFIED_COL];
-
+    
     
     for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
         NSDictionary *rawIndexSpec = [indexSpecs objectAtIndex:i];
@@ -1002,110 +1050,103 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     [createTableStmt appendString:@")"];
     [self log:SFLogLevelDebug format:@"createTableStmt:\n %@",createTableStmt];
-
-    if ([self.storeDb beginTransaction]) {
-        // create the main soup table
-        BOOL runOk = [self.storeDb  executeUpdate:createTableStmt];
-        if (!runOk) {
-            [self log:SFLogLevelError format:@"ERROR creating soup table  %d %@ stmt: %@", 
-                  [self.storeDb lastErrorCode], 
-                  [self.storeDb lastErrorMessage],
-                  createTableStmt];
-        } else {
-            // create indices for this soup
-            for (NSString *createIndexStmt in createIndexStmts) {
-                [self log:SFLogLevelDebug format:@"createIndexStmt: %@",createIndexStmt];
-                runOk = [self.storeDb  executeUpdate:createIndexStmt];
-                if (!runOk) {
-                    [self log:SFLogLevelError format:@"ERROR creating soup index  %d %@", 
-                          [self.storeDb lastErrorCode], 
-                          [self.storeDb lastErrorMessage]];
-                    break;
-                }
-            }
-            
-            if (runOk) {
-                // update the mapping table for this soup's columns
-                runOk = [self insertIntoSoupIndexMap:soupIndexMapInserts]; 
+    
+    // create the main soup table
+    BOOL runOk = [db  executeUpdate:createTableStmt];
+    if (!runOk) {
+        [self log:SFLogLevelError format:@"ERROR creating soup table  %d %@ stmt: %@",
+         [db lastErrorCode],
+         [db lastErrorMessage],
+         createTableStmt];
+    } else {
+        // create indices for this soup
+        for (NSString *createIndexStmt in createIndexStmts) {
+            [self log:SFLogLevelDebug format:@"createIndexStmt: %@",createIndexStmt];
+            runOk = [db  executeUpdate:createIndexStmt];
+            if (!runOk) {
+                [self log:SFLogLevelError format:@"ERROR creating soup index  %d %@",
+                 [db lastErrorCode],
+                 [db lastErrorMessage]];
+                break;
             }
         }
         
-        if (runOk)
-            [self.storeDb commit];
-        else
-            [self.storeDb rollback];
-        
-        result = runOk;
+        if (runOk) {
+            // update the mapping table for this soup's columns
+            runOk = [self insertIntoSoupIndexMap:soupIndexMapInserts withDb:db];
+        }
     }
     
-    
-    return  result;
+    return  runOk;
 }
-
 
 
 - (void)removeSoup:(NSString*)soupName {
-    [self log:SFLogLevelDebug format:@"removeSoup: %@", soupName];
-    NSString *soupTableName = [self tableNameForSoup:soupName];
-    if (nil == soupTableName) 
-        return;
-    
-    @try {
-        NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupTableName];
-        [self.storeDb executeUpdate:dropSql];
-        
-        [self.storeDb beginTransaction];
-        
-        NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", 
-                                    SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
-        [self.storeDb executeUpdate:deleteIndexSql];
-        NSString *deleteNameSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"", 
-                                   SOUP_NAMES_TABLE, SOUP_NAME_COL, soupName];
-        [self.storeDb executeUpdate:deleteNameSql];
-        
-        [self.storeDb commit];
-                    
-        [_indexSpecsBySoup removeObjectForKey:soupName ];
-
-        // Cleanup _smartSqlToSql
-        NSString* soupRef = [[NSArray arrayWithObjects:@"{", soupName, @"}", nil] componentsJoinedByString:@""];
-        NSMutableArray* keysToRemove = [NSMutableArray array];
-        for (NSString* smartSql in [_smartSqlToSql allKeys]) {
-            if ([smartSql rangeOfString:soupRef].location != NSNotFound) {
-                [keysToRemove addObject:smartSql];
-                [self log:SFLogLevelDebug format:@"removeSoup: removing cached sql for %@", smartSql];
-            }
-        }
-        [_smartSqlToSql removeObjectsForKeys:keysToRemove];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelDebug format:@"exception removing soup: %@", exception];
-        [self.storeDb rollback];
-    }
-
-
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        [self removeSoup:soupName withDb:db];
+        // TODO try-catch rollback?
+    }];
 }
 
- - (void)removeAllSoups {
-    NSArray* soupTableNames = [self tableNamesForAllSoups];
+- (void)removeSoup:(NSString*)soupName withDb:(FMDatabase*)db {
+    [self log:SFLogLevelDebug format:@"removeSoup: %@", soupName];
+    NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
+    if (nil == soupTableName)
+        return;
+    
+    NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupTableName];
+    [db executeUpdate:dropSql];
+    
+    NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
+                                SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
+    [db executeUpdate:deleteIndexSql];
+    NSString *deleteNameSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
+                               SOUP_NAMES_TABLE, SOUP_NAME_COL, soupName];
+    [db executeUpdate:deleteNameSql];
+    
+    [_indexSpecsBySoup removeObjectForKey:soupName ];
+    
+    // Cleanup _smartSqlToSql
+    NSString* soupRef = [[NSArray arrayWithObjects:@"{", soupName, @"}", nil] componentsJoinedByString:@""];
+    NSMutableArray* keysToRemove = [NSMutableArray array];
+    for (NSString* smartSql in [_smartSqlToSql allKeys]) {
+        if ([smartSql rangeOfString:soupRef].location != NSNotFound) {
+            [keysToRemove addObject:smartSql];
+            [self log:SFLogLevelDebug format:@"removeSoup: removing cached sql for %@", smartSql];
+        }
+    }
+    [_smartSqlToSql removeObjectsForKeys:keysToRemove];
+}
+
+- (void)removeAllSoups
+{
+    [self.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        [self removeAllSoupWithDb:db];
+    }];
+}
+
+- (void) removeAllSoupWithDb:(FMDatabase*) db
+{
+    NSArray* soupTableNames = [self tableNamesForAllSoupsWithDb:db];
     if (nil == soupTableNames)
         return;
     for (NSString* soupTableName in soupTableNames) {
-        [self removeSoup:soupTableName];
+        [self removeSoup:soupTableName withDb:db];
     }
- }
+}
 
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
                              soupTableName:(NSString *)soupTableName
-                  forFieldPath:(NSString *)fieldPath
-                    fieldValue:(NSString *)fieldValue
-                         error:(NSError **)error
+                              forFieldPath:(NSString *)fieldPath
+                                fieldValue:(NSString *)fieldValue
+                                     error:(NSError **)error
+                                    withDb:(FMDatabase*)db
 {
     NSAssert(soupName != nil && [soupName length] > 0, @"Soup name must have a value.");
     NSAssert(soupTableName != nil && [soupTableName length] > 0, @"Soup table name must have a value.");
     NSAssert(fieldPath != nil && [fieldPath length] > 0, @"Field path must have a value.");
     
-    NSString *fieldPathColumnName = [self columnNameForPath:fieldPath inSoup:soupName];
+    NSString *fieldPathColumnName = [self columnNameForPath:fieldPath inSoup:soupName withDb:db];
     if (fieldPathColumnName == nil) {
         if (error != nil) {
             NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreIndexNotDefinedDescription, fieldPath];
@@ -1129,7 +1170,8 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                orderBy:nil
                                  limit:nil
                            whereClause:whereClause
-                             whereArgs:(fieldValue != nil ? [NSArray arrayWithObject:fieldValue] : nil)];
+                             whereArgs:(fieldValue != nil ? [NSArray arrayWithObject:fieldValue] : nil)
+                                withDb:db];
     NSNumber *returnId = nil;
     if ([rs next]) {
         returnId = [NSNumber numberWithInt:[rs intForColumn:ID_COL]];
@@ -1154,50 +1196,67 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec
 {
+    __block NSInteger result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self countWithQuerySpec:querySpec withDb:db];
+    }];
+    return result;
+}
+
+- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec withDb:(FMDatabase*)db
+{
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: \nquerySpec:%@ \n", querySpec];
     NSUInteger result = 0;
-
+    
     // SQL
-    NSString* countSql = [self convertSmartSql:querySpec.countSmartSql];
+    NSString* countSql = [self convertSmartSql:querySpec.countSmartSql withDb:db];
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
-//    NSString* sql = [self convertSmartSql: querySpec.smartSql];
-//    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
+    //    NSString* sql = [self convertSmartSql: querySpec.smartSql withDb:db];
+    //    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
-
+    
     // Args
     NSArray* args = [querySpec bindsForQuerySpec];
     
     // Executing query
-    FMResultSet *frs = [self.storeDb executeQuery:countSql withArgumentsInArray:args];
+    FMResultSet *frs = [db executeQuery:countSql withArgumentsInArray:args];
     if([frs next]) {
         result = [frs intForColumnIndex:0];
     }
     [frs close];
-
+    
     return result;
 }
 
-
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex
+{
+    __block NSArray* result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self queryWithQuerySpec:querySpec pageIndex:pageIndex withDb:db];
+    }];
+    return result;
+}
+
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex withDb:(FMDatabase*)db
 {
     [self log:SFLogLevelDebug format:@"queryWithQuerySpec: \nquerySpec:%@ \n", querySpec];
     NSMutableArray* result = [NSMutableArray arrayWithCapacity:querySpec.pageSize];
-
+    
     // Page
     NSUInteger offsetRows = querySpec.pageSize * pageIndex;
     NSUInteger numberRows = querySpec.pageSize;
     NSString* limit = [NSString stringWithFormat:@"%lu,%lu",(unsigned long)offsetRows,(unsigned long)numberRows];
-
+    
     // SQL
-    NSString* sql = [self convertSmartSql: querySpec.smartSql];
+    NSString* sql = [self convertSmartSql: querySpec.smartSql withDb:db];
     NSString* limitSql = [[NSArray arrayWithObjects:@"SELECT * FROM (", sql, @") LIMIT ", limit, nil] componentsJoinedByString:@""];
     [self log:SFLogLevelDebug format:@"queryWithQuerySpec: \nlimitSql:%@ \npageIndex:%d \n", limitSql, pageIndex];
-
+    
     // Args
     NSArray* args = [querySpec bindsForQuerySpec];
     
     // Executing query
-    FMResultSet *frs = [self.storeDb executeQuery:limitSql withArgumentsInArray:args];
+    FMResultSet *frs = [db executeQuery:limitSql withArgumentsInArray:args];
     while ([frs next]) {
         // Smart queries
         if (querySpec.queryType == kSFSoupQueryTypeSmart) {
@@ -1230,8 +1289,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     return result;
 }
-    
+
 - (SFStoreCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName
+{
+    __block SFStoreCursor* result;
+    [self.storeQueue inDatabase:^(FMDatabase*  db) {
+        result = [self queryWithQuerySpec:spec withSoupName:targetSoupName withDb:db];
+    }];
+    return result;
+}
+
+- (SFStoreCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName withDb:(FMDatabase*)db
 {
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
     if (nil == querySpec) {
@@ -1239,31 +1307,44 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         return nil;
     }
     
-    NSString* sql = [self convertSmartSql:querySpec.smartSql];
+    NSString* sql = [self convertSmartSql:querySpec.smartSql withDb:db];
     if (nil == sql) {
         // Problem already logged
         return nil;
     }
     
-    NSUInteger totalEntries = [self  countWithQuerySpec:querySpec];
-    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries];
+    NSUInteger totalEntries = [self  countWithQuerySpec:querySpec withDb:db];
+    NSArray* firstPageEntries = (totalEntries > 0
+                                 ? [self queryWithQuerySpec:querySpec pageIndex:0 withDb:db]
+                                 : [NSArray array]);
+    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
     
     return result;
 }
 
 
-- (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds {
+- (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds
+{
     NSString *allIds = [soupEntryIds componentsJoinedByString:@","];
-    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ",ID_COL,allIds];    
+    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ",ID_COL,allIds];
     return pred;
 }
 
 
 - (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    __block NSArray* result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self retrieveEntries:soupEntryIds fromSoup:soupName withDb:db];
+    }];
+    return result;
+}
 
-    NSString *soupTableName = [self tableNameForSoup:soupName];
+- (NSArray *)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName withDb:(FMDatabase*) db
+{
+    NSMutableArray *result = [NSMutableArray array]; //empty result array by default
+    
+    NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     if (nil == soupTableName) {
         [self log:SFLogLevelDebug format:@"Soup: '%@' does not exist",soupName];
         return result;
@@ -1272,30 +1353,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
     NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@",
                           SOUP_COL,soupTableName,pred];
-    FMResultSet *frs = [self.storeDb executeQuery:querySql];
-
+    FMResultSet *frs = [db executeQuery:querySql];
+    
     while([frs next]) {
         NSString *rawJson = [frs stringForColumn:SOUP_COL];
         //TODO this is pretty inefficient...we read json from db then reconvert to NSDictionary, then reconvert again in cordova
         NSDictionary *entry = [SFJsonUtils objectFromJSONString:rawJson];
-        [result addObject:entry];          
+        [result addObject:entry];
     }
     [frs close];
-    
     
     return result;
 }
 
 
 
-- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices
+- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices withDb:(FMDatabase*) db
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
     NSMutableDictionary *baseColumns = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          @"", SOUP_COL,
-                                          nowVal, CREATED_COL,
-                                          nowVal, LAST_MODIFIED_COL,
-                                          nil];
+                                        @"", SOUP_COL,
+                                        nowVal, CREATED_COL,
+                                        nowVal, LAST_MODIFIED_COL,
+                                        nil];
     
     //build up the set of index column values for this new row
     for (SFSoupIndex *idx in indices) {
@@ -1306,19 +1386,19 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         }
     }
     
-    BOOL insertOk =[self insertIntoTable:soupTableName values:baseColumns ];
+    BOOL insertOk =[self insertIntoTable:soupTableName values:baseColumns withDb:db];
     if (!insertOk) {
         return nil;
     }
-
+    
     //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
-    NSNumber *newEntryId = [NSNumber numberWithInteger:[self.storeDb lastInsertRowId]];
+    NSNumber *newEntryId = [NSNumber numberWithInteger:[db lastInsertRowId]];
     
     //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
     NSMutableDictionary *mutableEntry = [entry mutableCopy];
     [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
-             
+    
     //now update the SOUP_COL (raw json) for the soup entry
     NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
     NSArray *binds = [NSArray arrayWithObjects:
@@ -1326,9 +1406,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                       newEntryId,
                       nil];
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupTableName, SOUP_COL, ID_COL];
-//    [self log:SFLogLevelDebug format:@"updateSql: \n %@ \n binds: %@",updateSql,binds];
-                
-    BOOL updateOk = [self.storeDb executeUpdate:updateSql withArgumentsInArray:binds];
+    //    [self log:SFLogLevelDebug format:@"updateSql: \n %@ \n binds: %@",updateSql,binds];
+    
+    BOOL updateOk = [db executeUpdate:updateSql withArgumentsInArray:binds];
     if (!updateOk) {
         mutableEntry = nil;
     }
@@ -1337,16 +1417,17 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (NSDictionary *)updateOneEntry:(NSDictionary *)entry 
-                     withEntryId:(NSNumber *)entryId 
-                     inSoupTable:(NSString *)soupTableName 
+- (NSDictionary *)updateOneEntry:(NSDictionary *)entry
+                     withEntryId:(NSNumber *)entryId
+                     inSoupTable:(NSString *)soupTableName
                          indices:(NSArray *)indices
-{    
+                          withDb:(FMDatabase *) db
+{
     NSNumber *nowVal = [self currentTimeInMilliseconds];
-
+    
     NSMutableDictionary *colVals = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        nowVal, LAST_MODIFIED_COL,
-                                        nil];
+                                    nowVal, LAST_MODIFIED_COL,
+                                    nil];
     
     //build up the set of index column values for this row
     for (SFSoupIndex *idx in indices) {
@@ -1363,28 +1444,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [mutableEntry setValue:entryId forKey:SOUP_ENTRY_ID];
     NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
     [colVals setObject:rawJson forKey:SOUP_COL];
-
-    BOOL updateOk =[self updateTable:soupTableName values:colVals entryId:entryId];
+    
+    BOOL updateOk =[self updateTable:soupTableName values:colVals entryId:entryId withDb:db];
     if (!updateOk) {
         return nil;
     }
-     
+    
     return mutableEntry;
     
 }
 
 
-- (NSDictionary *)upsertOneEntry:(NSDictionary *)entry 
-                     inSoup:(NSString*)soupName  
+- (NSDictionary *)upsertOneEntry:(NSDictionary *)entry
+                          inSoup:(NSString*)soupName
                          indices:(NSArray*)indices
-                       exteralIdPath:(NSString *)externalIdPath
+                   externalIdPath:(NSString *)externalIdPath
                            error:(NSError **)error
+                          withDb:(FMDatabase*)db
 {
     NSDictionary *result = nil;
     
     // NB: We're assuming soupExists has already been validated on the soup name.  This happens
     // e.g. in upsertEntries:toSoup:withExternalIdPath: .
-    NSString *soupTableName = [self tableNameForSoup:soupName];
+    NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     
     NSNumber *soupEntryId = nil;
     if (externalIdPath != nil) {
@@ -1403,10 +1485,11 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             }
             
             soupEntryId = [self lookupSoupEntryIdForSoupName:soupName
-                                              soupTableName:soupTableName
-                                               forFieldPath:externalIdPath
-                                                 fieldValue:fieldValue
-                                                      error:error];
+                                               soupTableName:soupTableName
+                                                forFieldPath:externalIdPath
+                                                  fieldValue:fieldValue
+                                                       error:error
+                                                      withDb:db];
             if (error != nil && *error != nil) {
                 NSString *errorMsg = [NSString stringWithFormat:kSFSmartStoreExtIdLookupError,
                                       externalIdPath, fieldValue, [*error localizedDescription]];
@@ -1418,10 +1501,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     if (nil != soupEntryId) {
         //entry already has an entry id: update
-        result = [self updateOneEntry:entry withEntryId:soupEntryId inSoupTable:soupTableName indices:indices];
+        result = [self updateOneEntry:entry withEntryId:soupEntryId inSoupTable:soupTableName indices:indices withDb:db];
     } else {
         //no entry id: insert
-        result = [self insertOneEntry:entry inSoupTable:soupTableName indices:indices];
+        result = [self insertOneEntry:entry inSoupTable:soupTableName indices:indices withDb:db];
     }
     
     return result;
@@ -1439,6 +1522,15 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error
 {
+    __block NSArray* result;
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        result = [self upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:error withDb:db];
+    }];
+    return result;
+}
+
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error withDb:(FMDatabase*)db
+{
     NSMutableArray *result = nil;
     NSString *localExternalIdPath;
     if (externalIdPath != nil)
@@ -1446,16 +1538,14 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     else
         localExternalIdPath = SOUP_ENTRY_ID;
     
-    if ([self soupExists:soupName]) {
-        NSArray *indices = [self indicesForSoup:soupName];
-
+    if ([self soupExists:soupName withDb:db]) {
+        NSArray *indices = [self indicesForSoup:soupName withDb:db];
+        
         result = [NSMutableArray array]; //empty result array by default
         BOOL upsertSuccess = YES;
-        [self.storeDb beginTransaction];
-        
         for (NSDictionary *entry in entries) {
             NSError *localError = nil;
-            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName indices:indices exteralIdPath:localExternalIdPath error:&localError];
+            NSDictionary *upsertedEntry = [self upsertOneEntry:entry inSoup:soupName indices:indices externalIdPath:localExternalIdPath error:&localError withDb:db];
             if (nil != upsertedEntry && localError == nil) {
                 [result addObject:upsertedEntry];
             } else {
@@ -1468,29 +1558,29 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         if (!upsertSuccess) {
             [result removeAllObjects];
         }
-        
-        if (upsertSuccess)
-            [self.storeDb commit];
-        else
-            [self.storeDb rollback];
-        
     }
     
     return result;
 }
-
 - (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
 {
-    if ([self soupExists:soupName]) {
-        NSString *soupTableName = [self tableNameForSoup:soupName];
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        [self removeEntries:soupEntryIds fromSoup:soupName withDb:db];
+    }];
+}
+
+- (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName withDb:(FMDatabase*) db
+{
+    if ([self soupExists:soupName withDb:db]) {
+        NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
         NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@",
-                              soupTableName,pred];
-        BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
+                               soupTableName,pred];
+        BOOL ranOK = [db executeUpdate:deleteSql];
         if (!ranOK) {
-            [self log:SFLogLevelError format:@"ERROR %d deleting entries: '%@'", 
-                  [self.storeDb lastErrorCode], 
-                  [self.storeDb lastErrorMessage]];
+            [self log:SFLogLevelError format:@"ERROR %d deleting entries: '%@'",
+             [db lastErrorCode],
+             [db lastErrorMessage]];
         }
     }
     
