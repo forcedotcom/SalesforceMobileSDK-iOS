@@ -1083,8 +1083,14 @@ static Class InstanceClass = nil;
 {
     // NB: This method is assumed to run after identity data has been refreshed from the service.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-    
+
+    /*
+     * Checks if a PIN policy exists for this account. If a policy exists,
+     * the access timeout and PIN length are set. Behind the scenes, these
+     * methods take care of checking if a passcode exists, changing length, etc.
+     */
     if ([self mobilePinPolicyConfigured]) {
+
         // Set the callback actions for post-passcode entry/configuration.
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
             [self finalizeAuthCompletion];
@@ -1092,12 +1098,13 @@ static Class InstanceClass = nil;
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
             [self execFailureBlocks];
         }];
-        
-        // setLockoutTime triggers passcode creation.  We could consider a more explicit call for visibility here?
+
+        // setLockoutTime triggers passcode creation. We could consider a more explicit call for visibility here?
         [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength];
         [SFSecurityLockout setLockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
     } else {
-        // No additional mobile policies.  So no passcode.
+
+        // No additional mobile policies. So no passcode.
         [self finalizeAuthCompletion];
     }
 }
