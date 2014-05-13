@@ -68,6 +68,9 @@ static BOOL _showPasscode = YES;
 
 + (void)initialize
 {
+    // Initialize SmartStore for encryption sync, prior to passcode operations, by making an innocuous call.
+    [SFSmartStore persistentStoreExists:kDefaultSmartStoreName];
+    
     [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
     securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
     
