@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, SFKeyStoreKeyType) {
 /**
  Data object representing the encryption key used for encrypting/decrypting the key store.
  */
-@interface SFKeyStoreKey : NSObject <NSCoding>
+@interface SFKeyStoreKey : NSObject <NSCoding, NSCopying>
 
 /**
  Designated initializer.

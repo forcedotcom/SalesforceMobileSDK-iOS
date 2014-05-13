@@ -9,8 +9,10 @@
 #import <XCTest/XCTest.h>
 #import "SFEncryptionKey.h"
 #import "SFKeyStoreManager+Internal.h"
+#import "SFSDKCryptoUtils.h"
+#import <SalesforceCommonUtils/NSData+SFAdditions.h>
 
-static NSUInteger const kNumThreadsInSafetyTest = 50;
+static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 @interface SFKeyStoreTests : XCTestCase
 {
@@ -107,6 +109,13 @@ static NSUInteger const kNumThreadsInSafetyTest = 50;
     }
     
     while (!_threadSafetyTestCompleted) {
+        // Passcode change chaos.
+        NSUInteger randomInt = arc4random() % 10;
+        if (randomInt > 4) {
+            NSLog(@"Passcode change chaos: changing passcode.");
+            NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
+            [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
+        }
         NSLog(@"## Thread safety test sleeping...");
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }

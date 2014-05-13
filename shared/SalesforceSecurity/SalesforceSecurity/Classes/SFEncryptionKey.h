@@ -27,7 +27,7 @@
 /**
  Data object representing an symmetric encryption key, with a key value and initialization vector.
  */
-@interface SFEncryptionKey : NSObject <NSCoding>
+@interface SFEncryptionKey : NSObject <NSCoding, NSCopying>
 
 /**
  Designated initializer.

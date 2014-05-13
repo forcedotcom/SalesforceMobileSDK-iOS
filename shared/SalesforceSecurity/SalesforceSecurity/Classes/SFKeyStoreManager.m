@@ -122,7 +122,9 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 
 - (NSDictionary *)keyStoreDictionary
 {
-    return [self keyStoreDictionaryWithKey:self.keyStoreKey.encryptionKey];
+    @synchronized (self) {
+        return [self keyStoreDictionaryWithKey:self.keyStoreKey.encryptionKey];
+    }
 }
 
 - (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey
@@ -166,6 +168,9 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
+        if (_keyStoreKey != nil)
+            return _keyStoreKey;
+        
         NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreEncryptionKeyKeychainIdentifier];
         SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         NSData *keyStoreKeyData = [keychainItem valueData];
@@ -173,15 +178,16 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             return nil;
         } else {
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
-            SFKeyStoreKey *keyStoreKey = [unarchiver decodeObjectForKey:kKeyStoreEncryptionKeyDataArchiveKey];
+            _keyStoreKey = [unarchiver decodeObjectForKey:kKeyStoreEncryptionKeyDataArchiveKey];
             [unarchiver finishDecoding];
             
             // For passcode key, get the key data.
-            if (keyStoreKey.keyType == SFKeyStoreKeyTypePasscode) {
+            if (_keyStoreKey.keyType == SFKeyStoreKeyTypePasscode) {
                 NSString *passcodeEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
-                keyStoreKey.encryptionKey.key = [self keyStringToData:passcodeEncryptionKey];
+                _keyStoreKey.encryptionKey.key = [self keyStringToData:passcodeEncryptionKey];
             }
-            return keyStoreKey;
+            
+            return _keyStoreKey;
         }
     }
 }
@@ -189,6 +195,20 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (void)setKeyStoreKey:(SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
+        if (keyStoreKey == _keyStoreKey)
+            return;
+        
+        // Update the key store dictionary as part of the key update process.
+        NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey.encryptionKey];  // Old key.
+        _keyStoreKey = [keyStoreKey copy];
+        if (origKeyStoreDict == nil) {
+            [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
+            self.keyStoreDictionary = nil;
+        } else {
+            self.keyStoreDictionary = origKeyStoreDict;
+        }
+        
+        // Store the key store key in the keychain.
         NSString *keychainId = [self buildUniqueKeychainId:kKeyStoreEncryptionKeyKeychainIdentifier];
         SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
         if (keyStoreKey == nil) {
@@ -240,9 +260,13 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 
 - (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFEncryptionKey *)decryptKey
 {
-    NSData *decryptedDictionaryData = [SFSDKCryptoUtils aes256DecryptData:dictionaryData
-                                                                  withKey:decryptKey.key
-                                                                       iv:decryptKey.initializationVector];
+    
+    NSData *decryptedDictionaryData = dictionaryData;
+    if (decryptKey != nil) {
+        decryptedDictionaryData = [SFSDKCryptoUtils aes256DecryptData:dictionaryData
+                                                              withKey:decryptKey.key
+                                                                   iv:decryptKey.initializationVector];
+    }
     if (decryptedDictionaryData == nil)
         return nil;
     
@@ -256,7 +280,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         [self log:SFLogLevelError msg:@"Unable to decrypt key store data.  Key store is invalid."];
         return nil;
     }
-
+    
     return keyStoreDict;
 }
 
@@ -267,9 +291,13 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     [archiver encodeObject:dictionary forKey:kKeyStoreDataArchiveKey];
     [archiver finishEncoding];
     
-    NSData *encryptedData = [SFSDKCryptoUtils aes256EncryptData:dictionaryData
-                                                        withKey:self.keyStoreKey.encryptionKey.key
-                                                             iv:self.keyStoreKey.encryptionKey.initializationVector];
+    NSData *encryptedData = dictionaryData;
+    if (self.keyStoreKey.encryptionKey != nil) {
+        encryptedData = [SFSDKCryptoUtils aes256EncryptData:dictionaryData
+                                                    withKey:self.keyStoreKey.encryptionKey.key
+                                                         iv:self.keyStoreKey.encryptionKey.initializationVector];
+    }
+    
     return encryptedData;
 }
 
@@ -290,14 +318,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             if (self.keyStoreKey.keyType == SFKeyStoreKeyTypeGenerated) {
                 // Expected for use case with no oldKey value.
                 [self log:SFLogLevelInfo msg:@"Changing key store encryption based on new passcode creation."];
-                NSDictionary *keyStoreDict = self.keyStoreDictionary;
-                self.keyStoreKey = [self createNewPasscodeKey];
-                if (keyStoreDict == nil) {
-                    [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-                    self.keyStoreDictionary = nil;
-                } else {
-                    self.keyStoreDictionary = keyStoreDict;
-                }
+                self.keyStoreKey = [self createNewPasscodeKey];  // Key store key change automatically updates the dictionary encryption.
             } else if (self.keyStoreKey.keyType == SFKeyStoreKeyTypePasscode) {
                 [self log:SFLogLevelError msg:@"Key store key is based on passcode, but the original key value is not available.  Decryption of key store cannot continue."];
                 self.keyStoreDictionary = nil;
@@ -312,18 +333,11 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             if (self.keyStoreKey.keyType == SFKeyStoreKeyTypePasscode) {
                 // Expected for use case where oldKey has a value.
                 [self log:SFLogLevelInfo msg:@"Changing key store key back to generated, after passcode removal."];
-                SFEncryptionKey *origKeyStoreEncryptionKey = self.keyStoreKey.encryptionKey;
+                
                 // We have to explicitly set the old key value, as self.keyStoreKey will be based on the encryption key,
                 // which has already changed.
-                origKeyStoreEncryptionKey.key = [self keyStringToData:oldKey];
-                NSDictionary *keyStoreDict = [self keyStoreDictionaryWithKey:origKeyStoreEncryptionKey];
+                self.keyStoreKey.encryptionKey.key = [self keyStringToData:oldKey];
                 self.keyStoreKey = [self createDefaultKey];  // No passcode, so revert to a generated key.
-                if (keyStoreDict == nil) {
-                    [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-                    self.keyStoreDictionary = nil;
-                } else {
-                    self.keyStoreDictionary = keyStoreDict;
-                }
             } else if (self.keyStoreKey.keyType == SFKeyStoreKeyTypeGenerated) {
                 // Shouldn't be the case if oldKey is not empty, but this is the desired end state, so no-op.
                 [self log:SFLogLevelInfo msg:@"Generated key already configured.  No re-encryption will be attempted."];
@@ -337,27 +351,12 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             if (self.keyStoreKey.keyType == SFKeyStoreKeyTypePasscode) {
                 // Expected for use case where oldKey has a value.
                 [self log:SFLogLevelInfo msg:@"Changing passcode-based key store encryption key, based on passcode change."];
-                SFEncryptionKey *origKeyStoreEncryptionKey = self.keyStoreKey.encryptionKey;
-                origKeyStoreEncryptionKey.key = [self keyStringToData:oldKey];
-                NSDictionary *keyStoreDict = [self keyStoreDictionaryWithKey:origKeyStoreEncryptionKey];
+                self.keyStoreKey.encryptionKey.key = [self keyStringToData:oldKey];
                 self.keyStoreKey = [self createNewPasscodeKey];
-                if (keyStoreDict == nil) {
-                    [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-                    self.keyStoreDictionary = nil;
-                } else {
-                    self.keyStoreDictionary = keyStoreDict;
-                }
             } else if (self.keyStoreKey.keyType == SFKeyStoreKeyTypeGenerated) {
                 // Shouldn't be the case if oldKey is not empty, but we'll try to manage.
                 [self log:SFLogLevelInfo msg:@"Old passcode exists, but key store key is generated.  Will attempt to use generated key store key as the source of truth for decrypting the key store."];
-                NSDictionary *keyStoreDict = self.keyStoreDictionary;
                 self.keyStoreKey = [self createNewPasscodeKey];
-                if (keyStoreDict == nil) {
-                    [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-                    self.keyStoreDictionary = nil;
-                } else {
-                    self.keyStoreDictionary = keyStoreDict;
-                }
             } else {
                 [self log:SFLogLevelError format:kUnknownKeyStoreTypeFormatString, self.keyStoreKey.keyType];
                 self.keyStoreDictionary = nil;
