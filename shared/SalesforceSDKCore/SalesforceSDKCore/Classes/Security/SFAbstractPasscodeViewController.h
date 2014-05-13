@@ -39,7 +39,8 @@ extern const NSUInteger kMaxNumberofAttempts;
  */
 typedef enum {
     SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify
+    SFPasscodeControllerModeVerify,
+    SFPasscodeControllerModeChange
 } SFPasscodeControllerMode;
 
 /**
