@@ -58,8 +58,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
     if (self) {
         _mode = mode;
         _minPasscodeLength = minPasscodeLength;
-        
-        if (mode == SFPasscodeControllerModeCreate) {
+        if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
             NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
             if (0 == self.remainingAttempts) {
