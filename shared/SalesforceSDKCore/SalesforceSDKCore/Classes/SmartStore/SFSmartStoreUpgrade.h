@@ -1,45 +1,48 @@
-//
-//  SFSmartStoreUpgrade.h
-//  SalesforceSDKCore
-//
-//  Created by Kevin Hawkins on 5/12/14.
-//  Copyright (c) 2014 salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import <Foundation/Foundation.h>
 
-/**
- Enumeration of types of encryption used for the default encryption of stores.
- */
-typedef enum {
-    SFSmartStoreDefaultEncryptionTypeNone,
-    SFSmartStoreDefaultEncryptionTypeMac,
-    SFSmartStoreDefaultEncryptionTypeIdForVendor,
-    SFSmartStoreDefaultEncryptionTypeBaseAppId,
-    SFSmartStoreDefaultEncryptionTypeKeyStore
-} SFSmartStoreDefaultEncryptionType;
-
 @interface SFSmartStoreUpgrade : NSObject
 
-+ (void)updateDefaultEncryption;
+/**
+ Updates the encryption scheme of each SmartStore database to the currently supported scheme.
+ */
++ (void)updateEncryption;
 
 /**
- Determines whether the given store uses a legacy default key for encryption.
- @param storeName The store associated with the setting.
- @return YES if it does, NO if it doesn't.
+ Whether or not a given store is encrypted based on the key store key.
+ @param storeName The store to query.
+ @return YES if the store is encrypted with the key store, NO otherwise.
  */
-+ (BOOL)usesDefaultKey:(NSString *)storeName;
++ (BOOL)usesKeyStoreEncryption:(NSString *)storeName;
 
 /**
- Sets a property specifying whether the given store uses a default key for encryption.
- @param usesDefault Whether the store uses a default key.
- @param storeName The store for which the setting applies.
+ Sets a flag denoting whether or not the store uses encryption based the key store key.
+ @param usesKeyStoreEncryption YES if it does, NO if it doesn't.
+ @param storeName The store to which the flag applies.
  */
-+ (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName;
-
-/**
- @return The default key to use, if no encryption key exists.
- */
-+ (NSString *)defaultKey;
++ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forStore:(NSString *)storeName;
 
 @end
