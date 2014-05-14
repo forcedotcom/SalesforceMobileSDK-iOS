@@ -36,7 +36,7 @@
 
 // Private constants
 
-static NSUInteger const kDefaultPasscodeLength               = 5;
+static NSUInteger const kDefaultPasscodeLength               = 4;
 static NSString * const kTimerSecurity                       = @"security.timer";
 static NSString * const kPasscodeLengthKey                   = @"security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
@@ -80,6 +80,8 @@ static BOOL _showPasscode = YES;
         SFPasscodeViewController *pvc = nil;
         if (mode == SFPasscodeControllerModeCreate) {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
+        } else if (mode == SFPasscodeControllerModeChange) {
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:passcodeLength];
         } else {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
         }
@@ -169,6 +171,17 @@ static BOOL _showPasscode = YES;
 + (void)setPasscodeLength:(NSInteger)passcodeLength
 {
     NSNumber *nPasscodeLength = [NSNumber numberWithInteger:passcodeLength];
+
+    /*
+     * If the new passcode length is longer than the existing value,
+     * we need to trigger the 'Change Passcode' flow. If not, we
+     * simply update the stored value, but don't downgrade the min length.
+     */
+    if (passcodeLength > [self passcodeLength]) {
+        [[SFPreferences currentUserLevelPreferences] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
+        [[SFPreferences currentUserLevelPreferences] synchronize];
+        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange];
+    }
     [[SFPreferences currentUserLevelPreferences] setObject:nPasscodeLength forKey:kPasscodeLengthKey];
     [[SFPreferences currentUserLevelPreferences] synchronize];
 }
@@ -186,33 +199,39 @@ static BOOL _showPasscode = YES;
 
 + (void)setLockoutTime:(NSUInteger)seconds
 {
-    securityLockoutTime = seconds;
-    
     [self log:SFLogLevelInfo format:@"Setting lockout time to: %d", seconds];
-    
-    NSNumber *n = [NSNumber numberWithUnsignedInteger:securityLockoutTime];
-    [SFSecurityLockout writeLockoutTimeToKeychain:n];
-    if (securityLockoutTime == 0) {  // 0 = security code is removed.
-        if ([[SFPasscodeManager sharedManager] passcodeIsSet]) {
-            // TODO: Any content/artifacts tied to this passcode should get untied here (encrypted content, etc.).
-        }
-        [SFSecurityLockout unlock:YES];
-        
-        // Call changePasscode to trigger extra clean up logic.
-        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Lockout time set to nil, so resetting passcode."];
-        [[SFPasscodeManager sharedManager] changePasscode:nil];
-        
-        [SFInactivityTimerCenter removeTimer:kTimerSecurity];
-    } else {
-        if (![SFSecurityLockout isPasscodeValid]) {
-            // TODO: Again, new passcode, so make sure related content/artifacts are updated.
-            
-            [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
-        } else {
-            [SFSecurityLockout setupTimer];
-            [SFSecurityLockout unlockSuccessPostProcessing];  // "Unlocking" was a success, since no lock required.
-        }
+
+    // Access timeout hasn't changed. Nothing to do.
+    if (securityLockoutTime == seconds) {
+        [SFSecurityLockout unlockSuccessPostProcessing];
+        return;
     }
+
+    // Access timeout has changed from one non-zero value to another. Reset timer and update value.
+    NSNumber *n = [NSNumber numberWithUnsignedInteger:seconds];
+    if (securityLockoutTime > 0 && seconds > 0) {
+        securityLockoutTime = seconds;
+        [SFSecurityLockout writeLockoutTimeToKeychain:n];
+        [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+        [SFSecurityLockout setupTimer];
+        [SFSecurityLockout unlockSuccessPostProcessing];
+        return;
+    }
+
+    // No passcode to passcode. Take user through passcode creation flow.
+    if (securityLockoutTime == 0) {
+        securityLockoutTime = seconds;
+        [SFSecurityLockout writeLockoutTimeToKeychain:n];
+        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
+        return;
+    }
+
+    // Passcode to no passcode. Change passcode to 'nil'.
+    securityLockoutTime = seconds;
+    [SFSecurityLockout writeLockoutTimeToKeychain:n];
+    [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+    [[SFPasscodeManager sharedManager] changePasscode:nil];
+    [SFSecurityLockout unlock:YES];
 }
 
 // For unit tests.
