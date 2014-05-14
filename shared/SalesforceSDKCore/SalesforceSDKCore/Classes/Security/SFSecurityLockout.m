@@ -77,6 +77,8 @@ static BOOL _showPasscode = YES;
         SFPasscodeViewController *pvc = nil;
         if (mode == SFPasscodeControllerModeCreate) {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
+        } else if (mode == SFPasscodeControllerModeChange) {
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:passcodeLength];
         } else {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
         }
@@ -198,26 +200,35 @@ static BOOL _showPasscode = YES;
 
     // Access timeout hasn't changed. Nothing to do.
     if (securityLockoutTime == seconds) {
+        [SFSecurityLockout unlockSuccessPostProcessing];
         return;
     }
 
     // Access timeout has changed from one non-zero value to another. Reset timer and update value.
+    NSNumber *n = [NSNumber numberWithUnsignedInteger:seconds];
     if (securityLockoutTime > 0 && seconds > 0) {
         securityLockoutTime = seconds;
+        [SFSecurityLockout writeLockoutTimeToKeychain:n];
         [SFInactivityTimerCenter removeTimer:kTimerSecurity];
         [SFSecurityLockout setupTimer];
+        [SFSecurityLockout unlockSuccessPostProcessing];
         return;
     }
 
     // No passcode to passcode. Take user through passcode creation flow.
     if (securityLockoutTime == 0) {
         securityLockoutTime = seconds;
+        [SFSecurityLockout writeLockoutTimeToKeychain:n];
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
+        return;
     }
 
     // Passcode to no passcode. Change passcode to 'nil'.
     securityLockoutTime = seconds;
+    [SFSecurityLockout writeLockoutTimeToKeychain:n];
+    [SFInactivityTimerCenter removeTimer:kTimerSecurity];
     [[SFPasscodeManager sharedManager] changePasscode:nil];
+    [SFSecurityLockout unlock:YES];
 }
 
 // For unit tests.
