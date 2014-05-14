@@ -490,7 +490,7 @@ static Class InstanceClass = nil;
         [userAccountManager deleteAccountForUserId:user.credentials.userId error:nil];
         [user.credentials revoke];
 #warning TODO: SmartStore clear stores per user, once available.
-#warning TODO: Clear per-user Push Notification token, once available.
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }
     

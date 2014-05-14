@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFUserAccount.h"
 
 /** Preferences class that handles scoped preferences.
  A scope allows to bounds the preferences to a specific user,
@@ -41,6 +42,11 @@
 /** Returns the global instance of the preferences (one per application)
  */
 + (instancetype)globalPreferences;
+
+/** Returns the preferences instance related to the specified user's organization
+ or nil if there is no specified user or scope.
+ */
++ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount*)user;
 
 /** Returns the preferences instance related to the currrent user's organization
  or nil if there is no current user.
