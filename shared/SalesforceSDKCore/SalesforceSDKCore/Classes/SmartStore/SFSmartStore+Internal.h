@@ -28,16 +28,6 @@
 @class FMDatabase;
 @class FMResultSet;
 
-/**
- Enumeration of types of encryption used for the default encryption of stores.
- */
-typedef enum {
-    SFSmartStoreDefaultEncryptionTypeNone,
-    SFSmartStoreDefaultEncryptionTypeMac,
-    SFSmartStoreDefaultEncryptionTypeIdForVendor,
-    SFSmartStoreDefaultEncryptionTypeBaseAppId
-} SFSmartStoreDefaultEncryptionType;
-
 @interface SFSmartStore ()
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
@@ -86,73 +76,6 @@ typedef enum {
  @return The key used to encrypt the store.
  */
 + (NSString *)encKey;
-
-/**
- @return The default key to use, if no encryption key exists.
- */
-+ (NSString *)defaultKey;
-
-/**
- @return The default key, based on the MAC address.
- */
-+ (NSString *)defaultKeyMac;
-
-/**
- @return The default key, based on the idForVendor value.
- */
-+ (NSString *)defaultKeyIdForVendor;
-
-/**
- @return The default key, based on the base app id.
- */
-+ (NSString *)defaultKeyBaseAppId;
-
-/**
- Creates a default key with the given seed.
- @param seed The seed for creating the default key.
- @return The default key, based on the seed.
- */
-+ (NSString *)defaultKeyWithSeed:(NSString *)seed;
-
-/**
- Gets the default encryption type for the given store.
- @param storeName The name of the story to query for its default encryption type.
- @return An SFSmartStoreDefaultEncryptionType enumerated value specifying the default encryption type.
- */
-+ (SFSmartStoreDefaultEncryptionType)defaultEncryptionTypeForStore:(NSString *)storeName;
-
-/**
- Sets the default encryption type for the given store.
- @param encType The type of default encryption being used for the store.
- @param storeName The name of the store to set the value for.
- */
-+ (void)setDefaultEncryptionType:(SFSmartStoreDefaultEncryptionType)encType forStore:(NSString *)storeName;
-
-/**
- Updates the default encryption of all the stores utilizing default encryption, to the preferred default encryption method.
- */
-+ (void)updateDefaultEncryption;
-
-/**
- Updates the default encryption method for a given store, assuming it's using default encryption.
- @param storeName The name of the store to update.
- @return YES if the update was successful, NO otherwise.
- */
-+ (BOOL)updateDefaultEncryptionForStore:(NSString *)storeName;
-
-/**
- Sets a property specifying whether the given store uses a default key for encryption.
- @param usesDefault Whether the store uses a default key.
- @param storeName The store for which the setting applies.
- */
-+ (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName;
-
-/**
- Determines whether the given store uses a default key for encryption.
- @param storeName The store associated with the setting.
- @return YES if it does, NO if it doesn't.
- */
-+ (BOOL)usesDefaultKey:(NSString *)storeName;
 
 /**
  Change the encryption key for a database.

@@ -32,6 +32,8 @@
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
+#import "SFSmartStoreUpgrade.h"
+#import "SFSmartStoreUpgrade+Internal.h"
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
@@ -401,7 +403,7 @@ NSString * const kTestSoupName   = @"testSoup";
         canReadSmartStoreDb = [self canReadDatabase:rawDb];
         STAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
         [rawDb close];
-        rawDb = [self openDatabase:newNoPasscodeStoreName key:[SFSmartStore defaultKey] openShouldFail:NO];
+        rawDb = [self openDatabase:newNoPasscodeStoreName key:[SFSmartStoreUpgrade defaultKey] openShouldFail:NO];
         canReadSmartStoreDb = [self canReadDatabase:rawDb];
         STAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read DB with default key.", passcodeProviderName);
         [rawDb close];
@@ -474,12 +476,12 @@ NSString * const kTestSoupName   = @"testSoup";
                 SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName];
                 canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
-                BOOL usesDefault = [SFSmartStore usesDefaultKey:storeName];
+                BOOL usesDefault = [SFSmartStoreUpgrade usesDefaultKey:storeName];
                 STAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- None of the smart store instances should be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
             }
             
             // Passcode to no passcode.
-            newPasscode = [SFSmartStore defaultKey];
+            newPasscode = [SFSmartStoreUpgrade defaultKey];
             [[SFPasscodeManager sharedManager] changePasscode:@""];
             for (NSString *storeName in storeNames) {
                 FMDatabase *db = [self openDatabase:storeName key:newPasscode openShouldFail:NO];
@@ -489,7 +491,7 @@ NSString * const kTestSoupName   = @"testSoup";
                 SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName];
                 canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 STAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, storeName);
-                BOOL usesDefault = [SFSmartStore usesDefaultKey:storeName];
+                BOOL usesDefault = [SFSmartStoreUpgrade usesDefaultKey:storeName];
                 STAssertTrue(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- All of the smart store instances should be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
             }
             
@@ -503,7 +505,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testDefaultEncryptionUpdate
 {
     // Verify that the default encryption is idForVendor, for a new store.
-    FMDatabase *defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    FMDatabase *defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     BOOL canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
     
@@ -511,17 +513,17 @@ NSString * const kTestSoupName   = @"testSoup";
     // Reset to the MAC address encryption, verify that it's updated successfully.
     //
     
-    BOOL rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyMac]];
+    BOOL rekeyResult = [defaultKeyDb rekey:[SFSmartStoreUpgrade defaultKeyMac]];
     STAssertTrue(rekeyResult, @"Re-encryption to MAC address should have been successful.");
-    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
+    [SFSmartStoreUpgrade setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
     [defaultKeyDb close];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption to MAC address.");
     [defaultKeyDb close];
     
-    [SFSmartStore updateDefaultEncryption];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    [SFSmartStoreUpgrade updateDefaultEncryption];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database again.");
     
@@ -529,17 +531,17 @@ NSString * const kTestSoupName   = @"testSoup";
     // Reset to the vendorId encryption, verify that it's updated successfully.
     //
     
-    rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyIdForVendor]];
+    rekeyResult = [defaultKeyDb rekey:[SFSmartStoreUpgrade defaultKeyIdForVendor]];
     STAssertTrue(rekeyResult, @"Re-encryption to idForVendor should have been successful.");
-    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:kTestSmartStoreName];
+    [SFSmartStoreUpgrade setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:kTestSmartStoreName];
     [defaultKeyDb close];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertFalse(canReadDb, @"Should not be able to read default-encrypted database after re-encryption to idForVendor.");
     [defaultKeyDb close];
     
-    [SFSmartStore updateDefaultEncryption];
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    [SFSmartStoreUpgrade updateDefaultEncryption];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database again.");
     [defaultKeyDb close];
@@ -549,15 +551,15 @@ NSString * const kTestSoupName   = @"testSoup";
     //
     
     NSString *badDefaultSeed = @"2F:00:00:00:00:00";
-    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStore defaultKeyBaseAppId] openShouldFail:NO];
+    defaultKeyDb = [self openDatabase:kTestSmartStoreName key:[SFSmartStoreUpgrade defaultKeyBaseAppId] openShouldFail:NO];
     canReadDb = [self canReadDatabase:defaultKeyDb];
     STAssertTrue(canReadDb, @"Should be able to read default-encrypted database.");
-    rekeyResult = [defaultKeyDb rekey:[SFSmartStore defaultKeyWithSeed:badDefaultSeed]];
+    rekeyResult = [defaultKeyDb rekey:[SFSmartStoreUpgrade defaultKeyWithSeed:badDefaultSeed]];
     STAssertTrue(rekeyResult, @"Re-encryption should have been successful.");
-    [SFSmartStore setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
+    [SFSmartStoreUpgrade setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:kTestSmartStoreName];
     [defaultKeyDb close];
     
-    [SFSmartStore updateDefaultEncryption];
+    [SFSmartStoreUpgrade updateDefaultEncryption];
     BOOL storeExists = [SFSmartStore persistentStoreExists:kTestSmartStoreName];
     STAssertFalse(storeExists, @"Un-decryptable store should have been removed on default encryption update.");
 }
@@ -688,11 +690,11 @@ NSString * const kTestSoupName   = @"testSoup";
     // If there's no passcode, non-memory store with default key.
     if (passcode == nil || [passcode length] == 0) {
         storeName = @"store3";
-        NSString *defKey = [SFSmartStore defaultKey];
+        NSString *defKey = [SFSmartStoreUpgrade defaultKey];
         [self createDbDir:storeName];
         db = [self openDatabase:storeName key:defKey openShouldFail:NO];
         [self createTestTable:tableName db:db];
-        [SFSmartStore setUsesDefaultKey:YES forStore:storeName];
+        [SFSmartStoreUpgrade setUsesDefaultKey:YES forStore:storeName];
         [db close];
         [storeNames addObject:storeName];
     }
