@@ -81,6 +81,8 @@
 
 - (void) runToStep:(SFAlterSoupStep) toStep
 {
+    // NB: if failure happens in a middle of a step before status row is updated (e.g. in steps that do ddl steps)
+    //     it should be safe to re-play that step
     switch(self.afterStep) {
 		case SFAlterSoupStepStarting:
 			[self renameOldSoupTable];
@@ -113,6 +115,8 @@
  */
 - (void) renameOldSoupTable
 {
+    //TODO if app crashed after alter and before status row update, the re-play would fail
+    //     we should only do the alter table if the x_old table is not found
     // Rename backing table for soup
     NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@ RENAME TO %@_old", self.soupTableName, self.soupTableName];
     [self.db executeUpdate:sql];
