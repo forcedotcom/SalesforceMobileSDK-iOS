@@ -120,11 +120,16 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     NSString * const kDecryptionErrorMessage = @"Error decrypting the encrypted store '%@': %@";
     
     NSError *openDbError = nil;
+    NSError *verifyDbAccessError = nil;
     FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
                                                                                         key:oldKey
                                                                                       error:&openDbError];
     if (db == nil || openDbError != nil) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
+        return NO;
+    } else if (![[SFSmartStoreDatabaseManager sharedManager] verifyDatabaseAccess:db error:&verifyDbAccessError]) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error reading the content of store '%@' during encryption upgrade: %@", storeName, [verifyDbAccessError localizedDescription]];
+        [db close];
         return NO;
     }
     
