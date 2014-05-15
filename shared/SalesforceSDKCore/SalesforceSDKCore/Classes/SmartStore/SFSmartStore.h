@@ -50,6 +50,12 @@ extern NSString *const SOUP_COL;
  */
 extern NSString *const SOUP_INDEX_MAP_TABLE;
 
+/**
+ Table to keep track of status of long operations in flight
+*/
+extern NSString *const LONG_OPERATIONS_STATUS_TABLE;
+
+
 /*
  Columns of the soup index map table
  */
@@ -64,6 +70,13 @@ extern NSString *const COLUMN_TYPE_COL;
 extern NSString *const TYPE_COL;
 extern NSString *const DETAILS_COL;
 extern NSString *const STATUS_COL;
+
+/*
+ JSON fields added to soup element on insert/update
+*/
+extern NSString *const SOUP_ENTRY_ID;
+extern NSString *const SOUP_LAST_MODIFIED_DATE;
+
 
 @class FMDatabase;
 @class SFStoreCursor;
@@ -132,6 +145,7 @@ extern NSString *const STATUS_COL;
  @param newKey The new encryption key.
  */
 + (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
+
 
 #pragma mark - Soup manipulation methods
 
@@ -276,6 +290,13 @@ extern NSString *const STATUS_COL;
  @return YES if the soup got re-indexed OK
  */
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL)handleTx;
+
+#pragma mark - Long operations recovery methods
+
+/**
+ Complete long operations that were interrupted
+ */
+- (void) resumeLongOperations;
 
 
 #pragma mark - Utility methods

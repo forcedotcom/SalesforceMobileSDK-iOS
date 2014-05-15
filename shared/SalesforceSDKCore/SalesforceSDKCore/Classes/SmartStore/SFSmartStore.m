@@ -81,7 +81,7 @@ NSString *const LAST_MODIFIED_COL = @"lastModified";
 NSString *const SOUP_COL = @"soup";
 
 // Table to keep track of status of long operations in flight
-static NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
+NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
 
 // Columns of long operations status table
 NSString *const TYPE_COL = @"type";
@@ -89,8 +89,8 @@ NSString *const DETAILS_COL = @"details";
 NSString *const STATUS_COL = @"status";
 
 // JSON fields added to soup element on insert/update
-static NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
-static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
+NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
+NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 @implementation SFSmartStore
 
@@ -480,8 +480,9 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // Create SOUP_INDEX_MAP_TABLE
     NSString *createLongOperationsStatusTableSql =
         [NSString stringWithFormat:
-            @"CREATE TABLE IF NOT EXISTS %@ (%@ TEXT, %@ TEXT, %@ TEXT, %@ INTEGER, %@ INTEGER )",
+            @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT, %@ TEXT, %@ TEXT, %@ INTEGER, %@ INTEGER )",
             LONG_OPERATIONS_STATUS_TABLE,
+            ID_COL,
             TYPE_COL,
             DETAILS_COL,
             STATUS_COL,
@@ -491,8 +492,38 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     [self log:SFLogLevelDebug format:@"createLongOperationsStatusTableSql: %@",createLongOperationsStatusTableSql];
     result = [self.storeDb executeUpdate:createLongOperationsStatusTableSql];
-    return result;
+    return result; 
 }
+
+#pragma mark - Long operations recovery methods
+
+- (void) resumeLongOperations
+{
+    NSArray* longOperations = [self getLongOperations];
+    for(SFAlterSoupLongOperation* longOperation in longOperations) {
+        [longOperation run];
+    }
+}
+
+- (NSArray*) getLongOperations
+{
+    NSMutableArray* longOperations = [NSMutableArray array];
+    
+    // TODO assuming all long operations are alter soup operations
+    //      revisit when we introduced another type of long operation
+    
+    FMResultSet* frs = [self queryTable:LONG_OPERATIONS_STATUS_TABLE forColumns:[NSArray arrayWithObjects:ID_COL, DETAILS_COL, STATUS_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil];
+    
+    while([frs next]) {
+        NSNumber *rowId = [NSNumber numberWithLong:[frs longForColumn:ID_COL]];
+        NSDictionary *details = [SFJsonUtils objectFromJSONString:[frs stringForColumn:DETAILS_COL]];
+        int status = [frs intForColumn:STATUS_COL];
+        SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] init:self withRowId:rowId withDetails:details withStatus:status];
+        [longOperations addObject:longOperation];
+    }
+    
+    return longOperations;
+ }
 
 #pragma mark - Utility methods
 

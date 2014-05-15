@@ -31,6 +31,8 @@
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
+#import "SFAlterSoupLongOperation.h"
+#import "SFSoupIndex.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
@@ -583,6 +585,36 @@ NSString * const kTestSoupName   = @"testSoup";
     
 }
 
+-(void) testAlterSoupResumeAfterRenameOldSoupTable
+{
+    [self tryAlterSoupInterruptResume:RENAME_OLD_SOUP_TABLE];
+}
+
+-(void) testAlterSoupResumeAfterDropOldIndexes
+{
+    [self tryAlterSoupInterruptResume:DROP_OLD_INDEXES];
+}
+
+-(void) testAlterSoupResumeAfterRegisterSoupUsingTableName
+{
+    [self tryAlterSoupInterruptResume:REGISTER_SOUP_USING_TABLE_NAME];
+}
+
+-(void) testAlterSoupResumeAfterCopyTable
+{
+    [self tryAlterSoupInterruptResume:COPY_TABLE];
+}
+
+-(void) testAlterSoupResumeAfterReIndexSoup
+{
+    [self tryAlterSoupInterruptResume:RE_INDEX_SOUP];
+}
+
+-(void) testAlterSoupResumeAfterDropOldTable
+{
+    [self tryAlterSoupInterruptResume:DROP_OLD_TABLE];
+}
+
 #pragma mark - helper methods
 
 - (BOOL) hasTable:(NSString*)tableName
@@ -706,6 +738,91 @@ NSString * const kTestSoupName   = @"testSoup";
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     int allStoreCount = [allStoreNames count];
     STAssertEquals(allStoreCount, 0, @"Should not be any stores after removing them all.");
+}
+
+- (void) tryAlterSoupInterruptResume:(SFAlterSoupStep)toStep
+{
+    // Before
+    STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+    
+    // Register
+    NSDictionary* lastNameSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"lastName",@"path",@"string",@"type",nil];
+    NSArray* indexSpecs = [NSArray arrayWithObjects:lastNameSoupIndex, nil];
+    [_store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    BOOL testSoupExists = [_store soupExists:kTestSoupName];
+    STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
+    NSString* soupTableName = [_store tableNameForSoup:kTestSoupName];
+
+    // Populate soup
+    NSArray* entries = [SFJsonUtils objectFromJSONString:@"[{\"lastName\":\"Doe\", \"address\":{\"city\":\"San Francisco\",\"street\":\"1 market\"}},"
+                                                          "{\"lastName\":\"Jackson\", \"address\":{\"city\":\"Los Angeles\",\"street\":\"100 mission\"}}]"];
+    NSArray* insertedEntries  =[_store upsertEntries:entries toSoup:kTestSoupName];
+
+    // Partial alter - up to toStep included
+    NSDictionary* citySoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.city",@"path",@"string",@"type",nil];
+    NSDictionary* streetSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.street",@"path",@"string",@"type",nil];
+    NSArray* indexSpecsNew = [NSArray arrayWithObjects:lastNameSoupIndex, citySoupIndex, streetSoupIndex, nil];
+    SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] init:_store withSoupName:kTestSoupName withNewIndexSpecs:indexSpecsNew withReIndexData:YES];
+    [operation run:toStep];
+    
+    // Validate long_operations_status table
+    NSArray* operations = [_store getLongOperations];
+    
+    STAssertTrue([operations count] == 1, @"Wrong number of long operations found");
+    if ([operations count] > 0) {
+        // Check details
+        SFAlterSoupLongOperation* actualOperation = (SFAlterSoupLongOperation*)operations[0];
+        STAssertEqualObjects(actualOperation.soupName, kTestSoupName, @"Wrong soup name");
+        STAssertEqualObjects(actualOperation.soupTableName, soupTableName, @"Wrong soup name");
+        STAssertTrue(actualOperation.reIndexData, @"Wrong re-index data");
+        
+        // Check last step completed
+        STAssertEquals(actualOperation.afterStep, toStep, @"Wrong step");
+        
+        // Simulate restart (clear cache and call resumeLongOperations)
+        // TODO clear memory cache
+        [_store resumeLongOperations];
+        
+        // Check index specs
+        [self checkIndexSpecs:indexSpecsNew forSoupName:kTestSoupName forSoupTableName:soupTableName];
+        /*
+        FIXME 
+         
+        FMResultSet* frs = [_store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil];
+        [frs next];
+        STAssertEquals([frs longForColumn:ID_COL], ((NSDictionary*)insertedEntries[0])[SOUP_ENTRY_ID], @"Wrong id");
+        STAssertEquals([frs longForColumn:CREATED_COL], ((NSDictionary*)insertedEntries[0])[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_0"], @"Doe", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_1"], @"San Francisco", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_2"], @"1 Market", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONDataRepresentation:insertedEntries[0]], @"Wrong value in soup column");
+
+        [frs next];
+        STAssertEquals([frs longForColumn:ID_COL], ((NSDictionary*)insertedEntries[1])[SOUP_ENTRY_ID], @"Wrong id");
+        STAssertEquals([frs longForColumn:CREATED_COL], ((NSDictionary*)insertedEntries[1])[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_0"], @"Jackson", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_1"], @"Los Angeles", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:@"table_1_2"], @"100 Mission", @"Wrong value in index column");
+        STAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONDataRepresentation:insertedEntries[1]], @"Wrong value in soup column");
+
+        STAssertFalse([frs next], @"Only two rows should have been returned");
+        
+        [frs close];
+         */
+    }
+}
+         
+- (void) checkIndexSpecs:(NSArray*)indexSpecsAsDictionaries forSoupName:(NSString*)soupName forSoupTableName:(NSString*)soupTableName
+{
+    NSArray* actualIndexSpecs = [_store indicesForSoup:soupName];
+    STAssertEquals([actualIndexSpecs count], [indexSpecsAsDictionaries count], @"Wrong number of index specs");
+    for (int i = 0; i<[indexSpecsAsDictionaries count]; i++) {
+        SFSoupIndex* soupIndex = ((SFSoupIndex*)actualIndexSpecs[i]);
+        NSString* expectedColumnName = [NSString stringWithFormat:@"%@_%d", soupTableName, i];
+        STAssertEqualObjects(soupIndex.path, ((NSDictionary*)indexSpecsAsDictionaries[i])[@"path"], @"Wrong path");
+        STAssertEqualObjects(soupIndex.indexType, ((NSDictionary*)indexSpecsAsDictionaries[i])[@"type"], @"Wrong type");
+        STAssertEqualObjects(soupIndex.columnName, expectedColumnName, @"Wrong column name");
+    }
 }
 
 @end

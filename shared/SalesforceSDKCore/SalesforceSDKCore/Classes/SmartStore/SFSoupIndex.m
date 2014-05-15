@@ -51,7 +51,7 @@ NSString * const kSoupIndexColumnName   = @"columnName";
 - (id)initWithDictionary:(NSDictionary*)dict {
     self = [self initWithPath:[dict objectForKey:kSoupIndexPath]
                     indexType:[dict objectForKey:kSoupIndexType]
-                   columnName:nil
+                   columnName:[dict objectForKey:kSoupIndexColumnName]
             ];
     return self;
 }
@@ -89,7 +89,7 @@ NSString * const kSoupIndexColumnName   = @"columnName";
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     [result setObject:self.path forKey:kSoupIndexPath];
     [result setObject:self.indexType forKey:kSoupIndexType];
-    if (withColumnName)
+    if (withColumnName && self.columnName)
         [result setObject:self.columnName forKey:kSoupIndexColumnName];
     return result;
 }
@@ -98,13 +98,26 @@ NSString * const kSoupIndexColumnName   = @"columnName";
 {
     NSMutableArray* result = [NSMutableArray array];
     for (id soupIndex in arrayOfSoupIndexes) {
-        NSDictionary* soupIndexAsDictionary = [soupIndex isKindOfClass:[SFSoupIndex class]]
+        NSDictionary* dict = [soupIndex isKindOfClass:[SFSoupIndex class]]
                                                ? [(SFSoupIndex*) soupIndex asDictionary:withColumnName]
                                                : (NSDictionary*) soupIndex;
-        [result addObject:soupIndexAsDictionary];
+        [result addObject:dict];
     }
     return result;
 }
+
++ (NSArray*) asArraySoupIndexes:(NSArray*) arrayOfDictionaries
+{
+    NSMutableArray* result = [NSMutableArray array];
+    for (id dict in arrayOfDictionaries) {
+        SFSoupIndex* soupIndex= [dict isKindOfClass:[SFSoupIndex class]]
+                                        ? (SFSoupIndex*) dict
+                                        : [[SFSoupIndex alloc] initWithDictionary:dict];
+        [result addObject:soupIndex];
+    }
+    return result;
+}
+
 
 #pragma mark - Useful methods
 

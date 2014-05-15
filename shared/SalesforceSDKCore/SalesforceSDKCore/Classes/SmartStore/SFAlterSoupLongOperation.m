@@ -26,6 +26,7 @@
 #import "FMDatabase.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
+#import "SFJsonUtils.h"
 
 @implementation SFAlterSoupLongOperation
 
@@ -48,7 +49,7 @@
         _db = store.storeDb;
         _soupName = soupName;
         _soupTableName = [store tableNameForSoup:soupName];
-        _indexSpecs = newIndexSpecs;
+        _indexSpecs = [SFSoupIndex asArraySoupIndexes:newIndexSpecs];
         _oldIndexSpecs = [store indicesForSoup:soupName];
         _reIndexData = reIndexData;
         _rowId = [self createLongOperationDbRow];
@@ -65,8 +66,8 @@
         _db = store.storeDb;
         _soupName = details[SOUP_NAME];
         _soupTableName = details[SOUP_TABLE_NAME];
-        _indexSpecs = details[NEW_INDEX_SPECS];
-        _oldIndexSpecs = details[OLD_INDEX_SPECS];
+        _indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
+        _oldIndexSpecs = [SFSoupIndex asArraySoupIndexes:details[OLD_INDEX_SPECS]];
         _reIndexData = details[RE_INDEX_DATA];
         _afterStep = status;
     }
@@ -128,7 +129,7 @@
 {
     // Removing db indexes on table (otherwise registerSoup will fail to create indexes with the same name)
     for (int i=0; i<[self.oldIndexSpecs count]; i++) {
-        NSString* sql = [NSString stringWithFormat:@"DROP INDEX %@_%d_idx", self.soupTableName, i];
+        NSString* sql = [NSString stringWithFormat:@"DROP INDEX IF EXISTS %@_%d_idx", self.soupTableName, i];
         [self.db executeUpdate:sql];
     }
 	
@@ -152,7 +153,7 @@
  */
 - (void) registerSoupUsingTableName
 {
-    [self.store registerSoup:self.soupName withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName];
+    [self.store registerSoup:self.soupName withIndexSpecs:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES] withSoupTableName:self.soupTableName];
     
     // Update row in alter status table -auto commit
     [self updateLongOperationDbRow:REGISTER_SOUP_USING_TABLE_NAME];
@@ -219,7 +220,7 @@
 - (void) dropOldTable
 {
     // Drop old table
-    NSString* sql = [NSString stringWithFormat:@"DROP TABLE %@_old", _soupTableName];
+    NSString* sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_old", _soupTableName];
     [self.db executeUpdate:sql];
     
     // Update status row - auto commit
@@ -236,11 +237,11 @@
     NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
     values[TYPE_COL] = @"AlterSoup";
-    values[DETAILS_COL] = [self getDetails];
+    values[DETAILS_COL] = [SFJsonUtils JSONRepresentation:[self getDetails]];
     values[STATUS_COL] = [NSNumber numberWithInt:STARTING];
     values[CREATED_COL] = now;
     values[LAST_MODIFIED_COL] = now;
-    [self.store insertIntoTable:self.soupTableName values:values];
+    [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values];
     return [self.store.storeDb lastInsertRowId];
 }
 
@@ -265,9 +266,9 @@
 {
     NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
-    values[STATUS_COL] = [NSNumber numberWithInt:self.afterStep];
+    values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
     values[LAST_MODIFIED_COL] = now;
-    return [self.store updateTable:self.soupTableName values:values entryId:[NSNumber numberWithLong:self.rowId]];
+    return [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId]];
 }
 
 /**

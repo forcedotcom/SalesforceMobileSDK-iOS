@@ -300,4 +300,10 @@ whereArgs:(NSArray*)whereArgs;
  @param soupName The name of the soup to remove
  */
 - (void)removeFromCache:(NSString*) soupName;
+
+/**
+ @return unfinished long operations
+ */
+- (NSArray*) getLongOperations;
+
 @end

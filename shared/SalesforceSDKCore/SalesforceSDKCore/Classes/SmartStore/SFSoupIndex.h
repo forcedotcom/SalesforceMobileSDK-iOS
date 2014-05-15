@@ -92,6 +92,13 @@ extern NSString * const kSoupIndexTypeFloating;
   */
 + (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName;
 
+/**
+ * Return array of SFSoupIndex given an array of SFSoupIndex or NSDictionary
+ * @param arrayOfDictionaries
+ * @return array of SFSoupIndex.
+ */
++ (NSArray*) asArraySoupIndexes:(NSArray*) arrayOfDictionaries;
+
 /*
  * Return map path to SFSoupIndex
  * @param soupIndexes array of SFSoupIndex objects
