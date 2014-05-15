@@ -499,6 +499,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (void) resumeLongOperations
 {
+    // TODO call after opening db
     NSArray* longOperations = [self getLongOperations];
     for(SFAlterSoupLongOperation* longOperation in longOperations) {
         [longOperation run];
@@ -517,8 +518,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     while([frs next]) {
         NSNumber *rowId = [NSNumber numberWithLong:[frs longForColumn:ID_COL]];
         NSDictionary *details = [SFJsonUtils objectFromJSONString:[frs stringForColumn:DETAILS_COL]];
-        int status = [frs intForColumn:STATUS_COL];
-        SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] init:self withRowId:rowId withDetails:details withStatus:status];
+        SFAlterSoupStep status = (SFAlterSoupStep)[frs intForColumn:STATUS_COL];
+        SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] initWithStore:self rowId:rowId details:details status:status];
         [longOperations addObject:longOperation];
     }
     
@@ -1574,7 +1575,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData {
     if ([self soupExists:soupName]) {
-        SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] init:self withSoupName:soupName withNewIndexSpecs:indexSpecs withReIndexData:reIndexData];
+        SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:self soupName:soupName newIndexSpecs:indexSpecs reIndexData:reIndexData];
         [operation run];
         return YES;
     } else {

@@ -334,8 +334,8 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSArray *indexSpecs = [argsDict nonNullObjectForKey:kIndexesArg];
     BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
 
-    BOOL regOk = [self.store alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
-    if (regOk) {
+    BOOL alterOk = [self.store alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+    if (alterOk) {
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     } else {

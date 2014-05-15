@@ -587,32 +587,32 @@ NSString * const kTestSoupName   = @"testSoup";
 
 -(void) testAlterSoupResumeAfterRenameOldSoupTable
 {
-    [self tryAlterSoupInterruptResume:RENAME_OLD_SOUP_TABLE];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepRenameOldSoupTable];
 }
 
 -(void) testAlterSoupResumeAfterDropOldIndexes
 {
-    [self tryAlterSoupInterruptResume:DROP_OLD_INDEXES];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldIndexes];
 }
 
 -(void) testAlterSoupResumeAfterRegisterSoupUsingTableName
 {
-    [self tryAlterSoupInterruptResume:REGISTER_SOUP_USING_TABLE_NAME];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepRegisterSoupUsingTableName];
 }
 
 -(void) testAlterSoupResumeAfterCopyTable
 {
-    [self tryAlterSoupInterruptResume:COPY_TABLE];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepCopyTable];
 }
 
 -(void) testAlterSoupResumeAfterReIndexSoup
 {
-    [self tryAlterSoupInterruptResume:RE_INDEX_SOUP];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepReIndexSoup];
 }
 
 -(void) testAlterSoupResumeAfterDropOldTable
 {
-    [self tryAlterSoupInterruptResume:DROP_OLD_TABLE];
+    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldTable];
 }
 
 #pragma mark - helper methods
@@ -762,8 +762,8 @@ NSString * const kTestSoupName   = @"testSoup";
     NSDictionary* citySoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.city",@"path",@"string",@"type",nil];
     NSDictionary* streetSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.street",@"path",@"string",@"type",nil];
     NSArray* indexSpecsNew = [NSArray arrayWithObjects:lastNameSoupIndex, citySoupIndex, streetSoupIndex, nil];
-    SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] init:_store withSoupName:kTestSoupName withNewIndexSpecs:indexSpecsNew withReIndexData:YES];
-    [operation run:toStep];
+    SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:_store soupName:kTestSoupName newIndexSpecs:indexSpecsNew reIndexData:YES];
+    [operation runToStep:toStep];
     
     // Validate long_operations_status table
     NSArray* operations = [_store getLongOperations];

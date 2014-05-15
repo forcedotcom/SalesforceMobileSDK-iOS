@@ -27,13 +27,13 @@
 
 // Enum for alter steps
 typedef enum {
-    STARTING,
-    RENAME_OLD_SOUP_TABLE,
-    DROP_OLD_INDEXES,
-    REGISTER_SOUP_USING_TABLE_NAME,
-    COPY_TABLE,
-    RE_INDEX_SOUP,
-    DROP_OLD_TABLE
+    SFAlterSoupStepStarting,
+    SFAlterSoupStepRenameOldSoupTable,
+    SFAlterSoupStepDropOldIndexes,
+    SFAlterSoupStepRegisterSoupUsingTableName,
+    SFAlterSoupStepCopyTable,
+    SFAlterSoupStepReIndexSoup,
+    SFAlterSoupStepDropOldTable
 } SFAlterSoupStep;
 
 
@@ -43,19 +43,11 @@ static NSString * const SOUP_TABLE_NAME = @"soupTableName";
 static NSString * const OLD_INDEX_SPECS = @"oldIndexSpecs";
 static NSString * const NEW_INDEX_SPECS = @"newIndexSpecs";
 static NSString * const RE_INDEX_DATA   = @"reIndexData";
-static NSInteger  const kLastStep = DROP_OLD_TABLE;
+static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 
 
 @interface SFAlterSoupLongOperation : NSObject {
-    NSString* _soupName;
-    NSString* _soupTableName;
-    SFAlterSoupStep _afterStep;
-    NSArray* _indexSpecs;
-    NSArray* _oldIndexSpecs;
-    SFSmartStore* _store;
-    FMDatabase* _db;
-    BOOL _reIndexData;
-    long _rowId;
+
 }
 
 // Soup being altered
@@ -93,7 +85,7 @@ static NSInteger  const kLastStep = DROP_OLD_TABLE;
  @param newIndexSpecs
  @param reIndexData
  */
-- (id) init:(SFSmartStore*)store withSoupName:(NSString*)soupName withNewIndexSpecs:(NSArray*)newIndexSpecs withReIndexData:(BOOL)reIndexData;
+- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /** 
  Called when resuming an alter soup operation from the data stored in the long operations status table
@@ -101,7 +93,7 @@ static NSInteger  const kLastStep = DROP_OLD_TABLE;
  @param details
  @param status
 */
-- (id) init:(SFSmartStore*) store withRowId:(long) rowId withDetails:(NSDictionary*)details withStatus:(int)status;
+- (id) initWithStore:(SFSmartStore*) store rowId:(long) rowId details:(NSDictionary*)details status:(SFAlterSoupStep)status;
 
 /**
  Run this operation
@@ -112,7 +104,7 @@ static NSInteger  const kLastStep = DROP_OLD_TABLE;
  Run this operation up to a given step (used by tests)
  @param toStep
  */
-- (void) run:(SFAlterSoupStep) toStep;
+- (void) runToStep:(SFAlterSoupStep) toStep;
 
 @end
 

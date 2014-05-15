@@ -41,7 +41,7 @@
 @synthesize afterStep = _afterStep;
 
 
-- (id) init:(SFSmartStore*)store withSoupName:(NSString*)soupName withNewIndexSpecs:(NSArray*)newIndexSpecs withReIndexData:(BOOL)reIndexData
+- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
 {
     self = [super init];
     if (nil != self) {
@@ -53,12 +53,12 @@
         _oldIndexSpecs = [store indicesForSoup:soupName];
         _reIndexData = reIndexData;
         _rowId = [self createLongOperationDbRow];
-        _afterStep = STARTING;
+        _afterStep = SFAlterSoupStepStarting;
     }
     return self;
 }
 
-- (id) init:(SFSmartStore*) store withRowId:(long) rowId withDetails:(NSDictionary*)details withStatus:(int)status
+- (id) initWithStore:(SFSmartStore*) store rowId:(long) rowId details:(NSDictionary*)details status:(SFAlterSoupStep)status
 {
     self = [super init];
     if (nil != self) {
@@ -76,33 +76,33 @@
 
 - (void) run
 {
-    [self run:kLastStep];
+    [self runToStep:kLastStep];
 }
 
-- (void) run:(SFAlterSoupStep) toStep
+- (void) runToStep:(SFAlterSoupStep) toStep
 {
     switch(self.afterStep) {
-		case STARTING:
+		case SFAlterSoupStepStarting:
 			[self renameOldSoupTable];
-			if (toStep == RENAME_OLD_SOUP_TABLE) break;
-		case RENAME_OLD_SOUP_TABLE:
+			if (toStep == SFAlterSoupStepRenameOldSoupTable) break;
+		case SFAlterSoupStepRenameOldSoupTable:
             [self dropOldIndexes];
-			if (toStep == DROP_OLD_INDEXES) break;
-		case DROP_OLD_INDEXES:
+			if (toStep == SFAlterSoupStepDropOldIndexes) break;
+		case SFAlterSoupStepDropOldIndexes:
 			[self registerSoupUsingTableName];
-			if (toStep == REGISTER_SOUP_USING_TABLE_NAME) break;
-		case REGISTER_SOUP_USING_TABLE_NAME:
+			if (toStep == SFAlterSoupStepRegisterSoupUsingTableName) break;
+		case SFAlterSoupStepRegisterSoupUsingTableName:
 			[self copyTable];
-			if (toStep == COPY_TABLE) break;
-		case COPY_TABLE:
+			if (toStep == SFAlterSoupStepCopyTable) break;
+		case SFAlterSoupStepCopyTable:
 			// Re-index soup (if requested)
 			if (self.reIndexData)
 				[self reIndexSoup];
-			if (toStep == RE_INDEX_SOUP) break;
-		case RE_INDEX_SOUP:
+			if (toStep == SFAlterSoupStepReIndexSoup) break;
+		case SFAlterSoupStepReIndexSoup:
 			[self dropOldTable];
-			if (toStep == DROP_OLD_TABLE) break;
-		case DROP_OLD_TABLE:
+			if (toStep == SFAlterSoupStepDropOldTable) break;
+		case SFAlterSoupStepDropOldTable:
 			// Nothing left to do
 			break;
     }
@@ -118,7 +118,7 @@
     [self.db executeUpdate:sql];
     
     // Update row in alter status table - auto commit
-    [self updateLongOperationDbRow:RENAME_OLD_SOUP_TABLE];
+    [self updateLongOperationDbRow:SFAlterSoupStepRenameOldSoupTable];
 }
 
 
@@ -139,7 +139,7 @@
     [self.db executeUpdate:sql];
     
     // Update row in alter status table - auto commit
-    [self updateLongOperationDbRow:DROP_OLD_INDEXES];
+    [self updateLongOperationDbRow:SFAlterSoupStepDropOldIndexes];
 
     // Remove soup from cache
     [self.store removeFromCache:self.soupName];
@@ -156,7 +156,7 @@
     [self.store registerSoup:self.soupName withIndexSpecs:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES] withSoupTableName:self.soupTableName];
     
     // Update row in alter status table -auto commit
-    [self updateLongOperationDbRow:REGISTER_SOUP_USING_TABLE_NAME];
+    [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName];
 }
 
 
@@ -174,7 +174,7 @@
     [self.db executeUpdate:copySql];
         
     // Update row in alter status table
-    [self updateLongOperationDbRow:COPY_TABLE];
+    [self updateLongOperationDbRow:SFAlterSoupStepCopyTable];
 
     // Commit
     [self.db commit];
@@ -207,7 +207,7 @@
     [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths handleTx:FALSE];
     
     // Update row in alter status table
-    [self updateLongOperationDbRow:RE_INDEX_SOUP];
+    [self updateLongOperationDbRow:SFAlterSoupStepReIndexSoup];
     
      // Commit
     [self.db commit];
@@ -224,7 +224,7 @@
     [self.db executeUpdate:sql];
     
     // Update status row - auto commit
-    [self updateLongOperationDbRow:DROP_OLD_TABLE];
+    [self updateLongOperationDbRow:SFAlterSoupStepDropOldTable];
 }
 
 
@@ -234,11 +234,11 @@
  */
 - (long) createLongOperationDbRow
 {
-    NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
+    NSNumber* now = [self.store currentTimeInMilliseconds];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
     values[TYPE_COL] = @"AlterSoup";
     values[DETAILS_COL] = [SFJsonUtils JSONRepresentation:[self getDetails]];
-    values[STATUS_COL] = [NSNumber numberWithInt:STARTING];
+    values[STATUS_COL] = [NSNumber numberWithInt:SFAlterSoupStepStarting];
     values[CREATED_COL] = now;
     values[LAST_MODIFIED_COL] = now;
     [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values];
@@ -264,10 +264,11 @@
  */
 - (BOOL) updateLongOperationDbRow:(SFAlterSoupStep)newStatus
 {
-    NSNumber* now = [NSNumber numberWithLong:[self.store currentTimeInMilliseconds]];
+    NSNumber* now = [self.store currentTimeInMilliseconds];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
     values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
     values[LAST_MODIFIED_COL] = now;
+    // TODO do delete on last step
     return [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId]];
 }
 
