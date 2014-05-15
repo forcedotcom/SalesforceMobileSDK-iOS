@@ -90,16 +90,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 + (BOOL)persistentStoreExists:(NSString*)storeName;
 
-/**
- Changes the encryption key for all of the stores associated with the app.
- @param oldKey The original encryption key.
- @param newKey The new encryption key.
- */
-+ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
-
 #pragma mark - Soup manipulation methods
-
-
 
 /**
  @param soupName the name of the soup

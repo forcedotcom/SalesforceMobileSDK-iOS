@@ -36,10 +36,9 @@
 
 /**
  Simply open the db file.
- @param forCreation Whether the DB is to be created, or an existing DB should be opened.
  @return YES if we were able to open the DB file.
  */
-- (BOOL)openStoreDatabase:(BOOL)forCreation;
+- (BOOL)openStoreDatabase;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
@@ -76,17 +75,6 @@
  @return The key used to encrypt the store.
  */
 + (NSString *)encKey;
-
-/**
- Change the encryption key for a database.
- @param db The DB associated with the encryption.
- @param storeName The store name associated with the request.
- @param oldKey The original key for the encryption.
- @param newKey The new key to re-encrypt with.
- @return The updated database, post encryption action.  Note: This may be a new instance of
- FMDatabase, depending on the action.
- */
-+ (FMDatabase *)changeKeyForDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey;
 
 /**
  FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).

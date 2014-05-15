@@ -1,34 +1,52 @@
-//
-//  SFSmartStoreUpgrade.m
-//  SalesforceSDKCore
-//
-//  Created by Kevin Hawkins on 5/12/14.
-//  Copyright (c) 2014 salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SFSmartStoreUpgrade+Internal.h"
-#import "SFSmartStore.h"
+#import "SFSmartStore+Internal.h"
 #import "SFSmartStoreDatabaseManager.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/SFCrypto.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSecurity/SFPasscodeManager.h>
 #import "FMDatabase.h"
 
 static const char *const_key = "H347ergher/32hhj5%hff?Dn@21o";
-static NSString * const kDefaultPasscodeStoresKey = @"com.salesforce.smartstore.defaultPasscodeStores";
-static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.defaultEncryptionType";
+static NSString * const kLegacyDefaultPasscodeStoresKey = @"com.salesforce.smartstore.defaultPasscodeStores";
+static NSString * const kLegacyDefaultEncryptionTypeKey = @"com.salesforce.smartstore.defaultEncryptionType";
+static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstore.keyStoreEncryptedStores";
 
 @implementation SFSmartStoreUpgrade
 
-+ (void)updateDefaultEncryption
++ (void)updateEncryption
 {
-    [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Updating encryption method for all stores, where necessary."];
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Updating encryption method for all stores, where necessary."];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
-    [SFLogger log:[self class] level:SFLogLevelInfo format:@"Number of stores to update: %d", [allStoreNames count]];
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to update: %d", [allStoreNames count]];
     for (NSString *storeName in allStoreNames) {
-        if (![self updateEncryptionForStore:storeName]) {
-            [SFLogger log:[self class] level:SFLogLevelError format:@"Could not update encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
+        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName]) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Could not update encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
             [SFSmartStore removeSharedStoreWithName:storeName];
         }
     }
@@ -37,71 +55,156 @@ static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.
 + (BOOL)updateEncryptionForStore:(NSString *)storeName
 {
     if (![[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName]) {
-        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
+        return YES;
+    } else if ([SFSmartStoreUpgrade usesKeyStoreEncryption:storeName]) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' is already using the current encryption scheme.  Skipping.", storeName];
         return YES;
     }
-    if (![self usesDefaultKey:storeName]) {
-        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' does not use default encryption.  Skipping.", storeName];
-        return YES;
-    }
     
-    SFSmartStoreDefaultEncryptionType encType = [self defaultEncryptionTypeForStore:storeName];
-    if (encType == SFSmartStoreDefaultEncryptionTypeBaseAppId) {
-        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' already uses the preferred default encryption.  Skipping.", storeName];
-        return YES;  // This is our prefered default encryption.
-    }
+    // All SmartStore encryption key management is now handled by SFKeyStoreManager.  We will convert
+    // each store to use that infrastructure, in this method.
     
-    // Otherwise, update the default encryption.
-    
+    // First, get the current encryption key for the store.
     NSString *origKey;
-    switch (encType) {
-        case SFSmartStoreDefaultEncryptionTypeNone:
-        case SFSmartStoreDefaultEncryptionTypeMac:
-            [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' uses MAC encryption.", storeName];
-            origKey = [self defaultKeyMac];
-            break;
-        case SFSmartStoreDefaultEncryptionTypeIdForVendor:
-            [SFLogger log:[self class] level:SFLogLevelInfo format:@"Store '%@' uses vendor identifier encryption.", storeName];
-            origKey = [self defaultKeyIdForVendor];
-            break;
-        default:
-            [SFLogger log:[self class] level:SFLogLevelError format:@"Unknown encryption type '%d'.  Cannot convert store '%@'.", encType, storeName];
-            return NO;
-    }
-    
-    NSError *openDbError = nil;
-    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName key:origKey error:&openDbError];
-    if (!db) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error opening store '%@': %@", storeName, [openDbError localizedDescription]];
-        return NO;
-    }
-    
-    // Can the database be read with the original default key?
-    NSString *dbPath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
-    NSError *verifyDbError = nil;
-    BOOL dbAccessible = [[SFSmartStoreDatabaseManager sharedManager] verifyDatabaseAccess:dbPath key:origKey error:&verifyDbError];
-    if (!dbAccessible) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error verifying the database contents for store '%@': %@", storeName, [verifyDbError localizedDescription]];
-        [db close];
-        return NO;
-    }
-    
-    [SFLogger log:[self class] level:SFLogLevelInfo format:@"Updating default encryption for store '%@'.", storeName];
-    NSString *newDefaultKey = [self defaultKeyBaseAppId];
-    BOOL rekeyResult = [db rekey:newDefaultKey];
-    if (!rekeyResult) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Error updating the default encryption for store '%@'.", storeName];
+    NSString *legacyPasscodeKey = [SFSmartStoreUpgrade legacyEncKey];
+    if ([legacyPasscodeKey length] > 0) {
+        // Uses the passcode-based encryption key.
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelDebug format:@"Store '%@' currently using passcode-based encryption.", storeName];
+        origKey = legacyPasscodeKey;
+    } else if ([SFSmartStoreUpgrade usesLegacyDefaultKey:storeName]) {
+        // Uses the old default key, for orgs without passcodes.
+        SFSmartStoreLegacyDefaultEncryptionType encType = [SFSmartStoreUpgrade legacyDefaultEncryptionTypeForStore:storeName];
+        switch (encType) {
+            case SFSmartStoreDefaultEncryptionTypeNone:
+            case SFSmartStoreDefaultEncryptionTypeMac:
+                [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelDebug format:@"Store '%@' currently using default encryption key based on MAC address.", storeName];
+                origKey = [SFSmartStoreUpgrade legacyDefaultKeyMac];
+                break;
+            case SFSmartStoreDefaultEncryptionTypeIdForVendor:
+                [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelDebug format:@"Store '%@' currently using default encryption key based on vendor identifier.", storeName];
+                origKey = [SFSmartStoreUpgrade legacyDefaultKeyIdForVendor];
+                break;
+            case SFSmartStoreDefaultEncryptionTypeBaseAppId:
+                [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelDebug format:@"Store '%@' currently using default encryption key based on generated app identifier.", storeName];
+                origKey = [SFSmartStoreUpgrade legacyDefaultKeyBaseAppId];
+                break;
+            default:
+                [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Unknown encryption type '%d'.  Cannot upgrade encryption for store '%@'.", encType, storeName];
+                return NO;
+        }
     } else {
-        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:storeName];
+        // No encryption.
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelDebug format:@"Store '%@' currently does not employ encryption.", storeName];
+        origKey = @"";
     }
     
-    [db close];
-    return rekeyResult;
+    // New key will be the keystore-managed key.
+    NSString *newKey = [SFSmartStore encKey];
+    
+    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName oldKey:origKey newKey:newKey];
+    if (encryptionUpgradeSucceeded) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Encryption update succeeded for store '%@'.", storeName];
+    } else {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Encryption update did NOT succeed for store '%@'.", storeName];
+    }
+    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:!encryptionUpgradeSucceeded forStore:storeName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:encryptionUpgradeSucceeded forStore:storeName];
+    return encryptionUpgradeSucceeded;
 }
 
-+ (BOOL)usesDefaultKey:(NSString *)storeName {
++ (BOOL)changeEncryptionForStore:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey
+{
+    NSString * const kEncryptionChangeErrorMessage = @"Error changing the encryption key for store '%@': %@";
+    NSString * const kNewEncryptionErrorMessage = @"Error encrypting the unencrypted store '%@': %@";
+    NSString * const kDecryptionErrorMessage = @"Error decrypting the encrypted store '%@': %@";
+    
+    NSError *openDbError = nil;
+    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
+                                                                                        key:oldKey
+                                                                                      error:&openDbError];
+    if (db == nil || openDbError != nil) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
+        return NO;
+    }
+    
+    if ([oldKey length] == 0) {
+        // Going from unencrypted to encrypted.
+        NSError *encryptDbError = nil;
+        db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:storeName key:newKey error:&encryptDbError];
+        [db close];
+        if (encryptDbError != nil) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]];
+            return NO;
+        } else {
+            return YES;
+        }
+    } else if ([newKey length] == 0) {
+        // Going from encrypted to unencrypted (unlikely, but okay).
+        NSError *decryptDbError = nil;
+        db = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
+        [db close];
+        if (decryptDbError != nil) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kDecryptionErrorMessage, storeName, [decryptDbError localizedDescription]];
+            return NO;
+        } else {
+            return YES;
+        }
+    } else {
+        // Going from encrypted to encrypted.
+        BOOL rekeyResult = [db rekey:newKey];
+        [db close];
+        if (!rekeyResult) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kEncryptionChangeErrorMessage, storeName, [db lastErrorMessage]];
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+}
+
++ (BOOL)usesKeyStoreEncryption:(NSString *)storeName
+{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
+    NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
+    
+    if (keyStoreDict == nil)
+        return NO;
+    
+    NSNumber *usesKeyStoreNum = [keyStoreDict objectForKey:storeName];
+    if (usesKeyStoreNum == nil)
+        return NO;
+    else
+        return [usesKeyStoreNum boolValue];
+}
+
++ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forStore:(NSString *)storeName
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
+    NSMutableDictionary *newDict;
+    if (keyStoreDict == nil)
+        newDict = [NSMutableDictionary dictionary];
+    else
+        newDict = [NSMutableDictionary dictionaryWithDictionary:keyStoreDict];
+    
+    NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesKeyStoreEncryption];
+    [newDict setObject:usesDefaultNum forKey:storeName];
+    [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
+    [userDefaults synchronize];
+}
+
+#pragma mark - Legacy encryption key functionality
+
++ (NSString *)legacyEncKey
+{
+    NSString *key = [SFPasscodeManager sharedManager].encryptionKey;
+    return (key == nil ? @"" : key);
+}
+
++ (BOOL)usesLegacyDefaultKey:(NSString *)storeName {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kLegacyDefaultPasscodeStoresKey];
     
     if (defaultPasscodeDict == nil)
         return NO;
@@ -113,9 +216,9 @@ static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.
         return [usesDefaultKeyNum boolValue];
 }
 
-+ (void)setUsesDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName {
++ (void)setUsesLegacyDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kDefaultPasscodeStoresKey];
+    NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kLegacyDefaultPasscodeStoresKey];
     NSMutableDictionary *newDict;
     if (defaultPasscodeDict == nil)
         newDict = [NSMutableDictionary dictionary];
@@ -124,20 +227,20 @@ static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.
     
     NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesDefault];
     [newDict setObject:usesDefaultNum forKey:storeName];
-    [userDefaults setObject:newDict forKey:kDefaultPasscodeStoresKey];
+    [userDefaults setObject:newDict forKey:kLegacyDefaultPasscodeStoresKey];
     [userDefaults synchronize];
     
     // Update the default encryption type too.
     if (usesDefault)
-        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:storeName];
+        [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:storeName];
     else
-        [self setDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeNone forStore:storeName];
+        [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeNone forStore:storeName];
 }
 
-+ (void)setDefaultEncryptionType:(SFSmartStoreDefaultEncryptionType)encType forStore:(NSString *)storeName
++ (void)setLegacyDefaultEncryptionType:(SFSmartStoreLegacyDefaultEncryptionType)encType forStore:(NSString *)storeName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *defaultEncTypeDict = [userDefaults objectForKey:kDefaultEncryptionTypeKey];
+    NSDictionary *defaultEncTypeDict = [userDefaults objectForKey:kLegacyDefaultEncryptionTypeKey];
     NSMutableDictionary *newDict;
     if (defaultEncTypeDict == nil)
         newDict = [NSMutableDictionary dictionary];
@@ -146,43 +249,43 @@ static NSString * const kDefaultEncryptionTypeKey = @"com.salesforce.smartstore.
     
     NSNumber *encTypeNum = [NSNumber numberWithInt:encType];
     [newDict setObject:encTypeNum forKey:storeName];
-    [userDefaults setObject:newDict forKey:kDefaultEncryptionTypeKey];
+    [userDefaults setObject:newDict forKey:kLegacyDefaultEncryptionTypeKey];
     [userDefaults synchronize];
 }
 
-+ (SFSmartStoreDefaultEncryptionType)defaultEncryptionTypeForStore:(NSString *)storeName
++ (SFSmartStoreLegacyDefaultEncryptionType)legacyDefaultEncryptionTypeForStore:(NSString *)storeName
 {
-    NSDictionary *encTypeDict = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultEncryptionTypeKey];
+    NSDictionary *encTypeDict = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyDefaultEncryptionTypeKey];
     if (encTypeDict == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     NSNumber *encTypeNum = [encTypeDict objectForKey:storeName];
     if (encTypeNum == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     return [encTypeNum intValue];
 }
 
-+ (NSString *)defaultKey
++ (NSString *)legacyDefaultKey
 {
-    return [self defaultKeyBaseAppId];
+    return [SFSmartStoreUpgrade legacyDefaultKeyBaseAppId];
 }
 
-+ (NSString *)defaultKeyIdForVendor
++ (NSString *)legacyDefaultKeyIdForVendor
 {
     NSString *idForVendor = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    return [self defaultKeyWithSeed:idForVendor];
+    return [SFSmartStoreUpgrade legacyDefaultKeyWithSeed:idForVendor];
 }
 
-+ (NSString *)defaultKeyMac
++ (NSString *)legacyDefaultKeyMac
 {
     NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    return [self defaultKeyWithSeed:macAddress];
+    return [SFSmartStoreUpgrade legacyDefaultKeyWithSeed:macAddress];
 }
 
-+ (NSString *)defaultKeyBaseAppId
++ (NSString *)legacyDefaultKeyBaseAppId
 {
     NSString *baseAppId = [SFCrypto baseAppIdentifier];
-    return [self defaultKeyWithSeed:baseAppId];
+    return [SFSmartStoreUpgrade legacyDefaultKeyWithSeed:baseAppId];
 }
 
-+ (NSString *)defaultKeyWithSeed:(NSString *)seed
++ (NSString *)legacyDefaultKeyWithSeed:(NSString *)seed
 {
     NSString *constKey = [[NSString alloc] initWithBytes:const_key length:strlen(const_key) encoding:NSUTF8StringEncoding];
     NSString *strSecret = [seed stringByAppendingString:constKey];
