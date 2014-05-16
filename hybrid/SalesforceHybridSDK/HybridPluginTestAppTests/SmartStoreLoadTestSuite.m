@@ -74,7 +74,9 @@
     [self runTest:@"testAddAndRetrieveManyEntries"];
 }
 
-
+- (void) testUpsertAndQueryEntries {
+    [self runTest:@"testUpsertAndQueryEntries"];
+}
 
 
 @end

@@ -11,25 +11,25 @@
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		4F2603A118AC1DDE00F922E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
+		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
+		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
+		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
-		4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
-		4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
-		4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */; };
-		4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */; };
-		4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */; };
-		4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
-		4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
 		4FBFFAED177A70DA00D1E36E /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAEC177A70DA00D1E36E /* SmartSyncTestSuite.m */; };
-		4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
-		4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
-		4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
+		4FC404A41911C6720027AD76 /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
+		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
+		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
+		4FC404AA1911C6CA0027AD76 /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049C1911C6720027AD76 /* qunit.js */; };
+		4FC404AB1911C6E00027AD76 /* SFSmartSyncTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
+		4FC404AC1911C6E00027AD76 /* SFAbstractSmartStoreTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */; };
+		4FC404AD1911C6E00027AD76 /* SFSDKInfoTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */; };
+		4FC404AE1911C6E00027AD76 /* SFSmartStoreLoadTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59DD174FF02500473EE8 /* SFSmartStoreLoadTestSuite.js */; };
+		4FC404AF1911C6E00027AD76 /* SFSmartStoreTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59DE174FF02500473EE8 /* SFSmartStoreTestSuite.js */; };
+		4FC404B01911C6E00027AD76 /* SFTestRunnerPlugin.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */; };
+		4FC404B11911C6E00027AD76 /* SFTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F1A59E0174FF02500473EE8 /* SFTestSuite.js */; };
+		4FC404BC1911C7090027AD76 /* underscore-min.js in Copy underscore lib */ = {isa = PBXBuildFile; fileRef = 4FC404B31911C6F10027AD76 /* underscore-min.js */; };
+		4FC404BE1911C72D0027AD76 /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC404B61911C6F10027AD76 /* backbone-min.js */; };
 		4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
-		4FC7B5E018AC3C69006922FD /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5DE18AC3C69006922FD /* qunit.css */; };
-		4FC7B5E218AC3C81006922FD /* underscore-min.js in Copy underscore lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5D818AC3C19006922FD /* underscore-min.js */; };
-		4FC7B5E318AC3C8E006922FD /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DE18AC3C69006922FD /* qunit.css */; };
-		4FC7B5E418AC3C8E006922FD /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DF18AC3C69006922FD /* qunit.js */; };
-		4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DA18AC3C47006922FD /* backbone-min.js */; };
-		4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC7B5DC18AC3C56006922FD /* jquery.min.js */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
 		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
@@ -106,44 +106,74 @@
 		4F0C193E18AB0509000FD4E9 /* Copy underscore lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/underscore;
+			dstPath = www/dependencies/underscore;
 			dstSubfolderSpec = 7;
 			files = (
-				4FC7B5E218AC3C81006922FD /* underscore-min.js in Copy underscore lib */,
+				4FC404BC1911C7090027AD76 /* underscore-min.js in Copy underscore lib */,
 			);
 			name = "Copy underscore lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1A5A01174FF4AD00473EE8 /* Copy backbone lib */ = {
+		4F1A5A01174FF4AD00473EE8 /* Copy test lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/backbone;
+			dstPath = www/test;
 			dstSubfolderSpec = 7;
 			files = (
-				4FC7B5E518AC3CA6006922FD /* backbone-min.js in Copy backbone lib */,
+				4FC404AB1911C6E00027AD76 /* SFSmartSyncTestSuite.js in Copy test lib */,
+				4FC404AC1911C6E00027AD76 /* SFAbstractSmartStoreTestSuite.js in Copy test lib */,
+				4FC404AD1911C6E00027AD76 /* SFSDKInfoTestSuite.js in Copy test lib */,
+				4FC404AE1911C6E00027AD76 /* SFSmartStoreLoadTestSuite.js in Copy test lib */,
+				4FC404AF1911C6E00027AD76 /* SFSmartStoreTestSuite.js in Copy test lib */,
+				4FC404B01911C6E00027AD76 /* SFTestRunnerPlugin.js in Copy test lib */,
+				4FC404B11911C6E00027AD76 /* SFTestSuite.js in Copy test lib */,
 			);
-			name = "Copy backbone lib";
+			name = "Copy test lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4F1A5A091750090700473EE8 /* Copy qunit lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/qunit/qunit;
+			dstPath = www/dependencies/qunit;
 			dstSubfolderSpec = 7;
 			files = (
-				4FC7B5E318AC3C8E006922FD /* qunit.css in Copy qunit lib */,
-				4FC7B5E418AC3C8E006922FD /* qunit.js in Copy qunit lib */,
+				4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */,
+				4FC404AA1911C6CA0027AD76 /* qunit.js in Copy qunit lib */,
 			);
 			name = "Copy qunit lib";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F458AEC1911CF2700545F86 /* Copy sfdc libs */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/libs;
+			dstSubfolderSpec = 7;
+			files = (
+				4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */,
+				4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */,
+				4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */,
+			);
+			name = "Copy sfdc libs";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FC404BD1911C70F0027AD76 /* Copy backbone lib */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/dependencies/backbone;
+			dstSubfolderSpec = 7;
+			files = (
+				4FC404BE1911C72D0027AD76 /* backbone-min.js in Copy backbone lib */,
+			);
+			name = "Copy backbone lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82EFF35D16E80E0B00A63CDF /* Copy jquery lib */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = www/jquery;
+			dstPath = www/dependencies/jquery;
 			dstSubfolderSpec = 7;
 			files = (
-				4FC7B5E618AC3CAE006922FD /* jquery.min.js in Copy jquery lib */,
+				4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */,
 			);
 			name = "Copy jquery lib";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,16 +186,6 @@
 			files = (
 				4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */,
 				4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */,
-				4FBFFAF5177A71EF00D1E36E /* forcetk.mobilesdk.js in Copy files to www/ */,
-				4FBFFAF6177A71EF00D1E36E /* smartsync.js in Copy files to www/ */,
-				4FBFFAF4177A71DF00D1E36E /* SFSmartSyncTestSuite.js in Copy files to www/ */,
-				4FAA891E1750266000807E13 /* cordova.force.js in Copy files to www/ */,
-				4FAA89221750266000807E13 /* SFAbstractSmartStoreTestSuite.js in Copy files to www/ */,
-				4FAA89231750266000807E13 /* SFSDKInfoTestSuite.js in Copy files to www/ */,
-				4FAA89241750266000807E13 /* SFSmartStoreLoadTestSuite.js in Copy files to www/ */,
-				4FAA89251750266000807E13 /* SFSmartStoreTestSuite.js in Copy files to www/ */,
-				4FAA89261750266000807E13 /* SFTestRunnerPlugin.js in Copy files to www/ */,
-				4FAA89271750266000807E13 /* SFTestSuite.js in Copy files to www/ */,
 				4FAA891D1750263200807E13 /* index.html in Copy files to www/ */,
 			);
 			name = "Copy files to www/";
@@ -189,12 +209,15 @@
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
 		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FC404981911C6720027AD76 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
+		4FC404991911C6720027AD76 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
+		4FC4049B1911C6720027AD76 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
+		4FC4049C1911C6720027AD76 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
+		4FC404B31911C6F10027AD76 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
+		4FC404B41911C6F10027AD76 /* underscore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = underscore.js; sourceTree = "<group>"; };
+		4FC404B61911C6F10027AD76 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
+		4FC404B71911C6F10027AD76 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
 		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
-		4FC7B5D818AC3C19006922FD /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "underscore-min.js"; path = "../bower_components/underscore/underscore-min.js"; sourceTree = "<group>"; };
-		4FC7B5DA18AC3C47006922FD /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "backbone-min.js"; path = "../bower_components/backbone/backbone-min.js"; sourceTree = "<group>"; };
-		4FC7B5DC18AC3C56006922FD /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../bower_components/jquery/jquery.min.js; sourceTree = "<group>"; };
-		4FC7B5DE18AC3C69006922FD /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = qunit.css; path = ../bower_components/qunit/qunit/qunit.css; sourceTree = "<group>"; };
-		4FC7B5DF18AC3C69006922FD /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = qunit.js; path = ../bower_components/qunit/qunit/qunit.js; sourceTree = "<group>"; };
 		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
 		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
 		4FD72F2618C955E200610988 /* SFReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFReachability.m; sourceTree = "<group>"; };
@@ -336,17 +359,60 @@
 		4F1A59F0174FF0B100473EE8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				4FC7B5DE18AC3C69006922FD /* qunit.css */,
-				4FC7B5DF18AC3C69006922FD /* qunit.js */,
-				4FC7B5DC18AC3C56006922FD /* jquery.min.js */,
-				4FC7B5DA18AC3C47006922FD /* backbone-min.js */,
-				4FC7B5D818AC3C19006922FD /* underscore-min.js */,
 				4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */,
 				4FBFFAF1177A715300D1E36E /* smartsync.js */,
 				4F1A59F1174FF0B100473EE8 /* cordova.force.js */,
 			);
 			name = libs;
 			path = ../../../external/shared/libs;
+			sourceTree = "<group>";
+		};
+		4FC404931911C6720027AD76 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				4FC404B21911C6F10027AD76 /* underscore */,
+				4FC404B51911C6F10027AD76 /* backbone */,
+				4FC404971911C6720027AD76 /* jquery */,
+				4FC4049A1911C6720027AD76 /* qunit */,
+			);
+			name = dependencies;
+			path = ../../../external/shared/dependencies;
+			sourceTree = "<group>";
+		};
+		4FC404971911C6720027AD76 /* jquery */ = {
+			isa = PBXGroup;
+			children = (
+				4FC404981911C6720027AD76 /* jquery.js */,
+				4FC404991911C6720027AD76 /* jquery.min.js */,
+			);
+			path = jquery;
+			sourceTree = "<group>";
+		};
+		4FC4049A1911C6720027AD76 /* qunit */ = {
+			isa = PBXGroup;
+			children = (
+				4FC4049B1911C6720027AD76 /* qunit.css */,
+				4FC4049C1911C6720027AD76 /* qunit.js */,
+			);
+			path = qunit;
+			sourceTree = "<group>";
+		};
+		4FC404B21911C6F10027AD76 /* underscore */ = {
+			isa = PBXGroup;
+			children = (
+				4FC404B31911C6F10027AD76 /* underscore-min.js */,
+				4FC404B41911C6F10027AD76 /* underscore.js */,
+			);
+			path = underscore;
+			sourceTree = "<group>";
+		};
+		4FC404B51911C6F10027AD76 /* backbone */ = {
+			isa = PBXGroup;
+			children = (
+				4FC404B61911C6F10027AD76 /* backbone-min.js */,
+				4FC404B71911C6F10027AD76 /* backbone.js */,
+			);
+			path = backbone;
 			sourceTree = "<group>";
 		};
 		82EFF2C716E7C57100A63CDF = {
@@ -561,6 +627,7 @@
 		82EFF34616E80D8800A63CDF /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
+				4FC404931911C6720027AD76 /* dependencies */,
 				4FC7B5D618AC3BB8006922FD /* bootconfig.json */,
 				4F0C192D18AAFE41000FD4E9 /* cordova.js */,
 				4FAA891B175025DF00807E13 /* index.html */,
@@ -626,9 +693,11 @@
 				82EFF2FD16E8049500A63CDF /* Resources */,
 				82EFF37016E8147C00A63CDF /* Copy files to www/ */,
 				82EFF35D16E80E0B00A63CDF /* Copy jquery lib */,
-				4F1A5A01174FF4AD00473EE8 /* Copy backbone lib */,
+				4F1A5A01174FF4AD00473EE8 /* Copy test lib */,
 				4F1A5A091750090700473EE8 /* Copy qunit lib */,
 				4F0C193E18AB0509000FD4E9 /* Copy underscore lib */,
+				4FC404BD1911C70F0027AD76 /* Copy backbone lib */,
+				4F458AEC1911CF2700545F86 /* Copy sfdc libs */,
 			);
 			buildRules = (
 			);
@@ -697,7 +766,7 @@
 				82EFF31216E8049500A63CDF /* Default.png in Resources */,
 				82EFF31416E8049500A63CDF /* Default@2x.png in Resources */,
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
-				4FC7B5E018AC3C69006922FD /* qunit.css in Resources */,
+				4FC404A41911C6720027AD76 /* qunit.css in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
 				82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */,

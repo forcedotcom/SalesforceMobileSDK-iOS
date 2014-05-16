@@ -104,7 +104,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *testName = [argsDict objectForKey:@"testName"];
     BOOL success = [[argsDict valueForKey:@"success"] boolValue];
-    NSString *message = [argsDict valueForKey:@"message"];
+    NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
     
     NSLog(@"testName: %@ success: %d message: %@",testName,success,message);
@@ -116,6 +116,21 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     [self writeCommandOKResultToJsRealm: callbackId];    
 }
 
-    
+// Remove html tags to make output more readable
+- (NSString*)stringByStrippingHTML:(NSString*)str
+{
+    NSRange r;
+    // Replacing html tags by |
+    while ((r = [str rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+    {
+        str = [str stringByReplacingCharactersInRange:r withString:@"|"];
+    }
+    // Replacing multiple | by a single space
+    while ((r = [str rangeOfString:@"[|]+" options:NSRegularExpressionSearch]).location != NSNotFound)
+    {
+        str = [str stringByReplacingCharactersInRange:r withString:@" "];
+    }
+    return str;
+}
 
 @end
