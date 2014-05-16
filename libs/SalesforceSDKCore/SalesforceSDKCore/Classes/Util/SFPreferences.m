@@ -50,16 +50,18 @@ static NSMutableDictionary *instances = nil;
     SFPreferences *prefs = nil;
     @synchronized (self) {
         NSString *key = SFKeyForUserAndScope(user, scope);
-        prefs = instances[key];
-        if (nil == prefs) {
-            NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:user scope:scope type:NSLibraryDirectory components:nil];
-            NSError *error = nil;
-            if ([SFDirectoryManager ensureDirectoryExists:directory error:&error]) {
-                prefs = [[SFPreferences alloc] initWithPath:[directory stringByAppendingPathComponent:kPreferencesFileName]];
-                instances[key] = prefs;
-            } else {
-                [[self class] log:SFLogLevelError format:@"Unable to create scoped directory %@: %@", directory, error];
-            }
+        if (key) {
+            prefs = instances[key];
+            if (nil == prefs) {
+                NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:user scope:scope type:NSLibraryDirectory components:nil];
+                NSError *error = nil;
+                if ([SFDirectoryManager ensureDirectoryExists:directory error:&error]) {
+                    prefs = [[SFPreferences alloc] initWithPath:[directory stringByAppendingPathComponent:kPreferencesFileName]];
+                    instances[key] = prefs;
+                } else {
+                    [[self class] log:SFLogLevelError format:@"Unable to create scoped directory %@: %@", directory, error];
+                }
+            }            
         }
     }
     return prefs;
