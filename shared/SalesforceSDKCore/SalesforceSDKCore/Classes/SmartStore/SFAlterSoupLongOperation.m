@@ -64,6 +64,7 @@
     if (nil != self) {
         _store = store;
         _db = store.storeDb;
+        _rowId = rowId;
         _soupName = details[SOUP_NAME];
         _soupTableName = details[SOUP_TABLE_NAME];
         _indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
@@ -72,6 +73,19 @@
         _afterStep = status;
     }
     return self;
+}
+
+- (NSString*) description
+{
+    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%ld soupName=%@ soupTableName=%@ afterStep=%d reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
+            self.rowId,
+            self.soupName,
+            self.soupTableName,
+            self.afterStep,
+            self.reIndexData ? @"YES" : @"NO",
+            [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES]],
+            [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs  withColumnName:YES]]
+            ];
 }
 
 - (void) run
@@ -268,12 +282,19 @@
  */
 - (BOOL) updateLongOperationDbRow:(SFAlterSoupStep)newStatus
 {
-    NSNumber* now = [self.store currentTimeInMilliseconds];
-    NSMutableDictionary* values = [NSMutableDictionary dictionary];
-    values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
-    values[LAST_MODIFIED_COL] = now;
-    // TODO do delete on last step
-    return [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId]];
+    if (newStatus == kLastStep) {
+        NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %ld",
+                               LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
+        
+        return [self.store.storeDb executeUpdate:sql];
+    }
+    else {
+        NSNumber* now = [self.store currentTimeInMilliseconds];
+        NSMutableDictionary* values = [NSMutableDictionary dictionary];
+        values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
+        values[LAST_MODIFIED_COL] = now;
+        return [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId]];
+    }
 }
 
 /**

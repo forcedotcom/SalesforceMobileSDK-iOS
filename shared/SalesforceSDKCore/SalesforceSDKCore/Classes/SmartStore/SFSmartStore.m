@@ -516,7 +516,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     FMResultSet* frs = [self queryTable:LONG_OPERATIONS_STATUS_TABLE forColumns:[NSArray arrayWithObjects:ID_COL, DETAILS_COL, STATUS_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil];
     
     while([frs next]) {
-        NSNumber *rowId = [NSNumber numberWithLong:[frs longForColumn:ID_COL]];
+        long rowId = [frs longForColumn:ID_COL];
         NSDictionary *details = [SFJsonUtils objectFromJSONString:[frs stringForColumn:DETAILS_COL]];
         SFAlterSoupStep status = (SFAlterSoupStep)[frs intForColumn:STATUS_COL];
         SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] initWithStore:self rowId:rowId details:details status:status];

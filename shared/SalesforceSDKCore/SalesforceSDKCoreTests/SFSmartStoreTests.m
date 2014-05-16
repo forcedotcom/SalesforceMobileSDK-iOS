@@ -767,8 +767,8 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Validate long_operations_status table
     NSArray* operations = [_store getLongOperations];
-    
-    STAssertTrue([operations count] == 1, @"Wrong number of long operations found");
+    NSInteger expectedCount = (toStep == kLastStep ? 0 : 1);
+    STAssertTrue([operations count] == expectedCount, @"Wrong number of long operations found");
     if ([operations count] > 0) {
         // Check details
         SFAlterSoupLongOperation* actualOperation = (SFAlterSoupLongOperation*)operations[0];
@@ -782,6 +782,9 @@ NSString * const kTestSoupName   = @"testSoup";
         // Simulate restart (clear cache and call resumeLongOperations)
         // TODO clear memory cache
         [_store resumeLongOperations];
+        
+        // Check that long operations table is now empty
+        STAssertTrue([[_store getLongOperations] count] == 0, @"There should be no long operations left");
         
         // Check index specs
         NSArray* actualIndexSpecs = [_store indicesForSoup:kTestSoupName];
