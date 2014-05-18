@@ -175,8 +175,8 @@ static BOOL _showPasscode = YES;
             // Passcode off -> on.  Trigger passcode creation.
             securityLockoutTime = newLockoutTime;
             [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
-            [[SFPreferences currentUserLevelPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
-            [[SFPreferences currentUserLevelPreferences] synchronize];
+            [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
+            [[SFPreferences globalPreferences] synchronize];
             [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
         }
         return;
@@ -210,8 +210,8 @@ static BOOL _showPasscode = YES;
     // Passcode lengths can only go up; same reason as lockout times only going down.
     NSInteger currentPasscodeLength = [self passcodeLength];
     if (newPasscodeLength > currentPasscodeLength) {
-        [[SFPreferences currentUserLevelPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
-        [[SFPreferences currentUserLevelPreferences] synchronize];
+        [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
+        [[SFPreferences globalPreferences] synchronize];
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange];
         return;
     }
@@ -222,7 +222,7 @@ static BOOL _showPasscode = YES;
 
 + (NSInteger)passcodeLength
 {
-    NSNumber *nPasscodeLength = [[SFPreferences currentUserLevelPreferences] objectForKey:kPasscodeLengthKey];
+    NSNumber *nPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
     return (nPasscodeLength != nil ? [nPasscodeLength intValue] : kDefaultPasscodeLength);
 }
 
