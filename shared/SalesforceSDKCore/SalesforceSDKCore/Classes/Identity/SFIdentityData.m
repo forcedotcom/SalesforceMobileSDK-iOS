@@ -311,9 +311,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     NSDictionary *mobilePolicy = [self.dictRepresentation objectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
         id screenLockTimeout = [mobilePolicy objectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
-        return (screenLockTimeout != nil ? [screenLockTimeout intValue] : -1);
+        return (screenLockTimeout != nil ? [screenLockTimeout intValue] : 0);
     } else {
-        return -1;
+        return 0;
     }
 }
 

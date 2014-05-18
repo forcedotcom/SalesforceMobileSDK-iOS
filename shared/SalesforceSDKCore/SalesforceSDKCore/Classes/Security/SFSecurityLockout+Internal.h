@@ -40,8 +40,9 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
 
 /**
  * Runs in the event of a successful passcode unlock.
+ * @param action The action taken, if any.
  */
-+ (void)unlockSuccessPostProcessing;
++ (void)unlockSuccessPostProcessing:(SFSecurityLockoutAction)action;
 
 /**
  * Runs in the event that a passcode unlock attempt failed.

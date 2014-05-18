@@ -205,18 +205,14 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 /**
  Called after initial authentication has completed.
+ @param fromOffline Whether or not the method was called from an offline state.
  */
-- (void)loggedIn;
+- (void)loggedIn:(BOOL)fromOffline;
 
 /**
  Called after identity data is retrieved from the service.
  */
 - (void)retrievedIdentityData;
-
-/**
- Manages the passcode checking after authentication.
- */
-- (void)postAuthenticationToPasscodeProcessing;
 
 /**
  The final method in the auth completion flow, before the configured completion
@@ -457,16 +453,14 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)loggedIn
+- (void)loggedIn:(BOOL)fromOffline
 {
-    // If this is the initial login, or there's no persisted identity data, get the data
-    // from the service.
-    if (self.authInfo.authType == SFOAuthTypeUserAgent || self.idCoordinator.idData == nil) {
-        [self.idCoordinator initiateIdentityDataRetrieval];
+    if (!fromOffline) {
+    [self.idCoordinator initiateIdentityDataRetrieval];
     } else {
-        // Identity data should exist.  Validate passcode.
-        [self postAuthenticationToPasscodeProcessing];
+        [self retrievedIdentityData];
     }
+    
     NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFUserLoggedInNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
@@ -550,10 +544,7 @@ static Class InstanceClass = nil;
 }
 
 - (BOOL)mobilePinPolicyConfigured {
-    return (self.idCoordinator.idData != nil
-            && self.idCoordinator.idData.mobilePoliciesConfigured
-            && self.idCoordinator.idData.mobileAppPinLength > 0
-            && self.idCoordinator.idData.mobileAppScreenLockTimeout > 0);
+    return ([SFSecurityLockout lockoutTime] > 0 && [SFSecurityLockout passcodeLength] > 0);
 }
 
 - (BOOL)haveValidSession {
@@ -831,29 +822,6 @@ static Class InstanceClass = nil;
 	}
 }
 
-- (void)postAuthenticationToPasscodeProcessing
-{
-    if ([self mobilePinPolicyConfigured]) {
-        // Auth checks are subject to an inactivity check.
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
-            [self finalizeAuthCompletion];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self logout];
-        }];
-        
-        // If the is app startup, we always lock "the first time".  Otherwise, pin code screen
-        // display depends on inactivity.
-        if (_isAppLaunch) {
-            [SFSecurityLockout lock];
-        } else {
-            [SFSecurityLockout validateTimer];
-        }
-    } else {
-        [self finalizeAuthCompletion];
-    }
-}
-
 - (void)finalizeAuthCompletion
 {
     if ([self mobilePinPolicyConfigured]) {
@@ -1081,32 +1049,34 @@ static Class InstanceClass = nil;
 
 - (void)retrievedIdentityData
 {
-    // NB: This method is assumed to run after identity data has been refreshed from the service.
+    // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
+    // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
-
-    /*
-     * Checks if a PIN policy exists for this account. If a policy exists,
-     * the access timeout and PIN length are set. Behind the scenes, these
-     * methods take care of checking if a passcode exists, changing length, etc.
-     */
-    if ([self mobilePinPolicyConfigured]) {
-
-        // Set the callback actions for post-passcode entry/configuration.
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^{
+    
+    // Auth checks are subject to an inactivity check.
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        if (action != SFSecurityLockoutActionPasscodeChanged && action != SFSecurityLockoutActionPasscodeCreated && action != SFSecurityLockoutActionPasscodeRemoved) {
+            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+                [self finalizeAuthCompletion];
+            }];
+            
+            // If the is app startup, and we didn't just create or update a passcode, we always lock "the first time".
+            // Otherwise, pin code screen display depends on inactivity.
+            if (_isAppLaunch) {
+                [SFSecurityLockout lock];
+            } else {
+                [SFSecurityLockout validateTimer];
+            }
+        } else {
             [self finalizeAuthCompletion];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{  // Don't know how this would happen, but if it does....
-            [self execFailureBlocks];
-        }];
-
-        // setLockoutTime triggers passcode creation. We could consider a more explicit call for visibility here?
-        [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength];
-        [SFSecurityLockout setLockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
-    } else {
-
-        // No additional mobile policies. So no passcode.
-        [self finalizeAuthCompletion];
-    }
+        }
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [self execFailureBlocks];
+    }];
+    
+    [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
+                             lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
@@ -1185,7 +1155,7 @@ static Class InstanceClass = nil;
                                                              return NO;  // Default error handler will show the error.
                                                          } else {
                                                              [weakSelf log:SFLogLevelInfo msg:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
-                                                             [weakSelf loggedIn];
+                                                             [weakSelf loggedIn:YES];
                                                              return YES;
                                                          }
                                                      }
@@ -1337,7 +1307,7 @@ static Class InstanceClass = nil;
         }
     }];
     
-    [self loggedIn];
+    [self loggedIn:NO];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info

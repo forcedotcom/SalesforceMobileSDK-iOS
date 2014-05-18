@@ -39,7 +39,6 @@ static CGFloat      const kPasscodeHelperTextFontSize       = 13.0f;
 static NSUInteger   const kMaxPasscodeLength                = 8;
 static CGFloat      const kControlPadding                   = 5.0f;
 static CGFloat      const kTextFieldWidthPadding            = 40.0f;
-static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 50.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
