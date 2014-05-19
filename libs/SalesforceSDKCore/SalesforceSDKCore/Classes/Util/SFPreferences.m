@@ -196,4 +196,18 @@ static NSMutableDictionary *instances = nil;
     }
 }
 
+- (void)removeAllObjects {
+    @synchronized (self) {
+        NSFileManager *manager = [NSFileManager defaultManager];
+        if ([manager fileExistsAtPath:self.path]) {
+            NSError *error = nil;
+            BOOL success = [manager removeItemAtPath:self.path error:&error];
+            if (!success) {
+                [self log:SFLogLevelError format:@"Unable to delete preferences at %@, error %@", self.path, [error localizedDescription]];
+            }
+        }
+        [self.attributes removeAllObjects];
+    }
+}
+
 @end
