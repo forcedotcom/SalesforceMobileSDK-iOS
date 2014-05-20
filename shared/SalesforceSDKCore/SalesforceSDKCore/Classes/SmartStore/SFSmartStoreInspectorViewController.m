@@ -34,26 +34,28 @@
 #import "SFJsonUtils.h"
 
 // Padding
-static CGFloat      const kPaddingTop                    = 25.0f;
-static CGFloat      const kPadding                       = 5.0f;
+static CGFloat      const kNavBarHeight          = 44.0f;
+static CGFloat      const kPadding               = 5.0f;
 
 
 // Query field font
-static NSString *   const kQueryFieldFontName            = @"Courier";
-static CGFloat      const kQueryFieldFontSize            = 12.0f;
+static NSString *   const kQueryFieldFontName    = @"Courier";
+static CGFloat      const kQueryFieldFontSize    = 12.0f;
 // Run button font
 static NSString *   const kButtonFontName        = @"HelveticaNeue-Bold";
 static CGFloat      const kButtonFontSize        = 16.0f;
 // Result text font
-static NSString *   const kResultTextFontName            = @"Courier";
-static CGFloat      const kResultTextFontSize            = 12.0f;
+static NSString *   const kResultTextFontName    = @"Courier";
+static CGFloat      const kResultTextFontSize    = 12.0f;
 
 
 @interface SFSmartStoreInspectorViewController ()
 
+@property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextView *queryField;
-@property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) UIButton *runQueryButton;
+@property (nonatomic, strong) UIButton *clearButton;
+@property (nonatomic, strong) UIButton *soupsButton;
+@property (nonatomic, strong) UIButton *indicesButton;
 @property (nonatomic, strong) UITextView *resultText;
 
 @end
@@ -94,9 +96,15 @@ static CGFloat      const kResultTextFontSize            = 12.0f;
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - Run query
+#pragma mark - Actions handlers
 
-- (void) runQuery
+- (void) onBack
+{
+    [SFSmartStoreInspectorViewController dismiss];
+}
+
+
+- (void) onQuery
 {
     [self.queryField endEditing:YES];
     NSString* smartSql = self.queryField.text;
@@ -105,17 +113,42 @@ static CGFloat      const kResultTextFontSize            = 12.0f;
     self.resultText.text = [SFJsonUtils JSONRepresentation:results];
 }
 
-- (void) cancelQuery
+- (void) onSoups
 {
-    [SFSmartStoreInspectorViewController dismiss];
+    self.queryField.text = @"SELECT soupName from soup_names";
+    [self onQuery];
 }
+
+- (void) onIndices
+{
+    self.queryField.text = @"select soupName, path, columnType from soup_index_map";
+    [self onQuery];
+}
+
+- (void) onClear
+{
+    self.queryField.text = @"";
+    self.resultText.text = @"";
+}
+
 
 #pragma mark - View lifecycle
 
-
+// TODO get strings from [SFSDKResourceUtils localizedString:@"..."]
 - (void)loadView
 {
     [super loadView];
+    
+    // Nav bar
+    self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
+    self.navBar.delegate = self;
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Inspector"];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
+    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
+    [navItem setLeftBarButtonItem:backItem];
+    [navItem setRightBarButtonItem:runItem];
+    [self.navBar setItems:@[navItem] animated:YES];
+    [self.view addSubview:self.navBar];
     
     // Query field
     self.queryField = [[UITextView alloc] initWithFrame:CGRectZero];
@@ -125,35 +158,31 @@ static CGFloat      const kResultTextFontSize            = 12.0f;
     self.queryField.accessibilityLabel = @"Query";
     [self.view addSubview:self.queryField];
 
-    // Cancel button
-    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.cancelButton setTitle:@"Cancel" /*[SFSDKResourceUtils localizedString:@"runQueryTitle"]*/ forState:UIControlStateNormal];
-    self.cancelButton.backgroundColor = [UIColor whiteColor];
-    [self.cancelButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.cancelButton addTarget:self action:@selector(cancelQuery) forControlEvents:UIControlEventTouchUpInside];
-    self.cancelButton.accessibilityLabel = @"Cancel";
-    self.cancelButton.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonFontSize];
-    [self.view addSubview:self.cancelButton];
-    
-    // Run button
-    self.runQueryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.runQueryButton setTitle:@"Run Query" /*[SFSDKResourceUtils localizedString:@"runQueryTitle"]*/ forState:UIControlStateNormal];
-    self.runQueryButton.backgroundColor = [UIColor whiteColor];
-    [self.runQueryButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.runQueryButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.runQueryButton addTarget:self action:@selector(runQuery) forControlEvents:UIControlEventTouchUpInside];
-    self.runQueryButton.accessibilityLabel = @"Run query";
-    self.runQueryButton.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonFontSize];
-    [self.view addSubview:self.runQueryButton];
+    // Buttons
+    self.clearButton = [self createButtonWithLabel:@"Clear" action:@selector(onClear)];
+    self.soupsButton = [self createButtonWithLabel:@"Soups" action:@selector(onSoups)];
+    self.indicesButton = [self createButtonWithLabel:@"Indices" action:@selector(onIndices)];
 
-    // Query field
+    // Results field
     self.resultText = [[UITextView alloc] initWithFrame:CGRectZero];
     self.resultText.editable = NO;
     self.resultText.textColor = [UIColor blackColor];
     self.resultText.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
     self.resultText.text = @"";
     [self.view addSubview:self.resultText];
+}
+
+- (UIButton*) createButtonWithLabel:(NSString*) label action:(SEL)action
+{
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:label forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor whiteColor];
+    [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonFontSize];
+    [self.view addSubview:button];
+    return button;
 }
 
 - (void)viewDidLoad
@@ -176,8 +205,7 @@ static CGFloat      const kResultTextFontSize            = 12.0f;
 - (void)layoutSubviews
 {
     [self layoutQueryField];
-    [self layoutCancelButton];
-    [self layoutRunQueryButton];
+    [self layoutButtons];
     [self layoutResultText];
 }
 
@@ -188,41 +216,31 @@ static CGFloat      const kResultTextFontSize            = 12.0f;
 
 - (void)layoutQueryField
 {
-    CGFloat w = self.view.bounds.size.width - (kPadding * 2.0);
-    CGFloat h = self.view.bounds.size.height / 4 - kPadding - kPaddingTop;
-    CGFloat x = kPadding;
-    CGFloat y = kPaddingTop;
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = self.view.bounds.size.height / 4.0 - kNavBarHeight;
+    CGFloat x = 0;
+    CGFloat y = self.navBar.frame.size.height;
     self.queryField.frame = CGRectMake(x, y, w, h);
 }
 
-- (void)layoutCancelButton
+- (void)layoutButtons
 {
-    CGFloat w = self.view.bounds.size.width / 2 - (kPadding * 1.5);
-    CGFloat h = self.view.bounds.size.height / 8 - (kPadding * 2.0);
-    CGFloat x = kPadding;
+    CGFloat w = self.view.bounds.size.width / 3.0;
+    CGFloat h = self.view.bounds.size.height / 8.0 - (kPadding * 2.0);
     CGFloat y = self.queryField.frame.origin.y + self.queryField.frame.size.height + kPadding;
-    self.cancelButton.frame = CGRectMake(x, y, w, h);
-
+    self.clearButton.frame = CGRectMake(kPadding / 2.0, y, w - kPadding, h);
+    self.soupsButton.frame = CGRectMake(w + kPadding / 2.0, y, w - kPadding, h);
+    self.indicesButton.frame = CGRectMake(w * 2.0 + kPadding / 2.0, y, w - kPadding, h);
 }
-
-- (void)layoutRunQueryButton
-{
-    CGFloat w = self.view.bounds.size.width / 2 - (kPadding * 1.5);
-    CGFloat h = self.view.bounds.size.height / 8 - (kPadding * 2.0);
-    CGFloat x = self.view.bounds.size.width / 2 + kPadding / 2;
-    CGFloat y = self.queryField.frame.origin.y + self.queryField.frame.size.height + kPadding;
-    self.runQueryButton.frame = CGRectMake(x, y, w, h);
-    
-}
-
 
 - (void) layoutResultText
 {
-    CGFloat w = self.view.bounds.size.width - (kPadding * 2.0);
-    CGFloat h = self.view.bounds.size.height - (self.runQueryButton.frame.origin.y + self.runQueryButton.frame.size.height) - (kPadding * 2.0);
-    CGFloat x = kPadding;
-    CGFloat y = self.view.bounds.size.height - h -kPadding;
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = self.view.bounds.size.height * 5.0 / 8.0;
+    CGFloat x = 0;
+    CGFloat y = self.view.bounds.size.height - h;
     self.resultText.frame = CGRectMake(x, y, w, h);
 }
+
 
 @end
