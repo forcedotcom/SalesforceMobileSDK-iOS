@@ -96,7 +96,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
     dispatch_async(dispatch_get_main_queue(), ^{
         self.remainingAttempts = kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] resetPasscode];
-        [SFSecurityLockout unlock:NO];
+        [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone];
     });
 }
 
@@ -120,8 +120,31 @@ NSUInteger const kMaxNumberofAttempts = 10;
         [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
         [SFInactivityTimerCenter updateActivityTimestamp];
-        [SFSecurityLockout unlock:YES];
+        SFSecurityLockoutAction action = [self controllerModeToLockoutAction];
+        [SFSecurityLockout unlock:YES action:action];
     });
+}
+
+- (SFSecurityLockoutAction)controllerModeToLockoutAction
+{
+    SFSecurityLockoutAction action;
+    switch (self.mode) {
+        case SFPasscodeControllerModeChange:
+            action = SFSecurityLockoutActionPasscodeChanged;
+            break;
+        case SFPasscodeControllerModeCreate:
+            action = SFSecurityLockoutActionPasscodeCreated;
+            break;
+        case SFPasscodeControllerModeVerify:
+            action = SFSecurityLockoutActionPasscodeVerified;
+            break;
+        default:
+            [self log:SFLogLevelError format:@"Unknown passcode controller mode: %d.  No security lockout action will be configured.", self.mode];
+            action = SFSecurityLockoutActionNone;
+            break;
+    }
+    
+    return action;
 }
 
 @end
