@@ -333,11 +333,13 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         // Only go through sanity checks for locking if we don't want to force the passcode screen.
         if (![SFSecurityLockout hasValidSession]) {
             [self log:SFLogLevelInfo msg:@"Skipping 'lock' since not authenticated"];
+            [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
             return;
         }
         
         if ([SFSecurityLockout lockoutTime] == 0) {
             [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
+            [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
             return;
         }
     }

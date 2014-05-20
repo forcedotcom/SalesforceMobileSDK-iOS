@@ -78,7 +78,7 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     self = [super initWithWebView:theWebView];
     
     if (nil != self)  {
-        NSLog(@"SFSmartStorePlugin initWithWebView");
+        [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
         _cursorCache = [[NSMutableDictionary alloc] init];
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     }
@@ -112,27 +112,29 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 
 - (void)pgSoupExists:(CDVInvokedUrlCommand *)command
 {
-    //    NSDate *startTime = [NSDate date];
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgSoupExists" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    [self log:SFLogLevelDebug format:@"pgSoupExists called for soup name '%@'.", soupName];
     
     BOOL exists = [self.store soupExists:soupName];
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:exists];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-//    NSLog(@"pgSoupExists took: %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgSoupExists returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgRegisterSoup:(CDVInvokedUrlCommand *)command
 {
-    //    NSDate *startTime = [NSDate date];
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgRegisterSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *indexes = [argsDict nonNullObjectForKey:kIndexesArg];
+    [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexes: %@", soupName, indexes];
     
     BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexes];
     if (regOk) {
@@ -143,23 +145,24 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
-//    NSLog(@"pgRegisterSoup took: %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgRegisterSoup returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgRemoveSoup:(CDVInvokedUrlCommand *)command
 {
-//    NSDate *startTime = [NSDate date];
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    [self log:SFLogLevelDebug format:@"pgRemoveSoup with name: %@", soupName];
     
     [self.store removeSoup:soupName];
     
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-//    NSLog(@"pgRemoveSoup took: %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgRemoveSoup returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgQuerySoup:(CDVInvokedUrlCommand *)command
@@ -170,20 +173,23 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
+    [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpec];
     
     SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:soupName];
-    NSLog(@"pgQuerySoup returning: %@",cursor);
+    [self log:SFLogLevelDebug format:@"pgQuerySoup returning cursor: %@", cursor];
 
     if (nil != cursor) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        NSLog(@"pgQuerySoup retrieved %ld pages in %f seconds",(long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
+        [self log:SFLogLevelInfo format:@"pgQuerySoup retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
     } else {
-        NSLog(@"No cursor for query: %@", querySpec);
+        [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
+    
+    [self log:SFLogLevelDebug format:@"pgQuerySoup returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command
@@ -195,18 +201,20 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     
     SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil];
-    NSLog(@"pgRunSmartQuery returning: %@",cursor);
+    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning: %@", cursor];
     
     if (nil != cursor) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        NSLog(@"pgRunSmartQuery retrieved %ld pages in %f seconds",(long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]);
+        [self log:SFLogLevelInfo format:@"pgRunSmartQuery retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
     } else {
-        NSLog(@"No cursor for query: %@", querySpec);
+        [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
+    
+    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 
@@ -221,22 +229,24 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     //make entry Ids unique
     NSSet *entryIdSet = [NSSet setWithArray:rawIds];
     NSArray *entryIds = [entryIdSet allObjects];
+    [self log:SFLogLevelDebug format:@"pgRetrieveSoupEntries for soup name: %@", soupName];
     
     NSArray *entries = [self.store retrieveEntries:entryIds fromSoup:soupName];
     [self writeSuccessArrayToJsRealm:entries callbackId:callbackId];
     
-    NSLog(@"pgRetrieveSoupEntries in %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgRetrieveSoupEntries returning in %f seconds", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgUpsertSoupEntries:(CDVInvokedUrlCommand *)command
 {
-//    NSDate *startTime = [NSDate date];
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgUpsertSoupEntries" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *entries = [argsDict nonNullObjectForKey:kEntriesArg];
     NSString *externalIdPath = [argsDict nonNullObjectForKey:kExternalIdPathArg];
+    [self log:SFLogLevelDebug format:@"pgUpsertSoupEntries for soup name: %@, external ID path: %@", soupName, externalIdPath];
     
     NSError *error = nil;
     NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
@@ -253,38 +263,43 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
-//    NSLog(@"pgUpsertSoupEntries upserted %d entries in %f seconds",[entries count], -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgUpsertSoupEntries returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgRemoveFromSoup:(CDVInvokedUrlCommand *)command
 {
-//    NSDate *startTime = [NSDate date];
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveFromSoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
+    [self log:SFLogLevelDebug format:@"pgRemoveFromSoup with soup name: %@", soupName];
     
     [self.store removeEntries:entryIds fromSoup:soupName];
     
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
     
-//    NSLog(@"pgRemoveFromSoup took: %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgRemoveFromSoup returning after %f secs.", -[startTime timeIntervalSinceNow]];
     
 }
 
 - (void)pgCloseCursor:(CDVInvokedUrlCommand *)command
 {
+    NSDate *startTime = [NSDate date];
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgCloseCursor" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
+    [self log:SFLogLevelDebug format:@"pgCloseCursor with cursor ID: %@", cursorId];
     
     [self closeCursorWithId:cursorId];
     
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    
+    [self log:SFLogLevelDebug format:@"pgCloseCursor returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 - (void)pgMoveCursorToPageIndex:(CDVInvokedUrlCommand *)command
@@ -295,14 +310,14 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
-    NSLog(@"pgMoveCursorToPageIndex: %@ [%ld]",cursorId,(long)[newPageIndex integerValue]);
+    [self log:SFLogLevelDebug format:@"pgMoveCursorToPageIndex for cursor ID: %@, page index: %@", cursorId, newPageIndex];
     
     SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
     [cursor setCurrentPageIndex:newPageIndex];
     
     [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];    
     
-    NSLog(@"pgMoveCursorToPageIndex took: %f seconds", -[startTime timeIntervalSinceNow]);
+    [self log:SFLogLevelDebug format:@"pgMoveCursorToPageIndex returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
 
