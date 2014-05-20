@@ -33,9 +33,10 @@ static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/sobjects/MobilePushServiceDevice";
 
-#ifndef TARGET_IPHONE_SIMULATOR
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-const-variable"
 static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
-#endif
+#pragma clang diagnostic pop
 
 @interface SFPushNotificationManager ()
 
