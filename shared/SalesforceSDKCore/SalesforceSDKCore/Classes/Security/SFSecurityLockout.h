@@ -170,6 +170,11 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  */
 + (BOOL)inactivityExpired;
 
+/**
+ Starts monitoring for user activity, to determine activity expiration and passcode screen display.
+ */
++ (void)startActivityMonitoring;
+
 /** Lock the device immediately.
  */
 + (void)lock;

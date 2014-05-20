@@ -32,6 +32,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFRootViewManager.h"
 #import "SFPreferences.h"
+#import "SFUserActivityMonitor.h"
 
 // Private constants
 
@@ -248,6 +249,13 @@ static BOOL _showPasscode = YES;
 	return (securityLockoutTime > 0) && (elapsedTime >= securityLockoutTime);
 }
 
++ (void)startActivityMonitoring
+{
+    if ([SFSecurityLockout lockoutTime] > 0) {
+        [[SFUserActivityMonitor sharedInstance] startMonitoring];
+    }
+}
+
 + (void)setupTimer
 {
 	if(securityLockoutTime > 0) {
@@ -328,7 +336,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             return;
         }
         
-        if (![[SFAuthenticationManager sharedManager] mobilePinPolicyConfigured]) {
+        if ([SFSecurityLockout lockoutTime] == 0) {
             [self log:SFLogLevelInfo msg:@"Skipping 'lock' since pin policies are not configured."];
             return;
         }

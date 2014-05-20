@@ -543,10 +543,6 @@ static Class InstanceClass = nil;
     return ([self.authBlockList count] > 0);
 }
 
-- (BOOL)mobilePinPolicyConfigured {
-    return ([SFSecurityLockout lockoutTime] > 0 && [SFSecurityLockout passcodeLength] > 0);
-}
-
 - (BOOL)haveValidSession {
     // Check that we have a valid current user
     NSString *userId = [[SFUserAccountManager sharedInstance] currentUserId];
@@ -824,9 +820,7 @@ static Class InstanceClass = nil;
 
 - (void)finalizeAuthCompletion
 {
-    if ([self mobilePinPolicyConfigured]) {
-        [[SFUserActivityMonitor sharedInstance] startMonitoring];
-    }
+    [SFSecurityLockout startActivityMonitoring];
     
     // Apply the credentials that will ensure there is a current user and that this
     // current user as the proper credentials.
