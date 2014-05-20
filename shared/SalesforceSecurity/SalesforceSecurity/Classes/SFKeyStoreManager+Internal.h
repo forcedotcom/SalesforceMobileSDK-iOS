@@ -24,7 +24,6 @@
 
 #import "SFKeyStoreManager.h"
 #import "SFPasscodeManager.h"
-#import "SFKeyStoreKey.h"
 
 @interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
 {

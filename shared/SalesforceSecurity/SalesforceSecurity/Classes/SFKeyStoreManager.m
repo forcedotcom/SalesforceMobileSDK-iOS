@@ -65,17 +65,23 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create
 {
+    return [self retrieveKeyWithLabel:keyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:create];
+}
+
+- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType autoCreate:(BOOL)create
+{
     if (keyLabel == nil) return nil;
     
     @synchronized (self) {
-        SFEncryptionKey *key = [self.keyStoreDictionary objectForKey:keyLabel];
+        SFKeyStoreKey *key = [self.keyStoreDictionary objectForKey:keyLabel];
         
         if (!key && create) {
-            key = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
-            [self storeKey:key withLabel:keyLabel];
+            SFEncryptionKey *newKey = [self keyWithRandomValue];
+            key = [[SFKeyStoreKey alloc] initWithKey:newKey type:keyType];
+            [self storeKeyStoreKey:key withLabel:keyLabel];
         }
         
-        return key;
+        return key.encryptionKey;
     }
 }
 
@@ -83,12 +89,15 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 {
     NSAssert(key != nil, @"key must have a value.");
     NSAssert(keyLabel != nil, @"key label must have a value.");
-    
-    @synchronized (self) {
-        NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
-        [mutableKeyStoreDict setObject:key forKey:keyLabel];
-        self.keyStoreDictionary = mutableKeyStoreDict;
-    }
+    return [self storeKey:key withKeyType:SFKeyStoreKeyTypePasscode label:keyLabel];
+}
+
+- (void)storeKey:(SFEncryptionKey *)key withKeyType:(SFKeyStoreKeyType)keyType label:(NSString *)keyLabel
+{
+    NSAssert(key != nil, @"key must have a value.");
+    NSAssert(keyLabel != nil, @"key label must have a value.");
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:key type:keyType];
+    [self storeKeyStoreKey:keyStoreKey withLabel:keyLabel];
 }
 
 - (void)removeKeyWithLabel:(NSString *)keyLabel
@@ -119,6 +128,15 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 }
 
 #pragma mark - Private methods
+
+- (void)storeKeyStoreKey:(SFKeyStoreKey *)key withLabel:(NSString *)keyLabel
+{
+    @synchronized (self) {
+        NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.keyStoreDictionary];
+        [mutableKeyStoreDict setObject:key forKey:keyLabel];
+        self.keyStoreDictionary = mutableKeyStoreDict;
+    }
+}
 
 - (NSDictionary *)keyStoreDictionary
 {
