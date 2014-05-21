@@ -592,15 +592,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)loadVFPingPage
 {
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSURl *communityUrl = creds.communityUrl;
-    NSString *instanceUrlString = nil;
-    if (nil != communityUrl) {
-        instanceUrlString = communityUrl.absoluteString;
-    } else {
-        instanceUrlString = creds.instanceUrl.absoluteString;
-    }
-    if (nil != instanceUrlString) {
-        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
+    if (nil != [creds getInstanceUrl]) {
+        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:[creds getInstanceUrl].absoluteString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];

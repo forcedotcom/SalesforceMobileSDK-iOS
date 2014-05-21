@@ -210,6 +210,10 @@ typedef enum {
  */
 - (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
 
+/** Returns the communityUrl, if present. Returns the instanceUrl, otherwise.
+ */
+- (NSURL*)getInstanceUrl;
+
 /** Revoke the OAuth access and refresh tokens.
  
  @warning Calling this method when the identifier property is `nil` will raise an NSInternalInconsistencyException.

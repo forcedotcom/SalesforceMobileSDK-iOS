@@ -257,6 +257,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             self.issuedAt, self.organizationId, self.protocol, self.redirectUri];
 }
 
+- (NSURL*)getInstanceUrl {
+    if (nil != self.communityUrl) {
+        return self.communityUrl;
+    }
+    return self.instanceUrl;
+}
+
 - (void)revoke {
     [self revokeAccessToken];
     [self revokeRefreshToken];
