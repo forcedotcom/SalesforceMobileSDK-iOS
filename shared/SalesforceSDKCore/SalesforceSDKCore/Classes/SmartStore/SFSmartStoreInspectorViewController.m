@@ -228,9 +228,9 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     CGFloat w = self.view.bounds.size.width / 3.0;
     CGFloat h = self.view.bounds.size.height / 8.0 - (kPadding * 2.0);
     CGFloat y = self.queryField.frame.origin.y + self.queryField.frame.size.height + kPadding;
-    self.clearButton.frame = CGRectMake(kPadding / 2.0, y, w - kPadding, h);
-    self.soupsButton.frame = CGRectMake(w + kPadding / 2.0, y, w - kPadding, h);
-    self.indicesButton.frame = CGRectMake(w * 2.0 + kPadding / 2.0, y, w - kPadding, h);
+    self.clearButton.frame = CGRectMake(0, y, w - kPadding * 2.0 / 3.0, h);
+    self.soupsButton.frame = CGRectMake(w + kPadding * 1.0 / 3.0, y, w - kPadding  * 2.0 / 3.0, h);
+    self.indicesButton.frame = CGRectMake(w * 2.0 + + kPadding * 2.0 / 3.0, y, w - kPadding  * 2.0 / 3.0, h);
 }
 
 - (void) layoutResultText
