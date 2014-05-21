@@ -106,7 +106,7 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 
 - (void) onQuery
 {
-    [self.queryField endEditing:YES];
+    [self stopEditing];
     NSString* smartSql = self.queryField.text;
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10] pageIndex:0];
@@ -127,8 +127,14 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 
 - (void) onClear
 {
+    [self stopEditing];
     self.queryField.text = @"";
     self.resultText.text = @"";
+}
+
+- (void) stopEditing
+{
+    [self.queryField endEditing:YES];
 }
 
 
@@ -170,6 +176,9 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     self.resultText.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
     self.resultText.text = @"";
     [self.view addSubview:self.resultText];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopEditing)];
+    [singleTap setNumberOfTapsRequired:1];
+    [self.resultText addGestureRecognizer:singleTap];
 }
 
 - (UIButton*) createButtonWithLabel:(NSString*) label action:(SEL)action
