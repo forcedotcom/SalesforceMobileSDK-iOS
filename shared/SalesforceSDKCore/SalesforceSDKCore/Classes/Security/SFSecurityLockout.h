@@ -148,6 +148,13 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  */
 + (void)setPasscodeLength:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime;
 
+/**
+ Resets the passcode state of the app, *if* there aren't other users with an overriding passcode
+ policy.  I.e. passcode state can only be cleared if the current user is the only user who would
+ be subject to that policy.
+ */
++ (void)clearPasscodeState;
+
 /** Initialize the timer
  */
 + (void)setupTimer;
