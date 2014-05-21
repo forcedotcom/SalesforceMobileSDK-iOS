@@ -129,7 +129,12 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     [self stopEditing];
     NSString* smartSql = self.queryField.text;
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-    self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:100] pageIndex:0];
+    @try {
+        self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:100] pageIndex:0];
+    }
+    @catch (NSException *exception) {
+        [[[UIAlertView alloc] initWithTitle:@"Query failed" message:[exception description] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
     
 }
 
@@ -332,7 +337,6 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 {
     CGFloat w = [self cellWidthWithIndexPath:indexPath];
     CGFloat h = [self cellHeightWithIndexPath:indexPath];
-    NSLog(@"#columns:%d w:%f screen:%f", self.countColumns, w, self.resultGrid.bounds.size.width);
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
     title.textColor = [UIColor blackColor];
     title.layer.borderColor = [UIColor blackColor].CGColor;
