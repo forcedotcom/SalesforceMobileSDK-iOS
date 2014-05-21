@@ -173,6 +173,10 @@ typedef enum {
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
+/** The community URL, if present. The instance URL, otherwise.
+ */
+@property (nonatomic, copy) NSURL *apiUrl;
+
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.
  
@@ -209,10 +213,6 @@ typedef enum {
  @return An initialized authentication credential object.
  */
 - (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
-
-/** Returns the communityUrl, if present. Returns the instanceUrl, otherwise.
- */
-- (NSURL*)getInstanceUrl;
 
 /** Revoke the OAuth access and refresh tokens.
  

@@ -697,7 +697,7 @@ static Class InstanceClass = nil;
 + (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
 {
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSString *instUrl = [creds getInstanceUrl].absoluteString;
+    NSString *instUrl = creds.apiUrl.absoluteString;
     NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
     [mutableReturnUrl appendString:returnUrl];
     NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
