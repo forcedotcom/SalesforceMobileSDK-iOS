@@ -196,15 +196,19 @@ static BOOL _showPasscode = YES;
             [SFInactivityTimerCenter removeTimer:kTimerSecurity];
             [SFSecurityLockout setupTimer];
         } else {
-            // TODO: '0' is a special case.  We can't turn off passcodes unless all other users' passcode policies
-            // are also off.  No-op until that check is implemented.
-            
-            //securityLockoutTime = newLockoutTime;
-            //[SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
-            //[SFInactivityTimerCenter removeTimer:kTimerSecurity];
-            //[[SFPasscodeManager sharedManager] changePasscode:nil];
-            //[SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved];
-            //return;
+            // '0' is a special case.  We can't turn off passcodes unless all other users' passcode policies
+            // are also off.
+            if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
+                securityLockoutTime = newLockoutTime;
+                [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:0]];
+                [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:kDefaultPasscodeLength] forKey:kPasscodeLengthKey];
+                [[SFPreferences globalPreferences] synchronize];
+                [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+                [[SFUserActivityMonitor sharedInstance] stopMonitoring];
+                [[SFPasscodeManager sharedManager] changePasscode:nil];
+                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved];
+                return;
+            }
         }
     }
     
@@ -219,6 +223,25 @@ static BOOL _showPasscode = YES;
     
     // If we got this far, no passcode action was taken.
     [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
+}
+
++ (BOOL)nonCurrentUsersHavePasscodePolicy
+{
+    SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+    for (SFUserAccount *account in [SFUserAccountManager sharedInstance].allUserAccounts) {
+        if (![account isEqual:currentAccount]) {
+            if (account.idData.mobileAppScreenLockTimeout > 0) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
++ (void)clearPasscodeState
+{
+    [SFSecurityLockout setPasscodeLength:0 lockoutTime:0];
 }
 
 + (NSInteger)passcodeLength
@@ -282,30 +305,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-	if ([self locked]) {
-        [self sendPasscodeFlowCompletedNotification:success];
-        UIViewController *passVc = [SFSecurityLockout passcodeViewController];
-        if (passVc != nil) {
-            SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
-            dismissBlock(passVc);
-            [SFSecurityLockout setPasscodeViewController:nil];
-            if (success) {
-                [SFSecurityLockout unlockSuccessPostProcessing:action];
-            } else {
-                [SFSecurityLockout unlockFailurePostProcessing];
-            }
-        } else {  // Not sure how this would happen, but for completeness sake.
-            if (success)
-                [SFSecurityLockout unlockSuccessPostProcessing:action];
-            else
-                [SFSecurityLockout unlockFailurePostProcessing];
+    [self sendPasscodeFlowCompletedNotification:success];
+    UIViewController *passVc = [SFSecurityLockout passcodeViewController];
+    if (passVc != nil) {
+        SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
+        dismissBlock(passVc);
+        [SFSecurityLockout setPasscodeViewController:nil];
+    }
+    
+    if (success) {
+        [SFSecurityLockout unlockSuccessPostProcessing:action];
+    } else {
+        [SFSecurityLockout unlockFailurePostProcessing];
+    }
+    
+    [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
+            [delegate passcodeFlowDidComplete:success];
         }
-        [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
-                [delegate passcodeFlowDidComplete:success];
-            }
-        }];
-	} 
+    }];
 }
 
 + (void)timerExpired:(NSTimer*)theTimer
