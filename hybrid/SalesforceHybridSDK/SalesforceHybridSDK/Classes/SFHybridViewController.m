@@ -592,7 +592,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)loadVFPingPage
 {
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
+    NSURl *communityUrl = creds.communityUrl;
+    NSString *instanceUrlString = nil;
+    if (nil != communityUrl) {
+        instanceUrlString = communityUrl.absoluteString;
+    } else {
+        instanceUrlString = creds.instanceUrl.absoluteString;
+    }
     if (nil != instanceUrlString) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
