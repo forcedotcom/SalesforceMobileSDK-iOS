@@ -98,20 +98,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (NSURL*)apiUrl {
-    if (nil == self.communityId) {
-        // If there is no current community, let's use the instanceUrl which always refers
-        // to the base organization URL (aka internal community or community zero)
-        return self.credentials.instanceUrl;
-    } else {
-        // If there is a current community, let's grab its data
-        SFCommunityData *communityData = [self communityWithId:self.communityId];
-        if (nil == communityData) {
-            [self log:SFLogLevelError format:@"Unable to find any data for community %@, switching to base org URL", self.communityId];
-            return self.credentials.instanceUrl;
-        } else {
-            return communityData.siteUrl;
-        }
-    }
+    return self.credentials.apiUrl;
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
