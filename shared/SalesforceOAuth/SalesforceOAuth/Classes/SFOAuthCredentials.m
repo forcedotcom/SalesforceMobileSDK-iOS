@@ -291,9 +291,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 
 - (void)setApiUrl {
     if (nil != self.communityUrl) {
-        self.apiUrl = self.communityUrl;
+        _apiUrl = self.communityUrl;
     } else {
-        self.apiUrl = self.instanceUrl;
+        _apiUrl = self.instanceUrl;
     }
 }
 
