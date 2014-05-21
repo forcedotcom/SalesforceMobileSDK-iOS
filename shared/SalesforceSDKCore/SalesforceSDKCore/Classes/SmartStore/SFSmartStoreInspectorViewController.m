@@ -36,7 +36,7 @@
 // Padding
 static CGFloat      const kNavBarHeight          = 44.0f;
 static CGFloat      const kPadding               = 5.0f;
-
+static CGFloat      const kCellPadding           = 2.0f;
 
 // Query field font
 static NSString *   const kQueryFieldFontName    = @"Courier";
@@ -48,6 +48,8 @@ static CGFloat      const kButtonFontSize        = 16.0f;
 static NSString *   const kResultTextFontName    = @"Courier";
 static CGFloat      const kResultTextFontSize    = 12.0f;
 
+// Cell identifier
+static NSString *   const kCellIndentifier       = @"cellIdentifier";
 
 @interface SFSmartStoreInspectorViewController ()
 
@@ -56,7 +58,10 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 @property (nonatomic, strong) UIButton *clearButton;
 @property (nonatomic, strong) UIButton *soupsButton;
 @property (nonatomic, strong) UIButton *indicesButton;
-@property (nonatomic, strong) UITextView *resultText;
+@property (nonatomic, strong) UICollectionView *resultGrid;
+@property (nonatomic, strong) NSArray *results;
+@property (readonly, atomic, assign) NSUInteger countColumns;
+@property (readonly, atomic, assign) NSUInteger countRows;
 
 @end
 
@@ -75,7 +80,7 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     return sharedInstance;
 }
 
-#pragma mark - Present / 
+#pragma mark - Present / dimiss
 
 + (void) present
 {
@@ -96,6 +101,21 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - Results setter
+
+-(void) setResults:(NSArray *)results
+{
+    if (_results != results) {
+        _results = results;
+        _countColumns = _results && _results[0] ? [_results[0] count] : 0;
+        _countRows = _results ? [_results count] : 0;
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [self.resultGrid reloadData];
+                       });
+    }
+}
+
 #pragma mark - Actions handlers
 
 - (void) onBack
@@ -109,8 +129,8 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     [self stopEditing];
     NSString* smartSql = self.queryField.text;
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-    NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10] pageIndex:0];
-    self.resultText.text = [SFJsonUtils JSONRepresentation:results];
+    self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:100] pageIndex:0];
+    
 }
 
 - (void) onSoups
@@ -129,7 +149,7 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 {
     [self stopEditing];
     self.queryField.text = @"";
-    self.resultText.text = @"";
+    self.results = nil;
 }
 
 - (void) stopEditing
@@ -138,7 +158,8 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 }
 
 
-#pragma mark - View lifecycle
+
+#pragma mark - View layout
 
 // TODO get strings from [SFSDKResourceUtils localizedString:@"..."]
 - (void)loadView
@@ -158,6 +179,7 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     
     // Query field
     self.queryField = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.queryField.delegate = self;
     self.queryField.textColor = [UIColor blackColor];
     self.queryField.font = [UIFont fontWithName:kQueryFieldFontName size:kQueryFieldFontSize];
     self.queryField.text = @"";
@@ -169,16 +191,22 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     self.soupsButton = [self createButtonWithLabel:@"Soups" action:@selector(onSoups)];
     self.indicesButton = [self createButtonWithLabel:@"Indices" action:@selector(onIndices)];
 
-    // Results field
-    self.resultText = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.resultText.editable = NO;
-    self.resultText.textColor = [UIColor blackColor];
-    self.resultText.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
-    self.resultText.text = @"";
-    [self.view addSubview:self.resultText];
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopEditing)];
-    [singleTap setNumberOfTapsRequired:1];
-    [self.resultText addGestureRecognizer:singleTap];
+    // Results grid
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    self.resultGrid = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    
+    [self.resultGrid registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
+    [self.resultGrid setBackgroundColor:[UIColor whiteColor]];
+    [self.resultGrid setDataSource:self];
+    [self.resultGrid setDelegate:self];
+    [self.view addSubview:self.resultGrid];
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopEditing)];
+//    [singleTap setNumberOfTapsRequired:1];
+//    [self.resultGrid addGestureRecognizer:singleTap];
+
 }
 
 - (UIButton*) createButtonWithLabel:(NSString*) label action:(SEL)action
@@ -213,14 +241,25 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 
 - (void)layoutSubviews
 {
+    [self layoutNavBar];
     [self layoutQueryField];
     [self layoutButtons];
-    [self layoutResultText];
+    [self layoutResultGrid];
+    [self.resultGrid reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
+}
+
+- (void) layoutNavBar
+{
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = kNavBarHeight;
+    CGFloat x = 0;
+    CGFloat y = 0;
+    self.navBar.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)layoutQueryField
@@ -242,14 +281,75 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
     self.indicesButton.frame = CGRectMake(w * 2.0 + + kPadding * 2.0 / 3.0, y, w - kPadding  * 2.0 / 3.0, h);
 }
 
-- (void) layoutResultText
+- (void) layoutResultGrid
 {
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = self.view.bounds.size.height * 5.0 / 8.0;
     CGFloat x = 0;
     CGFloat y = self.view.bounds.size.height - h;
-    self.resultText.frame = CGRectMake(x, y, w, h);
+    self.resultGrid.frame = CGRectMake(x, y, w, h);
 }
 
+#pragma - Text vew delegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ( [text isEqualToString:@"\n"] ) {
+        [self onQuery];
+    }
+    
+    return YES;
+}
+
+#pragma - Collection view delegate
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.countRows;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.countColumns; // * self.countRows;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIndentifier forIndexPath:indexPath];
+//    NSString* label = [((NSArray*) self.results[indexPath.row / self.countColumns])[indexPath.row % self.countColumns] description];
+    NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
+    [cell.contentView addSubview:[self cellTitle:label withIndexPath:indexPath]];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat w = [self cellWidthWithIndexPath:indexPath];
+    CGFloat h = [self cellHeightWithIndexPath:indexPath];
+    return CGSizeMake(w, h);
+}
+
+-(UILabel *)cellTitle:(NSString *)name withIndexPath:(NSIndexPath*) indexPath
+{
+    CGFloat w = [self cellWidthWithIndexPath:indexPath];
+    CGFloat h = [self cellHeightWithIndexPath:indexPath];
+    NSLog(@"#columns:%d w:%f screen:%f", self.countColumns, w, self.resultGrid.bounds.size.width);
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
+    title.textColor = [UIColor blackColor];
+    title.layer.borderColor = [UIColor blackColor].CGColor;
+    title.layer.borderWidth = 1.0;
+    title.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
+    title.text = name;
+    return title;
+}
+
+- (CGFloat) cellWidthWithIndexPath:(NSIndexPath*) indexPath
+{
+    return self.countColumns > 0 ? self.resultGrid.frame.size.width / self.countColumns : 0;
+}
+
+- (CGFloat) cellHeightWithIndexPath:(NSIndexPath*) indexPath
+{
+    return self.view.bounds.size.height / 24.0;
+}
 
 @end

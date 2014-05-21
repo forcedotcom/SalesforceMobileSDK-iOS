@@ -27,7 +27,7 @@
 /**
  * The view controller for managing the smartstore inspector screen.
  */
-@interface SFSmartStoreInspectorViewController : UIViewController
+@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
 /**
  Show smart store inspector
