@@ -319,20 +319,17 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 
 #pragma mark - Collection view delegate
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.countRows;
+    NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
+    [[[UIAlertView alloc] initWithTitle:nil message:label delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return self.countColumns; // * self.countRows;
-}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIndentifier forIndexPath:indexPath];
-//    NSString* label = [((NSArray*) self.results[indexPath.row / self.countColumns])[indexPath.row % self.countColumns] description];
+    //    NSString* label = [((NSArray*) self.results[indexPath.row / self.countColumns])[indexPath.row % self.countColumns] description];
     NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
     [cell.contentView addSubview:[self cellTitle:label withIndexPath:indexPath]];
     return cell;
@@ -343,6 +340,16 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     CGFloat w = [self cellWidthWithIndexPath:indexPath];
     CGFloat h = [self cellHeightWithIndexPath:indexPath];
     return CGSizeMake(w, h);
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.countRows;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.countColumns; // * self.countRows;
 }
 
 -(UILabel *)cellTitle:(NSString *)name withIndexPath:(NSIndexPath*) indexPath
