@@ -62,7 +62,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 @synthesize identityUrl          = _identityUrl;
 @synthesize userId               = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl          = _instanceUrl;
-@synthesize apiUrl               = _apiUrl;
 @synthesize issuedAt             = _issuedAt;
 @synthesize logLevel             = _logLevel;
 @synthesize protocol             = _protocol;
@@ -93,7 +92,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         self.communityId    = [coder decodeObjectForKey:@"SFOAuthCommunityId"];
         self.communityUrl   = [coder decodeObjectForKey:@"SFOAuthCommunityUrl"];
         self.issuedAt       = [coder decodeObjectForKey:@"SFOAuthIssuedAt"];
-        [self setApiUrl];
         NSString *protocolVal = [coder decodeObjectForKey:@"SFOAuthProtocol"];
         if (nil != protocolVal)
             self.protocol = protocolVal;
@@ -156,6 +154,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     @synchronized(self) {
         return [_clientId copy];
     }
+}
+
+- (NSURL *)apiUrl {
+    if (nil != self.communityUrl) {
+        return self.communityUrl;
+    }
+    return self.instanceUrl;
 }
 
 - (void)setClientId:(NSString *)theClientId {
@@ -287,14 +292,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 - (void)revokeActivationCode {
     if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     self.activationCode = nil;
-}
-
-- (void)setApiUrl {
-    if (nil != self.communityUrl) {
-        _apiUrl = self.communityUrl;
-    } else {
-        _apiUrl = self.instanceUrl;
-    }
 }
 
 #pragma mark - Private Keychain Methods
