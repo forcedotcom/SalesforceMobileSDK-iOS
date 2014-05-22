@@ -41,7 +41,7 @@ static CGFloat      const kCellPadding           = 2.0f;
 // Query field font
 static NSString *   const kQueryFieldFontName    = @"Courier";
 static CGFloat      const kQueryFieldFontSize    = 12.0f;
-// Run button font
+// Button font
 static NSString *   const kButtonFontName        = @"HelveticaNeue-Bold";
 static CGFloat      const kButtonFontSize        = 16.0f;
 // Result text font
@@ -208,10 +208,6 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     [self.resultGrid setDataSource:self];
     [self.resultGrid setDelegate:self];
     [self.view addSubview:self.resultGrid];
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopEditing)];
-//    [singleTap setNumberOfTapsRequired:1];
-//    [self.resultGrid addGestureRecognizer:singleTap];
-
 }
 
 - (UIButton*) createButtonWithLabel:(NSString*) label action:(SEL)action
