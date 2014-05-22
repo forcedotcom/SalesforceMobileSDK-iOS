@@ -134,7 +134,7 @@ static NSUInteger   const kLabelTag              = 99;
         self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex];
     }
     @catch (NSException *exception) {
-        [[[UIAlertView alloc] initWithTitle:@"Query failed" message:[exception description] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        [[[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorQueryFailed"] message:[exception description] delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
     }
     
 }
@@ -200,22 +200,22 @@ static NSUInteger   const kLabelTag              = 99;
     
     // Query field
     self.queryField = [self createTextView];
-
+    
     // Page size field
     self.pageSizeField = [self createTextField];
-    self.pageSizeField.placeholder = @"Page size (default: 10)";
+    self.pageSizeField.placeholder = [SFSDKResourceUtils localizedString:@"inspectorPageSizeHint"];
     self.pageSizeField.keyboardType = UIKeyboardTypeNumberPad;
-
+    
     // Page index field
     self.pageIndexField = [self createTextField];
-    self.pageIndexField.placeholder = @"Page index (default: 0)";
+    self.pageIndexField.placeholder = [SFSDKResourceUtils localizedString:@"inspectorPageIndexHint"];
     self.pageIndexField.keyboardType = UIKeyboardTypeNumberPad;
     
     // Buttons
-    self.clearButton = [self createButtonWithLabel:@"Clear" action:@selector(onClear)];
-    self.soupsButton = [self createButtonWithLabel:@"Soups" action:@selector(onSoups)];
-    self.indicesButton = [self createButtonWithLabel:@"Indices" action:@selector(onIndices)];
-
+    self.clearButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorClearButtonTitle"] action:@selector(onClear)];
+    self.soupsButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorSoupsButtonTitle"] action:@selector(onSoups)];
+    self.indicesButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorIndicesButtonTitle"] action:@selector(onIndices)];
+    
     // Results grid
     self.resultGrid = [self createGridView];
 }
@@ -224,9 +224,9 @@ static NSUInteger   const kLabelTag              = 99;
 {
     UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
     navBar.delegate = self;
-    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Inspector"];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
-    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorTitle"]];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorBackButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
+    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorRunButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
     [navItem setLeftBarButtonItem:backItem];
     [navItem setRightBarButtonItem:runItem];
     [navBar setItems:@[navItem] animated:YES];
@@ -391,7 +391,7 @@ static NSUInteger   const kLabelTag              = 99;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* label = [[self cellDatawithIndexPath:indexPath] description];
-    [[[UIAlertView alloc] initWithTitle:nil message:label delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    [[[UIAlertView alloc] initWithTitle:nil message:label delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
 }
 
 
