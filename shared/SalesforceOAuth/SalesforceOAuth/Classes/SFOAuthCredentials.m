@@ -28,6 +28,7 @@
 #import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
 #import <SalesforceCommonUtils/SFCrypto.h>
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceSecurity/SFSDKCryptoUtils.h>
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 
@@ -251,6 +252,11 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     if (![truncUserId isEqualToString:_userId]) {
         _userId = [truncUserId copy];
     }
+}
+
+- (NSString *)communityId {
+    // TODO: This can be removed once the community ID is being returned from the service as an 18-char ID.
+    return [_communityId entityId18];
 }
 
 - (NSString *)description {

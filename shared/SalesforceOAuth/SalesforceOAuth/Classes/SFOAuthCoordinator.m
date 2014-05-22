@@ -91,7 +91,6 @@ static NSString * const kHttpMethodPost                         = @"POST";
 static NSString * const kHttpHeaderContentType                  = @"Content-Type";
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
 
-
 @implementation SFOAuthCoordinator
 
 @synthesize credentials          = _credentials;
