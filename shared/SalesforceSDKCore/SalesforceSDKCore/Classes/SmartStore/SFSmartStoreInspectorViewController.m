@@ -50,6 +50,7 @@ static CGFloat      const kResultTextFontSize    = 12.0f;
 
 // Cell identifier
 static NSString *   const kCellIndentifier       = @"cellIdentifier";
+static NSUInteger   const kLabelTag              = 99;
 
 @interface SFSmartStoreInspectorViewController ()
 
@@ -84,21 +85,13 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 
 + (void) present
 {
+    [[SFSmartStoreInspectorViewController sharedInstance] onClear];
     [[SFRootViewManager sharedManager] pushViewController:[SFSmartStoreInspectorViewController sharedInstance]];
 }
 
 + (void) dismiss
 {
     [[SFRootViewManager sharedManager] popViewController:[SFSmartStoreInspectorViewController sharedInstance]];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - Results setter
@@ -331,7 +324,10 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIndentifier forIndexPath:indexPath];
     //    NSString* label = [((NSArray*) self.results[indexPath.row / self.countColumns])[indexPath.row % self.countColumns] description];
     NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
-    [cell.contentView addSubview:[self cellTitle:label withIndexPath:indexPath]];
+    UILabel* labelView = [self cellTitle:label withIndexPath:indexPath];
+    labelView.tag = kLabelTag;
+    [[cell.contentView viewWithTag:kLabelTag] removeFromSuperview];
+    [cell.contentView addSubview:labelView];
     return cell;
 }
 
@@ -372,7 +368,8 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 
 - (CGFloat) cellHeightWithIndexPath:(NSIndexPath*) indexPath
 {
-    return self.view.bounds.size.height / 24.0;
+    return 24.0;
 }
 
 @end
+
