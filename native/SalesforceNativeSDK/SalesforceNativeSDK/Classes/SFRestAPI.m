@@ -179,9 +179,9 @@ static dispatch_once_t _sharedInstanceGuard;
     networkCoordinator.userId = oAuthCoordinator.credentials.userId;
     networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;
     networkCoordinator.portNumber = [oAuthCoordinator.credentials.instanceUrl port];
+    networkCoordinator.apiUrl = oAuthCoordinator.credentials.apiUrl.absoluteString;
     return networkCoordinator;
 }
-
 
 - (void)refreshSessionForNetworkEngine:(SFNetworkEngine *)networkEngine {
     [_sessionRefresher refreshAccessToken];
