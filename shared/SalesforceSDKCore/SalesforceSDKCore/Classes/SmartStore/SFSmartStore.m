@@ -522,11 +522,24 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] initWithStore:self rowId:rowId details:details status:status];
         [longOperations addObject:longOperation];
     }
+    [frs close];
     
     return longOperations;
  }
 
 #pragma mark - Utility methods
+
+- (NSArray*) allSoupNames {
+    NSMutableArray* soupNames = [NSMutableArray array];
+    FMResultSet* frs = [self.storeDb executeQuery:[NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_NAMES_TABLE]];
+    while ([frs next]) {
+        [soupNames addObject:[frs stringForColumnIndex:0]];
+    }
+    [frs close];
+    
+    return soupNames;
+}
+
 
 + (BOOL)usesDefaultKey:(NSString *)storeName {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
