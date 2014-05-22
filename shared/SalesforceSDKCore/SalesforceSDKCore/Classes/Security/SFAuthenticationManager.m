@@ -919,7 +919,7 @@ static Class InstanceClass = nil;
 {
     if (user.credentials.refreshToken != nil) {
         [self log:SFLogLevelInfo format:@"Revoking credentials on the server for '%@'.", user.userName];
-        NSMutableString *host = [NSMutableString stringWithString:@"https://"];
+        NSMutableString *host = [NSMutableString stringWithFormat:@"%@://", user.credentials.protocol];
         [host appendString:user.credentials.domain];
         [host appendString:@"/services/oauth2/revoke?token="];
         [host appendString:user.credentials.refreshToken];
