@@ -140,7 +140,23 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
 
 - (void) onSoups
 {
-    self.queryField.text = @"SELECT soupName from soup_names";
+    SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    NSArray* names = [store allSoupNames];
+    
+    if ([names count] > 10) {
+        self.queryField.text = @"SELECT soupName from soup_names";
+    }
+    else {
+        NSMutableString* q = [NSMutableString string];
+        BOOL first = YES;
+        for (NSString* name in names) {
+            if (!first)
+                [q appendString:@" union "];
+            [q appendFormat:@"SELECT '%@', count(*) FROM {%@}", name, name];
+            first = false;
+        }
+        self.queryField.text = q;
+    }
     [self onQuery];
 }
 
