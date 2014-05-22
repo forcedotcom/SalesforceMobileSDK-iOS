@@ -35,11 +35,12 @@
 
 // Nav bar
 static CGFloat      const kNavBarHeight          = 44.0;
-// Query field
-static NSString *   const kQueryFieldFontName    = @"Courier";
-static CGFloat      const kQueryFieldFontSize    = 12.0;
+// Text fields
+static NSString *   const kTextFieldFontName     = @"Courier";
+static CGFloat      const kTextFieldFontSize     = 12.0;
+static CGFloat      const kTextFieldBorderWidth  = 3.0;
 static CGFloat      const kQueryFieldHeight      = 96.0;
-static CGFloat      const kQueryFieldBorderWidth = 3.0;
+static CGFloat      const kPageFieldHeight       = 24.0;
 // Buttons
 static NSString *   const kButtonFontName        = @"HelveticaNeue-Bold";
 static CGFloat      const kButtonFontSize        = 16.0;
@@ -58,6 +59,8 @@ static NSUInteger   const kLabelTag              = 99;
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextView *queryField;
+@property (nonatomic, strong) UITextField *pageSizeField;
+@property (nonatomic, strong) UITextField *pageIndexField;
 @property (nonatomic, strong) UIButton *clearButton;
 @property (nonatomic, strong) UIButton *soupsButton;
 @property (nonatomic, strong) UIButton *indicesButton;
@@ -123,9 +126,12 @@ static NSUInteger   const kLabelTag              = 99;
 {
     [self stopEditing];
     NSString* smartSql = self.queryField.text;
+    NSInteger pageSize = [self.pageSizeField.text integerValue];
+    pageSize = (pageSize <= 0 && ![self.pageSizeField.text isEqualToString:@"0"] ? 10 : pageSize);
+    NSInteger pageIndex = [self.pageIndexField.text integerValue];
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     @try {
-        self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:100] pageIndex:0];
+        self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex];
     }
     @catch (NSException *exception) {
         [[[UIAlertView alloc] initWithTitle:@"Query failed" message:[exception description] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -165,14 +171,17 @@ static NSUInteger   const kLabelTag              = 99;
 {
     [self stopEditing];
     self.queryField.text = @"";
+    self.pageSizeField.text = @"";
+    self.pageIndexField.text = @"";
     self.results = nil;
 }
 
 - (void) stopEditing
 {
     [self.queryField endEditing:YES];
+    [self.pageSizeField endEditing:YES];
+    [self.pageIndexField endEditing:YES];
 }
-
 
 
 #pragma mark - View layout
@@ -182,50 +191,75 @@ static NSUInteger   const kLabelTag              = 99;
     return YES;
 }
 
-// TODO get strings from [SFSDKResourceUtils localizedString:@"..."]
 - (void)loadView
 {
     [super loadView];
     
     // Nav bar
-    self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
-    self.navBar.delegate = self;
-    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Inspector"];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
-    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
-    [navItem setLeftBarButtonItem:backItem];
-    [navItem setRightBarButtonItem:runItem];
-    [self.navBar setItems:@[navItem] animated:YES];
-    [self.view addSubview:self.navBar];
+    self.navBar = [self createNavBar];
     
     // Query field
-    self.queryField = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.queryField.delegate = self;
-    self.queryField.textColor = [UIColor blackColor];
-    self.queryField.font = [UIFont fontWithName:kQueryFieldFontName size:kQueryFieldFontSize];
-    self.queryField.text = @"";
-    self.queryField.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.queryField.layer.borderWidth = kQueryFieldBorderWidth;
-    [self.view addSubview:self.queryField];
+    self.queryField = [self createTextView];
 
+    // Page size field
+    self.pageSizeField = [self createTextField];
+    self.pageSizeField.placeholder = @"Page size (default: 10)";
+    self.pageSizeField.keyboardType = UIKeyboardTypeNumberPad;
+
+    // Page index field
+    self.pageIndexField = [self createTextField];
+    self.pageIndexField.placeholder = @"Page index (default: 0)";
+    self.pageIndexField.keyboardType = UIKeyboardTypeNumberPad;
+    
     // Buttons
     self.clearButton = [self createButtonWithLabel:@"Clear" action:@selector(onClear)];
     self.soupsButton = [self createButtonWithLabel:@"Soups" action:@selector(onSoups)];
     self.indicesButton = [self createButtonWithLabel:@"Indices" action:@selector(onIndices)];
 
     // Results grid
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    self.resultGrid = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.resultGrid.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.resultGrid.layer.borderWidth = kResultGridBorderWidth;
-    [self.resultGrid registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
-    [self.resultGrid setBackgroundColor:[UIColor whiteColor]];
-    [self.resultGrid setDataSource:self];
-    [self.resultGrid setDelegate:self];
-    [self.view addSubview:self.resultGrid];
+    self.resultGrid = [self createGridView];
+}
+
+- (UINavigationBar*) createNavBar
+{
+    UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
+    navBar.delegate = self;
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Inspector"];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
+    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:@"Run" style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
+    [navItem setLeftBarButtonItem:backItem];
+    [navItem setRightBarButtonItem:runItem];
+    [navBar setItems:@[navItem] animated:YES];
+    [self.view addSubview:navBar];
+    return navBar;
+}
+
+- (UITextView *) createTextView
+{
+    UITextView* textView = [[UITextView alloc] initWithFrame:CGRectZero];
+    textView.delegate = self;
+    textView.textColor = [UIColor blackColor];
+    textView.backgroundColor = [UIColor whiteColor];
+    textView.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
+    textView.text = @"";
+    textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    textView.layer.borderWidth = kTextFieldBorderWidth;
+    [self.view addSubview:textView];
+    return textView;
+}
+
+- (UITextField *) createTextField
+{
+    UITextField* textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    textField.textColor = [UIColor blackColor];
+    textField.backgroundColor = [UIColor whiteColor];
+    textField.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
+    textField.text = @"";
+    textField.textAlignment = NSTextAlignmentCenter;
+    textField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    textField.layer.borderWidth = kTextFieldBorderWidth;
+    [self.view addSubview:textField];
+    return textField;
 }
 
 - (UIButton*) createButtonWithLabel:(NSString*) label action:(SEL)action
@@ -241,6 +275,23 @@ static NSUInteger   const kLabelTag              = 99;
     button.layer.borderWidth = kButtonBorderWidth;
     [self.view addSubview:button];
     return button;
+}
+
+- (UICollectionView*) createGridView
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    UICollectionView* gridView= [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    gridView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    gridView.layer.borderWidth = kResultGridBorderWidth;
+    [gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
+    [gridView setBackgroundColor:[UIColor whiteColor]];
+    [gridView setDataSource:self];
+    [gridView setDelegate:self];
+    [self.view addSubview:gridView];
+    return gridView;
 }
 
 - (void)viewDidLoad
@@ -264,6 +315,7 @@ static NSUInteger   const kLabelTag              = 99;
 {
     [self layoutNavBar];
     [self layoutQueryField];
+    [self layoutPageFields];
     [self layoutButtons];
     [self layoutResultGrid];
     [self.resultGrid reloadData];
@@ -296,10 +348,19 @@ static NSUInteger   const kLabelTag              = 99;
     self.queryField.frame = CGRectMake(x, y, w, h);
 }
 
+- (void)layoutPageFields
+{
+    CGFloat w = self.view.bounds.size.width / 2.0;
+    CGFloat y = [self belowFrame:self.queryField.frame];
+    CGFloat h = kPageFieldHeight;
+    self.pageSizeField.frame = CGRectMake(0, y, w, h);
+    self.pageIndexField.frame = CGRectMake(w, y, w, h);
+}
+
 - (void)layoutButtons
 {
     CGFloat w = self.view.bounds.size.width / 3.0;
-    CGFloat y = [self belowFrame:self.queryField.frame];
+    CGFloat y = [self belowFrame:self.pageSizeField.frame];
     CGFloat h = kButtonHeight;
     self.clearButton.frame = CGRectMake(0, y, w, h);
     self.soupsButton.frame = CGRectMake(w, y, w, h);
