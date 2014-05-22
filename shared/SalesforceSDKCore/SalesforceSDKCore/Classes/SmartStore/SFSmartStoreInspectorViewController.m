@@ -33,22 +33,24 @@
 #import "SFQuerySpec.h"
 #import "SFJsonUtils.h"
 
-// Padding
-static CGFloat      const kNavBarHeight          = 44.0f;
-static CGFloat      const kPadding               = 5.0f;
-static CGFloat      const kCellPadding           = 2.0f;
-
-// Query field font
+// Nav bar
+static CGFloat      const kNavBarHeight          = 44.0;
+// Query field
 static NSString *   const kQueryFieldFontName    = @"Courier";
-static CGFloat      const kQueryFieldFontSize    = 12.0f;
-// Button font
+static CGFloat      const kQueryFieldFontSize    = 12.0;
+static CGFloat      const kQueryFieldHeight      = 96.0;
+static CGFloat      const kQueryFieldBorderWidth = 3.0;
+// Buttons
 static NSString *   const kButtonFontName        = @"HelveticaNeue-Bold";
-static CGFloat      const kButtonFontSize        = 16.0f;
-// Result text font
+static CGFloat      const kButtonFontSize        = 16.0;
+static CGFloat      const kButtonHeight          = 48.0;
+static CGFloat      const kButtonBorderWidth     = 3.0;
+// Results
+static CGFloat      const kResultGridBorderWidth = 3.0;
 static NSString *   const kResultTextFontName    = @"Courier";
-static CGFloat      const kResultTextFontSize    = 12.0f;
-
-// Cell identifier
+static CGFloat      const kResultTextFontSize    = 12.0;
+static CGFloat      const kResultCellHeight      = 24.0;
+static CGFloat      const kResultCellBorderWidth = 1.0;
 static NSString *   const kCellIndentifier       = @"cellIdentifier";
 static NSUInteger   const kLabelTag              = 99;
 
@@ -175,6 +177,11 @@ static NSUInteger   const kLabelTag              = 99;
 
 #pragma mark - View layout
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 // TODO get strings from [SFSDKResourceUtils localizedString:@"..."]
 - (void)loadView
 {
@@ -197,7 +204,8 @@ static NSUInteger   const kLabelTag              = 99;
     self.queryField.textColor = [UIColor blackColor];
     self.queryField.font = [UIFont fontWithName:kQueryFieldFontName size:kQueryFieldFontSize];
     self.queryField.text = @"";
-    self.queryField.accessibilityLabel = @"Query";
+    self.queryField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.queryField.layer.borderWidth = kQueryFieldBorderWidth;
     [self.view addSubview:self.queryField];
 
     // Buttons
@@ -211,7 +219,8 @@ static NSUInteger   const kLabelTag              = 99;
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
+    self.resultGrid.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.resultGrid.layer.borderWidth = kResultGridBorderWidth;
     [self.resultGrid registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
     [self.resultGrid setBackgroundColor:[UIColor whiteColor]];
     [self.resultGrid setDataSource:self];
@@ -228,6 +237,8 @@ static NSUInteger   const kLabelTag              = 99;
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonFontSize];
+    button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    button.layer.borderWidth = kButtonBorderWidth;
     [self.view addSubview:button];
     return button;
 }
@@ -263,40 +274,44 @@ static NSUInteger   const kLabelTag              = 99;
     return YES;
 }
 
+- (CGFloat) belowFrame:(CGRect) frame {
+    return frame.origin.y + frame.size.height;
+}
+
 - (void) layoutNavBar
 {
-    CGFloat w = self.view.bounds.size.width;
-    CGFloat h = kNavBarHeight;
     CGFloat x = 0;
     CGFloat y = 0;
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)layoutQueryField
 {
-    CGFloat w = self.view.bounds.size.width;
-    CGFloat h = self.view.bounds.size.height / 4.0 - kNavBarHeight;
     CGFloat x = 0;
-    CGFloat y = self.navBar.frame.size.height;
+    CGFloat y = [self belowFrame:self.navBar.frame];
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = kQueryFieldHeight;
     self.queryField.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)layoutButtons
 {
     CGFloat w = self.view.bounds.size.width / 3.0;
-    CGFloat h = self.view.bounds.size.height / 8.0 - (kPadding * 2.0);
-    CGFloat y = self.queryField.frame.origin.y + self.queryField.frame.size.height + kPadding;
-    self.clearButton.frame = CGRectMake(0, y, w - kPadding * 2.0 / 3.0, h);
-    self.soupsButton.frame = CGRectMake(w + kPadding * 1.0 / 3.0, y, w - kPadding  * 2.0 / 3.0, h);
-    self.indicesButton.frame = CGRectMake(w * 2.0 + + kPadding * 2.0 / 3.0, y, w - kPadding  * 2.0 / 3.0, h);
+    CGFloat y = [self belowFrame:self.queryField.frame];
+    CGFloat h = kButtonHeight;
+    self.clearButton.frame = CGRectMake(0, y, w, h);
+    self.soupsButton.frame = CGRectMake(w, y, w, h);
+    self.indicesButton.frame = CGRectMake(w * 2.0, y, w, h);
 }
 
 - (void) layoutResultGrid
 {
-    CGFloat w = self.view.bounds.size.width;
-    CGFloat h = self.view.bounds.size.height * 5.0 / 8.0;
     CGFloat x = 0;
-    CGFloat y = self.view.bounds.size.height - h;
+    CGFloat y = [self belowFrame:self.clearButton.frame];
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = self.view.bounds.size.height - y;
     self.resultGrid.frame = CGRectMake(x, y, w, h);
 }
 
@@ -314,7 +329,7 @@ static NSUInteger   const kLabelTag              = 99;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
+    NSString* label = [[self cellDatawithIndexPath:indexPath] description];
     [[[UIAlertView alloc] initWithTitle:nil message:label delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
@@ -322,9 +337,7 @@ static NSUInteger   const kLabelTag              = 99;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIndentifier forIndexPath:indexPath];
-    //    NSString* label = [((NSArray*) self.results[indexPath.row / self.countColumns])[indexPath.row % self.countColumns] description];
-    NSString* label = [((NSArray*) self.results[indexPath.section])[indexPath.row] description];
-    UILabel* labelView = [self cellTitle:label withIndexPath:indexPath];
+    UILabel* labelView = [self cellViewWithIndexPath:indexPath];
     labelView.tag = kLabelTag;
     [[cell.contentView viewWithTag:kLabelTag] removeFromSuperview];
     [cell.contentView addSubview:labelView];
@@ -348,16 +361,23 @@ static NSUInteger   const kLabelTag              = 99;
     return self.countColumns; // * self.countRows;
 }
 
--(UILabel *)cellTitle:(NSString *)name withIndexPath:(NSIndexPath*) indexPath
+- (NSString*) compactDescription:(id)obj
+{
+    NSString* str = [obj description];
+    return [str stringByReplacingOccurrencesOfString:@"\\s+" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, [str length])];
+}
+
+-(UILabel *)cellViewWithIndexPath:(NSIndexPath*) indexPath
 {
     CGFloat w = [self cellWidthWithIndexPath:indexPath];
     CGFloat h = [self cellHeightWithIndexPath:indexPath];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
     title.textColor = [UIColor blackColor];
-    title.layer.borderColor = [UIColor blackColor].CGColor;
-    title.layer.borderWidth = 1.0;
+    title.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    title.layer.borderWidth = kResultCellBorderWidth;
     title.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
-    title.text = name;
+    title.textAlignment = NSTextAlignmentCenter;
+    title.text = [self compactDescription:[self cellDatawithIndexPath:indexPath]];
     return title;
 }
 
@@ -368,7 +388,12 @@ static NSUInteger   const kLabelTag              = 99;
 
 - (CGFloat) cellHeightWithIndexPath:(NSIndexPath*) indexPath
 {
-    return 24.0;
+    return kResultCellHeight;
+}
+
+- (NSObject*) cellDatawithIndexPath:(NSIndexPath*) indexPath
+{
+    return ((NSArray*) self.results[indexPath.section])[indexPath.row];
 }
 
 @end
