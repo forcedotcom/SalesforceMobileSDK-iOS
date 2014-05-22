@@ -767,10 +767,10 @@ static NSString * const kUserPrefix = @"005";
     
     // If the user has logged using a community-base URL, then let's create the community data
     // related to this community using the information we have from oauth.
-    self.currentUser.communityId = credentials.communityId;
+    self.currentUser.communityId = [credentials.communityId entityId18];
     if (self.currentUser.communityId) {
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
-        communityData.entityId = credentials.communityId;
+        communityData.entityId = [credentials.communityId entityId18];
         communityData.siteUrl = credentials.communityUrl;
         self.currentUser.communities = @[ communityData ];
     } else {

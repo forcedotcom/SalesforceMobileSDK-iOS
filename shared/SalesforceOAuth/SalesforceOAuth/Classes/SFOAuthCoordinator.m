@@ -27,6 +27,8 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
 
+#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+
 // Public constants
 
 const NSTimeInterval kSFOAuthDefaultTimeout                     = 120.0; // seconds
@@ -90,7 +92,6 @@ static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 static NSString * const kHttpMethodPost                         = @"POST";
 static NSString * const kHttpHeaderContentType                  = @"Content-Type";
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
-
 
 @implementation SFOAuthCoordinator
 
@@ -454,7 +455,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
     self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
 
-    self.credentials.communityId    = [params objectForKey:kSFOAuthCommunityId];
+    self.credentials.communityId    = [[params objectForKey:kSFOAuthCommunityId] entityId18];
     NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
     if (communityUrl) {
         self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
