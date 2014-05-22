@@ -696,14 +696,16 @@ static Class InstanceClass = nil;
 
 + (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
 {
-    NSString *encodedUrl = (isEncoded ? returnUrl : [returnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:[creds.instanceUrl absoluteString]];
+    NSString *instUrl = creds.apiUrl.absoluteString;
+    NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
+    [mutableReturnUrl appendString:returnUrl];
+    NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"])
         [frontDoorUrl appendString:@"/"];
     NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
-    
     return [NSURL URLWithString:frontDoorUrl];
 }
 

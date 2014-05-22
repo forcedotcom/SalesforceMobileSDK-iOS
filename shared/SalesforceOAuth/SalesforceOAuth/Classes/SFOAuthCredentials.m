@@ -116,7 +116,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
-
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:[NSNumber numberWithBool:self.isEncrypted]          forKey:@"SFOAuthEncrypted"];
 }
@@ -155,6 +154,13 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     @synchronized(self) {
         return [_clientId copy];
     }
+}
+
+- (NSURL *)apiUrl {
+    if (nil != self.communityUrl) {
+        return self.communityUrl;
+    }
+    return self.instanceUrl;
 }
 
 - (void)setClientId:(NSString *)theClientId {

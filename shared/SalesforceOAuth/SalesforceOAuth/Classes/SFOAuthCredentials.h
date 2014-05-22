@@ -173,6 +173,10 @@ typedef enum {
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
+/** The community URL, if present. The instance URL, otherwise.
+ */
+@property (readonly) NSURL *apiUrl;
+
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.
  
