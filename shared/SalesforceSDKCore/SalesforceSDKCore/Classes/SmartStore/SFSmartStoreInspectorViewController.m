@@ -295,7 +295,7 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     self.resultGrid.frame = CGRectMake(x, y, w, h);
 }
 
-#pragma - Text vew delegate
+#pragma mark - Text view delegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ( [text isEqualToString:@"\n"] ) {
@@ -305,7 +305,7 @@ static NSString *   const kCellIndentifier       = @"cellIdentifier";
     return YES;
 }
 
-#pragma - Collection view delegate
+#pragma mark - Collection view delegate
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
