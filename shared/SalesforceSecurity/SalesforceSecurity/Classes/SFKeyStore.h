@@ -22,5 +22,8 @@
 @property (nonatomic, strong) NSDictionary *keyStoreDictionary;
 
 @property (nonatomic, readonly) BOOL keyStoreAvailable;
+@property (nonatomic, readonly) BOOL keyStoreActive;
+
+- (NSString *)keyLabelForString:(NSString *)baseKeyLabel;
 
 @end

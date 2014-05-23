@@ -53,6 +53,11 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
     return ([[SFPasscodeManager sharedManager].encryptionKey length] > 0);
 }
 
+- (BOOL)keyStoreActive
+{
+    return [[SFPasscodeManager sharedManager] passcodeIsSet];
+}
+
 - (SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
@@ -114,6 +119,11 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
             }
         }
     }
+}
+
+- (NSString *)keyLabelForString:(NSString *)baseKeyLabel
+{
+    return [NSString stringWithFormat:@"%@__Passcode", baseKeyLabel];
 }
 
 @end

@@ -109,7 +109,7 @@
     return [NSString stringWithFormat:@"%@_%@", baseKeychainId, baseAppId];
 }
 
-#pragma mark - Abstract property getters
+#pragma mark - Abstract properties and methods
 
 - (NSString *)storeKeychainIdentifier
 {
@@ -154,6 +154,20 @@
 }
 
 - (BOOL)keyStoreAvailable
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (BOOL)keyStoreActive
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (NSString *)keyLabelForString:(NSString *)baseKeyLabel
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass.", NSStringFromSelector(_cmd)]

@@ -51,6 +51,11 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
     return YES;
 }
 
+- (BOOL)keyStoreActive
+{
+    return YES;
+}
+
 - (SFKeyStoreKey *)keyStoreKey
 {
     @synchronized (self) {
@@ -108,6 +113,11 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
             }
         }
     }
+}
+
+- (NSString *)keyLabelForString:(NSString *)baseKeyLabel
+{
+    return [NSString stringWithFormat:@"%@__Generated", baseKeyLabel];
 }
 
 @end

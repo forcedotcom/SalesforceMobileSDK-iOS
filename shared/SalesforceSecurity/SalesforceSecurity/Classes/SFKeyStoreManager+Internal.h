@@ -24,11 +24,16 @@
 
 #import "SFKeyStoreManager.h"
 #import "SFPasscodeManager.h"
+#import "SFGeneratedKeyStore.h"
+#import "SFPasscodeKeyStore.h"
 
 @interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
 {
     SFKeyStoreKey *_keyStoreKey;
 }
+
+@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
+@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore;
 
 /**
  The dictionary that holds the key store.

@@ -81,12 +81,16 @@
  */
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
 
+- (void)removeKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
+
 /**
  Determines whether a key with the given label exists.
  @param keyLabel The label associated with the key to query.
  @return YES if the key exists in the key store, NO otherwise.
  */
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
+
+- (BOOL)keyWithLabelAndKeyTypeExists:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
 
 /**
  Returns a key with a random value for the key and initialization vector.  The key size
