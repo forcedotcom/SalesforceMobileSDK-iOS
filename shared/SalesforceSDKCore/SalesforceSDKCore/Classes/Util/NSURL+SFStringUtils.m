@@ -77,4 +77,40 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
     return redactedUrl;
 }
 
++ (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents {
+    NSMutableString *absoluteUrl = [[NSMutableString alloc] initWithString:[baseUrl absoluteString]];
+    [self appendPathComponents:pathComponents toMutableUrlString:absoluteUrl];
+    return absoluteUrl;
+}
+
++ (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents {
+    NSMutableString *absoluteUrl = [[NSMutableString alloc] init];
+    [absoluteUrl appendFormat:@"%@://", scheme];
+    [absoluteUrl appendString:host];
+    if (port) {
+        [absoluteUrl appendFormat:@":%@", port];
+    }
+    
+    [self appendPathComponents:pathComponents toMutableUrlString:absoluteUrl];
+
+    return absoluteUrl;
+}
+
++ (void)appendPathComponents:(NSArray*)pathComponents toMutableUrlString:(NSMutableString*)urlString {
+    for (NSString *c in pathComponents) {
+        if ([c isEqualToString:@"/"]) {
+            continue;
+        }
+        
+        if (![c hasPrefix:@"/"] && ![urlString hasSuffix:@"/"]) {
+            [urlString appendString:@"/"];
+            [urlString appendString:c];
+        } else if ([c hasPrefix:@"/"] && [urlString hasSuffix:@"/"]) {
+            [urlString appendString:[c substringFromIndex:1]];
+        } else {
+            [urlString appendString:c];
+        }
+    }
+}
+
 @end

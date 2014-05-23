@@ -33,28 +33,20 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 2.1
+### What's New in 2.2
 
-**Push Notifications**
-- Registration and delivery of push notifications are now supported from a Salesforce org that enables push notifications.
+**Multi User Support**
+- The Salesforce Mobile SDK now supports the ability to log into multiple user accounts simultaneously.
+	- The different accounts could be different users on the same org, or different users on different orgs (such as production and sandbox, for instance).
+	- After sign-in the user's credentials are saved, so that the user can switch between accounts seamlessly without having to re-authenticate against the server.
+- Access to SmartStore is also now scoped by user account.
+- Push notifications are now supported across multiple users.
+- The ability to add multiple custom login endpoints has been added as well.
 
-**Networking Enhancements**
-- The underlying networking library has been replaced with MKNetworkKit. MKNetworkKit provides the ability to configure advanced features, such as managing the network queue and cancelation of requests.
-
-**Files API Support**
-- The Salesforce Mobile SDK now provides convenience methods that build specialized REST requests for file upload/download and sharing operations.
-- A native sample app, `FileExplorer`, and a hybrid sample app, `HybridFileExplorer`, have been added to demonstrate these features.
-
-**SmartSync Enhancements**
-- You can now access custom endpoints using the `Force.RemoteObject` and `Force.RemoteObjectCollection` classes.
-- You can now access Apex REST endpoints using the `Force.ApexRestObject` and `Force.ApexRestObjectCollection` classes.
-- NOTE:
-	- This feature is only available on hybrid apps.
+**Library Upgrades**
+- Upgraded the `openssl` library to `v1.0.1g`.
 
 **Other Technical Improvements**
-- OAuth error handling is now configurable.
-- Upgraded the `openssl` library to `v1.0.1e` to fix possible security concerns with older versions of `openssl`.
-- You can now add one or more delegates to SFAuthenticationManager. This gives you more granular access to the authentication process.
 - Various bug fixes.
 
 ### Native Applications
@@ -67,7 +59,7 @@ HTML5 is quickly emerging as a powerful technology for developing cross-platform
 The Mobile SDK provides the means to generate your new app from a template, to quickly construct the foundation of native and hybrid applications.  These apps come with a fully functioning demo app, as well as configurable Settings bundles that allow the user to log out of the app or switch between Production and Sandbox orgs.  See [build.md](build.md) for more information on how to generate and use the templates.
 
 **Native App Template**
-For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
+For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction.
 
 **Hybrid App Template**
 To create hybrid apps that use the Salesforce REST API or access Visualforce pages, create your app using the hybrid app template. By providing the SalesforceOAuthPlugin for our PhoneGap-based container, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.  In addition, our SFSmartStorePlugin will allow you to store your app data securely on the device.
@@ -76,12 +68,14 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
-* [Salesforce Native SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
-* [Salesforce OAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
-* [Salesforce Hybrid SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/HybridContainer/index.html)
+* [Salesforce Hybrid SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
+* [Salesforce Native SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNativeSDK/html/index.html)
+* [Salesforce Network SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetworkSDK/html/index.html)
+* [Salesforce OAuth](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/html/index.html)
+* [Salesforce SDK Core](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
 
 
 Discussion
 ==
 
-If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have to the [Mobile Community Discussion Board](http://boards.developerforce.com/t5/Mobile/bd-p/mobile) on developerforce.com.
+If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ community](https://plus.google.com/communities/114225252149514546445).

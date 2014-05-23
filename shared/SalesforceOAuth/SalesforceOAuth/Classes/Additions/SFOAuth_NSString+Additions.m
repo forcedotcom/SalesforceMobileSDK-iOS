@@ -26,14 +26,6 @@
 #import "SFOAuth_NSString+Additions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-
-#ifndef FIX_CATEGORY_BUG
-#define FIX_CATEGORY_BUG(name) @interface FIXCATEGORYBUG ## name @end @implementation FIXCATEGORYBUG ## name @end 
-#endif
-
-
-FIX_CATEGORY_BUG(NSString_CryptoAdditions);
-
 @implementation NSString (CryptoAdditions)
 
 + (NSString *)stringWithHexData:(NSData *)data {
@@ -48,7 +40,7 @@ FIX_CATEGORY_BUG(NSString_CryptoAdditions);
 
 - (NSData *)sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
-    CC_SHA256([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
+    CC_SHA256([self UTF8String], (CC_LONG)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
     return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
 }
 

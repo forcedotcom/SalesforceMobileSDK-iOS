@@ -30,6 +30,10 @@
  */
 @interface SFJsonUtils : NSObject
 
+/**
+ * @return The last error that was logged during a JSON conversion operation.
+ */
++ (NSError *)lastError;
 
 /**
  * Creates the JSON representation of an object.

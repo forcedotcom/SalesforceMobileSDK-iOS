@@ -27,6 +27,7 @@
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
@@ -110,15 +111,29 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [self openDatabaseWithPath:fullDbFilePath key:key error:error];
 }
 
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
+    __block BOOL result = YES;
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
+    [queue inDatabase:^(FMDatabase* db) {
+        result = ([self setKeyForDb:db key:key error:error] != nil);
+    }];
+    return (result ? queue : nil);
+}
+
 - (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    return [self setKeyForDb:db key:key error:error];
+}
+
+- (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
     if ([db open]) {
         [db setKey:key];
         return db;
     } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
+        NSLog(@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]);
         if (error != nil)
             *error = [db lastError];
         return nil;
@@ -192,10 +207,23 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     // As a sanity check, verify that the new encrypted DB can be opened and read.
-    if (![self verifyDatabaseAccess:encDbPath key:newKey error:error]) {
+    NSError *openNewlyEncryptedDbError = nil;
+    FMDatabase *newlyEncryptedDb = [self openDatabaseWithPath:encDbPath key:newKey error:&openNewlyEncryptedDbError];
+    if (!newlyEncryptedDb) {
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, encDbPath, [openNewlyEncryptedDbError localizedDescription]];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreVerifyDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
+        [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
+        return db;
+    } else if (![self verifyDatabaseAccess:newlyEncryptedDb error:error]) {
+        [newlyEncryptedDb close];
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         return db;
     }
+    [newlyEncryptedDb close];
     
     // New database created and verified.  Move it into place of the old one.
     [db close];
@@ -241,26 +269,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
-- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error
+- (BOOL)verifyDatabaseAccess:(FMDatabase *)db error:(NSError **)error
 {
-    NSError *openDbError = nil;
-    FMDatabase *db = [self openDatabaseWithPath:dbPath key:key error:&openDbError];
-    if (!db) {
-        if (error != nil) {
-            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [openDbError localizedDescription]];
-            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                         code:kSFSmartStoreVerifyDbErrorCode
-                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
-        }
-        return NO;
-    }
-    
     NSString *sqlCommand = @"SELECT name FROM sqlite_master LIMIT 1";
     FMResultSet *rs = [db executeQuery:sqlCommand];
     if (rs == nil) {
         // May not be results, but rs should never be nil coming back.
         if (error != nil) {
-            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, dbPath, [db lastErrorMessage]];
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, [db databasePath], [db lastErrorMessage]];
             *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
                                          code:kSFSmartStoreVerifyReadDbErrorCode
                                      userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
@@ -270,7 +286,6 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     [rs close];
-    [db close];
     return YES;
 }
 

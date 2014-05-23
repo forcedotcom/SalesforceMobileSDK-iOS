@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import "SFSessionRefresher.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 
@@ -45,6 +45,7 @@ static dispatch_once_t _sharedInstanceGuard;
 @synthesize apiVersion=_apiVersion;
 @synthesize activeRequests=_activeRequests;
 @synthesize sessionRefresher = _sessionRefresher;
+@synthesize networkCoordinatorNeedsRefresh = _networkCoordinatorNeedsRefresh;
 
 #pragma mark - init/setup
 
@@ -54,9 +55,12 @@ static dispatch_once_t _sharedInstanceGuard;
         _activeRequests = [[NSMutableSet alloc] initWithCapacity:4];
         _sessionRefresher = [[SFSessionRefresher alloc] init];
         self.apiVersion = kSFRestDefaultAPIVersion;
-        _accountMgr = [SFAccountManager sharedInstance];
+        _accountMgr = [SFUserAccountManager sharedInstance];
+        [_accountMgr addDelegate:self];
+        _authMgr = [SFAuthenticationManager sharedManager];
         _networkEngine = [SFNetworkEngine sharedInstance];
         _networkEngine.delegate = self;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
         [self setupNetworkCoordinator];
         [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanup) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
@@ -65,6 +69,7 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     SFRelease(_sessionRefresher);
     SFRelease(_activeRequests);
@@ -73,6 +78,7 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - Cleanup / cancel all
 - (void) cleanup {
     [_activeRequests removeAllObjects];
+    self.networkCoordinatorNeedsRefresh = YES;
     [[SFNetworkEngine sharedInstance] cleanup];
 }
 
@@ -118,12 +124,12 @@ static dispatch_once_t _sharedInstanceGuard;
 
 - (SFOAuthCoordinator *)coordinator
 {
-    return _accountMgr.coordinator;
+    return _authMgr.coordinator;
 }
 
 - (void)setCoordinator:(SFOAuthCoordinator *)coordinator
 {
-    _accountMgr.coordinator = coordinator;
+    _authMgr.coordinator = coordinator;
     [self setupNetworkCoordinator];
 }
 
@@ -160,9 +166,10 @@ static dispatch_once_t _sharedInstanceGuard;
 #pragma mark - SFNetworkEngine Delegate
 
 - (void) setupNetworkCoordinator {
-    if (_accountMgr.coordinator != nil) {
-        _networkEngine.coordinator = [self createNetworkCoordinator:_accountMgr.coordinator];
+    if (_authMgr.coordinator != nil) {
+        _networkEngine.coordinator = [self createNetworkCoordinator:_authMgr.coordinator];
     }
+    self.networkCoordinatorNeedsRefresh = NO;
 }
 
 - (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
@@ -172,12 +179,26 @@ static dispatch_once_t _sharedInstanceGuard;
     networkCoordinator.userId = oAuthCoordinator.credentials.userId;
     networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;
     networkCoordinator.portNumber = [oAuthCoordinator.credentials.instanceUrl port];
+    networkCoordinator.apiUrl = oAuthCoordinator.credentials.apiUrl.absoluteString;
     return networkCoordinator;
 }
 
-
 - (void)refreshSessionForNetworkEngine:(SFNetworkEngine *)networkEngine {
     [_sessionRefresher refreshAccessToken];
+}
+
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+        willSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser {
+    [self cleanup];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info {
+    self.networkCoordinatorNeedsRefresh = YES;
 }
 
 #pragma mark - send method
@@ -189,11 +210,16 @@ static dispatch_once_t _sharedInstanceGuard;
         request.delegate = delegate;
     }
     
+    if (self.networkCoordinatorNeedsRefresh) {
+        [self setupNetworkCoordinator];
+    }
+    
     [self.activeRequests addObject:request];
 
     SFNetworkOperation* networkOperation = nil;
     // If there are no demonstrable auth credentials, login before sending.
-    if (_accountMgr.credentials.accessToken == nil && _accountMgr.credentials.refreshToken == nil) {
+    SFUserAccount *user = _accountMgr.currentUser;
+    if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             [request send:_networkEngine];
@@ -273,6 +299,12 @@ static dispatch_once_t _sharedInstanceGuard;
 - (SFRestRequest *)requestForQuery:(NSString *)soql {
     NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
     NSString *path = [NSString stringWithFormat:@"/%@/query", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql {
+    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
+    NSString *path = [NSString stringWithFormat:@"/%@/queryAll", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 

@@ -298,6 +298,15 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 - (SFRestRequest *)requestForQuery:(NSString *)soql;
 
 /**
+ * Returns an `SFRestRequest` which executes the specified SOQL query.
+ * The result contains the deleted objects.
+ * @param soql a string containing the query to execute - for example, "SELECT Id,
+ *             Name from Account ORDER BY Name LIMIT 20"
+ * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_queryall.htm
+ */
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql;
+
+/**
  * Returns an `SFRestRequest` which executes the specified SOSL search.
  * @param sosl a string containing the search to execute - for example, "FIND {needle}"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search.htm

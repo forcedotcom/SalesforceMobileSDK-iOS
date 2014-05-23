@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		2DE48CC018BFA941008345C7 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2DE48CC318BFA941008345C7 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				2DE48CC418BFA9B0008345C7 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
@@ -55,6 +69,9 @@
 		8251CA4316ED1EB400BD1EA2 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA3F16ED1EB400BD1EA2 /* SFPluginTestSuite.m */; };
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
 		8251CA4716ED268000BD1EA2 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */; };
+		82AA406018E3AFEE00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */; };
+		82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */; };
+		82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */; };
 		82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -253,6 +270,9 @@
 		8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
 		8251CA4516ED268000BD1EA2 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
 		8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
+		82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManagerPlugin.h; path = SFAccountManagerPlugin/SFAccountManagerPlugin.h; sourceTree = "<group>"; };
+		82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManagerPlugin.m; path = SFAccountManagerPlugin/SFAccountManagerPlugin.m; sourceTree = "<group>"; };
 		82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82EFF2D316E7C57100A63CDF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82EFF2D716E7C57100A63CDF /* SalesforceHybridSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -311,6 +331,7 @@
 				8251CA1916EC3B9600BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */,
 				8251CA1E16ECFA3800BD1EA2 /* libSalesforceOAuth.a in Frameworks */,
 				8251CA2416ECFAB000BD1EA2 /* libSalesforceSDKCore.a in Frameworks */,
+				82AA406018E3AFEE00BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8251CA1016EC3AB100BD1EA2 /* libsqlcipher.a in Frameworks */,
 				8251CA0E16EC3A9500BD1EA2 /* libssl.a in Frameworks */,
 				8251CA0816EC3A6D00BD1EA2 /* libxml2.dylib in Frameworks */,
@@ -415,6 +436,15 @@
 			path = backbone;
 			sourceTree = "<group>";
 		};
+		82B0CA4B18D0F88F00DC2BBB /* SFAccountManagerPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */,
+				82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */,
+			);
+			name = SFAccountManagerPlugin;
+			sourceTree = "<group>";
+		};
 		82EFF2C716E7C57100A63CDF = {
 			isa = PBXGroup;
 			children = (
@@ -445,6 +475,7 @@
 				8251CA2516ECFACF00BD1EA2 /* libSalesforceCommonUtils.a */,
 				8251CA1D16ECFA3800BD1EA2 /* libSalesforceOAuth.a */,
 				8251CA2316ECFAB000BD1EA2 /* libSalesforceSDKCore.a */,
+				82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */,
 				8251CA0F16EC3AB100BD1EA2 /* libsqlcipher.a */,
 				8251CA0D16EC3A9500BD1EA2 /* libssl.a */,
 				8251CA0716EC3A6D00BD1EA2 /* libxml2.dylib */,
@@ -509,6 +540,7 @@
 			isa = PBXGroup;
 			children = (
 				82EFF2E316E7C84900A63CDF /* SDKInfo */,
+				82B0CA4B18D0F88F00DC2BBB /* SFAccountManagerPlugin */,
 				82EFF2E616E7C84900A63CDF /* SFAdditions */,
 				82EFF2E916E7C84900A63CDF /* SFOAuthPlugin */,
 				82EFF2EC16E7C84900A63CDF /* SFSmartStore */,
@@ -655,6 +687,7 @@
 			files = (
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
 				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
+				82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
 				4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */,
@@ -752,6 +785,7 @@
 				82EFF2CF16E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF2FE16E8049500A63CDF /* HybridPluginTestApp */,
 				82EFF32416E8049600A63CDF /* HybridPluginTestAppTests */,
+				2DE48CC018BFA941008345C7 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -784,6 +818,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2DE48CC418BFA9B0008345C7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.md\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+		};
 		82EFF32316E8049600A63CDF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -810,6 +857,7 @@
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
 				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,
+				82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 			);
@@ -872,6 +920,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2DE48CC118BFA941008345C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2DE48CC218BFA941008345C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		82EFF2DC16E7C57100A63CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -898,6 +960,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
@@ -931,6 +994,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
@@ -954,7 +1018,7 @@
 				INSTALL_PATH = /;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -967,7 +1031,7 @@
 				INSTALL_PATH = /;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1043,6 +1107,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2DE48CC318BFA941008345C7 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DE48CC118BFA941008345C7 /* Debug */,
+				2DE48CC218BFA941008345C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		82EFF2CB16E7C57100A63CDF /* Build configuration list for PBXProject "SalesforceHybridSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

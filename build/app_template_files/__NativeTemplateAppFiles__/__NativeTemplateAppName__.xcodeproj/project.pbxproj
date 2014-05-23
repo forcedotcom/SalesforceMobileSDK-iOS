@@ -10,6 +10,7 @@
 		4F3F413517E7CA5C008B3283 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3F413417E7CA5C008B3283 /* ImageIO.framework */; };
 		4F3F413617E7CA71008B3283 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3F412B17E7C9CA008B3283 /* libMKNetworkKit-iOS.a */; };
 		4F3F413717E7CA84008B3283 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3F413317E7C9CA008B3283 /* libSalesforceNetworkSDK.a */; };
+		4F7484BF18DD1324006E7D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F7484BE18DD1324006E7D50 /* Images.xcassets */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
 		824A9DDD1724E16400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */; };
@@ -22,17 +23,6 @@
 		824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3C1724E9F400C9BD79 /* readme.txt */; };
 		824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3E1724EC6300C9BD79 /* Settings.bundle */; };
 		824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */; };
-		824A9E5F1724F02D00C9BD79 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5B1724F02D00C9BD79 /* icon-72.png */; };
-		824A9E601724F02D00C9BD79 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */; };
-		824A9E611724F02D00C9BD79 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5D1724F02D00C9BD79 /* icon.png */; };
-		824A9E621724F02D00C9BD79 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E5E1724F02D00C9BD79 /* icon@2x.png */; };
-		824A9E6A1724F03D00C9BD79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E631724F03D00C9BD79 /* Default-568h@2x.png */; };
-		824A9E6B1724F03D00C9BD79 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */; };
-		824A9E6C1724F03D00C9BD79 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */; };
-		824A9E6D1724F03D00C9BD79 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */; };
-		824A9E6E1724F03D00C9BD79 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */; };
-		824A9E6F1724F03D00C9BD79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E681724F03D00C9BD79 /* Default.png */; };
-		824A9E701724F03D00C9BD79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E691724F03D00C9BD79 /* Default@2x.png */; };
 		824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F321725079000C9BD79 /* libcrypto.a */; };
 		824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F331725079000C9BD79 /* libssl.a */; };
 		824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9F341725079000C9BD79 /* openssl_license.txt */; };
@@ -51,6 +41,7 @@
 		82BBB59F1793941D00374DD8 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB59E1793941D00374DD8 /* libSalesforceNativeSDK.a */; };
 		82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5A61793944400374DD8 /* libSalesforceOAuth.a */; };
 		82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5BF1793946800374DD8 /* libSalesforceSDKCore.a */; };
+		82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +59,12 @@
 		4F3F413317E7C9CA008B3283 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = "<group>"; };
 		4F3F413417E7CA5C008B3283 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F57794817F4CF5B004706EE /* SFRestAPI+Files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Files.h"; sourceTree = "<group>"; };
-		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F7484BE18DD1324006E7D50 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		821C8F2D18C5309B000FAF96 /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
+		821C8F2E18C5309B000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
+		821C8F2F18C5309B000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
+		821C8F3018C5309B000FAF96 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
+		824A9DD51724E16400C9BD79 /* __NativeTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__NativeTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -86,17 +82,6 @@
 		824A9E3C1724E9F400C9BD79 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		824A9E3E1724EC6300C9BD79 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SalesforceSDKResources.bundle; sourceTree = "<group>"; };
-		824A9E5B1724F02D00C9BD79 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
-		824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
-		824A9E5D1724F02D00C9BD79 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		824A9E5E1724F02D00C9BD79 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		824A9E631724F03D00C9BD79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
-		824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		824A9E681724F03D00C9BD79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		824A9E691724F03D00C9BD79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		824A9F321725079000C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		824A9F331725079000C9BD79 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		824A9F341725079000C9BD79 /* openssl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openssl_license.txt; sourceTree = "<group>"; };
@@ -160,15 +145,12 @@
 		82BBB5AB1793946800374DD8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		82BBB5AC1793946800374DD8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		82BBB5AD1793946800374DD8 /* SalesforceSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKConstants.h; sourceTree = "<group>"; };
-		82BBB5AE1793946800374DD8 /* SFAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAccountManager.h; sourceTree = "<group>"; };
 		82BBB5AF1793946800374DD8 /* SFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplication.h; sourceTree = "<group>"; };
 		82BBB5B01793946800374DD8 /* SFAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthenticationManager.h; sourceTree = "<group>"; };
 		82BBB5B11793946800374DD8 /* SFAuthorizingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthorizingViewController.h; sourceTree = "<group>"; };
 		82BBB5B21793946800374DD8 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
 		82BBB5B31793946800374DD8 /* SFIdentityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityData.h; sourceTree = "<group>"; };
 		82BBB5B41793946800374DD8 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
-		82BBB5B51793946800374DD8 /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
-		82BBB5B61793946800374DD8 /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
 		82BBB5B71793946800374DD8 /* SFQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFQuerySpec.h; sourceTree = "<group>"; };
 		82BBB5B81793946800374DD8 /* SFSDKResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKResourceUtils.h; sourceTree = "<group>"; };
 		82BBB5B91793946800374DD8 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
@@ -178,6 +160,10 @@
 		82BBB5BD1793946800374DD8 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
 		82BBB5BE1793946800374DD8 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFStoreCursor.h; sourceTree = "<group>"; };
 		82BBB5BF1793946800374DD8 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = "<group>"; };
+		82F6F66618E4D0280033CACD /* SFPasscodeManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeManager+Internal.h"; sourceTree = "<group>"; };
+		82F6F66718E4D0280033CACD /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
+		82F6F66818E4D0280033CACD /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
+		82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +178,7 @@
 				82BBB59F1793941D00374DD8 /* libSalesforceNativeSDK.a in Frameworks */,
 				82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */,
 				82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */,
+				82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */,
 				824A9FE51725079100C9BD79 /* libsqlcipher.a in Frameworks */,
 				824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */,
 				824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */,
@@ -348,37 +335,11 @@
 		824A9E421724EF9800C9BD79 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				824A9E591724F01500C9BD79 /* icons */,
-				824A9E5A1724F01D00C9BD79 /* splash */,
+				4F7484BE18DD1324006E7D50 /* Images.xcassets */,
 				824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */,
 				824A9E3E1724EC6300C9BD79 /* Settings.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		824A9E591724F01500C9BD79 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				824A9E5B1724F02D00C9BD79 /* icon-72.png */,
-				824A9E5C1724F02D00C9BD79 /* icon-72@2x.png */,
-				824A9E5D1724F02D00C9BD79 /* icon.png */,
-				824A9E5E1724F02D00C9BD79 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		824A9E5A1724F01D00C9BD79 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				824A9E631724F03D00C9BD79 /* Default-568h@2x.png */,
-				824A9E641724F03D00C9BD79 /* Default-Landscape@2x~ipad.png */,
-				824A9E651724F03D00C9BD79 /* Default-Landscape~ipad.png */,
-				824A9E661724F03D00C9BD79 /* Default-Portrait@2x~ipad.png */,
-				824A9E671724F03D00C9BD79 /* Default-Portrait~ipad.png */,
-				824A9E681724F03D00C9BD79 /* Default.png */,
-				824A9E691724F03D00C9BD79 /* Default@2x.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		824A9F301725079000C9BD79 /* Dependencies */ = {
@@ -391,6 +352,7 @@
 				82BBB5971793941D00374DD8 /* SalesforceNativeSDK */,
 				82BBB5A01793944400374DD8 /* SalesforceOAuth */,
 				82BBB5A81793946800374DD8 /* SalesforceSDKCore */,
+				82F6F66318E4D0280033CACD /* SalesforceSecurity */,
 				824A9FDA1725079100C9BD79 /* sqlcipher */,
 			);
 			path = Dependencies;
@@ -550,18 +512,16 @@
 				82BBB5AB1793946800374DD8 /* FMDatabase.h */,
 				82BBB5AC1793946800374DD8 /* FMResultSet.h */,
 				82BBB5AD1793946800374DD8 /* SalesforceSDKConstants.h */,
-				82BBB5AE1793946800374DD8 /* SFAccountManager.h */,
 				82BBB5AF1793946800374DD8 /* SFApplication.h */,
 				82BBB5B01793946800374DD8 /* SFAuthenticationManager.h */,
 				82B36E3B1828858600B0C975 /* SFAuthenticationViewHandler.h */,
 				82B36E3C1828858600B0C975 /* SFAuthErrorHandler.h */,
 				82B36E3D1828858600B0C975 /* SFAuthErrorHandlerList.h */,
 				82BBB5B11793946800374DD8 /* SFAuthorizingViewController.h */,
+				821C8F2D18C5309B000FAF96 /* SFCommunityData.h */,
 				82BBB5B21793946800374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5B31793946800374DD8 /* SFIdentityData.h */,
 				82BBB5B41793946800374DD8 /* SFJsonUtils.h */,
-				82BBB5B51793946800374DD8 /* SFPasscodeManager.h */,
-				82BBB5B61793946800374DD8 /* SFPasscodeProviderManager.h */,
 				82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */,
 				82BBB5B71793946800374DD8 /* SFQuerySpec.h */,
 				82BBB5B81793946800374DD8 /* SFSDKResourceUtils.h */,
@@ -571,8 +531,38 @@
 				82BBB5BC1793946800374DD8 /* SFSmartStoreDatabaseManager.h */,
 				82BBB5BD1793946800374DD8 /* SFSoupIndex.h */,
 				82BBB5BE1793946800374DD8 /* SFStoreCursor.h */,
+				821C8F2E18C5309B000FAF96 /* SFUserAccount.h */,
+				821C8F2F18C5309B000FAF96 /* SFUserAccountConstants.h */,
+				821C8F3018C5309B000FAF96 /* SFUserAccountManager.h */,
 			);
 			path = SalesforceSDKCore;
+			sourceTree = "<group>";
+		};
+		82F6F66318E4D0280033CACD /* SalesforceSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F66418E4D0280033CACD /* Headers */,
+				82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */,
+			);
+			path = SalesforceSecurity;
+			sourceTree = "<group>";
+		};
+		82F6F66418E4D0280033CACD /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F66518E4D0280033CACD /* SalesforceSecurity */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		82F6F66518E4D0280033CACD /* SalesforceSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				82F6F66618E4D0280033CACD /* SFPasscodeManager+Internal.h */,
+				82F6F66718E4D0280033CACD /* SFPasscodeManager.h */,
+				82F6F66818E4D0280033CACD /* SFPasscodeProviderManager.h */,
+			);
+			path = SalesforceSecurity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,17 +621,7 @@
 				824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */,
 				824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */,
 				824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */,
-				824A9E5F1724F02D00C9BD79 /* icon-72.png in Resources */,
-				824A9E601724F02D00C9BD79 /* icon-72@2x.png in Resources */,
-				824A9E611724F02D00C9BD79 /* icon.png in Resources */,
-				824A9E621724F02D00C9BD79 /* icon@2x.png in Resources */,
-				824A9E6A1724F03D00C9BD79 /* Default-568h@2x.png in Resources */,
-				824A9E6B1724F03D00C9BD79 /* Default-Landscape@2x~ipad.png in Resources */,
-				824A9E6C1724F03D00C9BD79 /* Default-Landscape~ipad.png in Resources */,
-				824A9E6D1724F03D00C9BD79 /* Default-Portrait@2x~ipad.png in Resources */,
-				824A9E6E1724F03D00C9BD79 /* Default-Portrait~ipad.png in Resources */,
-				824A9E6F1724F03D00C9BD79 /* Default.png in Resources */,
-				824A9E701724F03D00C9BD79 /* Default@2x.png in Resources */,
+				4F7484BF18DD1324006E7D50 /* Images.xcassets in Resources */,
 				824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */,
 				824A9FE61725079100C9BD79 /* LICENSE in Resources */,
 			);
@@ -736,6 +716,8 @@
 		824A9DFC1724E16400C9BD79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__NativeTemplateAppName__/__NativeTemplateAppName__-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -744,6 +726,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
 				);
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -756,6 +739,7 @@
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -769,6 +753,8 @@
 		824A9DFD1724E16400C9BD79 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "__NativeTemplateAppName__/__NativeTemplateAppName__-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -777,6 +763,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
 				);
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -789,6 +776,7 @@
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
 					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
+					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

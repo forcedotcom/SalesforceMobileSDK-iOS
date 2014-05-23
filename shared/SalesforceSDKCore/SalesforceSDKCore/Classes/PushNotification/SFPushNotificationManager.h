@@ -59,4 +59,12 @@
  */
 - (BOOL)unregisterSalesforceNotifications;
 
+/**
+ * Unregister from notifications with Salesforce
+ * Is called at log out
+ * @param user User account.
+ * @return YES for successful unregistration call being made.
+ */
+- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
+
 @end

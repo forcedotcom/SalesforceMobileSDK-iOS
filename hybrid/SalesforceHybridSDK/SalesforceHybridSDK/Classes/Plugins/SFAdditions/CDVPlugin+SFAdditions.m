@@ -86,7 +86,8 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     }
     
     if ([arguments count] > argIndex) {
-        return [arguments objectAtIndex:argIndex];
+        id arg = [arguments objectAtIndex:argIndex];
+        return (arg == [NSNull null] ? nil : arg);
     } else {
         return nil;
     }

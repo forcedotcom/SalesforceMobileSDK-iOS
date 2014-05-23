@@ -41,4 +41,10 @@
  */
 - (id)initForPasscodeCreation:(NSInteger)minPasscodeLength;
 
+/**
+ * Initializes the controller for changing the existing passcode.
+ * @param minPasscodeLength The minimum passcode length for the new passcode.
+ */
+- (id)initForPasscodeChange:(NSInteger)minPasscodeLength;
+
 @end

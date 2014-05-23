@@ -24,8 +24,14 @@
 
 #import "SFJsonUtils.h"
 
+static NSError *sLastError = nil;
+
 @implementation SFJsonUtils
 
++ (NSError *)lastError
+{
+    return sLastError;
+}
 
 + (id)objectFromJSONData:(NSData *)jsonData
 {
@@ -36,7 +42,8 @@
                  ];
     
     if (nil != err) {
-        NSLog(@"WARNING error parsing json: %@",err);
+        NSLog(@"WARNING error parsing json: %@", err);
+        sLastError = err;
     }
     
     return result;
@@ -74,7 +81,8 @@
          ];
         
         if (nil != err) {
-            NSLog(@"WARNING error writing json: %@",err);
+            NSLog(@"WARNING error writing json: %@", err);
+            sLastError = err;
         } 
         
         if (nil == jsonData) {
