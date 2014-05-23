@@ -174,10 +174,8 @@ static BOOL _showPasscode = YES;
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
         } else {
             // Passcode off -> on.  Trigger passcode creation.
-            securityLockoutTime = newLockoutTime;
-            [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
-            [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
-            [[SFPreferences globalPreferences] synchronize];
+            [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
+            [SFSecurityLockout setPasscodeLength:newPasscodeLength];
             [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
         }
         return;
@@ -190,22 +188,15 @@ static BOOL _showPasscode = YES;
     // Lockout time can only go down, to enforce the most restrictive passcode policy across users.
     if (newLockoutTime < securityLockoutTime) {
         if (newLockoutTime > 0) {
-            [self log:SFLogLevelInfo format:@"Setting lockout time to %d seconds.", newLockoutTime];
-            securityLockoutTime = newLockoutTime;
-            [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
+            [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %d seconds.", newLockoutTime];
+            [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
             [SFInactivityTimerCenter removeTimer:kTimerSecurity];
             [SFSecurityLockout setupTimer];
         } else {
             // '0' is a special case.  We can't turn off passcodes unless all other users' passcode policies
             // are also off.
             if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
-                securityLockoutTime = newLockoutTime;
-                [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:0]];
-                [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:kDefaultPasscodeLength] forKey:kPasscodeLengthKey];
-                [[SFPreferences globalPreferences] synchronize];
-                [SFInactivityTimerCenter removeTimer:kTimerSecurity];
-                [[SFUserActivityMonitor sharedInstance] stopMonitoring];
-                [[SFPasscodeManager sharedManager] changePasscode:nil];
+                [SFSecurityLockout clearAllPasscodeState];
                 [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved];
                 return;
             }
@@ -215,14 +206,21 @@ static BOOL _showPasscode = YES;
     // Passcode lengths can only go up; same reason as lockout times only going down.
     NSInteger currentPasscodeLength = [self passcodeLength];
     if (newPasscodeLength > currentPasscodeLength) {
-        [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
-        [[SFPreferences globalPreferences] synchronize];
+        [SFSecurityLockout setPasscodeLength:newPasscodeLength];
         [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange];
         return;
     }
     
     // If we got this far, no passcode action was taken.
     [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
+}
+
++ (void)setSecurityLockoutTime:(NSUInteger)newSecurityLockoutTime
+{
+    // NOTE: This method directly alters securityLockoutTime and its persisted value.  Do not call
+    // if passcode policy evaluation is required.
+    securityLockoutTime = newSecurityLockoutTime;
+    [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
 }
 
 + (BOOL)nonCurrentUsersHavePasscodePolicy
@@ -241,13 +239,34 @@ static BOOL _showPasscode = YES;
 
 + (void)clearPasscodeState
 {
+    // Attempts to clear passcode state for the current user.  Clear state will be dependent
+    // on passcode policies across users.
     [SFSecurityLockout setPasscodeLength:0 lockoutTime:0];
+}
+
++ (void)clearAllPasscodeState
+{
+    // NOTE: This method directly clears all of the persisted passcode state for the app.  Do not call
+    // if passcode policy evaluation is required.
+    [SFSecurityLockout setSecurityLockoutTime:0];
+    [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
+    [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+    [[SFUserActivityMonitor sharedInstance] stopMonitoring];
+    [[SFPasscodeManager sharedManager] changePasscode:nil];
 }
 
 + (NSInteger)passcodeLength
 {
     NSNumber *nPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
     return (nPasscodeLength != nil ? [nPasscodeLength intValue] : kDefaultPasscodeLength);
+}
+
++ (void)setPasscodeLength:(NSInteger)newPasscodeLength
+{
+    // NOTE: This method directly alters the passcode length global preference persisted value.  Do not call if
+    // passcode policy evaluation is required.
+    [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
+    [[SFPreferences globalPreferences] synchronize];
 }
 
 + (BOOL)hasValidSession
@@ -316,6 +335,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     if (success) {
         [SFSecurityLockout unlockSuccessPostProcessing:action];
     } else {
+        // Clear the SFSecurityLockout passcode state, as it's no longer valid.
+        [SFSecurityLockout clearAllPasscodeState];
         [SFSecurityLockout unlockFailurePostProcessing];
     }
     

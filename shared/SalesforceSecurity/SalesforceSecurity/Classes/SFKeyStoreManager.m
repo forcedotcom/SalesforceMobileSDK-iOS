@@ -72,22 +72,21 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     
     @synchronized (self) {
         SFKeyStoreKey *key = nil;
+        NSString *typedKeyLabel = [self keyLabelForBaseLabel:keyLabel keyType:keyType];
         if (keyType == SFKeyStoreKeyTypeGenerated) {
-            keyLabel = [self.generatedKeyStore keyLabelForString:keyLabel];
-            key = [self.generatedKeyStore.keyStoreDictionary objectForKey:keyLabel];
+            key = [self.generatedKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
         } else if (keyType == SFKeyStoreKeyTypePasscode) {
-            keyLabel = [self.passcodeKeyStore keyLabelForString:keyLabel];
             if (self.passcodeKeyStore.keyStoreActive) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
-                    key = [self.passcodeKeyStore.keyStoreDictionary objectForKey:keyLabel];
+                    key = [self.passcodeKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
                 } else {
                     [self log:SFLogLevelError format:@"Passcode key store is not yet available.  Cannot retrieve key with label '%@'.", keyLabel];
                     return nil;
                 }
             } else {
                 // No passcode configured.  Passcode keys fall back to being stored in the generated key store.
-                key = [self.generatedKeyStore.keyStoreDictionary objectForKey:keyLabel];
+                key = [self.generatedKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
             }
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -128,18 +127,17 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     if (keyLabel == nil) return;
     
     @synchronized (self) {
+        NSString *typedKeyLabel = [self keyLabelForBaseLabel:keyLabel keyType:keyType];
         if (keyType == SFKeyStoreKeyTypeGenerated) {
-            keyLabel = [self.generatedKeyStore keyLabelForString:keyLabel];
             NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-            [mutableKeyStoreDict removeObjectForKey:keyLabel];
+            [mutableKeyStoreDict removeObjectForKey:typedKeyLabel];
             self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
         } else if (keyType == SFKeyStoreKeyTypePasscode) {
-            keyLabel = [self.passcodeKeyStore keyLabelForString:keyLabel];
             if (self.passcodeKeyStore.keyStoreActive) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
-                    [mutableKeyStoreDict removeObjectForKey:keyLabel];
+                    [mutableKeyStoreDict removeObjectForKey:typedKeyLabel];
                     self.passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
                 } else {
                     [self log:SFLogLevelError format:@"Passcode key store is not yet available.  Cannot remove key with label '%@'.", keyLabel];
@@ -147,7 +145,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             } else {
                 // No passcode configured.  Passcode keys fall back to being stored in the generated key store.
                 NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-                [mutableKeyStoreDict removeObjectForKey:keyLabel];
+                [mutableKeyStoreDict removeObjectForKey:typedKeyLabel];
                 self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
             }
         } else {
@@ -241,18 +239,17 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
 - (void)storeKeyStoreKey:(SFKeyStoreKey *)key withLabel:(NSString *)keyLabel
 {
     @synchronized (self) {
+        NSString *typedKeyLabel = [self keyLabelForBaseLabel:keyLabel keyType:key.keyType];
         if (key.keyType == SFKeyStoreKeyTypeGenerated) {
-            keyLabel = [self.generatedKeyStore keyLabelForString:keyLabel];
             NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-            [mutableKeyStoreDict setObject:key forKey:keyLabel];
+            [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
             self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
         } else if (key.keyType == SFKeyStoreKeyTypePasscode) {
-            keyLabel = [self.passcodeKeyStore keyLabelForString:keyLabel];
             if (self.passcodeKeyStore.keyStoreActive) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
-                    [mutableKeyStoreDict setObject:key forKey:keyLabel];
+                    [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
                     self.passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
                 } else {
                     [self log:SFLogLevelError format:@"Passcode key store is not yet available.  Cannot store key with label '%@'.", keyLabel];
@@ -260,7 +257,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             } else {
                 // No passcode configured.  Passcode keys fall back to being stored in the generated key store.
                 NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-                [mutableKeyStoreDict setObject:key forKey:keyLabel];
+                [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
                 self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
             }
         } else {
@@ -269,6 +266,12 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
                                          userInfo:nil];
         }
     }
+}
+
+- (NSString *)keyLabelForBaseLabel:(NSString *)baseLabel keyType:(SFKeyStoreKeyType)keyType
+{
+    SFKeyStore *keyStore = (keyType == SFKeyStoreKeyTypeGenerated ? self.generatedKeyStore : self.passcodeKeyStore);
+    return [keyStore keyLabelForString:baseLabel];
 }
 
 - (SFKeyStoreKey *)createDefaultKey
@@ -285,13 +288,13 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         [self log:SFLogLevelWarning msg:@"Attempting to create a passcode-based key, but passcode encryption key is not present."];
         return nil;
     }
-    SFEncryptionKey *encKey = [[SFEncryptionKey alloc] initWithData:[self keyStringToData:passcodeEncryptionKey]
+    SFEncryptionKey *encKey = [[SFEncryptionKey alloc] initWithData:[[self class] keyStringToData:passcodeEncryptionKey]
                                                initializationVector:[SFSDKCryptoUtils randomByteDataWithLength:kCCBlockSizeAES128]];
     SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey type:SFKeyStoreKeyTypePasscode];
     return keyStoreKey;
 }
 
-- (NSData *)keyStringToData:(NSString *)keyString
++ (NSData *)keyStringToData:(NSString *)keyString
 {
     return [keyString dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -309,11 +312,21 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     @synchronized (self) {
         NSString *oldKey = [change objectForKey:NSKeyValueChangeOldKey];
         NSString *newKey = [change objectForKey:NSKeyValueChangeNewKey];
+        if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
+        if ([newKey isEqual:[NSNull null]]) newKey = nil;
         
-        if ((oldKey == nil && newKey == nil) || [oldKey isEqualToString:newKey])
+        if ([oldKey isEqual:newKey])
             return;
         
-        if ([oldKey length] == 0 && [newKey length] > 0) {
+        if (oldKey == nil && newKey == nil) {
+            // This could happen in an edge case, where the passcode is reset before it was ever verified (e.g. if the
+            // user forgot the passcode).  In this case, we won't be able to recover the passcode-class keys, but it
+            // doesn't really matter, as the user effectively failed authentication, so those keys should no longer
+            // be available.
+            [self log:SFLogLevelWarning msg:@"Passcode reset without verification.  Passcode-class keys will be removed."];
+            self.passcodeKeyStore.keyStoreKey = nil;
+            self.passcodeKeyStore.keyStoreDictionary = nil;
+        } else if ([oldKey length] == 0 && [newKey length] > 0) {
             // No encryption key -> encryption key.  Happens either on new passcode creation or first-time passcode verification.
             // We can infer the operation from the pre-existence of a key store key for the passcode store.
             if (self.passcodeKeyStore.keyStoreKey == nil) {
@@ -325,17 +338,19 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
                 // Previous passcode store key.  Assume passcode verification.  Stage encryption key, but no re-encryption or
                 // migration should be necessary.
                 [self log:SFLogLevelInfo msg:@"Passcode verified.  Making passcode key store available."];
-                self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [self keyStringToData:newKey];
+                self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
             }
         } else if ([oldKey length] > 0 && [newKey length] == 0) {
             // Can only happen if passcode / encryption key is resetting.  Migrate accordingly.
-            [self log:SFLogLevelInfo msg:@"Migrating passcode-class keys to generated store, after passcode removal."];
-            self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [self keyStringToData:oldKey];
+            [self log:SFLogLevelInfo msg:@"Attempting to migrate passcode-class keys to generated store, after passcode removal."];
+            self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:oldKey];
             [self migratePasscodeToGenerated];
+            self.passcodeKeyStore.keyStoreKey = nil;
+            self.passcodeKeyStore.keyStoreDictionary = nil;
         } else {
             // Encryption key is changing from one value to another.  Update passcode store encryption accordingly.
             [self log:SFLogLevelInfo format:@"Changing passcode-based key store encryption key, based on passcode change."];
-            self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [self keyStringToData:oldKey];
+            self.passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:oldKey];
             self.passcodeKeyStore.keyStoreKey = [self createNewPasscodeKey];
         }
     }

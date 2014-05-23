@@ -28,22 +28,9 @@
 #import "SFPasscodeKeyStore.h"
 
 @interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
-{
-    SFKeyStoreKey *_keyStoreKey;
-}
 
 @property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
 @property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore;
-
-/**
- The dictionary that holds the key store.
- */
-@property (nonatomic, strong) NSDictionary *keyStoreDictionary;
-
-/**
- The key store key, used for encrypting and decrypting the key store.
- */
-@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey;
 
 /**
  Creates a default key store key from random generated key and IV values.  Used when a passcode
@@ -63,36 +50,6 @@
  @param keyString The key to convert.
  @return The NSData representation of the key.
  */
-- (NSData *)keyStringToData:(NSString *)keyString;
-
-/**
- Decrypts an encrypted blob of dictionary data.
- @param dictionaryData The dictionary as encrypted data.
- @param decryptKey The key used to decrypt the data.
- @return The decrypted NSDictionary, or `nil` if the data could not be decrypted.
- */
-- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFEncryptionKey *)decryptKey;
-
-/**
- Encrypts the dictionary with the key store key.
- @param dictionary The dictionary to encrypt.
- @return The encrypted NSData representation of the dictionary.
- */
-- (NSData *)encryptDictionary:(NSDictionary *)dictionary;
-
-/**
- Retrieves the key store dictionary, decrypting it with the specified key.
- @param decryptKey The key used to decrypt the dictionary.
- @return The decrypted dictionary, or `nil` if the dictionary could not be decrypted.
- */
-- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey;
-
-/**
- Creates a keychain ID that should be unique across app installs/re-installs, making sure
- that erroneous keychain data is not present if the app is re-installed.
- @param baseKeychainId The identifier that the keychain key is based on.
- @return An identifier with the base ID and unique data appended to it.
- */
-- (NSString *)buildUniqueKeychainId:(NSString *)baseKeychainId;
++ (NSData *)keyStringToData:(NSString *)keyString;
 
 @end

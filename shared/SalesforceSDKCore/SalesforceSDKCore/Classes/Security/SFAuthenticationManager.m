@@ -1056,6 +1056,9 @@ static Class InstanceClass = nil;
             [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
                 [self finalizeAuthCompletion];
             }];
+            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+                [self execFailureBlocks];
+            }];
             
             // If the is app startup, and we didn't just create or update a passcode, we always lock "the first time".
             // Otherwise, pin code screen display depends on inactivity.

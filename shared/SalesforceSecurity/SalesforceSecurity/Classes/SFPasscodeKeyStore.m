@@ -75,7 +75,7 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
             [unarchiver finishDecoding];
             
             NSString *passcodeEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
-            _keyStoreKey.encryptionKey.key = [[SFKeyStoreManager sharedInstance] keyStringToData:passcodeEncryptionKey];
+            _keyStoreKey.encryptionKey.key = [SFKeyStoreManager keyStringToData:passcodeEncryptionKey];
             
             return _keyStoreKey;
         }
