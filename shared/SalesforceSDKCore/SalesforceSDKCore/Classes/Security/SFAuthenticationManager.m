@@ -1050,33 +1050,30 @@ static Class InstanceClass = nil;
     // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     
-    // Auth checks are subject to an inactivity check.
+    // Post-passcode verification callbacks, where we'll check for passcode creation/update.  Passcode verification section is below.
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        if (action != SFSecurityLockoutActionPasscodeChanged && action != SFSecurityLockoutActionPasscodeCreated && action != SFSecurityLockoutActionPasscodeRemoved) {
-            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-                [self finalizeAuthCompletion];
-            }];
-            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-                [self execFailureBlocks];
-            }];
-            
-            // If the is app startup, and we didn't just create or update a passcode, we always lock "the first time".
-            // Otherwise, pin code screen display depends on inactivity.
-            if (_isAppLaunch) {
-                [SFSecurityLockout lock];
-            } else {
-                [SFSecurityLockout validateTimer];
-            }
-        } else {
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
             [self finalizeAuthCompletion];
-        }
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self execFailureBlocks];
+        }];
+        
+        // Check to see if a passcode needs to be created or updated, pased on passcode policy data from the
+        // identity service.
+        [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
+                                 lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         [self execFailureBlocks];
     }];
     
-    [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
-                             lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
+    // If we're in app startup, we always lock "the first time". Otherwise, pin code screen display depends on inactivity.
+    if (_isAppLaunch) {
+        [SFSecurityLockout lock];
+    } else {
+        [SFSecurityLockout validateTimer];
+    }
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
