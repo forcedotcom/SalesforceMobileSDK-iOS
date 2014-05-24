@@ -768,7 +768,10 @@ NSString * const kTestSoupName   = @"testSoup";
     [_store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
     BOOL testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
-    NSString* soupTableName = [_store tableNameForSoup:kTestSoupName];
+    __block NSString* soupTableName;
+    [_store.storeQueue inDatabase:^(FMDatabase *db) {
+        soupTableName = [_store tableNameForSoup:kTestSoupName withDb:db];
+    }];
 
     // Populate soup
     NSArray* entries = [SFJsonUtils objectFromJSONString:@"[{\"lastName\":\"Doe\", \"address\":{\"city\":\"San Francisco\",\"street\":\"1 market\"}},"
@@ -808,11 +811,13 @@ NSString * const kTestSoupName   = @"testSoup";
         [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:[SFSoupIndex asArraySoupIndexes:indexSpecsNew] checkColumnName:NO];
      
         // Check data
-        FMResultSet* frs = [_store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil];
-        [self checkRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
-        [self checkRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
-        STAssertFalse([frs next], @"Only two rows should have been returned");
-        [frs close];
+        [_store.storeQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet* frs = [_store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+            [self checkRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
+            [self checkRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
+            STAssertFalse([frs next], @"Only two rows should have been returned");
+            [frs close];
+        }];
     }
 }
 

@@ -54,16 +54,27 @@
 - (BOOL) createLongOperationsStatusTable;
 
 /**
- Register the new soup in SOUP_NAMES_TABLE.
- @return The table name associated with the new soup.
+ Register the soup 
+ @param soupName The name of the soup to register
+ @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param soupTableName The name of the table to use for the soup
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return YES if the soup registered OK
  */
-- (NSString *)registerNewSoupName:(NSString*)soupName;
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return The soup table name from SOUP_NAMES_TABLE, based on soup name.
  */
 - (NSString *)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db;
+
+/**
+ @param soupName the name of the soup
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return NSArray of SFSoupIndex for the given soup
+ */
+- (NSArray*)indicesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;
 
 /**
  Helper method to insert values into an arbitrary table.
@@ -84,11 +95,38 @@
  */
 - (BOOL)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*)db;
 
+
+/**
+ Helper to query table
+ @param table
+ @param columns
+ @param limit
+ @param whereClause
+ @param whereArgs
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return FMResultSet
+ */
+ - (FMResultSet *)queryTable:(NSString*)table
+                 forColumns:(NSArray*)columns
+                    orderBy:(NSString*)orderBy
+                      limit:(NSString*)limit
+                whereClause:(NSString*)whereClause
+                  whereArgs:(NSArray*)whereArgs
+                      withDb:(FMDatabase*)db;
+
+
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return The map of an indexSpec path to a column name from SOUP_INDEX_MAP_TABLE.
  */
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase*)db;
+
+/**
+ Similar to System.currentTimeMillis: time in ms since Jan 1 1970
+ Used for timestamping created and modified times.
+ @return The current number of milliseconds since 1/1/1970.
+ */
+- (NSNumber*)currentTimeInMilliseconds;
 
 /**
  @return The key used to encrypt the store.
@@ -107,14 +145,6 @@
  */
 - (NSString*) convertSmartSql:(NSString*)smartSql;
 
-/**
- Register soup with the given soupTableName
- @param soupName The name of the soup to register
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
- @param soupTableName The name of the table to use for the soup
- @return YES if the soup registered OK
- */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName;
 
 /**
  Remove soup from cache

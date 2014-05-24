@@ -324,7 +324,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         result =[db  executeUpdate:createSoupNamesTableSql];
         // Add index on SOUP_NAME_COL
         if (result) {
-            result = [self createLongOperationsStatusTable];
+            result = [self createLongOperationsStatusTableWithDb:db];
             // Add index on SOUP_NAME_COL
             if (result) {
                 result = [db executeUpdate:createSoupNamesIndexSql];
@@ -335,7 +335,18 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-- (BOOL) createLongOperationsStatusTable {
+- (BOOL)createLongOperationsStatusTable
+{
+    __block BOOL result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [self createLongOperationsStatusTableWithDb:db];
+    }];
+    return result;
+}
+
+
+- (BOOL) createLongOperationsStatusTableWithDb:(FMDatabase*)db
+{
     BOOL result = NO;
     
     // Create SOUP_INDEX_MAP_TABLE
@@ -352,7 +363,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
          ];
     
     [self log:SFLogLevelDebug format:@"createLongOperationsStatusTableSql: %@",createLongOperationsStatusTableSql];
-    result = [self.storeDb executeUpdate:createLongOperationsStatusTableSql];
+    result = [db executeUpdate:createLongOperationsStatusTableSql];
     return result; 
 }
 
@@ -369,12 +380,21 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSArray*) getLongOperations
 {
+    __block NSArray* results;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+        results = [self getLongOperationsWithDb:db];
+    }];
+    return results;
+}
+
+- (NSArray*) getLongOperationsWithDb:(FMDatabase*)db
+{
     NSMutableArray* longOperations = [NSMutableArray array];
     
     // TODO assuming all long operations are alter soup operations
     //      revisit when we introduced another type of long operation
     
-    FMResultSet* frs = [self queryTable:LONG_OPERATIONS_STATUS_TABLE forColumns:[NSArray arrayWithObjects:ID_COL, DETAILS_COL, STATUS_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil];
+    FMResultSet* frs = [self queryTable:LONG_OPERATIONS_STATUS_TABLE forColumns:[NSArray arrayWithObjects:ID_COL, DETAILS_COL, STATUS_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil withDb:db];
     
     while([frs next]) {
         long rowId = [frs longForColumn:ID_COL];
@@ -709,10 +729,10 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withDb:(FMDatabase*) db
 {
-    return [self registerSoup:soupName withIndexSpecs:indexSpecs withSoupTableName:nil];
+    return [self registerSoup:soupName withIndexSpecs:indexSpecs withSoupTableName:nil withDb:db];
 }
 
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db
 {
     BOOL result = NO;
     
@@ -1330,25 +1350,36 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
 }
 
-- (void)clearSoup:(NSString*)soupName {
+- (void)clearSoup:(NSString*)soupName
+{
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        [self clearSoup:soupName withDb:db];
+    }];
+
+}
+
+- (void)clearSoup:(NSString*)soupName withDb:(FMDatabase*)db
+{
     if ([self soupExists:soupName]) {
-        NSString *soupTableName = [self tableNameForSoup:soupName];
+        NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@", soupTableName];
-        BOOL ranOK = [self.storeDb executeUpdate:deleteSql];
+        BOOL ranOK = [db executeUpdate:deleteSql];
         if (!ranOK) {
             [self log:SFLogLevelError format:@"ERROR %d clearing soup: '%@'",
-             [self.storeDb lastErrorCode],
-             [self.storeDb lastErrorMessage]];
+             [db lastErrorCode],
+             [db lastErrorMessage]];
         }
     }
 }
 
-- (long)getDatabaseSize {
+- (long)getDatabaseSize
+{
     NSString *dbPath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:_storeName];
     return [[[NSFileManager defaultManager] attributesOfItemAtPath:dbPath error:nil] fileSize];
 }
 
-- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData {
+- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData
+{
     if ([self soupExists:soupName]) {
         SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:self soupName:soupName newIndexSpecs:indexSpecs reIndexData:reIndexData];
         [operation run];
@@ -1358,16 +1389,22 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
 }
 
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL) handleTx {
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths
+{
+    __block BOOL result;
+    [self.storeQueue inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        result = [self reIndexSoup:soupName withIndexPaths:indexPaths withDb:db];
+    }];
+    return result;
+}
+
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths withDb:(FMDatabase*)db
+{
     if ([self soupExists:soupName]) {
-        NSString *soupTableName = [self tableNameForSoup:soupName];
+        NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSDictionary *mapIndexSpecs = [SFSoupIndex mapForSoupIndexes:[self indicesForSoup:soupName]];
 
-        if (handleTx) {
-            [self.storeDb beginTransaction];
-        }
-        
-        FMResultSet* frs = [self queryTable:soupTableName forColumns:[NSArray arrayWithObjects:ID_COL, SOUP_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil];
+        FMResultSet* frs = [self queryTable:soupTableName forColumns:[NSArray arrayWithObjects:ID_COL, SOUP_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil withDb:db];
     
         while([frs next]) {
             NSNumber *entryId = [NSNumber numberWithLong:[frs longForColumn:ID_COL]];
@@ -1385,13 +1422,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 }
             }
             if ([colVals count] > 0)
-                [self updateTable:soupTableName values:colVals entryId:entryId];
+                [self updateTable:soupTableName values:colVals entryId:entryId withDb:db];
         }
-    
-        if (handleTx) {
-            [self.storeDb commit];
-        }
-        
         return YES;
     }
     else {

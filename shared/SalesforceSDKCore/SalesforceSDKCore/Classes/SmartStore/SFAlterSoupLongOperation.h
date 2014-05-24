@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@class FMDatabase;
+@class FMDatabaseQueue;
 @class SFSmartStore;
 
 // Enum for alter steps
@@ -72,7 +72,7 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 @property (nonatomic, readonly, strong) SFSmartStore *store;
 
 // Underlying database
-@property (nonatomic, readonly, strong) FMDatabase *db;
+@property (nonatomic, readonly, strong) FMDatabaseQueue *queue;
 	
 // Row id for long_operations_status
 @property (nonatomic, readonly, assign) long rowId;
