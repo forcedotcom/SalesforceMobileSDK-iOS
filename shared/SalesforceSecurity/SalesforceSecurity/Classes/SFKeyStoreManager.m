@@ -76,7 +76,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         if (keyType == SFKeyStoreKeyTypeGenerated) {
             key = [self.generatedKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
         } else if (keyType == SFKeyStoreKeyTypePasscode) {
-            if (self.passcodeKeyStore.keyStoreActive) {
+            if (self.passcodeKeyStore.keyStoreEnabled) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     key = [self.passcodeKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
@@ -133,7 +133,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             [mutableKeyStoreDict removeObjectForKey:typedKeyLabel];
             self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
         } else if (keyType == SFKeyStoreKeyTypePasscode) {
-            if (self.passcodeKeyStore.keyStoreActive) {
+            if (self.passcodeKeyStore.keyStoreEnabled) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
@@ -245,7 +245,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
             self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
         } else if (key.keyType == SFKeyStoreKeyTypePasscode) {
-            if (self.passcodeKeyStore.keyStoreActive) {
+            if (self.passcodeKeyStore.keyStoreEnabled) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];

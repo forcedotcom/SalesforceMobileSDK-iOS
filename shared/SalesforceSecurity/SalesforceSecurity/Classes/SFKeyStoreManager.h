@@ -76,20 +76,31 @@
 - (void)storeKey:(SFEncryptionKey *)key withKeyType:(SFKeyStoreKeyType)keyType label:(NSString *)keyLabel;
 
 /**
- Removes the key with the given label from the key store.
+ Removes the key with the given label from the key store holding passcode-based encrypted keys.
  @param keyLabel The label associated with the key to remove.
  */
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
 
+/**
+ Removes the key with the given label and encryption type from the key store.
+ @param keyLabel The label identifying the key.
+ @param keyType The encryption type used to encrypt the key in the store.
+ */
 - (void)removeKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
 
 /**
- Determines whether a key with the given label exists.
+ Determines whether a key with the given label, and encrypted with passcode-based encryption, exists.
  @param keyLabel The label associated with the key to query.
  @return YES if the key exists in the key store, NO otherwise.
  */
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
 
+/**
+ Determines whether the key with the given label and encryption type exists.
+ @param keyLabel The label identifying the key.
+ @param keyType The type of encryption used to encrypt the key in the store.
+ @return YES if the given key exists, NO otherwise.
+ */
 - (BOOL)keyWithLabelAndKeyTypeExists:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType;
 
 /**
