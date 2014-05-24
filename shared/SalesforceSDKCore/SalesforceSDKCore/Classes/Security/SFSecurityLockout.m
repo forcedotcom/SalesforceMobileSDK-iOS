@@ -59,6 +59,7 @@ static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerB
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
 static NSMutableOrderedSet *sDelegates = nil;
 static BOOL sForcePasscodeDisplay = NO;
+static BOOL sValidatePasscodeAtStartup = NO;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -477,6 +478,16 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
++ (BOOL)validatePasscodeAtStartup
+{
+    return sValidatePasscodeAtStartup;
+}
+
++ (void)setValidatePasscodeAtStartup:(BOOL)validateAtStartup
+{
+    sValidatePasscodeAtStartup = validateAtStartup;
+}
+
 + (void)setIsLocked:(BOOL)locked
 {
     [SFSecurityLockout writeIsLockedToKeychain:[NSNumber numberWithBool:locked]];
@@ -500,7 +511,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)isPasscodeNeeded
 {
-    BOOL result = [self inactivityExpired] || ![self isPasscodeValid];
+    BOOL result = [SFSecurityLockout inactivityExpired] || [SFSecurityLockout validatePasscodeAtStartup] || ![SFSecurityLockout isPasscodeValid];
     result = result || sForcePasscodeDisplay;
     return result;
 }

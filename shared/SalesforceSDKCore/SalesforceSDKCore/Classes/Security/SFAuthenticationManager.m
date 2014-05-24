@@ -150,11 +150,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 @interface SFAuthenticationManager ()
 {
-    /**
-     Will be YES when the app is launching, vs. NO when the app is simply being foregrounded.
-     */
-    BOOL _isAppLaunch;
-    
     NSMutableOrderedSet *_delegates;
 }
 
@@ -579,13 +574,11 @@ static Class InstanceClass = nil;
 
 - (void)appDidFinishLaunching:(NSNotification *)notification
 {
-    _isAppLaunch = YES;
+    [SFSecurityLockout setValidatePasscodeAtStartup:YES];
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification
 {
-    _isAppLaunch = NO;
-    
     [self removeSnapshotView];
     
     BOOL shouldLogout = [self logoutSettingEnabled];
@@ -822,6 +815,7 @@ static Class InstanceClass = nil;
 
 - (void)finalizeAuthCompletion
 {
+    [SFSecurityLockout setValidatePasscodeAtStartup:NO];
     [SFSecurityLockout startActivityMonitoring];
     
     // Apply the credentials that will ensure there is a current user and that this
@@ -1069,7 +1063,7 @@ static Class InstanceClass = nil;
     }];
     
     // If we're in app startup, we always lock "the first time". Otherwise, pin code screen display depends on inactivity.
-    if (_isAppLaunch) {
+    if ([SFSecurityLockout validatePasscodeAtStartup]) {
         [SFSecurityLockout lock];
     } else {
         [SFSecurityLockout validateTimer];
