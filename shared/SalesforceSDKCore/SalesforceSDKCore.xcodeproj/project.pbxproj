@@ -23,6 +23,8 @@
 /* Begin PBXBuildFile section */
 		4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */; };
+		4F9BB825192AA7CB0000712D /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */; };
+		4F9BB826192AA7CB0000712D /* SFSmartStoreInspectorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9BB824192AA7CB0000712D /* SFSmartStoreInspectorViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF99A4F19185C6700405BCB /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */; };
 		4FF99A5019185C6700405BCB /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */; };
 		821C8F4A18C980D0000FAF96 /* SFDefaultUserManagementViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 821C8F4818C980D0000FAF96 /* SFDefaultUserManagementViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -162,6 +164,8 @@
 /* Begin PBXFileReference section */
 		4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotificationManager.h; path = PushNotification/SFPushNotificationManager.h; sourceTree = "<group>"; };
 		4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManager.m; path = PushNotification/SFPushNotificationManager.m; sourceTree = "<group>"; };
+		4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreInspectorViewController.m; sourceTree = "<group>"; };
+		4F9BB824192AA7CB0000712D /* SFSmartStoreInspectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreInspectorViewController.h; sourceTree = "<group>"; };
 		4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAlterSoupLongOperation.m; sourceTree = "<group>"; };
 		4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAlterSoupLongOperation.h; sourceTree = "<group>"; };
 		821C8F4818C980D0000FAF96 /* SFDefaultUserManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserManagementViewController.h; sourceTree = "<group>"; };
@@ -585,6 +589,8 @@
 		82AF843116DFD95F008912EF /* SmartStore */ = {
 			isa = PBXGroup;
 			children = (
+				4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */,
+				4F9BB824192AA7CB0000712D /* SFSmartStoreInspectorViewController.h */,
 				4FF99A4D19185C6700405BCB /* SFAlterSoupLongOperation.m */,
 				4FF99A4E19185C6700405BCB /* SFAlterSoupLongOperation.h */,
 				82AF843216DFD95F008912EF /* SFQuerySpec.h */,
@@ -681,6 +687,7 @@
 				FD8BB17218B6B64700F6927C /* SFUserAccountConstants.h in Headers */,
 				821C8F4E18C98118000FAF96 /* SFDefaultUserManagementListViewController.h in Headers */,
 				82BBB57517909DE500374DD8 /* SFQuerySpec.h in Headers */,
+				4F9BB826192AA7CB0000712D /* SFSmartStoreInspectorViewController.h in Headers */,
 				8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */,
 				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
 				8288C96A18C154C100FEB73D /* SFSDKTestCredentialsData.h in Headers */,
@@ -876,6 +883,7 @@
 				82AF846116DFD95F008912EF /* SqliteAdditions.c in Sources */,
 				82AF846216DFD95F008912EF /* NSURL+SFStringUtils.m in Sources */,
 				82AF846316DFD95F008912EF /* SFJsonUtils.m in Sources */,
+				4F9BB825192AA7CB0000712D /* SFSmartStoreInspectorViewController.m in Sources */,
 				82AF846516DFD95F008912EF /* SFSDKResourceUtils.m in Sources */,
 				82AF846616DFD95F008912EF /* SFSDKWebUtils.m in Sources */,
 				8221562716E0130C002E1F56 /* FMDatabase.m in Sources */,

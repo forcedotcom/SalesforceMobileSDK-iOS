@@ -294,4 +294,9 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 - (BOOL)isFileDataProtectionActive;
 
 
+/**
+ Return all soup names
+ */
+- (NSArray*) allSoupNames;
+
 @end

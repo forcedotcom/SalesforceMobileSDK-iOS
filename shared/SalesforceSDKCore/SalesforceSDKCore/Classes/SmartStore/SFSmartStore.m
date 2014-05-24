@@ -403,11 +403,33 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] initWithStore:self rowId:rowId details:details status:status];
         [longOperations addObject:longOperation];
     }
+    [frs close];
     
     return longOperations;
  }
 
 #pragma mark - Utility methods
+
+- (NSArray*) allSoupNames 
+{
+    __block NSArray* result;
+    [self.storeQueue inDatabase:^(FMDatabase* db) {
+            result = [self allSoupNamesWithDb:db];
+    }];
+    return result;
+}
+
+- (NSArray*) allSoupNamesWithDb:(FMDatabase*) db
+{
+    NSMutableArray* soupNames = [NSMutableArray array];
+    FMResultSet* frs = [db executeQuery:[NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_NAMES_TABLE]];
+    while ([frs next]) {
+        [soupNames addObject:[frs stringForColumnIndex:0]];
+    }
+    [frs close];
+    
+    return soupNames;
+}
 
 + (NSString *)encKey
 {

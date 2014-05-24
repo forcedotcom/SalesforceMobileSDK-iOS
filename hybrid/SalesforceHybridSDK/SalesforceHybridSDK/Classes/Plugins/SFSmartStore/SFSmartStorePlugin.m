@@ -27,6 +27,7 @@
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import "SFHybridViewController.h"
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVInvokedUrlCommand.h>
@@ -381,7 +382,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 {
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgShowInspector" withArguments:command.arguments];
-//    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    [SFSmartStoreInspectorViewController present];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
     [self writeSuccessResultToJsRealm:result callbackId:callbackId];
 }
