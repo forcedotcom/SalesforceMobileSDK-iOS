@@ -224,7 +224,7 @@
         }
         
         // Re-index soup
-        [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths handleTx:FALSE];
+        [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths withDb:db];
         
         // Update row in alter status table
         [self updateLongOperationDbRow:SFAlterSoupStepReIndexSoup withDb:db];

@@ -1422,9 +1422,9 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths withDb:(FMDatabase*)db
 {
-    if ([self soupExists:soupName]) {
+    if ([self soupExists:soupName withDb:db]) {
         NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
-        NSDictionary *mapIndexSpecs = [SFSoupIndex mapForSoupIndexes:[self indicesForSoup:soupName]];
+        NSDictionary *mapIndexSpecs = [SFSoupIndex mapForSoupIndexes:[self indicesForSoup:soupName withDb:db]];
 
         FMResultSet* frs = [self queryTable:soupTableName forColumns:[NSArray arrayWithObjects:ID_COL, SOUP_COL, nil] orderBy:nil limit:nil whereClause:nil whereArgs:nil withDb:db];
     

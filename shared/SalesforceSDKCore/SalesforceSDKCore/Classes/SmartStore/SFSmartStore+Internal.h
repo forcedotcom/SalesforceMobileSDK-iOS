@@ -77,6 +77,15 @@
 - (NSArray*)indicesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;
 
 /**
+ Helper method re-index a soup.
+ @param soupName The soup to re-index
+ @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return YES if the insert was successful, NO otherwise.
+ */
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths withDb:(FMDatabase*)db;
+
+/**
  Helper method to insert values into an arbitrary table.
  @param tableName The table to insert the data into.
  @param map A dictionary of key-value pairs to be inserted into table.

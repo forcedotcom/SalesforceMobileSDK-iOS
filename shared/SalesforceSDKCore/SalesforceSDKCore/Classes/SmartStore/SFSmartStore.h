@@ -272,7 +272,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @param handleTx TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction
  @return YES if the soup got re-indexed OK
  */
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL)handleTx;
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
 
 #pragma mark - Long operations recovery methods
 
