@@ -90,7 +90,7 @@ static NSUInteger   const kLabelTag              = 99;
 
 + (void) present
 {
-    [[SFSmartStoreInspectorViewController sharedInstance] onClear];
+    [[SFSmartStoreInspectorViewController sharedInstance] clearButtonClicked];
     [[SFRootViewManager sharedManager] pushViewController:[SFSmartStoreInspectorViewController sharedInstance]];
 }
 
@@ -116,13 +116,13 @@ static NSUInteger   const kLabelTag              = 99;
 
 #pragma mark - Actions handlers
 
-- (void) onBack
+- (void) backButtonClicked
 {
     [SFSmartStoreInspectorViewController dismiss];
 }
 
 
-- (void) onQuery
+- (void) runQuery
 {
     [self stopEditing];
     NSString* smartSql = self.queryField.text;
@@ -139,7 +139,7 @@ static NSUInteger   const kLabelTag              = 99;
     
 }
 
-- (void) onSoups
+- (void) soupsButtonClicked
 {
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     NSArray* names = [store allSoupNames];
@@ -158,16 +158,16 @@ static NSUInteger   const kLabelTag              = 99;
         }
         self.queryField.text = q;
     }
-    [self onQuery];
+    [self runQuery];
 }
 
-- (void) onIndices
+- (void) indicesButtonClicked
 {
     self.queryField.text = @"select soupName, path, columnType from soup_index_map";
-    [self onQuery];
+    [self runQuery];
 }
 
-- (void) onClear
+- (void) clearButtonClicked
 {
     [self stopEditing];
     self.queryField.text = @"";
@@ -380,7 +380,7 @@ static NSUInteger   const kLabelTag              = 99;
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ( [text isEqualToString:@"\n"] ) {
-        [self onQuery];
+        [self runQuery];
     }
     
     return YES;
@@ -452,7 +452,7 @@ static NSUInteger   const kLabelTag              = 99;
     return kResultCellHeight;
 }
 
-- (NSObject*) cellDatawithIndexPath:(NSIndexPath*) indexPath
+- (id) cellDatawithIndexPath:(NSIndexPath*) indexPath
 {
     return ((NSArray*) self.results[indexPath.section])[indexPath.row];
 }
