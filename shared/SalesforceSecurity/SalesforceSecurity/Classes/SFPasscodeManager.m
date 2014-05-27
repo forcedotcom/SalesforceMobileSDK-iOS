@@ -128,7 +128,9 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 
 - (void)setEncryptionKey:(NSString *)newEncryptionKey
 {
-    _encryptionKey = [newEncryptionKey copy];
+    if (_encryptionKey != newEncryptionKey) {
+        _encryptionKey = [newEncryptionKey copy];
+    }
 }
 
 - (BOOL)passcodeIsSet

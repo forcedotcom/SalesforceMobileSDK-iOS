@@ -295,6 +295,17 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  */
 + (BOOL)forcePasscodeDisplay;
 
+/**
+ * @return Whether or not to validate the passcode at app startup.
+ */
++ (BOOL)validatePasscodeAtStartup;
+
+/**
+ * Sets whether or not to validate the passcode at app startup.
+ * @param validateAtStartup YES to validate at startup, NO otherwise.
+ */
++ (void)setValidatePasscodeAtStartup:(BOOL)validateAtStartup;
+
 @end
 
 

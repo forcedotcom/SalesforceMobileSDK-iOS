@@ -22,34 +22,37 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFKeyStoreManager.h"
-#import "SFPasscodeManager.h"
-#import "SFGeneratedKeyStore.h"
-#import "SFPasscodeKeyStore.h"
+#import <Foundation/Foundation.h>
+#import "SFKeyStoreKey.h"
 
-@interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
-
-@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
-@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore;
+@interface SFKeyStore : NSObject
 
 /**
- Creates a default key store key from random generated key and IV values.  Used when a passcode
- is not present.
- @return The generated key used to encrypt/decrypt the key store.
+ The key store key, used for encrypting and decrypting the key store.
  */
-- (SFKeyStoreKey *)createDefaultKey;
+@property (nonatomic, copy) SFKeyStoreKey *keyStoreKey;
 
 /**
- Creates a key store key based on the encryption key provided in part by the user's passcode.
- @return A passcode-based key store key used to encrypt/decrypt the key store.
+ The dictionary that holds the key store data.
  */
-- (SFKeyStoreKey *)createNewPasscodeKey;
+@property (nonatomic, strong) NSDictionary *keyStoreDictionary;
 
 /**
- Converts an NSString-based key into NSData.
- @param keyString The key to convert.
- @return The NSData representation of the key.
+ Whether or not the key store is currently available for exchanging keys.
  */
-+ (NSData *)keyStringToData:(NSString *)keyString;
+@property (nonatomic, readonly) BOOL keyStoreAvailable;
+
+/**
+ Whether or not the key store is enabled for use, i.e. whether or not this will be used at all for
+ key storage and retrieval.
+ */
+@property (nonatomic, readonly) BOOL keyStoreEnabled;
+
+/**
+ Returns a key label unique to this key store, based on the input key label.
+ @param baseKeyLabel the input key label to make unique.
+ @return A unique key label to this store.
+ */
+- (NSString *)keyLabelForString:(NSString *)baseKeyLabel;
 
 @end
