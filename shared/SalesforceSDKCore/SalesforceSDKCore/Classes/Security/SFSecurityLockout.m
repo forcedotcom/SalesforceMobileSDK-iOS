@@ -240,15 +240,20 @@ static BOOL _showPasscode = YES;
 
 + (void)clearPasscodeState
 {
-    // Attempts to clear passcode state for the current user.  Clear state will be dependent
-    // on passcode policies across users.
+    // Public method that attempts to clear passcode state for the current user.  Clear state will be dependent
+    // on passcode policies across users.  So for instance, if another configured user in the app still has
+    // passcode policies which apply to that account, this method will effectively do nothing.  On the other hand,
+    // if the current user is the only user of the app, this will remove passcode policies for the app.
     [SFSecurityLockout setPasscodeLength:0 lockoutTime:0];
 }
 
 + (void)clearAllPasscodeState
 {
-    // NOTE: This method directly clears all of the persisted passcode state for the app.  Do not call
-    // if passcode policy evaluation is required.
+    // NOTE: This private method directly clears all of the persisted passcode state for the app.  It should only
+    // be called in the event that the greater app state needs to be cleared; it's currently used internally in
+    // cases where the passcode is no longer valid (user forgot the passcode, failed the maximum verification
+    // attempts, etc.).  Calling this method should be reasonably followed upstream with a general resetting of
+    // the app state.
     [SFSecurityLockout setSecurityLockoutTime:0];
     [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
