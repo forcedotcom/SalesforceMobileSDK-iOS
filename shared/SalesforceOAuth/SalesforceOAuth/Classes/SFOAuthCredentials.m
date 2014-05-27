@@ -609,7 +609,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 
 - (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service
 {
-    SFEncryptionKey *keyForService = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:service autoCreate:YES];
+    SFEncryptionKey *keyForService = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:service keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
     return keyForService;
 }
 

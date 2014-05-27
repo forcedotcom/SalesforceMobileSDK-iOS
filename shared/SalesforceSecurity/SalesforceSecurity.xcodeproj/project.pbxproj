@@ -13,6 +13,13 @@
 		820AB73918E230EC00E25E1D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB73818E230EC00E25E1D /* UIKit.framework */; };
 		820AB73C18E230EC00E25E1D /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */; };
 		820AB74218E230EC00E25E1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 820AB74018E230EC00E25E1D /* InfoPlist.strings */; };
+		8278A072192D2EA900BECB08 /* SFKeyStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8278A071192D2EA900BECB08 /* SFKeyStore+Internal.h */; };
+		82A78630192C22A90023AC99 /* SFKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A7862E192C22A90023AC99 /* SFKeyStore.h */; };
+		82A78631192C22A90023AC99 /* SFKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A7862F192C22A90023AC99 /* SFKeyStore.m */; };
+		82A78634192C22D50023AC99 /* SFGeneratedKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A78632192C22D50023AC99 /* SFGeneratedKeyStore.h */; };
+		82A78635192C22D50023AC99 /* SFGeneratedKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A78633192C22D50023AC99 /* SFGeneratedKeyStore.m */; };
+		82A78638192C22ED0023AC99 /* SFPasscodeKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A78636192C22ED0023AC99 /* SFPasscodeKeyStore.h */; };
+		82A78639192C22ED0023AC99 /* SFPasscodeKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A78637192C22ED0023AC99 /* SFPasscodeKeyStore.m */; };
 		82AA402F18E397C200BD34D8 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA402E18E397C200BD34D8 /* SFSDKCryptoUtils.m */; };
 		82AA403118E398B800BD34D8 /* SFSDKCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA402D18E397C200BD34D8 /* SFSDKCryptoUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AA403418E39A1900BD34D8 /* SFPBKDFData.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403218E39A1900BD34D8 /* SFPBKDFData.h */; };
@@ -33,7 +40,7 @@
 		82AA405818E3AD1200BD34D8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */; };
 		82AA405A18E3ADAA00BD34D8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405918E3ADAA00BD34D8 /* libz.dylib */; };
 		82AA405C18E3ADE100BD34D8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405B18E3ADE100BD34D8 /* MessageUI.framework */; };
-		82E0D879190EF4B700A8FC23 /* SFKeyStoreKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D877190EF4B700A8FC23 /* SFKeyStoreKey.h */; };
+		82E0D879190EF4B700A8FC23 /* SFKeyStoreKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D877190EF4B700A8FC23 /* SFKeyStoreKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E0D87A190EF4B700A8FC23 /* SFKeyStoreKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D878190EF4B700A8FC23 /* SFKeyStoreKey.m */; };
 		82E0D87C1912F01300A8FC23 /* SFKeyStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D87B1912F01300A8FC23 /* SFKeyStoreTests.m */; };
 		82E0D87E1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D87D1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h */; };
@@ -62,6 +69,13 @@
 		820AB73818E230EC00E25E1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		820AB73F18E230EC00E25E1D /* SalesforceSecurityTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SalesforceSecurityTests-Info.plist"; sourceTree = "<group>"; };
 		820AB74118E230EC00E25E1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8278A071192D2EA900BECB08 /* SFKeyStore+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFKeyStore+Internal.h"; path = "Classes/SFKeyStore+Internal.h"; sourceTree = "<group>"; };
+		82A7862E192C22A90023AC99 /* SFKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeyStore.h; path = Classes/SFKeyStore.h; sourceTree = "<group>"; };
+		82A7862F192C22A90023AC99 /* SFKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeyStore.m; path = Classes/SFKeyStore.m; sourceTree = "<group>"; };
+		82A78632192C22D50023AC99 /* SFGeneratedKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFGeneratedKeyStore.h; path = Classes/SFGeneratedKeyStore.h; sourceTree = "<group>"; };
+		82A78633192C22D50023AC99 /* SFGeneratedKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFGeneratedKeyStore.m; path = Classes/SFGeneratedKeyStore.m; sourceTree = "<group>"; };
+		82A78636192C22ED0023AC99 /* SFPasscodeKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPasscodeKeyStore.h; path = Classes/SFPasscodeKeyStore.h; sourceTree = "<group>"; };
+		82A78637192C22ED0023AC99 /* SFPasscodeKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPasscodeKeyStore.m; path = Classes/SFPasscodeKeyStore.m; sourceTree = "<group>"; };
 		82AA402D18E397C200BD34D8 /* SFSDKCryptoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKCryptoUtils.h; path = Classes/SFSDKCryptoUtils.h; sourceTree = "<group>"; };
 		82AA402E18E397C200BD34D8 /* SFSDKCryptoUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKCryptoUtils.m; path = Classes/SFSDKCryptoUtils.m; sourceTree = "<group>"; };
 		82AA403218E39A1900BD34D8 /* SFPBKDFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPBKDFData.h; path = Classes/SFPBKDFData.h; sourceTree = "<group>"; };
@@ -194,11 +208,18 @@
 			children = (
 				82F6F67718E5F5880033CACD /* SFEncryptionKey.h */,
 				82F6F67818E5F5880033CACD /* SFEncryptionKey.m */,
+				82A78632192C22D50023AC99 /* SFGeneratedKeyStore.h */,
+				82A78633192C22D50023AC99 /* SFGeneratedKeyStore.m */,
+				8278A071192D2EA900BECB08 /* SFKeyStore+Internal.h */,
+				82A7862E192C22A90023AC99 /* SFKeyStore.h */,
+				82A7862F192C22A90023AC99 /* SFKeyStore.m */,
 				82E0D877190EF4B700A8FC23 /* SFKeyStoreKey.h */,
 				82E0D878190EF4B700A8FC23 /* SFKeyStoreKey.m */,
 				82E0D87D1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h */,
 				82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */,
 				82F6F67C18E5F5880033CACD /* SFKeyStoreManager.m */,
+				82A78636192C22ED0023AC99 /* SFPasscodeKeyStore.h */,
+				82A78637192C22ED0023AC99 /* SFPasscodeKeyStore.m */,
 				82AA403618E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.h */,
 				82AA403718E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.m */,
 				82AA403218E39A1900BD34D8 /* SFPBKDFData.h */,
@@ -226,8 +247,10 @@
 			files = (
 				82E0D87E1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h in Headers */,
 				82AA404018E39D1F00BD34D8 /* SFPasscodeManager.h in Headers */,
+				8278A072192D2EA900BECB08 /* SFKeyStore+Internal.h in Headers */,
 				82AA403418E39A1900BD34D8 /* SFPBKDFData.h in Headers */,
 				82AA403118E398B800BD34D8 /* SFSDKCryptoUtils.h in Headers */,
+				82A78638192C22ED0023AC99 /* SFPasscodeKeyStore.h in Headers */,
 				82F6F67D18E5F5880033CACD /* SFEncryptionKey.h in Headers */,
 				82AA403C18E39B4C00BD34D8 /* SFPasscodeProviderManager.h in Headers */,
 				82E0D879190EF4B700A8FC23 /* SFKeyStoreKey.h in Headers */,
@@ -235,7 +258,9 @@
 				82AA404418E39D7500BD34D8 /* SFSHA256PasscodeProvider.h in Headers */,
 				82AA404718E39F0C00BD34D8 /* SFPasscodeManager+Internal.h in Headers */,
 				82AA404D18E3A0D400BD34D8 /* SFPasscodeProviderManager+Internal.h in Headers */,
+				82A78630192C22A90023AC99 /* SFKeyStore.h in Headers */,
 				82AA403818E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.h in Headers */,
+				82A78634192C22D50023AC99 /* SFGeneratedKeyStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +353,9 @@
 				82AA404118E39D1F00BD34D8 /* SFPasscodeManager.m in Sources */,
 				82AA402F18E397C200BD34D8 /* SFSDKCryptoUtils.m in Sources */,
 				82F6F68218E5F5880033CACD /* SFKeyStoreManager.m in Sources */,
+				82A78639192C22ED0023AC99 /* SFPasscodeKeyStore.m in Sources */,
+				82A78635192C22D50023AC99 /* SFGeneratedKeyStore.m in Sources */,
+				82A78631192C22A90023AC99 /* SFKeyStore.m in Sources */,
 				82AA403518E39A1900BD34D8 /* SFPBKDFData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

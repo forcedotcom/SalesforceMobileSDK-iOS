@@ -22,34 +22,45 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFKeyStoreManager.h"
-#import "SFPasscodeManager.h"
-#import "SFGeneratedKeyStore.h"
-#import "SFPasscodeKeyStore.h"
+#import "SFKeyStore.h"
 
-@interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
+static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt key store with existing key store key.  Key store is invalid.";
 
-@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
-@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore;
+@interface SFKeyStore ()
 
 /**
- Creates a default key store key from random generated key and IV values.  Used when a passcode
- is not present.
- @return The generated key used to encrypt/decrypt the key store.
+ The store's keychain identifier.
  */
-- (SFKeyStoreKey *)createDefaultKey;
+@property (nonatomic, readonly) NSString *storeKeychainIdentifier;
 
 /**
- Creates a key store key based on the encryption key provided in part by the user's passcode.
- @return A passcode-based key store key used to encrypt/decrypt the key store.
+ The store's data archive key for serialization/deserialization.
  */
-- (SFKeyStoreKey *)createNewPasscodeKey;
+@property (nonatomic, readonly) NSString *storeDataArchiveKey;
 
 /**
- Converts an NSString-based key into NSData.
- @param keyString The key to convert.
- @return The NSData representation of the key.
+ The store's encryption key keychain identifier.
  */
-+ (NSData *)keyStringToData:(NSString *)keyString;
+@property (nonatomic, readonly) NSString *encryptionKeyKeychainIdentifier;
+
+/**
+ The store's encryption key data archive key for serialization/deserialization.
+ */
+@property (nonatomic, readonly) NSString *encryptionKeyDataArchiveKey;
+
+/**
+ Creates a keychain ID that should be unique across app installs/re-installs, making sure
+ that erroneous keychain data is not present if the app is re-installed.
+ @param baseKeychainId The identifier that the keychain key is based on.
+ @return An identifier with the base ID and unique data appended to it.
+ */
+- (NSString *)buildUniqueKeychainId:(NSString *)baseKeychainId;
+
+/**
+ Retrieves the key store dictionary, decrypting it with the specified key.
+ @param decryptKey The key used to decrypt the dictionary.
+ @return The decrypted dictionary, or `nil` if the dictionary could not be decrypted.
+ */
+- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey;
 
 @end
