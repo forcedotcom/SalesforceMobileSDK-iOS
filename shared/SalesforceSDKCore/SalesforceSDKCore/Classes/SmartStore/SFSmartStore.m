@@ -1382,7 +1382,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (void)clearSoup:(NSString*)soupName withDb:(FMDatabase*)db
 {
-    if ([self soupExists:soupName]) {
+    if ([self soupExists:soupName withDb:db]) {
         NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@", soupTableName];
         BOOL ranOK = [db executeUpdate:deleteSql];
