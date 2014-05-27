@@ -24,7 +24,7 @@
 
 #import "SFAccountManagerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "CDVPluginResult.h"
+#import <Cordova/CDVPluginResult.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
