@@ -43,6 +43,10 @@
 {
     NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
     NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
+    if (!sdkBundle) {
+        sdkBundle = [NSBundle mainBundle];
+    }
+    
     return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
 }
 
