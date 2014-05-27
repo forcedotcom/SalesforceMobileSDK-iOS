@@ -1053,7 +1053,7 @@ static Class InstanceClass = nil;
             [self execFailureBlocks];
         }];
         
-        // Check to see if a passcode needs to be created or updated, pased on passcode policy data from the
+        // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
         // identity service.
         [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
                                  lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
