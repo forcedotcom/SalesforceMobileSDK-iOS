@@ -40,8 +40,9 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
 
 /**
  * Runs in the event of a successful passcode unlock.
+ * @param action The action taken, if any.
  */
-+ (void)unlockSuccessPostProcessing;
++ (void)unlockSuccessPostProcessing:(SFSecurityLockoutAction)action;
 
 /**
  * Runs in the event that a passcode unlock attempt failed.
@@ -94,5 +95,11 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
  * Upgrades settings as part of SFSecurityLockout initialization.
  */
 + (void)upgradeSettings;
+
+/**
+ Runs the given block of code against the list of security lockout delegates.
+ @param block The block of code to execute for each delegate.
+ */
++ (void)enumerateDelegates:(void(^)(id<SFSecurityLockoutDelegate> delegate))block;
 
 @end

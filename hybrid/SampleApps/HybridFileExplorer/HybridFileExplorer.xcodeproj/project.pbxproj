@@ -64,6 +64,7 @@
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
 		824A9DC11724CE4600C9BD79 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
+		82F6F65A18E4A23D0033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -194,6 +195,7 @@
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */,
 				824A9D991724C86100C9BD79 /* libSalesforceOAuth.a in Frameworks */,
 				824A9D9B1724C8B800C9BD79 /* libSalesforceSDKCore.a in Frameworks */,
+				82F6F65A18E4A23D0033CACD /* libSalesforceSecurity.a in Frameworks */,
 				824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */,
 				824A9D9F1724C93A00C9BD79 /* libssl.a in Frameworks */,
 				824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */,
@@ -312,6 +315,7 @@
 				824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */,
 				824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */,
 				824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */,
+				82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */,
 				824A9D9C1724C92400C9BD79 /* libsqlcipher.a */,
 				824A9D9E1724C93A00C9BD79 /* libssl.a */,
 				824A9DA01724C95D00C9BD79 /* libxml2.dylib */,
@@ -510,6 +514,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
@@ -546,6 +551,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);

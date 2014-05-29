@@ -212,9 +212,9 @@ static NSUInteger   const kLabelTag              = 99;
     self.pageIndexField.keyboardType = UIKeyboardTypeNumberPad;
     
     // Buttons
-    self.clearButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorClearButtonTitle"] action:@selector(onClear)];
-    self.soupsButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorSoupsButtonTitle"] action:@selector(onSoups)];
-    self.indicesButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorIndicesButtonTitle"] action:@selector(onIndices)];
+    self.clearButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorClearButtonTitle"] action:@selector(clearButtonClicked)];
+    self.soupsButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorSoupsButtonTitle"] action:@selector(soupsButtonClicked)];
+    self.indicesButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorIndicesButtonTitle"] action:@selector(indicesButtonClicked)];
     
     // Results grid
     self.resultGrid = [self createGridView];
@@ -225,8 +225,8 @@ static NSUInteger   const kLabelTag              = 99;
     UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
     navBar.delegate = self;
     UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorTitle"]];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorBackButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(onBack)];
-    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorRunButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(onQuery)];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorBackButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
+    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorRunButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(runQuery)];
     [navItem setLeftBarButtonItem:backItem];
     [navItem setRightBarButtonItem:runItem];
     [navBar setItems:@[navItem] animated:YES];

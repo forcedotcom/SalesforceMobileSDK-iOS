@@ -63,8 +63,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 {
     self = [super init];
     if (self) {
-        NSAssert(credentials != nil && credentials.accessToken != nil, @"Must have an access token.");
-        NSAssert(credentials.identityUrl != nil, @"Must have a value for the identity URL.");
         self.credentials = credentials;
         self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
         self.retrievingData = NO;
@@ -78,6 +76,8 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)initiateIdentityDataRetrieval
 {
+    NSAssert(self.credentials != nil && self.credentials.accessToken != nil, @"Must have an access token.");
+    NSAssert(self.credentials.identityUrl != nil, @"Must have a value for the identity URL.");
     NSAssert(self.delegate != nil, @"Cannot retrieve data without a delegate.");
     if (self.retrievingData) {
         NSLog(@"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress.");
@@ -214,10 +214,10 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-    int statusCode = [(NSHTTPURLResponse *)response statusCode];
+    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
     if (statusCode != 200) {
         self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %d", statusCode]];
+                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
     }
     
 	// reset the response data for a new refresh response

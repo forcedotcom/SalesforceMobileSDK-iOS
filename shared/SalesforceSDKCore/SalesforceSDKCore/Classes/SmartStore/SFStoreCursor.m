@@ -56,12 +56,13 @@
 - (id)initWithStore:(SFSmartStore*)store
              querySpec:(SFQuerySpec*)querySpec  
           totalEntries:(NSUInteger)totalEntries
+   firstPageEntries:(NSArray*) firstPageEntries
 {
     self = [super init];
     
     if (nil != self) {
         _store = store;
-        [self setCursorId:[NSString stringWithFormat:@"0x%x",[self hash]]];
+        [self setCursorId:[NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]]];
         
         self.querySpec = querySpec;
         
@@ -76,8 +77,8 @@
             totalPages = 0;
         
         self.totalPages = [NSNumber numberWithInt:totalPages]; 
-                
-        [self setCurrentPageIndex:[NSNumber numberWithInteger:0]];
+        _currentPageIndex = [NSNumber numberWithInt:0];
+        self.currentPageOrderedEntries = firstPageEntries;
     }
     return self;
 }
@@ -138,11 +139,11 @@
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%d] \n querySpec: %@ \n }",
+    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%lu] \n querySpec: %@ \n }",
             self,self.cursorId,
             self.totalPages,
             self.currentPageIndex,
-            [self.currentPageOrderedEntries count],
+            (unsigned long)[self.currentPageOrderedEntries count],
             self.querySpec
             ];
 }

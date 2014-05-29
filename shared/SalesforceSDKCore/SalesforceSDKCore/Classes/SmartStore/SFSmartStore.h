@@ -78,7 +78,7 @@ extern NSString *const SOUP_ENTRY_ID;
 extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
 
-@class FMDatabase;
+@class FMDatabaseQueue;
 @class SFStoreCursor;
 @class SFQuerySpec;
 
@@ -91,7 +91,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
     id      _dataProtectAvailObserverToken;
     id      _dataProtectUnavailObserverToken;
     
-    FMDatabase *_storeDb;
+    FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
     
     NSMutableDictionary *_indexSpecsBySoup;
@@ -102,12 +102,6 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  The name of this store. 
  */
 @property (nonatomic, readonly, strong) NSString *storeName;
-
-/**
- The db access object for this store.
- */
-@property (nonatomic, readonly, strong) FMDatabase *storeDb;
-
 
 
 /**
@@ -139,17 +133,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 + (BOOL)persistentStoreExists:(NSString*)storeName;
 
-/**
- Changes the encryption key for all of the stores associated with the app.
- @param oldKey The original encryption key.
- @param newKey The new encryption key.
- */
-+ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
-
-
 #pragma mark - Soup manipulation methods
-
-
 
 /**
  @param soupName the name of the soup
@@ -197,7 +181,6 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
- 
  @return A set of entries given the pageSize provided in the querySpec
  */
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
@@ -289,7 +272,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @param handleTx TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction
  @return YES if the soup got re-indexed OK
  */
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths handleTx:(BOOL)handleTx;
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
 
 #pragma mark - Long operations recovery methods
 

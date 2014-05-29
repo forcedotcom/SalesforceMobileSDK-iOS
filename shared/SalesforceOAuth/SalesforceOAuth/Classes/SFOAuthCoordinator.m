@@ -49,6 +49,8 @@ static NSString * const kSFOAuthGrantType                       = @"grant_type";
 static NSString * const kSFOAuthGrantTypeRefreshToken           = @"refresh_token";
 static NSString * const kSFOAuthId                              = @"id";
 static NSString * const kSFOAuthInstanceUrl                     = @"instance_url";
+static NSString * const kSFOAuthCommunityId                     = @"sfdc_community_id";
+static NSString * const kSFOAuthCommunityUrl                    = @"sfdc_community_url";
 static NSString * const kSFOAuthIssuedAt                        = @"issued_at";
 static NSString * const kSFOAuthRedirectUri                     = @"redirect_uri";
 static NSString * const kSFOAuthRefreshToken                    = @"refresh_token";
@@ -88,7 +90,6 @@ static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 static NSString * const kHttpMethodPost                         = @"POST";
 static NSString * const kHttpHeaderContentType                  = @"Content-Type";
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
-
 
 @implementation SFOAuthCoordinator
 
@@ -156,7 +157,20 @@ static NSString * const kHttpPostContentType                    = @"application/
 
     self.authenticating = YES;
     
-    // TODO: reachability
+    // Don't try to authenticate if there is no network available
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)] &&
+        ![self.delegate oauthCoordinatorIsNetworkAvailable:self]) {
+        NSLog(@"Network is not available, so bypassing login");
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
+        SFOAuthInfo *authInfo;
+        if (self.credentials.refreshToken) {
+            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+        } else {
+            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
+        }
+        [self notifyDelegateOfFailure:error authInfo:authInfo];
+		return;
+    }
     
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
@@ -402,11 +416,9 @@ static NSString * const kHttpPostContentType                    = @"application/
             } else {
                 // In a non-IP flow, we already have the refresh token here.
             }
-            self.credentials.identityUrl    = [NSURL URLWithString:[dict objectForKey:kSFOAuthId]];
-            self.credentials.accessToken    = [dict objectForKey:kSFOAuthAccessToken];
-            self.credentials.instanceUrl    = [NSURL URLWithString:[dict objectForKey:kSFOAuthInstanceUrl]];
-            self.credentials.issuedAt       = [[self class] timestampStringToDate:[dict objectForKey:kSFOAuthIssuedAt]];
 
+            [self updateCredentials:dict];
+            
             [self notifyDelegateOfSuccess:authInfo];
         }
     } else {
@@ -422,6 +434,31 @@ static NSString * const kHttpPostContentType                    = @"application/
         }
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
         [self notifyDelegateOfFailure:finalError authInfo:authInfo];
+    }
+}
+
+/** Update the credentials using the provided oauth parameters.
+ This method only update the following parameters:
+ - identityUrl
+ - accessToken
+ - instanceUrl
+ - issuedAt
+ - communityId
+ - communityUrl
+ */
+- (void)updateCredentials:(NSDictionary*)params
+{
+    self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
+    self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
+    self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
+    self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
+
+    self.credentials.communityId    = [params objectForKey:kSFOAuthCommunityId];
+    NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
+    if (communityUrl) {
+        self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
+    } else {
+        self.credentials.communityUrl = nil;
     }
 }
 
@@ -473,8 +510,8 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
-        NSLog(@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: (navType=%u): host=%@ : path=%@", 
-              navigationType, request.URL.host, request.URL.path);
+        NSLog(@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: (navType=%ld): host=%@ : path=%@",
+              (long)navigationType, request.URL.host, request.URL.path);
     }
     
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
@@ -505,12 +542,10 @@ static NSString * const kHttpPostContentType                    = @"application/
             NSDictionary *params = [[self class] parseQueryString:response];
             NSString *error = [params objectForKey:kSFOAuthError];
             if (nil == error) {
-                self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
-                self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
+                [self updateCredentials:params];
+                
                 self.credentials.refreshToken   = [params objectForKey:kSFOAuthRefreshToken];
-                self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
-                self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
-                                
+
                 self.approvalCode = [params objectForKey:kSFOAuthApprovalCode];
                 if (self.approvalCode) {
                     // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).

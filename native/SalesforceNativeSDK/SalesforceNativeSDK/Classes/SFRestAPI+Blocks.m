@@ -72,6 +72,15 @@ static char CompleteBlockKey;
     return request;
 }
 
+- (SFRestRequest *) performSOQLQueryAll:(NSString *)query failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQueryAll:query];
+    [self sendRESTRequest:request
+                failBlock:failBlock
+            completeBlock:completeBlock];
+    
+    return request;
+}
+
 - (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:search];
     [self sendRESTRequest:request
@@ -148,9 +157,10 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(NSArray *)fieldList failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    NSString *fields = fieldList ? [[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","] : nil;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:objectType 
                                                                                  objectId:objectId 
-                                                                                fieldList:[[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","]];
+                                                                                fieldList:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];

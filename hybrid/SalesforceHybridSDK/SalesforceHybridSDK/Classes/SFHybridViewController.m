@@ -26,7 +26,7 @@
 #import "SFHybridViewController.h"
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
@@ -165,9 +165,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         // There are a number of required values from the config file.
         [self validateHybridViewConfig];
         
-        [SFAccountManager setClientId:_hybridViewConfig.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:_hybridViewConfig.oauthRedirectURI];
-        [SFAccountManager setScopes:_hybridViewConfig.oauthScopes];
+        [SFUserAccountManager sharedInstance].oauthClientId = _hybridViewConfig.remoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = _hybridViewConfig.oauthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = _hybridViewConfig.oauthScopes;
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;
@@ -200,19 +200,30 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     } else {
         // Device is online.
         if (_hybridViewConfig.shouldAuthenticate) {
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                [self authenticationCompletion:nil authInfo:authInfo];
-                [self configureStartPage];
-                [super viewDidLoad];
-            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                if ([self logoutOnInvalidCredentials:error]) {
-                    [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-                    [[SFAuthenticationManager sharedManager] logout];
-                } else {
-                    // Error is not invalid credentials, or developer otherwise wants to handle it.
-                    [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
-                }
-            }];
+            
+            SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+            SFUserAccount *accountToLogin = userAccountManager.currentUser;
+            
+            // If account is nil, try to load another authenticated user.
+            if (accountToLogin == nil && [userAccountManager.allUserAccounts count] > 0) {
+                accountToLogin = [userAccountManager.allUserAccounts objectAtIndex:0];
+            }
+            [[SFAuthenticationManager sharedManager]
+             loginWithCompletion:^(SFOAuthInfo *authInfo) {
+                 [self authenticationCompletion:nil authInfo:authInfo];
+                 [self configureStartPage];
+                 [super viewDidLoad];
+             }
+             failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
+                 }
+             }
+             account:accountToLogin];
         } else {
             // Start page already set.  Just try to load through Cordova.
             [super viewDidLoad];
@@ -314,7 +325,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 + (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -391,7 +402,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     NSMutableString *errorPageUrlString = [NSMutableString stringWithString:[rootUrl absoluteString]];
     [rootUrl query] == nil ? [errorPageUrlString appendString:@"?"] : [errorPageUrlString appendString:@"&"];
-    [errorPageUrlString appendFormat:@"%@=%d", kErrorCodeParameterName, errorCode];
+    [errorPageUrlString appendFormat:@"%@=%ld", kErrorCodeParameterName, (long)errorCode];
     [errorPageUrlString appendFormat:@"&%@=%@",
      kErrorDescriptionParameterName,
      [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -410,11 +421,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                              </head>\
                              <body>\
                                <h1>Bootstrap Error Page</h1>\
-                               <p>Error code: %d</p>\
+                               <p>Error code: %ld</p>\
                                <p>Error description: %@</p>\
                                <p>Error context: %@</p>\
                              </body>\
-                             </html>", errorCode, errorDescription, errorContext];
+                             </html>", (long)errorCode, errorDescription, errorContext];
     return htmlContent;
 }
 
@@ -576,10 +587,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)loadVFPingPage
 {
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
-    if (nil != instanceUrlString) {
-        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    if (nil != creds.apiUrl) {
+        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.apiUrl.absoluteString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
