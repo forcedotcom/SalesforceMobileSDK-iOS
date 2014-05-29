@@ -211,6 +211,29 @@
     }
 }
 
+- (void)pickContact:(CDVInvokedUrlCommand *)command
+{
+    // mimic chooseContact method call with required for us parameters
+    NSArray* desiredFields = [command.arguments objectAtIndex:0 withDefault:[NSNull null]];
+    if (desiredFields == nil || desiredFields.count == 0) {
+        desiredFields = [NSArray arrayWithObjects:@"*", nil];
+    }
+    NSMutableDictionary* options = [NSMutableDictionary dictionaryWithCapacity:2];
+    
+    [options setObject: desiredFields forKey:@"fields"];
+    [options setObject: [NSNumber numberWithBool: FALSE] forKey:@"allowsEditing"];
+    
+    NSArray* args = [NSArray arrayWithObjects:options, nil];
+    
+    CDVInvokedUrlCommand* newCommand = [[CDVInvokedUrlCommand alloc] initWithArguments:args
+                 callbackId:command.callbackId
+                  className:command.className
+                 methodName:command.methodName];
+    
+    [self chooseContact:newCommand];
+    
+}
+
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePicker
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
@@ -313,6 +336,7 @@
             // get the findOptions values
             BOOL multiple = NO;         // default is false
             NSString* filter = nil;
+            NSArray* desiredFields = nil;
             if (![findOptions isKindOfClass:[NSNull class]]) {
                 id value = nil;
                 filter = (NSString*)[findOptions objectForKey:@"filter"];
@@ -322,9 +346,15 @@
                     multiple = [(NSNumber*)value boolValue];
                     // NSLog(@"multiple is: %d", multiple);
                 }
+                desiredFields = [findOptions objectForKey:@"desiredFields"];
+                // return all fields if desired fields are not explicitly defined
+                if (desiredFields == nil || desiredFields.count == 0) {
+                    desiredFields = [NSArray arrayWithObjects:@"*", nil];
+                }
             }
 
-            NSDictionary* returnFields = [[CDVContact class] calcReturnFields:fields];
+            NSDictionary* searchFields = [[CDVContact class] calcReturnFields:fields];
+            NSDictionary* returnFields = [[CDVContact class] calcReturnFields:desiredFields];
 
             NSMutableArray* matches = nil;
             if (!filter || [filter isEqualToString:@""]) {
@@ -351,7 +381,7 @@
                 for (int j = 0; j < testCount; j++) {
                     CDVContact* testContact = [[CDVContact alloc] initFromABRecord:(__bridge ABRecordRef)[foundRecords objectAtIndex:j]];
                     if (testContact) {
-                        bFound = [testContact foundValue:filter inFields:returnFields];
+                        bFound = [testContact foundValue:filter inFields:searchFields];
                         if (bFound) {
                             [matches addObject:testContact];
                         }
