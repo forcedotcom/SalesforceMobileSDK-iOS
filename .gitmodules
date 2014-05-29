@@ -1,6 +1,6 @@
 [submodule "external/shared"]
 	path = external/shared
-	url = https://github.com/wmathurin/SalesforceMobileSDK-Shared.git
+	url = https://github.com/forcedotcom/SalesforceMobileSDK-Shared.git
 [submodule "external/appledoc/appledoc"]
 	path = external/appledoc/appledoc
 	url = https://github.com/tomaz/appledoc.git
@@ -18,4 +18,4 @@
 	url = https://github.com/forcedotcom/MKNetworkKit.git
 [submodule "external/samples"]
 	path = external/samples
-	url = https://github.com/wmathurin/SalesforceMobileSDK-Samples.git
+	url = https://github.com/forcedotcom/SalesforceMobileSDK-Samples.git
