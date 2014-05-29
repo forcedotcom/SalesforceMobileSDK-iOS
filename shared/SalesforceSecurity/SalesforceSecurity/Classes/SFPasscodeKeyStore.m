@@ -106,7 +106,6 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
         
         // Update the key store dictionary as part of the key update process.
         NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey.encryptionKey];  // Old key.
-        _keyStoreKey = [keyStoreKey copy];
         if (origKeyStoreDict == nil) {
             [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
             self.keyStoreDictionary = nil;
@@ -123,6 +122,7 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
                 [self log:SFLogLevelError msg:@"Error removing key store key from the keychain."];
             }
         } else {
+            NSData *encryptionKeyData = keyStoreKey.encryptionKey.key;
             keyStoreKey.encryptionKey.key = nil;
             NSMutableData *keyStoreKeyData = [NSMutableData data];
             NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
@@ -133,7 +133,10 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
             if (saveKeyResult != noErr) {
                 [self log:SFLogLevelError msg:@"Error saving key store key to the keychain."];
             }
+            keyStoreKey.encryptionKey.key = encryptionKeyData;
         }
+        
+        _keyStoreKey = [keyStoreKey copy];
     }
 }
 
