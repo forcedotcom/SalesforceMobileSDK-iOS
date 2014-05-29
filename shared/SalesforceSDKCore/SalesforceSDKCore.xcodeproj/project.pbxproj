@@ -866,7 +866,6 @@
 				82AF845616DFD95F008912EF /* SFPasscodeViewController.m in Sources */,
 				82AF845916DFD95F008912EF /* SFSecurityLockout.m in Sources */,
 				4FF99A4F19185C6700405BCB /* SFAlterSoupLongOperation.m in Sources */,
-				82AF845A16DFD95F008912EF /* SFSHA256PasscodeProvider.m in Sources */,
 				FDBFFDFA1893194D00D8C603 /* SFDirectoryManager.m in Sources */,
 				FDC4611A1891EAA600E4456B /* SFUserAccount.m in Sources */,
 				82AF845B16DFD95F008912EF /* SFQuerySpec.m in Sources */,
