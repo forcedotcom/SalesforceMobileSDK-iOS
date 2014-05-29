@@ -79,6 +79,8 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
+static NSString * const kLoginRedirect = @"/secur/logout.jsp";
+
 #pragma mark - SFAuthBlockPair
 
 /**
@@ -704,24 +706,31 @@ static Class InstanceClass = nil;
 
 + (BOOL)isLoginRedirectUrl:(NSURL *)url
 {
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0)
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
         return NO;
-    
+    }
+    if ([self isCommunityLoginRedirectUrl:url]) {
+        return YES;
+    }
     BOOL urlMatchesLoginRedirectPattern = NO;
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
         && [[url path] isEqualToString:@"/"]
         && [url query] != nil) {
-        
         NSString *startUrlValue = [url valueForParameterName:@"startURL"];
         NSString *ecValue = [url valueForParameterName:@"ec"];
         BOOL foundStartURL = (startUrlValue != nil);
         BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        
         urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
     }
-    
     return urlMatchesLoginRedirectPattern;
-    
+}
+
++ (BOOL)isCommunityLoginRedirectUrl:(NSURL *)url
+{
+    if ([[url absoluteString] rangeOfString:kLoginRedirect].location != NSNotFound) {
+        return YES;
+    }
+    return NO;
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
