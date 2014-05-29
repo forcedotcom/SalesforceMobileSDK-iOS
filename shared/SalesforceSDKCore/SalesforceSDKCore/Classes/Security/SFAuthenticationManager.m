@@ -709,20 +709,23 @@ static Class InstanceClass = nil;
     if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
         return NO;
     }
+    BOOL urlMatchesCommLoginRedirectPattern = NO;
     if ([self isCommunityLoginRedirectUrl:url]) {
-        return YES;
+        urlMatchesCommLoginRedirectPattern = YES;
     }
-    BOOL urlMatchesLoginRedirectPattern = NO;
+    NSString *startUrlValue = nil;
+    NSString *ecValue = nil;
+    BOOL foundStartURL = NO;
+    BOOL foundValidEcValue = NO;
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
         && [[url path] isEqualToString:@"/"]
         && [url query] != nil) {
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
+        startUrlValue = [url valueForParameterName:@"startURL"];
+        ecValue = [url valueForParameterName:@"ec"];
+        foundStartURL = (startUrlValue != nil);
+        foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
     }
-    return urlMatchesLoginRedirectPattern;
+    return (foundStartURL && (foundValidEcValue || urlMatchesCommLoginRedirectPattern));
 }
 
 + (BOOL)isCommunityLoginRedirectUrl:(NSURL *)url
