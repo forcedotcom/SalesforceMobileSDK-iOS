@@ -480,9 +480,9 @@ static Class InstanceClass = nil;
     if (![user isEqual:userAccountManager.currentUser]) {
         // NB: SmartStores need to be cleared before user account info is removed.
         [SFSmartStore removeAllStoresForUser:user];
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUserId:user.credentials.userId error:nil];
         [user.credentials revoke];
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }
     
