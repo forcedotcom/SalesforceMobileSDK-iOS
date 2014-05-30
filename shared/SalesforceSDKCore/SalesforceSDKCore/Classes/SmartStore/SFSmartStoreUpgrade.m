@@ -24,6 +24,7 @@
 
 #import "SFSmartStoreUpgrade+Internal.h"
 #import "SFSmartStore+Internal.h"
+#import "SFSmartStoreUtils.h"
 #import "SFSmartStoreDatabaseManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
@@ -59,7 +60,9 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     BOOL migratedAllStores = YES;
     for (NSString *storeName in allStoreNames) {
         BOOL migratedStore = [SFSmartStoreUpgrade updateStoreLocationForStore:storeName];
-        if (!migratedStore) {
+        if (migratedStore) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Successfully migrated store '%@'", storeName];
+        } else {
             migratedAllStores = NO;
         }
     }
@@ -98,7 +101,6 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
         return NO;
     }
     
-    
     // Remove the old store directory.
     [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
     return YES;
@@ -109,20 +111,24 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Updating encryption method for all stores, where necessary."];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to update: %d", [allStoreNames count]];
+    
+    // Encryption updates will only apply to the current user.  Multi-user comes concurrently with these encryption updates.
+    SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
+    
     for (NSString *storeName in allStoreNames) {
-        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName]) {
+        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName user:currentUser]) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Could not update encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
-            [SFSmartStore removeSharedStoreWithName:storeName];
+            [SFSmartStore removeSharedStoreWithName:storeName forUser:currentUser];
         }
     }
 }
 
-+ (BOOL)updateEncryptionForStore:(NSString *)storeName
++ (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user
 {
     if (![[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
         return YES;
-    } else if ([SFSmartStoreUpgrade usesKeyStoreEncryption:storeName]) {
+    } else if ([SFSmartStoreUpgrade usesKeyStoreEncryptionForUser:user store:storeName]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' is already using the current encryption scheme.  Skipping.", storeName];
         return YES;
     }
@@ -174,7 +180,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Encryption update did NOT succeed for store '%@'.", storeName];
     }
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:!encryptionUpgradeSucceeded forStore:storeName];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:encryptionUpgradeSucceeded forStore:storeName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:encryptionUpgradeSucceeded forUser:user store:storeName];
     return encryptionUpgradeSucceeded;
 }
 
@@ -233,7 +239,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     }
 }
 
-+ (BOOL)usesKeyStoreEncryption:(NSString *)storeName
++ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
@@ -241,25 +247,41 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if (keyStoreDict == nil)
         return NO;
     
-    NSNumber *usesKeyStoreNum = [keyStoreDict objectForKey:storeName];
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    NSDictionary *userKeyStoreDict = [keyStoreDict objectForKey:userKey];
+    if (userKeyStoreDict == nil)
+        return NO;
+    
+    NSNumber *usesKeyStoreNum = [userKeyStoreDict objectForKey:storeName];
     if (usesKeyStoreNum == nil)
         return NO;
     else
         return [usesKeyStoreNum boolValue];
 }
 
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forStore:(NSString *)storeName
++ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
     NSMutableDictionary *newDict;
-    if (keyStoreDict == nil)
+    if (keyStoreDict == nil) {
         newDict = [NSMutableDictionary dictionary];
-    else
+    } else {
         newDict = [NSMutableDictionary dictionaryWithDictionary:keyStoreDict];
+    }
+    
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    NSDictionary *userDict = [newDict objectForKey:userKey];
+    NSMutableDictionary *newUserDict;
+    if (userDict == nil) {
+        newUserDict = [NSMutableDictionary dictionary];
+    } else {
+        newUserDict = [NSMutableDictionary dictionaryWithDictionary:userDict];
+    }
     
     NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesKeyStoreEncryption];
-    [newDict setObject:usesDefaultNum forKey:storeName];
+    [newUserDict setObject:usesDefaultNum forKey:storeName];
+    [newDict setObject:newUserDict forKey:userKey];
     [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
     [userDefaults synchronize];
 }

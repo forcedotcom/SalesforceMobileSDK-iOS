@@ -26,12 +26,16 @@
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "SFSmartStoreUtils.h"
+#import "SFUserAccountManager.h"
+#import "SFUserAccount.h"
 #import "SFDirectoryManager.h"
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
+static NSMutableDictionary *sDatabaseManagers;
 
 // NSError constants
 NSString *        const kSFSmartStoreDbErrorDomain         = @"com.salesforce.smartstore.db.error";
@@ -52,25 +56,39 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 @implementation SFSmartStoreDatabaseManager
 
+@synthesize user = _user;
+
 #pragma mark - Singleton initialization / management
+
++ (void)initialize
+{
+    sDatabaseManagers = [NSMutableDictionary dictionary];
+}
 
 + (SFSmartStoreDatabaseManager *)sharedManager
 {
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedInstance = [[super allocWithZone:NULL] init];
-    });
-    
-    return sharedInstance;
+    return [self sharedManagerForUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
-+ (id)allocWithZone:(NSZone *)zone
++ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user
 {
-    return [self sharedManager];
+    @synchronized (self) {
+        NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+        SFSmartStoreDatabaseManager *mgr = [sDatabaseManagers objectForKey:userKey];
+        if (mgr == nil) {
+            mgr = [[SFSmartStoreDatabaseManager alloc] initWithUser:user];
+            [sDatabaseManagers setObject:mgr forKey:userKey];
+        }
+        return mgr;
+    }
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)initWithUser:(SFUserAccount *)user
 {
+    self = [super init];
+    if (self) {
+        self.user = ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser] ? nil : user);
+    }
     return self;
 }
 
@@ -308,7 +326,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 }
 
 - (NSString *)rootStoreDirectory {
-    return [[SFDirectoryManager sharedManager] directoryOfCurrentUserForType:NSDocumentDirectory components:@[ kStoresDirectory ]];
+    NSString *rootStoreDir;
+    if (self.user == nil) {
+        rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kStoresDirectory ]];
+    } else {
+        rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:self.user type:NSDocumentDirectory components:@[ kStoresDirectory ]];
+    }
+    
+    return rootStoreDir;
 }
 
 - (NSArray *)allStoreNames {

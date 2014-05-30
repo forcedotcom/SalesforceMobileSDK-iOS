@@ -37,6 +37,8 @@
 		8221562A16E0130C002E1F56 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562316E0130C002E1F56 /* FMDatabaseQueue.m */; };
 		8221562B16E0130C002E1F56 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8221562516E0130C002E1F56 /* FMResultSet.m */; };
 		822208751937E2D90000C635 /* SFSmartStoreDatabaseManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 822208741937E2D90000C635 /* SFSmartStoreDatabaseManager+Internal.h */; };
+		8222087E19381D020000C635 /* SFSmartStoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 8222087C19381D020000C635 /* SFSmartStoreUtils.h */; };
+		8222087F19381D020000C635 /* SFSmartStoreUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8222087D19381D020000C635 /* SFSmartStoreUtils.m */; };
 		8251CA4A16ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */; };
 		8280EBBD16E14E9F00768DE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBBB16E14E9F00768DE8 /* InfoPlist.strings */; };
 		8280EBCA16E14F7000768DE8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
@@ -183,6 +185,8 @@
 		8221562516E0130C002E1F56 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		8221562616E0130C002E1F56 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		822208741937E2D90000C635 /* SFSmartStoreDatabaseManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSmartStoreDatabaseManager+Internal.h"; sourceTree = "<group>"; };
+		8222087C19381D020000C635 /* SFSmartStoreUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreUtils.h; sourceTree = "<group>"; };
+		8222087D19381D020000C635 /* SFSmartStoreUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreUtils.m; sourceTree = "<group>"; };
 		8251CA4816ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtilsTests.h"; sourceTree = "<group>"; };
 		8251CA4916ED27FA00BD1EA2 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFStringUtilsTests.m"; sourceTree = "<group>"; };
 		8280EBB216E14E9F00768DE8 /* SalesforceSDKCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -596,6 +600,8 @@
 				82B211AF192186F000154BBC /* SFSmartStoreUpgrade.h */,
 				82B211B0192186F000154BBC /* SFSmartStoreUpgrade.m */,
 				82B211B31921892400154BBC /* SFSmartStoreUpgrade+Internal.h */,
+				8222087C19381D020000C635 /* SFSmartStoreUtils.h */,
+				8222087D19381D020000C635 /* SFSmartStoreUtils.m */,
 				82AF843B16DFD95F008912EF /* SFSoupIndex.h */,
 				82AF843C16DFD95F008912EF /* SFSoupIndex.m */,
 				82AF843D16DFD95F008912EF /* SFStoreCursor.h */,
@@ -666,6 +672,7 @@
 				FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */,
 				82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */,
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
+				8222087E19381D020000C635 /* SFSmartStoreUtils.h in Headers */,
 				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
 				82BBB57017909D9300374DD8 /* SFIdentityCoordinator.h in Headers */,
 				FDC4611C1891EAA600E4456B /* SFUserAccountManager.h in Headers */,
@@ -884,6 +891,7 @@
 				82C0C7C116E08A8F0006B3C0 /* TestSetupUtils.m in Sources */,
 				82B6BC44170276DD0089D182 /* SFRootViewManager.m in Sources */,
 				82867578181C759A007AA18A /* SFAuthenticationViewHandler.m in Sources */,
+				8222087F19381D020000C635 /* SFSmartStoreUtils.m in Sources */,
 				82A55A70182020B00002E22A /* SFAuthErrorHandler.m in Sources */,
 				82A55A751821A48B0002E22A /* SFAuthErrorHandlerList.m in Sources */,
 			);

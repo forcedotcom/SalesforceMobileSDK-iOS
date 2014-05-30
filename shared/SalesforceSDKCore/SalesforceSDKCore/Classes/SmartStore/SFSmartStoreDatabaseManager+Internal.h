@@ -29,6 +29,8 @@ static NSString * const kStoresDirectory          = @"stores";
 
 @interface SFSmartStoreDatabaseManager ()
 
+@property (nonatomic, strong) SFUserAccount *user;
+
 /**
  @param storeName The name of the store.
  @return The filesystem diretory containing for the given store name

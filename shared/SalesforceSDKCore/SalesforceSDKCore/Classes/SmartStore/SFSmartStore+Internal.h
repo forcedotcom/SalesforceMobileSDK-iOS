@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SFSmartStore.h"
+#import "SFUserAccount.h"
+#import "SFSmartStoreDatabaseManager.h"
 
 @class FMDatabase;
 @class FMResultSet;
@@ -31,8 +33,10 @@
 @interface SFSmartStore ()
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
+@property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
 
-- (id)initWithName:(NSString*)name;
+- (id)initWithName:(NSString*)name user:(SFUserAccount *)user;
 
 /**
  Simply open the db file.
