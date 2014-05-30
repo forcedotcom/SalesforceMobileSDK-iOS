@@ -24,7 +24,8 @@
 
 #import "SFSmartStoreUpgrade+Internal.h"
 #import "SFSmartStore+Internal.h"
-#import "SFSmartStoreDatabaseManager.h"
+#import "SFSmartStoreDatabaseManager+Internal.h"
+#import "SFUserAccountManager.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/SFCrypto.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
@@ -38,6 +39,70 @@ static NSString * const kLegacyDefaultEncryptionTypeKey = @"com.salesforce.smart
 static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstore.keyStoreEncryptedStores";
 
 @implementation SFSmartStoreUpgrade
+
++ (void)updateStoreLocations
+{
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Migrating stores from legacy locations, where necessary."];
+    NSArray *allStoreNames = [SFSmartStoreUpgrade legacyAllStoreNames];
+    if ([allStoreNames count] == 0) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"No legacy stores to migrate."];
+        return;
+    }
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to migrate: %d", [allStoreNames count]];
+    
+    // If there's no destination directory available (i.e. no authenticated user), this process cannot continue.
+    if ([SFUserAccountManager sharedInstance].currentUser == nil || [[SFSmartStoreDatabaseManager sharedManager] rootStoreDirectory] == nil) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError msg:@"SmartStore store migration cannot continue without an authenticated user.  You must authenticate before initializing SmartStore."];
+        return;
+    }
+    
+    BOOL migratedAllStores = YES;
+    for (NSString *storeName in allStoreNames) {
+        BOOL migratedStore = [SFSmartStoreUpgrade updateStoreLocationForStore:storeName];
+        if (!migratedStore) {
+            migratedAllStores = NO;
+        }
+    }
+    
+    if (migratedAllStores) {
+        [[NSFileManager defaultManager] removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
+    }
+}
+
++ (BOOL)updateStoreLocationForStore:(NSString *)storeName
+{
+    NSString *origStoreDirPath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
+    NSString *origStoreFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
+    NSString *newStoreDirPath = [[SFSmartStoreDatabaseManager sharedManager] storeDirectoryForStoreName:storeName];
+    NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
+    
+    // No store in the original location?  Nothing to do.
+    if (![[NSFileManager defaultManager] fileExistsAtPath:origStoreFilePath]) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
+        [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+        return YES;
+    }
+    
+    // Create the new store directory.
+    NSError *fileIoError = nil;
+    BOOL createdNewStoreDir = [[NSFileManager defaultManager] createDirectoryAtPath:newStoreDirPath withIntermediateDirectories:YES attributes:nil error:&fileIoError];
+    if (!createdNewStoreDir) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error creating new store directory for store '%@': %@", storeName, [fileIoError localizedDescription]];
+        return NO;
+    }
+    
+    // Move the store from the old directory to the new one.
+    BOOL movedStore = [[NSFileManager defaultManager] moveItemAtPath:origStoreFilePath toPath:newStoreFilePath error:&fileIoError];
+    if (!movedStore) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error moving store '%@' to new directory: %@", storeName, [fileIoError localizedDescription]];
+        return NO;
+    }
+    
+    
+    // Remove the old store directory.
+    [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+    return YES;
+}
 
 + (void)updateEncryption
 {
@@ -197,6 +262,68 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     [newDict setObject:usesDefaultNum forKey:storeName];
     [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
     [userDefaults synchronize];
+}
+
+#pragma mark - Legacy SmartStore filesystem functionality
+
++ (NSArray *)legacyAllStoreNames
+{
+    NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
+    NSError *getStoresError = nil;
+    
+    // First see if the legacy root folder exists.
+    BOOL rootDirIsDirectory = NO;
+    BOOL rootDirExists = [[NSFileManager defaultManager] fileExistsAtPath:rootDir isDirectory:&rootDirIsDirectory];
+    if (!rootDirExists || !rootDirIsDirectory) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Legacy SmartStore directory does not exist.  Nothing to do."];
+        return nil;
+    }
+    
+    // Get the folder paths of the legacy stores.
+    NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
+    if (getStoresError) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelWarning format:@"Problem retrieving store names from legacy SmartStore directory: %@.  Will not continue.", [getStoresError localizedDescription]];
+        return nil;
+    }
+    
+    NSMutableArray *allStoreNames = [NSMutableArray array];
+    for (NSString *storesDirName in storesDirNames) {
+        if ([SFSmartStoreUpgrade legacyPersistentStoreExists:storesDirName])
+            [allStoreNames addObject:storesDirName];
+    }
+    
+    return allStoreNames;
+}
+
++ (BOOL)legacyPersistentStoreExists:(NSString *)storeName
+{
+    NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];
+    return result;
+}
+
++ (NSString *)legacyFullDbFilePathForStoreName:(NSString *)storeName
+{
+    NSString *storePath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
+    NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
+    return fullDbFilePath;
+}
+
++ (NSString *)legacyStoreDirectoryForStoreName:(NSString *)storeName
+{
+    NSString *storesDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
+    NSString *result = [storesDir stringByAppendingPathComponent:storeName];
+    
+    return result;
+}
+
++ (NSString *)legacyRootStoreDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
+    
+    return storesDir;
 }
 
 #pragma mark - Legacy encryption key functionality

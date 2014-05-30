@@ -22,18 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStoreDatabaseManager.h"
+#import "SFSmartStoreDatabaseManager+Internal.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "SFDirectoryManager.h"
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
-
-static NSString * const kStoresDirectory          = @"stores";
-static NSString * const kStoreDbFileName          = @"store.sqlite";
 
 // NSError constants
 NSString *        const kSFSmartStoreDbErrorDomain         = @"com.salesforce.smartstore.db.error";
@@ -51,28 +49,6 @@ static NSInteger  const kSFSmartStoreVerifyDbErrorCode     = 6;
 static NSString * const kSFSmartStoreVerifyDbErrorDesc     = @"Could not open database at path '%@' for verification: %@";
 static NSInteger  const kSFSmartStoreVerifyReadDbErrorCode = 7;
 static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read from database at path '%@', for verification: %@";
-
-@interface SFSmartStoreDatabaseManager ()
-
-/**
- @param storeName The name of the store.
- @return The filesystem diretory containing for the given store name
- */
-- (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
-
-/**
- @return The root directory where all the SmartStore DBs live.
- */
-- (NSString *)rootStoreDirectory;
-
-- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
-                                name:(NSString *)storeName
-                              oldKey:(NSString *)oldKey
-                              newKey:(NSString *)newKey
-                               error:(NSError **)error;
-- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
-
-@end
 
 @implementation SFSmartStoreDatabaseManager
 
@@ -332,11 +308,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 }
 
 - (NSString *)rootStoreDirectory {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
-    
-    return storesDir;
+    return [[SFDirectoryManager sharedManager] directoryOfCurrentUserForType:NSDocumentDirectory components:@[ kStoresDirectory ]];
 }
 
 - (NSArray *)allStoreNames {

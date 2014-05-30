@@ -90,9 +90,10 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (void)initialize
 {
-    // We do this as the very first thing, because there are so many class methods that access
+    // We do store upgrades as the very first thing, because there are so many class methods that access
     // the data stores without initializing an SFSmartStore instance.
-    [SFSmartStoreUpgrade updateEncryption];    
+    [SFSmartStoreUpgrade updateStoreLocations];
+    [SFSmartStoreUpgrade updateEncryption];
 }
 
 - (id) initWithName:(NSString*)name {

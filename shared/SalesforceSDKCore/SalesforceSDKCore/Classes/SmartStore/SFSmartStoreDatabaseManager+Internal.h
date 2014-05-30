@@ -22,32 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSmartStoreDatabaseManager.h"
 
-@interface SFSmartStoreUpgrade : NSObject
+static NSString * const kStoreDbFileName          = @"store.sqlite";
+static NSString * const kStoresDirectory          = @"stores";
 
-/**
- Updates any existing stores from their legacy location to their new user-specific location.
- */
-+ (void)updateStoreLocations;
+@interface SFSmartStoreDatabaseManager ()
 
 /**
- Updates the encryption scheme of each SmartStore database to the currently supported scheme.
+ @param storeName The name of the store.
+ @return The filesystem diretory containing for the given store name
  */
-+ (void)updateEncryption;
+- (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
 
 /**
- Whether or not a given store is encrypted based on the key store key.
- @param storeName The store to query.
- @return YES if the store is encrypted with the key store, NO otherwise.
+ @return The root directory where all the SmartStore DBs live.
  */
-+ (BOOL)usesKeyStoreEncryption:(NSString *)storeName;
+- (NSString *)rootStoreDirectory;
 
-/**
- Sets a flag denoting whether or not the store uses encryption based the key store key.
- @param usesKeyStoreEncryption YES if it does, NO if it doesn't.
- @param storeName The store to which the flag applies.
- */
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forStore:(NSString *)storeName;
+- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
+                                name:(NSString *)storeName
+                              oldKey:(NSString *)oldKey
+                              newKey:(NSString *)newKey
+                               error:(NSError **)error;
+
+- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
 
 @end
