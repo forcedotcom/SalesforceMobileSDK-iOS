@@ -27,6 +27,7 @@
 #import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountManagerUpgrade.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandler.h"
 #import "SFAuthErrorHandlerList.h"
@@ -421,8 +422,12 @@ static Class InstanceClass = nil;
     if (account == nil) {
         account = [SFUserAccountManager sharedInstance].currentUser;
         if (account == nil) {
-            [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
-            account = [[SFUserAccountManager sharedInstance] createUserAccount];
+            // Create the current user out of legacy account data, if it exists.
+            account = [SFUserAccountManagerUpgrade createUserFromLegacyAccountData];
+            if (account == nil) {
+                [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
+                account = [[SFUserAccountManager sharedInstance] createUserAccount];
+            }
             [[SFUserAccountManager sharedInstance] saveAccounts:nil];
         }
     }

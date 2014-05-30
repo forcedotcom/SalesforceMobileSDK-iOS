@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
@@ -96,34 +96,6 @@ static NSString * const kUserPrefix = @"005";
     
     return self;
 }
-
-@end
-
-@interface SFUserAccountManager ()
-{
-    NSMutableOrderedSet *_delegates;
-}
-
-/** A map of user accounts by user ID
- */
-@property (nonatomic, strong) NSMutableDictionary *userAccountMap;
-
-@property (nonatomic, strong) NSString *lastChangedOrgId;
-@property (nonatomic, strong) NSString *lastChangedUserId;
-@property (nonatomic, strong) NSString *lastChangedCommunityId;
-
-/**
- Executes the given block for each configured delegate.
- @param block The block to execute for each delegate.
- */
-- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block;
-
-/**
- Updates the login host in app settings, for apps that utilize login host switching from
- the Settings app.
- @param newLoginHost The login host to update.
- */
-- (void)updateAppSettingsLoginHost:(NSString *)newLoginHost;
 
 @end
 
