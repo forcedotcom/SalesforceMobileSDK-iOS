@@ -172,35 +172,32 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
-    if (SFUserAccountScopeGlobal == scope) {
-        return kGlobalScopingKey;
-    } else {
-        assert(user);
-        NSString *key;
-        switch (scope) {
-            case SFUserAccountScopeGlobal:
-                key = kGlobalScopingKey;
-                break;
-                
-            case SFUserAccountScopeOrg:
-                assert(user.credentials.organizationId);
+    NSString *key = nil;
+    switch (scope) {
+        case SFUserAccountScopeGlobal:
+            key = kGlobalScopingKey;
+            break;
+            
+        case SFUserAccountScopeOrg:
+            if (user.credentials.organizationId != nil) {
                 key = user.credentials.organizationId;
-                break;
-                
-            case SFUserAccountScopeUser:
-                assert(user.credentials.organizationId);
-                assert(user.credentials.userId);
+            }
+            break;
+            
+        case SFUserAccountScopeUser:
+            if (user.credentials.organizationId != nil && user.credentials.userId != nil) {
                 key = [NSString stringWithFormat:@"%@-%@", user.credentials.organizationId, user.credentials.userId];
-                break;
-                
-            case SFUserAccountScopeCommunity:
-                assert(user.credentials.organizationId);
-                assert(user.credentials.userId);
+            }
+            break;
+            
+        case SFUserAccountScopeCommunity:
+            if (user.credentials.organizationId != nil && user.credentials.userId != nil) {
                 key = [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
-                break;
-        }
-        return key;
+            }
+            break;
     }
+    
+    return key;
 }
 
 @end

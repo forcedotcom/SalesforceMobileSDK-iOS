@@ -37,8 +37,8 @@
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
-#import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
+#import "SFUserAccountManager.h"
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFEncryptionKey.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
@@ -533,7 +533,7 @@ NSString * const kTestSoupName   = @"testSoup";
     storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey error:&unencryptStoreError];
     STAssertNotNil(storeDb, @"Failed to unencrypt '%@': %@", unencryptedStoreName, [unencryptStoreError localizedDescription]);
     [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:unencryptedStoreName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:unencryptedStoreName];
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:NO forStore:unencryptedStoreName];
     
     // MAC store
@@ -541,7 +541,7 @@ NSString * const kTestSoupName   = @"testSoup";
     BOOL rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyMac]];
     STAssertTrue(rekeyResult, @"Re-encryption to MAC address should have been successful.");
     [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:macStoreName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:macStoreName];
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:macStoreName];
     [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:macStoreName];
     
@@ -550,7 +550,7 @@ NSString * const kTestSoupName   = @"testSoup";
     rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyIdForVendor]];
     STAssertTrue(rekeyResult, @"Re-encryption to Vendor ID should have been successful.");
     [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:vendorIdStoreName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:vendorIdStoreName];
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:vendorIdStoreName];
     [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:vendorIdStoreName];
     
@@ -559,7 +559,7 @@ NSString * const kTestSoupName   = @"testSoup";
     rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyBaseAppId]];
     STAssertTrue(rekeyResult, @"Re-encryption to Base App ID should have been successful.");
     [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:baseAppIdStoreName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:baseAppIdStoreName];
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:baseAppIdStoreName];
     [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:baseAppIdStoreName];
     
@@ -568,7 +568,7 @@ NSString * const kTestSoupName   = @"testSoup";
     rekeyResult = [storeDb rekey:@"SomeUnrecognizedKey"];
     STAssertTrue(rekeyResult, @"Re-encryption to bad key should have been successful.");
     [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:badKeyStoreName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:badKeyStoreName];
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:badKeyStoreName]; // Random configuration.
     [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:badKeyStoreName];
     
@@ -583,7 +583,7 @@ NSString * const kTestSoupName   = @"testSoup";
     }
     
     // Verify that a bad key store will be removed as part of the upgrade process.
-    BOOL storeExists = [SFSmartStore persistentStoreExists:badKeyStoreName];
+    BOOL storeExists = [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:badKeyStoreName];
     STAssertFalse(storeExists, @"Un-decryptable store should have been removed on encryption update.");
     
     [self clearAllStores];

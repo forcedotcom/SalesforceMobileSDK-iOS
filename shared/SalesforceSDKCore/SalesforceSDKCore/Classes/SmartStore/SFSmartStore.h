@@ -40,6 +40,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
 @class FMDatabaseQueue;
 @class SFStoreCursor;
 @class SFQuerySpec;
+@class SFUserAccount;
 
 @interface SFSmartStore : NSObject {
 
@@ -62,33 +63,46 @@ extern NSString * const kSFSmartStoreErrorDomain;
 
 
 /**
- Use this method to obtain a shared store instance with a particular name.
+ Use this method to obtain a shared store instance with a particular name for the current user.
  
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
 + (id)sharedStoreWithName:(NSString*)storeName;
 
+/**
+ Use this method to obtain a shared store instance with the given name for the given user.
+ @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
+ @param user The user associated with the store.
+ */
++ (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
 
 /**
- 
  You may use this method to completely remove a persistent shared store with
- the given name.
+ the given name for the current user.
  
  @param storeName The name of the store. 
  */
-+ (void)removeSharedStoreWithName:(NSString*)storeName;
++ (void)removeSharedStoreWithName:(NSString *)storeName;
 
 /**
- Removes all of the stores from this app.
+ You may use this method to completely remove a persisted shared store with the given name
+ for the given user.
+ @param storeName The name of the store to remove.
+ @param user The user associated with the store.
+ */
++ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user;
+
+/**
+ Removes all of the stores for the current user from this app.
  */
 + (void)removeAllStores;
 
 /**
- @param storeName The name of the store (excluding paths)
- @return Does this store already exist in persistent storage (ignoring cache) ?
+ Removes all of the store for the given user from this app.
+ @param user The user associated with the stores to remove.
  */
-+ (BOOL)persistentStoreExists:(NSString*)storeName;
++ (void)removeAllStoresForUser:(SFUserAccount *)user;
 
 #pragma mark - Soup manipulation methods
 

@@ -24,7 +24,9 @@
 
 #import "SFSmartStoreUpgrade+Internal.h"
 #import "SFSmartStore+Internal.h"
-#import "SFSmartStoreDatabaseManager.h"
+#import "SFSmartStoreUtils.h"
+#import "SFSmartStoreDatabaseManager+Internal.h"
+#import "SFUserAccountManager.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/SFCrypto.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
@@ -39,25 +41,83 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 @implementation SFSmartStoreUpgrade
 
++ (void)updateStoreLocations
+{
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Migrating stores from legacy locations, where necessary."];
+    NSArray *allStoreNames = [SFSmartStoreUpgrade legacyAllStoreNames];
+    if ([allStoreNames count] == 0) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"No legacy stores to migrate."];
+        return;
+    }
+    [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to migrate: %d", [allStoreNames count]];
+    
+    for (NSString *storeName in allStoreNames) {
+        BOOL migratedStore = [SFSmartStoreUpgrade updateStoreLocationForStore:storeName];
+        if (migratedStore) {
+            [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Successfully migrated store '%@'", storeName];
+        }
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
+}
+
++ (BOOL)updateStoreLocationForStore:(NSString *)storeName
+{
+    NSString *origStoreDirPath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
+    NSString *origStoreFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
+    NSString *newStoreDirPath = [[SFSmartStoreDatabaseManager sharedManager] storeDirectoryForStoreName:storeName];
+    NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
+    
+    // No store in the original location?  Nothing to do.
+    if (![[NSFileManager defaultManager] fileExistsAtPath:origStoreFilePath]) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
+        [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+        return YES;
+    }
+    
+    // Create the new store directory.
+    NSError *fileIoError = nil;
+    BOOL createdNewStoreDir = [[NSFileManager defaultManager] createDirectoryAtPath:newStoreDirPath withIntermediateDirectories:YES attributes:nil error:&fileIoError];
+    if (!createdNewStoreDir) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error creating new store directory for store '%@': %@", storeName, [fileIoError localizedDescription]];
+        return NO;
+    }
+    
+    // Move the store from the old directory to the new one.
+    BOOL movedStore = [[NSFileManager defaultManager] moveItemAtPath:origStoreFilePath toPath:newStoreFilePath error:&fileIoError];
+    if (!movedStore) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error moving store '%@' to new directory: %@", storeName, [fileIoError localizedDescription]];
+        return NO;
+    }
+    
+    // Remove the old store directory.
+    [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+    return YES;
+}
+
 + (void)updateEncryption
 {
     [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Updating encryption method for all stores, where necessary."];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to update: %d", [allStoreNames count]];
+    
+    // Encryption updates will only apply to the current user.  Multi-user comes concurrently with these encryption updates.
+    SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
+    
     for (NSString *storeName in allStoreNames) {
-        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName]) {
+        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName user:currentUser]) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Could not update encryption for '%@', which means the data is no longer accessible.  Removing store.", storeName];
-            [SFSmartStore removeSharedStoreWithName:storeName];
+            [SFSmartStore removeSharedStoreWithName:storeName forUser:currentUser];
         }
     }
 }
 
-+ (BOOL)updateEncryptionForStore:(NSString *)storeName
++ (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user
 {
-    if (![[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName]) {
+    if (![[SFSmartStoreDatabaseManager sharedManagerForUser:user] persistentStoreExists:storeName]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
         return YES;
-    } else if ([SFSmartStoreUpgrade usesKeyStoreEncryption:storeName]) {
+    } else if ([SFSmartStoreUpgrade usesKeyStoreEncryptionForUser:user store:storeName]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' is already using the current encryption scheme.  Skipping.", storeName];
         return YES;
     }
@@ -102,18 +162,18 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     // New key will be the keystore-managed key.
     NSString *newKey = [SFSmartStore encKey];
     
-    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName oldKey:origKey newKey:newKey];
+    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName user:user oldKey:origKey newKey:newKey];
     if (encryptionUpgradeSucceeded) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Encryption update succeeded for store '%@'.", storeName];
     } else {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Encryption update did NOT succeed for store '%@'.", storeName];
     }
     [SFSmartStoreUpgrade setUsesLegacyDefaultKey:!encryptionUpgradeSucceeded forStore:storeName];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:encryptionUpgradeSucceeded forStore:storeName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:encryptionUpgradeSucceeded forUser:user store:storeName];
     return encryptionUpgradeSucceeded;
 }
 
-+ (BOOL)changeEncryptionForStore:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey
++ (BOOL)changeEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user oldKey:(NSString *)oldKey newKey:(NSString *)newKey
 {
     NSString * const kEncryptionChangeErrorMessage = @"Error changing the encryption key for store '%@': %@";
     NSString * const kNewEncryptionErrorMessage = @"Error encrypting the unencrypted store '%@': %@";
@@ -121,13 +181,15 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     
     NSError *openDbError = nil;
     NSError *verifyDbAccessError = nil;
-    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
-                                                                                        key:oldKey
-                                                                                      error:&openDbError];
+    SFSmartStoreDatabaseManager *dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:user];
+    
+    FMDatabase *db = [dbMgr openStoreDatabaseWithName:storeName
+                                                  key:oldKey
+                                                error:&openDbError];
     if (db == nil || openDbError != nil) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
         return NO;
-    } else if (![[SFSmartStoreDatabaseManager sharedManager] verifyDatabaseAccess:db error:&verifyDbAccessError]) {
+    } else if (![dbMgr verifyDatabaseAccess:db error:&verifyDbAccessError]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error reading the content of store '%@' during encryption upgrade: %@", storeName, [verifyDbAccessError localizedDescription]];
         [db close];
         return NO;
@@ -136,7 +198,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if ([oldKey length] == 0) {
         // Going from unencrypted to encrypted.
         NSError *encryptDbError = nil;
-        db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:storeName key:newKey error:&encryptDbError];
+        db = [dbMgr encryptDb:db name:storeName key:newKey error:&encryptDbError];
         [db close];
         if (encryptDbError != nil) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]];
@@ -147,7 +209,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     } else if ([newKey length] == 0) {
         // Going from encrypted to unencrypted (unlikely, but okay).
         NSError *decryptDbError = nil;
-        db = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
+        db = [dbMgr unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
         [db close];
         if (decryptDbError != nil) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kDecryptionErrorMessage, storeName, [decryptDbError localizedDescription]];
@@ -168,7 +230,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     }
 }
 
-+ (BOOL)usesKeyStoreEncryption:(NSString *)storeName
++ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
@@ -176,27 +238,105 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if (keyStoreDict == nil)
         return NO;
     
-    NSNumber *usesKeyStoreNum = [keyStoreDict objectForKey:storeName];
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    NSDictionary *userKeyStoreDict = [keyStoreDict objectForKey:userKey];
+    if (userKeyStoreDict == nil)
+        return NO;
+    
+    NSNumber *usesKeyStoreNum = [userKeyStoreDict objectForKey:storeName];
     if (usesKeyStoreNum == nil)
         return NO;
     else
         return [usesKeyStoreNum boolValue];
 }
 
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forStore:(NSString *)storeName
++ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
     NSMutableDictionary *newDict;
-    if (keyStoreDict == nil)
+    if (keyStoreDict == nil) {
         newDict = [NSMutableDictionary dictionary];
-    else
+    } else {
         newDict = [NSMutableDictionary dictionaryWithDictionary:keyStoreDict];
+    }
+    
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    NSDictionary *userDict = [newDict objectForKey:userKey];
+    NSMutableDictionary *newUserDict;
+    if (userDict == nil) {
+        newUserDict = [NSMutableDictionary dictionary];
+    } else {
+        newUserDict = [NSMutableDictionary dictionaryWithDictionary:userDict];
+    }
     
     NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesKeyStoreEncryption];
-    [newDict setObject:usesDefaultNum forKey:storeName];
+    [newUserDict setObject:usesDefaultNum forKey:storeName];
+    [newDict setObject:newUserDict forKey:userKey];
     [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
     [userDefaults synchronize];
+}
+
+#pragma mark - Legacy SmartStore filesystem functionality
+
++ (NSArray *)legacyAllStoreNames
+{
+    NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
+    NSError *getStoresError = nil;
+    
+    // First see if the legacy root folder exists.
+    BOOL rootDirIsDirectory = NO;
+    BOOL rootDirExists = [[NSFileManager defaultManager] fileExistsAtPath:rootDir isDirectory:&rootDirIsDirectory];
+    if (!rootDirExists || !rootDirIsDirectory) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Legacy SmartStore directory does not exist.  Nothing to do."];
+        return nil;
+    }
+    
+    // Get the folder paths of the legacy stores.
+    NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
+    if (getStoresError) {
+        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelWarning format:@"Problem retrieving store names from legacy SmartStore directory: %@.  Will not continue.", [getStoresError localizedDescription]];
+        return nil;
+    }
+    
+    NSMutableArray *allStoreNames = [NSMutableArray array];
+    for (NSString *storesDirName in storesDirNames) {
+        if ([SFSmartStoreUpgrade legacyPersistentStoreExists:storesDirName])
+            [allStoreNames addObject:storesDirName];
+    }
+    
+    return allStoreNames;
+}
+
++ (BOOL)legacyPersistentStoreExists:(NSString *)storeName
+{
+    NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];
+    return result;
+}
+
++ (NSString *)legacyFullDbFilePathForStoreName:(NSString *)storeName
+{
+    NSString *storePath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
+    NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
+    return fullDbFilePath;
+}
+
++ (NSString *)legacyStoreDirectoryForStoreName:(NSString *)storeName
+{
+    NSString *storesDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
+    NSString *result = [storesDir stringByAppendingPathComponent:storeName];
+    
+    return result;
+}
+
++ (NSString *)legacyRootStoreDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
+    
+    return storesDir;
 }
 
 #pragma mark - Legacy encryption key functionality

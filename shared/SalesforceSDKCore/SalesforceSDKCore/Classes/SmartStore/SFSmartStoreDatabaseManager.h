@@ -26,6 +26,7 @@
 
 @class FMDatabase;
 @class FMDatabaseQueue;
+@class SFUserAccount;
 
 /**
  The NSError domain for SmartStore database errors.
@@ -35,9 +36,15 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 @interface SFSmartStoreDatabaseManager : NSObject
 
 /**
- Gets the shared instance of the database manager.
+ Gets the shared instance of the database manager for the current user.
  */
 + (SFSmartStoreDatabaseManager *)sharedManager;
+
+/**
+ Gets the shared instance of the database manager for the given user.
+ @param user The user associated with the database manager.
+ */
++ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user;
 
 /**
  Whether the store with the given name exists.
