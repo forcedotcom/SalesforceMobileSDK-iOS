@@ -102,7 +102,7 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     self = [super init];
     
     if (nil != self)  {
-        [self log:SFLogLevelDebug format:@"SFSmartStore initWithStoreName: %@, user: %@", name, user];
+        [self log:SFLogLevelDebug format:@"SFSmartStore initWithName: %@, user: %@", name, [SFSmartStoreUtils userKeyForUser:user]];
         
         _storeName = name;
         if ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser]) {

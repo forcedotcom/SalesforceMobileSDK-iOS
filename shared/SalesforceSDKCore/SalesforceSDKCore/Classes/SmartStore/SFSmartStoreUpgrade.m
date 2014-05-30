@@ -51,25 +51,14 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     }
     [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Number of stores to migrate: %d", [allStoreNames count]];
     
-    // If there's no destination directory available (i.e. no authenticated user), this process cannot continue.
-    if ([SFUserAccountManager sharedInstance].currentUser == nil || [[SFSmartStoreDatabaseManager sharedManager] rootStoreDirectory] == nil) {
-        [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError msg:@"SmartStore store migration cannot continue without an authenticated user.  You must authenticate before initializing SmartStore."];
-        return;
-    }
-    
-    BOOL migratedAllStores = YES;
     for (NSString *storeName in allStoreNames) {
         BOOL migratedStore = [SFSmartStoreUpgrade updateStoreLocationForStore:storeName];
         if (migratedStore) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Successfully migrated store '%@'", storeName];
-        } else {
-            migratedAllStores = NO;
         }
     }
     
-    if (migratedAllStores) {
-        [[NSFileManager defaultManager] removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
 }
 
 + (BOOL)updateStoreLocationForStore:(NSString *)storeName
@@ -125,7 +114,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 + (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user
 {
-    if (![[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName]) {
+    if (![[SFSmartStoreDatabaseManager sharedManagerForUser:user] persistentStoreExists:storeName]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Store '%@' does not exist on the filesystem.  Skipping.", storeName];
         return YES;
     } else if ([SFSmartStoreUpgrade usesKeyStoreEncryptionForUser:user store:storeName]) {
@@ -173,7 +162,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     // New key will be the keystore-managed key.
     NSString *newKey = [SFSmartStore encKey];
     
-    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName oldKey:origKey newKey:newKey];
+    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName user:user oldKey:origKey newKey:newKey];
     if (encryptionUpgradeSucceeded) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Encryption update succeeded for store '%@'.", storeName];
     } else {
@@ -184,7 +173,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     return encryptionUpgradeSucceeded;
 }
 
-+ (BOOL)changeEncryptionForStore:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey
++ (BOOL)changeEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user oldKey:(NSString *)oldKey newKey:(NSString *)newKey
 {
     NSString * const kEncryptionChangeErrorMessage = @"Error changing the encryption key for store '%@': %@";
     NSString * const kNewEncryptionErrorMessage = @"Error encrypting the unencrypted store '%@': %@";
@@ -192,13 +181,15 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     
     NSError *openDbError = nil;
     NSError *verifyDbAccessError = nil;
-    FMDatabase *db = [[SFSmartStoreDatabaseManager sharedManager] openStoreDatabaseWithName:storeName
-                                                                                        key:oldKey
-                                                                                      error:&openDbError];
+    SFSmartStoreDatabaseManager *dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:user];
+    
+    FMDatabase *db = [dbMgr openStoreDatabaseWithName:storeName
+                                                  key:oldKey
+                                                error:&openDbError];
     if (db == nil || openDbError != nil) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
         return NO;
-    } else if (![[SFSmartStoreDatabaseManager sharedManager] verifyDatabaseAccess:db error:&verifyDbAccessError]) {
+    } else if (![dbMgr verifyDatabaseAccess:db error:&verifyDbAccessError]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error reading the content of store '%@' during encryption upgrade: %@", storeName, [verifyDbAccessError localizedDescription]];
         [db close];
         return NO;
@@ -207,7 +198,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if ([oldKey length] == 0) {
         // Going from unencrypted to encrypted.
         NSError *encryptDbError = nil;
-        db = [[SFSmartStoreDatabaseManager sharedManager] encryptDb:db name:storeName key:newKey error:&encryptDbError];
+        db = [dbMgr encryptDb:db name:storeName key:newKey error:&encryptDbError];
         [db close];
         if (encryptDbError != nil) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]];
@@ -218,7 +209,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     } else if ([newKey length] == 0) {
         // Going from encrypted to unencrypted (unlikely, but okay).
         NSError *decryptDbError = nil;
-        db = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
+        db = [dbMgr unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
         [db close];
         if (decryptDbError != nil) {
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:kDecryptionErrorMessage, storeName, [decryptDbError localizedDescription]];
