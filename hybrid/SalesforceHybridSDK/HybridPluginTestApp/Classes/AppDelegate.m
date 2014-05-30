@@ -25,8 +25,6 @@
 #import "AppDelegate.h"
 #import "SFHybridViewConfig.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFTestRunnerPlugin.h"
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>

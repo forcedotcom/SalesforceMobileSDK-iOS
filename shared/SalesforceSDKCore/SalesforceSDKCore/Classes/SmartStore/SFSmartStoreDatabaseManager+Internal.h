@@ -22,35 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFUserAccount.h"
+#import "SFSmartStoreDatabaseManager.h"
 
-@interface SFSmartStoreUpgrade : NSObject
+static NSString * const kStoreDbFileName          = @"store.sqlite";
+static NSString * const kStoresDirectory          = @"stores";
 
-/**
- Updates any existing stores from their legacy location to their new user-specific location.
- */
-+ (void)updateStoreLocations;
+@interface SFSmartStoreDatabaseManager ()
 
-/**
- Updates the encryption scheme of each SmartStore database to the currently supported scheme.
- */
-+ (void)updateEncryption;
+@property (nonatomic, strong) SFUserAccount *user;
 
 /**
- Whether or not a given store for the given user is encrypted based on the key store key.
- @param user The user associated with the store.
- @param storeName The store to query.
- @return YES if the store is encrypted with the key store, NO otherwise.
+ @param storeName The name of the store.
+ @return The filesystem diretory containing for the given store name
  */
-+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName;
+- (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
 
 /**
- Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.
- @param usesKeyStoreEncryption YES if it does, NO if it doesn't.
- @param user The user associated with the store.
- @param storeName The store to which the flag applies.
+ @return The root directory where all the SmartStore DBs live.
  */
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName;
+- (NSString *)rootStoreDirectory;
+
+- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
+                                name:(NSString *)storeName
+                              oldKey:(NSString *)oldKey
+                              newKey:(NSString *)newKey
+                               error:(NSError **)error;
+
+- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
 
 @end
