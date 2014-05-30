@@ -478,9 +478,10 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
+        // NB: SmartStores need to be cleared before user account info is removed.
+        [SFSmartStore removeAllStoresForUser:user];
         [userAccountManager deleteAccountForUserId:user.credentials.userId error:nil];
         [user.credentials revoke];
-#warning TODO: SmartStore clear stores per user, once available.
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }

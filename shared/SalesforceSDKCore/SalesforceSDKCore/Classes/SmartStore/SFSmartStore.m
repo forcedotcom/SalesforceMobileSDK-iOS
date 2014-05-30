@@ -28,9 +28,9 @@
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"
 #import "SFJsonUtils.h"
-#import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSmartStoreUpgrade.h"
+#import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"
 #import "SFStoreCursor.h"
 #import "SFSoupIndex.h"
@@ -38,8 +38,8 @@
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFEncryptionKey.h>
-#import "SFSmartStoreDatabaseManager.h"
 #import "SFAlterSoupLongOperation.h"
+#import "SFUserAccountManager.h"
 
 static NSMutableDictionary *_allSharedStores;
 
@@ -95,22 +95,33 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 @synthesize storeQueue = _storeQueue;
 @synthesize storeName = _storeName;
+@synthesize user = _user;
+@synthesize dbMgr = _dbMgr;
 
 + (void)initialize
 {
-    // We do this as the very first thing, because there are so many class methods that access
+    // We do store upgrades as the very first thing, because there are so many class methods that access
     // the data stores without initializing an SFSmartStore instance.
-    [SFSmartStoreUpgrade updateEncryption];    
+    [SFSmartStoreUpgrade updateStoreLocations];
+    [SFSmartStoreUpgrade updateEncryption];
 }
 
-- (id) initWithName:(NSString*)name {
+- (id) initWithName:(NSString*)name user:(SFUserAccount *)user {
     self = [super init];
     
     if (nil != self)  {
-        [self log:SFLogLevelDebug format:@"SFSmartStore initWithStoreName: %@",name];
+        [self log:SFLogLevelDebug format:@"SFSmartStore initWithName: %@, user: %@", name, [SFSmartStoreUtils userKeyForUser:user]];
         
         _storeName = name;
-        //Setup listening for data protection available / unavailable
+        if ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser]) {
+            _user = nil;
+        } else {
+            _user = user;
+        }
+        
+        _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
+        
+        // Setup listening for data protection available / unavailable
         _dataProtectionKnownAvailable = NO;
         //we use this so that addObserverForName doesn't retain us
         __strong SFSmartStore *this = self;
@@ -137,7 +148,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
         _smartSqlToSql = [[NSMutableDictionary alloc] init];
         
-        if (![[self class] persistentStoreExists:name]) {
+        if (![_dbMgr persistentStoreExists:name]) {
             if (![self firstTimeStoreDatabaseSetup]) {
                 self = nil;
             }
@@ -176,13 +187,13 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     // Ensure that the store directory exists.
-    [[SFSmartStoreDatabaseManager sharedManager] createStoreDir:self.storeName error:&createErr];
+    [self.dbMgr createStoreDir:self.storeName error:&createErr];
     if (nil == createErr) {
         // Need to create the db file itself before we can encrypt it.
         if ([self openStoreDatabase]) {
             if ([self createMetaTables]) {
                 [self.storeQueue close];  self.storeQueue = nil; // Need to close before setting encryption.
-                [[SFSmartStoreDatabaseManager sharedManager] protectStoreDir:self.storeName error:&protectErr];
+                [self.dbMgr protectStoreDir:self.storeName error:&protectErr];
                 if (protectErr != nil) {
                     [self log:SFLogLevelError format:@"Couldn't protect store: %@", protectErr];
                 } else {
@@ -195,16 +206,16 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     if (!result) {
         [self log:SFLogLevelError format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
-        [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:self.storeName];
+        [self.dbMgr removeStoreDir:self.storeName];
     }
     
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forStore:self.storeName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
     return result;
 }
 
 - (BOOL)openStoreDatabase {
    NSError *openDbError = nil;
-    self.storeQueue = [[SFSmartStoreDatabaseManager sharedManager] openStoreQueueWithName:self.storeName key:[[self class] encKey] error:&openDbError];
+    self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] error:&openDbError];
     if (self.storeQueue == nil) {
         [self log:SFLogLevelError format:@"Error opening store '%@': %@", self.storeName, [openDbError localizedDescription]];
     }
@@ -214,43 +225,53 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 #pragma mark - Store methods
 
-
-+ (BOOL)persistentStoreExists:(NSString*)storeName {
-    return [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:storeName];
++ (id)sharedStoreWithName:(NSString *)storeName {
+    return [self sharedStoreWithName:storeName user:[SFUserAccountManager sharedInstance].currentUser];
 }
 
-
-+ (id)sharedStoreWithName:(NSString*)storeName {
++ (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user {
     if (nil == _allSharedStores) {
-        _allSharedStores = [[NSMutableDictionary alloc] init];
+        _allSharedStores = [NSMutableDictionary dictionary];
+    }
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    if ([_allSharedStores objectForKey:userKey] == nil) {
+        [_allSharedStores setObject:[NSMutableDictionary dictionary] forKey:userKey];
     }
     
-    id store = [_allSharedStores objectForKey:storeName];
+    SFSmartStore *store = [[_allSharedStores objectForKey:userKey] objectForKey:storeName];
     if (nil == store) {
-        store = [[SFSmartStore alloc] initWithName:storeName];
+        store = [[self alloc] initWithName:storeName user:user];
         if (store)
-            [_allSharedStores setObject:store forKey:storeName];
-        //the store is retained by _allSharedStores so we can return it
+            [[_allSharedStores objectForKey:userKey] setObject:store forKey:storeName];
     }
     
     return store;
 }
 
-+ (void)removeSharedStoreWithName:(NSString*)storeName {
-    [self log:SFLogLevelDebug format:@"removeSharedStoreWithName: %@", storeName];
-    SFSmartStore *existingStore = [_allSharedStores objectForKey:storeName];
++ (void)removeSharedStoreWithName:(NSString *)storeName {
+    [self removeSharedStoreWithName:storeName forUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
++ (void)removeSharedStoreWithName:(NSString*)storeName forUser:(SFUserAccount *)user {
+    [self log:SFLogLevelDebug format:@"removeSharedStoreWithName: %@, user: %@", storeName, user];
+    NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+    SFSmartStore *existingStore = [[_allSharedStores objectForKey:userKey] objectForKey:storeName];
     if (nil != existingStore) {
         [existingStore.storeQueue close];
-        [_allSharedStores removeObjectForKey:storeName];
+        [[_allSharedStores objectForKey:userKey] removeObjectForKey:storeName];
     }
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forStore:storeName];
-    [[SFSmartStoreDatabaseManager sharedManager] removeStoreDir:storeName];
+    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:user store:storeName];
+    [[SFSmartStoreDatabaseManager sharedManagerForUser:user] removeStoreDir:storeName];
 }
 
 + (void)removeAllStores {
-    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
+    [self removeAllStoresForUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
++ (void)removeAllStoresForUser:(SFUserAccount *)user {
+    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManagerForUser:user] allStoreNames];
     for (NSString *storeName in allStoreNames) {
-        [self removeSharedStoreWithName:storeName];
+        [self removeSharedStoreWithName:storeName forUser:user];
     }
 }
 

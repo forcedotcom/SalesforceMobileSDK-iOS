@@ -25,32 +25,12 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccount.h"
 
-@interface SFSmartStoreUpgrade : NSObject
+@interface SFSmartStoreUtils : NSObject
 
 /**
- Updates any existing stores from their legacy location to their new user-specific location.
+ @return A unique key for the given user.  This will return a "global" key if no proper
+ user is configured.
  */
-+ (void)updateStoreLocations;
-
-/**
- Updates the encryption scheme of each SmartStore database to the currently supported scheme.
- */
-+ (void)updateEncryption;
-
-/**
- Whether or not a given store for the given user is encrypted based on the key store key.
- @param user The user associated with the store.
- @param storeName The store to query.
- @return YES if the store is encrypted with the key store, NO otherwise.
- */
-+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName;
-
-/**
- Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.
- @param usesKeyStoreEncryption YES if it does, NO if it doesn't.
- @param user The user associated with the store.
- @param storeName The store to which the flag applies.
- */
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName;
++ (NSString *)userKeyForUser:(SFUserAccount *)user;
 
 @end
