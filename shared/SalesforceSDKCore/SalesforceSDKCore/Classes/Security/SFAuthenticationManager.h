@@ -344,22 +344,6 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 + (void)resetSessionCookie;
 
 /**
- Creates an absolute URL to frontdoor with the given destination URL.
- @param returnUrl The destination URL to hit after going through frontdoor.
- @param isEncoded Whether or not the returnUrl value is URL-encoded.
- @return An NSURL object representing the configured frontdoor URL.
- */
-+ (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded;
-
-/**
- Whether or not the given URL can be identified as a redirect to the login URL, loaded when the
- session expires.
- @param url The URL to evaluate.
- @return YES if the URL matches the login redirect URL pattern, NO otherwise.
- */
-+ (BOOL)isLoginRedirectUrl:(NSURL *)url;
-
-/**
  Determines whether an error is due to invalid auth credentials.
  @param error The error to check against an invalid credentials error.
  @return YES if the error is due to invalid credentials, NO otherwise.
