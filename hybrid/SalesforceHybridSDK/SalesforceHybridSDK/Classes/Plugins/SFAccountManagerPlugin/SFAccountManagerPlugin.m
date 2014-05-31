@@ -28,6 +28,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 
 // Public constants
@@ -103,10 +104,30 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
     [self log:SFLogLevelDebug format:@"switchToUser: arguments: %@", command.arguments];
     /* NSString* jsVersionStr = */[self getVersion:@"switchToUser" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSString *userId = [argsDict nonNullObjectForKey:kUserAccountUserIdDictKey];
-    SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserId:userId];
-    [self log:SFLogLevelDebug format:@"switchToUser: Switching to user account: %@", account];
-    [[SFUserAccountManager sharedInstance] switchToUser:account];
+    
+    if (argsDict == nil) {
+        // With no user data, assume automatic management of user switching.
+        NSArray *userAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+        if ([userAccounts count] == 1) {
+            // Single account configured.  Switch to new user.
+            [[SFUserAccountManager sharedInstance] switchToNewUser];
+        } else if ([userAccounts count] > 1) {
+            // Already more than one account.  Let the user choose the account to switch to.
+            SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [self.viewController dismissViewControllerAnimated:YES completion:NULL];
+            }];
+            [self.viewController presentViewController:umvc animated:YES completion:NULL];
+        } else {
+            // Zero accounts configured?  Logout, I guess.
+            [[SFAuthenticationManager sharedManager] logout];
+        }
+    } else {
+        // User data was passed in.  Assume API-level user switching.
+        NSString *userId = [argsDict nonNullObjectForKey:kUserAccountUserIdDictKey];
+        SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserId:userId];
+        [self log:SFLogLevelDebug format:@"switchToUser: Switching to user account: %@", account];
+        [[SFUserAccountManager sharedInstance] switchToUser:account];
+    }
 }
 
 - (void)logout:(CDVInvokedUrlCommand *)command;
