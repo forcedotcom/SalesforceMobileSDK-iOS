@@ -24,6 +24,7 @@
 
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
@@ -116,12 +117,14 @@
 {
     [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
     self.viewController.appHomeUrl = nil;
-    [self initializeAppViewState];
-}
-
-- (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult
-{
-    [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    
+    // If there are one or more existing accounts after logout, try to authenticate one of those.
+    // Alternatively, you could just go straight to re-initializing your app state, if you know
+    // your app does not support multiple accounts.  The logic below will work either way.
+    if ([[SFUserAccountManager sharedInstance].allUserAccounts count] > 0) {
+        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+    }
+    
     [self initializeAppViewState];
 }
 

@@ -381,8 +381,8 @@ static Class InstanceClass = nil;
         if (logoutAppSettingEnabled) {
             [self clearAccountState:YES];
         } else if (result.loginHostChanged) {
-            [self cancelAuthentication];
-            [self clearAccountState:NO];
+            // Authentication hasn't started yet.  Just reset the current user.
+            [SFUserAccountManager sharedInstance].currentUser = nil;
         }
     }
     
@@ -595,13 +595,7 @@ static Class InstanceClass = nil;
     } else if (result.loginHostChanged) {
         [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
         [self cancelAuthentication];
-        [self clearAccountState:NO];
-        [SFUserAccountManager sharedInstance].currentUser = nil;
-        [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(authManager:didChangeLoginHost:)]) {
-                [delegate authManager:self didChangeLoginHost:result];
-            }
-        }];
+        [[SFUserAccountManager sharedInstance] switchToNewUser];
     } else {
         // Check to display pin code screen.
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
