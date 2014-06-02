@@ -27,6 +27,7 @@
 #import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountManagerUpgrade.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandler.h"
 #import "SFAuthErrorHandlerList.h"
@@ -78,8 +79,6 @@ static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
-
-static NSString * const kLoginRedirect = @"/secur/logout.jsp";
 
 #pragma mark - SFAuthBlockPair
 
@@ -421,8 +420,12 @@ static Class InstanceClass = nil;
     if (account == nil) {
         account = [SFUserAccountManager sharedInstance].currentUser;
         if (account == nil) {
-            [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
-            account = [[SFUserAccountManager sharedInstance] createUserAccount];
+            // Create the current user out of legacy account data, if it exists.
+            account = [SFUserAccountManagerUpgrade createUserFromLegacyAccountData];
+            if (account == nil) {
+                [self log:SFLogLevelInfo format:@"No current user account, so creating a new one."];
+                account = [[SFUserAccountManager sharedInstance] createUserAccount];
+            }
             [[SFUserAccountManager sharedInstance] saveAccounts:nil];
         }
     }
@@ -688,50 +691,6 @@ static Class InstanceClass = nil;
     
     NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
     [cookieStorage setCookie:sidCookie0];
-}
-
-+ (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
-{
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSString *instUrl = creds.apiUrl.absoluteString;
-    NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
-    [mutableReturnUrl appendString:returnUrl];
-    NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
-    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
-    if (![frontDoorUrl hasSuffix:@"/"])
-        [frontDoorUrl appendString:@"/"];
-    NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
-    return [NSURL URLWithString:frontDoorUrl];
-}
-
-+ (BOOL)isLoginRedirectUrl:(NSURL *)url
-{
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
-        return NO;
-    }
-    if ([self isCommunityLoginRedirectUrl:url]) {
-        return YES;
-    }
-    BOOL urlMatchesLoginRedirectPattern = NO;
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [[url path] isEqualToString:@"/"]
-        && [url query] != nil) {
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        urlMatchesLoginRedirectPattern = (foundStartURL && foundValidEcValue);
-    }
-    return urlMatchesLoginRedirectPattern;
-}
-
-+ (BOOL)isCommunityLoginRedirectUrl:(NSURL *)url
-{
-    if ([[url absoluteString] rangeOfString:kLoginRedirect].location != NSNotFound) {
-        return YES;
-    }
-    return NO;
 }
 
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
