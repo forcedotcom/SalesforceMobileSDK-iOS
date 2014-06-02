@@ -31,6 +31,7 @@
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
@@ -103,14 +104,26 @@
     [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
     self.viewController.appHomeUrl = nil;
     
-    // If there are one or more existing accounts after logout, try to authenticate one of those.
+    // Multi-user pattern:
+    // - If there are two or more existing accounts after logout, let the user choose the account
+    //   to switch to.
+    // - If there is one existing account, automatically switch to that account.
+    // - If there are no further authenticated accounts, present the login screen.
+    //
     // Alternatively, you could just go straight to re-initializing your app state, if you know
     // your app does not support multiple accounts.  The logic below will work either way.
-    if ([[SFUserAccountManager sharedInstance].allUserAccounts count] > 0) {
+    NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+    if ([allAccounts count] > 1) {
+        SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self.viewController dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
+    } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
         [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [self initializeAppViewState];
+    } else {
+        [self initializeAppViewState];
     }
-    
-    [self initializeAppViewState];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
