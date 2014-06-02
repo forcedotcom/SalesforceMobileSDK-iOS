@@ -779,14 +779,8 @@ static NSString * const kUserPrefix = @"005";
     SFUserAccount *tempNewCurrentUser = newCurrentUser;
     
     // If newCurrentUser is nil, we're switching to a "new" (unconfigured) user.
-    if (newCurrentUser == nil) {
-        if (self.temporaryUser == nil) {
-            tempNewCurrentUser = [self createUserAccount];
-        } else {
-            // Don't know what the app state would be that you would be switching to a new user while the temporary
-            // account still exists, but in any case, don't create an additional temporary account instance.
-            tempNewCurrentUser = self.temporaryUser;
-        }
+    if (tempNewCurrentUser == nil) {
+        tempNewCurrentUser = [self createUserAccount];
     }
     
     SFUserAccount *origCurrentUser = self.currentUser;

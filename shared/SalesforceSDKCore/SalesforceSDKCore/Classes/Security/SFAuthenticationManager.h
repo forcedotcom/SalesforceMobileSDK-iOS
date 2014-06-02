@@ -109,14 +109,6 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 - (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
 
 /**
- Called when the login host changes from one value to another.
- @param manager The instance of SFAuthenticationManager making the call.
- @param updateResult The results of the update, including previous login host, new login host, and whether there was
- an actual change.
- */
-- (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult;
-
-/**
  Called after the auth manager logs out.
  @param manager The instance of SFAuthenticationManager making the call.
  */
