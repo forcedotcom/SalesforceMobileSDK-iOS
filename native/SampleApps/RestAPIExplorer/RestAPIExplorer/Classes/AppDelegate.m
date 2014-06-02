@@ -172,13 +172,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
                                                          account:existingAccount];
 }
 
-- (void)authManager:(SFAuthenticationManager *)manager didChangeLoginHost:(SFLoginHostUpdateResult *)updateResult
-{
-    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager changed the login host.  Resetting app."];
-    [self initializeAppViewState];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
-}
-
 #pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
