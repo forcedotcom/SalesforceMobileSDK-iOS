@@ -83,6 +83,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
++ (void)removeSharedManagerForUser:(SFUserAccount *)user
+{
+    @synchronized (self) {
+        NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+        SFSmartStoreDatabaseManager *mgr = [sDatabaseManagers objectForKey:userKey];
+        if (mgr != nil) {
+            [sDatabaseManagers removeObjectForKey:userKey];
+        }
+    }
+}
+
 - (id)initWithUser:(SFUserAccount *)user
 {
     self = [super init];
