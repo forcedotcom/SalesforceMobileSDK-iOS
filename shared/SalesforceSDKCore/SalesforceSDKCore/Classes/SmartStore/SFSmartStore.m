@@ -273,6 +273,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     for (NSString *storeName in allStoreNames) {
         [self removeSharedStoreWithName:storeName forUser:user];
     }
+    [SFSmartStoreDatabaseManager removeSharedManagerForUser:user];
 }
 
 + (void)clearSharedStoreMemoryState
