@@ -53,6 +53,7 @@
 		821C8F3218C5317C000FAF96 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
 		821C8F3318C5317C000FAF96 /* SFUserAccountConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountConstants.h; sourceTree = "<group>"; };
 		821C8F3418C5317C000FAF96 /* SFUserAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountManager.h; sourceTree = "<group>"; };
+		821DA3E3193E8BB60041FE0E /* SFAccountManagerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAccountManagerPlugin.h; sourceTree = "<group>"; };
 		824AA08B1725140400C9BD79 /* __HybridTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "__HybridTemplateAppName__.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		824AA08E1725140400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824AA0901725140400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -527,6 +528,7 @@
 			children = (
 				82BBB5C41793994300374DD8 /* CDVPlugin+SFAdditions.h */,
 				82BBB5C51793994300374DD8 /* SalesforceOAuthPlugin.h */,
+				821DA3E3193E8BB60041FE0E /* SFAccountManagerPlugin.h */,
 				82BBB5C61793994300374DD8 /* SFHybridViewConfig.h */,
 				82BBB5C71793994300374DD8 /* SFHybridViewController.h */,
 				82BBB5C81793994300374DD8 /* SFSDKInfoPlugin.h */,
@@ -821,11 +823,13 @@
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/sqlcipher",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -856,11 +860,13 @@
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/sqlcipher",
 					"$(SRCROOT)/__HybridTemplateAppName__/Dependencies/SalesforceSecurity",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

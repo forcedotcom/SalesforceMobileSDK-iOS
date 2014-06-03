@@ -76,7 +76,7 @@
 		8251CA4416ED1EB400BD1EA2 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */; };
 		8251CA4716ED268000BD1EA2 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */; };
 		82AA406018E3AFEE00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */; };
-		82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */; };
+		82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */; };
 		82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -266,7 +266,7 @@
 		8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
 		8251CA4516ED268000BD1EA2 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
 		8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
-		82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManagerPlugin.h; path = SFAccountManagerPlugin/SFAccountManagerPlugin.h; sourceTree = "<group>"; };
 		82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManagerPlugin.m; path = SFAccountManagerPlugin/SFAccountManagerPlugin.m; sourceTree = "<group>"; };
 		82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
