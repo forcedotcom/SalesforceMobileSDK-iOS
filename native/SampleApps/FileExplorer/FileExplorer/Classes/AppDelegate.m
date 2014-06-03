@@ -28,6 +28,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
 
 // Fill these in when creating a new Connected Application on Force.com
@@ -159,16 +160,28 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
     [self initializeAppViewState];
     
-    // If there are one or more existing accounts after logout, try to authenticate one of those.
-    // Alternatively, you could just call [[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]
-    // if you know your app does not support multiple accounts.  The logic below will work either way.
-    SFUserAccount *existingAccount = nil;
-    if ([[SFUserAccountManager sharedInstance].allUserAccounts count] > 0) {
-        existingAccount = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+    // Multi-user pattern:
+    // - If there are two or more existing accounts after logout, let the user choose the account
+    //   to switch to.
+    // - If there is one existing account, automatically switch to that account.
+    // - If there are no further authenticated accounts, present the login screen.
+    //
+    // Alternatively, you could just go straight to re-initializing your app state, if you know
+    // your app does not support multiple accounts.  The logic below will work either way.
+    NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+    if ([allAccounts count] > 1) {
+        SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
+    } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
+        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
+                                                             failure:self.initialLoginFailureBlock];
+    } else {
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
+                                                             failure:self.initialLoginFailureBlock];
     }
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-                                                         failure:self.initialLoginFailureBlock
-                                                         account:existingAccount];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
