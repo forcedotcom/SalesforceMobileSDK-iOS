@@ -160,6 +160,18 @@
 		82BBB5BD1793946800374DD8 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupIndex.h; sourceTree = "<group>"; };
 		82BBB5BE1793946800374DD8 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFStoreCursor.h; sourceTree = "<group>"; };
 		82BBB5BF1793946800374DD8 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = "<group>"; };
+		82E3B3E7193D54E200B70864 /* SFQueryNetworkScopeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFQueryNetworkScopeHelper.h; sourceTree = "<group>"; };
+		82E3B3E8193D555800B70864 /* NSURL+SFStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFStringUtils.h"; sourceTree = "<group>"; };
+		82E3B3E9193D555800B70864 /* SFAbstractPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAbstractPasscodeViewController.h; sourceTree = "<group>"; };
+		82E3B3EA193D555800B70864 /* SFAuthenticationManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFAuthenticationManager+Internal.h"; sourceTree = "<group>"; };
+		82E3B3EB193D555800B70864 /* SFDefaultUserManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserManagementViewController.h; sourceTree = "<group>"; };
+		82E3B3EC193D555800B70864 /* SFDirectoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDirectoryManager.h; sourceTree = "<group>"; };
+		82E3B3ED193D555800B70864 /* SFPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPreferences.h; sourceTree = "<group>"; };
+		82E3B3EE193D555800B70864 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserActivityMonitor.h; sourceTree = "<group>"; };
+		82E3B3EF193D55A100B70864 /* SFEncryptionKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptionKey.h; sourceTree = "<group>"; };
+		82E3B3F0193D55A100B70864 /* SFKeyStoreKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeyStoreKey.h; sourceTree = "<group>"; };
+		82E3B3F1193D55A100B70864 /* SFKeyStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeyStoreManager.h; sourceTree = "<group>"; };
+		82E3B3F2193D55A100B70864 /* SFSDKCryptoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKCryptoUtils.h; sourceTree = "<group>"; };
 		82F6F66618E4D0280033CACD /* SFPasscodeManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFPasscodeManager+Internal.h"; sourceTree = "<group>"; };
 		82F6F66718E4D0280033CACD /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
 		82F6F66818E4D0280033CACD /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
@@ -280,11 +292,11 @@
 			children = (
 				824A9FE71725098F00C9BD79 /* libxml2.dylib */,
 				824A9FE91725099600C9BD79 /* libz.dylib */,
-				4F3F413417E7CA5C008B3283 /* ImageIO.framework */,
 				824A9FEB17250ADA00C9BD79 /* CFNetwork.framework */,
 				824A9FED17250AE500C9BD79 /* CoreData.framework */,
 				824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */,
 				824A9DDA1724E16400C9BD79 /* Foundation.framework */,
+				4F3F413417E7CA5C008B3283 /* ImageIO.framework */,
 				824A9FEF17250B7C00C9BD79 /* MessageUI.framework */,
 				824A9FF117250B8300C9BD79 /* MobileCoreServices.framework */,
 				824A9FF317250BF300C9BD79 /* QuartzCore.framework */,
@@ -419,6 +431,7 @@
 				8273F17B1778F39F005E31A6 /* SFPathUtil.h */,
 				8273F17C1778F39F005E31A6 /* SFPhonePickListViewController.h */,
 				8273F17D1778F39F005E31A6 /* SFPickListViewController.h */,
+				82E3B3E7193D54E200B70864 /* SFQueryNetworkScopeHelper.h */,
 				8273F17E1778F39F005E31A6 /* SFSoqlBuilder.h */,
 				8273F17F1778F39F005E31A6 /* SFSoslBuilder.h */,
 				8273F1801778F39F005E31A6 /* SFSoslReturningBuilder.h */,
@@ -511,17 +524,23 @@
 			children = (
 				82BBB5AB1793946800374DD8 /* FMDatabase.h */,
 				82BBB5AC1793946800374DD8 /* FMResultSet.h */,
+				82E3B3E8193D555800B70864 /* NSURL+SFStringUtils.h */,
 				82BBB5AD1793946800374DD8 /* SalesforceSDKConstants.h */,
+				82E3B3E9193D555800B70864 /* SFAbstractPasscodeViewController.h */,
 				82BBB5AF1793946800374DD8 /* SFApplication.h */,
+				82E3B3EA193D555800B70864 /* SFAuthenticationManager+Internal.h */,
 				82BBB5B01793946800374DD8 /* SFAuthenticationManager.h */,
 				82B36E3B1828858600B0C975 /* SFAuthenticationViewHandler.h */,
 				82B36E3C1828858600B0C975 /* SFAuthErrorHandler.h */,
 				82B36E3D1828858600B0C975 /* SFAuthErrorHandlerList.h */,
 				82BBB5B11793946800374DD8 /* SFAuthorizingViewController.h */,
 				821C8F2D18C5309B000FAF96 /* SFCommunityData.h */,
+				82E3B3EB193D555800B70864 /* SFDefaultUserManagementViewController.h */,
+				82E3B3EC193D555800B70864 /* SFDirectoryManager.h */,
 				82BBB5B21793946800374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5B31793946800374DD8 /* SFIdentityData.h */,
 				82BBB5B41793946800374DD8 /* SFJsonUtils.h */,
+				82E3B3ED193D555800B70864 /* SFPreferences.h */,
 				82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */,
 				82BBB5B71793946800374DD8 /* SFQuerySpec.h */,
 				82BBB5B81793946800374DD8 /* SFSDKResourceUtils.h */,
@@ -534,6 +553,7 @@
 				821C8F2E18C5309B000FAF96 /* SFUserAccount.h */,
 				821C8F2F18C5309B000FAF96 /* SFUserAccountConstants.h */,
 				821C8F3018C5309B000FAF96 /* SFUserAccountManager.h */,
+				82E3B3EE193D555800B70864 /* SFUserActivityMonitor.h */,
 			);
 			path = SalesforceSDKCore;
 			sourceTree = "<group>";
@@ -558,9 +578,13 @@
 		82F6F66518E4D0280033CACD /* SalesforceSecurity */ = {
 			isa = PBXGroup;
 			children = (
+				82E3B3EF193D55A100B70864 /* SFEncryptionKey.h */,
+				82E3B3F0193D55A100B70864 /* SFKeyStoreKey.h */,
+				82E3B3F1193D55A100B70864 /* SFKeyStoreManager.h */,
 				82F6F66618E4D0280033CACD /* SFPasscodeManager+Internal.h */,
 				82F6F66718E4D0280033CACD /* SFPasscodeManager.h */,
 				82F6F66818E4D0280033CACD /* SFPasscodeProviderManager.h */,
+				82E3B3F2193D55A100B70864 /* SFSDKCryptoUtils.h */,
 			);
 			path = SalesforceSecurity;
 			sourceTree = "<group>";
@@ -731,15 +755,15 @@
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity\"",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -768,15 +792,15 @@
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher\"",
-					"\"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity\"",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
