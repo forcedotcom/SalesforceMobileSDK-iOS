@@ -28,6 +28,7 @@
 		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
+		4F753375193D252200540762 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F753374193D252200540762 /* Settings.bundle */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
 		4FBFFAED177A70DA00D1E36E /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFFAEC177A70DA00D1E36E /* SmartSyncTestSuite.m */; };
 		4FC404A41911C6720027AD76 /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
@@ -98,7 +99,6 @@
 		82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
-		82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF3A016E817BC00A63CDF /* Settings.bundle */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 /* End PBXBuildFile section */
 
@@ -220,6 +220,7 @@
 		4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		4F1A59E0174FF02500473EE8 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		4F1A59F1174FF0B100473EE8 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
+		4F753374193D252200540762 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4FAA891B175025DF00807E13 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../external/shared/test/forcepluginstest/index.html; sourceTree = "<group>"; };
 		4FBFFAEB177A70DA00D1E36E /* SmartSyncTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSyncTestSuite.h; sourceTree = "<group>"; };
 		4FBFFAEC177A70DA00D1E36E /* SmartSyncTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncTestSuite.m; sourceTree = "<group>"; };
@@ -270,7 +271,7 @@
 		8251CA4116ED1EB400BD1EA2 /* SmartStoreTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreTestSuite.m; sourceTree = "<group>"; };
 		8251CA4516ED268000BD1EA2 /* SmartStoreLoadTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreLoadTestSuite.h; sourceTree = "<group>"; };
 		8251CA4616ED268000BD1EA2 /* SmartStoreLoadTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartStoreLoadTestSuite.m; sourceTree = "<group>"; };
-		82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82AA405F18E3AFEE00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManagerPlugin.h; path = SFAccountManagerPlugin/SFAccountManagerPlugin.h; sourceTree = "<group>"; };
 		82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManagerPlugin.m; path = SFAccountManagerPlugin/SFAccountManagerPlugin.m; sourceTree = "<group>"; };
 		82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,7 +308,6 @@
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
-		82EFF3A016E817BC00A63CDF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -606,9 +606,9 @@
 		82EFF30616E8049500A63CDF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4F753374193D252200540762 /* Settings.bundle */,
 				82EFF33B16E805E300A63CDF /* config.xml */,
 				82EFF33D16E8063700A63CDF /* test_credentials.json */,
-				82EFF3A016E817BC00A63CDF /* Settings.bundle */,
 				82EFF30716E8049500A63CDF /* HybridPluginTestApp-Info.plist */,
 				82EFF30816E8049500A63CDF /* InfoPlist.strings */,
 				82EFF30B16E8049500A63CDF /* main.m */,
@@ -802,8 +802,8 @@
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
 				4FC404A41911C6720027AD76 /* qunit.css in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
+				4F753375193D252200540762 /* Settings.bundle in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
-				82EFF3A116E817BC00A63CDF /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

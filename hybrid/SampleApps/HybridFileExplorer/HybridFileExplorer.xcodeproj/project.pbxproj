@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4FDB132918DD0C3B008CBDAE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB132818DD0C3B008CBDAE /* Images.xcassets */; };
+		4F2147C0193D217A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BE193D217A0010F9D3 /* Settings.bundle */; };
+		4F2147C1193D217A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */; };
 		4FF15DD4190882B100705FE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15DD3190882B100705FE0 /* AppDelegate.m */; };
 		4FF15DD6190882BC00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */; };
 		4FF15E0D190883C700705FE0 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15DF91908833800705FE0 /* cordova_plugins.js */; };
@@ -37,7 +38,6 @@
 		824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */; };
 		824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
 		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
-		824A9C5D1722020600C9BD79 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5C1722020600C9BD79 /* Settings.bundle */; };
 		824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
 		824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D921724C7C400C9BD79 /* libcrypto.a */; };
 		824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */; };
@@ -133,7 +133,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4FDB132818DD0C3B008CBDAE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4F2147BE193D217A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
+		4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
 		4FF15DD2190882B100705FE0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15DD3190882B100705FE0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -168,7 +169,6 @@
 		824A9BDD1721FCA400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		824A9BDF1721FCA400C9BD79 /* HybridFileExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HybridFileExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-		824A9C5C1722020600C9BD79 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		824A9D921724C7C400C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,9 +382,9 @@
 		824A9C5B1722018E00C9BD79 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4FDB132818DD0C3B008CBDAE /* Images.xcassets */,
+				4F2147BE193D217A0010F9D3 /* Settings.bundle */,
+				4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */,
 				824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */,
-				824A9C5C1722020600C9BD79 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -453,10 +453,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F2147C1193D217A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
-				824A9C5D1722020600C9BD79 /* Settings.bundle in Resources */,
 				824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */,
-				4FDB132918DD0C3B008CBDAE /* Images.xcassets in Resources */,
+				4F2147C0193D217A0010F9D3 /* Settings.bundle in Resources */,
 				824A9DC11724CE4600C9BD79 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
