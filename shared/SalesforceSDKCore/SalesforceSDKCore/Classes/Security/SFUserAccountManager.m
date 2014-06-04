@@ -607,18 +607,13 @@ static NSString * const kUserPrefix = @"005";
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
     NSMutableArray *array = [NSMutableArray array];
-    NSString *org = [orgId entityId18];
-    
     for (NSString *key in self.userAccountMap) {
         SFUserAccount *account = [self.userAccountMap objectForKey:key];
         NSString *accountOrg = account.credentials.organizationId;
-        accountOrg = [accountOrg entityId18];
-        
-        if ([accountOrg isEqualToString:org]) {
+        if ([accountOrg isEqualToString:orgId]) {
             [array addObject:account];
         }
     }
-    
     return array;
 }
 

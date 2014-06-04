@@ -254,11 +254,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     }
 }
 
-- (NSString *)communityId {
-    // TODO: This can be removed once the community ID is being returned from the service as an 18-char ID.
-    return [_communityId entityId18];
-}
-
 - (NSString *)description {
     NSString *format = @"<%@ identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" "
                        @"communityId=\"%@\" communityUrl=\"%@\" "
