@@ -23,13 +23,11 @@
  */
 
 #import "SFNativeRestRequestListener.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
 
 int class_uid = 0;
 
 @interface SFNativeRestRequestListener ()
 {
-    SFAccountManager *_accountMgr;
     int uid;
 }
 
@@ -42,7 +40,6 @@ int class_uid = 0;
 - (id)initWithRequest:(SFRestRequest *)request {
     self = [super init];
     if (self) {
-        _accountMgr = [SFAccountManager sharedInstance];
         self.request = request;
         self.request.delegate = self;
         self->uid = class_uid++;

@@ -1,7 +1,7 @@
 #ifndef SalesforceSDKConstants_h
 #define SalesforceSDKConstants_h
 
-#define SALESFORCE_SDK_IS_PRODUCTION_VERSION YES
+#define SALESFORCE_SDK_IS_PRODUCTION_VERSION NO
 
 #define SALESFORCE_SDK_BUILD_IDENTIFIER @".unstable"
 
@@ -15,8 +15,9 @@
 #define __SALESFORCE_SDK_2_1_1 20101
 #define __SALESFORCE_SDK_2_1_2 20102
 #define __SALESFORCE_SDK_2_1_3 20103
+#define __SALESFORCE_SDK_2_2_0 20200
 
-#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_2_1_3
+#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_2_2_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \

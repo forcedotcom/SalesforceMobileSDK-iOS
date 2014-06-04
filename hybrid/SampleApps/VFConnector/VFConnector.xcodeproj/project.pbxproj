@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */; };
+		4FDB132D18DD0C8B008CBDAE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB132C18DD0C8B008CBDAE /* Images.xcassets */; };
 		7DBD06CA149AA8420043A9E0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06C9149AA8420043A9E0 /* Foundation.framework */; };
 		7DBD06CC149AA8420043A9E0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CB149AA8420043A9E0 /* UIKit.framework */; };
 		7DBD06CE149AA8420043A9E0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06CD149AA8420043A9E0 /* CFNetwork.framework */; };
@@ -26,20 +27,11 @@
 		7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */; };
 		7DBD06EE149AA8420043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD06ED149AA8420043A9E0 /* main.m */; };
 		7DBD06F0149AA8420043A9E0 /* VFConnector-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EF149AA8420043A9E0 /* VFConnector-Prefix.pch */; };
-		7DBD0723149AA8430043A9E0 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0722149AA8430043A9E0 /* icon-72.png */; };
-		7DBD0725149AA8430043A9E0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0724149AA8430043A9E0 /* icon.png */; };
-		7DBD0727149AA8430043A9E0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0726149AA8430043A9E0 /* icon@2x.png */; };
-		7DBD072A149AA8430043A9E0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0729149AA8430043A9E0 /* Default-Landscape~ipad.png */; };
-		7DBD072C149AA8430043A9E0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD072B149AA8430043A9E0 /* Default-Portrait~ipad.png */; };
-		7DBD072E149AA8430043A9E0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD072D149AA8430043A9E0 /* Default.png */; };
-		7DBD0730149AA8430043A9E0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD072F149AA8430043A9E0 /* Default@2x.png */; };
-		7DBD0732149AA8430043A9E0 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0731149AA8430043A9E0 /* Default~iPad.png */; };
 		7DBD0734149AA8430043A9E0 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0733149AA8430043A9E0 /* readme.md */; };
 		7DBD0738149AA8430043A9E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0737149AA8430043A9E0 /* AppDelegate.m */; };
 		7DBD073F149AA8430043A9E0 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD073E149AA8430043A9E0 /* README */; };
 		7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0745149AA8440043A9E0 /* Settings.bundle */; };
 		8202760E1651795300DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202760D1651795300DB814C /* MessageUI.framework */; };
-		820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88B17E29BFE00263F2E /* Default-568h@2x.png */; };
 		8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */; };
 		8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA416ED5F6000BD1EA2 /* libssl.a */; };
 		8251CAA716ED5F7000BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA616ED5F7000BD1EA2 /* libsqlcipher.a */; };
@@ -52,6 +44,7 @@
 		8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB416ED5FF800BD1EA2 /* CoreData.framework */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
+		82AA406A18E3B28800BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406918E3B28800BD34D8 /* libSalesforceSecurity.a */; };
 		CE361CE71731C03500CB4C70 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = CE361CE21731BF5400CB4C70 /* bootconfig.json */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FDB132C18DD0C8B008CBDAE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DBD06C5149AA8420043A9E0 /* VFConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VFConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD06C9149AA8420043A9E0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7DBD06CB149AA8420043A9E0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -91,21 +85,12 @@
 		7DBD06EB149AA8420043A9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DBD06ED149AA8420043A9E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DBD06EF149AA8420043A9E0 /* VFConnector-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VFConnector-Prefix.pch"; sourceTree = "<group>"; };
-		7DBD0722149AA8430043A9E0 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
-		7DBD0724149AA8430043A9E0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		7DBD0726149AA8430043A9E0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		7DBD0729149AA8430043A9E0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		7DBD072B149AA8430043A9E0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		7DBD072D149AA8430043A9E0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
-		7DBD072F149AA8430043A9E0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
-		7DBD0731149AA8430043A9E0 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
 		7DBD0733149AA8430043A9E0 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		7DBD0736149AA8430043A9E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DBD0737149AA8430043A9E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DBD073E149AA8430043A9E0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		7DBD0745149AA8440043A9E0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8202760D1651795300DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		820BB88B17E29BFE00263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
 		8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CAA416ED5F6000BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		8251CAA616ED5F7000BD1EA2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
@@ -118,6 +103,7 @@
 		8251CAB416ED5FF800BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8295462F167A7F5B00A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		82AA406918E3B28800BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE361CE21731BF5400CB4C70 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/SampleApps/vfconnector/bootconfig.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +118,7 @@
 				8251CAAD16ED5F9A00BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */,
 				8251CAAB16ED5F8D00BD1EA2 /* libSalesforceOAuth.a in Frameworks */,
 				8251CAA916ED5F8100BD1EA2 /* libSalesforceSDKCore.a in Frameworks */,
+				82AA406A18E3B28800BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8251CAA716ED5F7000BD1EA2 /* libsqlcipher.a in Frameworks */,
 				8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */,
 				8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */,
@@ -185,6 +172,7 @@
 				8251CAAC16ED5F9A00BD1EA2 /* libSalesforceHybridSDK.a */,
 				8251CAAA16ED5F8D00BD1EA2 /* libSalesforceOAuth.a */,
 				8251CAA816ED5F8100BD1EA2 /* libSalesforceSDKCore.a */,
+				82AA406918E3B28800BD34D8 /* libSalesforceSecurity.a */,
 				8251CAA616ED5F7000BD1EA2 /* libsqlcipher.a */,
 				8251CAA416ED5F6000BD1EA2 /* libssl.a */,
 				8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */,
@@ -238,35 +226,11 @@
 		7DBD0720149AA8430043A9E0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7DBD0721149AA8430043A9E0 /* icons */,
-				7DBD0728149AA8430043A9E0 /* splash */,
+				4FDB132C18DD0C8B008CBDAE /* Images.xcassets */,
 				4F53F6E61683D9A300CF1C17 /* SalesforceSDKResources.bundle */,
 				7DBD0745149AA8440043A9E0 /* Settings.bundle */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		7DBD0721149AA8430043A9E0 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				7DBD0722149AA8430043A9E0 /* icon-72.png */,
-				7DBD0724149AA8430043A9E0 /* icon.png */,
-				7DBD0726149AA8430043A9E0 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		7DBD0728149AA8430043A9E0 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				820BB88B17E29BFE00263F2E /* Default-568h@2x.png */,
-				7DBD0729149AA8430043A9E0 /* Default-Landscape~ipad.png */,
-				7DBD072B149AA8430043A9E0 /* Default-Portrait~ipad.png */,
-				7DBD072D149AA8430043A9E0 /* Default.png */,
-				7DBD072F149AA8430043A9E0 /* Default@2x.png */,
-				7DBD0731149AA8430043A9E0 /* Default~iPad.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		7DBD0735149AA8430043A9E0 /* Classes */ = {
@@ -321,7 +285,7 @@
 		7DBD06BB149AA8420043A9E0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 7DBD06BE149AA8420043A9E0 /* Build configuration list for PBXProject "VFConnector" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -347,20 +311,12 @@
 			files = (
 				7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */,
 				7DBD06F0149AA8420043A9E0 /* VFConnector-Prefix.pch in Resources */,
-				7DBD0723149AA8430043A9E0 /* icon-72.png in Resources */,
-				7DBD0725149AA8430043A9E0 /* icon.png in Resources */,
-				7DBD0727149AA8430043A9E0 /* icon@2x.png in Resources */,
-				7DBD072A149AA8430043A9E0 /* Default-Landscape~ipad.png in Resources */,
-				7DBD072C149AA8430043A9E0 /* Default-Portrait~ipad.png in Resources */,
-				7DBD072E149AA8430043A9E0 /* Default.png in Resources */,
-				7DBD0730149AA8430043A9E0 /* Default@2x.png in Resources */,
-				7DBD0732149AA8430043A9E0 /* Default~iPad.png in Resources */,
 				7DBD0734149AA8430043A9E0 /* readme.md in Resources */,
+				4FDB132D18DD0C8B008CBDAE /* Images.xcassets in Resources */,
 				7DBD073F149AA8430043A9E0 /* README in Resources */,
 				7DBD0746149AA8440043A9E0 /* Settings.bundle in Resources */,
 				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
-				820BB88C17E29BFE00263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,9 +350,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -411,9 +368,12 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
@@ -438,9 +398,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -449,9 +410,12 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
@@ -475,6 +439,8 @@
 		7DBD074C149AA8440043A9E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -489,6 +455,8 @@
 		7DBD074D149AA8440043A9E0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

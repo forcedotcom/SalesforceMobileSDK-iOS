@@ -93,15 +93,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject<SFNetworkOperationDelegate> {
-    NSString *_endpoint;
-    SFRestMethod _method;
-    NSString *_path;
-    NSDictionary *_queryParams;
-    id<SFRestDelegate> __weak _delegate;
-    SFNetworkOperation *_networkOperation;
-}
-
+@interface SFRestRequest : NSObject<SFNetworkOperationDelegate>
 
 /**
  * The HTTP method of the request.  See SFRestMethod.
@@ -121,6 +113,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
 @property (nonatomic, strong) NSDictionary *queryParams;
+
+/**
+ * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+ * `setHeaderValue:forHeaderName:` to add headers to this property.
+ */
+@property (nonatomic, strong) NSDictionary *customHeaders;
 
 /**
  * Underlying SFNetworkOperation through which the network call is carried out
@@ -150,6 +148,14 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Returns the SFNetworkOperation through which the network call is actually carried out
  */
 - (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine;
+
+/**
+ * Sets the value for the specified HTTP header.
+ * @param value The header value. If value is `nil`, this method will remove the HTTP header
+ * from the collection of headers.
+ * @param name The name of the HTTP header to set.
+ */
+- (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name;
 
 /**
  * Cancels this request if it is running

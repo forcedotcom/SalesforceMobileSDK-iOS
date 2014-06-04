@@ -74,6 +74,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
     // upload
     SFRestRequestPostFile *_postFile;
+    
+    NSMutableDictionary *_customHeaders;
 }
 
 @end
@@ -101,14 +103,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     return self;
 }
 
-- (void)dealloc {
-    _delegate = nil;
-    SFRelease(_queryParams);
-    SFRelease(_endpoint);
-    SFRelease(_networkOperation);
-    SFRelease(_postFile);
-}
-
 + (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     return [[SFRestRequest alloc] initWithMethod:method path:path queryParams:queryParams];
 }
@@ -133,6 +127,35 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             "path: %@ \n"
             "queryParams: %@ \n"
             ">",self, _endpoint, methodName, _path, paramStr];
+}
+
+#pragma mark - Custom headers
+
+- (NSDictionary *)customHeaders
+{
+    return _customHeaders;
+}
+
+- (void)setCustomHeaders:(NSDictionary *)customHeaders
+{
+    if (customHeaders != _customHeaders)
+        _customHeaders = [customHeaders mutableCopy];
+}
+
+- (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name
+{
+    if (name == nil)
+        return;
+    
+    if (_customHeaders == nil) {
+        _customHeaders = [NSMutableDictionary dictionary];
+    }
+    
+    if (value == nil) {
+        [_customHeaders removeObjectForKey:name];
+    } else {
+        [_customHeaders setValue:value forKey:name];
+    }
 }
 
 # pragma mark - send and cancel
@@ -164,6 +187,13 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             return [SFJsonUtils JSONRepresentation:postDataDict];
         };
         [_networkOperation setCustomPostDataEncodingHandler:jsonEncodingBlock forType:@"application/json"];
+    }
+    
+    // Add any custom headers to the network operation.
+    if (_customHeaders != nil) {
+        [_customHeaders enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [_networkOperation setHeaderValue:obj forKey:key];
+        }];
     }
     
     _networkOperation.delegate = self;

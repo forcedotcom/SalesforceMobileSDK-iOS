@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
+#import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
 
 @class SFAuthorizingViewController;
@@ -33,6 +34,7 @@
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
+@class SFLoginHostUpdateResult;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -84,22 +86,40 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidAuthenticate:(SFAuthenticationManager *)manager credentials:(SFOAuthCredentials *)credentials authInfo:(SFOAuthInfo *)info;
 
+/**
+ Called after the auth manager has successfully authenticated and finished retrieving the identity information.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFinish:(SFAuthenticationManager *)manager info:(SFOAuthInfo *)info;
+
+/**
+ Called after the auth manager had failed to authenticate.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param error The error
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerDidFail:(SFAuthenticationManager *)manager error:(NSError*)error info:(SFOAuthInfo *)info;
+
+/**
+ Called when the auth manager wants to determine if the network is available (best guest).
+ @param manager The instance of SFAuthenticationManager making the call.
+ @return YES if the network is available, NO otherwise
+ */
+- (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
+
+/**
+ Called after the auth manager logs out.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidLogout:(SFAuthenticationManager *)manager;
+
 @end
 
 /**
- Identifies the notification for the login host changing in the app's settings.
+ Identifies the notification for the user before being logged out of the application.
  */
-extern NSString * const kSFLoginHostChangedNotification;
-
-/**
- The key for the original host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
-
-/**
- The key for the updated host in a login host change notification.
- */
-extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
+extern NSString * const kSFUserWillLogoutNotification;
 
 /**
  Identifies the notification for the user being logged out of the application.
@@ -111,7 +131,16 @@ extern NSString * const kSFUserLogoutNotification;
  */
 extern NSString * const kSFUserLoggedInNotification;
 
-@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate>
+/**
+ Identifies the notification when the authentication manager has finished
+ successfully to authorize the user and fetched the identity information.
+ */
+extern NSString * const kSFAuthenticationManagerFinishedNotification;
+
+/**
+ This class handles all the authentication related tasks, which includes login, logout and session refresh
+ */
+@interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
 
 /**
  Alert view for displaying auth-related status messages.
@@ -127,6 +156,16 @@ extern NSString * const kSFUserLoggedInNotification;
  Whether or not the application is currently in the process of authenticating.
  */
 @property (nonatomic, readonly) BOOL authenticating;
+
+/** Do we have a current valid Salesforce session?
+ You may use KVO in your app to monitor session validity.
+ */
+@property (nonatomic, readonly) BOOL haveValidSession;
+
+/**
+ Returns YES if the logout is requested by the app settings
+ */
+@property (nonatomic, readonly) BOOL logoutSettingEnabled;
 
 /**
  If this property is set, the authentication manager will swap a "blank" view in place
@@ -158,9 +197,14 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
+ The class instance to be used to instantiate the singleton.
+ */
++ (void)setInstanceClass:(Class)class;
+
+/**
  The singleton instance of the SFAuthenticationManager class.
  */
-+ (SFAuthenticationManager *)sharedManager;
++ (instancetype)sharedManager;
 
 /**
  The property denoting the block that will handle the display and dismissal of the authentication view.
@@ -197,6 +241,16 @@ extern NSString * const kSFUserLoggedInNotification;
 @property (nonatomic, strong) SFAuthErrorHandlerList *authErrorHandlerList;
 
 /**
+ The OAuth Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+
+/**
+ The Identity Coordinator associated with the current account.
+ */
+@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
@@ -208,7 +262,8 @@ extern NSString * const kSFUserLoggedInNotification;
 - (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
 
 /**
- Kick off the login process.
+ Kick off the login process for either the current user, or a new user if the current user is not
+ configured.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
@@ -219,16 +274,41 @@ extern NSString * const kSFUserLoggedInNotification;
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
+ Kick off the login process for the given user.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @param 
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+                    account:(SFUserAccount *)account;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
 - (void)logout;
 
 /**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ */
+- (void)logoutUser:(SFUserAccount *)user;
+
+/**
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
 
+/**
+ Notification handler for when the app finishes launching.
+ @param notification The notification data associated with the event.
+ */
 - (void)appDidFinishLaunching:(NSNotification *)notification;
 
 /**
@@ -254,22 +334,6 @@ extern NSString * const kSFUserLoggedInNotification;
  OAuth credentials.
  */
 + (void)resetSessionCookie;
-
-/**
- Creates an absolute URL to frontdoor with the given destination URL.
- @param returnUrl The destination URL to hit after going through frontdoor.
- @param isEncoded Whether or not the returnUrl value is URL-encoded.
- @return An NSURL object representing the configured frontdoor URL.
- */
-+ (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded;
-
-/**
- Whether or not the given URL can be identified as a redirect to the login URL, loaded when the
- session expires.
- @param url The URL to evaluate.
- @return YES if the URL matches the login redirect URL pattern, NO otherwise.
- */
-+ (BOOL)isLoginRedirectUrl:(NSURL *)url;
 
 /**
  Determines whether an error is due to invalid auth credentials.

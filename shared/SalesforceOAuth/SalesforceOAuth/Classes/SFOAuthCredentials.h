@@ -130,7 +130,9 @@ typedef enum {
  */
 @property (nonatomic, copy) NSString *organizationId;
 
-/** The URL of the server instance for this session.
+/** The URL of the server instance for this session. This URL always refers to the base organization
+ instance, even if the user has logged through a community-based login flow.
+ See `community_id` and `community_url`.
  
  This is the URL that client requests should be made to after authentication completes.
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
@@ -138,6 +140,20 @@ typedef enum {
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSURL *instanceUrl;   
+
+/** The community ID the user choose to log into. This usually happens when the user
+ logs into the app using a community-based login page
+ 
+ Note: this property is nil of the user logs into the internal community or into an org that doesn't have communities.
+ */
+@property (nonatomic, copy) NSString *communityId;
+
+/** The community-base URL the user choose to log into. This usually happens when the user
+ logs into the app using a community-based login page
+ 
+ Note: this property is nil of the user logs into the internal community or into an org that doesn't have communities.
+ */
+@property (nonatomic, copy) NSURL *communityUrl;
 
 /** The timestamp when the session access token was issued.
  
@@ -156,6 +172,10 @@ typedef enum {
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, copy) NSURL *identityUrl;
+
+/** The community URL, if present. The instance URL, otherwise.
+ */
+@property (readonly) NSURL *apiUrl;
 
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.

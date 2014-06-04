@@ -23,29 +23,12 @@
  */
 
 #import <UIKit/UIKit.h>
-
-/**
- Mode constants indicating whether to create or verify an existing passcode.
- */
-typedef enum {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify
-} SFPasscodeControllerMode;
+#import "SFAbstractPasscodeViewController.h"
 
 /**
  * The view controller for managing the passcode screen.
  */
-@interface SFPasscodeViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
-
-/**
- * The minimum passcode length, which this view controller will enforce.
- */
-@property (readonly) NSInteger minPasscodeLength;
-
-/**
- * Whether or not this controller is in a passcode creation or verification mode.
- */
-@property (readonly) SFPasscodeControllerMode mode;
+@interface SFPasscodeViewController : SFAbstractPasscodeViewController <UITextFieldDelegate, UIAlertViewDelegate>
 
 /**
  * Initializes the controller for verifying an existing passcode.
@@ -57,5 +40,11 @@ typedef enum {
  * @param minPasscodeLength The minimum passcode length for the new passcode.
  */
 - (id)initForPasscodeCreation:(NSInteger)minPasscodeLength;
+
+/**
+ * Initializes the controller for changing the existing passcode.
+ * @param minPasscodeLength The minimum passcode length for the new passcode.
+ */
+- (id)initForPasscodeChange:(NSInteger)minPasscodeLength;
 
 @end

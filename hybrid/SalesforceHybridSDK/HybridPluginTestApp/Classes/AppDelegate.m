@@ -25,35 +25,22 @@
 #import "AppDelegate.h"
 #import "SFHybridViewConfig.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFAccountManager.h>
 #import "CDVCommandDelegateImpl.h"
 #import "SFTestRunnerPlugin.h"
+#import <SalesforceSDKCore/TestSetupUtils.h>
+#import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 
-NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-DefaultAccount";
-
-@interface AppDelegate ()
+@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
 
 /// Was the app started in Test mode? 
 - (BOOL) isRunningOctest;
-- (void)populateAuthCredentialsFromConfigFile;
+- (SFHybridViewConfig *)stageTestCredentials;
 - (void)initializeAppViewState;
-
-/**
- * Handles the notification from SFAuthenticationManager that a logout has been initiated.
- * @param notification The notification containing the details of the logout.
- */
-- (void)logoutInitiated:(NSNotification *)notification;
-
-/**
- * Handles the notification from SFAuthenticationManager that the login host has changed in
- * the Settings application for this app.
- * @param The notification whose userInfo dictionary contains:
- *        - kSFLoginHostChangedNotificationOriginalHostKey: The original host, prior to host change.
- *        - kSFLoginHostChangedNotificationUpdatedHostKey: The updated (new) login host.
- */
-- (void)loginHostChanged:(NSNotification *)notification;
 
 @end
 
@@ -69,11 +56,11 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
     if (self != nil) {
         [SFLogger setLogLevel:SFLogLevelDebug];
         [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
-        [self populateAuthCredentialsFromConfigFile];
+        self.testAppHybridViewConfig = [self stageTestCredentials];
         
         // Logout and login host change handlers.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginHostChanged:) name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     
     return self;
@@ -81,8 +68,8 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - App lifecycle
@@ -110,72 +97,60 @@ NSString * const kHybridTestAccountIdentifier = @"SalesforceHybridSDKTests-Defau
     return jsResult;
 }
 
-#pragma mark - App Settings helpers
+#pragma mark - SFAuthenticationManagerDelegate
 
-- (void)logoutInitiated:(NSNotification *)notification
+- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
     self.viewController.appHomeUrl = nil;
-    [self initializeAppViewState];
+    
+    // Multi-user pattern:
+    // - If there are two or more existing accounts after logout, let the user choose the account
+    //   to switch to.
+    // - If there is one existing account, automatically switch to that account.
+    // - If there are no further authenticated accounts, present the login screen.
+    //
+    // Alternatively, you could just go straight to re-initializing your app state, if you know
+    // your app does not support multiple accounts.  The logic below will work either way.
+    NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+    if ([allAccounts count] > 1) {
+        SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self.viewController dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
+    } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
+        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [self initializeAppViewState];
+    } else {
+        [self initializeAppViewState];
+    }
 }
 
-- (void)loginHostChanged:(NSNotification *)notification
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelDebug msg:@"Login host changed notification received.  Resetting app."];
+    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+     fromUser.userName, toUser.userName];
     [self initializeAppViewState];
 }
 
 #pragma mark - Private methods
 
-- (void)populateAuthCredentialsFromConfigFile {
-    NSString *tokenPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"test_credentials" ofType:@"json"];
-    if (nil == tokenPath) {
-        NSLog(@"Unable to read credentials file '%@'.  See unit testing instructions.",tokenPath);
-        NSAssert(nil != tokenPath,@"test_credentials.json config file not found!");
-    }
+- (SFHybridViewConfig *)stageTestCredentials {
+    SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFile];
+    SFHybridViewConfig *hybridConfig = [[SFHybridViewConfig alloc] init];
+    hybridConfig.remoteAccessConsumerKey = credsData.clientId;
+    hybridConfig.oauthRedirectURI = credsData.redirectUri;
+    hybridConfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
+    hybridConfig.isLocal = YES;
+    hybridConfig.startPage = @"index.html";
+    hybridConfig.shouldAuthenticate = YES;
+    hybridConfig.attemptOfflineLoad = NO;
     
-    NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
-    id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
-    
-    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
-    NSString *accessToken = [dictResponse objectForKey:@"access_token"];
-    NSString *refreshToken = [dictResponse objectForKey:@"refresh_token"];
-    NSString *instanceUrl = [dictResponse objectForKey:@"instance_url"];
-    
-    //The following items MUST match the Remote Access object configuration from your sandbox test org
-    NSString *clientID = [dictResponse objectForKey:@"test_client_id"];
-    NSString *redirectUri = [dictResponse objectForKey:@"test_redirect_uri"];
-    NSString *loginDomain = [dictResponse objectForKey:@"test_login_domain"];
-    
-    NSAssert1(nil != refreshToken &&
-              nil != clientID &&
-              nil != redirectUri &&
-              nil != loginDomain &&
-              nil != instanceUrl, @"config credentials are missing! %@",
-              dictResponse);
-    
-    //check whether the test config file has never been edited
-    if ([refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"]) {
-        NSLog(@"You need to obtain credentials for your test org and replace test_credentials.json");
-        NSAssert(NO, @"You need to obtain credentials for your test org and replace test_credentials.json");
-    }
-    
-    self.testAppHybridViewConfig = [[SFHybridViewConfig alloc] init];
-    self.testAppHybridViewConfig.remoteAccessConsumerKey = clientID;
-    self.testAppHybridViewConfig.oauthRedirectURI = redirectUri;
-    self.testAppHybridViewConfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
-    self.testAppHybridViewConfig.isLocal = YES;
-    self.testAppHybridViewConfig.startPage = @"index.html";
-    self.testAppHybridViewConfig.shouldAuthenticate = YES;
-    self.testAppHybridViewConfig.attemptOfflineLoad = NO;
-    
-    [SFAccountManager setCurrentAccountIdentifier:kHybridTestAccountIdentifier];
-    [SFAccountManager setLoginHost:loginDomain];
-    SFAccountManager *accountMgr = [SFAccountManager sharedInstance];
-    SFOAuthCredentials *credentials = accountMgr.credentials;
-    credentials.instanceUrl = [NSURL URLWithString:instanceUrl];
-    credentials.accessToken = accessToken;
-    credentials.refreshToken = refreshToken;
+    return hybridConfig;
 }
 
 - (BOOL) isRunningOctest

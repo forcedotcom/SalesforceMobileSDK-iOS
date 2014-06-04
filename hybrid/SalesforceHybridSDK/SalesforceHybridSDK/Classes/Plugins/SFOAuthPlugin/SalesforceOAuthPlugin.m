@@ -26,7 +26,6 @@
 #import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFAccountManager.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>

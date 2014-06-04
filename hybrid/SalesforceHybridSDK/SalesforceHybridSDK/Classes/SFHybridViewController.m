@@ -26,7 +26,7 @@
 #import "SFHybridViewController.h"
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
-#import <SalesforceSDKCore/SFAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
@@ -54,6 +54,7 @@ static NSInteger  const kErrorCodeNetworkOffline = 1;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 
+static NSString * const kLoginRedirect = @"/secur/logout.jsp";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 @interface SFHybridViewController()
@@ -136,7 +137,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
  * Method called after re-authentication completes (after session timeout).
  * @param originalUrl The original URL being called before the session timed out.
  */
-- (void)authenticationCompletion:(NSURL *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
+- (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
 
 /**
  Loads the VF ping page in an invisible UIWebView and sets session cookies
@@ -165,9 +166,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         // There are a number of required values from the config file.
         [self validateHybridViewConfig];
         
-        [SFAccountManager setClientId:_hybridViewConfig.remoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:_hybridViewConfig.oauthRedirectURI];
-        [SFAccountManager setScopes:_hybridViewConfig.oauthScopes];
+        [SFUserAccountManager sharedInstance].oauthClientId = _hybridViewConfig.remoteAccessConsumerKey;
+        [SFUserAccountManager sharedInstance].oauthCompletionUrl = _hybridViewConfig.oauthRedirectURI;
+        [SFUserAccountManager sharedInstance].scopes = _hybridViewConfig.oauthScopes;
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;
@@ -204,19 +205,21 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     } else {
         // Device is online.
         if (_hybridViewConfig.shouldAuthenticate) {
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                [self authenticationCompletion:nil authInfo:authInfo];
-                [self configureStartPage];
-                [super viewDidLoad];
-            } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                if ([self logoutOnInvalidCredentials:error]) {
-                    [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-                    [[SFAuthenticationManager sharedManager] logout];
-                } else {
-                    // Error is not invalid credentials, or developer otherwise wants to handle it.
-                    [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
-                }
-            }];
+            [[SFAuthenticationManager sharedManager]
+             loginWithCompletion:^(SFOAuthInfo *authInfo) {
+                 [self authenticationCompletion:nil authInfo:authInfo];
+                 [self configureStartPage];
+                 [super viewDidLoad];
+             }
+             failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
+                     [[SFAuthenticationManager sharedManager] logout];
+                 } else {
+                     // Error is not invalid credentials, or developer otherwise wants to handle it.
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
+                 }
+             }];
         } else {
             // Start page already set.  Just try to load through Cordova.
             [super viewDidLoad];
@@ -318,7 +321,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 + (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
@@ -367,6 +370,53 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 #pragma mark - Private methods
 
+- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
+{
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    NSString *instUrl = creds.apiUrl.absoluteString;
+    NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
+    [mutableReturnUrl appendString:returnUrl];
+    NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
+    if (![frontDoorUrl hasSuffix:@"/"])
+        [frontDoorUrl appendString:@"/"];
+    NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
+    return [NSURL URLWithString:frontDoorUrl];
+}
+
+- (NSString *)isLoginRedirectUrl:(NSURL *)url
+{
+    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
+        return nil;
+    }
+    NSString *commLoginRedirectUrl = [self isCommunityLoginRedirectUrl:url];
+    if (commLoginRedirectUrl != nil) {
+        return commLoginRedirectUrl;
+    }
+    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
+        && [[url path] isEqualToString:@"/"]
+        && [url query] != nil) {
+        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+        NSString *ecValue = [url valueForParameterName:@"ec"];
+        BOOL foundStartURL = (startUrlValue != nil);
+        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+        if (foundStartURL && foundValidEcValue) {
+            return startUrlValue;
+        }
+    }
+    return nil;
+}
+
+- (NSString *)isCommunityLoginRedirectUrl:(NSURL *)url
+{
+    // TODO: This piece of code has got to go at some point, once we standardize on the correct redirection for communities as well.
+    if ([[url absoluteString] rangeOfString:kLoginRedirect].location != NSNotFound) {
+        return self.startPage;
+    }
+    return nil;
+}
+
 - (BOOL)isOffline
 {
     CDVConnection *connection = [self getCommandInstance:@"NetworkStatus"];
@@ -395,7 +445,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     NSMutableString *errorPageUrlString = [NSMutableString stringWithString:[rootUrl absoluteString]];
     [rootUrl query] == nil ? [errorPageUrlString appendString:@"?"] : [errorPageUrlString appendString:@"&"];
-    [errorPageUrlString appendFormat:@"%@=%d", kErrorCodeParameterName, errorCode];
+    [errorPageUrlString appendFormat:@"%@=%ld", kErrorCodeParameterName, (long)errorCode];
     [errorPageUrlString appendFormat:@"&%@=%@",
      kErrorDescriptionParameterName,
      [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -414,11 +464,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                              </head>\
                              <body>\
                                <h1>Bootstrap Error Page</h1>\
-                               <p>Error code: %d</p>\
+                               <p>Error code: %ld</p>\
                                <p>Error description: %@</p>\
                                <p>Error context: %@</p>\
                              </body>\
-                             </html>", errorCode, errorDescription, errorContext];
+                             </html>", (long)errorCode, errorDescription, errorContext];
     return htmlContent;
 }
 
@@ -429,7 +479,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     
     // If the start page is local, Cordova knows how to parse the start page.  Just leave it for the parent.
     if (!_hybridViewConfig.isLocal) {
-        self.startPage = [[SFAuthenticationManager frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
+        self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
     }
     
     startPageConfigured = YES;
@@ -468,7 +518,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if ([webView isEqual:self.webView]) {
         // If the request is attempting to refresh an invalid session, take over the refresh process via the
         // OAuth refresh flow in the container.
-        if ([SFAuthenticationManager isLoginRedirectUrl:request.URL]) {
+        NSString *refreshUrl = [self isLoginRedirectUrl:request.URL];
+        if (refreshUrl != nil) {
             [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
             // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
             // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
@@ -476,7 +527,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             [[SFAuthenticationManager sharedManager]
              loginWithCompletion:^(SFOAuthInfo *authInfo) {
                  // Reset the user agent back to Cordova.
-                 [self authenticationCompletion:request.URL authInfo:authInfo];
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
              }
              failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
@@ -487,11 +538,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                      [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
              }];
-            
             return NO;
         }
     }
-    
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
@@ -562,17 +611,16 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 #pragma mark - OAuth flow helpers
 
-- (void)authenticationCompletion:(NSURL *)originalUrl authInfo:(SFOAuthInfo *)authInfo
+- (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
     [self log:SFLogLevelDebug msg:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."];
     [SFAuthenticationManager resetSessionCookie];
-    
+
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
-        NSString *encodedStartUrlValue = [originalUrl valueForParameterName:@"startURL"];
         [self log:SFLogLevelDebug format:@"Authentication complete.  Redirecting to '%@' through frontdoor.",
-         [encodedStartUrlValue stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        NSURL *returnUrlAfterAuth = [SFAuthenticationManager frontDoorUrlWithReturnUrl:encodedStartUrlValue returnUrlIsEncoded:YES];
+                [originalUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
         [self.webView loadRequest:newRequest];
     }
@@ -580,10 +628,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)loadVFPingPage
 {
-    SFOAuthCredentials *creds = [SFAccountManager sharedInstance].coordinator.credentials;
-    NSString *instanceUrlString = creds.instanceUrl.absoluteString;
-    if (nil != instanceUrlString) {
-        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:instanceUrlString];
+    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    if (nil != creds.apiUrl) {
+        NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.apiUrl.absoluteString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];

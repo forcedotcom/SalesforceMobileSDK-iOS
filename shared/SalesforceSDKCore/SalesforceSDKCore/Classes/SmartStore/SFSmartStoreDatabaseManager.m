@@ -22,17 +22,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStoreDatabaseManager.h"
+#import "SFSmartStoreDatabaseManager+Internal.h"
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "SFSmartStoreUtils.h"
+#import "SFUserAccountManager.h"
+#import "SFUserAccount.h"
+#import "SFDirectoryManager.h"
 #import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
 static SFSmartStoreDatabaseManager *sharedInstance = nil;
-
-static NSString * const kStoresDirectory          = @"stores";
-static NSString * const kStoreDbFileName          = @"store.sqlite";
+static NSMutableDictionary *sDatabaseManagers;
 
 // NSError constants
 NSString *        const kSFSmartStoreDbErrorDomain         = @"com.salesforce.smartstore.db.error";
@@ -51,49 +54,52 @@ static NSString * const kSFSmartStoreVerifyDbErrorDesc     = @"Could not open da
 static NSInteger  const kSFSmartStoreVerifyReadDbErrorCode = 7;
 static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read from database at path '%@', for verification: %@";
 
-@interface SFSmartStoreDatabaseManager ()
-
-/**
- @param storeName The name of the store.
- @return The filesystem diretory containing for the given store name
- */
-- (NSString *)storeDirectoryForStoreName:(NSString *)storeName;
-
-/**
- @return The root directory where all the SmartStore DBs live.
- */
-- (NSString *)rootStoreDirectory;
-
-- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
-                                name:(NSString *)storeName
-                              oldKey:(NSString *)oldKey
-                              newKey:(NSString *)newKey
-                               error:(NSError **)error;
-- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
-
-@end
-
 @implementation SFSmartStoreDatabaseManager
+
+@synthesize user = _user;
 
 #pragma mark - Singleton initialization / management
 
++ (void)initialize
+{
+    sDatabaseManagers = [NSMutableDictionary dictionary];
+}
+
 + (SFSmartStoreDatabaseManager *)sharedManager
 {
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedInstance = [[super allocWithZone:NULL] init];
-    });
-    
-    return sharedInstance;
+    return [self sharedManagerForUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
-+ (id)allocWithZone:(NSZone *)zone
++ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user
 {
-    return [self sharedManager];
+    @synchronized (self) {
+        NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+        SFSmartStoreDatabaseManager *mgr = [sDatabaseManagers objectForKey:userKey];
+        if (mgr == nil) {
+            mgr = [[SFSmartStoreDatabaseManager alloc] initWithUser:user];
+            [sDatabaseManagers setObject:mgr forKey:userKey];
+        }
+        return mgr;
+    }
 }
 
-- (id)copyWithZone:(NSZone *)zone
++ (void)removeSharedManagerForUser:(SFUserAccount *)user
 {
+    @synchronized (self) {
+        NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
+        SFSmartStoreDatabaseManager *mgr = [sDatabaseManagers objectForKey:userKey];
+        if (mgr != nil) {
+            [sDatabaseManagers removeObjectForKey:userKey];
+        }
+    }
+}
+
+- (id)initWithUser:(SFUserAccount *)user
+{
+    self = [super init];
+    if (self) {
+        self.user = ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser] ? nil : user);
+    }
     return self;
 }
 
@@ -110,15 +116,29 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [self openDatabaseWithPath:fullDbFilePath key:key error:error];
 }
 
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
+    __block BOOL result = YES;
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
+    [queue inDatabase:^(FMDatabase* db) {
+        result = ([self setKeyForDb:db key:key error:error] != nil);
+    }];
+    return (result ? queue : nil);
+}
+
 - (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    return [self setKeyForDb:db key:key error:error];
+}
+
+- (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
     if ([db open]) {
         [db setKey:key];
         return db;
     } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", dbPath,[db lastErrorMessage]);
+        NSLog(@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]);
         if (error != nil)
             *error = [db lastError];
         return nil;
@@ -192,10 +212,23 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     // As a sanity check, verify that the new encrypted DB can be opened and read.
-    if (![self verifyDatabaseAccess:encDbPath key:newKey error:error]) {
+    NSError *openNewlyEncryptedDbError = nil;
+    FMDatabase *newlyEncryptedDb = [self openDatabaseWithPath:encDbPath key:newKey error:&openNewlyEncryptedDbError];
+    if (!newlyEncryptedDb) {
+        if (error != nil) {
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, encDbPath, [openNewlyEncryptedDbError localizedDescription]];
+            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
+                                         code:kSFSmartStoreVerifyDbErrorCode
+                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
+        }
+        [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
+        return db;
+    } else if (![self verifyDatabaseAccess:newlyEncryptedDb error:error]) {
+        [newlyEncryptedDb close];
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         return db;
     }
+    [newlyEncryptedDb close];
     
     // New database created and verified.  Move it into place of the old one.
     [db close];
@@ -241,26 +274,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
-- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error
+- (BOOL)verifyDatabaseAccess:(FMDatabase *)db error:(NSError **)error
 {
-    NSError *openDbError = nil;
-    FMDatabase *db = [self openDatabaseWithPath:dbPath key:key error:&openDbError];
-    if (!db) {
-        if (error != nil) {
-            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, dbPath, [openDbError localizedDescription]];
-            *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
-                                         code:kSFSmartStoreVerifyDbErrorCode
-                                     userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
-        }
-        return NO;
-    }
-    
     NSString *sqlCommand = @"SELECT name FROM sqlite_master LIMIT 1";
     FMResultSet *rs = [db executeQuery:sqlCommand];
     if (rs == nil) {
         // May not be results, but rs should never be nil coming back.
         if (error != nil) {
-            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, dbPath, [db lastErrorMessage]];
+            NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, [db databasePath], [db lastErrorMessage]];
             *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
                                          code:kSFSmartStoreVerifyReadDbErrorCode
                                      userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey]];
@@ -270,7 +291,6 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     [rs close];
-    [db close];
     return YES;
 }
 
@@ -317,11 +337,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 }
 
 - (NSString *)rootStoreDirectory {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
+    NSString *rootStoreDir;
+    if (self.user == nil) {
+        rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kStoresDirectory ]];
+    } else {
+        rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:self.user type:NSDocumentDirectory components:@[ kStoresDirectory ]];
+    }
     
-    return storesDir;
+    return rootStoreDir;
 }
 
 - (NSArray *)allStoreNames {

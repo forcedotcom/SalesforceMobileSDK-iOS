@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 
 @class FMDatabase;
+@class FMDatabaseQueue;
+@class SFUserAccount;
 
 /**
  The NSError domain for SmartStore database errors.
@@ -34,9 +36,21 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 @interface SFSmartStoreDatabaseManager : NSObject
 
 /**
- Gets the shared instance of the database manager.
+ Gets the shared instance of the database manager for the current user.
  */
 + (SFSmartStoreDatabaseManager *)sharedManager;
+
+/**
+ Gets the shared instance of the database manager for the given user.
+ @param user The user associated with the database manager.
+ */
++ (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user;
+
+/**
+ Removes the shared database manager associated with the given user.
+ @param user The user configured for the shared database manager.
+ */
++ (void)removeSharedManagerForUser:(SFUserAccount *)user;
 
 /**
  Whether the store with the given name exists.
@@ -53,6 +67,15 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @return The FMDatabase instance representing the DB, or nil if the create/open failed.
  */
 - (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
+
+/**
+ Creates or opens an existing store DB.
+ @param storeName The name of the store to create or open.
+ @param key The encryption key associated with the store.
+ @param error Returned if there's an error with the process.
+ @return The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.
+ */
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 
 /**
  Encrypts an existing unencrypted database.
@@ -109,12 +132,11 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 - (NSString*)fullDbFilePathForStoreName:(NSString*)storeName;
 
 /**
- Verifies that the database contents at the given path can be read with the given encryption key.
- @param dbPath The path to the database to read.
- @param key The encryption key used against the database.
+ Verifies that the database contents for the given DB can be read.
+ @param db The instance of the database to read.
  @param error The output NSError parameter that will be populated in the event of an error.
  @return YES if the database can be read, NO otherwise.
  */
-- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
+- (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
 
 @end
