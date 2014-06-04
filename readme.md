@@ -42,11 +42,13 @@ Introduction
 - Access to SmartStore is also now scoped by user account.
 - Push notifications are now supported across multiple users.
 - The ability to add multiple custom login endpoints has been added as well.
+- 64-bit support is available for native apps.  Hybrid apps are still required to be built as 32-bit apps.
 
 **Library Upgrades**
 - Upgraded the `openssl` library to `v1.0.1g`.
 
 **Other Technical Improvements**
+- Thread safety has been improved for SmartStore.
 - Various bug fixes.
 
 ### Native Applications
