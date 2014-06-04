@@ -79,7 +79,7 @@ The easiest way to do this is to delete everything in the Dependencies folder of
 SalesforceSecurity is a new library in 2.2, and many of the security-related classes—particularly classes related to passcode management—have moved into this class from SalesforceSDKCore.  If you have code that referenced passcode-related functionality from SalesforceSDKCore, you'll want to update your references to their SalesforceSecurity counterparts.
 
 #### Update AppDelegate
-Some of the APIs around user management have changed, as well as the patterns for handling logout and login host change events.  It is highly recommended that you consult the AppDelegate code from a new version of a forceios hybrid app, to see the changes.  At a high level, the changes are:
+Some of the APIs around user management have changed, as well as the patterns for handling logout and login host change events.  It is highly recommended that you consult the AppDelegate code from a new version of a forceios native app, to see the changes.  At a high level, the changes are:
 
 - Specifying your Connected App configuration is done through `SFUserAccountManager` now, where it was done through `SFAccountManager` in 2.1.  Make the following changes:
     - Instead of using `[SFAccountManager setClientId:]`, use `[SFUserAccountManager sharedInstance].oauthClientId`
