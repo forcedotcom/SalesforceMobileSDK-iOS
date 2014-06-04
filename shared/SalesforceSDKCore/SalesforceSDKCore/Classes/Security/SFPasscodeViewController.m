@@ -26,10 +26,7 @@
 #import <objc/runtime.h>
 
 #import "SFPasscodeViewController.h"
-#import "SFSecurityLockout.h"
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
-#import "SFPasscodeManager.h"
-#import "SFPasscodeManager+Internal.h"
+#import <SalesforceSecurity/SFPasscodeManager.h>
 #import "SFSDKResourceUtils.h"
 
 // Private view layout constants
@@ -42,7 +39,6 @@ static CGFloat      const kPasscodeHelperTextFontSize       = 13.0f;
 static NSUInteger   const kMaxPasscodeLength                = 8;
 static CGFloat      const kControlPadding                   = 5.0f;
 static CGFloat      const kTextFieldWidthPadding            = 40.0f;
-static CGFloat      const kSquareButtonSize                 = 40.0f;
 static CGFloat      const kErrorLabelHeight                 = 35.0f;
 static CGFloat      const kInstructionsLabelHeight          = 50.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
@@ -52,7 +48,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
-    NSInteger _attempts;
 }
 
 /**
@@ -150,16 +145,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)resetInitialCreateView;
 
 /**
- * Gets the (persisted) remaining attempts available for verifying a passcode.
- */
-- (NSInteger)remainingAttempts;
-
-/**
- * Sets the (persisted) remaining attempts for verifying a passcode.
- */
-- (void)setRemainingAttempts:(NSUInteger)remainingAttempts;
-
-/**
  * Sets up the navigation bar for the initial passcode creation screen.
  */
 - (void)addPasscodeCreationNav;
@@ -183,8 +168,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @implementation SFPasscodeViewController
 
-@synthesize mode = _mode;
-@synthesize minPasscodeLength = _minPasscodeLength;
 @synthesize passcodeField = _passcodeField;
 @synthesize errorLabel = _errorLabel;
 @synthesize instructionsLabel = _instructionsLabel;
@@ -201,24 +184,19 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     return [self initWithMode:SFPasscodeControllerModeCreate minPasscodeLength:minPasscodeLength];
 }
 
+- (id)initForPasscodeChange:(NSInteger)minPasscodeLength
+{
+    return [self initWithMode:SFPasscodeControllerModeChange minPasscodeLength:minPasscodeLength];
+}
+
 - (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
 {
-    self = [super init];
+    self = [super initWithMode:mode minPasscodeLength:minPasscodeLength];
     if (self) {
-        _mode = mode;
-        _minPasscodeLength = minPasscodeLength;
-        
-        if (mode == SFPasscodeControllerModeCreate) {
-            NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
-            
+        if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
             _firstPasscodeValidated = NO;
             [self addPasscodeCreationNav];
         } else {
-            _attempts = [self remainingAttempts];
-            if (0 == _attempts) {
-                _attempts = kMaxNumberofAttempts;
-                [self setRemainingAttempts:_attempts];
-            }
             [self addPasscodeVerificationNav];
         }
     }
@@ -238,7 +216,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)loadView
 {
     [super loadView];
-    
+
     // Passcode
     self.passcodeField = [[UITextField alloc] initWithFrame:CGRectZero];
     self.passcodeField.secureTextEntry = YES;
@@ -250,7 +228,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     self.passcodeField.accessibilityLabel = @"Passcode";
     self.passcodeField.delegate = self;
     [self.view addSubview:self.passcodeField];
-    
+
     // Error label
     self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.errorLabel setBackgroundColor:[UIColor clearColor]];
@@ -261,7 +239,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     self.errorLabel.textAlignment = NSTextAlignmentCenter;
     self.errorLabel.accessibilityLabel = @"Error";
     [self.view addSubview:self.errorLabel];
-    
+
     // Instructions label
     self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.instructionsLabel setBackgroundColor:[UIColor clearColor]];
@@ -274,7 +252,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self.view addSubview:self.instructionsLabel];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
-    
+
     // 'Forgot Passcode' button
     self.forgotPasscodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.forgotPasscodeButton setTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"] forState:UIControlStateNormal];
@@ -292,29 +270,14 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     [super viewDidLoad];
     NSLog(@"SFPasscodeViewController viewDidLoad");
-    
-    // This code block is a convoluted but necessary way of saying, "If we're on iOS 7, run this selector."
-    // Being able to use performSelector would be nice here, except the method argument is not an object,
-    // throwing us into NSInvocation land, and nine lines of code for the price of one.
-    // NB: When we move to iOS 7 as a minimum target, we can remove all of this and simply call
-    // [self setEdgesForExtendedLayout:UIRectEdgeNone].
-    SEL setEdgesSelector = @selector(setEdgesForExtendedLayout:);
-    if ([self respondsToSelector:setEdgesSelector]) {
-        Method method = class_getInstanceMethod([self class], setEdgesSelector);
-        struct objc_method_description *desc = method_getDescription(method);
-        NSMethodSignature *methodSignature = [NSMethodSignature signatureWithObjCTypes:desc->types];
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
-        
-        int uiRectEdgeNoneInt = 0;  // UIRectEdgeNone value for the UIRectEdge enum in iOS 7.
-        [invocation setTarget:self];
-        [invocation setSelector:setEdgesSelector];
-        [invocation setArgument:&uiRectEdgeNoneInt atIndex:2];
-        [invocation invoke];
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
-    
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
+    } else if (self.mode == SFPasscodeControllerModeChange) {
+        [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"]];
     } else {
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
         [self.forgotPasscodeButton setHidden:NO];
@@ -340,9 +303,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
             NSLog(@"User pressed No");
         } else {
             NSLog(@"User pressed Yes");
-            [self setRemainingAttempts:kMaxNumberofAttempts];
-            [[SFPasscodeManager sharedManager] resetPasscode];
-            [SFSecurityLockout unlock:NO];
+            [self validatePasscodeFailed];
         }
     }
 }
@@ -424,7 +385,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     for (int i = 0; i < length; i++) {
         [s appendString:@"a"];
     }
-    
     return s;
 }
 
@@ -453,10 +413,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     } else {
         // Set new passcode.
         [self.passcodeField resignFirstResponder];
-        [SFSecurityLockout setPasscode:self.passcodeField.text];
-        [SFSecurityLockout setupTimer];
-        [SFInactivityTimerCenter updateActivityTimestamp];
-        [SFSecurityLockout unlock:YES];
+        [self createPasscodeConfirmed:self.passcodeField.text];
     }
 }
 
@@ -464,20 +421,9 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
-        [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:checkPasscode];
-        [SFSecurityLockout setPasscode:checkPasscode];
-        [SFSecurityLockout unlock:YES];
-        [SFSecurityLockout setupTimer];
-        [self setRemainingAttempts:kMaxNumberofAttempts];
-        [SFInactivityTimerCenter updateActivityTimestamp];
+        [self validatePasscodeConfirmed:checkPasscode];
     } else {
-        _attempts -= 1;
-        [self setRemainingAttempts:_attempts];
-        if (_attempts <= 0) {
-            [self setRemainingAttempts:kMaxNumberofAttempts];
-            [[SFPasscodeManager sharedManager] resetPasscode];
-            [SFSecurityLockout unlock:NO];
-        } else {
+        if ([self decrementPasscodeAttempts]) {
             self.passcodeField.text = @"";
             [self updateErrorLabel:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"]];
         }
@@ -505,15 +451,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
     [self updateErrorLabel:@""];
     [self addPasscodeCreationNav];
-}
-
-- (NSInteger)remainingAttempts {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kRemainingAttemptsKey];
-}
-
-- (void)setRemainingAttempts:(NSUInteger)remainingAttempts {
-    [[NSUserDefaults standardUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)addPasscodeCreationNav
@@ -566,10 +503,8 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
         } else {
             [self finishedValidatePasscode];
         }
-        
         return NO;
     }
-    
     return YES;
 }
 

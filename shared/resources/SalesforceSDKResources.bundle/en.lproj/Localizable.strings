@@ -30,6 +30,7 @@
 "confirmPasscodeNavTitle" = "Confirm Passcode";
 "verifyPasscodeNavTitle" = "Verify Passcode";
 "passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
+"passcodeChangeInstructions" = "For increased security, your admininstrator requires you to change your passcode.";
 "passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
 "passcodeVerifyInstructions" = "Please enter your security passcode.";
 "minPasscodeLengthError" = "Your passcode must be at least %d characters long.";

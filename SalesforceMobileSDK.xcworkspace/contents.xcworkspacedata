@@ -49,6 +49,9 @@
       location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:shared/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
    </FileRef>
    <FileRef

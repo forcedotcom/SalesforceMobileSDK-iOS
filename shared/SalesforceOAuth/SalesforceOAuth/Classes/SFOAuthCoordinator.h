@@ -139,6 +139,11 @@ enum {
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
+/**
+ The delegate can implement this method to return a BOOL indicating if the network is available or not
+ */
+- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator*)coordinator;
+
 @required
 
 /** Sent after authentication has begun and the view parameter is displaying the first page of authentication content.

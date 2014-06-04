@@ -13,14 +13,6 @@
 
 #import "SFOAuth_UIDevice+Hardware.h"
 
-#ifndef FIX_CATEGORY_BUG
-#define FIX_CATEGORY_BUG(name) @interface FIXCATEGORYBUG ## name @end @implementation FIXCATEGORYBUG ## name @end 
-#endif
-
-
-FIX_CATEGORY_BUG(UIDevice_Hardware);
-
-
 @implementation UIDevice (Hardware)
 /*
  Platforms

@@ -23,15 +23,20 @@
  */
 
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceSDKCore/SFPreferences.h>
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
-#import "SFAccountManager.h"
+#import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
+static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/sobjects/MobilePushServiceDevice";
-static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-const-variable"
+static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
+#pragma clang diagnostic pop
 
 @interface SFPushNotificationManager ()
 
@@ -57,8 +62,10 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         _queue = [[NSOperationQueue alloc] init];
         
         // Restore device token from user defaults if available
-        _deviceToken = [[NSUserDefaults standardUserDefaults] stringForKey:kSFDeviceToken];
+        _deviceToken = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceToken];
 
+        // Restore device Salesforce ID from user defaults if available
+        _deviceSalesforceId = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceSalesforceId];
         
         // Watching logged in events (to register)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFUserLoggedInNotification object:nil];
@@ -97,14 +104,14 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 {
     [self log:SFLogLevelInfo msg:@"Registration with Apple for remote push notifications succeeded"];
     _deviceToken = [NSString stringWithHexData:deviceTokenData];
-    [[NSUserDefaults standardUserDefaults] setObject:_deviceToken forKey:kSFDeviceToken];
+    [[SFPreferences currentUserLevelPreferences] setObject:_deviceToken forKey:kSFDeviceToken];
 }
 
 #pragma mark - Salesforce registration
 
 - (BOOL)registerForSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
+    SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
         return NO;
@@ -147,6 +154,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
                 _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
+                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
         }
@@ -157,35 +165,42 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 
 - (BOOL)unregisterSalesforceNotifications
 {
-    SFOAuthCredentials *credentials = [SFAccountManager sharedInstance].coordinator.credentials;
+    return [self unregisterSalesforceNotifications:[SFUserAccountManager sharedInstance].currentUser];
+}
+
+- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
+{
+    SFOAuthCredentials *credentials = user.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: not authenticated"];
         return NO;
     }
-
-    if (!_deviceSalesforceId) {
+    SFPreferences *pref = [SFPreferences sharedPreferencesForScope:SFUserAccountScopeUser user:user];
+    if (!pref) {
+        [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no user pref"];
+        return NO;
+    }
+    NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
+    if (!deviceSFID) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
         return NO;
     }
-
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
+
     // URL and method
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSFPushNotificationEndPoint, _deviceSalesforceId] relativeToURL:credentials.instanceUrl]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSFPushNotificationEndPoint, deviceSFID] relativeToURL:credentials.instanceUrl]];
     [request setHTTPMethod:@"DELETE"];
-    
+
     // Headers
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
-    
+
     // Send (fire and forget)
     NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
     [urlConnection start];
     [self log:SFLogLevelInfo msg:@"Unregister from notifications with Salesforce sent"];
-
     return YES;
 }
-
 
 #pragma mark - Events observers
 - (void)onUserLoggedIn:(NSNotification *)notification
@@ -201,7 +216,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 - (void)onAppWillEnterForeground:(NSNotification *)notification
 {
     // Re-registering with Salesforce if we have a device token unless we are logging out
-    if (![SFAccountManager logoutSettingEnabled] && self.deviceToken) {
+    if (![SFAuthenticationManager sharedManager].logoutSettingEnabled && self.deviceToken) {
         [self log:SFLogLevelInfo msg:@"Re-registering for Salesforce notification because application is being foregrounded"];
         [self registerForSalesforceNotifications];
     }

@@ -37,9 +37,10 @@ extern NSString *const kDefaultSmartStoreName;
  */
 extern NSString * const kSFSmartStoreErrorDomain;
 
-@class FMDatabase;
+@class FMDatabaseQueue;
 @class SFStoreCursor;
 @class SFQuerySpec;
+@class SFUserAccount;
 
 @interface SFSmartStore : NSObject {
 
@@ -48,7 +49,7 @@ extern NSString * const kSFSmartStoreErrorDomain;
     id      _dataProtectAvailObserverToken;
     id      _dataProtectUnavailObserverToken;
     
-    FMDatabase *_storeDb;
+    FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
     
     NSMutableDictionary *_indexSpecsBySoup;
@@ -60,52 +61,50 @@ extern NSString * const kSFSmartStoreErrorDomain;
  */
 @property (nonatomic, readonly, strong) NSString *storeName;
 
-/**
- The db access object for this store.
- */
-@property (nonatomic, readonly, strong) FMDatabase *storeDb;
-
-
 
 /**
- Use this method to obtain a shared store instance with a particular name.
+ Use this method to obtain a shared store instance with a particular name for the current user.
  
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
 + (id)sharedStoreWithName:(NSString*)storeName;
 
+/**
+ Use this method to obtain a shared store instance with the given name for the given user.
+ @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
+ @param user The user associated with the store.
+ */
++ (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
 
 /**
- 
  You may use this method to completely remove a persistent shared store with
- the given name.
+ the given name for the current user.
  
  @param storeName The name of the store. 
  */
-+ (void)removeSharedStoreWithName:(NSString*)storeName;
++ (void)removeSharedStoreWithName:(NSString *)storeName;
 
 /**
- Removes all of the stores from this app.
+ You may use this method to completely remove a persisted shared store with the given name
+ for the given user.
+ @param storeName The name of the store to remove.
+ @param user The user associated with the store.
+ */
++ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user;
+
+/**
+ Removes all of the stores for the current user from this app.
  */
 + (void)removeAllStores;
 
 /**
- @param storeName The name of the store (excluding paths)
- @return Does this store already exist in persistent storage (ignoring cache) ?
+ Removes all of the store for the given user from this app.
+ @param user The user associated with the stores to remove.
  */
-+ (BOOL)persistentStoreExists:(NSString*)storeName;
-
-/**
- Changes the encryption key for all of the stores associated with the app.
- @param oldKey The original encryption key.
- @param newKey The new encryption key.
- */
-+ (void)changeKeyForStores:(NSString *)oldKey newKey:(NSString *)newKey;
++ (void)removeAllStoresForUser:(SFUserAccount *)user;
 
 #pragma mark - Soup manipulation methods
-
-
 
 /**
  @param soupName the name of the soup
@@ -153,7 +152,6 @@ extern NSString * const kSFSmartStoreErrorDomain;
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
- 
  @return A set of entries given the pageSize provided in the querySpec
  */
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;

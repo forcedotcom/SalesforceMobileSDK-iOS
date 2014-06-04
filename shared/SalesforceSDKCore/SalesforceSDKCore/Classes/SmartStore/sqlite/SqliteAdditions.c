@@ -45,8 +45,8 @@ char *trim_right( char *szSource, char tobeTrimed ) {
 }
 
 char *trim_left( char *szSource, char tobeTrimed ) {
-	int i;
-	int szLen = strlen(szSource);
+	size_t i;
+	size_t szLen = strlen(szSource);
 	
 	for(i=0 ; i<szLen-1; i++) {
 		if(szSource[i] != tobeTrimed)
@@ -72,7 +72,7 @@ void concat(sqlite3_context* ctx, int nargs, sqlite3_value** values) {
 	int totalLen = 0;
 	for(int i=0; i<nargs; i++) {
 		if (sqlite3_value_text(values[i]) != NULL) {
-			totalLen = totalLen + strlen((char*)sqlite3_value_text(values[i]));
+			totalLen = totalLen + (int)strlen((char*)sqlite3_value_text(values[i]));
 		}
 	}
 	totalLen++;

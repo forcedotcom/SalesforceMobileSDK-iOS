@@ -87,6 +87,11 @@ typedef enum {
 @property (nonatomic, strong) NSString *smartSql;
 
 /**
+ countSmartSql: query to compute count of results for smartSql
+ */
+@property (nonatomic, strong) NSString *countSmartSql;
+
+/**
  * The number of entries per page to return.
  */
 @property (nonatomic, assign) NSUInteger pageSize;
