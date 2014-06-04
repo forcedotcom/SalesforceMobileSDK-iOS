@@ -23,9 +23,9 @@
  */
 
 #import "SFSDKInfoPlugin.h"
-#import "CDVViewController.h"
+#import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
-#import "CDVInvokedUrlCommand.h"
+#import <Cordova/CDVInvokedUrlCommand.h>
 
 // Keys in sdk info map
 NSString * const kSDKVersionKey = @"sdkVersion";

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 // From Cordova.framework
-#import "CDVPlugin.h"
+#import <Cordova/CDVPlugin.h>
 @class CDVInvokedUrlCommand;
 
 

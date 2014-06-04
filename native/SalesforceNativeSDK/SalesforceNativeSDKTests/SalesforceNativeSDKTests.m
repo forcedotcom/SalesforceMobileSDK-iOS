@@ -291,7 +291,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForQueryAll:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+    records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
     STAssertEquals((int)[records count], 1, @"expected just one query result");
 
     // now search object

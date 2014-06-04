@@ -428,279 +428,134 @@
       </Group>
    </Group>
    <Group
-      location = "group:external/shared"
-      name = "HybridShared">
-      <Group
-         location = "group:external"
-         name = "external">
-         <Group
-            location = "group:backbone"
-            name = "backbone">
-            <FileRef
-               location = "group:backbone-1.0.0.min.js">
-            </FileRef>
-            <FileRef
-               location = "group:underscore-1.4.4.min.js">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:jquery"
-            name = "jquery">
-            <Group
-               location = "group:images"
-               name = "images">
-               <FileRef
-                  location = "group:ajax-loader.gif">
-               </FileRef>
-               <FileRef
-                  location = "group:icons-18-black.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icons-18-white.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icons-36-black.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icons-36-white.png">
-               </FileRef>
-            </Group>
-            <FileRef
-               location = "group:jquery-2.0.0.min.js">
-            </FileRef>
-            <FileRef
-               location = "group:jquery.mobile-1.3.1.min.css">
-            </FileRef>
-            <FileRef
-               location = "group:jquery.mobile-1.3.1.min.js">
-            </FileRef>
-            <FileRef
-               location = "group:jquery.mobile.structure-1.3.1.min.css">
-            </FileRef>
-            <FileRef
-               location = "group:jquery.mobile.theme-1.3.1.min.css">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:qunit"
-            name = "qunit">
-            <FileRef
-               location = "group:qunit.css">
-            </FileRef>
-            <FileRef
-               location = "group:qunit.js">
-            </FileRef>
-         </Group>
-      </Group>
-      <Group
-         location = "group:libs"
-         name = "libs">
-         <FileRef
-            location = "group:smartsync.js">
-         </FileRef>
-         <FileRef
-            location = "group:forcetk.mobilesdk.js">
-         </FileRef>
-         <FileRef
-            location = "group:cordova.force.js">
-         </FileRef>
-      </Group>
-      <FileRef
-         location = "group:README.md">
-      </FileRef>
-      <Group
-         location = "group:SampleApps"
-         name = "SampleApps">
-         <Group
-            location = "group:smartsync"
-            name = "smartsync">
-            <FileRef
-               location = "group:AccountEditor.html">
-            </FileRef>
-            <FileRef
-               location = "group:auth.js">
-            </FileRef>
-            <FileRef
-               location = "group:auth_local.js">
-            </FileRef>
-            <FileRef
-               location = "group:bootconfig.json">
-            </FileRef>
-            <Group
-               location = "group:css"
-               name = "css">
-               <Group
-                  location = "group:images"
-                  name = "images">
-                  <FileRef
-                     location = "group:activity-indicator.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:back-button-active.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:back-button.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:button-active.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:button.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:call.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:comment-arrow.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:detail-disclosure-button.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:disclosure-indicator.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:mail.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:manager.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:message.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:navbar-bg.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:navbar-landscape-bg.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:refresh-icon.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:reports.png">
-                  </FileRef>
-                  <FileRef
-                     location = "group:search-icon.png">
-                  </FileRef>
-               </Group>
-               <FileRef
-                  location = "group:ratchet.css">
-               </FileRef>
-               <FileRef
-                  location = "group:styles.css">
-               </FileRef>
-            </Group>
-            <FileRef
-               location = "group:fastclick.js">
-            </FileRef>
-            <FileRef
-               location = "group:stackrouter.js">
-            </FileRef>
-            <FileRef
-               location = "group:UserAndGroupSearch.html">
-            </FileRef>
-            <FileRef
-               location = "group:UserSearch.html">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:contactexplorer"
-            name = "contactexplorer">
-            <FileRef
-               location = "group:index.html">
-            </FileRef>
-            <FileRef
-               location = "group:inline.js">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:sfdcaccounts"
-            name = "sfdcaccounts">
-            <FileRef
-               location = "group:editaccount.html">
-            </FileRef>
-            <FileRef
-               location = "group:editopportunity.html">
-            </FileRef>
-            <FileRef
-               location = "group:index.html">
-            </FileRef>
-            <FileRef
-               location = "group:sfdcaccounts.js">
-            </FileRef>
-            <FileRef
-               location = "group:sfdcsmartstore.js">
-            </FileRef>
-         </Group>
-         <Group
-            location = "group:smartstoreexplorer"
-            name = "smartstoreexplorer">
-            <FileRef
-               location = "group:index.html">
-            </FileRef>
-            <FileRef
-               location = "group:smartstoreexplorer.js">
-            </FileRef>
-         </Group>
-      </Group>
-      <Group
-         location = "group:test"
-         name = "test">
-         <FileRef
-            location = "group:SFSmartSyncTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:MockCordova.js">
-         </FileRef>
-         <FileRef
-            location = "group:MockSDKInfo.js">
-         </FileRef>
-         <FileRef
-            location = "group:MockSmartStore.js">
-         </FileRef>
-         <FileRef
-            location = "group:README.md">
-         </FileRef>
-         <FileRef
-            location = "group:SFAbstractSmartStoreTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:SFSDKInfoTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:SFSmartStoreLoadTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:SFSmartStoreTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:SFTestRunnerPlugin.js">
-         </FileRef>
-         <FileRef
-            location = "group:SFTestSuite.js">
-         </FileRef>
-         <FileRef
-            location = "group:test.html">
-         </FileRef>
-      </Group>
-   </Group>
-   <Group
       location = "container:"
       name = "shared">
       <Group
-         location = "group:shared/hybrid"
-         name = "hybrid">
-         <FileRef
-            location = "group:config.xml">
-         </FileRef>
-         <FileRef
-            location = "group:cordova-2.3.0.js">
-         </FileRef>
-      </Group>
-      <Group
          location = "group:shared/resources"
          name = "resources">
+         <FileRef
+            location = "group:Settings.bundle">
+         </FileRef>
+         <Group
+            location = "group:ImagesHybrid.xcassets"
+            name = "ImagesHybrid.xcassets">
+            <Group
+               location = "group:AppIcon.appiconset"
+               name = "AppIcon.appiconset">
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-114.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-120.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-144.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icon-152.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-57.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icon-72.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icon-76.png">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:LaunchImage.launchimage"
+               name = "LaunchImage.launchimage">
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-568h@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Landscape@2x~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Landscape~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Portrait@2x~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Portrait~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default@2x.png">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:Images.xcassets"
+            name = "Images.xcassets">
+            <Group
+               location = "group:AppIcon.appiconset"
+               name = "AppIcon.appiconset">
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-114.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-120.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-144.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-152.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icon-57.png">
+               </FileRef>
+               <FileRef
+                  location = "group:icon-72.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Icon-76.png">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:LaunchImage.launchimage"
+               name = "LaunchImage.launchimage">
+               <FileRef
+                  location = "group:Contents.json">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-568h@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Landscape@2x~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Landscape~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Portrait@2x~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default-Portrait~ipad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default@2x.png">
+               </FileRef>
+            </Group>
+         </Group>
          <FileRef
             location = "group:SalesforceSDKResources.bundle">
          </FileRef>

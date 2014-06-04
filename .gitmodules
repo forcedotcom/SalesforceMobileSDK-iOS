@@ -6,7 +6,7 @@
 	url = https://github.com/tomaz/appledoc.git
 [submodule "external/cordova-ios/cordova-ios"]
 	path = external/cordova-ios/cordova-ios
-	url = https://github.com/forcedotcom/cordova-ios.git
+	url = https://github.com/apache/cordova-ios.git
 [submodule "external/ThirdPartyDependencies"]
 	path = external/ThirdPartyDependencies
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
@@ -16,3 +16,6 @@
 [submodule "external/MKNetworkKit"]
 	path = external/MKNetworkKit
 	url = https://github.com/forcedotcom/MKNetworkKit.git
+[submodule "external/samples"]
+	path = external/samples
+	url = https://github.com/forcedotcom/SalesforceMobileSDK-Samples.git
