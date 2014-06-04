@@ -6,6 +6,7 @@
 			<TokenIdentifier>//apple_ref/occ/intf/SFNetworkOperationDelegate</TokenIdentifier>
 			<Abstract type="html">Delegate to implement to get notified on network operation status change</Abstract>
 			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
+            
 			
 			<NodeRef refid="6"/>
 		</Token>
@@ -14,46 +15,51 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFNetworkOperationDelegate/networkOperationDidFinish:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)networkOperationDidFinish:(SFNetworkOperation *)operation</Declaration>
 			
 			
 			<Anchor>//api/name/networkOperationDidFinish:</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFNetworkOperationDelegate/networkOperation:didFailWithError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)networkOperation:(SFNetworkOperation *)operation didFailWithError:(NSError *)error</Declaration>
 			
 			
 			<Anchor>//api/name/networkOperation:didFailWithError:</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFNetworkOperationDelegate/networkOperationDidCancel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)networkOperationDidCancel:(SFNetworkOperation *)operation</Declaration>
 			
 			
 			<Anchor>//api/name/networkOperationDidCancel:</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFNetworkOperationDelegate/networkOperationDidTimeout:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)networkOperationDidTimeout:(SFNetworkOperation *)operation</Declaration>
 			
 			
 			<Anchor>//api/name/networkOperationDidTimeout:</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>

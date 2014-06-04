@@ -1,81 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthorizingViewController.html">
+	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthorizingViewController</TokenIdentifier>
-			<Abstract type="html">Sets up the view components for User Agent OAuth authentication.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
+			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+            
 			
 			<NodeRef refid="15"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthorizingViewController/setAuthorizingMessageLabel:</TokenIdentifier>
-			<Abstract type="html">The message label to show while loading.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
+			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel</Declaration>
+			<Declaration>- (id)initWithUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user providing the details.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/authorizingMessageLabel</Anchor>
+			<Anchor>//api/name/initWithUser:</Anchor>
+            <NodeRef refid="15"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthorizingViewController/authorizingMessageLabel</TokenIdentifier>
-			<Abstract type="html">The message label to show while loading.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel</Declaration>
-			
-			
-			<Anchor>//api/name/authorizingMessageLabel</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthorizingViewController/authorizingMessageLabel</TokenIdentifier>
-			<Abstract type="html">The message label to show while loading.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel</Declaration>
-			
-			
-			<Anchor>//api/name/authorizingMessageLabel</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthorizingViewController/setOauthView:</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthorizingViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthorizingViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFAuthorizingViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

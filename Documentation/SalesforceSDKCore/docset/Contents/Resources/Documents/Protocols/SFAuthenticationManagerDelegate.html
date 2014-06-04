@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFAuthenticationManagerDelegate Protocol Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -48,9 +47,17 @@
 	
 	<option value="//api/name/authManagerDidAuthenticate:credentials:authInfo:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidAuthenticate:credentials:authInfo:</option>
 	
+	<option value="//api/name/authManagerDidFail:error:info:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidFail:error:info:</option>
+	
+	<option value="//api/name/authManagerDidFinish:info:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidFinish:info:</option>
+	
 	<option value="//api/name/authManagerDidFinishAuthWebViewLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidFinishAuthWebViewLoad:</option>
 	
+	<option value="//api/name/authManagerDidLogout:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidLogout:</option>
+	
 	<option value="//api/name/authManagerDidStartAuthWebViewLoad:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerDidStartAuthWebViewLoad:</option>
+	
+	<option value="//api/name/authManagerIsNetworkAvailable:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerIsNetworkAvailable:</option>
 	
 	<option value="//api/name/authManagerWillBeginAuthWithView:">&nbsp;&nbsp;&nbsp;&nbsp;- authManagerWillBeginAuthWithView:</option>
 	
@@ -86,9 +93,17 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidAuthenticate:credentials:authInfo:">authManagerDidAuthenticate:credentials:authInfo:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidFail:error:info:">authManagerDidFail:error:info:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidFinish:info:">authManagerDidFinish:info:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidFinishAuthWebViewLoad:">authManagerDidFinishAuthWebViewLoad:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidLogout:">authManagerDidLogout:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerDidStartAuthWebViewLoad:">authManagerDidStartAuthWebViewLoad:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerIsNetworkAvailable:">authManagerIsNetworkAvailable:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/authManagerWillBeginAuthWithView:">authManagerWillBeginAuthWithView:</a></span></li>
 	
@@ -123,8 +138,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -148,35 +163,54 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/authManagerWillBeginAuthWithView:">&ndash;&nbsp;authManagerWillBeginAuthWithView:</a></code>
-		<span class="tooltip"><p>Called when the authentication manager is starting the auth process with an auth view.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/authManagerDidStartAuthWebViewLoad:">&ndash;&nbsp;authManagerDidStartAuthWebViewLoad:</a></code>
-		<span class="tooltip"><p>Called when the auth view starts its load.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/authManagerDidFinishAuthWebViewLoad:">&ndash;&nbsp;authManagerDidFinishAuthWebViewLoad:</a></code>
-		<span class="tooltip"><p>Called when the auth view load has finished.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/authManager:willDisplayAuthWebView:">&ndash;&nbsp;authManager:willDisplayAuthWebView:</a></code>
-		<span class="tooltip"><p>Called when the auth manager is going to display the auth view.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/authManagerDidAuthenticate:credentials:authInfo:">&ndash;&nbsp;authManagerDidAuthenticate:credentials:authInfo:</a></code>
-		<span class="tooltip"><p>Called after the auth manager has successfully authenticated.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/authManagerDidFinish:info:">&ndash;&nbsp;authManagerDidFinish:info:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/authManagerDidFail:error:info:">&ndash;&nbsp;authManagerDidFail:error:info:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/authManagerIsNetworkAvailable:">&ndash;&nbsp;authManagerIsNetworkAvailable:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/authManagerDidLogout:">&ndash;&nbsp;authManagerDidLogout:</a></code>
 	</span>
 	
 	
@@ -305,6 +339,113 @@
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/authManagerDidFail:error:info:" title="authManagerDidFail:error:info:"></a>
+	<h3 class="subsubtitle method-title">authManagerDidFail:error:info:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called after the auth manager had failed to authenticate.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)authManagerDidFail:(SFAuthenticationManager *)<em>manager</em> error:(NSError *)<em>error</em> info:(SFOAuthInfo *)<em>info</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>manager</em></dt>
+			<dd><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>info</em></dt>
+			<dd><p>The auth info associated with authentication.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFAuthenticationManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/authManagerDidFinish:info:" title="authManagerDidFinish:info:"></a>
+	<h3 class="subsubtitle method-title">authManagerDidFinish:info:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called after the auth manager has successfully authenticated and finished retrieving the identity information.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)authManagerDidFinish:(SFAuthenticationManager *)<em>manager</em> info:(SFOAuthInfo *)<em>info</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>manager</em></dt>
+			<dd><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>info</em></dt>
+			<dd><p>The auth info associated with authentication.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFAuthenticationManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/authManagerDidFinishAuthWebViewLoad:" title="authManagerDidFinishAuthWebViewLoad:"></a>
 	<h3 class="subsubtitle method-title">authManagerDidFinishAuthWebViewLoad:</h3>
 	
@@ -317,6 +458,52 @@
     
 
 	<div class="method-subsection method-declaration"><code>- (void)authManagerDidFinishAuthWebViewLoad:(SFAuthenticationManager *)<em>manager</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>manager</em></dt>
+			<dd><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFAuthenticationManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/authManagerDidLogout:" title="authManagerDidLogout:"></a>
+	<h3 class="subsubtitle method-title">authManagerDidLogout:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called after the auth manager logs out.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)authManagerDidLogout:(SFAuthenticationManager *)<em>manager</em></code></div>
 
     
 	
@@ -397,6 +584,57 @@
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/authManagerIsNetworkAvailable:" title="authManagerIsNetworkAvailable:"></a>
+	<h3 class="subsubtitle method-title">authManagerIsNetworkAvailable:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called when the auth manager wants to determine if the network is available (best guest).</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager *)<em>manager</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>manager</em></dt>
+			<dd><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if the network is available, NO otherwise</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFAuthenticationManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/authManagerWillBeginAuthWithView:" title="authManagerWillBeginAuthWithView:"></a>
 	<h3 class="subsubtitle method-title">authManagerWillBeginAuthWithView:</h3>
 	
@@ -445,6 +683,8 @@
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -455,7 +695,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

@@ -1,0 +1,827 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SFPreferences Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFPreferences Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/dictionaryRepresentation">&nbsp;&nbsp;&nbsp;&nbsp;dictionaryRepresentation</option>
+	
+	<option value="//api/name/path">&nbsp;&nbsp;&nbsp;&nbsp;path</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/currentCommunityLevelPreferences">&nbsp;&nbsp;&nbsp;&nbsp;+ currentCommunityLevelPreferences</option>
+	
+	<option value="//api/name/currentOrgLevelPreferences">&nbsp;&nbsp;&nbsp;&nbsp;+ currentOrgLevelPreferences</option>
+	
+	<option value="//api/name/currentUserLevelPreferences">&nbsp;&nbsp;&nbsp;&nbsp;+ currentUserLevelPreferences</option>
+	
+	<option value="//api/name/globalPreferences">&nbsp;&nbsp;&nbsp;&nbsp;+ globalPreferences</option>
+	
+	<option value="//api/name/sharedPreferencesForScope:user:">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedPreferencesForScope:user:</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/boolForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- boolForKey:</option>
+	
+	<option value="//api/name/integerForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- integerForKey:</option>
+	
+	<option value="//api/name/objectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- objectForKey:</option>
+	
+	<option value="//api/name/removeObjectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- removeObjectForKey:</option>
+	
+	<option value="//api/name/setBool:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setBool:forKey:</option>
+	
+	<option value="//api/name/setInteger:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setInteger:forKey:</option>
+	
+	<option value="//api/name/setObject:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setObject:forKey:</option>
+	
+	<option value="//api/name/stringForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- stringForKey:</option>
+	
+	<option value="//api/name/synchronize">&nbsp;&nbsp;&nbsp;&nbsp;- synchronize</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dictionaryRepresentation">dictionaryRepresentation</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/path">path</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentCommunityLevelPreferences">currentCommunityLevelPreferences</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentOrgLevelPreferences">currentOrgLevelPreferences</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentUserLevelPreferences">currentUserLevelPreferences</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/globalPreferences">globalPreferences</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedPreferencesForScope:user:">sharedPreferencesForScope:user:</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/boolForKey:">boolForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/integerForKey:">integerForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/objectForKey:">objectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeObjectForKey:">removeObjectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setBool:forKey:">setBool:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setInteger:forKey:">setInteger:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setObject:forKey:">setObject:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringForKey:">stringForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/synchronize">synchronize</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFPreferences Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFPreferences Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFPreferences.h</td>
+</tr>
+						</tbody></table></div>
+					
+                    
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Preferences class that handles scoped preferences.
+A scope allows to bounds the preferences to a specific user,
+org or community.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dictionaryRepresentation">&nbsp;&nbsp;dictionaryRepresentation</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/globalPreferences">+&nbsp;globalPreferences</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sharedPreferencesForScope:user:">+&nbsp;sharedPreferencesForScope:user:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentOrgLevelPreferences">+&nbsp;currentOrgLevelPreferences</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentUserLevelPreferences">+&nbsp;currentUserLevelPreferences</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentCommunityLevelPreferences">+&nbsp;currentCommunityLevelPreferences</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/objectForKey:">&ndash;&nbsp;objectForKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setObject:forKey:">&ndash;&nbsp;setObject:forKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeObjectForKey:">&ndash;&nbsp;removeObjectForKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/boolForKey:">&ndash;&nbsp;boolForKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setBool:forKey:">&ndash;&nbsp;setBool:forKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/integerForKey:">&ndash;&nbsp;integerForKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setInteger:forKey:">&ndash;&nbsp;setInteger:forKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringForKey:">&ndash;&nbsp;stringForKey:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/synchronize">&ndash;&nbsp;synchronize</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/dictionaryRepresentation" title="dictionaryRepresentation"></a>
+	<h3 class="subsubtitle method-title">dictionaryRepresentation</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the underlying dictionary representation</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/path" title="path"></a>
+	<h3 class="subsubtitle method-title">path</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the path in which the preferences file exists</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *path</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/currentCommunityLevelPreferences" title="currentCommunityLevelPreferences"></a>
+	<h3 class="subsubtitle method-title">currentCommunityLevelPreferences</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the preferences instance related to the currrent user&rsquo;s community
+or nil if there is no current user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)currentCommunityLevelPreferences</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/currentOrgLevelPreferences" title="currentOrgLevelPreferences"></a>
+	<h3 class="subsubtitle method-title">currentOrgLevelPreferences</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the preferences instance related to the currrent user&rsquo;s organization
+or nil if there is no current user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)currentOrgLevelPreferences</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/currentUserLevelPreferences" title="currentUserLevelPreferences"></a>
+	<h3 class="subsubtitle method-title">currentUserLevelPreferences</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the preferences instance related to the currrent user
+or nil if there is no current user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)currentUserLevelPreferences</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/globalPreferences" title="globalPreferences"></a>
+	<h3 class="subsubtitle method-title">globalPreferences</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the global instance of the preferences (one per application)</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)globalPreferences</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/sharedPreferencesForScope:user:" title="sharedPreferencesForScope:user:"></a>
+	<h3 class="subsubtitle method-title">sharedPreferencesForScope:user:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the preferences instance related to the specified user&rsquo;s organization
+or nil if there is no specified user or scope.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)<em>scope</em> user:(SFUserAccount *)<em>user</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/boolForKey:" title="boolForKey:"></a>
+	<h3 class="subsubtitle method-title">boolForKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)boolForKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/integerForKey:" title="integerForKey:"></a>
+	<h3 class="subsubtitle method-title">integerForKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (NSInteger)integerForKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/objectForKey:" title="objectForKey:"></a>
+	<h3 class="subsubtitle method-title">objectForKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (id)objectForKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeObjectForKey:" title="removeObjectForKey:"></a>
+	<h3 class="subsubtitle method-title">removeObjectForKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (void)removeObjectForKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setBool:forKey:" title="setBool:forKey:"></a>
+	<h3 class="subsubtitle method-title">setBool:forKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (void)setBool:(BOOL)<em>value</em> forKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setInteger:forKey:" title="setInteger:forKey:"></a>
+	<h3 class="subsubtitle method-title">setInteger:forKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (void)setInteger:(NSInteger)<em>value</em> forKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setObject:forKey:" title="setObject:forKey:"></a>
+	<h3 class="subsubtitle method-title">setObject:forKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/stringForKey:" title="stringForKey:"></a>
+	<h3 class="subsubtitle method-title">stringForKey:</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>- (NSString *)stringForKey:(NSString *)<em>key</em></code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/synchronize" title="synchronize"></a>
+	<h3 class="subsubtitle method-title">synchronize</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Saves the preferences to the disk</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)synchronize</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFPreferences.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+                    
+                    
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

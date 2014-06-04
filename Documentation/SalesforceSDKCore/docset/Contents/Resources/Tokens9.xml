@@ -1,490 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAccountManager.html">
+	<File path="Classes/SFAuthErrorHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAccountManager</TokenIdentifier>
-			<Abstract type="html">Class used to manage common account functions used across the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">Class to define a handler for authentication errors, which can be used in an
+error handling filter chain.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+            
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationManager</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="9"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the singleton instance of this class for the currently configured account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/currentAccountIdentifier</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>+ (SFAccountManager *)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/sharedInstanceForAccount:</TokenIdentifier>
-			<Abstract type="html">Returns the singleton instance of this class for the given account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>+ (SFAccountManager *)sharedInstanceForAccount:(NSString *)accountIdentifier</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalBlock:</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>accountIdentifier</Name>
-					<Abstract type="html">The account identifier of the class.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The canonical name of the error handler.</Abstract>
+				</Parameter><Parameter>
+					<Name>evalBlock</Name>
+					<Abstract type="html">The block to handle the error evaluation.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedInstanceForAccount:</Anchor>
+			<Anchor>//api/name/initWithName:evalBlock:</Anchor>
+            <NodeRef refid="9"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/currentAccountIdentifier</TokenIdentifier>
-			<Abstract type="html">The account identifier associated with the current application.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (NSString *)currentAccountIdentifier</Declaration>
-			
-			<ReturnValue><Abstract type="html">The account identifier associated with the current application.</Abstract></ReturnValue>
-			<Anchor>//api/name/currentAccountIdentifier</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/setCurrentAccountIdentifier:</TokenIdentifier>
-			<Abstract type="html">Sets (copies) the current account identifier for the application.  There&apos;s really only
-one active account identifier for the lifetime of the running application.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)setCurrentAccountIdentifier:(NSString *)newAccountIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/setCurrentAccountIdentifier:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/logoutSettingEnabled</TokenIdentifier>
-			<Abstract type="html">Wheher or not the Logout app setting is enabled.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (BOOL)logoutSettingEnabled</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if so, NO if not.</Abstract></ReturnValue>
-			<Anchor>//api/name/logoutSettingEnabled</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/ensureAccountDefaultsExist</TokenIdentifier>
-			<Abstract type="html">Makes sure that the app-level configuration for the login host has been populated with the
-current value in the app settings of the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)ensureAccountDefaultsExist</Declaration>
-			
-			
-			<Anchor>//api/name/ensureAccountDefaultsExist</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/loginHost</TokenIdentifier>
-			<Abstract type="html">The configured login host for the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (NSString *)loginHost</Declaration>
-			
-			<ReturnValue><Abstract type="html">The configured login host for the app.</Abstract></ReturnValue>
-			<Anchor>//api/name/loginHost</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/setLoginHost:</TokenIdentifier>
-			<Abstract type="html">Sets a new value for the login host for the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)setLoginHost:(NSString *)newLoginHost</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newLoginHost</Name>
-					<Abstract type="html">The new host value to set.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setLoginHost:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/updateLoginHost</TokenIdentifier>
-			<Abstract type="html">Synchronizes the app-level login host setting with the value in app settings.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (SFLoginHostUpdateResult *)updateLoginHost</Declaration>
-			
-			<ReturnValue><Abstract type="html">SFLoginHostUpdateResult object containing the original hostname, the new hostname
-(possibly the same), and whether or not the hostname changed.</Abstract></ReturnValue>
-			<Anchor>//api/name/updateLoginHost</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/clientId</TokenIdentifier>
-			<Abstract type="html">The OAuth client ID of the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (NSString *)clientId</Declaration>
-			
-			<ReturnValue><Abstract type="html">The OAuth client ID of the app.</Abstract></ReturnValue>
-			<Anchor>//api/name/clientId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/setClientId:</TokenIdentifier>
-			<Abstract type="html">Sets a new value for the app&apos;s OAuth client ID.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)setClientId:(NSString *)newClientId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newClientId</Name>
-					<Abstract type="html">The new value for the client ID.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setClientId:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/redirectUri</TokenIdentifier>
-			<Abstract type="html">The app&apos;s OAuth redirect URI.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (NSString *)redirectUri</Declaration>
-			
-			<ReturnValue><Abstract type="html">The app&apos;s OAuth redirect URI.</Abstract></ReturnValue>
-			<Anchor>//api/name/redirectUri</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html">Sets a new value for the app&apos;s OAuth redirect URI.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)setRedirectUri:(NSString *)newRedirectUri</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newRedirectUri</Name>
-					<Abstract type="html">The new value for the app&apos;s OAuth redirect URI.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setRedirectUri:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/scopes</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (NSSet *)scopes</Declaration>
-			
-			<ReturnValue><Abstract type="html">The OAuth scopes associated with the app.</Abstract></ReturnValue>
-			<Anchor>//api/name/scopes</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/setScopes:</TokenIdentifier>
-			<Abstract type="html">Sets a new value for the OAuth scopes associated with the app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (void)setScopes:(NSSet *)newScopes</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newScopes</Name>
-					<Abstract type="html">The new value for the OAuth scopes of the app.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setScopes:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFAccountManager/errorIsNetworkFailure:</TokenIdentifier>
-			<Abstract type="html">Evaluates an NSError object to see if it represents a network failure during
-an attempted connection.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>+ (BOOL)errorIsNetworkFailure:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The NSError to evaluate.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error represents a network failure, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/errorIsNetworkFailure:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/clearAccountState:</TokenIdentifier>
-			<Abstract type="html">Clears the account state of the given account (i.e. clears credentials, coordinator
-instances, etc.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>- (void)clearAccountState:(BOOL)clearAccountData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>clearAccountData</Name>
-					<Abstract type="html">Whether to optionally revoke credentials and persisted data associated
-with the account.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/clearAccountState:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/mobilePinPolicyConfigured</TokenIdentifier>
-			<Abstract type="html">Whether or not there is a mobile pin code policy configured for this app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>- (BOOL)mobilePinPolicyConfigured</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if so, NO if not.</Abstract></ReturnValue>
-			<Anchor>//api/name/mobilePinPolicyConfigured</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setAccountIdentifier:</TokenIdentifier>
-			<Abstract type="html">The account identifier for a given account manager instance.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *accountIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/accountIdentifier</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/accountIdentifier</TokenIdentifier>
-			<Abstract type="html">The account identifier for a given account manager instance.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *accountIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/accountIdentifier</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/accountIdentifier</TokenIdentifier>
-			<Abstract type="html">The account identifier for a given account manager instance.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *accountIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/accountIdentifier</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setCoordinator:</TokenIdentifier>
-			<Abstract type="html">The OAuth Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/coordinator</TokenIdentifier>
-			<Abstract type="html">The OAuth Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/coordinator</TokenIdentifier>
-			<Abstract type="html">The OAuth Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/coordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setIdCoordinator:</TokenIdentifier>
-			<Abstract type="html">The Identity Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
-			
-			
-			<Anchor>//api/name/idCoordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/idCoordinator</TokenIdentifier>
-			<Abstract type="html">The Identity Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
-			
-			
-			<Anchor>//api/name/idCoordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/idCoordinator</TokenIdentifier>
-			<Abstract type="html">The Identity Coordinator associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
-			
-			
-			<Anchor>//api/name/idCoordinator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setCredentials:</TokenIdentifier>
-			<Abstract type="html">The auth credentials maintained for this app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
-			
-			
-			<Anchor>//api/name/credentials</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/credentials</TokenIdentifier>
-			<Abstract type="html">The auth credentials maintained for this app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
-			
-			
-			<Anchor>//api/name/credentials</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/credentials</TokenIdentifier>
-			<Abstract type="html">The auth credentials maintained for this app.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
-			
-			
-			<Anchor>//api/name/credentials</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setIdData:</TokenIdentifier>
-			<Abstract type="html">The Identity data associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/idData</TokenIdentifier>
-			<Abstract type="html">The Identity data associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/idData</TokenIdentifier>
-			<Abstract type="html">The Identity data associated with this account.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setOauthDelegate:</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its OAuth delegate for handling authentication responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; oauthDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/oauthDelegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/oauthDelegate</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its OAuth delegate for handling authentication responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; oauthDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/oauthDelegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/oauthDelegate</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its OAuth delegate for handling authentication responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; oauthDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/oauthDelegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/setIdDelegate:</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its Identity delegate for handling identity responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) id&lt;SFIdentityCoordinatorDelegate&gt; idDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/idDelegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManager/idDelegate</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its Identity delegate for handling identity responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) id&lt;SFIdentityCoordinatorDelegate&gt; idDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/idDelegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAccountManager/idDelegate</TokenIdentifier>
-			<Abstract type="html">Allows the consumer to set its Identity delegate for handling identity responses.</Abstract>
-			<DeclaredIn>SFAccountManager.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) id&lt;SFIdentityCoordinatorDelegate&gt; idDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/idDelegate</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

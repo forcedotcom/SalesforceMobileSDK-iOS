@@ -1,217 +1,286 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreDatabaseManager.html">
+	<File path="Classes/SFStoreCursor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreDatabaseManager</TokenIdentifier>
-			<Abstract type="html">The NSError domain for SmartStore database errors.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFStoreCursor</TokenIdentifier>
+			<Abstract type="html">Defines a cursor into data stored in a soup.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+            
 			
 			<NodeRef refid="39"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">Gets the shared instance of the database manager.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCursorId:</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartStoreDatabaseManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
 			
 			
-			<Anchor>//api/name/sharedManager</Anchor>
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/persistentStoreExists:</TokenIdentifier>
-			<Abstract type="html">Whether the store with the given name exists.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)persistentStoreExists:(NSString *)storeName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			
+			
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			
+			
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setQuerySpec:</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageOrderedEntries:</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setPageSize:</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalPages:</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available .</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available .</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available .</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageIndex:</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/initWithStore:querySpec:totalEntries:firstPageEntries:</TokenIdentifier>
+			<Abstract type="html">Initializes a new instance of a soup cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store querySpec:(SFQuerySpec *)querySpec totalEntries:(NSUInteger)totalEntries firstPageEntries:(NSArray *)firstPageEntries</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to query.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the store exists, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/persistentStoreExists:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreDatabaseWithName:key:error:</TokenIdentifier>
-			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to create or open.</Abstract>
+					<Name>store</Name>
+					<Abstract type="html">The store where the soup is contained.</Abstract>
 				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key associated with the store.</Abstract>
+					<Name>querySpec</Name>
+					<Abstract type="html">The query used to retrieve the data.</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The FMDatabase instance representing the DB, or nil if the create/open failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/openStoreDatabaseWithName:key:error:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptDb:name:key:error:</TokenIdentifier>
-			<Abstract type="html">Encrypts an existing unencrypted database.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>db</Name>
-					<Abstract type="html">The DB to encrypt.</Abstract>
+					<Name>totalEntries</Name>
+					<Abstract type="html">The total number of entries retrieved from the query.</Abstract>
 				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store representing the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDb:name:key:error:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/unencryptDb:name:oldKey:error:</TokenIdentifier>
-			<Abstract type="html">Unencrypts an encrypted database, back to plaintext.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>db</Name>
-					<Abstract type="html">The database to unencrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the DB.</Abstract>
-				</Parameter><Parameter>
-					<Name>oldKey</Name>
-					<Abstract type="html">The original encryption key of the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The unencrypted database, or the original encrypted database if the process fails at any point.</Abstract></ReturnValue>
-			<Anchor>//api/name/unencryptDb:name:oldKey:error:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/createStoreDir:error:</TokenIdentifier>
-			<Abstract type="html">Creates the directory for the store, on the filesystem.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (BOOL)createStoreDir:(NSString *)storeName error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store to be created.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if the creation process fails.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the call completed with no errors, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/createStoreDir:error:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/protectStoreDir:error:</TokenIdentifier>
-			<Abstract type="html">Sets filesystem protection on the store DB contents.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The store associated with the protection.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Returned if protection fails.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the call completes without errors, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/protectStoreDir:error:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/removeStoreDir:</TokenIdentifier>
-			<Abstract type="html">Removes the store directory and all of its contents from the filesystem.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (void)removeStoreDir:(NSString *)storeName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The store associated with the request.</Abstract>
+					<Name>firstPageEntries</Name>
+					<Abstract type="html">The entries of the first page</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeStoreDir:</Anchor>
+			<Anchor>//api/name/initWithStore:querySpec:totalEntries:firstPageEntries:</Anchor>
+            <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/allStoreNames</TokenIdentifier>
-			<Abstract type="html">All of the store names associated with this application.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/asDictionary</TokenIdentifier>
+			<Abstract type="html">The NSDictionary representation of this object.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)allStoreNames</Declaration>
+			<Declaration>- (NSDictionary *)asDictionary</Declaration>
 			
-			<ReturnValue><Abstract type="html">All of the store names associated with this application.</Abstract></ReturnValue>
-			<Anchor>//api/name/allStoreNames</Anchor>
+			<ReturnValue><Abstract type="html">Dictionary representation of this object, for translation to JSON.</Abstract></ReturnValue>
+			<Anchor>//api/name/asDictionary</Anchor>
+            <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/fullDbFilePathForStoreName:</TokenIdentifier>
-			<Abstract type="html">The full filesystem path to the database with the given store name.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/close</TokenIdentifier>
+			<Abstract type="html">Close this cursor when finished operating on it.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)fullDbFilePathForStoreName:(NSString *)storeName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store (excluding paths)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">full filesystem path for the store db file</Abstract></ReturnValue>
-			<Anchor>//api/name/fullDbFilePathForStoreName:</Anchor>
+			<Declaration>- (void)close</Declaration>
+			
+			
+			<Anchor>//api/name/close</Anchor>
+            <NodeRef refid="39"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/verifyDatabaseAccess:key:error:</TokenIdentifier>
-			<Abstract type="html">Verifies that the database contents at the given path can be read with the given encryption key.</Abstract>
-			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>			
-			
-			<Declaration>- (BOOL)verifyDatabaseAccess:(NSString *)dbPath key:(NSString *)key error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dbPath</Name>
-					<Abstract type="html">The path to the database to read.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key used against the database.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The output NSError parameter that will be populated in the event of an error.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the database can be read, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyDatabaseAccess:key:error:</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

@@ -14,64 +14,168 @@
 						<NodeRef refid="1"/>
 						<NodeRef refid="2"/>
 						<NodeRef refid="3"/>
-						<NodeRef refid="4"/>
-						<NodeRef refid="5"/>
-						<NodeRef refid="6"/>
-						<NodeRef refid="7"/>
 						
 					</Subnodes>
 				</Node>
 				
 				
-				
-				<Node type="folder">
+                
+				<Node>
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="8"/>
+						<NodeRef refid="4"/>
 						
 					</Subnodes>
 				</Node>
 				
+                
 			</Subnodes>
         </Node>
     </TOC>
 	<Library>
 		
-		<Node id="1" type="file">
-			<Name>AppDelegate</Name>
-			<Path>Classes/AppDelegate.html</Path>
-		</Node>
-		<Node id="2" type="file">
-			<Name>SFNativeRestRequestListener</Name>
-			<Path>Classes/SFNativeRestRequestListener.html</Path>
-		</Node>
-		<Node id="3" type="file">
-			<Name>SFRestAPI</Name>
-			<Path>Classes/SFRestAPI.html</Path>
-		</Node>
-		<Node id="4" type="file">
-			<Name>SFRestRequest</Name>
-			<Path>Classes/SFRestRequest.html</Path>
-		</Node>
-		<Node id="5" type="file">
-			<Name>SFSessionRefresher</Name>
-			<Path>Classes/SFSessionRefresher.html</Path>
-		</Node>
-		<Node id="6" type="file">
-			<Name>SalesforceNativeSDKTests</Name>
-			<Path>Classes/SalesforceNativeSDKTests.html</Path>
-		</Node>
-		<Node id="7" type="file">
-			<Name>ViewController</Name>
-			<Path>Classes/ViewController.html</Path>
-		</Node>
+		<Node id="1" type="file" documentType="reference">
+            <Name>SFRestAPI</Name>
+            <Path>Classes/SFRestAPI.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFRestAPI.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFRestAPI.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFRestAPI.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRestAPI.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRestAPI.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>SFRestRequest</Name>
+            <Path>Classes/SFRestRequest.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFRestRequest.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFRestRequest.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFRestRequest.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRestRequest.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRestRequest.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>SFSessionRefresher</Name>
+            <Path>Classes/SFSessionRefresher.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSessionRefresher.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSessionRefresher.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSessionRefresher.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSessionRefresher.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
 		
-		<Node id="8" type="file">
-			<Name>SFRestDelegate</Name>
-			<Path>Protocols/SFRestDelegate.html</Path>
-		</Node>
+        <Node id="4" type="file" documentType="reference">
+            <Name>SFRestDelegate</Name>
+            <Path>Protocols/SFRestDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFRestDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFRestDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFRestDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
+        
 	</Library>
 </DocSetNodes>

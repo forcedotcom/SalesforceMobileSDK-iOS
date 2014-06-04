@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>NSURL(SFStringUtils) Category Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -38,6 +37,13 @@
 	
 	
 	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/stringUrlWithBaseUrl:pathComponents:">&nbsp;&nbsp;&nbsp;&nbsp;+ stringUrlWithBaseUrl:pathComponents:</option>
+	
+	<option value="//api/name/stringUrlWithScheme:host:port:pathComponents:">&nbsp;&nbsp;&nbsp;&nbsp;+ stringUrlWithScheme:host:port:pathComponents:</option>
 	
 	
 	
@@ -69,6 +75,14 @@
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringUrlWithBaseUrl:pathComponents:">stringUrlWithBaseUrl:pathComponents:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringUrlWithScheme:host:port:pathComponents:">stringUrlWithScheme:host:port:pathComponents:</a></span></li>
+	
+</ul></li>
 
 
 
@@ -104,8 +118,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -129,9 +143,18 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/redactedAbsoluteString:">&ndash;&nbsp;redactedAbsoluteString:</a></code>
-		<span class="tooltip"><p>Will return the absolute string of a URL, with potentially sensitive querystring
-parameter values redacted.  Useful for logging URL values without sensitive data
-included.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringUrlWithBaseUrl:pathComponents:">+&nbsp;stringUrlWithBaseUrl:pathComponents:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringUrlWithScheme:host:port:pathComponents:">+&nbsp;stringUrlWithScheme:host:port:pathComponents:</a></code>
 	</span>
 	
 	
@@ -145,6 +168,134 @@ included.</p></span>
 					
 					
 					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/stringUrlWithBaseUrl:pathComponents:" title="stringUrlWithBaseUrl:pathComponents:"></a>
+	<h3 class="subsubtitle method-title">stringUrlWithBaseUrl:pathComponents:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Helper method that constructs an absolute URL string given the specified components.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)<em>baseUrl</em> pathComponents:(NSArray *)<em>pathComponents</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>baseUrl</em></dt>
+			<dd><p>The base URL</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>pathComponents</em></dt>
+			<dd><p>The components of the path</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>an absolute string URL representation</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">NSURL+SFStringUtils.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/stringUrlWithScheme:host:port:pathComponents:" title="stringUrlWithScheme:host:port:pathComponents:"></a>
+	<h3 class="subsubtitle method-title">stringUrlWithScheme:host:port:pathComponents:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Helper method that constructs an absolute URL string given the specified components.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)stringUrlWithScheme:(NSString *)<em>scheme</em> host:(NSString *)<em>host</em> port:(NSNumber *)<em>port</em> pathComponents:(NSArray *)<em>pathComponents</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>scheme</em></dt>
+			<dd><p>The scheme of the URL</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>host</em></dt>
+			<dd><p>The host of the URL</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>port</em></dt>
+			<dd><p>The port of the URL</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>pathComponents</em></dt>
+			<dd><p>The components of the path</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>an absolute string URL representation</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">NSURL+SFStringUtils.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
 					
 					
 					
@@ -209,6 +360,8 @@ should be redacted.</p></dd>
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -219,7 +372,7 @@ should be redacted.</p></dd>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

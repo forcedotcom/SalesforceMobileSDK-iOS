@@ -2,7 +2,7 @@
 <DocSetNodes version="1.0">
     <TOC>
         <Node type="folder">
-            <Name>SalesforceNativeSDK</Name>
+            <Name>SalesforceOAuth</Name>
             <Path>index.html</Path>
 			<Subnodes>
                 
@@ -15,86 +15,265 @@
 						<NodeRef refid="2"/>
 						<NodeRef refid="3"/>
 						<NodeRef refid="4"/>
-						<NodeRef refid="5"/>
-						<NodeRef refid="6"/>
-						<NodeRef refid="7"/>
-						<NodeRef refid="8"/>
 						
 					</Subnodes>
 				</Node>
 				
 				
-				<Node type="folder">
+				<Node>
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="9"/>
-						<NodeRef refid="10"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
 						
 					</Subnodes>
 				</Node>
 				
-				
-				<Node type="folder">
+                
+				<Node>
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="11"/>
+						<NodeRef refid="7"/>
 						
 					</Subnodes>
 				</Node>
 				
+                
 			</Subnodes>
         </Node>
     </TOC>
 	<Library>
 		
-		<Node id="1" type="file">
-			<Name>SFOAuthCoordinator</Name>
-			<Path>Classes/SFOAuthCoordinator.html</Path>
-		</Node>
-		<Node id="2" type="file">
-			<Name>SFOAuthCredentials</Name>
-			<Path>Classes/SFOAuthCredentials.html</Path>
-		</Node>
-		<Node id="3" type="file">
-			<Name>SFOAuthCrypto</Name>
-			<Path>Classes/SFOAuthCrypto.html</Path>
-		</Node>
-		<Node id="4" type="file">
-			<Name>SFOAuthInfo</Name>
-			<Path>Classes/SFOAuthInfo.html</Path>
-		</Node>
-		<Node id="5" type="file">
-			<Name>SalesforceOAuthTestAppDelegate</Name>
-			<Path>Classes/SalesforceOAuthTestAppDelegate.html</Path>
-		</Node>
-		<Node id="6" type="file">
-			<Name>SalesforceOAuthTestViewController</Name>
-			<Path>Classes/SalesforceOAuthTestViewController.html</Path>
-		</Node>
-		<Node id="7" type="file">
-			<Name>SalesforceOAuthUnitTests</Name>
-			<Path>Classes/SalesforceOAuthUnitTests.html</Path>
-		</Node>
-		<Node id="8" type="file">
-			<Name>SalesforceOAuthUnitTestsCoordinatorDelegate</Name>
-			<Path>Classes/SalesforceOAuthUnitTestsCoordinatorDelegate.html</Path>
-		</Node>
+		<Node id="1" type="file" documentType="reference">
+            <Name>SFOAuthCoordinator</Name>
+            <Path>Classes/SFOAuthCoordinator.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>SFOAuthCredentials</Name>
+            <Path>Classes/SFOAuthCredentials.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCredentials.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCredentials.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCredentials.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCredentials.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCredentials.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>SFOAuthCrypto</Name>
+            <Path>Classes/SFOAuthCrypto.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCrypto.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCrypto.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCrypto.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
+            <Name>SFOAuthInfo</Name>
+            <Path>Classes/SFOAuthInfo.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFOAuthInfo.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFOAuthInfo.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthInfo.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthInfo.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
-		<Node id="9" type="file">
-			<Name>NSString(Additions)</Name>
-			<Path>Categories/NSString+Additions.html</Path>
-		</Node>
-		<Node id="10" type="file">
-			<Name>UIDevice(Hardware)</Name>
-			<Path>Categories/UIDevice+Hardware.html</Path>
-		</Node>
+		<Node id="5" type="file" documentType="reference">
+            <Name>NSString(Additions)</Name>
+            <Path>Categories/NSString+Additions.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSString+Additions.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSString+Additions.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSString+Additions.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSString+Additions.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="6" type="file" documentType="reference">
+            <Name>UIDevice(Hardware)</Name>
+            <Path>Categories/UIDevice+Hardware.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/UIDevice+Hardware.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/UIDevice+Hardware.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Categories/UIDevice+Hardware.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
-		<Node id="11" type="file">
-			<Name>SFOAuthCoordinatorDelegate</Name>
-			<Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
-		</Node>
+        <Node id="7" type="file" documentType="reference">
+            <Name>SFOAuthCoordinatorDelegate</Name>
+            <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
+        
 	</Library>
 </DocSetNodes>

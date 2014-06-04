@@ -6,6 +6,7 @@
 			<TokenIdentifier>//apple_ref/occ/cl/SFNetworkUtils</TokenIdentifier>
 			<Abstract type="html">Helper class for SFNetworkSDK</Abstract>
 			<DeclaredIn>SFNetworkUtils.h</DeclaredIn>
+            
 			
 			<NodeRef refid="4"/>
 		</Token>
@@ -14,7 +15,7 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFNetworkUtils/typeOfError:</TokenIdentifier>
 			<Abstract type="html">Get error type for the specified error</Abstract>
-			<DeclaredIn>SFNetworkUtils.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkUtils.h</DeclaredIn>
 			
 			<Declaration>+ (SFNetworkOperationErrorType)typeOfError:(NSError *)error</Declaration>
 			<Parameters>
@@ -25,7 +26,9 @@
 			</Parameters>
 			
 			<Anchor>//api/name/typeOfError:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>

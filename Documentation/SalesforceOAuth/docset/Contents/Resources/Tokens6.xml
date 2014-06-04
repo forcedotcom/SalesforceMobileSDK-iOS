@@ -1,433 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceOAuthTestViewController.html">
+	<File path="Categories/UIDevice+Hardware.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthTestViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(Hardware)</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
+            
 			
 			<NodeRef refid="6"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setOauthCoordinator:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) SFOAuthCoordinator *oauthCoordinator</Declaration>
+			<Declaration>- (NSString *)platform</Declaration>
 			
 			
-			<Anchor>//api/name/oauthCoordinator</Anchor>
+			<Anchor>//api/name/platform</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/oauthCoordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) SFOAuthCoordinator *oauthCoordinator</Declaration>
+			<Declaration>- (NSString *)hwmodel</Declaration>
 			
 			
-			<Anchor>//api/name/oauthCoordinator</Anchor>
+			<Anchor>//api/name/hwmodel</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/oauthCoordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) SFOAuthCoordinator *oauthCoordinator</Declaration>
+			<Declaration>- (NSUInteger)platformType</Declaration>
 			
 			
-			<Anchor>//api/name/oauthCoordinator</Anchor>
+			<Anchor>//api/name/platformType</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setFieldDomain:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UITextField *fieldDomain</Declaration>
+			<Declaration>- (NSString *)platformString</Declaration>
 			
 			
-			<Anchor>//api/name/fieldDomain</Anchor>
+			<Anchor>//api/name/platformString</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/fieldDomain</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UITextField *fieldDomain</Declaration>
+			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
 			
 			
-			<Anchor>//api/name/fieldDomain</Anchor>
+			<Anchor>//api/name/cpuFrequency</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/fieldDomain</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UITextField *fieldDomain</Declaration>
+			<Declaration>- (NSUInteger)busFrequency</Declaration>
 			
 			
-			<Anchor>//api/name/fieldDomain</Anchor>
+			<Anchor>//api/name/busFrequency</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setButtonAuthenticate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonAuthenticate</Declaration>
+			<Declaration>- (NSUInteger)totalMemory</Declaration>
 			
 			
-			<Anchor>//api/name/buttonAuthenticate</Anchor>
+			<Anchor>//api/name/totalMemory</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/buttonAuthenticate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonAuthenticate</Declaration>
+			<Declaration>- (NSUInteger)userMemory</Declaration>
 			
 			
-			<Anchor>//api/name/buttonAuthenticate</Anchor>
+			<Anchor>//api/name/userMemory</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/buttonAuthenticate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonAuthenticate</Declaration>
+			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
 			
 			
-			<Anchor>//api/name/buttonAuthenticate</Anchor>
+			<Anchor>//api/name/totalDiskSpace</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setButtonClear:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonClear</Declaration>
+			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
 			
 			
-			<Anchor>//api/name/buttonClear</Anchor>
+			<Anchor>//api/name/freeDiskSpace</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/buttonClear</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
+			<DeclaredIn>SFOAuth_UIDevice+Hardware.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonClear</Declaration>
+			<Declaration>- (NSString *)macaddress</Declaration>
 			
 			
-			<Anchor>//api/name/buttonClear</Anchor>
+			<Anchor>//api/name/macaddress</Anchor>
+            <NodeRef refid="6"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/buttonClear</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIButton *buttonClear</Declaration>
-			
-			
-			<Anchor>//api/name/buttonClear</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelAccessToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAccessToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelAccessToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelAccessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAccessToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelAccessToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelAccessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAccessToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelAccessToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelRefreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelRefreshToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelRefreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelRefreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelRefreshToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelRefreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelRefreshToken</Declaration>
-			
-			
-			<Anchor>//api/name/labelRefreshToken</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelInstanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/labelInstanceUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelInstanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelInstanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/labelInstanceUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelInstanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelInstanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/labelInstanceUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelAuthType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAuthType</Declaration>
-			
-			
-			<Anchor>//api/name/labelAuthType</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelAuthType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAuthType</Declaration>
-			
-			
-			<Anchor>//api/name/labelAuthType</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelAuthType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelAuthType</Declaration>
-			
-			
-			<Anchor>//api/name/labelAuthType</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelIssued:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelIssued</Declaration>
-			
-			
-			<Anchor>//api/name/labelIssued</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelIssued</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelIssued</Declaration>
-			
-			
-			<Anchor>//api/name/labelIssued</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelIssued</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelIssued</Declaration>
-			
-			
-			<Anchor>//api/name/labelIssued</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelUserId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelUserId</Declaration>
-			
-			
-			<Anchor>//api/name/labelUserId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelUserId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelUserId</Declaration>
-			
-			
-			<Anchor>//api/name/labelUserId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelUserId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelUserId</Declaration>
-			
-			
-			<Anchor>//api/name/labelUserId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setLabelOrgId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/labelOrgId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/labelOrgId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/labelOrgId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/labelOrgId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UILabel *labelOrgId</Declaration>
-			
-			
-			<Anchor>//api/name/labelOrgId</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/setActivityIndicator:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator</Declaration>
-			
-			
-			<Anchor>//api/name/activityIndicator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/activityIndicator</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator</Declaration>
-			
-			
-			<Anchor>//api/name/activityIndicator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceOAuthTestViewController/activityIndicator</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator</Declaration>
-			
-			
-			<Anchor>//api/name/activityIndicator</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/authClicked:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>- (IBAction)authClicked:(id)sender</Declaration>
-			
-			
-			<Anchor>//api/name/authClicked:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthTestViewController/resetClicked:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthTestViewController.h</DeclaredIn>			
-			
-			<Declaration>- (IBAction)resetClicked:(id)sender</Declaration>
-			
-			
-			<Anchor>//api/name/resetClicked:</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

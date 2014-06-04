@@ -1,254 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFHybridViewController.html">
+	<File path="Classes/SFSDKInfoPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFHybridViewController</TokenIdentifier>
-			<Abstract type="html">Base view controller for Salesforce hybrid app components.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInfoPlugin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+            
 			
 			<NodeRef refid="4"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setRemoteAccessConsumerKey:</TokenIdentifier>
-			<Abstract type="html">The Remote Access object consumer key.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/getInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>- (void)getInfo:(CDVInvokedUrlCommand *)command</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/getInfo:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Remote Access object consumer key.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *remoteAccessConsumerKey</Declaration>
-			
-			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Remote Access object consumer key.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *remoteAccessConsumerKey</Declaration>
-			
-			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setOauthRedirectURI:</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setOauthScopes:</TokenIdentifier>
-			<Abstract type="html">The set of oauth scopes that should be requested for this app.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The set of oauth scopes that should be requested for this app.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The set of oauth scopes that should be requested for this app.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSSet *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setAppHomeUrl:</TokenIdentifier>
-			<Abstract type="html">The offline &quot;home page&quot; for the app.  Will be nil if no value has been
-found.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
-			
-			
-			<Anchor>//api/name/appHomeUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/appHomeUrl</TokenIdentifier>
-			<Abstract type="html">The offline &quot;home page&quot; for the app.  Will be nil if no value has been
-found.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
-			
-			
-			<Anchor>//api/name/appHomeUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/appHomeUrl</TokenIdentifier>
-			<Abstract type="html">The offline &quot;home page&quot; for the app.  Will be nil if no value has been
-found.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, strong) NSURL *appHomeUrl</Declaration>
-			
-			
-			<Anchor>//api/name/appHomeUrl</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.  Initializes the view controller with its hybrid view configuration.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewConfig</Name>
-					<Abstract type="html">The hybrid view configuration associated with this component.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithConfig:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/getAuthCredentialsWithCompletionBlock:failureBlock:</TokenIdentifier>
-			<Abstract type="html">Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
-credentials are configured.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>- (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The OAuth plugin completion block to call upon successful retrieval of
-the credentials.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">The failure block to call in the event of an authentication failure.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/authenticateWithCompletionBlock:failureBlock:</TokenIdentifier>
-			<Abstract type="html">Used by the OAuth plugin to authenticate the user.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The block to call upon successsful authentication.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">The block to call in the event of an auth failure.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authenticateWithCompletionBlock:failureBlock:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/loadErrorPageWithCode:description:context:</TokenIdentifier>
-			<Abstract type="html">Loads an error page, in the event of an otherwise unhandled error.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>- (void)loadErrorPageWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorCode</Name>
-					<Abstract type="html">A numberic error code associated with the error.</Abstract>
-				</Parameter><Parameter>
-					<Name>errorDescription</Name>
-					<Abstract type="html">The error description associated with the failure.</Abstract>
-				</Parameter><Parameter>
-					<Name>errorContext</Name>
-					<Abstract type="html">The context in which the error occurred.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loadErrorPageWithCode:description:context:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewController/credentialsAsDictionary</TokenIdentifier>
-			<Abstract type="html">Convert the post-authentication credentials into a Dictionary, to return to
-the calling client code.</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>+ (NSDictionary *)credentialsAsDictionary</Declaration>
-			
-			<ReturnValue><Abstract type="html">Dictionary representation of oauth credentials.</Abstract></ReturnValue>
-			<Anchor>//api/name/credentialsAsDictionary</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewController/sfHybridViewUserAgentString</TokenIdentifier>
-			<Abstract type="html">Prepend a user agent string to the current one, based on device, application, and SDK
-version information.
-We are building a user agent of the form:
-   SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) appName/appVersion Hybrid [Current User Agent]</Abstract>
-			<DeclaredIn>SFHybridViewController.h</DeclaredIn>			
-			
-			<Declaration>+ (NSString *)sfHybridViewUserAgentString</Declaration>
-			
-			<ReturnValue><Abstract type="html">The user agent string for SF hybrid apps.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfHybridViewUserAgentString</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

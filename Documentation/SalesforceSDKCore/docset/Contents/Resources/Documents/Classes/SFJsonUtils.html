@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFJsonUtils Class Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -45,6 +44,8 @@
 	<option value="//api/name/JSONDataRepresentation:">&nbsp;&nbsp;&nbsp;&nbsp;+ JSONDataRepresentation:</option>
 	
 	<option value="//api/name/JSONRepresentation:">&nbsp;&nbsp;&nbsp;&nbsp;+ JSONRepresentation:</option>
+	
+	<option value="//api/name/lastError">&nbsp;&nbsp;&nbsp;&nbsp;+ lastError</option>
 	
 	<option value="//api/name/objectFromJSONData:">&nbsp;&nbsp;&nbsp;&nbsp;+ objectFromJSONData:</option>
 	
@@ -83,6 +84,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/JSONDataRepresentation:">JSONDataRepresentation:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/JSONRepresentation:">JSONRepresentation:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastError">lastError</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/objectFromJSONData:">objectFromJSONData:</a></span></li>
 	
@@ -123,8 +126,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -147,36 +150,37 @@
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
+		<code><a href="#//api/name/lastError">+&nbsp;lastError</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/JSONRepresentation:">+&nbsp;JSONRepresentation:</a></code>
-		<span class="tooltip"><p>Creates the JSON representation of an object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/JSONDataRepresentation:">+&nbsp;JSONDataRepresentation:</a></code>
-		<span class="tooltip"><p>Creates the JSON-as-NSData representation of an object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/objectFromJSONString:">+&nbsp;objectFromJSONString:</a></code>
-		<span class="tooltip"><p>Creates an object from a string of JSON data.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/objectFromJSONData:">+&nbsp;objectFromJSONData:</a></code>
-		<span class="tooltip"><p>Creates an object from a JSON-as-NSData object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/projectIntoJson:path:">+&nbsp;projectIntoJson:path:</a></code>
-		<span class="tooltip"><p>Pull a value from the json-derived object by path (&ldquo;.&rdquo; delimited)</p></span>
 	</span>
 	
 	
@@ -277,6 +281,47 @@
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>a JSON string representation of an Objective-C object</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFJsonUtils.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastError" title="lastError"></a>
+	<h3 class="subsubtitle method-title">lastError</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The last error that was logged during a JSON conversion operation.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSError *)lastError</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The last error that was logged during a JSON conversion operation.</p>
 	</div>
 	
 	
@@ -440,6 +485,8 @@
 					
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -450,7 +497,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

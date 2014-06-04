@@ -6,6 +6,7 @@
 			<TokenIdentifier>//apple_ref/occ/cl/SFNetworkOperation</TokenIdentifier>
 			<Abstract type="html">Main class used to create and execute remote network call</Abstract>
 			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
+            
 			
 			<NodeRef refid="3"/>
 		</Token>
@@ -14,601 +15,655 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setTag:</TokenIdentifier>
 			<Abstract type="html">Custom tag for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *tag</Declaration>
 			
 			
 			<Anchor>//api/name/tag</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/tag</TokenIdentifier>
 			<Abstract type="html">Custom tag for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *tag</Declaration>
 			
 			
 			<Anchor>//api/name/tag</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/tag</TokenIdentifier>
 			<Abstract type="html">Custom tag for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *tag</Declaration>
 			
 			
 			<Anchor>//api/name/tag</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setExpectedDownloadSize:</TokenIdentifier>
 			<Abstract type="html">Expected download size</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger expectedDownloadSize</Declaration>
 			
 			
 			<Anchor>//api/name/expectedDownloadSize</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/expectedDownloadSize</TokenIdentifier>
 			<Abstract type="html">Expected download size</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger expectedDownloadSize</Declaration>
 			
 			
 			<Anchor>//api/name/expectedDownloadSize</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/expectedDownloadSize</TokenIdentifier>
 			<Abstract type="html">Expected download size</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger expectedDownloadSize</Declaration>
 			
 			
 			<Anchor>//api/name/expectedDownloadSize</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setOperationTimeout:</TokenIdentifier>
 			<Abstract type="html">Network timeout setting in seconds. Default value is 180 seconds</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSTimeInterval operationTimeout</Declaration>
 			
 			
 			<Anchor>//api/name/operationTimeout</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/operationTimeout</TokenIdentifier>
 			<Abstract type="html">Network timeout setting in seconds. Default value is 180 seconds</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSTimeInterval operationTimeout</Declaration>
 			
 			
 			<Anchor>//api/name/operationTimeout</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/operationTimeout</TokenIdentifier>
 			<Abstract type="html">Network timeout setting in seconds. Default value is 180 seconds</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSTimeInterval operationTimeout</Declaration>
 			
 			
 			<Anchor>//api/name/operationTimeout</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setRetryOnNetworkError:</TokenIdentifier>
 			<Abstract type="html">Set to YES to enable automatic retry if operation failed to due network error. Default value is NO</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL retryOnNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/retryOnNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/retryOnNetworkError</TokenIdentifier>
 			<Abstract type="html">Set to YES to enable automatic retry if operation failed to due network error. Default value is NO</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL retryOnNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/retryOnNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/retryOnNetworkError</TokenIdentifier>
 			<Abstract type="html">Set to YES to enable automatic retry if operation failed to due network error. Default value is NO</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL retryOnNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/retryOnNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setMaximumNumOfRetriesForNetworkError:</TokenIdentifier>
 			<Abstract type="html">Maximum number of retries if operation failed due to network error. Default value is 0, i.e. no limit.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger maximumNumOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/maximumNumOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/maximumNumOfRetriesForNetworkError</TokenIdentifier>
 			<Abstract type="html">Maximum number of retries if operation failed due to network error. Default value is 0, i.e. no limit.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger maximumNumOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/maximumNumOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/maximumNumOfRetriesForNetworkError</TokenIdentifier>
 			<Abstract type="html">Maximum number of retries if operation failed due to network error. Default value is 0, i.e. no limit.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger maximumNumOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/maximumNumOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setLocalTestDataPath:</TokenIdentifier>
 			<Abstract type="html">Set this property to enable SFNetworkOperation to read test data from a local file</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *localTestDataPath</Declaration>
 			
 			
 			<Anchor>//api/name/localTestDataPath</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/localTestDataPath</TokenIdentifier>
 			<Abstract type="html">Set this property to enable SFNetworkOperation to read test data from a local file</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *localTestDataPath</Declaration>
 			
 			
 			<Anchor>//api/name/localTestDataPath</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/localTestDataPath</TokenIdentifier>
 			<Abstract type="html">Set this property to enable SFNetworkOperation to read test data from a local file</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *localTestDataPath</Declaration>
 			
 			
 			<Anchor>//api/name/localTestDataPath</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setMethod:</TokenIdentifier>
 			<Abstract type="html">Returns the HTTP method for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/method</TokenIdentifier>
 			<Abstract type="html">Returns the HTTP method for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/method</TokenIdentifier>
 			<Abstract type="html">Returns the HTTP method for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *method</Declaration>
 			
 			
 			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setUseSSL:</TokenIdentifier>
 			<Abstract type="html">Returns YES if use SSL</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL useSSL</Declaration>
 			
 			
 			<Anchor>//api/name/useSSL</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/useSSL</TokenIdentifier>
 			<Abstract type="html">Returns YES if use SSL</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL useSSL</Declaration>
 			
 			
 			<Anchor>//api/name/useSSL</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/useSSL</TokenIdentifier>
 			<Abstract type="html">Returns YES if use SSL</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL useSSL</Declaration>
 			
 			
 			<Anchor>//api/name/useSSL</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setUrl:</TokenIdentifier>
 			<Abstract type="html">Request URL Property</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/url</TokenIdentifier>
 			<Abstract type="html">Request URL Property</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/url</TokenIdentifier>
 			<Abstract type="html">Request URL Property</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setError:</TokenIdentifier>
 			<Abstract type="html">If the operation results in an error, this will hold the response error, otherwise it will be nil</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/error</TokenIdentifier>
 			<Abstract type="html">If the operation results in an error, this will hold the response error, otherwise it will be nil</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/error</TokenIdentifier>
 			<Abstract type="html">If the operation results in an error, this will hold the response error, otherwise it will be nil</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setStatusCode:</TokenIdentifier>
 			<Abstract type="html">Returns the operation response&apos;s status code.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) NSInteger statusCode</Declaration>
 			
 			
 			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/statusCode</TokenIdentifier>
 			<Abstract type="html">Returns the operation response&apos;s status code.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) NSInteger statusCode</Declaration>
 			
 			
 			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/statusCode</TokenIdentifier>
 			<Abstract type="html">Returns the operation response&apos;s status code.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) NSInteger statusCode</Declaration>
 			
 			
 			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setUniqueIdentifier:</TokenIdentifier>
 			<Abstract type="html">Returns an uniqueIdentifer for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *uniqueIdentifier</Declaration>
 			
 			
 			<Anchor>//api/name/uniqueIdentifier</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/uniqueIdentifier</TokenIdentifier>
 			<Abstract type="html">Returns an uniqueIdentifer for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *uniqueIdentifier</Declaration>
 			
 			
 			<Anchor>//api/name/uniqueIdentifier</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/uniqueIdentifier</TokenIdentifier>
 			<Abstract type="html">Returns an uniqueIdentifer for this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *uniqueIdentifier</Declaration>
 			
 			
 			<Anchor>//api/name/uniqueIdentifier</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setDelegate:</TokenIdentifier>
 			<Abstract type="html">Delegate can be used to monitor operation status (complete, error, cancel or timeout) in lieu of using blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, weak) id&lt;SFNetworkOperationDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/delegate</TokenIdentifier>
 			<Abstract type="html">Delegate can be used to monitor operation status (complete, error, cancel or timeout) in lieu of using blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, weak) id&lt;SFNetworkOperationDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/delegate</TokenIdentifier>
 			<Abstract type="html">Delegate can be used to monitor operation status (complete, error, cancel or timeout) in lieu of using blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, weak) id&lt;SFNetworkOperationDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setEncryptDownloadedFile:</TokenIdentifier>
 			<Abstract type="html">Set to YES to encrypt all downloaded content. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL encryptDownloadedFile</Declaration>
 			
 			
 			<Anchor>//api/name/encryptDownloadedFile</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/encryptDownloadedFile</TokenIdentifier>
 			<Abstract type="html">Set to YES to encrypt all downloaded content. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL encryptDownloadedFile</Declaration>
 			
 			
 			<Anchor>//api/name/encryptDownloadedFile</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/encryptDownloadedFile</TokenIdentifier>
 			<Abstract type="html">Set to YES to encrypt all downloaded content. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL encryptDownloadedFile</Declaration>
 			
 			
 			<Anchor>//api/name/encryptDownloadedFile</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setRequiresAccessToken:</TokenIdentifier>
 			<Abstract type="html">Set to YES if the operation requires an access token. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL requiresAccessToken</Declaration>
 			
 			
 			<Anchor>//api/name/requiresAccessToken</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/requiresAccessToken</TokenIdentifier>
 			<Abstract type="html">Set to YES if the operation requires an access token. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL requiresAccessToken</Declaration>
 			
 			
 			<Anchor>//api/name/requiresAccessToken</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/requiresAccessToken</TokenIdentifier>
 			<Abstract type="html">Set to YES if the operation requires an access token. Default value is YES</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) BOOL requiresAccessToken</Declaration>
 			
 			
 			<Anchor>//api/name/requiresAccessToken</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setCustomHeaders:</TokenIdentifier>
 			<Abstract type="html">Custom HTTP headers that will be used by this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSDictionary *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/customHeaders</TokenIdentifier>
 			<Abstract type="html">Custom HTTP headers that will be used by this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSDictionary *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/customHeaders</TokenIdentifier>
 			<Abstract type="html">Custom HTTP headers that will be used by this operation</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSDictionary *customHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setPathToStoreDownloadedContent:</TokenIdentifier>
 			<Abstract type="html">Set path to store downloaded content</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *pathToStoreDownloadedContent</Declaration>
 			
 			
 			<Anchor>//api/name/pathToStoreDownloadedContent</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/pathToStoreDownloadedContent</TokenIdentifier>
 			<Abstract type="html">Set path to store downloaded content</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *pathToStoreDownloadedContent</Declaration>
 			
 			
 			<Anchor>//api/name/pathToStoreDownloadedContent</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/pathToStoreDownloadedContent</TokenIdentifier>
 			<Abstract type="html">Set path to store downloaded content</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *pathToStoreDownloadedContent</Declaration>
 			
 			
 			<Anchor>//api/name/pathToStoreDownloadedContent</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setCancelBlocks:</TokenIdentifier>
 			<Abstract type="html">Array of operation cancel blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSMutableArray *cancelBlocks</Declaration>
 			
 			
 			<Anchor>//api/name/cancelBlocks</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/cancelBlocks</TokenIdentifier>
 			<Abstract type="html">Array of operation cancel blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSMutableArray *cancelBlocks</Declaration>
 			
 			
 			<Anchor>//api/name/cancelBlocks</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/cancelBlocks</TokenIdentifier>
 			<Abstract type="html">Array of operation cancel blocks</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSMutableArray *cancelBlocks</Declaration>
 			
 			
 			<Anchor>//api/name/cancelBlocks</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setHeaderValue:forKey:</TokenIdentifier>
 			<Abstract type="html">Set value for the specified HTTP header</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)setHeaderValue:(NSString *)value forKey:(NSString *)key</Declaration>
 			<Parameters>
@@ -622,78 +677,85 @@
 			</Parameters>
 			
 			<Anchor>//api/name/setHeaderValue:forKey:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setCachePolicy:</TokenIdentifier>
 			<Abstract type="html">Cache policy for this operation. Default value is NSURLRequestReloadIgnoringLocalCacheData</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSURLRequestCachePolicy cachePolicy</Declaration>
 			
 			
 			<Anchor>//api/name/cachePolicy</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/cachePolicy</TokenIdentifier>
 			<Abstract type="html">Cache policy for this operation. Default value is NSURLRequestReloadIgnoringLocalCacheData</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSURLRequestCachePolicy cachePolicy</Declaration>
 			
 			
 			<Anchor>//api/name/cachePolicy</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/cachePolicy</TokenIdentifier>
 			<Abstract type="html">Cache policy for this operation. Default value is NSURLRequestReloadIgnoringLocalCacheData</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSURLRequestCachePolicy cachePolicy</Declaration>
 			
 			
 			<Anchor>//api/name/cachePolicy</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setResponseHeaders:</TokenIdentifier>
 			<Abstract type="html">HTTP headers for the response</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSDictionary *responseHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/responseHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/responseHeaders</TokenIdentifier>
 			<Abstract type="html">HTTP headers for the response</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSDictionary *responseHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/responseHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/responseHeaders</TokenIdentifier>
 			<Abstract type="html">HTTP headers for the response</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSDictionary *responseHeaders</Declaration>
 			
 			
 			<Anchor>//api/name/responseHeaders</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setCustomPostDataEncodingHandler:forType:</TokenIdentifier>
 			<Abstract type="html">Set custom customized post data encoding support</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)setCustomPostDataEncodingHandler:(SFNetworkOperationEncodingBlock)postDataEncodingHandler forType:(NSString *)contentType</Declaration>
 			<Parameters>
@@ -707,12 +769,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/setCustomPostDataEncodingHandler:forType:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addPostFileData:paramName:fileName:mimeType:</TokenIdentifier>
 			<Abstract type="html">Attach file data as multipart/​form POST data</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
 			<Parameters>
@@ -732,23 +795,25 @@
 			</Parameters>
 			
 			<Anchor>//api/name/addPostFileData:paramName:fileName:mimeType:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addFile:forKey:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addFile:(NSString *)file forKey:(NSString *)key</Declaration>
 			
 			
 			<Anchor>//api/name/addFile:forKey:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addCompletionBlock:errorBlock:</TokenIdentifier>
 			<Abstract type="html">Add block Handler for completion</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addCompletionBlock:(SFNetworkOperationCompletionBlock)completionBlock errorBlock:(SFNetworkOperationErrorBlock)errorBlock</Declaration>
 			<Parameters>
@@ -762,12 +827,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/addCompletionBlock:errorBlock:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addCancelBlock:</TokenIdentifier>
 			<Abstract type="html">Add block Handler for cancel</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addCancelBlock:(SFNetworkOperationCancelBlock)cancelBlock</Declaration>
 			<Parameters>
@@ -778,12 +844,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/addCancelBlock:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addUploadProgressBlock:</TokenIdentifier>
 			<Abstract type="html">Add Block Handler for tracking upload progress</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addUploadProgressBlock:(SFNetworkOperationProgressBlock)uploadProgressBlock</Declaration>
 			<Parameters>
@@ -794,12 +861,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/addUploadProgressBlock:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/addDownloadProgressBlock:</TokenIdentifier>
 			<Abstract type="html">Add Block Handler for tracking download progress</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)addDownloadProgressBlock:(SFNetworkOperationProgressBlock)downloadProgressBlock</Declaration>
 			<Parameters>
@@ -810,144 +878,157 @@
 			</Parameters>
 			
 			<Anchor>//api/name/addDownloadProgressBlock:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/responseAsString</TokenIdentifier>
 			<Abstract type="html">Returns the downloaded data as a string.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)responseAsString</Declaration>
 			
 			<ReturnValue><Abstract type="html">the response as a string; nil if the operation is in progress</Abstract></ReturnValue>
 			<Anchor>//api/name/responseAsString</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/responseAsJSON</TokenIdentifier>
 			<Abstract type="html">Returns the response as a JSON object.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (id)responseAsJSON</Declaration>
 			
 			<ReturnValue><Abstract type="html">the response as an NSDictionary or an NSArray; nil if the operation is in progress or the response is not valid JSON</Abstract></ReturnValue>
 			<Anchor>//api/name/responseAsJSON</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/responseAsData</TokenIdentifier>
 			<Abstract type="html">Returns the response as NSData.</Abstract>
-			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation.h</DeclaredIn>
 			
 			<Declaration>- (NSData *)responseAsData</Declaration>
 			
 			<ReturnValue><Abstract type="html">returns the response as raw data</Abstract></ReturnValue>
 			<Anchor>//api/name/responseAsData</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setInternalOperation:</TokenIdentifier>
 			<Abstract type="html">Internal MKNetworkOperation object used to perform the actual network call</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) MKNetworkOperation *internalOperation</Declaration>
 			
 			
 			<Anchor>//api/name/internalOperation</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/internalOperation</TokenIdentifier>
 			<Abstract type="html">Internal MKNetworkOperation object used to perform the actual network call</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) MKNetworkOperation *internalOperation</Declaration>
 			
 			
 			<Anchor>//api/name/internalOperation</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/internalOperation</TokenIdentifier>
 			<Abstract type="html">Internal MKNetworkOperation object used to perform the actual network call</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) MKNetworkOperation *internalOperation</Declaration>
 			
 			
 			<Anchor>//api/name/internalOperation</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setCustomPostDataEncodingContentType:</TokenIdentifier>
 			<Abstract type="html">Custom post data encoding content type</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *customPostDataEncodingContentType</Declaration>
 			
 			
 			<Anchor>//api/name/customPostDataEncodingContentType</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/customPostDataEncodingContentType</TokenIdentifier>
 			<Abstract type="html">Custom post data encoding content type</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *customPostDataEncodingContentType</Declaration>
 			
 			
 			<Anchor>//api/name/customPostDataEncodingContentType</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/customPostDataEncodingContentType</TokenIdentifier>
 			<Abstract type="html">Custom post data encoding content type</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, copy) NSString *customPostDataEncodingContentType</Declaration>
 			
 			
 			<Anchor>//api/name/customPostDataEncodingContentType</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/setNumOfRetriesForNetworkError:</TokenIdentifier>
 			<Abstract type="html">Current number of retries due to network error.</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/numOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/numOfRetriesForNetworkError</TokenIdentifier>
 			<Abstract type="html">Current number of retries due to network error.</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/numOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFNetworkOperation/numOfRetriesForNetworkError</TokenIdentifier>
 			<Abstract type="html">Current number of retries due to network error.</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numOfRetriesForNetworkError</Declaration>
 			
 			
 			<Anchor>//api/name/numOfRetriesForNetworkError</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/initWithOperation:url:method:ssl:</TokenIdentifier>
 			<Abstract type="html">Create new SFNetworkOperation</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithOperation:(MKNetworkOperation *)operation url:(NSString *)url method:(NSString *)method ssl:(BOOL)useSSL</Declaration>
 			<Parameters>
@@ -967,34 +1048,37 @@
 			</Parameters>
 			
 			<Anchor>//api/name/initWithOperation:url:method:ssl:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/callDelegateDidFinish:</TokenIdentifier>
 			<Abstract type="html">Invoke delegate&apos;s operationDidFinish callback</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (void)callDelegateDidFinish:(MKNetworkOperation *)operation</Declaration>
 			
 			
 			<Anchor>//api/name/callDelegateDidFinish:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/callDelegateDidFailWithError:</TokenIdentifier>
 			<Abstract type="html">Invoke delegate&apos;s operationDidFailWithError callback</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (void)callDelegateDidFailWithError:(NSError *)error</Declaration>
 			
 			
 			<Anchor>//api/name/callDelegateDidFailWithError:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/checkForErrorInResponse:</TokenIdentifier>
 			<Abstract type="html">Check for errorCode returned in JSON response from server</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (NSError *)checkForErrorInResponse:(MKNetworkOperation *)operation</Declaration>
 			<Parameters>
@@ -1005,12 +1089,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/checkForErrorInResponse:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/checkForErrorInResponseStr:withError:</TokenIdentifier>
 			<Abstract type="html">Check for errorCode returned in JSON response from server</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (NSError *)checkForErrorInResponseStr:(NSString *)responseStr withError:(NSError *)error</Declaration>
 			<Parameters>
@@ -1024,12 +1109,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/checkForErrorInResponseStr:withError:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkOperation/shouldRetryOperation:onNetworkError:</TokenIdentifier>
 			<Abstract type="html">Return YES if should automatically retry the operation on network error</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)shouldRetryOperation:(SFNetworkOperation *)operation onNetworkError:(NSError *)error</Declaration>
 			<Parameters>
@@ -1043,12 +1129,13 @@
 			</Parameters>
 			
 			<Anchor>//api/name/shouldRetryOperation:onNetworkError:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFNetworkOperation/deleteUnfinishedDownloadFileForOperation:</TokenIdentifier>
 			<Abstract type="html">Delete unfinished download file for the specific operation</Abstract>
-			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFNetworkOperation+Internal.h</DeclaredIn>
 			
 			<Declaration>+ (void)deleteUnfinishedDownloadFileForOperation:(MKNetworkOperation *)operation</Declaration>
 			<Parameters>
@@ -1059,7 +1146,9 @@
 			</Parameters>
 			
 			<Anchor>//api/name/deleteUnfinishedDownloadFileForOperation:</Anchor>
+            <NodeRef refid="3"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>

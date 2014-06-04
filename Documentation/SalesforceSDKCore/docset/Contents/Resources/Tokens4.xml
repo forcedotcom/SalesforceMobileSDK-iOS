@@ -1,224 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/FMDatabasePool.html">
+	<File path="Classes/FMDatabaseQueue.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/FMDatabasePool</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/FMDatabaseQueue</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
+            
 			
 			<NodeRef refid="4"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/setPath:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/setPath:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, retain) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/path</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/path</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, retain) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/FMDatabasePool/path</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/FMDatabaseQueue/path</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, retain) NSString *path</Declaration>
 			
 			
 			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/setDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/FMDatabaseQueue/databaseQueueWithPath:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, assign) id delegate</Declaration>
+			<Declaration>+ (id)databaseQueueWithPath:(NSString *)aPath</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/databaseQueueWithPath:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/delegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/initWithPath:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>@property (atomic, assign) id delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/FMDatabasePool/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>@property (atomic, assign) id delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/setMaximumNumberOfDatabasesToCreate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>@property (atomic, assign) NSUInteger maximumNumberOfDatabasesToCreate</Declaration>
-			
-			
-			<Anchor>//api/name/maximumNumberOfDatabasesToCreate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/maximumNumberOfDatabasesToCreate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>@property (atomic, assign) NSUInteger maximumNumberOfDatabasesToCreate</Declaration>
-			
-			
-			<Anchor>//api/name/maximumNumberOfDatabasesToCreate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/FMDatabasePool/maximumNumberOfDatabasesToCreate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>@property (atomic, assign) NSUInteger maximumNumberOfDatabasesToCreate</Declaration>
-			
-			
-			<Anchor>//api/name/maximumNumberOfDatabasesToCreate</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/FMDatabasePool/databasePoolWithPath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>+ (id)databasePoolWithPath:(NSString *)aPath</Declaration>
-			
-			
-			<Anchor>//api/name/databasePoolWithPath:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/initWithPath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithPath:(NSString *)aPath</Declaration>
 			
 			
 			<Anchor>//api/name/initWithPath:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/countOfCheckedInDatabases</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/close</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)countOfCheckedInDatabases</Declaration>
+			<Declaration>- (void)close</Declaration>
 			
 			
-			<Anchor>//api/name/countOfCheckedInDatabases</Anchor>
+			<Anchor>//api/name/close</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/countOfCheckedOutDatabases</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inDatabase:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>- (NSUInteger)countOfCheckedOutDatabases</Declaration>
-			
-			
-			<Anchor>//api/name/countOfCheckedOutDatabases</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/countOfOpenDatabases</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>- (NSUInteger)countOfOpenDatabases</Declaration>
-			
-			
-			<Anchor>//api/name/countOfOpenDatabases</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/releaseAllDatabases</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
-			
-			<Declaration>- (void)releaseAllDatabases</Declaration>
-			
-			
-			<Anchor>//api/name/releaseAllDatabases</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/inDatabase:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>- (void)inDatabase:(void ( ^ ) ( FMDatabase *db ))block</Declaration>
 			
 			
 			<Anchor>//api/name/inDatabase:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/inTransaction:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inTransaction:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>- (void)inTransaction:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
 			
 			
 			<Anchor>//api/name/inTransaction:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/inDeferredTransaction:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inDeferredTransaction:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>- (void)inDeferredTransaction:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
 			
 			
 			<Anchor>//api/name/inDeferredTransaction:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/FMDatabasePool/inSavePoint:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/FMDatabaseQueue/inSavePoint:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FMDatabasePool.h</DeclaredIn>			
+			<DeclaredIn>FMDatabaseQueue.h</DeclaredIn>
 			
 			<Declaration>- (NSError *)inSavePoint:(void ( ^ ) ( FMDatabase *db , BOOL *rollback ))block</Declaration>
 			
 			
 			<Anchor>//api/name/inSavePoint:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>
