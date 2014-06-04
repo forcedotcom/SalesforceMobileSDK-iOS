@@ -1,189 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeManager.html">
+	<File path="Classes/SFLoginHostUpdateResult.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeManager</TokenIdentifier>
-			<Abstract type="html">Class for managing storage, retrieval, and verification of passcodes.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLoginHostUpdateResult</TokenIdentifier>
+			<Abstract type="html">Data class for providing information about a login host change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            
 			
 			<NodeRef refid="22"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The shared instance of the passcode manager.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/setOriginalLoginHost:</TokenIdentifier>
+			<Abstract type="html">The original login host, prior to the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>+ (SFPasscodeManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *originalLoginHost</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of the passcode manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			
+			<Anchor>//api/name/originalLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/originalLoginHost</TokenIdentifier>
+			<Abstract type="html">The original login host, prior to the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *originalLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/originalLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginHostUpdateResult/originalLoginHost</TokenIdentifier>
+			<Abstract type="html">The original login host, prior to the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *originalLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/originalLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/setUpdatedLoginHost:</TokenIdentifier>
+			<Abstract type="html">The updated (new) login host, after the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *updatedLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/updatedLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/updatedLoginHost</TokenIdentifier>
+			<Abstract type="html">The updated (new) login host, after the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *updatedLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/updatedLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginHostUpdateResult/updatedLoginHost</TokenIdentifier>
+			<Abstract type="html">The updated (new) login host, after the change.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *updatedLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/updatedLoginHost</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/setLoginHostChanged:</TokenIdentifier>
+			<Abstract type="html">Whether or not the login host actually changed.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL loginHostChanged</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/loginHostChanged</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeIsSet</TokenIdentifier>
-			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/loginHostChanged</TokenIdentifier>
+			<Abstract type="html">Whether or not the login host actually changed.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)passcodeIsSet</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL loginHostChanged</Declaration>
 			
-			<ReturnValue><Abstract type="html">Whether or not a passcode has been set.</Abstract></ReturnValue>
-			<Anchor>//api/name/passcodeIsSet</Anchor>
+			
+			<Anchor>//api/name/loginHostChanged</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/resetPasscode</TokenIdentifier>
-			<Abstract type="html">Reset the passcode in the keychain.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginHostUpdateResult/loginHostChanged</TokenIdentifier>
+			<Abstract type="html">Whether or not the login host actually changed.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)resetPasscode</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL loginHostChanged</Declaration>
 			
 			
-			<Anchor>//api/name/resetPasscode</Anchor>
+			<Anchor>//api/name/loginHostChanged</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/verifyPasscode:</TokenIdentifier>
-			<Abstract type="html">Verify the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginHostUpdateResult/initWithOrigHost:updatedHost:hostChanged:</TokenIdentifier>
+			<Abstract type="html">Designated intializer for the data object.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (id)initWithOrigHost:(NSString *)originalLoginHost updatedHost:(NSString *)updatedLoginHost hostChanged:(BOOL)loginHostChanged</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to verify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the passcode verifies, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyPasscode:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>			
-			
-			<Declaration>- (void)setPasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The passcode to set.</Abstract>
+					<Name>originalLoginHost</Name>
+					<Abstract type="html">The login host prior to change.</Abstract>
+				</Parameter><Parameter>
+					<Name>updatedLoginHost</Name>
+					<Abstract type="html">The new login host after the change.</Abstract>
+				</Parameter><Parameter>
+					<Name>loginHostChanged</Name>
+					<Abstract type="html">Whether or not the login host actually changed.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setPasscode:</Anchor>
+			<Anchor>//api/name/initWithOrigHost:updatedHost:hostChanged:</Anchor>
+            <NodeRef refid="22"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Set a value for the encryption key.  Note: this is just the internal setter for
-the encryptionKey property.  I.e. the value you set should be the end-result
-encryption key value.  Call setEncryptionKeyForPasscode if you want validation
-and encryption based on a plain-text passcode value.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>			
-			
-			<Declaration>- (void)setEncryptionKey:(NSString *)newEncryptionKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newEncryptionKey</Name>
-					<Abstract type="html">The new value for the encryption key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKey:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKeyForPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the value of the encryption key, based on the input passcode.  Note: this method
-will not set the encryption key if a verification passcode is not set and valid, in
-the interests of maintaining a consistent passcode state.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>			
-			
-			<Declaration>- (void)setEncryptionKeyForPasscode:(NSString *)passcode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to convert into an encryption key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKeyForPasscode:</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceSDKIdentityTests.html">
+	<File path="Categories/NSObject+FMDatabasePoolDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKIdentityTests</TokenIdentifier>
-			<Abstract type="html">The unit tests associated with SFIdentityCoordinator requests.</Abstract>
-			<DeclaredIn>SalesforceSDKIdentityTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSObject(FMDatabasePoolDelegate)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabasePool.h</DeclaredIn>
+            
 			
 			<NodeRef refid="45"/>
 		</Token>
 		
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/databasePool:shouldAddDatabaseToPool:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FMDatabasePool.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)databasePool:(FMDatabasePool *)pool shouldAddDatabaseToPool:(FMDatabase *)database</Declaration>
+			
+			
+			<Anchor>//api/name/databasePool:shouldAddDatabaseToPool:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+        
 	</File>
 </Tokens>

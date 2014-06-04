@@ -1,59 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/AppDelegate.html">
+	<File path="Classes/SFAccountManagerPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/AppDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAccountManagerPlugin</TokenIdentifier>
+			<Abstract type="html">Plugin for managing accounts, account switching, etc.</Abstract>
+			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
+            
 			
 			<NodeRef refid="1"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/setViewController:</TokenIdentifier>
-			<Abstract type="html">Property representing the main view controller of the app.</Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/getUsers:</TokenIdentifier>
+			<Abstract type="html">Cordova plug-in method to get the users that have been associated with the app on
+this device.</Abstract>
+			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFHybridViewController *viewController</Declaration>
+			<Declaration>- (void)getUsers:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/getUsers:</Anchor>
+            <NodeRef refid="1"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/viewController</TokenIdentifier>
-			<Abstract type="html">Property representing the main view controller of the app.</Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/getCurrentUser:</TokenIdentifier>
+			<Abstract type="html">Cordova plug-in method to get information about the current user of the app.</Abstract>
+			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFHybridViewController *viewController</Declaration>
+			<Declaration>- (void)getCurrentUser:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/getCurrentUser:</Anchor>
+            <NodeRef refid="1"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/AppDelegate/viewController</TokenIdentifier>
-			<Abstract type="html">Property representing the main view controller of the app.</Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/switchToUser:</TokenIdentifier>
+			<Abstract type="html">Cordova plug-in method to switch to a different user.  If no user information is given
+or the user isn&apos;t found, switch to a new user.</Abstract>
+			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFHybridViewController *viewController</Declaration>
+			<Declaration>- (void)switchToUser:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/switchToUser:</Anchor>
+            <NodeRef refid="1"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/evalJS:</TokenIdentifier>
-			<Abstract type="html">Evaluate the given javascript inside our embedded web view and return the string result.</Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAccountManagerPlugin/logout:</TokenIdentifier>
+			<Abstract type="html">Cordova plug-in method to log out a user.  If no user information is given
+or the user isn&apos;t found, logout the current user.</Abstract>
+			<DeclaredIn>SFAccountManagerPlugin.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)evalJS:(NSString *)js</Declaration>
+			<Declaration>- (void)logout:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/evalJS:</Anchor>
+			<Anchor>//api/name/logout:</Anchor>
+            <NodeRef refid="1"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>

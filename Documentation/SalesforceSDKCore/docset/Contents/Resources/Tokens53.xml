@@ -1,71 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAppDelegate.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
 			
 			<NodeRef refid="53"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>			
-			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
-			<Abstract type="html">Forces a logout from the current account.
-This throws out the OAuth refresh token.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>			
-			
-			<Declaration>- (void)logout</Declaration>
-			
-			
-			<Anchor>//api/name/logout</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
-			<Abstract type="html">Creates a snapshot view.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>			
-			
-			<Declaration>- (UIView *)createSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/createSnapshotView</Anchor>
-		</Token>
-		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="53"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="53"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="53"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="53"/>
+        </Token>
+        
 	</File>
 </Tokens>

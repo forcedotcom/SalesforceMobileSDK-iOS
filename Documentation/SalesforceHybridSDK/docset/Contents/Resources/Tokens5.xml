@@ -1,136 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPluginTestSuite.html">
+	<File path="Classes/SFSmartStorePlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPluginTestSuite</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStorePlugin</TokenIdentifier>
+			<Abstract type="html">String used with Cordova to uniquely identify this plugin</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+            
 			
 			<NodeRef refid="5"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsTestName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/setStore:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsTestName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/store</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsTestName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStorePlugin/store</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsSuiteName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/setCursorCache:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *cursorCache</Declaration>
 			
 			
-			<Anchor>//api/name/jsSuiteName</Anchor>
+			<Anchor>//api/name/cursorCache</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/cursorCache</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *cursorCache</Declaration>
 			
 			
-			<Anchor>//api/name/jsSuiteName</Anchor>
+			<Anchor>//api/name/cursorCache</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStorePlugin/cursorCache</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *cursorCache</Declaration>
 			
 			
-			<Anchor>//api/name/jsSuiteName</Anchor>
+			<Anchor>//api/name/cursorCache</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/waitForTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/resetSharedStore</TokenIdentifier>
+			<Abstract type="html">Used for unit testing purposes only: allows the shared smart store instance to be reset.</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)waitForTestRunnerReady</Declaration>
+			<Declaration>- (void)resetSharedStore</Declaration>
 			
 			
-			<Anchor>//api/name/waitForTestRunnerReady</Anchor>
+			<Anchor>//api/name/resetSharedStore</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:inSuite:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgSoupExists:</TokenIdentifier>
+			<Abstract type="html">Does the given soup exist in the store?  See see [SFSmartStore soupExists:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)runTest:(NSString *)testName inSuite:(NSString *)suiteName</Declaration>
+			<Declaration>- (void)pgSoupExists:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/runTest:inSuite:</Anchor>
+			<Anchor>//api/name/pgSoupExists:</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgRegisterSoup:</TokenIdentifier>
+			<Abstract type="html">Registers a new soup in the store.  See [SFSmartStore registerSoup:withIndexSpecs:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)runTest:(NSString *)testName</Declaration>
+			<Declaration>- (void)pgRegisterSoup:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;indexSpecs&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/runTest:</Anchor>
+			<Anchor>//api/name/pgRegisterSoup:</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestResultAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgRemoveSoup:</TokenIdentifier>
+			<Abstract type="html">Removes a soup from the store.  See [SFSmartStore removeSoup:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isTestResultAvailable</Declaration>
+			<Declaration>- (void)pgRemoveSoup:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/isTestResultAvailable</Anchor>
+			<Anchor>//api/name/pgRemoveSoup:</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgQuerySoup:</TokenIdentifier>
+			<Abstract type="html">Queries a soup for data. See [SFSmartStore querySoup:withQuerySpec:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isTestRunnerReady</Declaration>
+			<Declaration>- (void)pgQuerySoup:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;querySpec&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/isTestRunnerReady</Anchor>
+			<Anchor>//api/name/pgQuerySoup:</Anchor>
+            <NodeRef refid="5"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgRunSmartQuery:</TokenIdentifier>
+			<Abstract type="html">Queries soups using smart sql. See [SFSmartStore querySoup:withQuerySpec:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;querySpec&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgRunSmartQuery:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgRetrieveSoupEntries:</TokenIdentifier>
+			<Abstract type="html">Retrieves a set of soup entries from a soup. See [SFSmartStore retrieveEntries:fromSoup:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;soupEntryIds&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgRetrieveSoupEntries:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgUpsertSoupEntries:</TokenIdentifier>
+			<Abstract type="html">Inserts/updates a group of entries in a soup. See [SFSmartStore upsertEntries:toSoup:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgUpsertSoupEntries:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;entries&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgUpsertSoupEntries:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgCloseCursor:</TokenIdentifier>
+			<Abstract type="html">Closes a cursor associated with soup data.</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgCloseCursor:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;cursorId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgCloseCursor:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgRemoveFromSoup:</TokenIdentifier>
+			<Abstract type="html">Removes a set of soup entries from a soup. See [SFSmartStore removeEntries:fromSoup:].</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgRemoveFromSoup:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot; and &quot;soupEntryIds&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgRemoveFromSoup:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/cursorByCursorId:</TokenIdentifier>
+			<Abstract type="html">Gets a handle to a cursor, from its ID.</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (SFStoreCursor *)cursorByCursorId:(NSString *)cursorId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cursorId</Name>
+					<Abstract type="html">The unique ID of the cursor.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The cached SFStoreCursor isntance with the given ID, or nil.</Abstract></ReturnValue>
+			<Anchor>//api/name/cursorByCursorId:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+        
 	</File>
 </Tokens>

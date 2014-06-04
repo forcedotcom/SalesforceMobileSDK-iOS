@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFIdentityCoordinator Class Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -183,8 +182,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -212,54 +211,42 @@ Salesforce service.  This data will be based on the requesting user, and the OAu
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/initWithCredentials:">&ndash;&nbsp;initWithCredentials:</a></code>
-		<span class="tooltip"><p>The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
-OAuth <a href="#//api/name/credentials">credentials</a>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/initiateIdentityDataRetrieval">&ndash;&nbsp;initiateIdentityDataRetrieval</a></code>
-		<span class="tooltip"><p>Begins the identity request.  This request is asynchronous.  Implement the
-<a href="../Protocols/SFIdentityCoordinatorDelegate.html">SFIdentityCoordinatorDelegate</a> protocol to receive events related to the identity response from
-the service.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cancelRetrieval">&ndash;&nbsp;cancelRetrieval</a></code>
-		<span class="tooltip"><p>Cancels a request in progress.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/credentials">&nbsp;&nbsp;credentials</a></code>
-		<span class="tooltip"><p>The OAuth credentials associated with this instance.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/idData">&nbsp;&nbsp;idData</a></code>
-		<span class="tooltip"><p>The <a href="../Classes/SFIdentityData.html">SFIdentityData</a> that will be populated with the response data from the service.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
-		<span class="tooltip"><p>The <a href="../Protocols/SFIdentityCoordinatorDelegate.html">SFIdentityCoordinatorDelegate</a> property to set for receiving information about the request.
-This property must be set prior to initiating an identity request.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/timeout">&nbsp;&nbsp;timeout</a></code>
-		<span class="tooltip"><p>The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
-default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -274,71 +261,60 @@ default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds prop
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/responseData">&nbsp;&nbsp;responseData</a></code>
-		<span class="tooltip"><p>The data from the service response will be populated here.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/retrievingData">&nbsp;&nbsp;retrievingData</a></code>
-		<span class="tooltip"><p>Whether or not a request is already in progress.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/connection">&nbsp;&nbsp;connection</a></code>
-		<span class="tooltip"><p>The NSURLConnection associated with the ID request.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/typeToCodeDict">&nbsp;&nbsp;typeToCodeDict</a></code>
-		<span class="tooltip"><p>Dictionary mapping error codes to their respective types.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/httpError">&nbsp;&nbsp;httpError</a></code>
-		<span class="tooltip"><p>If there&rsquo;s an error in the HTTP transaction, set it in this property.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/notifyDelegateOfSuccess">&ndash;&nbsp;notifyDelegateOfSuccess</a></code>
-		<span class="tooltip"><p>Triggers the success notifictation to the <a href="#//api/name/delegate">delegate</a>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/notifyDelegateOfFailure:">&ndash;&nbsp;notifyDelegateOfFailure:</a></code>
-		<span class="tooltip"><p>Triggers the failure notification and error to the <a href="#//api/name/delegate">delegate</a>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/processResponse">&ndash;&nbsp;processResponse</a></code>
-		<span class="tooltip"><p>Process a completed response from the service, populating the ID data.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cleanupData">&ndash;&nbsp;cleanupData</a></code>
-		<span class="tooltip"><p>Cleans up the in-process properties and vars, once a request is completed.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/errorWithType:description:">&ndash;&nbsp;errorWithType:description:</a></code>
-		<span class="tooltip"><p>Creates an NSError instance based on type and description, for notifying the <a href="#//api/name/delegate">delegate</a>
-of a failure.</p></span>
 	</span>
 	
 	
@@ -997,6 +973,8 @@ the service.</p>
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -1007,7 +985,7 @@ the service.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

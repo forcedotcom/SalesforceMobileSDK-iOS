@@ -1,0 +1,2277 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>SFUserAccountManager Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
+				<a id="developerHome" href="../index.html">Salesforce.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">SFUserAccountManager Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/activeUserId">&nbsp;&nbsp;&nbsp;&nbsp;activeUserId</option>
+	
+	<option value="//api/name/allUserAccounts">&nbsp;&nbsp;&nbsp;&nbsp;allUserAccounts</option>
+	
+	<option value="//api/name/allUserIds">&nbsp;&nbsp;&nbsp;&nbsp;allUserIds</option>
+	
+	<option value="//api/name/currentCommunityId">&nbsp;&nbsp;&nbsp;&nbsp;currentCommunityId</option>
+	
+	<option value="//api/name/currentUser">&nbsp;&nbsp;&nbsp;&nbsp;currentUser</option>
+	
+	<option value="//api/name/currentUserId">&nbsp;&nbsp;&nbsp;&nbsp;currentUserId</option>
+	
+	<option value="//api/name/lastChangedCommunityId">&nbsp;&nbsp;&nbsp;&nbsp;lastChangedCommunityId</option>
+	
+	<option value="//api/name/lastChangedOrgId">&nbsp;&nbsp;&nbsp;&nbsp;lastChangedOrgId</option>
+	
+	<option value="//api/name/lastChangedUserId">&nbsp;&nbsp;&nbsp;&nbsp;lastChangedUserId</option>
+	
+	<option value="//api/name/loginHost">&nbsp;&nbsp;&nbsp;&nbsp;loginHost</option>
+	
+	<option value="//api/name/oauthClientId">&nbsp;&nbsp;&nbsp;&nbsp;oauthClientId</option>
+	
+	<option value="//api/name/oauthCompletionUrl">&nbsp;&nbsp;&nbsp;&nbsp;oauthCompletionUrl</option>
+	
+	<option value="//api/name/retryLoginAfterFailure">&nbsp;&nbsp;&nbsp;&nbsp;retryLoginAfterFailure</option>
+	
+	<option value="//api/name/scopes">&nbsp;&nbsp;&nbsp;&nbsp;scopes</option>
+	
+	<option value="//api/name/temporaryUser">&nbsp;&nbsp;&nbsp;&nbsp;temporaryUser</option>
+	
+	<option value="//api/name/userAccountMap">&nbsp;&nbsp;&nbsp;&nbsp;userAccountMap</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/applyCurrentLogLevel:">&nbsp;&nbsp;&nbsp;&nbsp;+ applyCurrentLogLevel:</option>
+	
+	<option value="//api/name/sharedInstance">&nbsp;&nbsp;&nbsp;&nbsp;+ sharedInstance</option>
+	
+	<option value="//api/name/userAccountPlistFileForUser:">&nbsp;&nbsp;&nbsp;&nbsp;+ userAccountPlistFileForUser:</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/accountsForInstanceURL:">&nbsp;&nbsp;&nbsp;&nbsp;- accountsForInstanceURL:</option>
+	
+	<option value="//api/name/accountsForOrgId:">&nbsp;&nbsp;&nbsp;&nbsp;- accountsForOrgId:</option>
+	
+	<option value="//api/name/addAccount:">&nbsp;&nbsp;&nbsp;&nbsp;- addAccount:</option>
+	
+	<option value="//api/name/addDelegate:">&nbsp;&nbsp;&nbsp;&nbsp;- addDelegate:</option>
+	
+	<option value="//api/name/applyCredentials:">&nbsp;&nbsp;&nbsp;&nbsp;- applyCredentials:</option>
+	
+	<option value="//api/name/applyCustomDataToCurrentUser:">&nbsp;&nbsp;&nbsp;&nbsp;- applyCustomDataToCurrentUser:</option>
+	
+	<option value="//api/name/clearAllAccountState">&nbsp;&nbsp;&nbsp;&nbsp;- clearAllAccountState</option>
+	
+	<option value="//api/name/createUserAccount">&nbsp;&nbsp;&nbsp;&nbsp;- createUserAccount</option>
+	
+	<option value="//api/name/createUserAccountWithCredentials:">&nbsp;&nbsp;&nbsp;&nbsp;- createUserAccountWithCredentials:</option>
+	
+	<option value="//api/name/deleteAccountForUserId:error:">&nbsp;&nbsp;&nbsp;&nbsp;- deleteAccountForUserId:error:</option>
+	
+	<option value="//api/name/enumerateDelegates:">&nbsp;&nbsp;&nbsp;&nbsp;- enumerateDelegates:</option>
+	
+	<option value="//api/name/loadAccounts:">&nbsp;&nbsp;&nbsp;&nbsp;- loadAccounts:</option>
+	
+	<option value="//api/name/makeUserIdSafe:">&nbsp;&nbsp;&nbsp;&nbsp;- makeUserIdSafe:</option>
+	
+	<option value="//api/name/removeDelegate:">&nbsp;&nbsp;&nbsp;&nbsp;- removeDelegate:</option>
+	
+	<option value="//api/name/saveAccounts:">&nbsp;&nbsp;&nbsp;&nbsp;- saveAccounts:</option>
+	
+	<option value="//api/name/switchToNewUser">&nbsp;&nbsp;&nbsp;&nbsp;- switchToNewUser</option>
+	
+	<option value="//api/name/switchToUser:">&nbsp;&nbsp;&nbsp;&nbsp;- switchToUser:</option>
+	
+	<option value="//api/name/updateAppSettingsLoginHost:">&nbsp;&nbsp;&nbsp;&nbsp;- updateAppSettingsLoginHost:</option>
+	
+	<option value="//api/name/updateLoginHost">&nbsp;&nbsp;&nbsp;&nbsp;- updateLoginHost</option>
+	
+	<option value="//api/name/userAccountForUserId:">&nbsp;&nbsp;&nbsp;&nbsp;- userAccountForUserId:</option>
+	
+	<option value="//api/name/userChanged:">&nbsp;&nbsp;&nbsp;&nbsp;- userChanged:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Extension Methods">Extension Methods</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/activeUserId">activeUserId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/allUserAccounts">allUserAccounts</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/allUserIds">allUserIds</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentCommunityId">currentCommunityId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentUser">currentUser</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/currentUserId">currentUserId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastChangedCommunityId">lastChangedCommunityId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastChangedOrgId">lastChangedOrgId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lastChangedUserId">lastChangedUserId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/loginHost">loginHost</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthClientId">oauthClientId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCompletionUrl">oauthCompletionUrl</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/retryLoginAfterFailure">retryLoginAfterFailure</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/scopes">scopes</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/temporaryUser">temporaryUser</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAccountMap">userAccountMap</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applyCurrentLogLevel:">applyCurrentLogLevel:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sharedInstance">sharedInstance</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAccountPlistFileForUser:">userAccountPlistFileForUser:</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/accountsForInstanceURL:">accountsForInstanceURL:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/accountsForOrgId:">accountsForOrgId:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addAccount:">addAccount:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addDelegate:">addDelegate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applyCredentials:">applyCredentials:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/applyCustomDataToCurrentUser:">applyCustomDataToCurrentUser:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/clearAllAccountState">clearAllAccountState</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createUserAccount">createUserAccount</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createUserAccountWithCredentials:">createUserAccountWithCredentials:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/deleteAccountForUserId:error:">deleteAccountForUserId:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/enumerateDelegates:">enumerateDelegates:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/loadAccounts:">loadAccounts:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/makeUserIdSafe:">makeUserIdSafe:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeDelegate:">removeDelegate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveAccounts:">saveAccounts:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/switchToNewUser">switchToNewUser</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/switchToUser:">switchToUser:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/updateAppSettingsLoginHost:">updateAppSettingsLoginHost:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/updateLoginHost">updateLoginHost</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userAccountForUserId:">userAccountForUserId:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/userChanged:">userChanged:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="SFUserAccountManager Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">SFUserAccountManager Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">SFUserAccountManager.h</td>
+</tr>
+						</tbody></table></div>
+					
+                    
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Class used to manage the accounts functions used across the app.
+It supports multiple accounts and their associated credentials.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentUser">&nbsp;&nbsp;currentUser</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/temporaryUser">&nbsp;&nbsp;temporaryUser</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentUserId">&nbsp;&nbsp;currentUserId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/currentCommunityId">&nbsp;&nbsp;currentCommunityId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/allUserAccounts">&nbsp;&nbsp;allUserAccounts</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/allUserIds">&nbsp;&nbsp;allUserIds</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/activeUserId">&nbsp;&nbsp;activeUserId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/loginHost">&nbsp;&nbsp;loginHost</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/retryLoginAfterFailure">&nbsp;&nbsp;retryLoginAfterFailure</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthClientId">&nbsp;&nbsp;oauthClientId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCompletionUrl">&nbsp;&nbsp;oauthCompletionUrl</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/scopes">&nbsp;&nbsp;scopes</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/applyCurrentLogLevel:">+&nbsp;applyCurrentLogLevel:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userAccountPlistFileForUser:">+&nbsp;userAccountPlistFileForUser:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeDelegate:">&ndash;&nbsp;removeDelegate:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/updateLoginHost">&ndash;&nbsp;updateLoginHost</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/loadAccounts:">&ndash;&nbsp;loadAccounts:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveAccounts:">&ndash;&nbsp;saveAccounts:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createUserAccount">&ndash;&nbsp;createUserAccount</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userAccountForUserId:">&ndash;&nbsp;userAccountForUserId:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/accountsForOrgId:">&ndash;&nbsp;accountsForOrgId:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/accountsForInstanceURL:">&ndash;&nbsp;accountsForInstanceURL:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/addAccount:">&ndash;&nbsp;addAccount:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/deleteAccountForUserId:error:">&ndash;&nbsp;deleteAccountForUserId:error:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/clearAllAccountState">&ndash;&nbsp;clearAllAccountState</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/makeUserIdSafe:">&ndash;&nbsp;makeUserIdSafe:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/applyCredentials:">&ndash;&nbsp;applyCredentials:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/applyCustomDataToCurrentUser:">&ndash;&nbsp;applyCustomDataToCurrentUser:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/switchToNewUser">&ndash;&nbsp;switchToNewUser</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/switchToUser:">&ndash;&nbsp;switchToUser:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userChanged:">&ndash;&nbsp;userChanged:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h3 class="subsubtitle task-title">Extension Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/userAccountMap">&nbsp;&nbsp;userAccountMap</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lastChangedOrgId">&nbsp;&nbsp;lastChangedOrgId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lastChangedUserId">&nbsp;&nbsp;lastChangedUserId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lastChangedCommunityId">&nbsp;&nbsp;lastChangedCommunityId</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/enumerateDelegates:">&ndash;&nbsp;enumerateDelegates:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/updateAppSettingsLoginHost:">&ndash;&nbsp;updateAppSettingsLoginHost:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createUserAccountWithCredentials:">&ndash;&nbsp;createUserAccountWithCredentials:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/activeUserId" title="activeUserId"></a>
+	<h3 class="subsubtitle method-title">activeUserId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The most recently active user ID.
+Note that this may be temporarily different from <a href="#//api/name/currentUser">currentUser</a> if the user with
+ID activeUserId is removed from the accounts list.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *activeUserId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/allUserAccounts" title="allUserAccounts"></a>
+	<h3 class="subsubtitle method-title">allUserAccounts</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>An NSArray of all the <a href="../Classes/SFUserAccount.html">SFUserAccount</a> instances for the app.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray *allUserAccounts</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/allUserIds" title="allUserIds"></a>
+	<h3 class="subsubtitle method-title">allUserIds</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns all the user ids</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray *allUserIds</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/currentCommunityId" title="currentCommunityId"></a>
+	<h3 class="subsubtitle method-title">currentCommunityId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>  Convenience property to retrieve the current user&rsquo;s communityId.
+This property is an alias for <code></code>currentUser<code>.communityId</code></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *currentCommunityId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/currentUser" title="currentUser"></a>
+	<h3 class="subsubtitle method-title">currentUser</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The current user account.  This property may be nil if the user
+has never logged in.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFUserAccount *currentUser</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/currentUserId" title="currentUserId"></a>
+	<h3 class="subsubtitle method-title">currentUserId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>  Convenience property to retrieve the current user&rsquo;s ID.
+This property is an alias for <code></code>currentUser<code>.credentials.userId</code></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *currentUserId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastChangedCommunityId" title="lastChangedCommunityId"></a>
+	<h3 class="subsubtitle method-title">lastChangedCommunityId</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedCommunityId</code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastChangedOrgId" title="lastChangedOrgId"></a>
+	<h3 class="subsubtitle method-title">lastChangedOrgId</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedOrgId</code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/lastChangedUserId" title="lastChangedUserId"></a>
+	<h3 class="subsubtitle method-title">lastChangedUserId</h3>
+	
+	
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedUserId</code></div>
+
+    
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/loginHost" title="loginHost"></a>
+	<h3 class="subsubtitle method-title">loginHost</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The host that will be used for login.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *loginHost</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/oauthClientId" title="oauthClientId"></a>
+	<h3 class="subsubtitle method-title">oauthClientId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Oauth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthClientId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/oauthCompletionUrl" title="oauthCompletionUrl"></a>
+	<h3 class="subsubtitle method-title">oauthCompletionUrl</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>axm/detect/oauth/done")</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthCompletionUrl</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/retryLoginAfterFailure" title="retryLoginAfterFailure"></a>
+	<h3 class="subsubtitle method-title">retryLoginAfterFailure</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Should the login process start again if it fails (default: YES)</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL retryLoginAfterFailure</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/scopes" title="scopes"></a>
+	<h3 class="subsubtitle method-title">scopes</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The OAuth scopes associated with the app.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet *scopes</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/temporaryUser" title="temporaryUser"></a>
+	<h3 class="subsubtitle method-title">temporaryUser</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The &ldquo;temporary&rdquo; account user.  Useful for determining whether there&rsquo;s a valid user context.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFUserAccount *temporaryUser</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userAccountMap" title="userAccountMap"></a>
+	<h3 class="subsubtitle method-title">userAccountMap</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A map of user accounts by user ID</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableDictionary *userAccountMap</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/applyCurrentLogLevel:" title="applyCurrentLogLevel:"></a>
+	<h3 class="subsubtitle method-title">applyCurrentLogLevel:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Applies the current log level to the oauth credentials that
+controls the oauth library log level.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)applyCurrentLogLevel:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
+	<h3 class="subsubtitle method-title">sharedInstance</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Shared singleton</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstance</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userAccountPlistFileForUser:" title="userAccountPlistFileForUser:"></a>
+	<h3 class="subsubtitle method-title">userAccountPlistFileForUser:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the path of the user account plist file for the specified user</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)userAccountPlistFileForUser:(SFUserAccount *)<em>user</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>user</em></dt>
+			<dd><p>The user</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the path to the user account plist of the specified user</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/accountsForInstanceURL:" title="accountsForInstanceURL:"></a>
+	<h3 class="subsubtitle method-title">accountsForInstanceURL:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns all accounts that match a particular instance URL</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)accountsForInstanceURL:(NSString *)<em>instanceURL</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>instanceURL</em></dt>
+			<dd><p>The host parameter of a given instance URL</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array of accounts that match that instance URL</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/accountsForOrgId:" title="accountsForOrgId:"></a>
+	<h3 class="subsubtitle method-title">accountsForOrgId:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns all accounts that have access to a particular org</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)accountsForOrgId:(NSString *)<em>orgId</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>orgId</em></dt>
+			<dd><p>The org to match accounts against</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array of accounts that can access that org</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/addAccount:" title="addAccount:"></a>
+	<h3 class="subsubtitle method-title">addAccount:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a user account</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)addAccount:(SFUserAccount *)<em>acct</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
+	<h3 class="subsubtitle method-title">addDelegate:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a delegate to this user account manager.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)addDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)<em>delegate</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>delegate</em></dt>
+			<dd><p>The delegate to add.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/applyCredentials:" title="applyCredentials:"></a>
+	<h3 class="subsubtitle method-title">applyCredentials:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Invoke this method to apply the specified credentials to the
+current user. If no user exists, a new one is created.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)applyCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>credentials</em></dt>
+			<dd><p>The credentials to apply</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/applyCustomDataToCurrentUser:" title="applyCustomDataToCurrentUser:"></a>
+	<h3 class="subsubtitle method-title">applyCustomDataToCurrentUser:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Apply custom data to the <a href="../Classes/SFUserAccount.html">SFUserAccount</a> that can be
+accessed outside that user&rsquo;s sandbox. This data will be persisted
+between launches and should only be used for non-sensitive information.
+The NSDictionary should be NSCoder encodeable.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)applyCustomDataToCurrentUser:(NSDictionary *)<em>customData</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>orgSettings</em></dt>
+			<dd><p>The dictionary of custom data to attach to this user.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/clearAllAccountState" title="clearAllAccountState"></a>
+	<h3 class="subsubtitle method-title">clearAllAccountState</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Clear all the accounts state (but do not change anything on the disk).</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)clearAllAccountState</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createUserAccount" title="createUserAccount"></a>
+	<h3 class="subsubtitle method-title">createUserAccount</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Can be used to create an empty user account if you wish to configure all of the account info yourself.
+Otherwise, use <code>login</code> to allow SFUserAccountManager to automatically create an account when necessary.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFUserAccount *)createUserAccount</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createUserAccountWithCredentials:" title="createUserAccountWithCredentials:"></a>
+	<h3 class="subsubtitle method-title">createUserAccountWithCredentials:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a user account staged with the given auth credentials.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>credentials</em></dt>
+			<dd><p>The OAuth credentials to apply to the user account.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The new user account with the given credentials.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/deleteAccountForUserId:error:" title="deleteAccountForUserId:error:"></a>
+	<h3 class="subsubtitle method-title">deleteAccountForUserId:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Allows you to remove a user account associated with the given user ID.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)deleteAccountForUserId:(NSString *)<em>userId</em> error:(NSError **)<em>error</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>userId</em></dt>
+			<dd><p>The User ID of the account to remove.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>Output error parameter, populated if there was an error deleting
+the account (likely from the filesystem operations).</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if the deletion was successful, NO otherwise.  Note: If no account matching the userId
+parameter is found, no action will be taken, and deletion will be reported as successful.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/enumerateDelegates:" title="enumerateDelegates:"></a>
+	<h3 class="subsubtitle method-title">enumerateDelegates:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Executes the given block for each configured delegate.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; ))<em>block</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The block to execute for each delegate.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/loadAccounts:" title="loadAccounts:"></a>
+	<h3 class="subsubtitle method-title">loadAccounts:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Loads all the accounts.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)loadAccounts:(NSError **)<em>error</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>On output, the error if the return value is NO</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if the accounts were loaded properly, NO in case of error</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/makeUserIdSafe:" title="makeUserIdSafe:"></a>
+	<h3 class="subsubtitle method-title">makeUserIdSafe:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Truncate user ID to 15 chars</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSString *)makeUserIdSafe:(NSString *)<em>aUserId</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeDelegate:" title="removeDelegate:"></a>
+	<h3 class="subsubtitle method-title">removeDelegate:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes a delegate from this user account manager.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)removeDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)<em>delegate</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>delegate</em></dt>
+			<dd><p>The delegate to remove.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveAccounts:" title="saveAccounts:"></a>
+	<h3 class="subsubtitle method-title">saveAccounts:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Save all the accounts.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)saveAccounts:(NSError **)<em>error</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>On output, the error if the return value is NO</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if the accounts were saved properly, NO in case of error</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/switchToNewUser" title="switchToNewUser"></a>
+	<h3 class="subsubtitle method-title">switchToNewUser</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Switches away from the current user, to a new user context.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)switchToNewUser</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/switchToUser:" title="switchToUser:"></a>
+	<h3 class="subsubtitle method-title">switchToUser:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Switches away from the current user, to the given user account.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)switchToUser:(SFUserAccount *)<em>newCurrentUser</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>newCurrentUser</em></dt>
+			<dd><p>The user to switch to.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/updateAppSettingsLoginHost:" title="updateAppSettingsLoginHost:"></a>
+	<h3 class="subsubtitle method-title">updateAppSettingsLoginHost:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Updates the login host in app settings, for apps that utilize login host switching from
+the Settings app.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)updateAppSettingsLoginHost:(NSString *)<em>newLoginHost</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>newLoginHost</em></dt>
+			<dd><p>The login host to update.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/updateLoginHost" title="updateLoginHost"></a>
+	<h3 class="subsubtitle method-title">updateLoginHost</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Synchronizes the app-level login host setting with the value in app settings.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFLoginHostUpdateResult *)updateLoginHost</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><a href="../Classes/SFLoginHostUpdateResult.html">SFLoginHostUpdateResult</a> object containing the original hostname, the new hostname
+(possibly the same), and whether or not the hostname changed.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userAccountForUserId:" title="userAccountForUserId:"></a>
+	<h3 class="subsubtitle method-title">userAccountForUserId:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Allows you to lookup the user account associated with a given user ID.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFUserAccount *)userAccountForUserId:(NSString *)<em>userId</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/userChanged:" title="userChanged:"></a>
+	<h3 class="subsubtitle method-title">userChanged:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Invoke this method to inform this manager
+that something has changed for the current user.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)userChanged:(SFUserAccountChange)<em>change</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>change</em></dt>
+			<dd><p>The type of change (enum type). Use SFUserAccountChangeUnknown
+if you don&rsquo;t know what kind of change was made to this object and this method
+will try to determine that.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFUserAccountManager.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+                    
+                    
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

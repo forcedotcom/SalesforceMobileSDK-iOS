@@ -1,59 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRootViewManager.html">
+	<File path="Classes/SFSDKResourceUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRootViewManager</TokenIdentifier>
-			<Abstract type="html">Class to control the presentation of temporary modal views in an existing view stack.  Used
-internally for things like the authentication view and the passcode screen.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+            
 			
 			<NodeRef refid="28"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRootViewManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The singleton SFRootViewManager object.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
+			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>+ (SFRootViewManager *)sharedManager</Declaration>
+			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
 			
-			<ReturnValue><Abstract type="html">The singleton SFRootViewManager object.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
+			<Anchor>//api/name/mainSdkBundle</Anchor>
+            <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/pushViewController:</TokenIdentifier>
-			<Abstract type="html">Push a view controller onto the top of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
+			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>- (void)pushViewController:(UIViewController *)viewController</Declaration>
+			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view controller to display.</Abstract>
+					<Name>localizationKey</Name>
+					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/pushViewController:</Anchor>
+			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
+			<Anchor>//api/name/localizedString:</Anchor>
+            <NodeRef refid="28"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/popViewController:</TokenIdentifier>
-			<Abstract type="html">Take a view controller off of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>			
-			
-			<Declaration>- (void)popViewController:(UIViewController *)viewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view to remove.  Does nothing if the view controller is not found in the presented stack.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/popViewController:</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

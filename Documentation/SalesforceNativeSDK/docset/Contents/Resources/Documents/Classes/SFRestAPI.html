@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFRestAPI Class Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -45,6 +44,8 @@
 	<option value="//api/name/apiVersion">&nbsp;&nbsp;&nbsp;&nbsp;apiVersion</option>
 	
 	<option value="//api/name/coordinator">&nbsp;&nbsp;&nbsp;&nbsp;coordinator</option>
+	
+	<option value="//api/name/networkCoordinatorNeedsRefresh">&nbsp;&nbsp;&nbsp;&nbsp;networkCoordinatorNeedsRefresh</option>
 	
 	<option value="//api/name/sessionRefresher">&nbsp;&nbsp;&nbsp;&nbsp;sessionRefresher</option>
 	
@@ -100,6 +101,8 @@
 	
 	<option value="//api/name/performSOQLQuery:failBlock:completeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- performSOQLQuery:failBlock:completeBlock:</option>
 	
+	<option value="//api/name/performSOQLQueryAll:failBlock:completeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- performSOQLQueryAll:failBlock:completeBlock:</option>
+	
 	<option value="//api/name/performSOSLSearch:failBlock:completeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- performSOSLSearch:failBlock:completeBlock:</option>
 	
 	<option value="//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</option>
@@ -139,6 +142,8 @@
 	<option value="//api/name/requestForOwnedFilesList:page:">&nbsp;&nbsp;&nbsp;&nbsp;- requestForOwnedFilesList:page:</option>
 	
 	<option value="//api/name/requestForQuery:">&nbsp;&nbsp;&nbsp;&nbsp;- requestForQuery:</option>
+	
+	<option value="//api/name/requestForQueryAll:">&nbsp;&nbsp;&nbsp;&nbsp;- requestForQueryAll:</option>
 	
 	<option value="//api/name/requestForResources">&nbsp;&nbsp;&nbsp;&nbsp;- requestForResources</option>
 	
@@ -180,13 +185,13 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Other utility methods">Other utility methods</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Files Methods">Files Methods</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_QueryBuilder Methods">QueryBuilder Methods</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Extension Methods">Extension Methods</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Files Methods">Files Methods</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Blocks Methods">Blocks Methods</a></span></li>
 	
 </ul></li>
 
@@ -201,6 +206,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/apiVersion">apiVersion</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/coordinator">coordinator</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/networkCoordinatorNeedsRefresh">networkCoordinatorNeedsRefresh</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sessionRefresher">sessionRefresher</a></span></li>
 	
@@ -258,6 +265,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">performSOQLQuery:failBlock:completeBlock:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performSOQLQueryAll:failBlock:completeBlock:">performSOQLQueryAll:failBlock:completeBlock:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performSOSLSearch:failBlock:completeBlock:">performSOSLSearch:failBlock:completeBlock:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</a></span></li>
@@ -297,6 +306,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestForOwnedFilesList:page:">requestForOwnedFilesList:page:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestForQuery:">requestForQuery:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestForQueryAll:">requestForQueryAll:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/requestForResources">requestForResources</a></span></li>
 	
@@ -352,8 +363,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -486,48 +497,36 @@ declared in this file from app code, you&rsquo;re probably doing something wrong
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/coordinator">&nbsp;&nbsp;coordinator</a></code>
-		<span class="tooltip"><p>Gets or sets the value of the <code>SFOAuthCoordinator</code> instance associated with SFRestAPI requests.
-Note: If your app inherits from <code>SFNativeRest</code>AppDelegate<code></code>, or you otherwise manage the account
-configuration of your app through <code>SFAccountManager</code>, you should not need to set/configure this
-property, as it&rsquo;s closely aligned with SFAccountManager already.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/apiVersion">&nbsp;&nbsp;apiVersion</a></code>
-		<span class="tooltip"><p>The REST API version used for all the calls. This could be &ldquo;v21.0&rdquo;, &ldquo;v22.0&rdquo;&hellip;
-The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23.0&rdquo;)</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
-		<span class="tooltip"><p>Returns the singleton instance of <code>SFRestAPI</code>
-Dependent on authenticated credentials in SFAccountManager, to properly form up
-authenticated requests.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cleanup">&ndash;&nbsp;cleanup</a></code>
-		<span class="tooltip"><p>Clean up due to host change or logout</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/cancelAllRequests">&ndash;&nbsp;cancelAllRequests</a></code>
-		<span class="tooltip"><p>Cancel all requests that are waiting to be excecuted</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/send:delegate:">&ndash;&nbsp;send:delegate:</a></code>
-		<span class="tooltip"><p>Sends a REST request to the Salesforce server and invokes the appropriate delegate method.</p></span>
 	</span>
 	
 	
@@ -542,92 +541,78 @@ authenticated requests.</p></span>
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForVersions">&ndash;&nbsp;requestForVersions</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which lists summary information about each
-Salesforce.com version currently available, including the version,
-label, and a link to each version&rsquo;s root.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForResources">&ndash;&nbsp;requestForResources</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which lists available resources for the
-client&rsquo;s API version, including resource name and URI.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForDescribeGlobal">&ndash;&nbsp;requestForDescribeGlobal</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which lists the available objects and their
-metadata for your organization&rsquo;s data.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForMetadataWithObjectType:">&ndash;&nbsp;requestForMetadataWithObjectType:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which Describes the individual metadata for the
-specified object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForDescribeWithObjectType:">&ndash;&nbsp;requestForDescribeWithObjectType:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which completely describes the individual metadata
-at all levels for the
-specified object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForRetrieveWithObjectType:objectId:fieldList:">&ndash;&nbsp;requestForRetrieveWithObjectType:objectId:fieldList:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which retrieves field values for a record of the given type.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForCreateWithObjectType:fields:">&ndash;&nbsp;requestForCreateWithObjectType:fields:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which creates a new record of the given type.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForUpsertWithObjectType:externalIdField:externalId:fields:">&ndash;&nbsp;requestForUpsertWithObjectType:externalIdField:externalId:fields:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which creates or updates record of the given type, based on the
-given external ID.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForUpdateWithObjectType:objectId:fields:">&ndash;&nbsp;requestForUpdateWithObjectType:objectId:fields:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which updates field values on a record of the given type.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForDeleteWithObjectType:objectId:">&ndash;&nbsp;requestForDeleteWithObjectType:objectId:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which deletes a record of the given type.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForQuery:">&ndash;&nbsp;requestForQuery:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which executes the specified SOQL query.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForQueryAll:">&ndash;&nbsp;requestForQueryAll:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/requestForSearch:">&ndash;&nbsp;requestForSearch:</a></code>
-		<span class="tooltip"><p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which executes the specified SOSL search.</p></span>
 	</span>
 	
 	
@@ -642,208 +627,6 @@ given external ID.</p></span>
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/userAgentString">+&nbsp;userAgentString</a></code>
-		<span class="tooltip"><p>Provides the User-Agent string used by the SDK</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						<a title="Blocks Methods" name="task_Blocks Methods"></a>
-						<h3 class="subsubtitle task-title">Blocks Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
-		
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendRESTRequest:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Send a request you&rsquo;ve already built, using blocks to return status.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQuery:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a SOQL query.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performSOSLSearch:failBlock:completeBlock:">&ndash;&nbsp;performSOSLSearch:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a SOSL search.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performDescribeGlobalWithFailBlock:completeBlock:">&ndash;&nbsp;performDescribeGlobalWithFailBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a global describe.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performDescribeWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performDescribeWithObjectType:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a describe on a single sObject.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performMetadataWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performMetadataWithObjectType:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a metadata describe on a single sObject.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:">&ndash;&nbsp;performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a retrieve for a single record.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a DML update for a single record.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a DML upsert for a single record.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:">&ndash;&nbsp;performDeleteWithObjectType:objectId:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a DML delete on a single record</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:">&ndash;&nbsp;performCreateWithObjectType:fields:failBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a DML insert.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performRequestForResourcesWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForResourcesWithFailBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a request to list REST API resources</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/performRequestForVersionsWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForVersionsWithFailBlock:completeBlock:</a></code>
-		<span class="tooltip"><p>Executes a request to list REST API versions</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						<a title="Files Methods" name="task_Files Methods"></a>
-						<h3 class="subsubtitle task-title">Files Methods</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForOwnedFilesList:page:">&ndash;&nbsp;requestForOwnedFilesList:page:</a></code>
-		<span class="tooltip"><p>Build a Request that can fetch a page from the files owned by the
-specified user.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFilesInUsersGroups:page:">&ndash;&nbsp;requestForFilesInUsersGroups:page:</a></code>
-		<span class="tooltip"><p>Build a Request that can fetch a page from the list of files from groups
-that the user is a member of.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFilesSharedWithUser:page:">&ndash;&nbsp;requestForFilesSharedWithUser:page:</a></code>
-		<span class="tooltip"><p>Build a Request that can fetch a page from the list of files that have
-been shared with the user.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFileDetails:forVersion:">&ndash;&nbsp;requestForFileDetails:forVersion:</a></code>
-		<span class="tooltip"><p>Build a Request that can fetch the file details of a particular version
-of a file.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForBatchFileDetails:">&ndash;&nbsp;requestForBatchFileDetails:</a></code>
-		<span class="tooltip"><p>Build a request that can fetch the latest file details of one or more
-files in a single request.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFileRendition:version:renditionType:page:">&ndash;&nbsp;requestForFileRendition:version:renditionType:page:</a></code>
-		<span class="tooltip"><p>Build a Request that can fetch the a preview/rendition of a particular
-page of the file (and version)</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFileContents:version:">&ndash;&nbsp;requestForFileContents:version:</a></code>
-		<span class="tooltip"><p>Builds a request that can fetch the actual binary file contents of this
-particular file.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForFileShares:page:">&ndash;&nbsp;requestForFileShares:page:</a></code>
-		<span class="tooltip"><p>Build a request that can fetch a page from the list of entities that this
-file is shared to.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForAddFileShare:entityId:shareType:">&ndash;&nbsp;requestForAddFileShare:entityId:shareType:</a></code>
-		<span class="tooltip"><p>Build a request that will add a file share for the specified fileId to
-the specified entityId</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForDeleteFileShare:">&ndash;&nbsp;requestForDeleteFileShare:</a></code>
-		<span class="tooltip"><p>Build a request that will delete the specified file share.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/requestForUploadFile:name:description:mimeType:">&ndash;&nbsp;requestForUploadFile:name:description:mimeType:</a></code>
-		<span class="tooltip"><p>Build a request that can upload a new file to the server, this will
-create a new file at version 1.</p></span>
 	</span>
 	
 	
@@ -858,35 +641,30 @@ create a new file at version 1.</p></span>
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
-		<span class="tooltip"><p>The search term to be sanitized.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
-		<span class="tooltip"><p>Generate a SOSL search.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOSL search.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOQL query.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:where:groupBy:having:orderBy:limit:</a></code>
-		<span class="tooltip"><p>Generate a SOQL query.</p></span>
 	</span>
 	
 	
@@ -901,43 +679,214 @@ create a new file at version 1.</p></span>
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-		<span class="tooltip"><p>Active requests property</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/networkCoordinatorNeedsRefresh">&nbsp;&nbsp;networkCoordinatorNeedsRefresh</a></code>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sessionRefresher">&nbsp;&nbsp;sessionRefresher</a></code>
-		<span class="tooltip"><p>Session refresher property</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-		
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-		<span class="tooltip"><p>Force a request to timeout: for testing only!</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setupNetworkCoordinator">&ndash;&nbsp;setupNetworkCoordinator</a></code>
-		<span class="tooltip"><p>Setup network engine network <a href="#//api/name/coordinator">coordinator</a></p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/createNetworkCoordinator:">&ndash;&nbsp;createNetworkCoordinator:</a></code>
-		<span class="tooltip"><p>Creates SFNetworkCoordinator from SFOAuthCoordinator
-@param oAuthCoordinator</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Files Methods" name="task_Files Methods"></a>
+						<h3 class="subsubtitle task-title">Files Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForOwnedFilesList:page:">&ndash;&nbsp;requestForOwnedFilesList:page:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFilesInUsersGroups:page:">&ndash;&nbsp;requestForFilesInUsersGroups:page:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFilesSharedWithUser:page:">&ndash;&nbsp;requestForFilesSharedWithUser:page:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFileDetails:forVersion:">&ndash;&nbsp;requestForFileDetails:forVersion:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForBatchFileDetails:">&ndash;&nbsp;requestForBatchFileDetails:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFileRendition:version:renditionType:page:">&ndash;&nbsp;requestForFileRendition:version:renditionType:page:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFileContents:version:">&ndash;&nbsp;requestForFileContents:version:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForFileShares:page:">&ndash;&nbsp;requestForFileShares:page:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForAddFileShare:entityId:shareType:">&ndash;&nbsp;requestForAddFileShare:entityId:shareType:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForDeleteFileShare:">&ndash;&nbsp;requestForDeleteFileShare:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/requestForUploadFile:name:description:mimeType:">&ndash;&nbsp;requestForUploadFile:name:description:mimeType:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Blocks Methods" name="task_Blocks Methods"></a>
+						<h3 class="subsubtitle task-title">Blocks Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sendRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendRESTRequest:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performSOQLQuery:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQuery:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performSOQLQueryAll:failBlock:completeBlock:">&ndash;&nbsp;performSOQLQueryAll:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performSOSLSearch:failBlock:completeBlock:">&ndash;&nbsp;performSOSLSearch:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performDescribeGlobalWithFailBlock:completeBlock:">&ndash;&nbsp;performDescribeGlobalWithFailBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performDescribeWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performDescribeWithObjectType:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performMetadataWithObjectType:failBlock:completeBlock:">&ndash;&nbsp;performMetadataWithObjectType:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:">&ndash;&nbsp;performRetrieveWithObjectType:objectId:fieldList:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpdateWithObjectType:objectId:fields:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:">&ndash;&nbsp;performUpsertWithObjectType:externalIdField:externalId:fields:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performDeleteWithObjectType:objectId:failBlock:completeBlock:">&ndash;&nbsp;performDeleteWithObjectType:objectId:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performCreateWithObjectType:fields:failBlock:completeBlock:">&ndash;&nbsp;performCreateWithObjectType:fields:failBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performRequestForResourcesWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForResourcesWithFailBlock:completeBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performRequestForVersionsWithFailBlock:completeBlock:">&ndash;&nbsp;performRequestForVersionsWithFailBlock:completeBlock:</a></code>
 	</span>
 	
 	
@@ -1035,7 +984,7 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v23
 	
 	<div class="method-subsection brief-description">
 		<p>Gets or sets the value of the <code>SFOAuthCoordinator</code> instance associated with SFRestAPI requests.
-Note: If your app inherits from <code>SFNativeRest</code>AppDelegate<code></code>, or you otherwise manage the account
+Note: If your app inherits from <code>SFNativeRestAppDelegate</code>, or you otherwise manage the account
 configuration of your app through <code>SFAccountManager</code>, you should not need to set/configure this
 property, as it&rsquo;s closely aligned with SFAccountManager already.</p>
 	</div>		
@@ -1061,6 +1010,43 @@ property, as it&rsquo;s closely aligned with SFAccountManager already.</p>
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
 		<code class="declared-in-ref">SFRestAPI.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/networkCoordinatorNeedsRefresh" title="networkCoordinatorNeedsRefresh"></a>
+	<h3 class="subsubtitle method-title">networkCoordinatorNeedsRefresh</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether the network <a href="#//api/name/coordinator">coordinator</a> is in a &ldquo;dirty&rdquo; state.  SFRestAPI will rehydrate the network
+<a href="#//api/name/coordinator">coordinator</a> before the next REST request.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL networkCoordinatorNeedsRefresh</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+Internal.h</code><br />
 	</div>				
 	
 	
@@ -2278,6 +2264,67 @@ authenticated requests.</p>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/performSOQLQueryAll:failBlock:completeBlock:" title="performSOQLQueryAll:failBlock:completeBlock:"></a>
+	<h3 class="subsubtitle method-title">performSOQLQueryAll:failBlock:completeBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Executes a SOQL query that returns the deleted objects.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performSOQLQueryAll:(NSString *)<em>query</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>query</em></dt>
+			<dd><p>the SOQL query to be executed</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>failBlock</em></dt>
+			<dd><p>the block to be executed when the request fails (timeout, cancel, or error)</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>completeBlock</em></dt>
+			<dd><p>the block to be executed when the request successfully completes</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the newly sent <a href="../Classes/SFRestRequest.html">SFRestRequest</a></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI+Blocks.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/performSOSLSearch:failBlock:completeBlock:" title="performSOSLSearch:failBlock:completeBlock:"></a>
 	<h3 class="subsubtitle method-title">performSOSLSearch:failBlock:completeBlock:</h3>
 	
@@ -3408,6 +3455,63 @@ Name from Account ORDER BY Name LIMIT 20&rdquo;</p></dd>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/requestForQueryAll:" title="requestForQueryAll:"></a>
+	<h3 class="subsubtitle method-title">requestForQueryAll:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> which executes the specified SOQL query.
+The result contains the deleted objects.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForQueryAll:(NSString *)<em>soql</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>soql</em></dt>
+			<dd><p>a string containing the query to execute - for example, &ldquo;SELECT Id,
+Name from Account ORDER BY Name LIMIT 20&rdquo;</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_queryall.htm">http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_queryall.htm</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFRestAPI.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/requestForResources" title="requestForResources"></a>
 	<h3 class="subsubtitle method-title">requestForResources</h3>
 	
@@ -3977,6 +4081,8 @@ Returns the SFNetworkOperation through which the network call is actually carrie
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -3987,7 +4093,7 @@ Returns the SFNetworkOperation through which the network call is actually carrie
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

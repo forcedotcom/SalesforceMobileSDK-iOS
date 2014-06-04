@@ -1,139 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthErrorHandlerList.html">
+	<File path="Classes/SFAuthenticationViewHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandlerList</TokenIdentifier>
-			<Abstract type="html">Manages the authentication handler filter list, for processing authentication errors.  Note that
-order of entries is important: the list will be processed serially, starting with the first item
-and ending with the last.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationViewHandler</TokenIdentifier>
+			<Abstract type="html">Class encompassing the custom actions to take when displaying and dismissing an auth view during the auth process.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+            
 			
 			<NodeRef refid="12"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/setAuthHandlerArray:</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+            <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+            <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+            <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler to the end of the filter list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
 			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for the class.</Abstract>
+			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addAuthErrorHandler:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:atIndex:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler at a specific index in the list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
-			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler atIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
+					<Name>displayBlock</Name>
+					<Abstract type="html">The block used to display the auth view.</Abstract>
 				</Parameter><Parameter>
-					<Name>index</Name>
-					<Abstract type="html">The index at which to add the error handler.</Abstract>
+					<Name>dismissBlock</Name>
+					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addAuthErrorHandler:atIndex:</Anchor>
+			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
+            <NodeRef refid="12"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandlerWithName:</TokenIdentifier>
-			<Abstract type="html">Removes the error handler with the given name from the list.  If no error handler exists
-in the list with the name, no action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
-			
-			<Declaration>- (void)removeAuthErrorHandlerWithName:(NSString *)errorHandlerName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandlerName</Name>
-					<Abstract type="html">The name of the error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeAuthErrorHandlerWithName:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Removes the given error handler from the list.  If the error handler cannot be found, no
-action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
-			
-			<Declaration>- (void)removeAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeAuthErrorHandler:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authErrorHandlerInList:</TokenIdentifier>
-			<Abstract type="html">Determines whether the given error handler is in the list.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>			
-			
-			<Declaration>- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to look for in the list.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error handler is in the list, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/authErrorHandlerInList:</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

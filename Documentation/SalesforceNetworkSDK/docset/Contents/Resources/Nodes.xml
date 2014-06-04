@@ -2,7 +2,7 @@
 <DocSetNodes version="1.0">
     <TOC>
         <Node type="folder">
-            <Name>SalesforceNativeSDK</Name>
+            <Name>SalesforceNetworkSDK</Name>
             <Path>index.html</Path>
 			<Subnodes>
                 
@@ -20,8 +20,8 @@
 				</Node>
 				
 				
-				
-				<Node type="folder">
+                
+				<Node>
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
@@ -31,37 +31,201 @@
 					</Subnodes>
 				</Node>
 				
+                
 			</Subnodes>
         </Node>
     </TOC>
 	<Library>
 		
-		<Node id="1" type="file">
-			<Name>SFNetworkCoordinator</Name>
-			<Path>Classes/SFNetworkCoordinator.html</Path>
-		</Node>
-		<Node id="2" type="file">
-			<Name>SFNetworkEngine</Name>
-			<Path>Classes/SFNetworkEngine.html</Path>
-		</Node>
-		<Node id="3" type="file">
-			<Name>SFNetworkOperation</Name>
-			<Path>Classes/SFNetworkOperation.html</Path>
-		</Node>
-		<Node id="4" type="file">
-			<Name>SFNetworkUtils</Name>
-			<Path>Classes/SFNetworkUtils.html</Path>
-		</Node>
+		<Node id="1" type="file" documentType="reference">
+            <Name>SFNetworkCoordinator</Name>
+            <Path>Classes/SFNetworkCoordinator.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetworkCoordinator.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetworkCoordinator.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkCoordinator.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>SFNetworkEngine</Name>
+            <Path>Classes/SFNetworkEngine.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetworkEngine.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetworkEngine.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkEngine.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkEngine.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkEngine.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>SFNetworkOperation</Name>
+            <Path>Classes/SFNetworkOperation.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetworkOperation.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetworkOperation.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkOperation.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkOperation.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkOperation.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
+            <Name>SFNetworkUtils</Name>
+            <Path>Classes/SFNetworkUtils.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetworkUtils.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetworkUtils.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkUtils.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
 		
 		
-		<Node id="5" type="file">
-			<Name>SFNetworkEngineDelegate</Name>
-			<Path>Protocols/SFNetworkEngineDelegate.html</Path>
-		</Node>
-		<Node id="6" type="file">
-			<Name>SFNetworkOperationDelegate</Name>
-			<Path>Protocols/SFNetworkOperationDelegate.html</Path>
-		</Node>
+        <Node id="5" type="file" documentType="reference">
+            <Name>SFNetworkEngineDelegate</Name>
+            <Path>Protocols/SFNetworkEngineDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFNetworkEngineDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFNetworkEngineDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFNetworkEngineDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="6" type="file" documentType="reference">
+            <Name>SFNetworkOperationDelegate</Name>
+            <Path>Protocols/SFNetworkOperationDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFNetworkOperationDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFNetworkOperationDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFNetworkOperationDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
+        
 	</Library>
 </DocSetNodes>

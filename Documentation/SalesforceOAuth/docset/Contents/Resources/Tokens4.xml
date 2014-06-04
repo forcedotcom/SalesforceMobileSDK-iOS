@@ -7,6 +7,7 @@
 			<Abstract type="html">Data class containing members denoting state information for an OAuth coordinator authentication
 cycle.</Abstract>
 			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
 			
 			<NodeRef refid="4"/>
 		</Token>
@@ -15,40 +16,43 @@ cycle.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthType:</TokenIdentifier>
 			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>			
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
 			<Anchor>//api/name/authType</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authType</TokenIdentifier>
 			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>			
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
 			<Anchor>//api/name/authType</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authType</TokenIdentifier>
 			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>			
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
 			<Anchor>//api/name/authType</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/initWithAuthType:</TokenIdentifier>
 			<Abstract type="html">Creates a new instance with the given auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>			
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithAuthType:(SFOAuthType)authType</Declaration>
 			<Parameters>
@@ -59,18 +63,21 @@ cycle.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/initWithAuthType:</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authTypeDescription</TokenIdentifier>
 			<Abstract type="html">The string description of the auth type enumeration.</Abstract>
-			<DeclaredIn>SFOAuthInfo+Internal.h</DeclaredIn>			
+			<DeclaredIn>SFOAuthInfo+Internal.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)authTypeDescription</Declaration>
 			
 			<ReturnValue><Abstract type="html">The string description of the auth type enumeration.</Abstract></ReturnValue>
 			<Anchor>//api/name/authTypeDescription</Anchor>
+            <NodeRef refid="4"/>
 		</Token>
 		
+        
 	</File>
 </Tokens>

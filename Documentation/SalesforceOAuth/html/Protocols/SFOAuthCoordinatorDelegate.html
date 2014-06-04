@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFOAuthCoordinatorDelegate Protocol Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceOAuth </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -60,6 +59,8 @@
 	
 	<option value="//api/name/oauthCoordinatorDidAuthenticate:authInfo:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinatorDidAuthenticate:authInfo:</option>
 	
+	<option value="//api/name/oauthCoordinatorIsNetworkAvailable:">&nbsp;&nbsp;&nbsp;&nbsp;- oauthCoordinatorIsNetworkAvailable:</option>
+	
 	
 	
 </select>
@@ -104,6 +105,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:">oauthCoordinatorDidAuthenticate:authInfo:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/oauthCoordinatorIsNetworkAvailable:">oauthCoordinatorIsNetworkAvailable:</a></span></li>
+	
 </ul></li>
 
 
@@ -135,8 +138,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -163,58 +166,54 @@ Use these methods to update your interface and refresh your application once a s
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:willBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:willBeginAuthenticationWithView:</a></code>
-		<span class="tooltip"><p>Sent when authentication will begin.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didStartLoad:">&ndash;&nbsp;oauthCoordinator:didStartLoad:</a></code>
-		<span class="tooltip"><p>Sent when the web will starts to load its content.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didFinishLoad:error:">&ndash;&nbsp;oauthCoordinator:didFinishLoad:error:</a></code>
-		<span class="tooltip"><p>Sent when the web will completed to load its content.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinatorDidAuthenticate:">&ndash;&nbsp;oauthCoordinatorDidAuthenticate:</a></code>
-		<span class="tooltip"><p>Sent when authentication successfully completes. Note: This method is deprecated.  You should use
-the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthCoordinatorDidAuthenticate:authInfo:</code></a> method instead.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:">&ndash;&nbsp;oauthCoordinatorDidAuthenticate:authInfo:</a></code>
-		<span class="tooltip"><p>Sent when authentication successfully completes.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didFailWithError:">&ndash;&nbsp;oauthCoordinator:didFailWithError:</a></code>
-		<span class="tooltip"><p>Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
-<code>oauthCoordinator:didFailWithError:authInfo</code> method instead.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didFailWithError:authInfo:">&ndash;&nbsp;oauthCoordinator:didFailWithError:authInfo:</a></code>
-		<span class="tooltip"><p>Sent if authentication fails due to an error.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/oauthCoordinatorIsNetworkAvailable:">&ndash;&nbsp;oauthCoordinatorIsNetworkAvailable:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:didBeginAuthenticationWithView:</a></code>
-		<span class="tooltip"><p>Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</p></span>
 	</span>
 	
 	<span class="task-item-suffix">required method</span>
@@ -717,9 +716,47 @@ the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthC
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/oauthCoordinatorIsNetworkAvailable:" title="oauthCoordinatorIsNetworkAvailable:"></a>
+	<h3 class="subsubtitle method-title">oauthCoordinatorIsNetworkAvailable:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The delegate can implement this method to return a BOOL indicating if the network is available or not</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFOAuthCoordinator.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -730,7 +767,7 @@ the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthC
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						

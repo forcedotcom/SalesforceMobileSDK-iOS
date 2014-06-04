@@ -1,81 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/AppDelegate.html">
+	<File path="Classes/FIXCATEGORYBUG.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/AppDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/FIXCATEGORYBUG</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKConstants.h</DeclaredIn>
+            
 			
 			<NodeRef refid="1"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/setWindow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) UIWindow *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) UIWindow *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/AppDelegate/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) UIWindow *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/setViewController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) ViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/AppDelegate/viewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) ViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/AppDelegate/viewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>AppDelegate.h</DeclaredIn>			
-			
-			<Declaration>@property (strong, nonatomic) ViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-		</Token>
-		
+        
 	</File>
 </Tokens>

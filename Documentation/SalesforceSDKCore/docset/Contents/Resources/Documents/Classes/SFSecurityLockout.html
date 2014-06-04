@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>SFSecurityLockout Class Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.2 (build 963)" />
@@ -12,7 +11,7 @@
 	<body>
 		<header id="top_header">
 			<div id="library" class="hideInXcode">
-				<h1><a id="libraryTitle" href="../index.html">SalesforceNativeSDK </a></h1>
+				<h1><a id="libraryTitle" href="../index.html">SalesforceSDKCore </a></h1>
 				<a id="developerHome" href="../index.html">Salesforce.com</a>
 			</div>
 			
@@ -42,11 +41,23 @@
 	
 	<option value="class_methods">Class Methods</option>
 	
+	<option value="//api/name/addDelegate:">&nbsp;&nbsp;&nbsp;&nbsp;+ addDelegate:</option>
+	
+	<option value="//api/name/clearPasscodeState">&nbsp;&nbsp;&nbsp;&nbsp;+ clearPasscodeState</option>
+	
+	<option value="//api/name/dismissPasscodeViewControllerBlock">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissPasscodeViewControllerBlock</option>
+	
+	<option value="//api/name/enumerateDelegates:">&nbsp;&nbsp;&nbsp;&nbsp;+ enumerateDelegates:</option>
+	
+	<option value="//api/name/forcePasscodeDisplay">&nbsp;&nbsp;&nbsp;&nbsp;+ forcePasscodeDisplay</option>
+	
 	<option value="//api/name/hasValidSession">&nbsp;&nbsp;&nbsp;&nbsp;+ hasValidSession</option>
 	
 	<option value="//api/name/inactivityExpired">&nbsp;&nbsp;&nbsp;&nbsp;+ inactivityExpired</option>
 	
 	<option value="//api/name/isLockoutEnabled">&nbsp;&nbsp;&nbsp;&nbsp;+ isLockoutEnabled</option>
+	
+	<option value="//api/name/isPasscodeNeeded">&nbsp;&nbsp;&nbsp;&nbsp;+ isPasscodeNeeded</option>
 	
 	<option value="//api/name/isPasscodeValid">&nbsp;&nbsp;&nbsp;&nbsp;+ isPasscodeValid</option>
 	
@@ -60,11 +71,23 @@
 	
 	<option value="//api/name/lockoutTime">&nbsp;&nbsp;&nbsp;&nbsp;+ lockoutTime</option>
 	
+	<option value="//api/name/passcodeLength">&nbsp;&nbsp;&nbsp;&nbsp;+ passcodeLength</option>
+	
 	<option value="//api/name/passcodeScreenIsPresent">&nbsp;&nbsp;&nbsp;&nbsp;+ passcodeScreenIsPresent</option>
 	
 	<option value="//api/name/passcodeViewController">&nbsp;&nbsp;&nbsp;&nbsp;+ passcodeViewController</option>
 	
+	<option value="//api/name/passcodeViewControllerCreationBlock">&nbsp;&nbsp;&nbsp;&nbsp;+ passcodeViewControllerCreationBlock</option>
+	
 	<option value="//api/name/presentPasscodeController:">&nbsp;&nbsp;&nbsp;&nbsp;+ presentPasscodeController:</option>
+	
+	<option value="//api/name/presentPasscodeViewControllerBlock">&nbsp;&nbsp;&nbsp;&nbsp;+ presentPasscodeViewControllerBlock</option>
+	
+	<option value="//api/name/readIsLockedFromKeychain">&nbsp;&nbsp;&nbsp;&nbsp;+ readIsLockedFromKeychain</option>
+	
+	<option value="//api/name/readLockoutTimeFromKeychain">&nbsp;&nbsp;&nbsp;&nbsp;+ readLockoutTimeFromKeychain</option>
+	
+	<option value="//api/name/removeDelegate:">&nbsp;&nbsp;&nbsp;&nbsp;+ removeDelegate:</option>
 	
 	<option value="//api/name/removeTimer">&nbsp;&nbsp;&nbsp;&nbsp;+ removeTimer</option>
 	
@@ -74,33 +97,49 @@
 	
 	<option value="//api/name/setCanShowPasscode:">&nbsp;&nbsp;&nbsp;&nbsp;+ setCanShowPasscode:</option>
 	
+	<option value="//api/name/setDismissPasscodeViewControllerBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ setDismissPasscodeViewControllerBlock:</option>
+	
+	<option value="//api/name/setForcePasscodeDisplay:">&nbsp;&nbsp;&nbsp;&nbsp;+ setForcePasscodeDisplay:</option>
+	
 	<option value="//api/name/setIsLocked:">&nbsp;&nbsp;&nbsp;&nbsp;+ setIsLocked:</option>
 	
 	<option value="//api/name/setLockScreenFailureCallbackBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ setLockScreenFailureCallbackBlock:</option>
 	
 	<option value="//api/name/setLockScreenSuccessCallbackBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ setLockScreenSuccessCallbackBlock:</option>
 	
-	<option value="//api/name/setLockoutTime:">&nbsp;&nbsp;&nbsp;&nbsp;+ setLockoutTime:</option>
-	
 	<option value="//api/name/setLockoutTimeInternal:">&nbsp;&nbsp;&nbsp;&nbsp;+ setLockoutTimeInternal:</option>
 	
-	<option value="//api/name/setPasscode:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPasscode:</option>
-	
-	<option value="//api/name/setPasscodeLength:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPasscodeLength:</option>
+	<option value="//api/name/setPasscodeLength:lockoutTime:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPasscodeLength:lockoutTime:</option>
 	
 	<option value="//api/name/setPasscodeViewController:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPasscodeViewController:</option>
 	
+	<option value="//api/name/setPasscodeViewControllerCreationBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPasscodeViewControllerCreationBlock:</option>
+	
+	<option value="//api/name/setPresentPasscodeViewControllerBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ setPresentPasscodeViewControllerBlock:</option>
+	
+	<option value="//api/name/setValidatePasscodeAtStartup:">&nbsp;&nbsp;&nbsp;&nbsp;+ setValidatePasscodeAtStartup:</option>
+	
 	<option value="//api/name/setupTimer">&nbsp;&nbsp;&nbsp;&nbsp;+ setupTimer</option>
+	
+	<option value="//api/name/startActivityMonitoring">&nbsp;&nbsp;&nbsp;&nbsp;+ startActivityMonitoring</option>
 	
 	<option value="//api/name/timerExpired:">&nbsp;&nbsp;&nbsp;&nbsp;+ timerExpired:</option>
 	
-	<option value="//api/name/unlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ unlock:</option>
+	<option value="//api/name/unlock:action:">&nbsp;&nbsp;&nbsp;&nbsp;+ unlock:action:</option>
 	
 	<option value="//api/name/unlockFailurePostProcessing">&nbsp;&nbsp;&nbsp;&nbsp;+ unlockFailurePostProcessing</option>
 	
-	<option value="//api/name/unlockSuccessPostProcessing">&nbsp;&nbsp;&nbsp;&nbsp;+ unlockSuccessPostProcessing</option>
+	<option value="//api/name/unlockSuccessPostProcessing:">&nbsp;&nbsp;&nbsp;&nbsp;+ unlockSuccessPostProcessing:</option>
+	
+	<option value="//api/name/upgradeSettings">&nbsp;&nbsp;&nbsp;&nbsp;+ upgradeSettings</option>
+	
+	<option value="//api/name/validatePasscodeAtStartup">&nbsp;&nbsp;&nbsp;&nbsp;+ validatePasscodeAtStartup</option>
 	
 	<option value="//api/name/validateTimer">&nbsp;&nbsp;&nbsp;&nbsp;+ validateTimer</option>
+	
+	<option value="//api/name/writeIsLockedToKeychain:">&nbsp;&nbsp;&nbsp;&nbsp;+ writeIsLockedToKeychain:</option>
+	
+	<option value="//api/name/writeLockoutTimeToKeychain:">&nbsp;&nbsp;&nbsp;&nbsp;+ writeLockoutTimeToKeychain:</option>
 	
 	
 	
@@ -132,11 +171,23 @@
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addDelegate:">addDelegate:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/clearPasscodeState">clearPasscodeState</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissPasscodeViewControllerBlock">dismissPasscodeViewControllerBlock</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/enumerateDelegates:">enumerateDelegates:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/forcePasscodeDisplay">forcePasscodeDisplay</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/hasValidSession">hasValidSession</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/inactivityExpired">inactivityExpired</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isLockoutEnabled">isLockoutEnabled</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isPasscodeNeeded">isPasscodeNeeded</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isPasscodeValid">isPasscodeValid</a></span></li>
 	
@@ -150,11 +201,23 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/lockoutTime">lockoutTime</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/passcodeLength">passcodeLength</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/passcodeScreenIsPresent">passcodeScreenIsPresent</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/passcodeViewController">passcodeViewController</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/passcodeViewControllerCreationBlock">passcodeViewControllerCreationBlock</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/presentPasscodeController:">presentPasscodeController:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/presentPasscodeViewControllerBlock">presentPasscodeViewControllerBlock</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/readIsLockedFromKeychain">readIsLockedFromKeychain</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/readLockoutTimeFromKeychain">readLockoutTimeFromKeychain</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeDelegate:">removeDelegate:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeTimer">removeTimer</a></span></li>
 	
@@ -164,33 +227,49 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setCanShowPasscode:">setCanShowPasscode:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setDismissPasscodeViewControllerBlock:">setDismissPasscodeViewControllerBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setForcePasscodeDisplay:">setForcePasscodeDisplay:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setIsLocked:">setIsLocked:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setLockScreenFailureCallbackBlock:">setLockScreenFailureCallbackBlock:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setLockScreenSuccessCallbackBlock:">setLockScreenSuccessCallbackBlock:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setLockoutTime:">setLockoutTime:</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setLockoutTimeInternal:">setLockoutTimeInternal:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPasscode:">setPasscode:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPasscodeLength:">setPasscodeLength:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPasscodeLength:lockoutTime:">setPasscodeLength:lockoutTime:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPasscodeViewController:">setPasscodeViewController:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPasscodeViewControllerCreationBlock:">setPasscodeViewControllerCreationBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setPresentPasscodeViewControllerBlock:">setPresentPasscodeViewControllerBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setValidatePasscodeAtStartup:">setValidatePasscodeAtStartup:</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setupTimer">setupTimer</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/startActivityMonitoring">startActivityMonitoring</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/timerExpired:">timerExpired:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unlock:">unlock:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unlock:action:">unlock:action:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unlockFailurePostProcessing">unlockFailurePostProcessing</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unlockSuccessPostProcessing">unlockSuccessPostProcessing</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unlockSuccessPostProcessing:">unlockSuccessPostProcessing:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/upgradeSettings">upgradeSettings</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/validatePasscodeAtStartup">validatePasscodeAtStartup</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/validateTimer">validateTimer</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/writeIsLockedToKeychain:">writeIsLockedToKeychain:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/writeLockoutTimeToKeychain:">writeLockoutTimeToKeychain:</a></span></li>
 	
 </ul></li>
 
@@ -225,8 +304,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
+                    
+                    
 					
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
@@ -250,136 +329,211 @@ It is responsible for locking and unlocking the device by presenting the passcod
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
-		<code><a href="#//api/name/lockoutTime">+&nbsp;lockoutTime</a></code>
-		<span class="tooltip"><p>Get the current lockout time, in seconds</p></span>
+		<code><a href="#//api/name/addDelegate:">+&nbsp;addDelegate:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/setLockoutTime:">+&nbsp;setLockoutTime:</a></code>
-		<span class="tooltip"><p>Set the lockout timer.</p></span>
+		<code><a href="#//api/name/removeDelegate:">+&nbsp;removeDelegate:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/lockoutTime">+&nbsp;lockoutTime</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/passcodeLength">+&nbsp;passcodeLength</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setPasscodeLength:lockoutTime:">+&nbsp;setPasscodeLength:lockoutTime:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/clearPasscodeState">+&nbsp;clearPasscodeState</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setupTimer">+&nbsp;setupTimer</a></code>
-		<span class="tooltip"><p>Initialize the timer</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/removeTimer">+&nbsp;removeTimer</a></code>
-		<span class="tooltip"><p>Unregister and invalidate the timer</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/validateTimer">+&nbsp;validateTimer</a></code>
-		<span class="tooltip"><p>Validate the timer upon app entering the foreground</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/isLockoutEnabled">+&nbsp;isLockoutEnabled</a></code>
-		<span class="tooltip"><p>Check if passcode is enabled.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/inactivityExpired">+&nbsp;inactivityExpired</a></code>
-		<span class="tooltip"><p>Indicates if the inactivity period has expired.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/startActivityMonitoring">+&nbsp;startActivityMonitoring</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/lock">+&nbsp;lock</a></code>
-		<span class="tooltip"><p>Lock the device immediately.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/unlock:">+&nbsp;unlock:</a></code>
-		<span class="tooltip"><p>Un<a href="#//api/name/lock">lock</a> the device</p></span>
+		<code><a href="#//api/name/unlock:action:">+&nbsp;unlock:action:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setIsLocked:">+&nbsp;setIsLocked:</a></code>
-		<span class="tooltip"><p>Toggle the <a href="#//api/name/locked">locked</a> state</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/locked">+&nbsp;locked</a></code>
-		<span class="tooltip"><p>Check if device is locked</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/isPasscodeValid">+&nbsp;isPasscodeValid</a></code>
-		<span class="tooltip"><p>Check if the passcode is valid</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/setPasscode:">+&nbsp;setPasscode:</a></code>
-		<span class="tooltip"><p>Set the passcode</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/setPasscodeLength:">+&nbsp;setPasscodeLength:</a></code>
-		<span class="tooltip"><p>Set the required length of the passcode.</p></span>
+		<code><a href="#//api/name/isPasscodeNeeded">+&nbsp;isPasscodeNeeded</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setCanShowPasscode:">+&nbsp;setCanShowPasscode:</a></code>
-		<span class="tooltip"><p>Show the passcode view. Used by unit tests.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setLockScreenSuccessCallbackBlock:">+&nbsp;setLockScreenSuccessCallbackBlock:</a></code>
-		<span class="tooltip"><p>Sets the callback b<a href="#//api/name/lock">lock</a> to be called on any action that triggers screen <a href="#//api/name/lock">lock</a>, and unlocks
-successfully.  Optional.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/lockScreenSuccessCallbackBlock">+&nbsp;lockScreenSuccessCallbackBlock</a></code>
-		<span class="tooltip"><p>Returns the callback b<a href="#//api/name/lock">lock</a> to be executed on successful screen un<a href="#//api/name/lock">lock</a>.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setLockScreenFailureCallbackBlock:">+&nbsp;setLockScreenFailureCallbackBlock:</a></code>
-		<span class="tooltip"><p>Sets the callback b<a href="#//api/name/lock">lock</a> to be called on any action that triggers screen <a href="#//api/name/lock">lock</a>, and fails to
-verify the passcode to un<a href="#//api/name/lock">lock</a> the screen.  Optional.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/lockScreenFailureCallbackBlock">+&nbsp;lockScreenFailureCallbackBlock</a></code>
-		<span class="tooltip"><p>Returns the callback b<a href="#//api/name/lock">lock</a> to be executed on a screen un<a href="#//api/name/lock">lock</a> failure.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/passcodeViewControllerCreationBlock">+&nbsp;passcodeViewControllerCreationBlock</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setPasscodeViewControllerCreationBlock:">+&nbsp;setPasscodeViewControllerCreationBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/presentPasscodeViewControllerBlock">+&nbsp;presentPasscodeViewControllerBlock</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setPresentPasscodeViewControllerBlock:">+&nbsp;setPresentPasscodeViewControllerBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dismissPasscodeViewControllerBlock">+&nbsp;dismissPasscodeViewControllerBlock</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setDismissPasscodeViewControllerBlock:">+&nbsp;setDismissPasscodeViewControllerBlock:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setPasscodeViewController:">+&nbsp;setPasscodeViewController:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/passcodeViewController">+&nbsp;passcodeViewController</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setForcePasscodeDisplay:">+&nbsp;setForcePasscodeDisplay:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/forcePasscodeDisplay">+&nbsp;forcePasscodeDisplay</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/validatePasscodeAtStartup">+&nbsp;validatePasscodeAtStartup</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setValidatePasscodeAtStartup:">+&nbsp;setValidatePasscodeAtStartup:</a></code>
 	</span>
 	
 	
@@ -394,78 +548,90 @@ verify the passcode to un<a href="#//api/name/lock">lock</a> the screen.  Option
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/timerExpired:">+&nbsp;timerExpired:</a></code>
-		<span class="tooltip"><p>Called when the user activity timer expires.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/presentPasscodeController:">+&nbsp;presentPasscodeController:</a></code>
-		<span class="tooltip"><p>Presents the passcode controller when it&rsquo;s time to create or verify the passcode.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/setPasscodeViewController:">+&nbsp;setPasscodeViewController:</a></code>
-		<span class="tooltip"><p>Sets a retained instance of the current passcode view controller that&rsquo;s displayed.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/passcodeViewController">+&nbsp;passcodeViewController</a></code>
-		<span class="tooltip"><p>Returns the currently displayed passcode view controller, or nil if the passcode view controller
-is not currently displayed.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/passcodeScreenIsPresent">+&nbsp;passcodeScreenIsPresent</a></code>
-		<span class="tooltip"><p>Whether or not the passcode screen is currently displayed.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/hasValidSession">+&nbsp;hasValidSession</a></code>
-		<span class="tooltip"><p>Whether or not the app currently has a valid authenticated session.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/unlockSuccessPostProcessing">+&nbsp;unlockSuccessPostProcessing</a></code>
-		<span class="tooltip"><p>Runs in the event of a successful passcode un<a href="#//api/name/lock">lock</a>.</p></span>
+		<code><a href="#//api/name/unlockSuccessPostProcessing:">+&nbsp;unlockSuccessPostProcessing:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/unlockFailurePostProcessing">+&nbsp;unlockFailurePostProcessing</a></code>
-		<span class="tooltip"><p>Runs in the event that a passcode un<a href="#//api/name/lock">lock</a> attempt failed.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sendPasscodeFlowWillBeginNotification:">+&nbsp;sendPasscodeFlowWillBeginNotification:</a></code>
-		<span class="tooltip"><p>Generate the notification for the beginning of the passcode flow.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/sendPasscodeFlowCompletedNotification:">+&nbsp;sendPasscodeFlowCompletedNotification:</a></code>
-		<span class="tooltip"><p>Generate the notification for the completion of the passcode flow.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setLockoutTimeInternal:">+&nbsp;setLockoutTimeInternal:</a></code>
-		<span class="tooltip"><p>FOR UNIT TESTS ONLY: Sets the lockout time directly, without accompanying business logic.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/readLockoutTimeFromKeychain">+&nbsp;readLockoutTimeFromKeychain</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/writeLockoutTimeToKeychain:">+&nbsp;writeLockoutTimeToKeychain:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/readIsLockedFromKeychain">+&nbsp;readIsLockedFromKeychain</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/writeIsLockedToKeychain:">+&nbsp;writeIsLockedToKeychain:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/upgradeSettings">+&nbsp;upgradeSettings</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/enumerateDelegates:">+&nbsp;enumerateDelegates:</a></code>
 	</span>
 	
 	
@@ -483,6 +649,218 @@ is not currently displayed.</p></span>
 					<div class="section section-methods">
 						<a title="Class Methods" name="class_methods"></a>
 						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
+	<h3 class="subsubtitle method-title">addDelegate:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a delegate to the list of SFSecurityLockout delegates.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)addDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)<em>delegate</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>delegate</em></dt>
+			<dd><p>The delegate to add to the list.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/clearPasscodeState" title="clearPasscodeState"></a>
+	<h3 class="subsubtitle method-title">clearPasscodeState</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resets the passcode state of the app, <em>if</em> there aren&rsquo;t other users with an overriding passcode
+policy.  I.e. passcode state can only be cleared if the current user is the only user who would
+be subject to that policy.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)clearPasscodeState</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dismissPasscodeViewControllerBlock" title="dismissPasscodeViewControllerBlock"></a>
+	<h3 class="subsubtitle method-title">dismissPasscodeViewControllerBlock</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The b<a href="#//api/name/lock">lock</a> used to dismiss the passcode view controller.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SFPasscodeViewControllerPresentationBlock)dismissPasscodeViewControllerBlock</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The b<a href="#//api/name/lock">lock</a> used to dismiss the passcode view controller.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/enumerateDelegates:" title="enumerateDelegates:"></a>
+	<h3 class="subsubtitle method-title">enumerateDelegates:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Runs the given b<a href="#//api/name/lock">lock</a> of code against the list of security lockout delegates.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFSecurityLockoutDelegate&gt; delegate ))<em>block</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The b<a href="#//api/name/lock">lock</a> of code to execute for each delegate.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/forcePasscodeDisplay" title="forcePasscodeDisplay"></a>
+	<h3 class="subsubtitle method-title">forcePasscodeDisplay</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether or not the app is configured to force the display of the passcode screen.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)forcePasscodeDisplay</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>Whether or not the app is configured to force the display of the passcode screen.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
 						
 						<div class="section-method">
 	<a name="//api/name/hasValidSession" title="hasValidSession"></a>
@@ -603,6 +981,42 @@ is not currently displayed.</p></span>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/isPasscodeNeeded" title="isPasscodeNeeded"></a>
+	<h3 class="subsubtitle method-title">isPasscodeNeeded</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Check to see if the passcode screen is needed.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)isPasscodeNeeded</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/isPasscodeValid" title="isPasscodeValid"></a>
 	<h3 class="subsubtitle method-title">isPasscodeValid</h3>
 	
@@ -686,7 +1100,7 @@ is not currently displayed.</p></span>
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (SFLockScreenCallbackBlock)lockScreenFailureCallbackBlock</code></div>
+	<div class="method-subsection method-declaration"><code>+ (SFLockScreenFailureCallbackBlock)lockScreenFailureCallbackBlock</code></div>
 
     
 	
@@ -722,7 +1136,7 @@ is not currently displayed.</p></span>
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (SFLockScreenCallbackBlock)lockScreenSuccessCallbackBlock</code></div>
+	<div class="method-subsection method-declaration"><code>+ (SFLockScreenSuccessCallbackBlock)lockScreenSuccessCallbackBlock</code></div>
 
     
 	
@@ -819,6 +1233,47 @@ is not currently displayed.</p></span>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/passcodeLength" title="passcodeLength"></a>
+	<h3 class="subsubtitle method-title">passcodeLength</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Gets the configured passcode length.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSInteger)passcodeLength</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The minimum passcode length.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/passcodeScreenIsPresent" title="passcodeScreenIsPresent"></a>
 	<h3 class="subsubtitle method-title">passcodeScreenIsPresent</h3>
 	
@@ -885,7 +1340,48 @@ is not currently displayed.</p>
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/passcodeViewControllerCreationBlock" title="passcodeViewControllerCreationBlock"></a>
+	<h3 class="subsubtitle method-title">passcodeViewControllerCreationBlock</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The b<a href="#//api/name/lock">lock</a> used to create the passcode view controller</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The b<a href="#//api/name/lock">lock</a> used to create the passcode view controller</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
 	</div>				
 	
 	
@@ -922,6 +1418,175 @@ is not currently displayed.</p>
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
 		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/presentPasscodeViewControllerBlock" title="presentPasscodeViewControllerBlock"></a>
+	<h3 class="subsubtitle method-title">presentPasscodeViewControllerBlock</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The b<a href="#//api/name/lock">lock</a> used to present the passcode view controller.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (SFPasscodeViewControllerPresentationBlock)presentPasscodeViewControllerBlock</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The b<a href="#//api/name/lock">lock</a> used to present the passcode view controller.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/readIsLockedFromKeychain" title="readIsLockedFromKeychain"></a>
+	<h3 class="subsubtitle method-title">readIsLockedFromKeychain</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Retreives the &ldquo;is locked&rdquo; setting from the keychain.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSNumber *)readIsLockedFromKeychain</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The NSNumber wrapping the BOOL value for &ldquo;is locked&rdquo;, or <code>nil</code> if not set.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/readLockoutTimeFromKeychain" title="readLockoutTimeFromKeychain"></a>
+	<h3 class="subsubtitle method-title">readLockoutTimeFromKeychain</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Retrieves the lockout time value from the keychain.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSNumber *)readLockoutTimeFromKeychain</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>NSNumber wrapping the NSUInteger value for lockout time, or <code>nil</code> if not set.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeDelegate:" title="removeDelegate:"></a>
+	<h3 class="subsubtitle method-title">removeDelegate:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes a delegate from the list of SFSecurityLockout delegates.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)removeDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)<em>delegate</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>delegate</em></dt>
+			<dd><p>The delegate to remove from the list.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
 	</div>				
 	
 	
@@ -1092,6 +1757,100 @@ is not currently displayed.</p>
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/setDismissPasscodeViewControllerBlock:" title="setDismissPasscodeViewControllerBlock:"></a>
+	<h3 class="subsubtitle method-title">setDismissPasscodeViewControllerBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set the b<a href="#//api/name/lock">lock</a> that will dismiss the passcode view controller.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)<em>vcBlock</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>vcBlock</em></dt>
+			<dd><p>The b<a href="#//api/name/lock">lock</a> defined to dismiss the passcode view controller.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setForcePasscodeDisplay:" title="setForcePasscodeDisplay:"></a>
+	<h3 class="subsubtitle method-title">setForcePasscodeDisplay:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether to force the passcode screen to be displayed, despite sanity conditions for whether passcodes
+are configured.  This method is only useful for unit test code, and the value should otherwise be left
+to its default value of NO.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setForcePasscodeDisplay:(BOOL)<em>forceDisplay</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>forceDisplay</em></dt>
+			<dd><p>Whether to force the passcode screen to be displayed.  Default value is NO.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/setIsLocked:" title="setIsLocked:"></a>
 	<h3 class="subsubtitle method-title">setIsLocked:</h3>
 	
@@ -1150,7 +1909,7 @@ verify the passcode to un<a href="#//api/name/lock">lock</a> the screen.  Option
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (void)setLockScreenFailureCallbackBlock:(SFLockScreenCallbackBlock)<em>block</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (void)setLockScreenFailureCallbackBlock:(SFLockScreenFailureCallbackBlock)<em>block</em></code></div>
 
     
 	
@@ -1197,7 +1956,7 @@ successfully.  Optional.</p>
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenCallbackBlock)<em>block</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenSuccessCallbackBlock)<em>block</em></code></div>
 
     
 	
@@ -1207,52 +1966,6 @@ successfully.  Optional.</p>
 		<dl class="argument-def parameter-def">
 			<dt><em>block</em></dt>
 			<dd><p>The b<a href="#//api/name/lock">lock</a> to be executed on successful un<a href="#//api/name/lock">lock</a>.</p></dd>
-		</dl>
-		
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/setLockoutTime:" title="setLockoutTime:"></a>
-	<h3 class="subsubtitle method-title">setLockoutTime:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Set the lockout timer.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>+ (void)setLockoutTime:(NSUInteger)<em>seconds</em></code></div>
-
-    
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>seconds</em></dt>
-			<dd><p>The number of seconds for the timer to wait before locking.</p></dd>
 		</dl>
 		
 	</div>
@@ -1324,18 +2037,19 @@ successfully.  Optional.</p>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/setPasscode:" title="setPasscode:"></a>
-	<h3 class="subsubtitle method-title">setPasscode:</h3>
+	<a name="//api/name/setPasscodeLength:lockoutTime:" title="setPasscodeLength:lockoutTime:"></a>
+	<h3 class="subsubtitle method-title">setPasscodeLength:lockoutTime:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Set the passcode</p>
+		<p>Set the passcode length and lockout time.  This asynchronous method will trigger passcode creation
+or passcode change, when necessary.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (void)setPasscode:(NSString *)<em>passcode</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (void)setPasscodeLength:(NSInteger)<em>newPasscodeLength</em> lockoutTime:(NSUInteger)<em>newLockoutTime</em></code></div>
 
     
 	
@@ -1343,54 +2057,15 @@ successfully.  Optional.</p>
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
 		
 		<dl class="argument-def parameter-def">
-			<dt><em>passcode</em></dt>
-			<dd><p>The passcode to set.</p></dd>
+			<dt><em>newPasscodeLength</em></dt>
+			<dd><p>The new passcode length to configure.  This can only be greater than or equal
+to the currently configured length, to support the most restrictive passcode policy across users.</p></dd>
 		</dl>
 		
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/setPasscodeLength:" title="setPasscodeLength:"></a>
-	<h3 class="subsubtitle method-title">setPasscodeLength:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Set the required length of the passcode.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>+ (void)setPasscodeLength:(NSInteger)<em>passcodeLength</em></code></div>
-
-    
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
 		<dl class="argument-def parameter-def">
-			<dt><em>passcodeLength</em></dt>
-			<dd><p>The required length of the passcode.</p></dd>
+			<dt><em>newLockoutTime</em></dt>
+			<dd><p>The new lockout time to configure.  This can only be less than the currently
+configured time, to support the most restrictive passcode policy across users.</p></dd>
 		</dl>
 		
 	</div>
@@ -1445,7 +2120,145 @@ successfully.  Optional.</p>
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setPasscodeViewControllerCreationBlock:" title="setPasscodeViewControllerCreationBlock:"></a>
+	<h3 class="subsubtitle method-title">setPasscodeViewControllerCreationBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets the b<a href="#//api/name/lock">lock</a> that will create the passcode view controller.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setPasscodeViewControllerCreationBlock:(SFPasscodeViewControllerCreationBlock)<em>vcBlock</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>vcBlock</em></dt>
+			<dd><p>The passcode view controller creation b<a href="#//api/name/lock">lock</a> to use.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setPresentPasscodeViewControllerBlock:" title="setPresentPasscodeViewControllerBlock:"></a>
+	<h3 class="subsubtitle method-title">setPresentPasscodeViewControllerBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets the b<a href="#//api/name/lock">lock</a> that will present the passcode view controller.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)<em>vcBlock</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>vcBlock</em></dt>
+			<dd><p>The b<a href="#//api/name/lock">lock</a> to use to present the passcode view controller.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setValidatePasscodeAtStartup:" title="setValidatePasscodeAtStartup:"></a>
+	<h3 class="subsubtitle method-title">setValidatePasscodeAtStartup:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets whether or not to validate the passcode at app startup.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)setValidatePasscodeAtStartup:(BOOL)<em>validateAtStartup</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>validateAtStartup</em></dt>
+			<dd><p>YES to validate at startup, NO otherwise.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
 	</div>				
 	
 	
@@ -1464,6 +2277,42 @@ successfully.  Optional.</p>
     
 
 	<div class="method-subsection method-declaration"><code>+ (void)setupTimer</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/startActivityMonitoring" title="startActivityMonitoring"></a>
+	<h3 class="subsubtitle method-title">startActivityMonitoring</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Starts monitoring for user activity, to determine activity expiration and passcode screen display.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)startActivityMonitoring</code></div>
 
     
 	
@@ -1524,8 +2373,8 @@ successfully.  Optional.</p>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/unlock:" title="unlock:"></a>
-	<h3 class="subsubtitle method-title">unlock:</h3>
+	<a name="//api/name/unlock:action:" title="unlock:action:"></a>
+	<h3 class="subsubtitle method-title">unlock:action:</h3>
 	
 	
 	
@@ -1535,7 +2384,7 @@ successfully.  Optional.</p>
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (void)unlock:(BOOL)<em>success</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (void)unlock:(BOOL)<em>success</em> action:(SFSecurityLockoutAction)<em>action</em></code></div>
 
     
 	
@@ -1546,6 +2395,11 @@ successfully.  Optional.</p>
 			<dt><em>success</em></dt>
 			<dd><p>Whether the device is being un<a href="#//api/name/locked">locked</a> as the result of a successful passcode
 challenge, as opposed to unlocking to reset the application to to a failed challenge.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>action</em></dt>
+			<dd><p>In a successful challenge, what was the action taken?</p></dd>
 		</dl>
 		
 	</div>
@@ -1607,8 +2461,8 @@ challenge, as opposed to unlocking to reset the application to to a failed chall
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/unlockSuccessPostProcessing" title="unlockSuccessPostProcessing"></a>
-	<h3 class="subsubtitle method-title">unlockSuccessPostProcessing</h3>
+	<a name="//api/name/unlockSuccessPostProcessing:" title="unlockSuccessPostProcessing:"></a>
+	<h3 class="subsubtitle method-title">unlockSuccessPostProcessing:</h3>
 	
 	
 	
@@ -1618,7 +2472,53 @@ challenge, as opposed to unlocking to reset the application to to a failed chall
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (void)unlockSuccessPostProcessing</code></div>
+	<div class="method-subsection method-declaration"><code>+ (void)unlockSuccessPostProcessing:(SFSecurityLockoutAction)<em>action</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>action</em></dt>
+			<dd><p>The action taken, if any.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/upgradeSettings" title="upgradeSettings"></a>
+	<h3 class="subsubtitle method-title">upgradeSettings</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Upgrades settings as part of SFSecurityLockout initialization.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)upgradeSettings</code></div>
 
     
 	
@@ -1637,6 +2537,47 @@ challenge, as opposed to unlocking to reset the application to to a failed chall
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
 		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/validatePasscodeAtStartup" title="validatePasscodeAtStartup"></a>
+	<h3 class="subsubtitle method-title">validatePasscodeAtStartup</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Whether or not to validate the passcode at app startup.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)validatePasscodeAtStartup</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>Whether or not to validate the passcode at app startup.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout.h</code><br />
 	</div>				
 	
 	
@@ -1678,11 +2619,105 @@ challenge, as opposed to unlocking to reset the application to to a failed chall
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/writeIsLockedToKeychain:" title="writeIsLockedToKeychain:"></a>
+	<h3 class="subsubtitle method-title">writeIsLockedToKeychain:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Writes the &ldquo;is locked&rdquo; value to the keychain.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)writeIsLockedToKeychain:(NSNumber *)<em>locked</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>locked</em></dt>
+			<dd><p>The NSNumber wrapping the BOOL value for &ldquo;is locked&rdquo;.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/writeLockoutTimeToKeychain:" title="writeLockoutTimeToKeychain:"></a>
+	<h3 class="subsubtitle method-title">writeLockoutTimeToKeychain:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Writes the lockout time to the keychain.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (void)writeLockoutTimeToKeychain:(NSNumber *)<em>lockoutTime</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>lockoutTime</em></dt>
+			<dd><p>The NSNumber wrapping the NSUInteger value to be written to the keychain.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">SFSecurityLockout+Internal.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -1693,7 +2728,7 @@ challenge, as opposed to unlocking to reset the application to to a failed chall
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-02-28)</span><br />
+						<p><span class="copyright">&copy; 2014 Salesforce.com. All rights reserved. (Last updated: 2014-06-03)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						
