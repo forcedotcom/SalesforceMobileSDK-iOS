@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		821DA3F2193EAF1A0041FE0E /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 821DA3F3193EAF1A0041FE0E /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				821DA3F6193EAF260041FE0E /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		820AB72818E230EC00E25E1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72718E230EC00E25E1D /* Foundation.framework */; };
 		820AB73618E230EC00E25E1D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB73518E230EC00E25E1D /* XCTest.framework */; };
@@ -325,6 +339,7 @@
 			targets = (
 				820AB72318E230EC00E25E1D /* SalesforceSecurity */,
 				820AB73318E230EC00E25E1D /* SalesforceSecurityTests */,
+				821DA3F2193EAF1A0041FE0E /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -339,6 +354,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		821DA3F6193EAF260041FE0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"${PROJECT_NAME}\" \\\n--project-company \"Salesforce.com\" \\\n--company-id \"com.salesforce\" \\\n--output \"${PROJECT_DIR}/../../build/artifacts/doc/${PROJECT_NAME}\" \\\n--install-docset \\\n--logformat xcode \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--merge-categories \\\n--exit-threshold 2 \\\n--docset-platform-family iphoneos \\\n--ignore \"*.m\" \\\n--include \"${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images\" \\\n--ignore \"LoadableCategory.h\" \\\n--index-desc \"${PROJECT_DIR}/readme.md\" \\\n\"${PROJECT_DIR}/${PROJECT_NAME}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		820AB72018E230EC00E25E1D /* Sources */ = {
@@ -546,6 +577,20 @@
 			};
 			name = Release;
 		};
+		821DA3F4193EAF1A0041FE0E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		821DA3F5193EAF1A0041FE0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -575,6 +620,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		821DA3F3193EAF1A0041FE0E /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				821DA3F4193EAF1A0041FE0E /* Debug */,
+				821DA3F5193EAF1A0041FE0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
