@@ -43,7 +43,7 @@ Some of the APIs around user management have changed, as well as the patterns fo
 
 - Logout and login host change notifications have moved into delegate methods.  Your AppDelegate should implement the `SFAuthenticationManagerDelegate` and `SFUserAccountManagerDelegate` delegates, specifically:
     - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` for user logout.
-    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` for login host changes, which effectively change users now.
+    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` for login host changes, which effectively changes users now.
 
 ### Native 2.1 to 2.2 upgrade
 
@@ -87,7 +87,7 @@ Some of the APIs around user management have changed, as well as the patterns fo
     - Setting scopes goes from `[SFAccountManager setScopes:]` to `[SFUserAccountManager sharedInstance].scopes`
 - Logout and login host change notifications have moved into delegate methods.  Your AppDelegate should implement the `SFAuthenticationManagerDelegate` and `SFUserAccountManagerDelegate` delegates, specifically:
     - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` for user logout.
-    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` for login host changes, which effectively change users now.
+    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` for login host changes, which effectively changes users now.
 
 ## 2.0 to 2.1 upgrade
 
