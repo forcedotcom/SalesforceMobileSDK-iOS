@@ -32,8 +32,6 @@
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
 #import "SFHybridViewController.h"
-#import "CDVCommandDelegateImpl.h"
-
 
 
 @implementation SmartStoreTestSuite
@@ -60,38 +58,12 @@
     [super tearDown];
 }
 
-
+- (void)testGetDatabaseSize {
+    [self runTest:@"testGetDatabaseSize"];
+}
 
 - (void)testRegisterRemoveSoup {
     [self runTest:@"testRegisterRemoveSoup"];
-}
-
-- (void)testRemoveFromSoup {
-    [self runTest:@"testRemoveFromSoup"];
-}
-
-- (void)testUpsertSoupEntries {
-    [self runTest:@"testUpsertSoupEntries"];
-}
-
-- (void)testUpsertSoupEntriesWithExternalId {
-    [self runTest:@"testUpsertSoupEntriesWithExternalId"];
-}
-
-- (void)testRetrieveSoupEntries {
-    [self runTest:@"testRetrieveSoupEntries"];
-}
-
-- (void)testQuerySoup {
-    [self runTest:@"testQuerySoup"];
-}
-
-- (void)testQuerySoupDescending {
-    [self runTest:@"testQuerySoupDescending"];
-}
-
-- (void)testManipulateCursor {
-    [self runTest:@"testManipulateCursor"];
 }
 
 - (void)testRegisterBogusSoup {
@@ -102,10 +74,34 @@
     [self runTest:@"testRegisterSoupNoIndices"];
 }
 
+- (void)testUpsertSoupEntries {
+    [self runTest:@"testUpsertSoupEntries"];
+}
+
+- (void)testUpsertSoupEntriesWithExternalId {
+    [self runTest:@"testUpsertSoupEntriesWithExternalId"];
+}
+    
 - (void)testUpsertToNonexistentSoup {
     [self runTest:@"testUpsertToNonexistentSoup"];
 }
 
+- (void)testRetrieveSoupEntries {
+    [self runTest:@"testRetrieveSoupEntries"];
+}
+
+- (void)testRemoveFromSoup {
+    [self runTest:@"testRemoveFromSoup"];
+}
+
+- (void)testQuerySoup {
+    [self runTest:@"testQuerySoup"];
+}
+
+- (void)testQuerySoupDescending {
+    [self runTest:@"testQuerySoupDescending"];
+}
+    
 - (void)testQuerySoupBadQuerySpec {
     [self runTest:@"testQuerySoupBadQuerySpec"];
 }
@@ -118,10 +114,21 @@
     [self runTest:@"testQuerySoupBeginKeyNoEndKey"];
 }
 
+- (void)testManipulateCursor {
+    [self runTest:@"testManipulateCursor"];
+}
+
+- (void)testMoveCursorToPreviousPageFromFirstPage {
+    [self runTest:@"testMoveCursorToPreviousPageFromFirstPage"];
+}
+
+- (void)testMoveCursorToNextPageFromLastPage {
+    [self runTest:@"testMoveCursorToNextPageFromLastPage"];
+}
+
 - (void)testArbitrarySoupNames {
     [self runTest:@"testArbitrarySoupNames"];
 }
-
 
 - (void)testQuerySpecFactories {
     [self runTest:@"testQuerySpecFactories"];
@@ -150,7 +157,7 @@
 - (void)testIntegerQuerySpec {
     [self runTest:@"testIntegerQuerySpec"];
 }
-
+    
 - (void)testSmartQueryWithCount {
     [self runTest:@"testSmartQueryWithCount"];
 }
@@ -159,5 +166,33 @@
     [self runTest:@"testSmartQueryWithSpecialFields"];
 }
 
+- (void)testGetSoupIndexSpecs {
+    [self runTest:@"testGetSoupIndexSpecs"];
+}
+    
+- (void)testGetSoupIndexSpecsWithBogusSoupName {
+    [self runTest:@"testGetSoupIndexSpecsWithBogusSoupName"];
+}
+    
+
+- (void)testAlterSoupNoReIndexing {
+    [self runTest:@"testAlterSoupNoReIndexing"];
+}
+
+- (void)testAlterSoupWithReIndexing {
+    [self runTest:@"testAlterSoupWithReIndexing"];
+}
+
+- (void)testAlterSoupWithBogusSoupName {
+    [self runTest:@"testAlterSoupWithBogusSoupName"];
+}
+
+- (void)testReIndexSoup {
+    [self runTest:@"testReIndexSoup"];
+}
+
+- (void)testClearSoup {
+    [self runTest:@"testClearSoup"];
+}
 
 @end

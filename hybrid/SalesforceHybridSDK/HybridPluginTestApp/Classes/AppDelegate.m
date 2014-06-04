@@ -25,7 +25,6 @@
 #import "AppDelegate.h"
 #import "SFHybridViewConfig.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import "CDVCommandDelegateImpl.h"
 #import "SFTestRunnerPlugin.h"
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
@@ -180,7 +179,6 @@
     }
     
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
-    self.viewController.useSplashScreen = NO;
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }

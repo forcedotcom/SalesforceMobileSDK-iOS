@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,12 +25,12 @@
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
-#import "CDVCommandDelegateImpl.h"
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import "SFHybridViewController.h"
-#import "CDVPluginResult.h"
-#import "CDVInvokedUrlCommand.h"
+#import <Cordova/CDVPluginResult.h>
+#import <Cordova/CDVInvokedUrlCommand.h>
 
 //NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
@@ -46,7 +45,8 @@ NSString * const kIndexesArg          = @"indexes";
 NSString * const kQuerySpecArg        = @"querySpec";
 NSString * const kEntriesArg          = @"entries";
 NSString * const kExternalIdPathArg   = @"externalIdPath";
-
+NSString * const kPathsArg            = @"paths";
+NSString * const kReIndexDataArg      = @"reIndexData";
 
 
 @interface SFSmartStorePlugin() 
@@ -320,6 +320,90 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
     [self log:SFLogLevelDebug format:@"pgMoveCursorToPageIndex returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 
+- (void)pgClearSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgClearSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    [self.store clearSoup:soupName];
+    
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
 
+- (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgGetDatabaseSize" withArguments:command.arguments];
+    long databaseSize = [self.store getDatabaseSize];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize]; // XXX cast to int will cause issues if database is more than 2GB
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+
+- (void)pgAlterSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgAlterSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexSpecs = [argsDict nonNullObjectForKey:kIndexesArg];
+    BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
+
+    BOOL alterOk = [self.store alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+    if (alterOk) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
+}
+
+- (void)pgReIndexSoup:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgReIndexSoup" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexPaths = [argsDict nonNullObjectForKey:kPathsArg];
+
+    BOOL regOk = [self.store reIndexSoup:soupName withIndexPaths:indexPaths];
+    if (regOk) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
+}
+
+- (void)pgShowInspector:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgShowInspector" withArguments:command.arguments];
+    [SFSmartStoreInspectorViewController present];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+}
+    
+- (void)pgGetSoupIndexSpecs:(CDVInvokedUrlCommand *)command
+{
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgGetSoupIndexes" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+    NSArray *indexSpecs = [self.store indicesForSoup:soupName];
+    if ([indexSpecs count] > 0) {
+        NSMutableArray *indexSpecsAsDicts = [NSMutableArray array];
+        for (id indexSpec in indexSpecs) {
+            [indexSpecsAsDicts addObject:[indexSpec asDictionary]];
+        }
+        [self writeSuccessArrayToJsRealm:indexSpecsAsDicts callbackId:callbackId];
+    } else {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        [self writeErrorResultToJsRealm:result callbackId:callbackId];
+    }
+}
 
 @end
