@@ -143,6 +143,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                                                 this->_dataProtectionKnownAvailable = NO;
                                             }];
         
+        _soupNameToTableName = [[NSMutableDictionary alloc] init];
         
         _indexSpecsBySoup = [[NSMutableDictionary alloc] init];
         
@@ -166,6 +167,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (void)dealloc {
     [self log:SFLogLevelDebug format:@"dealloc store: '%@'",_storeName];
     [self.storeQueue close];
+    SFRelease(_soupNameToTableName);
     SFRelease(_indexSpecsBySoup);
     SFRelease(_smartSqlToSql);
     
@@ -622,25 +624,29 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-#pragma mark - Soup maniupulation methods
+#pragma mark - Soup manipulation methods
 
 - (NSString*)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db {
-    NSString *result  = nil;
+    NSString *soupTableName = [_soupNameToTableName objectForKey:soupName];
     
-    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_NAMES_TABLE,SOUP_NAME_COL];
-    //    [self log:SFLogLevelDebug format:@"tableName query: %@",sql];
-    FMResultSet *frs = [db executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
-    
-    if ([frs next]) {
-        int colIdx = [frs columnIndexForName:ID_COL];
-        long soupId = [frs longForColumnIndex:colIdx];
-        result = [self tableNameBySoupId:soupId];
-    } else {
-        [self log:SFLogLevelDebug format:@"No table for: '%@'",soupName];
+    if (nil == soupTableName) {
+        NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_NAMES_TABLE,SOUP_NAME_COL];
+        //    [self log:SFLogLevelDebug format:@"tableName query: %@",sql];
+        FMResultSet *frs = [db executeQuery:sql withArgumentsInArray:[NSArray arrayWithObject:soupName]];
+        
+        if ([frs next]) {
+            int colIdx = [frs columnIndexForName:ID_COL];
+            long soupId = [frs longForColumnIndex:colIdx];
+            soupTableName = [self tableNameBySoupId:soupId];
+            
+            // update cache
+            [_soupNameToTableName setObject:soupTableName forKey:soupName];
+        } else {
+            [self log:SFLogLevelDebug format:@"No table for: '%@'",soupName];
+        }
+        [frs close];
     }
-    [frs close];
-    
-    return result;
+    return soupTableName;
 }
 
 
@@ -749,7 +755,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     BOOL insertSucceeded = [self insertIntoTable:SOUP_NAMES_TABLE values:soupMapValues withDb:db];
     if (insertSucceeded) {
-        soupTableName = [self tableNameForSoup:soupName withDb:db];
+        soupTableName = [self tableNameBySoupId:[db lastInsertRowId]];
     }
     
     if (nil == soupTableName) {
