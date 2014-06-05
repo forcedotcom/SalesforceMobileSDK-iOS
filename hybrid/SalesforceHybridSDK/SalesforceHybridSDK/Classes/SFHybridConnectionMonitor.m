@@ -25,11 +25,6 @@
 #import "SFHybridConnectionMonitor.h"
 #import "SFReachability.h"
 
-@interface SFHybridConnectionMonitor (PrivateMethods)
-- (void)updateOnlineStatus;
-- (void)sendPluginResult;
-@end
-
 @implementation SFHybridConnectionMonitor
 
 @synthesize connectionType, internetReach;
@@ -97,7 +92,6 @@
             self.connectionType = [self w3cConnectionTypeFor:reachability];
         }
     }
-    [self sendPluginResult];
 }
 
 - (void)updateConnectionType:(NSNotification*)note
