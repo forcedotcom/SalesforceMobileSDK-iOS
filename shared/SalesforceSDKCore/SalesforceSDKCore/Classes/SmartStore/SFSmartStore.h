@@ -94,7 +94,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
     
     FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
-    
+
+    NSMutableDictionary *_soupNameToTableName;
     NSMutableDictionary *_indexSpecsBySoup;
     NSMutableDictionary *_smartSqlToSql;
 }
