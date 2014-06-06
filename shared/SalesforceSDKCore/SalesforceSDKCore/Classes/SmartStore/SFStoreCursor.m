@@ -113,7 +113,7 @@
         if (nil != _currentPageIndex) {
             if ([self.totalPages integerValue] > 0) {
                 NSUInteger pageIdx = [_currentPageIndex integerValue];
-                NSArray *newEntries = [_store queryWithQuerySpec:self.querySpec pageIndex:pageIdx];
+                NSArray *newEntries = [_store queryWithQuerySpec:self.querySpec pageIndex:pageIdx error:nil];
                 self.currentPageOrderedEntries = newEntries;
             } else {
                 self.currentPageOrderedEntries = [NSArray array];

@@ -167,4 +167,30 @@
  */
 - (NSArray*) getLongOperations;
 
+
+/**
+  Execute query
+  Log errors and throw exception in case of error
+ */
+- (FMResultSet*) executeQueryThrows:(NSString*)sql withDb:(FMDatabase*)db;
+
+/**
+ Execute query
+ Log errors and throw exception in case of error
+ */
+- (FMResultSet*) executeQueryThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db;
+
+/**
+ Execute update
+ Log errors and throw exception in case of error
+ */
+- (void) executeUpdateThrows:(NSString*)sql withDb:(FMDatabase*)db;
+
+/**
+ Execute update
+ Log errors and throw exception in case of error
+ */
+- (void) executeUpdateThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db;
+
+
 @end

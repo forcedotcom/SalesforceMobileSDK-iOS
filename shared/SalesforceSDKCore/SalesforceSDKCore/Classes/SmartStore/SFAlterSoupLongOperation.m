@@ -287,8 +287,7 @@
     if (newStatus == kLastStep) {
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %ld",
                                LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
-        
-        [db executeUpdate:sql]; // TODO change to [self.store executeUpdate:sql]
+        [self.store executeUpdateThrows:sql withDb:db];
     }
     else {
         NSNumber* now = [self.store currentTimeInMilliseconds];

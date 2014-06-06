@@ -130,17 +130,15 @@ static NSUInteger   const kLabelTag              = 99;
     pageSize = (pageSize <= 0 && ![self.pageSizeField.text isEqualToString:@"0"] ? 10 : pageSize);
     NSInteger pageIndex = [self.pageIndexField.text integerValue];
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-    @try {
-        NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex];
-        if ([results count] == 0) {
-            [self showAlert:[SFSDKResourceUtils localizedString:@"inspectorNoRowsReturned"]];
-        }
-        self.results = results;
+    NSError* error = nil;
+    NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex error:&error];
+    if (error) {
+        [self showAlert:[error localizedDescription]];
     }
-    @catch (NSException *exception) {
-        [self showAlert:[exception description]];
+    else if ([results count] == 0) {
+        [self showAlert:[SFSDKResourceUtils localizedString:@"inspectorNoRowsReturned"]];
     }
-    
+    self.results = results;
 }
 
 - (void) showAlert:(NSString*)message
