@@ -105,8 +105,8 @@ static NSUInteger   const kLabelTag              = 99;
 {
     if (_results != results) {
         _results = results;
-        _countColumns = _results && _results[0] ? [_results[0] count] : 0;
         _countRows = _results ? [_results count] : 0;
+        _countColumns = _countRows > 0 ? [_results[0] count] : 0;
         dispatch_async(dispatch_get_main_queue(), ^
                        {
                            [self.resultGrid reloadData];
@@ -131,12 +131,21 @@ static NSUInteger   const kLabelTag              = 99;
     NSInteger pageIndex = [self.pageIndexField.text integerValue];
     SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     @try {
-        self.results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex];
+        NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex];
+        if ([results count] == 0) {
+            [self showAlert:[SFSDKResourceUtils localizedString:@"inspectorNoRowsReturned"]];
+        }
+        self.results = results;
     }
     @catch (NSException *exception) {
-        [[[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorQueryFailed"] message:[exception description] delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
+        [self showAlert:[exception description]];
     }
     
+}
+
+- (void) showAlert:(NSString*)message
+{
+    [[[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorQueryFailed"] message:message delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
 }
 
 - (void) soupsButtonClicked
@@ -145,7 +154,7 @@ static NSUInteger   const kLabelTag              = 99;
     NSArray* names = [store allSoupNames];
     
     if ([names count] > 10) {
-        self.queryField.text = @"SELECT soupName from soup_names";
+        self.queryField.text = @"SELECT soupName from soup_nameSFs";
     }
     else {
         NSMutableString* q = [NSMutableString string];
