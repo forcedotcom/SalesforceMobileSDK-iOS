@@ -281,22 +281,21 @@
  Update row in long operations status table for on-going alter soup operation
  Delete row if newStatus is AlterStatus.LAST
  @param newStatus
- @return YES if successful
  */
-- (BOOL) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
+- (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
 {
     if (newStatus == kLastStep) {
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %ld",
                                LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
         
-        return [db executeUpdate:sql];
+        [db executeUpdate:sql]; // TODO change to [self.store executeUpdate:sql]
     }
     else {
         NSNumber* now = [self.store currentTimeInMilliseconds];
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
         values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
         values[LAST_MODIFIED_COL] = now;
-        return [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId] withDb:db];
+        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId] withDb:db];
     }
 }
 
