@@ -48,8 +48,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
         || [smartSqlLowerCase hasPrefix:@"update"]
         || [smartSqlLowerCase hasPrefix:@"delete"]) {
         
-        NSLog(@"Only SELECT are supported");
-        return nil;
+        @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:@"Only SELECT are supported" userInfo:nil];
     }
     
     // Replacing {soupName} and {soupName:path}
