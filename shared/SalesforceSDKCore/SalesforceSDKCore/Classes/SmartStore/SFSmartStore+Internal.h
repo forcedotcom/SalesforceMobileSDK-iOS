@@ -63,9 +63,8 @@
  @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
  @param soupTableName The name of the table to use for the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return YES if the soup registered OK
  */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
+- (void)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
@@ -94,9 +93,8 @@
  @param tableName The table to insert the data into.
  @param map A dictionary of key-value pairs to be inserted into table.
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return YES if the insert was successful, NO otherwise.
  */
-- (BOOL)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map withDb:(FMDatabase*)db;
+- (void)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map withDb:(FMDatabase*)db;
 
 /**
  Helper method to update existing values in a table.
@@ -104,9 +102,8 @@
  @param values The column name/value mapping to update.
  @param entryId The ID column used to determine what to update.
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return YES if the update was successful, NO otherwise.
  */
-- (BOOL)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*)db;
+- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*)db;
 
 
 /**
