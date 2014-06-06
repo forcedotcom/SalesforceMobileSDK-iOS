@@ -200,21 +200,22 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     
-    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil];
-    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning: %@", cursor];
-    
-    if (nil != cursor) {
+    @try {
+        SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil];
+        [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning: %@", cursor];
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
         [self log:SFLogLevelInfo format:@"pgRunSmartQuery retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
-    } else {
+    }
+    @catch (NSException *exception) {
         [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
-    
-    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning after %f secs.", -[startTime timeIntervalSinceNow]];
+    @finally {
+        [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning after %f secs.", -[startTime timeIntervalSinceNow]];
+    }
 }
 
 
