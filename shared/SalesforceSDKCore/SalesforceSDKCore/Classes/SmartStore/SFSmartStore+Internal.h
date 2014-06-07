@@ -64,20 +64,20 @@
  @param soupTableName The name of the table to use for the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
+- (void)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName db:(FMDatabase*) db;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return The soup table name from SOUP_NAMES_TABLE, based on soup name.
  */
-- (NSString *)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db;
+- (NSString *)tableNameForSoup:(NSString*)soupName db:(FMDatabase*) db;
 
 /**
  @param soupName the name of the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return NSArray of SFSoupIndex for the given soup
  */
-- (NSArray*)indicesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;
+- (NSArray*)indicesForSoup:(NSString*)soupName db:(FMDatabase *)db;
 
 /**
  Helper method re-index a soup.
@@ -86,7 +86,7 @@
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return YES if the insert was successful, NO otherwise.
  */
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths withDb:(FMDatabase*)db;
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths db:(FMDatabase*)db;
 
 /**
  Helper method to insert values into an arbitrary table.
@@ -94,7 +94,7 @@
  @param map A dictionary of key-value pairs to be inserted into table.
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map withDb:(FMDatabase*)db;
+- (void)insertIntoTable:(NSString *)tableName values:(NSDictionary *)map db:(FMDatabase*)db;
 
 /**
  Helper method to update existing values in a table.
@@ -103,7 +103,7 @@
  @param entryId The ID column used to determine what to update.
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*)db;
+- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId db:(FMDatabase*)db;
 
 
 /**
@@ -122,14 +122,14 @@
                       limit:(NSString*)limit
                 whereClause:(NSString*)whereClause
                   whereArgs:(NSArray*)whereArgs
-                      withDb:(FMDatabase*)db;
+                          db:(FMDatabase*)db;
 
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return The map of an indexSpec path to a column name from SOUP_INDEX_MAP_TABLE.
  */
-- (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase*)db;
+- (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName db:(FMDatabase*)db;
 
 /**
  Similar to System.currentTimeMillis: time in ms since Jan 1 1970
@@ -172,25 +172,25 @@
   Execute query
   Log errors and throw exception in case of error
  */
-- (FMResultSet*) executeQueryThrows:(NSString*)sql withDb:(FMDatabase*)db;
+- (FMResultSet*) executeQueryThrows:(NSString*)sql db:(FMDatabase*)db;
 
 /**
  Execute query
  Log errors and throw exception in case of error
  */
-- (FMResultSet*) executeQueryThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db;
+- (FMResultSet*) executeQueryThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments db:(FMDatabase*)db;
 
 /**
  Execute update
  Log errors and throw exception in case of error
  */
-- (void) executeUpdateThrows:(NSString*)sql withDb:(FMDatabase*)db;
+- (void) executeUpdateThrows:(NSString*)sql db:(FMDatabase*)db;
 
 /**
  Execute update
  Log errors and throw exception in case of error
  */
-- (void) executeUpdateThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db;
+- (void) executeUpdateThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments db:(FMDatabase*)db;
 
 
 @end

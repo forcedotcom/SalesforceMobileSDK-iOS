@@ -41,7 +41,7 @@
  @param store The smart store.
  @param The sql query.
  */
-- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store withDb:(FMDatabase*)db;
+- (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store db:(FMDatabase*)db;
 
 @end
 

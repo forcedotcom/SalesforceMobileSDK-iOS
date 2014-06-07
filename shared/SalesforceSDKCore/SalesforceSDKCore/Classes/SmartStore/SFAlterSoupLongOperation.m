@@ -54,8 +54,8 @@
         _reIndexData = reIndexData;
         _afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            _soupTableName = [store tableNameForSoup:soupName withDb:db];
-            _rowId = [self createLongOperationDbRowWithDb:db];
+            _soupTableName = [store tableNameForSoup:soupName db:db];
+            _rowId = [self createLongOperationDbRowdb:db];
         }];
     }
     return self;
@@ -140,7 +140,7 @@
         [db executeUpdate:sql];
         
         // Update row in alter status table
-        [self updateLongOperationDbRow:SFAlterSoupStepRenameOldSoupTable withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepRenameOldSoupTable db:db];
     }];
 }
 
@@ -162,7 +162,7 @@
         [db executeUpdate:sql];
         
         // Update row in alter status table
-        [self updateLongOperationDbRow:SFAlterSoupStepDropOldIndexes withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepDropOldIndexes db:db];
         
         // Remove soup from cache
         [self.store removeFromCache:self.soupName];
@@ -176,10 +176,10 @@
 - (void) registerSoupUsingTableName
 {
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [self.store registerSoup:self.soupName withIndexSpecs:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES] withSoupTableName:self.soupTableName withDb:db];
+        [self.store registerSoup:self.soupName withIndexSpecs:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES] withSoupTableName:self.soupTableName db:db];
         
         // Update row in alter status table -auto commit
-        [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName db:db];
     }];
 }
 
@@ -191,14 +191,14 @@
 {
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // We need column names in the index specs
-        _indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
+        _indexSpecs = [self.store indicesForSoup:self.soupName db:db];
 		
         // Move data (core columns + indexed paths that we are still indexing)
         NSString* copySql = [self computeCopyTableStatement];
         [db executeUpdate:copySql];
         
         // Update row in alter status table
-        [self updateLongOperationDbRow:SFAlterSoupStepCopyTable withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepCopyTable db:db];
     }];
 }
 
@@ -224,10 +224,10 @@
         }
         
         // Re-index soup
-        [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths withDb:db];
+        [self.store reIndexSoup:self.soupName withIndexPaths:indexPaths db:db];
         
         // Update row in alter status table
-        [self updateLongOperationDbRow:SFAlterSoupStepReIndexSoup withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepReIndexSoup db:db];
          
     }];
 }
@@ -244,7 +244,7 @@
         [db executeUpdate:sql];
         
         // Update status row - auto commit
-        [self updateLongOperationDbRow:SFAlterSoupStepDropOldTable withDb:db];
+        [self updateLongOperationDbRow:SFAlterSoupStepDropOldTable db:db];
     }];
 }
 
@@ -253,7 +253,7 @@
  Create row in long operations status table for a new alter soup operation
  @return row id
  */
-- (long) createLongOperationDbRowWithDb:(FMDatabase*) db
+- (long) createLongOperationDbRowdb:(FMDatabase*) db
 {
     NSNumber* now = [self.store currentTimeInMilliseconds];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
@@ -262,7 +262,7 @@
     values[STATUS_COL] = [NSNumber numberWithInt:SFAlterSoupStepStarting];
     values[CREATED_COL] = now;
     values[LAST_MODIFIED_COL] = now;
-    [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values withDb:db];
+    [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values db:db];
     return [db lastInsertRowId];
 }
 
@@ -282,19 +282,19 @@
  Delete row if newStatus is AlterStatus.LAST
  @param newStatus
  */
-- (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
+- (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus db:(FMDatabase*)db
 {
     if (newStatus == kLastStep) {
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %ld",
                                LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
-        [self.store executeUpdateThrows:sql withDb:db];
+        [self.store executeUpdateThrows:sql db:db];
     }
     else {
         NSNumber* now = [self.store currentTimeInMilliseconds];
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
         values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
         values[LAST_MODIFIED_COL] = now;
-        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId] withDb:db];
+        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId] db:db];
     }
 }
 
