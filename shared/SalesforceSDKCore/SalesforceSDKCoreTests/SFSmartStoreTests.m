@@ -770,7 +770,7 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     __block NSString* soupTableName;
     [_store.storeQueue inDatabase:^(FMDatabase *db) {
-        soupTableName = [_store tableNameForSoup:kTestSoupName db:db];
+        soupTableName = [_store tableNameForSoup:kTestSoupName withDb:db];
     }];
 
     // Populate soup
@@ -812,7 +812,7 @@ NSString * const kTestSoupName   = @"testSoup";
      
         // Check data
         [_store.storeQueue inDatabase:^(FMDatabase *db) {
-            FMResultSet* frs = [_store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil db:db];
+            FMResultSet* frs = [_store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
             [self checkRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
             [self checkRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
             STAssertFalse([frs next], @"Only two rows should have been returned");
