@@ -183,18 +183,6 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
 /**
  Search for entries matching the querySpec
-
- @param querySpec A querySpec as a dictionary
- @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
- @param error Sets/returns any error generated as part of the process.
-
- @return A cursor
- */
-- (SFStoreCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName error:(NSError **)error;
-
-
-/**
- Search for entries matching the querySpec
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)

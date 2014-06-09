@@ -27,6 +27,7 @@
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import "SFHybridViewController.h"
 #import <Cordova/CDVPluginResult.h>
@@ -171,22 +172,21 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"pgQuerySoup" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
-    NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
-    [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpec];
-    
-    NSError* error = nil;
-    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:soupName error:&error];
-    [self log:SFLogLevelDebug format:@"pgQuerySoup returning cursor: %@", cursor];
+    NSString *soupName = [argsDict objectForKey:kSoupNameArg];
+    NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
+    SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
+    [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
 
-    if (!error) {
-        //cache this cursor for later paging
+    NSError* error;
+    SFStoreCursor* cursor = [self runQuery:querySpec error:&error];
+    if (cursor) {
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
-        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        [self log:SFLogLevelInfo format:@"pgQuerySoup retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
-    } else {
+        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];
+    }
+    else {
         [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        CDVPluginResult *result;
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
@@ -195,30 +195,27 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 
 - (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command
 {
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRunSmartQuery" withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
-    
-    NSError* error = nil;
-    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil error:&error];
-    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning: %@", cursor];
-    
-    if (!error) {
-        //cache this cursor for later paging
-        [self.cursorCache setObject:cursor forKey:cursor.cursorId];
-        [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
-        [self log:SFLogLevelInfo format:@"pgRunSmartQuery retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
-    }
-    else {
-        [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
-        [self writeErrorResultToJsRealm:result callbackId:callbackId];
-    }
-    [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning after %f secs.", -[startTime timeIntervalSinceNow]];
+    [self pgQuerySoup:command];
 }
 
+- (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error
+{
+    if (!querySpec) {
+        // XXX we could populate error
+        return nil;
+    }
+    
+    NSUInteger totalEntries = [self.store countWithQuerySpec:querySpec error:error];
+    if (*error) {
+        return nil;
+    }
+    
+    NSArray* firstPageEntries = (totalEntries > 0
+                                 ? [self.store queryWithQuerySpec:querySpec pageIndex:0 error:error]
+                                 : [NSArray array]);
+    
+    return [[SFStoreCursor alloc] initWithStore:self.store querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
+}
 
 - (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command
 {
