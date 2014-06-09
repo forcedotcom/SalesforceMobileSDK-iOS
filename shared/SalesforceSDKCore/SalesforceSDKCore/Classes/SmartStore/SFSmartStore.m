@@ -1412,7 +1412,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             NSString *soupElt = [frs stringForColumn:SOUP_COL];
             NSDictionary *entry = [SFJsonUtils objectFromJSONString:soupElt];
             NSMutableDictionary *colVals = [NSMutableDictionary dictionary];
-            
             //build up the set of index column values for this row
             for (NSString *indexPath in indexPaths) {
                 SFSoupIndex *idx = mapIndexSpecs[indexPath];
