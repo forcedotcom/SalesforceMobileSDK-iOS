@@ -79,10 +79,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
 
 @class FMDatabaseQueue;
-@class SFStoreCursor;
 @class SFQuerySpec;
 @class SFUserAccount;
-
 
 
 @interface SFSmartStore : NSObject {
@@ -167,7 +165,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  Either creates a new soup or returns an existing soup.
  
  @param soupName The name of the soup to register
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param indexSpecs Array of one ore more SFSoupIndex objects
  @return YES if the soup registered OK
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
@@ -264,7 +262,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  Alter soup indexes
 
  @param soupName The name of the soup to alter
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries to replace existing index specs
+ @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs
  @param reIndexData pass true if you want existing records to be re-indexed for new index specs
  @return YES if the soup got altered OK
  */
