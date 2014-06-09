@@ -154,7 +154,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 self = nil;
             }
         } else {
-            if (![self openStoreDatabase]) {
+            if (![self subsequentTimesStoreDatabaseSetup]) {
                 self = nil;
             }
         }
@@ -178,7 +178,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     SFRelease(_dataProtectUnavailObserverToken);
 }
 
-
+// Called when first setting up the database
 - (BOOL)firstTimeStoreDatabaseSetup {
     BOOL result = NO;
     NSError *createErr = nil, *protectErr = nil;
@@ -212,6 +212,21 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
+    return result;
+}
+
+// Called when opening a database setup previously
+- (BOOL)subsequentTimesStoreDatabaseSetup {
+
+    BOOL result = NO;
+    if ([self openStoreDatabase]) {
+        // like the onUpgrade for android - create long operations table if needed (if db was created with sdk 2.2 or before)
+        [self createLongOperationsStatusTable];
+        // like the onOpen for android - running interrupted long operations if any
+        [self resumeLongOperations];
+        // good to go
+        result = YES;
+    }
     return result;
 }
 
