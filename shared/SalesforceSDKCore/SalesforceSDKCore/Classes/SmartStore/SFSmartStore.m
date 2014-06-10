@@ -32,7 +32,6 @@
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"
-#import "SFStoreCursor.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSecurity/SFPasscodeManager.h>
@@ -856,8 +855,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     
     for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
-        NSDictionary *rawIndexSpec = [indexSpecs objectAtIndex:i];
-        SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithDictionary:rawIndexSpec];
+        SFSoupIndex *indexSpec = (SFSoupIndex*) [indexSpecs objectAtIndex:i];
         
         // for creating the soup table itself in the store db
         NSString *columnName = [NSString stringWithFormat:@"%@_%lu",soupTableName,(unsigned long)i];
@@ -1038,10 +1036,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     // SQL
     NSString* countSql = [self convertSmartSql:querySpec.countSmartSql withDb:db];
     [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
-    //    NSString* sql = [self convertSmartSql: querySpec.smartSql withDb:db];
-    //    NSString* countSql = [[NSArray arrayWithObjects:@"SELECT COUNT(*) FROM (", sql, @") ", nil] componentsJoinedByString:@""];
-    [self log:SFLogLevelDebug format:@"countWithQuerySpec: countSql:%@ \n", countSql];
-    
+
     // Args
     NSArray* args = [querySpec bindsForQuerySpec];
     
@@ -1116,39 +1111,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     return result;
 }
-
-- (SFStoreCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName error:(NSError**)error
-{
-    __block SFStoreCursor* result;
-    [self inDatabase:^(FMDatabase*  db) {
-        result = [self queryWithQuerySpec:spec withSoupName:targetSoupName withDb:db];
-    } error:error];
-    return result;
-}
-
-- (SFStoreCursor *)queryWithQuerySpec:(NSDictionary *)spec  withSoupName:(NSString*)targetSoupName withDb:(FMDatabase*)db
-{
-    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:spec withSoupName:targetSoupName];
-    if (nil == querySpec) {
-        // Problem already logged
-        return nil;
-    }
-    
-    NSString* sql = [self convertSmartSql:querySpec.smartSql withDb:db];
-    if (nil == sql) {
-        // Problem already logged
-        return nil;
-    }
-    
-    NSUInteger totalEntries = [self  countWithQuerySpec:querySpec withDb:db];
-    NSArray* firstPageEntries = (totalEntries > 0
-                                 ? [self queryWithQuerySpec:querySpec pageIndex:0 withDb:db]
-                                 : [NSArray array]);
-    SFStoreCursor *result = [[SFStoreCursor alloc] initWithStore:self querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
-    
-    return result;
-}
-
 
 - (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds
 {

@@ -25,6 +25,7 @@
 #import "SFSmartSqlTests.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
+#import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import "SFJsonUtils.h"
 
@@ -58,22 +59,24 @@ NSString* const kName                 = @"name";
     
     // Employees soup
     [_store registerSoup:kEmployeesSoup                              // should be TABLE_1
-          withIndexSpecs:[NSArray arrayWithObjects:
-                                  [self createStringIndexSpec:kFirstName],  
-                                  [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
-                                  [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
-                                  [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
-                                  [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
-                                  [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_4
-                                  nil]];
+          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
+                          [NSArray arrayWithObjects:
+                           [self createStringIndexSpec:kFirstName],
+                           [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
+                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
+                           [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
+                           [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
+                           [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_4
+                           nil]]];
 
     // Departments soup
     [_store registerSoup:kDepartmentsSoup                            // should be TABLE_2
-          withIndexSpecs:[NSArray arrayWithObjects:
-                                  [self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
-                                  [self createStringIndexSpec:kName],        // should be TABLE_2_1
-                                  [self createIntegerIndexSpec:kBudget],     // should be TABLE_2_2
-                                  nil]];
+          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
+                          [NSArray arrayWithObjects:
+                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
+                           [self createStringIndexSpec:kName],        // should be TABLE_2_1
+                           [self createIntegerIndexSpec:kBudget],     // should be TABLE_2_2
+                           nil]]];
 }
 
 - (void) tearDown

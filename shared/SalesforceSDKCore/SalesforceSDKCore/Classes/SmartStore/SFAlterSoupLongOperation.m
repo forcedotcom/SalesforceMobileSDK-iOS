@@ -176,7 +176,7 @@
 - (void) registerSoupUsingTableName
 {
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [self.store registerSoup:self.soupName withIndexSpecs:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES] withSoupTableName:self.soupTableName withDb:db];
+        [self.store registerSoup:self.soupName withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
         
         // Update row in alter status table -auto commit
         [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName withDb:db];

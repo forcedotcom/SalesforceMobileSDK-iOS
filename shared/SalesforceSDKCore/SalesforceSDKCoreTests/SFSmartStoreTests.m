@@ -143,7 +143,7 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Register
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
     BOOL testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
@@ -165,12 +165,12 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Register first time.
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
     testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
     // Register second time.  Should only create one soup per unique soup name.
-    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
     __block int rowCount;
     [_store.storeQueue inDatabase:^(FMDatabase* db) {
         rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
@@ -598,7 +598,7 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Register
     NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[NSArray arrayWithObjects:soupIndex, nil]];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
     
     // Upserts
     NSMutableArray* entries = [NSMutableArray array];
@@ -764,7 +764,7 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Register
     NSDictionary* lastNameSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"lastName",@"path",@"string",@"type",nil];
-    NSArray* indexSpecs = [NSArray arrayWithObjects:lastNameSoupIndex, nil];
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:lastNameSoupIndex, nil]];
     [_store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
     BOOL testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
@@ -781,7 +781,7 @@ NSString * const kTestSoupName   = @"testSoup";
     // Partial alter - up to toStep included
     NSDictionary* citySoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.city",@"path",@"string",@"type",nil];
     NSDictionary* streetSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.street",@"path",@"string",@"type",nil];
-    NSArray* indexSpecsNew = [NSArray arrayWithObjects:lastNameSoupIndex, citySoupIndex, streetSoupIndex, nil];
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:lastNameSoupIndex, citySoupIndex, streetSoupIndex, nil]];
     SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:_store soupName:kTestSoupName newIndexSpecs:indexSpecsNew reIndexData:YES];
     [operation runToStep:toStep];
     
