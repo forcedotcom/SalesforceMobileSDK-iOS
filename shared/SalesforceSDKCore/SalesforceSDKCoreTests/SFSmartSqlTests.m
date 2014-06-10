@@ -60,23 +60,19 @@ NSString* const kName                 = @"name";
     // Employees soup
     [_store registerSoup:kEmployeesSoup                              // should be TABLE_1
           withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          [NSArray arrayWithObjects:
-                           [self createStringIndexSpec:kFirstName],
+                          @[[self createStringIndexSpec:kFirstName],
                            [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
                            [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
                            [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
                            [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
-                           [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_4
-                           nil]]];
+                           [self createFloatingIndexSpec:kSalary]]]];
 
     // Departments soup
     [_store registerSoup:kDepartmentsSoup                            // should be TABLE_2
           withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          [NSArray arrayWithObjects:
-                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
+                          @[[self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
                            [self createStringIndexSpec:kName],        // should be TABLE_2_1
-                           [self createIntegerIndexSpec:kBudget],     // should be TABLE_2_2
-                           nil]]];
+                           [self createIntegerIndexSpec:kBudget]]]];
 }
 
 - (void) tearDown
@@ -203,14 +199,14 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil] objectAtIndex:0];
-    STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
+    NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
+    STAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     STAssertTrue(1 == [result count], @"Expected one row");
-    [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
-    STAssertEqualObjects(@"Christine", [[result objectAtIndex:0] objectAtIndex:1], @"Wrong first name");
-    NSNumber* dubNum = [[result objectAtIndex:0] objectAtIndex:2];
+    [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
+    STAssertEqualObjects(@"Christine", result[0][1], @"Wrong first name");
+    NSNumber* dubNum = result[0][2];
     STAssertEquals(200000.10, [dubNum doubleValue], @"Wrong salary");
 }
 	
@@ -219,10 +215,10 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
     STAssertTrue(7 ==[_store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
-    NSArray* expectedResults = [NSArray arrayWithObjects:@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally", nil];
+    NSArray* expectedResults = @[@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally"];
     for (int i=0; i<7; i++) {
         NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i  error:nil];
-        NSArray* expectedResult = [NSArray arrayWithObject:[NSArray arrayWithObject:[expectedResults objectAtIndex:i]]];
+        NSArray* expectedResult = @[@[expectedResults[i]]];
         NSString* message = [NSString stringWithFormat:@"Wrong result at page %d", i];
         [self assertSameJSONArrayWithExpected:expectedResult actual:result message:message];
     }
@@ -232,14 +228,14 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil] objectAtIndex:0];
-    STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
+    NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
+    STAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     STAssertTrue(1 == [result count], @"Expected one row");
-    [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
-    STAssertEqualObjects([christineJson objectForKey:@"_soupEntryId"], [[result objectAtIndex:0] objectAtIndex:1], @"Wrong soupEntryId");
-    STAssertEqualObjects([christineJson objectForKey:@"_soupLastModifiedDate"], [[result objectAtIndex:0] objectAtIndex:2], @"Wrong soupLastModifiedDate");
+    [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
+    STAssertEqualObjects(christineJson[@"_soupEntryId"], result[0][1], @"Wrong soupEntryId");
+    STAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
 }
 
 #pragma mark - helper methods
@@ -260,7 +256,7 @@ NSString* const kName                 = @"name";
 
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:path, @"path", pathType, @"type", nil];
+    return @{@"path": path, @"type": pathType};
 }
 
 - (void) loadData
@@ -281,14 +277,14 @@ NSString* const kName                 = @"name";
 
 - (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary
 {
-    NSDictionary* employee = [NSDictionary  dictionaryWithObjectsAndKeys:firstName, kFirstName, lastName, kLastName, deptCode, kDeptCode, employeeId, kEmployeeId, managerId, kManagerId, [NSNumber numberWithDouble:salary], kSalary, nil];
-    [_store upsertEntries:[NSArray arrayWithObject:employee] toSoup:kEmployeesSoup];
+    NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary)};
+    [_store upsertEntries:@[employee] toSoup:kEmployeesSoup];
 }
 	
 - (void) createDepartmentWithCode:(NSString*) deptCode withName:(NSString*)name withBudget:(NSUInteger) budget
 {
-    NSDictionary* department = [NSDictionary dictionaryWithObjectsAndKeys:deptCode, kDeptCode, name, kName, [NSNumber numberWithUnsignedInteger:budget], kBudget, nil];
-    [_store upsertEntries:[NSArray arrayWithObject:department] toSoup:kDepartmentsSoup];
+    NSDictionary* department = @{kDeptCode: deptCode, kName: name, kBudget: @(budget)};
+    [_store upsertEntries:@[department] toSoup:kDepartmentsSoup];
 }
 
 @end

@@ -59,9 +59,9 @@ static NSString * const kSFPBKDFDataDerivedKeyLengthCodingKey    = @"derivedKeyL
         [aCoder encodeObject:self.derivedKey forKey:kSFPBKDFDataDerivedKeyCodingKey];
     }
     [aCoder encodeObject:self.salt forKey:kSFPBKDFDataSaltCodingKey];
-    NSNumber *derivationRoundsObj = [NSNumber numberWithUnsignedInteger:self.numDerivationRounds];
+    NSNumber *derivationRoundsObj = @(self.numDerivationRounds);
     [aCoder encodeObject:derivationRoundsObj forKey:kSFPBKDFDataNumDerivationRoundsCodingKey];
-    NSNumber *derivedKeyLengthObj = [NSNumber numberWithUnsignedInteger:self.derivedKeyLength];
+    NSNumber *derivedKeyLengthObj = @(self.derivedKeyLength);
     [aCoder encodeObject:derivedKeyLengthObj forKey:kSFPBKDFDataDerivedKeyLengthCodingKey];
 }
 

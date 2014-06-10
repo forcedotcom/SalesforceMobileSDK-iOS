@@ -34,7 +34,7 @@
     NSNumber *retrievedLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
     STAssertNil(retrievedLockoutTime, @"Retrieved lockout time should not be set at the beginning of the test.");
     NSUInteger randInt = arc4random();
-    [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:randInt]];
+    [SFSecurityLockout writeLockoutTimeToKeychain:@(randInt)];
     retrievedLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
     STAssertEquals(randInt, [retrievedLockoutTime unsignedIntegerValue], @"Lockout time values are not the same.");
 }
@@ -45,7 +45,7 @@
     STAssertNil(retrievedIsLocked, @"'Is Locked' should not be set at the beginning of the test.");
     NSUInteger randInt = arc4random();
     BOOL inIsLocked = (randInt % 2 == 0);
-    [SFSecurityLockout writeIsLockedToKeychain:[NSNumber numberWithBool:inIsLocked]];
+    [SFSecurityLockout writeIsLockedToKeychain:@(inIsLocked)];
     retrievedIsLocked = [SFSecurityLockout readIsLockedFromKeychain];
     STAssertNotNil(retrievedIsLocked, @"'Is Locked' value should not be nil in the keychain.");
     STAssertEquals(inIsLocked, [retrievedIsLocked boolValue], @"'Is Locked' values are not the same.");
@@ -63,7 +63,7 @@
     // Initial legacy values, no keychain values: Legacy values migrated to keychain.
     [self cleanupSettings];
     NSUInteger timeoutVal = arc4random();
-    NSNumber *legacyTimeoutNum = [NSNumber numberWithUnsignedInteger:timeoutVal];
+    NSNumber *legacyTimeoutNum = @(timeoutVal);
     BOOL legacyLockedVal = (arc4random() % 2 == 0);
     [[NSUserDefaults standardUserDefaults] setObject:legacyTimeoutNum forKey:kSecurityTimeoutLegacyKey];
     [[NSUserDefaults standardUserDefaults] setBool:legacyLockedVal forKey:kSecurityIsLockedLegacyKey];
@@ -73,7 +73,7 @@
     
     // Keychain values already defined: No further migration of values.
     [self cleanupSettings];
-    NSNumber *keychainTimeoutNum = [NSNumber numberWithUnsignedInteger:arc4random()];
+    NSNumber *keychainTimeoutNum = @(arc4random());
     NSNumber *keychainLockedNum = [NSNumber numberWithBool:(arc4random() % 2 == 0)];
     [SFSecurityLockout writeIsLockedToKeychain:keychainLockedNum];
     [SFSecurityLockout writeLockoutTimeToKeychain:keychainTimeoutNum];
@@ -99,9 +99,9 @@
 {
     STAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
     STAssertEquals(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
-    NSNumber *keychainTimeoutNum = [NSNumber numberWithUnsignedInteger:keychainTimeoutVal];
+    NSNumber *keychainTimeoutNum = @(keychainTimeoutVal);
     STAssertEqualObjects(keychainTimeoutNum, [SFSecurityLockout readLockoutTimeFromKeychain], @"Keychain timeout values do not match.");
-    NSNumber *keychainLockedNum = [NSNumber numberWithBool:keychainLockedVal];
+    NSNumber *keychainLockedNum = @(keychainLockedVal);
     STAssertEqualObjects(keychainLockedNum, [SFSecurityLockout readIsLockedFromKeychain], @"Keychain locked values do not match.");
 }
 

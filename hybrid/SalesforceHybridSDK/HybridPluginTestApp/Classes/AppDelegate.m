@@ -118,7 +118,7 @@
         }];
         [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
     } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
         [self initializeAppViewState];
     } else {
         [self initializeAppViewState];
@@ -188,7 +188,7 @@
 
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
-    NSString *covFile = [NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
+    NSString *covFile = @(filename);
     NSLog(@"saving coverage file: %@",covFile);
     return fopen(filename, mode);
 }

@@ -67,7 +67,7 @@
  
     // Compare values in array
     for (int i=0; i<expectedCount; i++) {
-        [self assertSameJSONWithExpected:[expected objectAtIndex:i] actual:[actual objectAtIndex:i] message:message];
+        [self assertSameJSONWithExpected:expected[i] actual:actual[i] message:message];
     }
 }
 
@@ -82,7 +82,7 @@
     NSEnumerator* enumator = [expected keyEnumerator];
     id key;
     while (key = [enumator nextObject]) {
-        [self assertSameJSONWithExpected:[expected objectForKey:key] actual:[actual objectForKey:key] message:message];
+        [self assertSameJSONWithExpected:expected[key] actual:actual[key] message:message];
     }
 }
 

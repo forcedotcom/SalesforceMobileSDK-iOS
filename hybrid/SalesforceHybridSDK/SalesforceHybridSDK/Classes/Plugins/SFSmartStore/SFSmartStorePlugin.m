@@ -97,7 +97,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 
 - (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId
 {
-    return [_cursorCache objectForKey:cursorId];
+    return _cursorCache[cursorId];
 }
 
 
@@ -154,7 +154,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)pgQuerySoup:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        NSString *soupName = [argsDict objectForKey:kSoupNameArg];
+        NSString *soupName = argsDict[kSoupNameArg];
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
         [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
@@ -162,7 +162,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSError* error;
         SFStoreCursor* cursor = [self runQuery:querySpec error:&error];
         if (cursor) {
-            [self.cursorCache setObject:cursor forKey:cursor.cursorId];
+            (self.cursorCache)[cursor.cursorId] = cursor;
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
         }
         else {
@@ -191,7 +191,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     
     NSArray* firstPageEntries = (totalEntries > 0
                                  ? [self.store queryWithQuerySpec:querySpec pageIndex:0 error:error]
-                                 : [NSArray array]);
+                                 : @[]);
     
     return [[SFStoreCursor alloc] initWithStore:self.store querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
 }

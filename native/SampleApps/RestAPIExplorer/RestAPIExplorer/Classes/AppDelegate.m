@@ -176,7 +176,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         }];
         [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
     } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
                                                              failure:self.initialLoginFailureBlock];
     } else {
@@ -202,14 +202,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 - (void)exportTestingCredentials {
     //collect credentials and copy to pasteboard
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    NSDictionary *configDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                RemoteAccessConsumerKey, @"test_client_id",
-                                [SFUserAccountManager sharedInstance].loginHost, @"test_login_domain",
-                                OAuthRedirectURI, @"test_redirect_uri",
-                                creds.refreshToken,@"refresh_token",
-                                [creds.instanceUrl absoluteString] , @"instance_url",
-                                @"__NOT_REQUIRED__",@"access_token",
-                                nil];
+    NSDictionary *configDict = @{@"test_client_id": RemoteAccessConsumerKey,
+                                @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
+                                @"test_redirect_uri": OAuthRedirectURI,
+                                @"refresh_token": creds.refreshToken,
+                                @"instance_url": [creds.instanceUrl absoluteString],
+                                @"access_token": @"__NOT_REQUIRED__"};
     
     NSString *configJSON = [SFJsonUtils JSONRepresentation:configDict];
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];

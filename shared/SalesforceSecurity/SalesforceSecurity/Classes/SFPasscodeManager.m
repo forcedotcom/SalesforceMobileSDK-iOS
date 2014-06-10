@@ -192,11 +192,8 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
             }
         }];
         
-        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldEncryptionKey,
-                                      SFPasscodeResetOldPasscodeKey,
-                                      newEncryptionKey,
-                                      SFPasscodeResetNewPasscodeKey,
-                                      nil];
+        NSDictionary *userInfoDict = @{SFPasscodeResetOldPasscodeKey: oldEncryptionKey,
+                                      SFPasscodeResetNewPasscodeKey: newEncryptionKey};
         [[NSNotificationCenter defaultCenter] postNotificationName:SFPasscodeResetNotification
                                                             object:self
                                                           userInfo:userInfoDict];

@@ -74,14 +74,14 @@
         cell.textLabel.text = @"Account Name    Opps";
         cell.detailTextLabel.text = @"Total    Average";
     } else {
-        NSArray *row = [resultDataSet objectAtIndex:indexPath.row - 1];
-        NSString *col1 = [row objectAtIndex:0];
-        NSNumber *col2 = [row objectAtIndex:1];
-        NSNumber *col3 = [row objectAtIndex:2];
+        NSArray *row = resultDataSet[indexPath.row - 1];
+        NSString *col1 = row[0];
+        NSNumber *col2 = row[1];
+        NSNumber *col3 = row[2];
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
         NSString *col3String = [numberFormatter stringFromNumber:col3];
-        NSNumber *col4 = [row objectAtIndex:3];
+        NSNumber *col4 = row[3];
         NSString *col4String = [numberFormatter stringFromNumber:col4];
         NSMutableString *dataRowOne = [[NSMutableString alloc] init];
         [dataRowOne appendString:col1];

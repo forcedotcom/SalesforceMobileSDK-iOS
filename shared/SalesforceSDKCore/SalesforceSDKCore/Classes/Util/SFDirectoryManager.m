@@ -45,7 +45,7 @@ static NSString * const kDefaultCommunityName = @"internal";
     if (![manager fileExistsAtPath:directory]) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
-                                   attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionComplete, NSFileProtectionKey, nil]
+                                   attributes:@{NSFileProtectionKey: NSFileProtectionComplete}
                                         error:error];
     } else {
         return YES;
@@ -60,7 +60,7 @@ static NSString * const kDefaultCommunityName = @"internal";
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components {
     NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
     if (directories.count > 0) {
-        NSString *directory = [[directories objectAtIndex:0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+        NSString *directory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
         if (orgId) {
             directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:orgId]];
             if (userId) {

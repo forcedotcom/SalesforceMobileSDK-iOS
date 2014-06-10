@@ -66,7 +66,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
             [scanner scanUpToString:@"}" intoString:&foundString];
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
-            NSString* soupName = [parts objectAtIndex:0];
+            NSString* soupName = parts[0];
             NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
             if (nil == soupTableName) {
                 @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
@@ -79,7 +79,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 [sql appendString:soupTableName];
             }
             else if ([parts count] == 2) {
-                NSString* path = [parts objectAtIndex:1];
+                NSString* path = parts[1];
                 // {soupName:_soup}
                 if ([path isEqualToString:@"_soup"]) {
                     [sql appendString:tableQualifier];

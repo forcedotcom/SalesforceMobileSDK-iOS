@@ -259,7 +259,7 @@
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
     values[TYPE_COL] = @"AlterSoup";
     values[DETAILS_COL] = [SFJsonUtils JSONRepresentation:[self getDetails]];
-    values[STATUS_COL] = [NSNumber numberWithInt:SFAlterSoupStepStarting];
+    values[STATUS_COL] = @(SFAlterSoupStepStarting);
     values[CREATED_COL] = now;
     values[LAST_MODIFIED_COL] = now;
     [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values withDb:db];
@@ -273,7 +273,7 @@
     details[SOUP_TABLE_NAME] = self.soupTableName;
     details[OLD_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES];
     details[NEW_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES];
-    details[RE_INDEX_DATA] = [NSNumber numberWithBool:self.reIndexData];
+    details[RE_INDEX_DATA] = @(self.reIndexData);
     return details;
 }
 
@@ -294,7 +294,7 @@
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
         values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
         values[LAST_MODIFIED_COL] = now;
-        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:[NSNumber numberWithLong:self.rowId] withDb:db];
+        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) withDb:db];
     }
 }
 

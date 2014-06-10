@@ -135,7 +135,7 @@
     if (!timedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-        SFTestResult *testResult = [[plugin testResults] objectAtIndex:0];
+        SFTestResult *testResult = [plugin testResults][0];
         [[plugin testResults] removeObjectAtIndex:0];
         NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);
         STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");

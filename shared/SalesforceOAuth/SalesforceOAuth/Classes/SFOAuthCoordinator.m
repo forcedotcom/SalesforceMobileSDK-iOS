@@ -406,13 +406,13 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)json;
-        if (nil != [dict objectForKey:kSFOAuthError]) {
-            NSError *error = [[self class] errorWithType:[dict objectForKey:kSFOAuthError] description:[dict objectForKey:kSFOAuthErrorDescription]];
+        if (nil != dict[kSFOAuthError]) {
+            NSError *error = [[self class] errorWithType:dict[kSFOAuthError] description:dict[kSFOAuthErrorDescription]];
             [self notifyDelegateOfFailure:error authInfo:authInfo];
         } else {
-            if ([dict objectForKey:kSFOAuthRefreshToken]) {
+            if (dict[kSFOAuthRefreshToken]) {
                 // Refresh token is available. This happens when the IP bypass flow is used.
-                self.credentials.refreshToken = [dict objectForKey:kSFOAuthRefreshToken];
+                self.credentials.refreshToken = dict[kSFOAuthRefreshToken];
             } else {
                 // In a non-IP flow, we already have the refresh token here.
             }
@@ -427,10 +427,10 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {
-            [errorDict setObject:responseString forKey:@"response_data"];
+            errorDict[@"response_data"] = responseString;
         }
         if (error) {
-            [errorDict setObject:error forKey:NSUnderlyingErrorKey];
+            errorDict[NSUnderlyingErrorKey] = error;
         }
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
         [self notifyDelegateOfFailure:finalError authInfo:authInfo];
@@ -448,13 +448,13 @@ static NSString * const kHttpPostContentType                    = @"application/
  */
 - (void)updateCredentials:(NSDictionary*)params
 {
-    self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
-    self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
-    self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
-    self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
+    self.credentials.identityUrl    = [NSURL URLWithString:params[kSFOAuthId]];
+    self.credentials.accessToken    = params[kSFOAuthAccessToken];
+    self.credentials.instanceUrl    = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
+    self.credentials.issuedAt       = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
 
-    self.credentials.communityId    = [params objectForKey:kSFOAuthCommunityId];
-    NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
+    self.credentials.communityId    = params[kSFOAuthCommunityId];
+    NSString *communityUrl = params[kSFOAuthCommunityUrl];
     if (communityUrl) {
         self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
     } else {
@@ -540,13 +540,13 @@ static NSString * const kHttpPostContentType                    = @"application/
         
         if (response) {            
             NSDictionary *params = [[self class] parseQueryString:response];
-            NSString *error = [params objectForKey:kSFOAuthError];
+            NSString *error = params[kSFOAuthError];
             if (nil == error) {
                 [self updateCredentials:params];
                 
-                self.credentials.refreshToken   = [params objectForKey:kSFOAuthRefreshToken];
+                self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
 
-                self.approvalCode = [params objectForKey:kSFOAuthApprovalCode];
+                self.approvalCode = params[kSFOAuthApprovalCode];
                 if (self.approvalCode) {
                     // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).
                     [self beginTokenRefreshFlow];
@@ -556,14 +556,14 @@ static NSString * const kHttpPostContentType                    = @"application/
                 }
             } else {
                 NSError *finalError;
-                NSError *error = [[self class] errorWithType:[params objectForKey:kSFOAuthError] 
-                                                 description:[params objectForKey:kSFOAuthErrorDescription]];
+                NSError *error = [[self class] errorWithType:params[kSFOAuthError] 
+                                                 description:params[kSFOAuthErrorDescription]];
                 
                 // add any additional relevant info to the userInfo dictionary
                 
                 if (kSFOAuthErrorInvalidClientId == error.code) {
                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
-                    [dict setObject:self.credentials.clientId forKey:kSFOAuthClientId];
+                    dict[kSFOAuthClientId] = self.credentials.clientId;
                     finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
                 } else {
                     finalError = error;
@@ -669,13 +669,13 @@ static NSString * const kHttpPostContentType                    = @"application/
 	NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:pairs.count];
 	for (NSString *pair in pairs) {
         NSArray *keyValue = [pair componentsSeparatedByString:@"="];
-		NSString *key = [[[keyValue objectAtIndex:0]
+		NSString *key = [[keyValue[0]
                           stringByReplacingOccurrencesOfString:@"+" withString:@" "]
                          stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		NSString *value = [[[keyValue objectAtIndex:1]
+		NSString *value = [[keyValue[1]
                             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
                            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		[dict setObject:value forKey:key];
+		dict[key] = value;
 	}
 	NSDictionary *result = [NSDictionary dictionaryWithDictionary:dict];
 	return result;
@@ -713,9 +713,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorWrongVersion;
     }
 
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:type,        kSFOAuthError,
-                                                                    description,   NSLocalizedDescriptionKey,
-                                                                    nil];
+    NSDictionary *dict = @{kSFOAuthError: type,
+                                                                    NSLocalizedDescriptionKey: description};
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:dict];
     return error;
 }

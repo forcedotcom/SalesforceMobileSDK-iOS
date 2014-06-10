@@ -53,8 +53,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
     self = [super init];
     if (self) {
         self.appViewController = appViewController;
-        self.actions = [NSArray arrayWithObjects:
-                        kActionVersions, @"no params",
+        self.actions = @[kActionVersions, @"no params",
                         kActionResources, @"no params",
                         kActionDescribeGlobal, @"no params",
                         kActionObjectMetadata, @"params: objectType",
@@ -69,8 +68,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionUserInfo, @"no params",
                         kActionLogout, @"no params",
                         kActionSwitchUser, @"no params",
-                        kActionExportCredentialsForTesting, @"no params",
-                        nil];
+                        kActionExportCredentialsForTesting, @"no params"];
     }
     return self;
 }
@@ -110,8 +108,8 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [_actions objectAtIndex:indexPath.row * 2];
-    cell.detailTextLabel.text = [_actions objectAtIndex:indexPath.row * 2+1];
+    cell.textLabel.text = _actions[indexPath.row * 2];
+    cell.detailTextLabel.text = _actions[indexPath.row * 2+1];
     return cell;
 }
 
@@ -119,7 +117,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *text = [_actions objectAtIndex:indexPath.row * 2];
+    NSString *text = _actions[indexPath.row * 2];
     [self.appViewController popoverOptionSelected:text];
 }
 

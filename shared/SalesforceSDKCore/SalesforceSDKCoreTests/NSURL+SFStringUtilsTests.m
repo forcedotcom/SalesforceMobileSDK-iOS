@@ -55,7 +55,7 @@
 {
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
-    NSArray *redactParams = [NSArray arrayWithObjects:@"param3", @"param4", nil];
+    NSArray *redactParams = @[@"param3", @"param4"];
     NSString *outUrlString = [url redactedAbsoluteString:redactParams];
     STAssertTrue([inUrlString isEqualToString:outUrlString],
                  @"'%@' and '%@' should be the same, with no matching arguments.",
@@ -67,7 +67,7 @@
 {
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
-    NSArray *redactParams = [NSArray arrayWithObjects:@"param1", nil];
+    NSArray *redactParams = @[@"param1"];
     NSString *expectedOutUrlString = [NSString stringWithFormat:@"https://www.myserver.com/path?param1=%@&param2=val2",
                                       kSFRedactedQuerystringValue];
     NSString *actualOutUrlString = [url redactedAbsoluteString:redactParams];
@@ -82,7 +82,7 @@
 {
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
-    NSArray *redactParams = [NSArray arrayWithObjects:@"param1", @"param2", nil];
+    NSArray *redactParams = @[@"param1", @"param2"];
     NSString *expectedOutUrlString = [NSString stringWithFormat:@"https://www.myserver.com/path?param1=%@&param2=%@",
                                       kSFRedactedQuerystringValue,
                                       kSFRedactedQuerystringValue];

@@ -49,9 +49,9 @@ NSString * const kSoupIndexColumnName   = @"columnName";
 }
 
 - (id)initWithDictionary:(NSDictionary*)dict {
-    self = [self initWithPath:[dict objectForKey:kSoupIndexPath]
-                    indexType:[dict objectForKey:kSoupIndexType]
-                   columnName:[dict objectForKey:kSoupIndexColumnName]
+    self = [self initWithPath:dict[kSoupIndexPath]
+                    indexType:dict[kSoupIndexType]
+                   columnName:dict[kSoupIndexColumnName]
             ];
     return self;
 }
@@ -87,10 +87,10 @@ NSString * const kSoupIndexColumnName   = @"columnName";
 - (NSDictionary*)asDictionary:(BOOL)withColumnName
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    [result setObject:self.path forKey:kSoupIndexPath];
-    [result setObject:self.indexType forKey:kSoupIndexType];
+    result[kSoupIndexPath] = self.path;
+    result[kSoupIndexType] = self.indexType;
     if (withColumnName && self.columnName)
-        [result setObject:self.columnName forKey:kSoupIndexColumnName];
+        result[kSoupIndexColumnName] = self.columnName;
     return result;
 }
 

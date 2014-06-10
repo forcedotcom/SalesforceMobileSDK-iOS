@@ -175,7 +175,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         }];
         [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
     } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
                                                              failure:self.initialLoginFailureBlock];
     } else {

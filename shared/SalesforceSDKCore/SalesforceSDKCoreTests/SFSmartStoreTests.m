@@ -101,7 +101,7 @@ NSString * const kTestSoupName   = @"testSoup";
     
     // Top-level elements
     [self assertSameJSONWithExpected:@"va" actual:[SFJsonUtils projectIntoJson:json path:@"a"] message:@"Wrong value for key a"];
-    [self assertSameJSONWithExpected:[NSNumber numberWithInt:2]  actual:[SFJsonUtils projectIntoJson:json path:@"b"] message:@"Wrong value for key b"];
+    [self assertSameJSONWithExpected:@2 actual:[SFJsonUtils projectIntoJson:json path:@"b"] message:@"Wrong value for key b"];
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[0,1,2]"] actual:[SFJsonUtils projectIntoJson:json path:@"c"] message:@"Wrong value for key c"];
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"d1\":\"vd1\", \"d2\":\"vd2\", \"d3\":[1,2], \"d4\":{\"e\":5}}"] actual:[SFJsonUtils projectIntoJson:json path:@"d"] message:@"Wrong value for key d"];
 }
@@ -119,7 +119,7 @@ NSString * const kTestSoupName   = @"testSoup";
     [self assertSameJSONWithExpected:@"vd2" actual:[SFJsonUtils projectIntoJson:json path:@"d.d2"] message:@"Wrong value for key d.d2"];    
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[1,2]"] actual:[SFJsonUtils projectIntoJson:json path:@"d.d3"] message:@"Wrong value for key d.d3"];    
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"e\":5}"] actual:[SFJsonUtils projectIntoJson:json path:@"d.d4"] message:@"Wrong value for key d.d4"];        
-    [self assertSameJSONWithExpected:[NSNumber numberWithInt:5] actual:[SFJsonUtils projectIntoJson:json path:@"d.d4.e"] message:@"Wrong value for key d.d4.e"];    
+    [self assertSameJSONWithExpected:@5 actual:[SFJsonUtils projectIntoJson:json path:@"d.d4.e"] message:@"Wrong value for key d.d4.e"];    
 }
 
 /**
@@ -142,8 +142,8 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
     
     // Register
-    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
+    NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
     BOOL testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
@@ -164,13 +164,13 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertFalse(testSoupExists, @"Soup %@ should not exist", kTestSoupName);
     
     // Register first time.
-    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
+    NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
     testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
     
     // Register second time.  Should only create one soup per unique soup name.
-    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
     __block int rowCount;
     [_store.storeQueue inDatabase:^(FMDatabase* db) {
         rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
@@ -185,18 +185,16 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)testQuerySpecPageSize
 {
-    NSDictionary *allQueryNoPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                              @"a", kQuerySpecParamIndexPath,
-                              nil];
+    NSDictionary *allQueryNoPageSize = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
+                              kQuerySpecParamIndexPath: @"a"};
     
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryNoPageSize withSoupName:kTestSoupName];
     NSUInteger querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, kQuerySpecDefaultPageSize, @"Page size value should be default, if not specified.");
     NSUInteger expectedPageSize = 42;
-    NSDictionary *allQueryWithPageSize = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                                        @"a", kQuerySpecParamIndexPath,
-                                          [NSNumber numberWithUnsignedInteger:expectedPageSize], kQuerySpecParamPageSize,
-                                        nil];
+    NSDictionary *allQueryWithPageSize = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
+                                        kQuerySpecParamIndexPath: @"a",
+                                          kQuerySpecParamPageSize: @(expectedPageSize)};
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQueryWithPageSize withSoupName:kTestSoupName];
     querySpecPageSize = querySpec.pageSize;
     STAssertEquals(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
@@ -209,10 +207,9 @@ NSString * const kTestSoupName   = @"testSoup";
     // Entries divided evenly by the page size.
     uint evenDividePageSize = 25;
     int expectedPageSize = totalEntries / evenDividePageSize;
-    NSDictionary *allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                                          @"a", kQuerySpecParamIndexPath,
-                                          [NSNumber numberWithInt:evenDividePageSize], kQuerySpecParamPageSize,
-                                          nil];
+    NSDictionary *allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
+                                          kQuerySpecParamIndexPath: @"a",
+                                          kQuerySpecParamPageSize: [NSNumber numberWithInt:evenDividePageSize]};
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     int cursorTotalPages = [cursor.totalPages intValue];
@@ -221,10 +218,9 @@ NSString * const kTestSoupName   = @"testSoup";
     // Entries not evenly divided across the page size.
     uint unevenDividePageSize = 24;
     expectedPageSize = totalEntries / unevenDividePageSize + 1;
-    allQuery = [NSDictionary dictionaryWithObjectsAndKeys:kQuerySpecTypeRange, kQuerySpecParamQueryType,
-                              @"a", kQuerySpecParamIndexPath,
-                              [NSNumber numberWithInt:unevenDividePageSize], kQuerySpecParamPageSize,
-                              nil];
+    allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
+                              kQuerySpecParamIndexPath: @"a",
+                              kQuerySpecParamPageSize: [NSNumber numberWithInt:unevenDividePageSize]};
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     cursorTotalPages = [cursor.totalPages intValue];
@@ -390,7 +386,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)testEncryptionForSFSmartStore
 {
-    for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
+    for (NSString *passcodeProviderName in @[kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2]) {
         NSLog(@"---Testing encryption using passcode provider '%@'.---", passcodeProviderName);
         [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
         
@@ -454,7 +450,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)testPasscodeChange
 {
-    NSArray *internalPasscodeProviders = [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil];
+    NSArray *internalPasscodeProviders = @[kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2];
     
     // This loop changes the 'preferred' provider, to create test scenarios for jumping between one passcode provider
     // and another.  See [SFPasscodeManager setPasscode:].
@@ -597,8 +593,8 @@ NSString * const kTestSoupName   = @"testSoup";
     long initialSize = [_store getDatabaseSize];
     
     // Register
-    NSDictionary* soupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"name",@"path",@"string",@"type",nil];
-    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:soupIndex, nil]]];
+    NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
+    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
     
     // Upserts
     NSMutableArray* entries = [NSMutableArray array];
@@ -652,7 +648,7 @@ NSString * const kTestSoupName   = @"testSoup";
     __block NSInteger result = NSNotFound;
 
     [_store.storeQueue inDatabase:^(FMDatabase* db) {
-        FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:[NSArray arrayWithObjects:@"table", tableName, nil]];
+        FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:@[@"table", tableName]];
         
         if ([frs next]) {
             result = [frs intForColumnIndex:0];
@@ -738,7 +734,7 @@ NSString * const kTestSoupName   = @"testSoup";
     
     BOOL result = YES;
     NSString *querySql = @"SELECT * FROM sqlite_master WHERE name = ?";
-    FMResultSet *rs = [db executeQuery:querySql withArgumentsInArray:[NSArray arrayWithObject:tableName]];
+    FMResultSet *rs = [db executeQuery:querySql withArgumentsInArray:@[tableName]];
     if (rs == nil || ![rs next]) {
         result = NO;
     }
@@ -763,8 +759,8 @@ NSString * const kTestSoupName   = @"testSoup";
     STAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
     
     // Register
-    NSDictionary* lastNameSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"lastName",@"path",@"string",@"type",nil];
-    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:lastNameSoupIndex, nil]];
+    NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
     [_store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
     BOOL testSoupExists = [_store soupExists:kTestSoupName];
     STAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
@@ -779,9 +775,9 @@ NSString * const kTestSoupName   = @"testSoup";
     NSArray* insertedEntries  =[_store upsertEntries:entries toSoup:kTestSoupName];
 
     // Partial alter - up to toStep included
-    NSDictionary* citySoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.city",@"path",@"string",@"type",nil];
-    NSDictionary* streetSoupIndex = [NSDictionary dictionaryWithObjectsAndKeys:@"address.street",@"path",@"string",@"type",nil];
-    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:[NSArray arrayWithObjects:lastNameSoupIndex, citySoupIndex, streetSoupIndex, nil]];
+    NSDictionary* citySoupIndex = @{@"path": @"address.city",@"type": @"string"};
+    NSDictionary* streetSoupIndex = @{@"path": @"address.street",@"type": @"string"};
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex, citySoupIndex, streetSoupIndex]];
     SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:_store soupName:kTestSoupName newIndexSpecs:indexSpecsNew reIndexData:YES];
     [operation runToStep:toStep];
     
@@ -825,7 +821,7 @@ NSString * const kTestSoupName   = @"testSoup";
 {
     STAssertTrue([frs next], @"Expected rows to be returned");
     // Check id
-    STAssertEqualObjects([NSNumber numberWithLong:[frs longForColumn:ID_COL]], expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    STAssertEqualObjects(@([frs longForColumn:ID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
     
     /*
      // FIXME value coming back is an int - needs to be investigated and fixed in 2.2
