@@ -177,18 +177,20 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  Get the number of entries that would be returned with the given query spec
  
  @param querySpec a native query spec
+ @param error Sets/returns any error generated as part of the process.
  */
-- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec;
+- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
 
 /**
  Search for entries matching the querySpec
 
  @param querySpec A querySpec as a dictionary
  @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
+ @param error Sets/returns any error generated as part of the process.
 
  @return A cursor
  */
-- (SFStoreCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName;
+- (SFStoreCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName error:(NSError **)error;
 
 
 /**
@@ -196,9 +198,11 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
+ @param error Sets/returns any error generated as part of the process.
+ 
  @return A set of entries given the pageSize provided in the querySpec
  */
-- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 
 /**
  Search soup for entries exactly matching the soup entry IDs

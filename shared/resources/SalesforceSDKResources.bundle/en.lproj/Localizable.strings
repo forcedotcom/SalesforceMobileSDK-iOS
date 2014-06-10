@@ -65,3 +65,4 @@
 "inspectorIndicesButtonTitle" = "Indices";
 "inspectorQueryFailed" = "Query failed";
 "inspectorOK" = "OK";
+"inspectorNoRowsReturned" = "No rows returned";

@@ -175,17 +175,18 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpec];
     
-    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:soupName];
+    NSError* error = nil;
+    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:soupName error:&error];
     [self log:SFLogLevelDebug format:@"pgQuerySoup returning cursor: %@", cursor];
 
-    if (nil != cursor) {
+    if (!error) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
         [self log:SFLogLevelInfo format:@"pgQuerySoup retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
     } else {
         [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
     
@@ -200,20 +201,21 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSDictionary *querySpec = [argsDict nonNullObjectForKey:kQuerySpecArg];
     
-    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil];
+    NSError* error = nil;
+    SFStoreCursor *cursor =  [self.store queryWithQuerySpec:querySpec withSoupName:nil error:&error];
     [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning: %@", cursor];
     
-    if (nil != cursor) {
+    if (!error) {
         //cache this cursor for later paging
         [self.cursorCache setObject:cursor forKey:cursor.cursorId];
         [self writeSuccessDictToJsRealm:[cursor asDictionary] callbackId:callbackId];//TODO other error handling?
         [self log:SFLogLevelInfo format:@"pgRunSmartQuery retrieved %ld pages in %f seconds", (long)[cursor.totalPages integerValue], -[startTime timeIntervalSinceNow]];
-    } else {
+    }
+    else {
         [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         [self writeErrorResultToJsRealm:result callbackId:callbackId];
     }
-    
     [self log:SFLogLevelDebug format:@"pgRunSmartQuery returning after %f secs.", -[startTime timeIntervalSinceNow]];
 }
 

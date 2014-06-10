@@ -160,7 +160,7 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select count(*) from {employees}" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[7]]"] actual:result message:@"Wrong result"];
 }
 	
@@ -168,7 +168,7 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select sum({departments:budget}) from {departments}" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[3000000]]"] actual:result message:@"Wrong result"];
 }
 
@@ -176,7 +176,7 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10]]"] actual:result message:@"Wrong result"];
 }
 	
@@ -184,7 +184,7 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10,120000.10]]"] actual:result message:@"Wrong result"];
 }
 
@@ -192,7 +192,7 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:managerId} = '00010' order by {employees:firstName}" withPageSize:2];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[120000.10],[100000.10]]"] actual:result message:@"Wrong result"];
 }
 
@@ -200,10 +200,10 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
+    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     STAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
     STAssertEqualObjects(@"Christine", [[result objectAtIndex:0] objectAtIndex:1], @"Wrong first name");
@@ -215,10 +215,10 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
-    STAssertTrue(7 ==[_store countWithQuerySpec:querySpec], @"Expected 7 employees");
+    STAssertTrue(7 ==[_store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
     NSArray* expectedResults = [NSArray arrayWithObjects:@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally", nil];
     for (int i=0; i<7; i++) {
-        NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i];
+        NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i  error:nil];
         NSArray* expectedResult = [NSArray arrayWithObject:[NSArray arrayWithObject:[expectedResults objectAtIndex:i]]];
         NSString* message = [NSString stringWithFormat:@"Wrong result at page %d", i];
         [self assertSameJSONArrayWithExpected:expectedResult actual:result message:message];
@@ -229,10 +229,10 @@ NSString* const kName                 = @"name";
 {
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0] objectAtIndex:0];
+    NSDictionary* christineJson = [[_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil] objectAtIndex:0];
     STAssertEqualObjects(@"Christine", [christineJson objectForKey:kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0];
+    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     STAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:[[result objectAtIndex:0] objectAtIndex:0] message:@"Wrong soup"];
     STAssertEqualObjects([christineJson objectForKey:@"_soupEntryId"], [[result objectAtIndex:0] objectAtIndex:1], @"Wrong soupEntryId");
