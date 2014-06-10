@@ -169,7 +169,7 @@ static NSString * const kUserPrefix = @"005";
     
     // Only post the login host change notification if the host actually changed.
     if (![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:oldLoginHost, kSFLoginHostChangedNotificationOriginalHostKey, host, kSFLoginHostChangedNotificationUpdatedHostKey, nil];
+        NSDictionary *userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
         NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
         [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
     }
@@ -373,7 +373,7 @@ static NSString * const kUserPrefix = @"005";
         if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
             continue;
         }
-        [accounts addObject:[self.userAccountMap objectForKey:userId]];
+        [accounts addObject:(self.userAccountMap)[userId]];
     }
     
     return accounts;
@@ -399,9 +399,9 @@ static NSString * const kUserPrefix = @"005";
  */
 - (NSSet*)allExistingAccountNames {
     NSMutableDictionary *tokenQuery = [[NSMutableDictionary alloc] init];
-    [tokenQuery setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [tokenQuery setObject:(__bridge id)kSecMatchLimitAll        forKey:(__bridge id)kSecMatchLimit];
-    [tokenQuery setObject:(id)kCFBooleanTrue           forKey:(__bridge id)kSecReturnAttributes];
+    tokenQuery[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+    tokenQuery[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitAll;
+    tokenQuery[(__bridge id)kSecReturnAttributes] = (id)kCFBooleanTrue;
     
     CFArrayRef outArr = nil;
     OSStatus result = SecItemCopyMatching((__bridge CFDictionaryRef)[NSDictionary dictionaryWithDictionary:tokenQuery], (CFTypeRef *)&outArr);
@@ -592,7 +592,7 @@ static NSString * const kUserPrefix = @"005";
 }
 
 - (SFUserAccount *)temporaryUser {
-    SFUserAccount *tempAccount = [self.userAccountMap objectForKey:SFUserAccountManagerTemporaryUserAccountId];
+    SFUserAccount *tempAccount = (self.userAccountMap)[SFUserAccountManagerTemporaryUserAccountId];
     if (tempAccount == nil) {
         tempAccount = [self createUserAccount];
     }
@@ -601,14 +601,14 @@ static NSString * const kUserPrefix = @"005";
 
 - (SFUserAccount*)userAccountForUserId:(NSString*)userId {
     NSString *safeUserId = [self makeUserIdSafe:userId];
-    SFUserAccount *result = [self.userAccountMap objectForKey:safeUserId];
+    SFUserAccount *result = (self.userAccountMap)[safeUserId];
 	return result;
 }
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
     NSMutableArray *array = [NSMutableArray array];
     for (NSString *key in self.userAccountMap) {
-        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
         if ([accountOrg isEqualToString:orgId]) {
             [array addObject:account];
@@ -621,7 +621,7 @@ static NSString * const kUserPrefix = @"005";
     NSMutableArray *responseArray = [NSMutableArray array];
     
     for (NSString *key in self.userAccountMap) {
-        SFUserAccount *account = [self.userAccountMap objectForKey:key];
+        SFUserAccount *account = (self.userAccountMap)[key];
         if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
             [responseArray addObject:account];
         }
@@ -663,7 +663,7 @@ static NSString * const kUserPrefix = @"005";
 
 - (void)addAccount:(SFUserAccount*)acct {
     NSString *safeUserId = [self makeUserIdSafe:acct.credentials.userId];
-    [self.userAccountMap setObject:acct forKey:safeUserId];
+    (self.userAccountMap)[safeUserId] = acct;
 }
 
 - (NSString *)activeUserId {
@@ -686,7 +686,7 @@ static NSString * const kUserPrefix = @"005";
     NSString *newUserId = [self makeUserIdSafe:newUser.credentials.userId];
 
     [self.userAccountMap removeObjectForKey:oldUserId];
-    [self.userAccountMap setObject:newUser forKey:newUserId];
+    (self.userAccountMap)[newUserId] = newUser;
     
     NSString *defUserId = [self activeUserId];
     if (!defUserId || [defUserId isEqualToString:oldUserId]) {

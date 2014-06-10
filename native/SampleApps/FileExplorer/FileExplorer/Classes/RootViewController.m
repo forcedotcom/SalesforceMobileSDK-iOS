@@ -214,7 +214,7 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
     }
 
 	// Configure the cell to show the data.
-    NSDictionary *obj = [dataRows objectAtIndex:indexPath.row];
+    NSDictionary *obj = dataRows[indexPath.row];
     NSString *fileId = obj[@"id"];
     NSInteger tag = [fileId hash];
 

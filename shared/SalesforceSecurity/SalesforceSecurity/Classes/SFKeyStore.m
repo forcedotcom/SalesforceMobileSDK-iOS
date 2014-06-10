@@ -46,7 +46,7 @@
         // couldn't be decrypted.  This allows us to differentiate between a non-existent key store dictionary
         // and one that can't be accessed.
         if (keyStoreData == nil) {
-            return [NSDictionary dictionary];
+            return @{};
         } else {
             NSDictionary *keyStoreDict = [self decryptDictionaryData:keyStoreData withKey:decryptKey];
             return keyStoreDict;

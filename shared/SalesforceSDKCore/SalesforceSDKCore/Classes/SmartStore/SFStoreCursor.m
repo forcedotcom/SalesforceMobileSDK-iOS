@@ -69,15 +69,15 @@
         NSInteger myPageSize = 10;
         myPageSize =  [querySpec pageSize];
 
-        self.pageSize = [NSNumber numberWithInteger:myPageSize]; 
+        self.pageSize = @(myPageSize); 
         
         float totalPagesFloat = totalEntries / (float)querySpec.pageSize;
         int totalPages = ceilf(totalPagesFloat);
         if (0 == totalEntries)
             totalPages = 0;
         
-        self.totalPages = [NSNumber numberWithInt:totalPages]; 
-        _currentPageIndex = [NSNumber numberWithInt:0];
+        self.totalPages = @(totalPages); 
+        _currentPageIndex = @0;
         self.currentPageOrderedEntries = firstPageEntries;
     }
     return self;
@@ -116,7 +116,7 @@
                 NSArray *newEntries = [_store queryWithQuerySpec:self.querySpec pageIndex:pageIdx error:nil];
                 self.currentPageOrderedEntries = newEntries;
             } else {
-                self.currentPageOrderedEntries = [NSArray array];
+                self.currentPageOrderedEntries = @[];
             }
         } 
     }
@@ -127,12 +127,12 @@
 - (NSDictionary*)asDictionary
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    [result setObject:self.cursorId forKey:@"cursorId"];
+    result[@"cursorId"] = self.cursorId;
     //note that we only encode the current page worth of entries
-    [result setObject:self.currentPageOrderedEntries forKey:@"currentPageOrderedEntries"];
-    [result setObject:self.currentPageIndex forKey:@"currentPageIndex"];
-    [result setObject:self.pageSize forKey:@"pageSize"];
-    [result setObject:self.totalPages forKey:@"totalPages"];
+    result[@"currentPageOrderedEntries"] = self.currentPageOrderedEntries;
+    result[@"currentPageIndex"] = self.currentPageIndex;
+    result[@"pageSize"] = self.pageSize;
+    result[@"totalPages"] = self.totalPages;
     
     return result;
 }

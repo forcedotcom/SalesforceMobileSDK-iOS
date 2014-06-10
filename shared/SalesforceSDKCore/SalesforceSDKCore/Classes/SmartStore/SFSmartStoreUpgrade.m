@@ -239,11 +239,11 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
         return NO;
     
     NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
-    NSDictionary *userKeyStoreDict = [keyStoreDict objectForKey:userKey];
+    NSDictionary *userKeyStoreDict = keyStoreDict[userKey];
     if (userKeyStoreDict == nil)
         return NO;
     
-    NSNumber *usesKeyStoreNum = [userKeyStoreDict objectForKey:storeName];
+    NSNumber *usesKeyStoreNum = userKeyStoreDict[storeName];
     if (usesKeyStoreNum == nil)
         return NO;
     else
@@ -262,7 +262,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     }
     
     NSString *userKey = [SFSmartStoreUtils userKeyForUser:user];
-    NSDictionary *userDict = [newDict objectForKey:userKey];
+    NSDictionary *userDict = newDict[userKey];
     NSMutableDictionary *newUserDict;
     if (userDict == nil) {
         newUserDict = [NSMutableDictionary dictionary];
@@ -270,9 +270,9 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
         newUserDict = [NSMutableDictionary dictionaryWithDictionary:userDict];
     }
     
-    NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesKeyStoreEncryption];
-    [newUserDict setObject:usesDefaultNum forKey:storeName];
-    [newDict setObject:newUserDict forKey:userKey];
+    NSNumber *usesDefaultNum = @(usesKeyStoreEncryption);
+    newUserDict[storeName] = usesDefaultNum;
+    newDict[userKey] = newUserDict;
     [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
     [userDefaults synchronize];
 }
@@ -333,7 +333,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 + (NSString *)legacyRootStoreDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
     
     return storesDir;
@@ -354,7 +354,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if (defaultPasscodeDict == nil)
         return NO;
     
-    NSNumber *usesDefaultKeyNum = [defaultPasscodeDict objectForKey:storeName];
+    NSNumber *usesDefaultKeyNum = defaultPasscodeDict[storeName];
     if (usesDefaultKeyNum == nil)
         return NO;
     else
@@ -370,8 +370,8 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     else
         newDict = [NSMutableDictionary dictionaryWithDictionary:defaultPasscodeDict];
     
-    NSNumber *usesDefaultNum = [NSNumber numberWithBool:usesDefault];
-    [newDict setObject:usesDefaultNum forKey:storeName];
+    NSNumber *usesDefaultNum = @(usesDefault);
+    newDict[storeName] = usesDefaultNum;
     [userDefaults setObject:newDict forKey:kLegacyDefaultPasscodeStoresKey];
     [userDefaults synchronize];
     
@@ -393,7 +393,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
         newDict = [NSMutableDictionary dictionaryWithDictionary:defaultEncTypeDict];
     
     NSNumber *encTypeNum = [NSNumber numberWithInt:encType];
-    [newDict setObject:encTypeNum forKey:storeName];
+    newDict[storeName] = encTypeNum;
     [userDefaults setObject:newDict forKey:kLegacyDefaultEncryptionTypeKey];
     [userDefaults synchronize];
 }
@@ -402,7 +402,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 {
     NSDictionary *encTypeDict = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyDefaultEncryptionTypeKey];
     if (encTypeDict == nil) return SFSmartStoreDefaultEncryptionTypeMac;
-    NSNumber *encTypeNum = [encTypeDict objectForKey:storeName];
+    NSNumber *encTypeNum = encTypeDict[storeName];
     if (encTypeNum == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     return [encTypeNum intValue];
 }

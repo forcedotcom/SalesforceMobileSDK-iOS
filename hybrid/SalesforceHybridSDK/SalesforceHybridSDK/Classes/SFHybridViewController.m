@@ -286,7 +286,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
     NSDictionary *authDict = [[self class] credentialsAsDictionary];
-    if ([[authDict objectForKey:kAccessTokenCredentialsDictKey] length] == 0) {
+    if ([authDict[kAccessTokenCredentialsDictKey] length] == 0) {
         [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
     } else {
         if (completionBlock != NULL) {
@@ -322,16 +322,14 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
         NSString *uaString = [self sfHybridViewUserAgentString];
-        credentialsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                           creds.accessToken, kAccessTokenCredentialsDictKey,
-                           creds.refreshToken, kRefreshTokenCredentialsDictKey,
-                           creds.clientId, kClientIdCredentialsDictKey,
-                           creds.userId, kUserIdCredentialsDictKey,
-                           creds.organizationId, kOrgIdCredentialsDictKey,
-                           loginUrl, kLoginUrlCredentialsDictKey,
-                           instanceUrl, kInstanceUrlCredentialsDictKey,
-                           uaString, kUserAgentCredentialsDictKey,
-                           nil];
+        credentialsDict = @{kAccessTokenCredentialsDictKey: creds.accessToken,
+                           kRefreshTokenCredentialsDictKey: creds.refreshToken,
+                           kClientIdCredentialsDictKey: creds.clientId,
+                           kUserIdCredentialsDictKey: creds.userId,
+                           kOrgIdCredentialsDictKey: creds.organizationId,
+                           kLoginUrlCredentialsDictKey: loginUrl,
+                           kInstanceUrlCredentialsDictKey: instanceUrl,
+                           kUserAgentCredentialsDictKey: uaString};
     }
     return credentialsDict;
 }
@@ -345,8 +343,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
         
         UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         
         singletonUserAgentString = [NSString stringWithFormat:
                                     @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
@@ -496,7 +494,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
-     [request.URL redactedAbsoluteString:[NSArray arrayWithObject:@"sid"]]];
+     [request.URL redactedAbsoluteString:@[@"sid"]]];
     
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenWebView]) {
@@ -543,7 +541,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
     NSURL *requestUrl = theWebView.request.URL;
-    NSArray *redactParams = [NSArray arrayWithObjects:@"sid", nil];
+    NSArray *redactParams = @[@"sid"];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
     [self log:SFLogLevelDebug format:@"webViewDidFinishLoad: Loaded %@", redactedUrl];
     
@@ -587,17 +585,15 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     static NSArray *reservedUrlStrings = nil;
     if (reservedUrlStrings == nil) {
-        reservedUrlStrings = [NSArray arrayWithObjects:
-                               @"/secur/frontdoor.jsp",
-                               @"/secur/contentDoor",
-                               nil];
+        reservedUrlStrings = @[@"/secur/frontdoor.jsp",
+                               @"/secur/contentDoor"];
     }
     if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
         return NO;    
     }
     NSString *inputUrlString = [url absoluteString];
     for (int i = 0; i < [reservedUrlStrings count]; i++) {
-        NSString *reservedString = [reservedUrlStrings objectAtIndex:i];
+        NSString *reservedString = reservedUrlStrings[i];
         NSRange range = [[inputUrlString lowercaseString] rangeOfString:[reservedString lowercaseString]];
         if (range.location != NSNotFound)
             return YES;

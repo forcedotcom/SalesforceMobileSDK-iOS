@@ -623,8 +623,8 @@ static Class InstanceClass = nil;
 
 + (void)resetSessionCookie
 {
-    [self removeCookies:[NSArray arrayWithObjects:@"sid", nil]
-            fromDomains:[NSArray arrayWithObjects:@".salesforce.com", @".force.com", @".cloudforce.com", nil]];
+    [self removeCookies:@[@"sid"]
+            fromDomains:@[@".salesforce.com", @".force.com", @".cloudforce.com"]];
     [self addSidCookieForInstance];
 }
 
@@ -680,7 +680,7 @@ static Class InstanceClass = nil;
                                                    @"TRUE", NSHTTPCookieDiscard,
                                                    nil];
     if ([[SFAuthenticationManager sharedManager].coordinator.credentials.protocol isEqualToString:@"https"]) {
-        [newSidCookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+        newSidCookieProperties[NSHTTPCookieSecure] = @"TRUE";
     }
     
     NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
@@ -1137,7 +1137,7 @@ static Class InstanceClass = nil;
     BOOL errorHandled = NO;
     NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
     while (i < [authHandlerArray count] && !errorHandled) {
-        SFAuthErrorHandler *currentHandler = [self.authErrorHandlerList.authHandlerArray objectAtIndex:i];
+        SFAuthErrorHandler *currentHandler = (self.authErrorHandlerList.authHandlerArray)[i];
         errorHandled = currentHandler.evalBlock(error, info);
         i++;
     }

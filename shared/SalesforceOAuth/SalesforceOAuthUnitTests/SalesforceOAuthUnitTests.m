@@ -268,21 +268,21 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
                               };
     
     for (NSString *encTypeKey in [keyDict allKeys]) {
-        NSArray *encTypeArray = [keyDict objectForKey:encTypeKey];
+        NSArray *encTypeArray = keyDict[encTypeKey];
         
         // Same keys for supported encryption and decryption
         NSString *retrievedAccessToken;
         NSString *retrievedRefreshToken;
         if ([encTypeKey isEqualToString:@"keyStore"]) {
-            [credentials setAccessToken:accessToken withSFEncryptionKey:[encTypeArray objectAtIndex:0]];
-            [credentials setRefreshToken:refreshToken withSFEncryptionKey:[encTypeArray objectAtIndex:1]];
-            retrievedAccessToken = [credentials accessTokenWithSFEncryptionKey:[encTypeArray objectAtIndex:0]];
-            retrievedRefreshToken = [credentials refreshTokenWithSFEncryptionKey:[encTypeArray objectAtIndex:1]];
+            [credentials setAccessToken:accessToken withSFEncryptionKey:encTypeArray[0]];
+            [credentials setRefreshToken:refreshToken withSFEncryptionKey:encTypeArray[1]];
+            retrievedAccessToken = [credentials accessTokenWithSFEncryptionKey:encTypeArray[0]];
+            retrievedRefreshToken = [credentials refreshTokenWithSFEncryptionKey:encTypeArray[1]];
         } else {
-            [credentials setAccessToken:accessToken withKey:[encTypeArray objectAtIndex:0]];
-            [credentials setRefreshToken:refreshToken withKey:[encTypeArray objectAtIndex:1]];
-            retrievedAccessToken = [credentials accessTokenWithKey:[encTypeArray objectAtIndex:0]];
-            retrievedRefreshToken = [credentials refreshTokenWithKey:[encTypeArray objectAtIndex:1]];
+            [credentials setAccessToken:accessToken withKey:encTypeArray[0]];
+            [credentials setRefreshToken:refreshToken withKey:encTypeArray[1]];
+            retrievedAccessToken = [credentials accessTokenWithKey:encTypeArray[0]];
+            retrievedRefreshToken = [credentials refreshTokenWithKey:encTypeArray[1]];
         }
         STAssertEqualObjects(accessToken, retrievedAccessToken, @"Access tokens do not match between storage and retrieval for '%@'.", encTypeKey);
         STAssertEqualObjects(refreshToken, retrievedRefreshToken, @"Refresh tokens do not match between storage and retrieval for '%@'.", encTypeKey);
@@ -290,15 +290,15 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
         // Different keys between encryption and decryption (i.e. failed decryption)
         NSData *badDecryptKey = [@"grarBogusKey!" dataUsingEncoding:NSUTF8StringEncoding];
         if ([encTypeKey isEqualToString:@"keyStore"]) {
-            [credentials setAccessToken:accessToken withSFEncryptionKey:[encTypeArray objectAtIndex:0]];
-            [credentials setRefreshToken:refreshToken withSFEncryptionKey:[encTypeArray objectAtIndex:1]];
+            [credentials setAccessToken:accessToken withSFEncryptionKey:encTypeArray[0]];
+            [credentials setRefreshToken:refreshToken withSFEncryptionKey:encTypeArray[1]];
             NSData *badIv = [SFSDKCryptoUtils randomByteDataWithLength:32];
             SFEncryptionKey *badEncryptionKey = [[SFEncryptionKey alloc] initWithData:badDecryptKey initializationVector:badIv];
             retrievedAccessToken = [credentials accessTokenWithSFEncryptionKey:badEncryptionKey];
             retrievedRefreshToken = [credentials refreshTokenWithSFEncryptionKey:badEncryptionKey];
         } else {
-            [credentials setAccessToken:accessToken withKey:[encTypeArray objectAtIndex:0]];
-            [credentials setRefreshToken:refreshToken withKey:[encTypeArray objectAtIndex:1]];
+            [credentials setAccessToken:accessToken withKey:encTypeArray[0]];
+            [credentials setRefreshToken:refreshToken withKey:encTypeArray[1]];
             retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
             retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
         }

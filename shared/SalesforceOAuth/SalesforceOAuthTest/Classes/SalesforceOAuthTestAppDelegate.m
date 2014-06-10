@@ -108,7 +108,7 @@ static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth
 
 + (NSString *)archivePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsPath = [paths objectAtIndex:0];
+	NSString *documentsPath = paths[0];
 	return [documentsPath stringByAppendingPathComponent:kOAuthCredentialsArchivePath];
 }
 

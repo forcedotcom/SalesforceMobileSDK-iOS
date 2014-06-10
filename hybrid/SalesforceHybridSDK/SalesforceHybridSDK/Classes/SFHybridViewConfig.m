@@ -104,85 +104,85 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (NSString *)remoteAccessConsumerKey
 {
-    return [self.configDict objectForKey:kRemoteAccessConsumerKey];
+    return (self.configDict)[kRemoteAccessConsumerKey];
 }
 
 - (void)setRemoteAccessConsumerKey:(NSString *)remoteAccessConsumerKey
 {
-    [self.configDict setObject:[remoteAccessConsumerKey copy] forKey:kRemoteAccessConsumerKey];
+    (self.configDict)[kRemoteAccessConsumerKey] = [remoteAccessConsumerKey copy];
 }
 
 - (NSString *)oauthRedirectURI
 {
-    return [self.configDict objectForKey:kOauthRedirectURI];
+    return (self.configDict)[kOauthRedirectURI];
 }
 
 - (void)setOauthRedirectURI:(NSString *)oauthRedirectURI
 {
-    [self.configDict setObject:[oauthRedirectURI copy] forKey:kOauthRedirectURI];
+    (self.configDict)[kOauthRedirectURI] = [oauthRedirectURI copy];
 }
 
 - (NSSet *)oauthScopes
 {
-    return [NSSet setWithArray:[self.configDict objectForKey:kOauthScopes]];
+    return [NSSet setWithArray:(self.configDict)[kOauthScopes]];
 }
 
 - (void)setOauthScopes:(NSSet *)oauthScopes
 {
-    [self.configDict setObject:[oauthScopes allObjects] forKey:kOauthScopes];
+    (self.configDict)[kOauthScopes] = [oauthScopes allObjects];
 }
 
 - (BOOL)isLocal
 {
-    return [[self.configDict objectForKey:kIsLocal] boolValue];
+    return [(self.configDict)[kIsLocal] boolValue];
 }
 
 - (void)setIsLocal:(BOOL)isLocal
 {
-    NSNumber *isLocalNum = [NSNumber numberWithBool:isLocal];
-    [self.configDict setObject:isLocalNum forKey:kIsLocal];
+    NSNumber *isLocalNum = @(isLocal);
+    (self.configDict)[kIsLocal] = isLocalNum;
 }
 
 - (NSString *)startPage
 {
-    return [self.configDict objectForKey:kStartPage];
+    return (self.configDict)[kStartPage];
 }
 
 - (void)setStartPage:(NSString *)startPage
 {
-    [self.configDict setObject:[startPage copy] forKey:kStartPage];
+    (self.configDict)[kStartPage] = [startPage copy];
 }
 
 - (NSString *)errorPage
 {
-    return [self.configDict objectForKey:kErrorPage];
+    return (self.configDict)[kErrorPage];
 }
 
 - (void)setErrorPage:(NSString *)errorPage
 {
-    [self.configDict setObject:[errorPage copy] forKey:kErrorPage];
+    (self.configDict)[kErrorPage] = [errorPage copy];
 }
 
 - (BOOL)shouldAuthenticate
 {
-    return [[self.configDict objectForKey:kShouldAuthenticate] boolValue];
+    return [(self.configDict)[kShouldAuthenticate] boolValue];
 }
 
 - (void)setShouldAuthenticate:(BOOL)shouldAuthenticate
 {
-    NSNumber *shouldAuthenticateNum = [NSNumber numberWithBool:shouldAuthenticate];
-    [self.configDict setObject:shouldAuthenticateNum forKey:kShouldAuthenticate];
+    NSNumber *shouldAuthenticateNum = @(shouldAuthenticate);
+    (self.configDict)[kShouldAuthenticate] = shouldAuthenticateNum;
 }
 
 - (BOOL)attemptOfflineLoad
 {
-    return [[self.configDict objectForKey:kAttemptOfflineLoad] boolValue];
+    return [(self.configDict)[kAttemptOfflineLoad] boolValue];
 }
 
 - (void)setAttemptOfflineLoad:(BOOL)attemptOfflineLoad
 {
-    NSNumber *attemptOfflineLoadNum = [NSNumber numberWithBool:attemptOfflineLoad];
-    [self.configDict setObject:attemptOfflineLoadNum forKey:kAttemptOfflineLoad];
+    NSNumber *attemptOfflineLoadNum = @(attemptOfflineLoad);
+    (self.configDict)[kAttemptOfflineLoad] = attemptOfflineLoadNum;
 }
 
 #pragma mark - Configuration helpers
@@ -222,10 +222,10 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     // Any default values that would not be the implicit defaults of nil values, should be set here.
     
-    if ([self.configDict objectForKey:kAttemptOfflineLoad] == nil) {
+    if ((self.configDict)[kAttemptOfflineLoad] == nil) {
         self.attemptOfflineLoad = kDefaultAttemptOfflineLoad;
     }
-    if ([self.configDict objectForKey:kShouldAuthenticate] == nil) {
+    if ((self.configDict)[kShouldAuthenticate] == nil) {
         self.shouldAuthenticate = kDefaultShouldAuthenticate;
     }
     if (self.startPage == nil) {

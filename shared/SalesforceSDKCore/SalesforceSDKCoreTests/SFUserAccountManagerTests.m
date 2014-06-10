@@ -83,7 +83,7 @@
     
     // Create a single user
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *user = [accounts objectAtIndex:0];
+    SFUserAccount *user = accounts[0];
     // Check if the UserAccount.plist is stored at the right location
     NSError *error = nil;
     STAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
@@ -175,7 +175,7 @@
 
 - (void)testSwitchToNewUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *origUser = [accounts objectAtIndex:0];
+    SFUserAccount *origUser = accounts[0];
     self.uam.currentUser = origUser;
     TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
     [self.uam switchToNewUser];
@@ -188,8 +188,8 @@
 
 - (void)testSwitchToUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
-    SFUserAccount *origUser = [accounts objectAtIndex:0];
-    SFUserAccount *newUser = [accounts objectAtIndex:1];
+    SFUserAccount *origUser = accounts[0];
+    SFUserAccount *newUser = accounts[1];
     self.uam.currentUser = origUser;
     TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
     [self.uam switchToUser:newUser];

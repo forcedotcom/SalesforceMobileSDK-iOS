@@ -73,8 +73,8 @@ NSInteger const kMaxSOSLSearchLimit      = 200;
 		for( NSString *sObject in [objectScope allKeys] ) {
             NSMutableString *scope = [NSMutableString stringWithString:sObject];
             
-            if( [[objectScope objectForKey:sObject] isKindOfClass:[NSString class]] )
-                [scope appendFormat:@" (%@)", [objectScope objectForKey:sObject]];
+            if( [objectScope[sObject] isKindOfClass:[NSString class]] )
+                [scope appendFormat:@" (%@)", objectScope[sObject]];
             
 			[scopes addObject:scope];
         }

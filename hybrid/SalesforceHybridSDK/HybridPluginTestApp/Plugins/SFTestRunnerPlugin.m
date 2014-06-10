@@ -41,7 +41,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         _testName = [testName copy];
         _success = success;
         _message = [message copy];
-        NSNumber *durationMs = [testStatus objectForKey:@"testDuration"];
+        NSNumber *durationMs = testStatus[@"testDuration"];
         _duration = [durationMs doubleValue] / 1000;
     }
     
@@ -102,7 +102,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSString *testName = [argsDict objectForKey:@"testName"];
+    NSString *testName = argsDict[@"testName"];
     BOOL success = [[argsDict valueForKey:@"success"] boolValue];
     NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];

@@ -74,19 +74,19 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         SFKeyStoreKey *key = nil;
         NSString *typedKeyLabel = [self keyLabelForBaseLabel:keyLabel keyType:keyType];
         if (keyType == SFKeyStoreKeyTypeGenerated) {
-            key = [self.generatedKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
+            key = (self.generatedKeyStore.keyStoreDictionary)[typedKeyLabel];
         } else if (keyType == SFKeyStoreKeyTypePasscode) {
             if (self.passcodeKeyStore.keyStoreEnabled) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
-                    key = [self.passcodeKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
+                    key = (self.passcodeKeyStore.keyStoreDictionary)[typedKeyLabel];
                 } else {
                     [self log:SFLogLevelError format:@"Passcode key store is not yet available.  Cannot retrieve key with label '%@'.", keyLabel];
                     return nil;
                 }
             } else {
                 // No passcode configured.  Passcode keys fall back to being stored in the generated key store.
-                key = [self.generatedKeyStore.keyStoreDictionary objectForKey:typedKeyLabel];
+                key = (self.generatedKeyStore.keyStoreDictionary)[typedKeyLabel];
             }
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -201,9 +201,9 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     @synchronized (self) {
         NSMutableDictionary *keysToMove = [NSMutableDictionary dictionary];
         for (NSString *generatedKeyLabel in [self.generatedKeyStore.keyStoreDictionary allKeys]) {
-            SFKeyStoreKey *generatedKey = [self.generatedKeyStore.keyStoreDictionary objectForKey:generatedKeyLabel];
+            SFKeyStoreKey *generatedKey = (self.generatedKeyStore.keyStoreDictionary)[generatedKeyLabel];
             if (generatedKey.keyType == SFKeyStoreKeyTypePasscode) {
-                [keysToMove setObject:generatedKey forKey:generatedKeyLabel];
+                keysToMove[generatedKeyLabel] = generatedKey;
             }
         }
         
@@ -211,8 +211,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         NSMutableDictionary *updatedPasscodeDictionary = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
         for (NSString *keyToMoveLabel in [keysToMove allKeys]) {
             [updatedGeneratedDictionary removeObjectForKey:keyToMoveLabel];
-            SFKeyStoreKey *keyToMove = [keysToMove objectForKey:keyToMoveLabel];
-            [updatedPasscodeDictionary setObject:keyToMove forKey:keyToMoveLabel];
+            SFKeyStoreKey *keyToMove = keysToMove[keyToMoveLabel];
+            updatedPasscodeDictionary[keyToMoveLabel] = keyToMove;
         }
         
         self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
@@ -227,8 +227,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         NSDictionary *keysToMove = [NSDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
         NSMutableDictionary *updatedGeneratedDictionary = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
         for (NSString *keyToMoveLabel in [keysToMove allKeys]) {
-            SFKeyStoreKey *keyToMove = [keysToMove objectForKey:keyToMoveLabel];
-            [updatedGeneratedDictionary setObject:keyToMove forKey:keyToMoveLabel];
+            SFKeyStoreKey *keyToMove = keysToMove[keyToMoveLabel];
+            updatedGeneratedDictionary[keyToMoveLabel] = keyToMove;
         }
         
         self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
@@ -242,14 +242,14 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
         NSString *typedKeyLabel = [self keyLabelForBaseLabel:keyLabel keyType:key.keyType];
         if (key.keyType == SFKeyStoreKeyTypeGenerated) {
             NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-            [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
+            mutableKeyStoreDict[typedKeyLabel] = key;
             self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
         } else if (key.keyType == SFKeyStoreKeyTypePasscode) {
             if (self.passcodeKeyStore.keyStoreEnabled) {
                 // There's a passcode configured, so the passcode key store should be in use.
                 if (self.passcodeKeyStore.keyStoreAvailable) {
                     NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.passcodeKeyStore.keyStoreDictionary];
-                    [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
+                    mutableKeyStoreDict[typedKeyLabel] = key;
                     self.passcodeKeyStore.keyStoreDictionary = mutableKeyStoreDict;
                 } else {
                     [self log:SFLogLevelError format:@"Passcode key store is not yet available.  Cannot store key with label '%@'.", keyLabel];
@@ -257,7 +257,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             } else {
                 // No passcode configured.  Passcode keys fall back to being stored in the generated key store.
                 NSMutableDictionary *mutableKeyStoreDict = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-                [mutableKeyStoreDict setObject:key forKey:typedKeyLabel];
+                mutableKeyStoreDict[typedKeyLabel] = key;
                 self.generatedKeyStore.keyStoreDictionary = mutableKeyStoreDict;
             }
         } else {
@@ -310,8 +310,8 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
     }
     
     @synchronized (self) {
-        NSString *oldKey = [change objectForKey:NSKeyValueChangeOldKey];
-        NSString *newKey = [change objectForKey:NSKeyValueChangeNewKey];
+        NSString *oldKey = change[NSKeyValueChangeOldKey];
+        NSString *newKey = change[NSKeyValueChangeNewKey];
         if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
         if ([newKey isEqual:[NSNull null]]) newKey = nil;
         

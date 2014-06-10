@@ -43,7 +43,7 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
     // Loop through the querystring to evaluate the parameters.
     NSArray *queryNameValPairs = [[self query] componentsSeparatedByString:@"&"];
     for (int i = 0; i < [queryNameValPairs count]; i++) {
-        NSString *nameValPairString = [queryNameValPairs objectAtIndex:i];
+        NSString *nameValPairString = queryNameValPairs[i];
         NSArray *nameValPair = [nameValPairString componentsSeparatedByString:@"="];
         if (nameValPair == nil || [nameValPair count] != 2) {
             // If it's just a "hanging" parameter (e.g. &fromEmail as opposed to &fromEmail=1),
@@ -53,10 +53,10 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
         }
         
         // Got a good name/value pair.  See if any of the parameters to redact match this pair.
-        NSString *name = [nameValPair objectAtIndex:0];
+        NSString *name = nameValPair[0];
         NSString *redactedNameValuePairString = nil;
         for (int qspIndex = 0; qspIndex < [queryStringParamsToRedact count]; qspIndex++) {
-            NSString *paramToRedact = [queryStringParamsToRedact objectAtIndex:qspIndex];
+            NSString *paramToRedact = queryStringParamsToRedact[qspIndex];
             if ([[paramToRedact lowercaseString] isEqualToString:[name lowercaseString]]) {
                 // Got one!  Redact it.
                 redactedNameValuePairString = [NSString stringWithFormat:@"%@=%@", name, kSFRedactedQuerystringValue];

@@ -153,7 +153,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
             else {
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
+                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
                 [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
