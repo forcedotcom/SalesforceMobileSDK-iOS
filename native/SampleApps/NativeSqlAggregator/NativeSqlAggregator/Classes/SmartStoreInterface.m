@@ -59,7 +59,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
         NSDictionary *idDictionary = [NSDictionary dictionaryWithObjects:idValues forKeys:keys];
         NSArray *ownerIdValues = @[@"OwnerId", kSoupIndexTypeString];
         NSDictionary *ownerIdDictionary = [NSDictionary dictionaryWithObjects:ownerIdValues forKeys:keys];
-        NSArray *accountIndexSpecs = @[nameDictionary, idDictionary, ownerIdDictionary];
+        NSArray *accountIndexSpecs = [SFSoupIndex asArraySoupIndexes:@[nameDictionary, idDictionary, ownerIdDictionary]];
         [self.store registerSoup:kAccountSoupName withIndexSpecs:accountIndexSpecs];
     }
 }
@@ -78,7 +78,7 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
         NSDictionary *ownerIdDictionary = [NSDictionary dictionaryWithObjects:ownerIdValues forKeys:keys];
         NSArray *amountValues = @[@"Amount", kSoupIndexTypeFloating];
         NSDictionary *amountDictionary = [NSDictionary dictionaryWithObjects:amountValues forKeys:keys];
-        NSArray *opportunityIndexSpecs = @[nameDictionary, idDictionary, accountIdDictionary, ownerIdDictionary, amountDictionary];
+        NSArray *opportunityIndexSpecs = [SFSoupIndex asArraySoupIndexes:@[nameDictionary, idDictionary, accountIdDictionary, ownerIdDictionary, amountDictionary]];
         [self.store registerSoup:kOpportunitySoupName withIndexSpecs:opportunityIndexSpecs];
     }
 }
