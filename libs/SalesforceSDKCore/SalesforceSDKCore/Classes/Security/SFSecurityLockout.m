@@ -558,6 +558,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)isPasscodeNeeded
 {
+    if(securityLockoutTime == 0) return NO; // no passcode is required.
+
     BOOL result = [SFSecurityLockout inactivityExpired] || [SFSecurityLockout validatePasscodeAtStartup] || ![SFSecurityLockout isPasscodeValid];
     result = result || sForcePasscodeDisplay;
     return result;
