@@ -40,7 +40,7 @@
     NSNumber *_currentPageIndex;
     NSNumber *_pageSize;
     NSNumber *_totalPages;
-    
+    NSNumber *_totalEntries;
 }
 
 /**
@@ -64,9 +64,14 @@
 @property (nonatomic, readonly, strong) NSNumber *pageSize;
 
 /** 
- * The total number of pages of results available .
+ * The total number of pages of results available.
  */
 @property (nonatomic, readonly, strong) NSNumber *totalPages;
+
+/**
+ * The total number of entries.
+ */
+@property (nonatomic, readonly, strong) NSNumber *totalEntries;
 
 /**
  * The current page index among totalPages available: writing this value
