@@ -212,6 +212,7 @@ NSString * const kTestSoupName   = @"testSoup";
                                           kQuerySpecParamPageSize: [NSNumber numberWithInt:evenDividePageSize]};
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
+    STAssertEquals([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
     int cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
 
@@ -223,6 +224,7 @@ NSString * const kTestSoupName   = @"testSoup";
                               kQuerySpecParamPageSize: [NSNumber numberWithInt:unevenDividePageSize]};
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
+    STAssertEquals([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
     cursorTotalPages = [cursor.totalPages intValue];
     STAssertEquals(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, unevenDividePageSize, expectedPageSize);
 }

@@ -36,7 +36,7 @@
 @property (nonatomic, readwrite, strong) NSArray *currentPageOrderedEntries;
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
-
+@property (nonatomic, readwrite, strong) NSNumber *totalEntries;
 
 @end
 
@@ -49,6 +49,7 @@
 @synthesize currentPageIndex = _currentPageIndex;
 @synthesize pageSize = _pageSize;
 @synthesize totalPages = _totalPages;
+@synthesize totalEntries = _totalEntries;
 
 
 
@@ -76,7 +77,8 @@
         if (0 == totalEntries)
             totalPages = 0;
         
-        self.totalPages = @(totalPages); 
+        self.totalPages = @(totalPages);
+        self.totalEntries = @(totalEntries);
         _currentPageIndex = @0;
         self.currentPageOrderedEntries = firstPageEntries;
     }
@@ -133,14 +135,16 @@
     result[@"currentPageIndex"] = self.currentPageIndex;
     result[@"pageSize"] = self.pageSize;
     result[@"totalPages"] = self.totalPages;
+    result[@"totalEntries"] = self.totalEntries;
     
     return result;
 }
 
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%lu] \n querySpec: %@ \n }",
+    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalEntries:%@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%lu] \n querySpec: %@ \n }",
             self,self.cursorId,
+            self.totalEntries,
             self.totalPages,
             self.currentPageIndex,
             (unsigned long)[self.currentPageOrderedEntries count],
