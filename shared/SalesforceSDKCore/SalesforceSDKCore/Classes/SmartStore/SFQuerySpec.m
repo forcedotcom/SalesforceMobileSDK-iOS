@@ -72,7 +72,6 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.order = order;
         querySpec.pageSize = pageSize;
         [querySpec computeSmartAndCountSql];
-        NSLog(@"newExactQuerySpec: %@", querySpec);
     }
     return querySpec;
 }
