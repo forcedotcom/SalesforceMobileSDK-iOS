@@ -949,7 +949,7 @@ static Class InstanceClass = nil;
 - (void)clearAccountState:(BOOL)clearAccountData {
     if (clearAccountData) {
         [SFSmartStore removeAllStores];
-        [[SFPasscodeManager sharedManager] resetPasscode];
+        [SFSecurityLockout clearPasscodeState];
         NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
         [defs setBool:NO forKey:kAppSettingsAccountLogout];
         [defs synchronize];
