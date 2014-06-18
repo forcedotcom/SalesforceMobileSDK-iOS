@@ -163,7 +163,9 @@ static BOOL _showPasscode = YES;
             [SFInactivityTimerCenter updateActivityTimestamp];
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];  // "Unlock" was successful, as locking wasn't required.
         }
-    } 
+    } else {
+        [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];  // "Unlock" was successful, as locking wasn't required.
+    }
 }
 
 + (void)setPasscodeLength:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime
