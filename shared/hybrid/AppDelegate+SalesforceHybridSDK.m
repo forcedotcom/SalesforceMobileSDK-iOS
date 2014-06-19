@@ -29,6 +29,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceCommonUtils/SFLogger.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 
