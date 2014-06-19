@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		4F2147AE193D20C80010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
 		4F2147AF193D20C80010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AD193D20C80010F9D3 /* ImagesHybrid.xcassets */; };
+		4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
+		4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839819525B66003EBB16 /* AppDelegate.m */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
-		4FF15E29190884D700705FE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15E28190884D700705FE0 /* AppDelegate.m */; };
 		4FF15E3E190884FE00705FE0 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FF15E2B190884FE00705FE0 /* bootconfig.json */; };
 		4FF15E861908856800705FE0 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E5E1908852E00705FE0 /* cordova_plugins.js */; };
 		4FF15E871908856800705FE0 /* AccountEditor.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2A190884FE00705FE0 /* AccountEditor.html */; };
@@ -138,9 +139,11 @@
 /* Begin PBXFileReference section */
 		4F2147AC193D20C80010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F2147AD193D20C80010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
+		4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
+		4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
+		4F6D839819525B66003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
+		4F6D839919525B66003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		4FF15E27190884D700705FE0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
-		4FF15E28190884D700705FE0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		4FF15E2A190884FE00705FE0 /* AccountEditor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = AccountEditor.html; path = ../../../../external/samples/hybrid/accounteditor/AccountEditor.html; sourceTree = "<group>"; };
 		4FF15E2B190884FE00705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/accounteditor/bootconfig.json; sourceTree = "<group>"; };
 		4FF15E2D190884FE00705FE0 /* ratchet-theme-android.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "ratchet-theme-android.css"; sourceTree = "<group>"; };
@@ -397,8 +400,10 @@
 		824A9C5E1722021D00C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15E27190884D700705FE0 /* AppDelegate.h */,
-				4FF15E28190884D700705FE0 /* AppDelegate.m */,
+				4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */,
+				4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
+				4F6D839819525B66003EBB16 /* AppDelegate.m */,
+				4F6D839919525B66003EBB16 /* AppDelegate.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -474,8 +479,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FF15E29190884D700705FE0 /* AppDelegate.m in Sources */,
+				4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
+				4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

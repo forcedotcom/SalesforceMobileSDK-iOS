@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		4F2147C0193D217A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BE193D217A0010F9D3 /* Settings.bundle */; };
 		4F2147C1193D217A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */; };
-		4FF15DD4190882B100705FE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15DD3190882B100705FE0 /* AppDelegate.m */; };
+		4F6D83A619526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A219526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
+		4F6D83A719526344003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A419526344003EBB16 /* AppDelegate.m */; };
 		4FF15DD6190882BC00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */; };
 		4FF15E0D190883C700705FE0 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15DF91908833800705FE0 /* cordova_plugins.js */; };
 		4FF15E0E190883C700705FE0 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15DF71908831800705FE0 /* cordova.js */; };
@@ -135,8 +136,10 @@
 /* Begin PBXFileReference section */
 		4F2147BE193D217A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
-		4FF15DD2190882B100705FE0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
-		4FF15DD3190882B100705FE0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		4F6D83A219526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
+		4F6D83A319526344003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
+		4F6D83A419526344003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
+		4F6D83A519526344003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15DD7190882E600705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/fileexplorer/bootconfig.json; sourceTree = "<group>"; };
 		4FF15DD9190882E600705FE0 /* ratchet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ratchet.css; sourceTree = "<group>"; };
@@ -392,8 +395,10 @@
 		824A9C5E1722021D00C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15DD2190882B100705FE0 /* AppDelegate.h */,
-				4FF15DD3190882B100705FE0 /* AppDelegate.m */,
+				4F6D83A219526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m */,
+				4F6D83A319526344003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
+				4F6D83A419526344003EBB16 /* AppDelegate.m */,
+				4F6D83A519526344003EBB16 /* AppDelegate.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -468,8 +473,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FF15DD4190882B100705FE0 /* AppDelegate.m in Sources */,
+				4F6D83A619526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
+				4F6D83A719526344003EBB16 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
