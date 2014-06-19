@@ -10,6 +10,8 @@
 		4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C2193D219A0010F9D3 /* Settings.bundle */; };
 		4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */; };
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
+		4F6D83AC1952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
+		4F6D83AD1952638C003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83AA1952638C003EBB16 /* AppDelegate.m */; };
 		4FFEF97F1908814300C7A193 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF96B1908802B00C7A193 /* cordova_plugins.js */; };
 		4FFEF9801908814300C7A193 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF9691908801100C7A193 /* cordova.js */; };
 		4FFEF9811908814300C7A193 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF92219087FBC00C7A193 /* bootconfig.json */; };
@@ -48,7 +50,6 @@
 		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
 		8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */; };
 		8250723915C3514100F3A529 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250723815C3514100F3A529 /* libz.dylib */; };
-		8250725215C3514100F3A529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250725115C3514100F3A529 /* AppDelegate.m */; };
 		8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */; };
 		8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8E16ED590E00BD1EA2 /* libssl.a */; };
 		8251CA9116ED591C00BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9016ED591C00BD1EA2 /* libsqlcipher.a */; };
@@ -127,6 +128,10 @@
 		4F2147C2193D219A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
 		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
+		4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
+		4F6D83AA1952638C003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
+		4F6D83AB1952638C003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FFEF92219087FBC00C7A193 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/smartstoreexplorer/bootconfig.json; sourceTree = "<group>"; };
 		4FFEF92419087FBC00C7A193 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.mobile.min.css; sourceTree = "<group>"; };
 		4FFEF94619087FBC00C7A193 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../../external/samples/hybrid/smartstoreexplorer/index.html; sourceTree = "<group>"; };
@@ -168,8 +173,6 @@
 		8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartStoreExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		8250723815C3514100F3A529 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		8250724D15C3514100F3A529 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-		8250725015C3514100F3A529 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
-		8250725115C3514100F3A529 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		8250725415C3514100F3A529 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8251CA8E16ED590E00BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
@@ -360,8 +363,10 @@
 		8250724F15C3514100F3A529 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8250725015C3514100F3A529 /* AppDelegate.h */,
-				8250725115C3514100F3A529 /* AppDelegate.m */,
+				4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */,
+				4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
+				4F6D83AA1952638C003EBB16 /* AppDelegate.m */,
+				4F6D83AB1952638C003EBB16 /* AppDelegate.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -460,8 +465,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F6D83AC1952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				8250721615C3513E00F3A529 /* main.m in Sources */,
-				8250725215C3514100F3A529 /* AppDelegate.m in Sources */,
+				4F6D83AD1952638C003EBB16 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

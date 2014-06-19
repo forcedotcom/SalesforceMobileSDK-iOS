@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,39 +22,38 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
+#import <objc/runtime.h>
+
+#import "AppDelegate+SalesforceHybridSDK.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 
-@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
+@implementation AppDelegate (SalesforceHybridSDK)
 
-- (void)initializeAppViewState;
-
-@end
-
-@implementation AppDelegate
-
-@synthesize window = _window;
-@synthesize viewController = _viewController;
-
-- (id)init
+// its dangerous to override a method from within a category.
+// Instead we will use method swizzling. we set this up in the load call.
++ (void)load
 {
-    self = [super init];
-    if (self) {
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(init)), class_getInstanceMethod(self, @selector(swizzled_init)));
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didFinishLaunchingWithOptions:)), class_getInstanceMethod(self, @selector(swizzled_application:didFinishLaunchingWithOptions:)));
+
+}
+
+- (AppDelegate *)swizzled_init
+{
 #if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger setLogLevel:SFLogLevelDebug];
 #else
-        [SFLogger setLogLevel:SFLogLevelInfo];
+    [SFLogger setLogLevel:SFLogLevelInfo];
 #endif
-        
-        // Auth manager delegate, for receiving logout and login host change events.
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[SFUserAccountManager sharedInstance] addDelegate:self];
-    }
     
-    return self;
+    // Auth manager delegate, for receiving logout and login host change events.
+    [[SFAuthenticationManager sharedManager] addDelegate:self];
+    [[SFUserAccountManager sharedInstance] addDelegate:self];
+    
+    return [self swizzled_init];
 }
 
 - (void)dealloc
@@ -65,50 +64,12 @@
 
 #pragma mark - App event lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)swizzled_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.autoresizesSubviews = YES;
     
-    //
-    // If you wish to register for push notifications, uncomment the line below.  Note that,
-    // if you want to receive push notifications from Salesforce, you will also need to
-    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
-    //
-    //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
-    //
-    
     [self initializeAppViewState];
-    return YES;
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    //
-    // Uncomment the code below to register your device token with the push notification manager
-    //
-    //[[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    //if ([SFAccountManager sharedInstance].credentials.accessToken != nil) {
-    //    [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
-    //}
-    //
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-    // Respond to any push notification registration errors here.
-}
-
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
-{
-    if (url == nil) {
-        return NO;
-    }
-    
-    // calls into javascript global function 'handleOpenURL'
-    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
-    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
-    
     return YES;
 }
 
@@ -117,7 +78,7 @@
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
-    self.viewController.appHomeUrl = nil;
+    ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
     
     // Multi-user pattern:
     // - If there are two or more existing accounts after logout, let the user choose the account
@@ -169,3 +130,4 @@
 }
 
 @end
+
