@@ -98,6 +98,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (NSURL*)apiUrl {
+    if (self.communityId) {
+        NSURL *communityUrl = [self communityUrlWithId:self.communityId];
+        if (communityUrl) {
+            return communityUrl;
+        }
+    }
     return self.credentials.apiUrl;
 }
 
