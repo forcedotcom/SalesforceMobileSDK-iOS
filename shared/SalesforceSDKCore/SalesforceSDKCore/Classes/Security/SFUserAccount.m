@@ -98,11 +98,16 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (NSURL*)apiUrl {
-    if (self.communityId) {
-        SFCommunityData *data = [self communityWithId:self.communityId];
-        return data.siteUrl;
-    }
     return self.credentials.apiUrl;
+}
+
+- (NSURL*)communityUrlWithId:(NSString *)communityId {
+    if (!communityId) {
+        return nil;
+    }
+    
+    SFCommunityData *info = [self communityWithId:communityId];
+    return info.siteUrl;
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
