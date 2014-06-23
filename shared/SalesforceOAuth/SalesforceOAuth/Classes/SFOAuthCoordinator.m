@@ -613,13 +613,15 @@ static NSString * const kHttpPostContentType                    = @"application/
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:error];
     }
 
+    NSURL *requestUrl = [webView.request URL];
+    NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
     if (-999 == error.code) { 
         // -999 errors (operation couldn't be completed) occur during normal execution, therefore only log for debugging
         if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
-            NSLog(@"SFOAuthCoordinator:didFailLoadWithError: %@ on URL: %@", error, webView.request.URL);
+            NSLog(@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString);
         }
     } else {
-        NSLog(@"SFOAuthCoordinator:didFailLoadWithError %@ on URL: %@", error, webView.request.URL);
+        NSLog(@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString);
         SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
         [self notifyDelegateOfFailure:error authInfo:authInfo];
     }
@@ -628,7 +630,9 @@ static NSString * const kHttpPostContentType                    = @"application/
 #pragma mark - NSURLConnectionDelegate (Refresh Token Flow)
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: %@", error);
+    NSURL *requestUrl = [[connection currentRequest] URL];
+    NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+	NSLog(@"SFOAuthCoordinator:connection:didFailWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString);
     [self stopRefreshFlowConnectionTimer];
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     [self notifyDelegateOfFailure:error authInfo:authInfo];
