@@ -16,6 +16,9 @@
       <FileRef
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:SmartSync/SmartSync.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "container:"

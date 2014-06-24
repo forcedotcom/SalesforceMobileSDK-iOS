@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
+		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		CEAAAE5A195911E600CBBFE9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE59195911E600CBBFE9 /* UIKit.framework */; };
+		CEAAAE5D195911E600CBBFE9 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartSync.a */; };
+		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		CEAAAE711959132900CBBFE9 /* SFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAAAE701959132900CBBFE9 /* SFObject.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEAAAE5B195911E600CBBFE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
+			remoteInfo = SmartSync;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CEAAAE43195911E600CBBFE9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
+		CEAAAE55195911E600CBBFE9 /* SmartSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		CEAAAE59195911E600CBBFE9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		CEAAAE60195911E600CBBFE9 /* SmartSyncTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SmartSyncTests-Info.plist"; sourceTree = "<group>"; };
+		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEAAAE6F1959132900CBBFE9 /* SFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObject.h; sourceTree = "<group>"; };
+		CEAAAE701959132900CBBFE9 /* SFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObject.m; sourceTree = "<group>"; };
+		CEAAAE731959158C00CBBFE9 /* SFObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObject+Internal.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEAAAE42195911E600CBBFE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEAAAE52195911E600CBBFE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEAAAE5D195911E600CBBFE9 /* libSmartSync.a in Frameworks */,
+				CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */,
+				CEAAAE5A195911E600CBBFE9 /* UIKit.framework in Frameworks */,
+				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEAAAE3C195911E600CBBFE9 = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE4A195911E600CBBFE9 /* SmartSync */,
+				CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */,
+				CEAAAE47195911E600CBBFE9 /* Frameworks */,
+				CEAAAE46195911E600CBBFE9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEAAAE46195911E600CBBFE9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE45195911E600CBBFE9 /* libSmartSync.a */,
+				CEAAAE55195911E600CBBFE9 /* SmartSyncTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE48195911E600CBBFE9 /* Foundation.framework */,
+				CEAAAE56195911E600CBBFE9 /* XCTest.framework */,
+				CEAAAE59195911E600CBBFE9 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEAAAE4A195911E600CBBFE9 /* SmartSync */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE6E195912FC00CBBFE9 /* Classes */,
+				CEAAAE4B195911E600CBBFE9 /* Supporting Files */,
+			);
+			path = SmartSync;
+			sourceTree = "<group>";
+		};
+		CEAAAE4B195911E600CBBFE9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
+			);
+			path = SmartSyncTests;
+			sourceTree = "<group>";
+		};
+		CEAAAE5F195911E600CBBFE9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE60195911E600CBBFE9 /* SmartSyncTests-Info.plist */,
+				CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEAAAE6E195912FC00CBBFE9 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE74195916FC00CBBFE9 /* model */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		CEAAAE74195916FC00CBBFE9 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				CEAAAE731959158C00CBBFE9 /* SFObject+Internal.h */,
+				CEAAAE6F1959132900CBBFE9 /* SFObject.h */,
+				CEAAAE701959132900CBBFE9 /* SFObject.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEAAAE44195911E600CBBFE9 /* SmartSync */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEAAAE68195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartSync" */;
+			buildPhases = (
+				CEAAAE41195911E600CBBFE9 /* Sources */,
+				CEAAAE42195911E600CBBFE9 /* Frameworks */,
+				CEAAAE43195911E600CBBFE9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartSync;
+			productName = SmartSync;
+			productReference = CEAAAE45195911E600CBBFE9 /* libSmartSync.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		CEAAAE54195911E600CBBFE9 /* SmartSyncTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEAAAE6B195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartSyncTests" */;
+			buildPhases = (
+				CEAAAE51195911E600CBBFE9 /* Sources */,
+				CEAAAE52195911E600CBBFE9 /* Frameworks */,
+				CEAAAE53195911E600CBBFE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEAAAE5C195911E600CBBFE9 /* PBXTargetDependency */,
+			);
+			name = SmartSyncTests;
+			productName = SmartSyncTests;
+			productReference = CEAAAE55195911E600CBBFE9 /* SmartSyncTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEAAAE3D195911E600CBBFE9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Salesforce Inc.";
+			};
+			buildConfigurationList = CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CEAAAE3C195911E600CBBFE9;
+			productRefGroup = CEAAAE46195911E600CBBFE9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEAAAE44195911E600CBBFE9 /* SmartSync */,
+				CEAAAE54195911E600CBBFE9 /* SmartSyncTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEAAAE53195911E600CBBFE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEAAAE41195911E600CBBFE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEAAAE711959132900CBBFE9 /* SFObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEAAAE51195911E600CBBFE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEAAAE5C195911E600CBBFE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEAAAE44195911E600CBBFE9 /* SmartSync */;
+			targetProxy = CEAAAE5B195911E600CBBFE9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEAAAE62195911E600CBBFE9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEAAAE66195911E600CBBFE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CEAAAE67195911E600CBBFE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEAAAE69195911E600CBBFE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/SmartSync.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CEAAAE6A195911E600CBBFE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/SmartSync.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		CEAAAE6C195911E600CBBFE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		CEAAAE6D195911E600CBBFE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
+				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEAAAE66195911E600CBBFE9 /* Debug */,
+				CEAAAE67195911E600CBBFE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEAAAE68195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEAAAE69195911E600CBBFE9 /* Debug */,
+				CEAAAE6A195911E600CBBFE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CEAAAE6B195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartSyncTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEAAAE6C195911E600CBBFE9 /* Debug */,
+				CEAAAE6D195911E600CBBFE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEAAAE3D195911E600CBBFE9 /* Project object */;
+}
