@@ -301,6 +301,11 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (void)logoutUser:(SFUserAccount *)user;
 
 /**
+ Performs a logout for all users of the app, including the current user.
+ */
+- (void)logoutAllUsers;
+
+/**
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
