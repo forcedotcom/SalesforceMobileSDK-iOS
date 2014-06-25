@@ -345,6 +345,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     } else {
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
         [SFSecurityLockout clearAllPasscodeState];
+        [[SFAuthenticationManager sharedManager] logoutAllUsers];
         [SFSecurityLockout unlockFailurePostProcessing];
     }
     
