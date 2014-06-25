@@ -246,7 +246,10 @@ static BOOL _showPasscode = YES;
     // on passcode policies across users.  So for instance, if another configured user in the app still has
     // passcode policies which apply to that account, this method will effectively do nothing.  On the other hand,
     // if the current user is the only user of the app, this will remove passcode policies for the app.
-    [SFSecurityLockout setPasscodeLength:0 lockoutTime:0];
+    
+    if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
+        [SFSecurityLockout clearAllPasscodeState];
+    }
 }
 
 + (void)clearAllPasscodeState
