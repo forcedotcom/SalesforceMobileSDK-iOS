@@ -465,6 +465,18 @@ static Class InstanceClass = nil;
     [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
 }
 
+- (void)logoutAllUsers
+{
+    // Log out all other users, then the current user.
+    NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in userAccounts) {
+        if (account != [SFUserAccountManager sharedInstance].currentUser) {
+            [self logoutUser:account];
+        }
+    }
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
+}
+
 - (void)logout
 {
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
@@ -472,6 +484,15 @@ static Class InstanceClass = nil;
 
 - (void)logoutUser:(SFUserAccount *)user
 {
+    // No-op, if the user is not valid.
+    if (user == nil) {
+        [self log:SFLogLevelInfo msg:@"logoutUser: user is nil.  No action taken."];
+        return;
+    } else if (user == [SFUserAccountManager sharedInstance].temporaryUser) {
+        [self log:SFLogLevelInfo msg:@"logoutUser: user is the temporary account.  No action taken."];
+        return;
+    }
+    
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
