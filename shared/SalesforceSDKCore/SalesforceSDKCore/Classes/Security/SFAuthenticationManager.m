@@ -363,6 +363,8 @@ static Class InstanceClass = nil;
                                     [weakSelf dismissAuthViewControllerIfPresent];
                                 }];
         
+        [[SFUserAccountManager sharedInstance] addDelegate:self];
+        
         // Set up default auth error handlers.
         self.authErrorHandlerList = [self populateDefaultAuthErrorHandlerList];
         
