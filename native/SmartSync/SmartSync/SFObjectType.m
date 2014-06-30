@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFObjectType.h"
 #import "SFObjectType+Internal.h"
 
 static NSString * const SF_OBJECTYPE_KEYPREFIX_FIELD = @"keyPrefix";
