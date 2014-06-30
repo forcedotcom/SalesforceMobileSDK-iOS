@@ -52,8 +52,17 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
     return self;
 }
 
+- (id)initWithDictionary:(NSDictionary *)dataDiction {
+    self = [super init];
+    if (self) {
+        self.rawData = dataDiction;
+        [self configureDataWithDictionary:dataDiction];
+    }
+    return self;
+}
+
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction {
-    [super configureDataWithDictionary:dataDiction];
+    self.rawData = dataDiction;
     self.keyPrefix = dataDiction[SF_OBJECTYPE_KEYPREFIX_FIELD];
     self.name = dataDiction[SF_OBJECTYPE_NAME_FIELD];
     self.label = dataDiction[SF_OBJECTYPE_LABEL_FIELD];
@@ -147,6 +156,12 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
 }
 
 #pragma mark - NSCoding Protocol
+
+- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder {
+    if (object && key && encoder) {
+        [encoder encodeObject:object forKey:key];
+    }
+}
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
     [self encodeObject:self.keyPrefix forKey:SF_OBJECTYPE_KEYPREFIX_FIELD encoder:encoder];

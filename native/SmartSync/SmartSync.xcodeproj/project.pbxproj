@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		CEA1C1CB1961D50700EA43EA /* SFObjectType.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA1C1CA1961D50700EA43EA /* SFObjectType.m */; };
+		CEA1C1D019620AC200EA43EA /* ObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA1C1CF19620AC200EA43EA /* ObjectUtils.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -57,6 +58,8 @@
 		CEA1C1C91961D50700EA43EA /* SFObjectType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObjectType.h; sourceTree = "<group>"; };
 		CEA1C1CA1961D50700EA43EA /* SFObjectType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObjectType.m; sourceTree = "<group>"; };
 		CEA1C1CC1961D5C100EA43EA /* SFObjectType+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObjectType+Internal.h"; sourceTree = "<group>"; };
+		CEA1C1CE19620AC200EA43EA /* ObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectUtils.h; sourceTree = "<group>"; };
+		CEA1C1CF19620AC200EA43EA /* ObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectUtils.m; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
@@ -93,6 +96,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CEA1C1CD19620A8F00EA43EA /* util */ = {
+			isa = PBXGroup;
+			children = (
+				CEA1C1CE19620AC200EA43EA /* ObjectUtils.h */,
+				CEA1C1CF19620AC200EA43EA /* ObjectUtils.m */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +171,7 @@
 		CEAAAE6E195912FC00CBBFE9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEA1C1CD19620A8F00EA43EA /* util */,
 				CEAAAE74195916FC00CBBFE9 /* model */,
 			);
 			name = Classes;
@@ -276,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEAAAE711959132900CBBFE9 /* SFObject.m in Sources */,
+				CEA1C1D019620AC200EA43EA /* ObjectUtils.m in Sources */,
 				CEA1C1CB1961D50700EA43EA /* SFObjectType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

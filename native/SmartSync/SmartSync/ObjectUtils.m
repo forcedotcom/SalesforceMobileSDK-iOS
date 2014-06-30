@@ -22,24 +22,34 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFObjectType.h"
+#import "ObjectUtils.h"
 
-@interface SFObjectType ()
+@implementation ObjectUtils
 
-@property (nonatomic, strong, readwrite) NSString *keyPrefix;
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, strong, readwrite) NSString *label;
-@property (nonatomic, strong, readwrite) NSString *labelPlural;
-@property (nonatomic, strong, readwrite) NSString *nameField;
-@property (nonatomic, strong, readwrite) NSString *networkField;
-@property (nonatomic, strong, readwrite) NSDictionary *rawData;
-
-- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
-
-- (void)configureDataWithDictionary:(NSDictionary *)dataDiction;
-
-- (id)initWithName:(NSString *)name;
-
-- (id)initWithDictionary:(NSDictionary *)dataDiction;
++ (NSString *)formatValue:(NSObject *)value {
+    if (nil == value) {
+        value = nil;
+    } else {
+        if ([value isEqual:[NSNull null]]) {
+            value = nil;
+        } else if ([value isKindOfClass:[NSString class]]) {
+            if ([((NSString *)value) isEqualToString:@"<null>"]) {
+                value = nil;
+            }
+        }
+    }
+    NSString *returnValue;
+    if (nil == value) {
+        returnValue = @"";
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+        NSNumber *number = (NSNumber *)value;
+        returnValue = [number stringValue];
+    } else if ([value isKindOfClass:[NSString class]]) {
+        returnValue = (NSString *)value;
+    } else if ([value respondsToSelector:@selector(stringValue)]) {
+        returnValue = (NSString *)[value performSelector:@selector(stringValue)];
+    }
+    return returnValue;
+}
 
 @end

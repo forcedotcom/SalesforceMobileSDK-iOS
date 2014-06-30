@@ -24,12 +24,14 @@
 
 #import "SFObject.h"
 #import "SFObject+Internal.h"
+#import "ObjectUtils.h"
 
 static NSString * const SF_OBJECT_ID_FIELD = @"Id";
 static NSString * const SF_OBJECT_NAME_FIELD = @"Name";
 static NSString * const SF_OBJECT_TYPE_FIELD = @"attributes.type";
 static NSString * const SF_OBJECT_ATTRIBUTES_FIELD = @"attributes";
 static NSString * const SF_OBJECT_RAWDATA_FIELD = @"rawData";
+static NSString * const SF_OBJECT_TYPE_RECENTLY_VIEWED = @"RecentlyViewed";
 
 @implementation SFObject
 
@@ -45,7 +47,6 @@ static NSString * const SF_OBJECT_RAWDATA_FIELD = @"rawData";
 }
 
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction {
-    [super configureDataWithDictionary:dataDiction];
     self.objectId = dataDiction[SF_OBJECT_ID_FIELD];
     if (!self.objectId) {
         self.objectId = dataDiction[@"id"];
@@ -53,9 +54,9 @@ static NSString * const SF_OBJECT_RAWDATA_FIELD = @"rawData";
         self.name = dataDiction[@"name"];
     } else {
         self.name = dataDiction[SF_OBJECT_NAME_FIELD];
-        NSString *type = [SFSearchSDKUIUtils formatValue:[dataDiction valueForKeyPath:SF_OBJECT_TYPE_FIELD]];
-        if ([type isEqualToString:kSFSearchSDKRecentlyViewed]) {
-            type = [SFSearchSDKUIUtils formatValue:dataDiction[@"Type"]];
+        NSString *type = [ObjectUtils formatValue:[dataDiction valueForKeyPath:SF_OBJECT_TYPE_FIELD]];
+        if ([type isEqualToString:SF_OBJECT_TYPE_RECENTLY_VIEWED]) {
+            type = [ObjectUtils formatValue:dataDiction[@"Type"]];
         }
         self.objectType = type;
     }
@@ -75,10 +76,10 @@ static NSString * const SF_OBJECT_RAWDATA_FIELD = @"rawData";
 }
 
 - (BOOL)isEqual:(id)object {
-    if (nil == object || ![object isKindOfClass:[SFObjectModel class]]) {
+    if (nil == object || ![object isKindOfClass:[SFObject class]]) {
         return NO;
     }
-    SFObjectModel *otherObj = (SFObjectModel *)object;
+    SFObject *otherObj = (SFObject *)object;
     if (self.objectId != otherObj.objectId && ![self.objectId isEqualToString:otherObj.objectId]) {
         return NO;
     }

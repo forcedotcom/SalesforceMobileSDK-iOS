@@ -22,24 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFObjectType.h"
+#import <Foundation/Foundation.h>
 
-@interface SFObjectType ()
+@interface ObjectUtils : NSObject
 
-@property (nonatomic, strong, readwrite) NSString *keyPrefix;
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, strong, readwrite) NSString *label;
-@property (nonatomic, strong, readwrite) NSString *labelPlural;
-@property (nonatomic, strong, readwrite) NSString *nameField;
-@property (nonatomic, strong, readwrite) NSString *networkField;
-@property (nonatomic, strong, readwrite) NSDictionary *rawData;
-
-- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
-
-- (void)configureDataWithDictionary:(NSDictionary *)dataDiction;
-
-- (id)initWithName:(NSString *)name;
-
-- (id)initWithDictionary:(NSDictionary *)dataDiction;
++ (NSString *)formatValue:(NSObject *)value;
 
 @end
