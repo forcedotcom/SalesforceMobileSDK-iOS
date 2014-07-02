@@ -725,6 +725,10 @@ static NSString * const kUserPrefix = @"005";
     return nil;
 }
 
+- (NSString *)currentCommunityId {
+    return self.currentUser.communityId;
+}
+
 - (void)applyCredentials:(SFOAuthCredentials*)credentials {
     SFUserAccountChange change = SFUserAccountChangeCredentials;
     
