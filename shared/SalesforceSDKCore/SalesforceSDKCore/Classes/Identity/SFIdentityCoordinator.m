@@ -63,6 +63,11 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 {
     self = [super init];
     if (self) {
+#if defined(DEBUG)
+        [SFLogger setLogLevel:SFLogLevelDebug];
+#else
+        [SFLogger setLogLevel:SFLogLevelInfo];
+#endif
         self.credentials = credentials;
         self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
         self.retrievingData = NO;
@@ -91,8 +96,7 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
 	[request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
-    
-    NSLog(@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString);
+    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
 }
