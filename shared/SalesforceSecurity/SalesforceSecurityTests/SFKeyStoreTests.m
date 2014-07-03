@@ -112,11 +112,11 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
         // Passcode change chaos.
         NSUInteger randomInt = arc4random() % 10;
         if (randomInt > 4) {
-            NSLog(@"Passcode change chaos: changing passcode.");
+            [self log:SFLogLevelDebug msg:@"Passcode change chaos: changing passcode."];
             NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
             [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
         }
-        NSLog(@"## Thread safety test sleeping...");
+        [self log:SFLogLevelDebug msg:@"## Thread safety test sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
 }

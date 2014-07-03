@@ -179,7 +179,7 @@
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinatorDidAuthenticate:authInfo: info: %@ credentials: %@", info, coordinator.credentials);
+    [self log:SFLogLevelDebug format:@"SalesforceOAuthTestViewController:oauthCoordinatorDidAuthenticate:authInfo: info: %@ credentials: %@", info, coordinator.credentials];
     self.authInfo = info;
     
     [self authCompleted];
@@ -187,7 +187,7 @@
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
-    NSLog(@"SalesforceOAuthTestViewController:oauthCoordinator:didFailWithError:authInfo: info: %@ error: %@", info, error);
+    [self log:SFLogLevelDebug format:@"SalesforceOAuthTestViewController:oauthCoordinator:didFailWithError:authInfo: info: %@ error: %@", info, error];
     self.authInfo = info;
     
     [self authCompleted];
@@ -211,7 +211,7 @@
         [self.oauthCoordinator.credentials revokeAccessToken];
     } else {
         // invalid index
-        NSLog(@"SalesforceOAuthTestViewController:actionSheet:clickedButtonAtIndex: invalid button index: %d", buttonIndex);
+        [self log:SFLogLevelDebug format:@"SalesforceOAuthTestViewController:actionSheet:clickedButtonAtIndex: invalid button index: %d", buttonIndex];
     }
     self.authInfo = nil;
     [self updateLabels];

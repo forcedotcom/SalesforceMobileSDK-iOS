@@ -93,7 +93,7 @@
 
 
 - (void)close {
-    NSLog(@"closing cursor id: %@",self.cursorId);
+    [self log:SFLogLevelDebug format:@"closing cursor id: %@",self.cursorId];
 
      _store = nil;
     self.cursorId = nil;

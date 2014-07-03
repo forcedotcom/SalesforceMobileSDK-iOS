@@ -70,7 +70,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     
     if (nil != self)  {
         _readyToStartTests = NO;
-        NSLog(@"SFTestRunnerPlugin initWithWebView");
+        [self log:SFLogLevelDebug msg:@"SFTestRunnerPlugin initWithWebView"];
         _testResults = [[NSMutableArray alloc] init ];
     }
     return self;
@@ -107,9 +107,9 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
     
-    NSLog(@"testName: %@ success: %d message: %@",testName,success,message);
+    [self log:SFLogLevelDebug format:@"testName: %@ success: %d message: %@",testName,success,message];
     if (!success) {
-        NSLog(@"### TEST FAILED: %@",testName);
+        [self log:SFLogLevelDebug format:@"### TEST FAILED: %@",testName];
     }
     SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message status:testStatus];
     [self.testResults addObject:testResult];
