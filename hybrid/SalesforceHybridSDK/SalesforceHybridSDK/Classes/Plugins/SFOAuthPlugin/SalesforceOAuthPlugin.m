@@ -145,7 +145,7 @@
 
 - (void)authenticationCompletion:(NSDictionary *)authDict callbackId:(NSString *)callbackId
 {
-    NSLog(@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration.");
+    [self log:SFLogLevelDebug msg:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."];
     // Call back to the client with the authentication credentials.
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
