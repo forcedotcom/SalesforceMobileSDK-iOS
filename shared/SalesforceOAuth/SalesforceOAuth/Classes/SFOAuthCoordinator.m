@@ -117,11 +117,6 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (id)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
     if (self) {
-#if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-#else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-#endif
         self.credentials = credentials;
         self.authenticating = NO;
         _timeout = kSFOAuthDefaultTimeout;

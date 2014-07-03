@@ -83,11 +83,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-#if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-#else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-#endif
         self.identifier     = [coder decodeObjectForKey:@"SFOAuthIdentifier"];
         self.domain         = [coder decodeObjectForKey:@"SFOAuthDomain"];
         self.clientId       = [coder decodeObjectForKey:@"SFOAuthClientId"];
@@ -133,11 +128,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 - (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
     self = [super init];
     if (self) {
-#if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-#else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-#endif
         self.identifier           = theIdentifier;
         self.clientId             = theClientId;
         self.domain               = kSFOAuthDefaultDomain;

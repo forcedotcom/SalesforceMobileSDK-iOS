@@ -63,11 +63,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 {
     self = [super init];
     if (self) {
-#if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-#else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-#endif
         self.credentials = credentials;
         self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
         self.retrievingData = NO;
