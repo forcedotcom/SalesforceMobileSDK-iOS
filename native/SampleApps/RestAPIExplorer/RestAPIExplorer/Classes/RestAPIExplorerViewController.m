@@ -340,7 +340,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    NSLog(@"Passcode screen loading.  Clearing popovers.");
+    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
     if (self.popoverController) {
         [self.popoverController dismissPopoverAnimated:NO];
     }

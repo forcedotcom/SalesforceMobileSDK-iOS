@@ -132,7 +132,7 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
     NSArray *files = jsonResponse[@"files"];
-    NSLog(@"request:didLoadResponse: #files: %d", files.count);
+    [self log:SFLogLevelDebug format:@"request:didLoadResponse: #files: %d", files.count];
     self.dataRows = files;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
@@ -141,17 +141,17 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"request:didFailLoadWithError: %@", error);
+    [self log:SFLogLevelDebug format:@"request:didFailLoadWithError: %@", error];
     //add your failed error handling here
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"requestDidCancelLoad: %@", request);
+    [self log:SFLogLevelDebug format:@"requestDidCancelLoad: %@", request];
     //add your failed error handling here
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
-    NSLog(@"requestDidTimeout: %@", request);
+    [self log:SFLogLevelDebug format:@"requestDidTimeout: %@", request];
     //add your failed error handling here
 }
 
@@ -184,7 +184,7 @@ typedef void (^ThumbnailLoadedBlock) (UIImage *thumbnailImage);
 - (void) downloadThumbnail:(NSString*)fileId completeBlock:(ThumbnailLoadedBlock)completeBlock {
     SFRestRequest *imageRequest = [[SFRestAPI sharedInstance] requestForFileRendition:fileId version:nil renditionType:@"THUMB120BY90" page:0];
     [[SFRestAPI sharedInstance] sendRESTRequest:imageRequest failBlock:nil completeBlock:^(NSData *responseData) {
-        NSLog(@"downloadThumbnail:%@ completed", fileId);
+        [self log:SFLogLevelDebug format:@"downloadThumbnail:%@ completed", fileId];
         UIImage *image = [UIImage imageWithData:responseData];
         dispatch_async(dispatch_get_main_queue(), ^{
             completeBlock(image);

@@ -86,17 +86,17 @@
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error
 {
-    NSLog(@"REST request failed with error: %@", error);
+    [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request
 {
-    NSLog(@"REST request canceled. Request: %@", request);
+    [self log:SFLogLevelDebug format:@"REST request canceled. Request: %@", request];
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request
 {
-    NSLog(@"REST request timed out. Request: %@", request);
+    [self log:SFLogLevelDebug format:@"REST request timed out. Request: %@", request];
 }
 
 - (IBAction)btnSaveRecOfflinePressed:(id)sender

@@ -59,7 +59,7 @@ static NSException *authException = nil;
         [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {
-        NSLog(@"Populating auth from config failed: %@", exception);
+        [self log:SFLogLevelError format:@"Populating auth from config failed: %@", exception];
         authException = exception;
     }
     

@@ -47,7 +47,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
     if ([smartSqlLowerCase hasPrefix:@"insert"]
         || [smartSqlLowerCase hasPrefix:@"update"]
         || [smartSqlLowerCase hasPrefix:@"delete"]) {
-        
+
         @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:@"Only SELECT are supported" userInfo:nil];
     }
     
