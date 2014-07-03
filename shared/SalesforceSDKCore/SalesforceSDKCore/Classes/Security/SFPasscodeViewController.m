@@ -269,7 +269,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"SFPasscodeViewController viewDidLoad");
+    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController viewDidLoad"];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
@@ -292,7 +292,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                                 cancelButtonTitle:[SFSDKResourceUtils localizedString:@"logoutNo"]
                                                 otherButtonTitles:[SFSDKResourceUtils localizedString:@"logoutYes"], nil];
     logoutAlert.tag = kPasscodeDialogTag;
-    NSLog(@"SFPasscodeViewController forgotPassAction");
+    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController forgotPassAction"];
     [logoutAlert show];
 }
 
@@ -300,9 +300,9 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     if (alertView.tag == kPasscodeDialogTag) {
         if (buttonIndex == 0) {
-            NSLog(@"User pressed No");
+            [self log:SFLogLevelDebug msg:@"User pressed No"];
         } else {
-            NSLog(@"User pressed Yes");
+            [self log:SFLogLevelDebug msg:@"User pressed Yes"];
             [self validatePasscodeFailed];
         }
     }

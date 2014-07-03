@@ -389,7 +389,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testEncryptionForSFSmartStore
 {
     for (NSString *passcodeProviderName in [NSArray arrayWithObjects:kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2, nil]) {
-        NSLog(@"---Testing encryption using passcode provider '%@'.---", passcodeProviderName);
+        [self log:SFLogLevelDebug format:@"---Testing encryption using passcode provider '%@'.---", passcodeProviderName];
         [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
         
         [[SFPasscodeManager sharedManager] changePasscode:nil];
@@ -637,7 +637,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (int)rowCountForTable:(NSString *)tableName db:(FMDatabase *)db
 {
     NSString *rowCountQuery = [NSString stringWithFormat:@"SELECT COUNT(*) FROM %@", tableName];
-    NSLog(@"rowCountQuery: %@", rowCountQuery);
+    [self log:SFLogLevelDebug format:@"rowCountQuery: %@", rowCountQuery];
     int rowCount = [db intForQuery:rowCountQuery];
     return rowCount;
 }

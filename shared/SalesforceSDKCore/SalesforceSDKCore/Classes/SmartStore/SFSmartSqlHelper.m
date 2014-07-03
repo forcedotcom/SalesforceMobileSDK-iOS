@@ -48,7 +48,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
         || [smartSqlLowerCase hasPrefix:@"update"]
         || [smartSqlLowerCase hasPrefix:@"delete"]) {
         
-        NSLog(@"Only SELECT are supported");
+        [self log:SFLogLevelDebug msg:@"Only SELECT are supported"];
         return nil;
     }
     
@@ -106,7 +106,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 }
             }
             else if ([parts count] > 2) {
-                NSLog(@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position);
+                [self log:SFLogLevelDebug format:@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position];
                 return nil;
             }
             

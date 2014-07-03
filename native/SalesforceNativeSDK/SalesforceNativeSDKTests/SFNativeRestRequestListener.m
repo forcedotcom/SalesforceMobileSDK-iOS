@@ -45,7 +45,7 @@ int class_uid = 0;
         self->uid = class_uid++;
     }
 
-    NSLog(@"## created listener %d", self->uid);
+    [self log:SFLogLevelDebug format:@"## created listener %d", self->uid];
     
     return self;
 }
@@ -69,14 +69,14 @@ int class_uid = 0;
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
-    NSLog(@"## error for request %d", self->uid);
+    [self log:SFLogLevelDebug format:@"## error for request %d", self->uid];
     
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"## cancel for request %d", self->uid);
+    [self log:SFLogLevelDebug format:@"## cancel for request %d", self->uid];
 
     self.returnStatus = kTestRequestStatusDidCancel;
 }

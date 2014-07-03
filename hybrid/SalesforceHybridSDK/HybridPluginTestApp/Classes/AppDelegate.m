@@ -85,10 +85,10 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    NSLog(@"runner: %@",runner);
+    [self log:SFLogLevelDebug format:@"runner: %@",runner];
     
     BOOL runningOctest = [self isRunningOctest];
-    NSLog(@"octest running: %d",runningOctest);
+    [self log:SFLogLevelDebug format:@"octest running: %d",runningOctest];
 }
 
 
@@ -158,7 +158,7 @@
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    NSLog(@"XCInjectBundle: %@", injectBundle);
+    [self log:SFLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
     
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
@@ -191,7 +191,7 @@
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
     NSString *covFile = [NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
-    NSLog(@"saving coverage file: %@",covFile);
+    [self log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
     return fopen(filename, mode);
 }
 

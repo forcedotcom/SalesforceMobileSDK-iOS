@@ -48,7 +48,7 @@
     // Block until the javascript has notified the container that it's ready
     BOOL timedOut = [self waitForTestRunnerReady];
     if (timedOut) {
-        NSLog(@"failed to start test runner...");
+        [self log:SFLogLevelDebug msg:@"failed to start test runner..."];
     } 
     
 }
@@ -76,12 +76,12 @@
     while (![self isTestRunnerReady]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 15.0) {
-            NSLog(@"testRunner took too long (%f) to startup",elapsed);
+            [self log:SFLogLevelDebug format:@"testRunner took too long (%f) to startup",elapsed];
             completionTimedOut = YES;
             break;
         }
         
-        NSLog(@"## waiting to start tests... ");
+        [self log:SFLogLevelDebug msg:@"## waiting to start tests... "];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     }
     
@@ -96,12 +96,12 @@
     while (![self isTestResultAvailable]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 30.0) {
-            NSLog(@"test took too long (%f) to complete",elapsed);
+            [self log:SFLogLevelDebug format:@"test took too long (%f) to complete",elapsed];
             completionTimedOut = YES;
             break;
         }
         
-        NSLog(@"## sleeping on %@...",self.jsTestName);
+        [self log:SFLogLevelDebug format:@"## sleeping on %@...",self.jsTestName];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.3]];
     }
     
@@ -128,7 +128,7 @@
     
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     NSString *cmdResult = [app evalJS:testCmd];
-    NSLog(@"cmdResult: '%@'",cmdResult);
+    [self log:SFLogLevelDebug format:@"cmdResult: '%@'",cmdResult];
     
     BOOL timedOut = [self waitForOneCompletion];
     STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
@@ -138,7 +138,7 @@
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
         SFTestResult *testResult = [[plugin testResults] objectAtIndex:0];
         [[plugin testResults] removeObjectAtIndex:0];
-        NSLog(@"%@ completed in %f",testResult.testName, testResult.duration);
+        [self log:SFLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
         STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         STAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
     }

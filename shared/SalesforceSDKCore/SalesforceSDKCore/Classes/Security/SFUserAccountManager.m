@@ -416,7 +416,7 @@ static NSString * const kUserPrefix = @"005";
         
         return accounts;
     } else {
-        [self log:SFLogLevelError format:@"Error querying for all existing accounts in the keychain: %ld", result];
+        [self log:SFLogLevelDebug format:@"Error querying for all existing accounts in the keychain: %ld", result];
         return nil;
     }
 }
@@ -493,7 +493,7 @@ static NSString * const kUserPrefix = @"005";
     // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
     NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
     if (nil == rootContents) {
-        [self log:SFLogLevelError format:@"Unable to enumerate the content at %@: %@", rootDirectory, error];
+        [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, error];
         return NO;
     } else {
         for (NSString *rootContent in rootContents) {
@@ -505,7 +505,7 @@ static NSString * const kUserPrefix = @"005";
             // Fetch the content of the org directory
             NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
             if (nil == orgContents) {
-                [self log:SFLogLevelError format:@"Unable to enumerate the content at %@: %@", rootPath, error];
+                [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, error];
                 continue;
             }
             
@@ -525,10 +525,10 @@ static NSString * const kUserPrefix = @"005";
                     }
                     @catch (NSException *exception) {
                         [[NSFileManager defaultManager] removeItemAtPath:userAccountPath error:nil];
-                        [self log:SFLogLevelError format:@"Error decrypting user account %@: %@", userAccountPath, exception];
+                        [self log:SFLogLevelDebug format:@"Error decrypting user account %@: %@", userAccountPath, exception];
                     }
                 } else {
-                    [self log:SFLogLevelWarning format:@"There is no user account file in this user directory: %@", orgPath];
+                    [self log:SFLogLevelDebug format:@"There is no user account file in this user directory: %@", orgPath];
                 }
             }
         }
@@ -576,14 +576,14 @@ static NSString * const kUserPrefix = @"005";
         NSFileManager *fm = [NSFileManager defaultManager];
         if ([fm fileExistsAtPath:userAccountPath]) {
             if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelError format:@"failed to remove old user account %@: %@", userAccountPath, error];
+                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, error];
                 return NO;
             }
         }
         
         // And now save its content
         if (![NSKeyedArchiver archiveRootObject:user toFile:userAccountPath]) {
-            [self log:SFLogLevelError format:@"failed to archive user account: %@", userAccountPath];
+            [self log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
             return NO;
         }
     }
@@ -647,7 +647,7 @@ static NSString * const kUserPrefix = @"005";
             NSError *folderRemovalError = nil;
             BOOL removeUserFolderSucceeded = [[NSFileManager defaultManager] removeItemAtPath:userDirectory error:&folderRemovalError];
             if (!removeUserFolderSucceeded) {
-                [self log:SFLogLevelError
+                [self log:SFLogLevelDebug
                    format:@"Error removing the user folder for '%@': %@", acct.userName, [folderRemovalError localizedDescription]];
                 if (error) {
                     *error = folderRemovalError;
@@ -655,7 +655,7 @@ static NSString * const kUserPrefix = @"005";
                 return removeUserFolderSucceeded;
             }
         } else {
-            [self log:SFLogLevelInfo format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", acct.userName];
+            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", acct.userName];
         }
         [self.userAccountMap removeObjectForKey:safeUserId];
     }
@@ -756,7 +756,7 @@ static NSString * const kUserPrefix = @"005";
     //if our default user id is currently the temporary user id,
     //we need to update it with the latest known good user id
     if ([[self activeUserId] isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
-        [self log:SFLogLevelInfo format:@"Replacing temp user ID with %@",self.currentUser];
+        [self log:SFLogLevelDebug format:@"Replacing temp user ID with %@",self.currentUser];
         [self replaceOldUser:SFUserAccountManagerTemporaryUserAccountId withUser:self.currentUser];
     }
     

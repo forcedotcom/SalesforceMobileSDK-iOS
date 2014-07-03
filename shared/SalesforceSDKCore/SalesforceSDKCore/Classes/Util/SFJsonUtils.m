@@ -42,7 +42,7 @@ static NSError *sLastError = nil;
                  ];
     
     if (nil != err) {
-        NSLog(@"WARNING error parsing json: %@", err);
+        [self log:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
         sLastError = err;
     }
     
@@ -81,16 +81,16 @@ static NSError *sLastError = nil;
          ];
         
         if (nil != err) {
-            NSLog(@"WARNING error writing json: %@", err);
+            [self log:SFLogLevelDebug format:@"WARNING error writing json: %@", err];
             sLastError = err;
         } 
         
         if (nil == jsonData) {
-            NSLog(@"unexpected nil json rep for: %@",obj);
+            [self log:SFLogLevelDebug format:@"unexpected nil json rep for: %@",obj];
         }
         
     } else {
-        NSLog(@"nil object passed to JSONDataRepresentation???");
+        [self log:SFLogLevelDebug format:@"nil object passed to JSONDataRepresentation???"];
     }
     return  jsonData;
 }
@@ -109,7 +109,7 @@ static NSError *sLastError = nil;
             if ([o isKindOfClass:[NSDictionary class]]) {
                 o = [(NSDictionary*)o objectForKey:pathElement];
             } else  {
-                NSLog(@"unexpected object in compound path (%@): %@",pathElement, o);
+                [self log:SFLogLevelDebug format:@"unexpected object in compound path (%@): %@",pathElement, o];
                 o = nil;
                 break;
             }
