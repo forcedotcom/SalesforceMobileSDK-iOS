@@ -61,7 +61,7 @@ static NSException *authException = nil;
         [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {
-        NSLog(@"Populating auth from config failed: %@", exception);
+        [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
         authException = exception;
     }
     
@@ -127,7 +127,7 @@ static NSException *authException = nil;
 - (void)testFullRequestPath {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
-    NSLog(@"request.path: %@", request.path);
+    [self log:SFLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -326,7 +326,7 @@ static NSException *authException = nil;
     // make sure we got an id
     NSString *contactId = [(NSDictionary *)listener.dataResponse objectForKey:@"id"];
     STAssertNotNil(contactId, @"id not present");
-    NSLog(@"## contact created with id: %@", contactId);
+    [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
         // now query object
@@ -769,7 +769,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSLog(@"latest access token: %@", _currentUser.credentials.accessToken);
+    [self log:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
@@ -981,12 +981,12 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     while (_blocksUncompletedCount > 0) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 30.0) {
-            NSLog(@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount);
+            [self log:SFLogLevelDebug format:@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount];
             completionTimedOut = YES;
             break;
         }
         
-        NSLog(@"## sleeping...%d",_blocksUncompletedCount);
+        [self log:SFLogLevelDebug format:@"## sleeping...%d",_blocksUncompletedCount];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     
@@ -1015,8 +1015,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                        completeBlock:^(NSDictionary *d) {
                            _blocksUncompletedCount--;
                            __strong NSString *recordId = [d objectForKey:@"id"];
-                           
-                           NSLog(@"Retrieving Contact: %@",recordId);
+                           [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
                            [api performRetrieveWithObjectType:@"Contact"
                                                      objectId:recordId
                                                     fieldList:[NSArray arrayWithObject:@"LastName"]
@@ -1027,7 +1026,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            
 
 
-                           NSLog(@"Updating LastName for recordId: %@",recordId);
+                           [self log:SFLogLevelDebug format:@"Updating LastName for recordId: %@",recordId];
                            [fields setObject:updatedLastName forKey:@"LastName"];
 
                            [api performUpdateWithObjectType:@"Contact"
@@ -1040,7 +1039,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            
                            //Note: this performUpsertWithObjectType test requires that your test user credentials
                            //have proper permissions, otherwise you will get "insufficient access rights on cross-reference id"
-                           NSLog(@"Reverting LastName for recordId: %@",recordId);
+                           [self log:SFLogLevelDebug format:@"Reverting LastName for recordId: %@",recordId];
                            [fields setObject:lastName forKey:@"LastName"];
                            [api performUpsertWithObjectType:@"Contact"
                                             externalIdField:@"Id"

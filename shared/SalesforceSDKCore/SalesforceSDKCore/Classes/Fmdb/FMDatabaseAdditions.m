@@ -140,8 +140,8 @@ return ret;
             usleep(20);
             
             if (_busyRetryTimeout && (numberOfRetries++ > _busyRetryTimeout)) {
-                NSLog(@"%s:%d Database busy (%@)", __FUNCTION__, __LINE__, [self databasePath]);
-                NSLog(@"Database busy");
+                [self log:SFLogLevelDebug format:@"%s:%d Database busy (%@)", __FUNCTION__, __LINE__, [self databasePath]];
+                [self log:SFLogLevelDebug msg:@"Database busy"];
             }          
         } 
         else if (rc != SQLITE_OK) {

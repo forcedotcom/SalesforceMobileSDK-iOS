@@ -80,7 +80,7 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     NSAssert(self.credentials.identityUrl != nil, @"Must have a value for the identity URL.");
     NSAssert(self.delegate != nil, @"Cannot retrieve data without a delegate.");
     if (self.retrievingData) {
-        NSLog(@"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress.");
+        [self log:SFLogLevelDebug msg:@"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress."];
     }
     self.retrievingData = YES;
     
@@ -207,7 +207,7 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"SFIdentityCoordinator:connection:didFailWithError: %@", error);
+    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:connection:didFailWithError: %@", error];
     [self notifyDelegateOfFailure:error];
 }
 

@@ -138,7 +138,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         [db setKey:key];
         return db;
     } else {
-        NSLog(@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]);
+        [self log:SFLogLevelDebug format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
             *error = [db lastError];
         return nil;
@@ -352,7 +352,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSError *getStoresError = nil;
     NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
     if (getStoresError) {
-        NSLog(@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]);
+        [self log:SFLogLevelDebug format:@"Warning: Problem retrieving all store names from the root stores folder: %@.", [getStoresError localizedDescription]];
         return nil;
     }
     

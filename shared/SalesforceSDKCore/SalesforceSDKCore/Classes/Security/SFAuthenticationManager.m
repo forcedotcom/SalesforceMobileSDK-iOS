@@ -587,7 +587,7 @@ static Class InstanceClass = nil;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults synchronize];
 	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
-    NSLog(@"userLogoutSettingEnabled: %d", logoutSettingEnabled);
+    [self log:SFLogLevelDebug format:@"userLogoutSettingEnabled: %d", logoutSettingEnabled];
     return logoutSettingEnabled;
 }
 

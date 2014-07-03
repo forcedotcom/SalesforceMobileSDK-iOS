@@ -75,7 +75,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
         jsVersionStr = [[arguments objectAtIndex:0] substringFromIndex:([kPluginSDKVersion length] + 1)];
     }
     
-    NSLog(@"%@ jsVersion:%@ ", action, jsVersionStr);
+    [self log:SFLogLevelDebug format:@"%@ jsVersion:%@ ", action, jsVersionStr];
     return jsVersionStr;
 }
 

@@ -101,11 +101,11 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
-            NSLog(@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed);
+            [self log:SFLogLevelDebug format:@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed];
             return kTestRequestStatusDidTimeout;
         }
         
-        NSLog(@"## sleeping...");
+        [self log:SFLogLevelDebug msg:@"## sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     

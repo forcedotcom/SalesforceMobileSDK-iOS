@@ -86,7 +86,7 @@ static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth
 
 + (void)archiveCredentials:(SFOAuthCredentials *)creds {
     BOOL result = [NSKeyedArchiver archiveRootObject:creds toFile:[self archivePath]];
-    NSLog(@"%@:archiveCredentials: credentials archived=%@", @"SalesforceOAuthTestAppDelegate", (result ? @"YES" : @"NO"));
+    [self log:SFLogLevelDebug format:@"%@:archiveCredentials: credentials archived=%@", @"SalesforceOAuthTestAppDelegate", (result ? @"YES" : @"NO")];
 }
 
 + (SFOAuthCredentials *)unarchiveCredentials {
@@ -99,9 +99,9 @@ static NSString * const kOAuthRedirectUri = @"testsfdc:///mobilesdk/detect/oauth
         creds.domain = kOAuthLoginDomain;
         // domain is set by the view from its UI field value
         
-        NSLog(@"%@:unarchiveCredentials: no saved credentials, new credentials created: %@", @"SalesforceOAuthTestAppDelegate", creds);
+        [self log:SFLogLevelDebug format:@"%@:unarchiveCredentials: no saved credentials, new credentials created: %@", @"SalesforceOAuthTestAppDelegate", creds];
     } else {
-        NSLog(@"%@:unarchiveCredentials: using saved credentials: %@", @"SalesforceOAuthTestAppDelegate", creds);
+        [self log:SFLogLevelDebug format:@"%@:unarchiveCredentials: using saved credentials: %@", @"SalesforceOAuthTestAppDelegate", creds];
     }
     return creds;
 }
