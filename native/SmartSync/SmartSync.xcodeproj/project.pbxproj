@@ -31,6 +31,9 @@
 		CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A80196B3EB60076264C /* SFObjectType.m */; };
 		CEF50A89196B3EB60076264C /* SFObjectTypeLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */; };
 		CEF50A8A196B3EB60076264C /* ObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A86196B3EB60076264C /* ObjectUtils.m */; };
+		CEF50A91196B57190076264C /* SFSoqlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A8C196B57190076264C /* SFSoqlBuilder.m */; };
+		CEF50A92196B57190076264C /* SFSoslBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A8E196B57190076264C /* SFSoslBuilder.m */; };
+		CEF50A93196B57190076264C /* SFSoslReturningBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A90196B57190076264C /* SFSoslReturningBuilder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,12 @@
 		CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObjectTypeLayout.m; sourceTree = "<group>"; };
 		CEF50A85196B3EB60076264C /* ObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectUtils.h; sourceTree = "<group>"; };
 		CEF50A86196B3EB60076264C /* ObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectUtils.m; sourceTree = "<group>"; };
+		CEF50A8B196B57190076264C /* SFSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoqlBuilder.h; sourceTree = "<group>"; };
+		CEF50A8C196B57190076264C /* SFSoqlBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoqlBuilder.m; sourceTree = "<group>"; };
+		CEF50A8D196B57190076264C /* SFSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslBuilder.h; sourceTree = "<group>"; };
+		CEF50A8E196B57190076264C /* SFSoslBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoslBuilder.m; sourceTree = "<group>"; };
+		CEF50A8F196B57190076264C /* SFSoslReturningBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoslReturningBuilder.h; sourceTree = "<group>"; };
+		CEF50A90196B57190076264C /* SFSoslReturningBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoslReturningBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +200,12 @@
 		CEF50A84196B3EB60076264C /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				CEF50A8B196B57190076264C /* SFSoqlBuilder.h */,
+				CEF50A8C196B57190076264C /* SFSoqlBuilder.m */,
+				CEF50A8D196B57190076264C /* SFSoslBuilder.h */,
+				CEF50A8E196B57190076264C /* SFSoslBuilder.m */,
+				CEF50A8F196B57190076264C /* SFSoslReturningBuilder.h */,
+				CEF50A90196B57190076264C /* SFSoslReturningBuilder.m */,
 				CEF50A85196B3EB60076264C /* ObjectUtils.h */,
 				CEF50A86196B3EB60076264C /* ObjectUtils.m */,
 			);
@@ -295,8 +310,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF50A91196B57190076264C /* SFSoqlBuilder.m in Sources */,
 				CEF50A8A196B3EB60076264C /* ObjectUtils.m in Sources */,
+				CEF50A93196B57190076264C /* SFSoslReturningBuilder.m in Sources */,
 				CEF50A89196B3EB60076264C /* SFObjectTypeLayout.m in Sources */,
+				CEF50A92196B57190076264C /* SFSoslBuilder.m in Sources */,
 				CEF50A87196B3EB60076264C /* SFObject.m in Sources */,
 				CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */,
 			);
