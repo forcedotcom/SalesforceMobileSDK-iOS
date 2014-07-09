@@ -156,6 +156,10 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, copy) NSString *activeUserId;
 
+@property (nonatomic, copy) NSString *activeCommunityId;
+
+@property (nonatomic, strong) NSString *previousCommunityId;
+
 /** The host that will be used for login.
  */
 @property (nonatomic, strong) NSString *loginHost;
