@@ -808,10 +808,6 @@ static Class InstanceClass = nil;
     // current user as the proper credentials.
     [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
     
-    // Assign the identity data to the current user
-    NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
-    [SFUserAccountManager sharedInstance].currentUser.idData = self.idCoordinator.idData;
-    
     // Save the accounts
     [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
@@ -1029,6 +1025,10 @@ static Class InstanceClass = nil;
     // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
     // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
+    
+    // Assign the identity data to the current user
+    NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
+    [SFUserAccountManager sharedInstance].currentUser.idData = self.idCoordinator.idData;
     
     // Post-passcode verification callbacks, where we'll check for passcode creation/update.  Passcode verification section is below.
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
