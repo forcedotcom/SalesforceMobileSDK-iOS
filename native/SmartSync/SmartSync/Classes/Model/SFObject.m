@@ -24,13 +24,7 @@
 
 #import "SFObject+Internal.h"
 #import "ObjectUtils.h"
-
-static NSString * const SF_OBJECT_ID_FIELD = @"Id";
-static NSString * const SF_OBJECT_NAME_FIELD = @"Name";
-static NSString * const SF_OBJECT_TYPE_FIELD = @"attributes.type";
-static NSString * const SF_OBJECT_ATTRIBUTES_FIELD = @"attributes";
-static NSString * const SF_OBJECT_RAWDATA_FIELD = @"rawData";
-static NSString * const SF_OBJECT_TYPE_RECENTLY_VIEWED = @"RecentlyViewed";
+#import "SFSmartSyncConstants.h"
 
 @implementation SFObject
 
@@ -46,16 +40,16 @@ static NSString * const SF_OBJECT_TYPE_RECENTLY_VIEWED = @"RecentlyViewed";
 }
 
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction {
-    self.objectId = dataDiction[SF_OBJECT_ID_FIELD];
+    self.objectId = dataDiction[kId];
     if (!self.objectId) {
-        self.objectId = dataDiction[@"id"];
-        self.objectType = dataDiction[@"type"];
-        self.name = dataDiction[@"name"];
+        self.objectId = dataDiction[[kId lowercaseString]];
+        self.objectType = dataDiction[kType];
+        self.name = dataDiction[[kName lowercaseString]];
     } else {
-        self.name = dataDiction[SF_OBJECT_NAME_FIELD];
-        NSString *type = [ObjectUtils formatValue:[dataDiction valueForKeyPath:SF_OBJECT_TYPE_FIELD]];
-        if ([type isEqualToString:SF_OBJECT_TYPE_RECENTLY_VIEWED]) {
-            type = [ObjectUtils formatValue:dataDiction[@"Type"]];
+        self.name = dataDiction[kName];
+        NSString *type = [ObjectUtils formatValue:[dataDiction valueForKeyPath:kObjectTypeField]];
+        if ([type isEqualToString:kRecentlyViewed]) {
+            type = [ObjectUtils formatValue:dataDiction[kType]];
         }
         self.objectType = type;
     }
@@ -101,13 +95,13 @@ static NSString * const SF_OBJECT_TYPE_RECENTLY_VIEWED = @"RecentlyViewed";
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
-    [self encodeObject:self.rawData forKey:SF_OBJECT_RAWDATA_FIELD encoder:encoder];
+    [self encodeObject:self.rawData forKey:kRawData encoder:encoder];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
     self = [self init];
     if (self) {
-        self.rawData = [decoder decodeObjectForKey:SF_OBJECT_RAWDATA_FIELD];
+        self.rawData = [decoder decodeObjectForKey:kRawData];
         [self configureDataWithDictionary:self.rawData];
     }
     return self;
