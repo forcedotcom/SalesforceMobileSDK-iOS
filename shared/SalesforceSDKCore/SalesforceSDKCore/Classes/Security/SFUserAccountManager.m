@@ -214,10 +214,10 @@ static NSString * const kUserPrefix = @"005";
 
 - (void)updateAppSettingsLoginHost:(NSString *)newLoginHost {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    newLoginHost = [newLoginHost lowercaseString];
     newLoginHost = [newLoginHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (![newLoginHost isEqualToString:@"login.salesforce.com"]
-        && ![newLoginHost isEqualToString:@"test.salesforce.com"]) {
+    NSString *newLoginHostLowercase = [newLoginHost lowercaseString];
+    if (![newLoginHostLowercase isEqualToString:@"login.salesforce.com"]
+            && ![newLoginHostLowercase isEqualToString:@"test.salesforce.com"]) {
         // Custom login host.
         [userDefaults setObject:kAppSettingsLoginHostIsCustom forKey:kAppSettingsLoginHost];
         [userDefaults setObject:newLoginHost forKey:kAppSettingsLoginHostCustomValue];
