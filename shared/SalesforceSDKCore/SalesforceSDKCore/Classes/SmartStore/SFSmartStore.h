@@ -37,6 +37,16 @@ extern NSString *const kDefaultSmartStoreName;
  */
 extern NSString * const kSFSmartStoreErrorDomain;
 
+/**
+ The label used to interact with the encryption key.
+ */
+extern NSString * const kSFSmartStoreEncryptionKeyLabel;
+
+/**
+ Block typedef for generating an encryption key.
+ */
+typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
+
 @class FMDatabaseQueue;
 @class SFStoreCursor;
 @class SFQuerySpec;
@@ -103,6 +113,25 @@ extern NSString * const kSFSmartStoreErrorDomain;
  @param user The user associated with the stores to remove.
  */
 + (void)removeAllStoresForUser:(SFUserAccount *)user;
+
+/**
+ @return The block used to generate the encryption key.  Sticking with the default encryption
+ key derivation is recommended.
+ */
++ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock;
+
+/**
+ Sets a custom block for deriving the encryption key used to encrypt stores.
+ 
+ ** WARNING: **
+ If you choose to override the encryption key derivation, you must set
+ this value before opening any stores.  Setting the value after stores have been opened
+ will result in the corruption and loss of existing data.
+ ** WARNING: **
+ 
+ @param newEncryptionKeyBlock The new encryption key derivation block to use with SmartStore.
+ */
++ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock;
 
 #pragma mark - Soup manipulation methods
 
