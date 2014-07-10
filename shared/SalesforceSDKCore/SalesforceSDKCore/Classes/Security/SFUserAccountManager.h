@@ -156,8 +156,14 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, copy) NSString *activeUserId;
 
+/** The most recently active community ID. Set when a user
+ is changed and stored to disk for retrieval after bootup
+ */
 @property (nonatomic, copy) NSString *activeCommunityId;
 
+/** A convenience property to store the previous community
+ id as it may change during early oAuth flow and we want to retain it
+ */
 @property (nonatomic, strong) NSString *previousCommunityId;
 
 /** The host that will be used for login.
