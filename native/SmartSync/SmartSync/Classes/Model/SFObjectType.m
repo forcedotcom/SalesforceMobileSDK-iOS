@@ -23,23 +23,7 @@
  */
 
 #import "SFObjectType+Internal.h"
-
-static NSString * const SF_OBJECTYPE_KEYPREFIX_FIELD = @"keyPrefix";
-static NSString * const SF_OBJECTYPE_NAME_FIELD = @"name";
-static NSString * const SF_OBJECTYPE_LABEL_FIELD = @"label";
-static NSString * const SF_OBJECTYPE_LABELPLURAL_FIELD = @"labelPlural";
-static NSString * const SF_OBJECTYPE_FIELDS_FIELD = @"fields";
-static NSString * const SF_OBJECTYPE_UPDATEABLE_FIELD = @"updateable";
-static NSString * const SF_OBJECTYPE_QUERYABLE_FIELD = @"queryable";
-static NSString * const SF_OBJECTYPE_LAYOUTABLE_FIELD = @"layoutable";
-static NSString * const SF_OBJECTYPE_SEARCHABLE_FIELD = @"searchable";
-static NSString * const SF_OBJECTYPE_FEEDENABLED_FIELD = @"feedEnabled";
-static NSString * const SF_OBJECTYPE_CREATABLE_FIELD = @"createable";
-static NSString * const SF_OBJECTYPE_HIDDEN_FIELD = @"deprecatedAndHidden";
-static NSString * const SF_OBJECTTYPE_NAMEFIELD_FIELD = @"nameField";
-static NSString * const SF_OBJECTTYPE_RAWDATA_FIELD = @"rawData";
-static NSString * const SF_OBJECTTPE_NETWORK_ID_FIELD = @"NetworkId";
-static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
+#import "SFConstants.h"
 
 @implementation SFObjectType
 
@@ -62,10 +46,10 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
 
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction {
     self.rawData = dataDiction;
-    self.keyPrefix = dataDiction[SF_OBJECTYPE_KEYPREFIX_FIELD];
-    self.name = dataDiction[SF_OBJECTYPE_NAME_FIELD];
-    self.label = dataDiction[SF_OBJECTYPE_LABEL_FIELD];
-    self.labelPlural = dataDiction[SF_OBJECTYPE_LABELPLURAL_FIELD];
+    self.keyPrefix = dataDiction[kKeyPrefixField];
+    self.name = dataDiction[kNameField];
+    self.label = dataDiction[kLabelField];
+    self.labelPlural = dataDiction[kLabelPluralField];
     if (nil == self.label) {
         self.label = self.name;
     }
@@ -75,7 +59,7 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
 }
 
 - (NSArray *)fields {
-    NSArray *fields = self.rawData[SF_OBJECTYPE_FIELDS_FIELD];
+    NSArray *fields = self.rawData[kFieldsField];
     return fields;
 }
 
@@ -83,11 +67,11 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
     if (_nameField) {
         return _nameField;
     }
-    NSArray *dataFields = self.rawData[SF_OBJECTYPE_FIELDS_FIELD];
+    NSArray *dataFields = self.rawData[kFieldsField];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nameField = YES"];
     NSArray *nameFields = [dataFields filteredArrayUsingPredicate:predicate];
     if (nameFields && nameFields.count > 0) {
-        _nameField = [nameFields[0] valueForKey:SF_OBJECTYPE_NAME_FIELD];
+        _nameField = [nameFields[0] valueForKey:kNameField];
     }
     return _nameField;
 }
@@ -100,15 +84,15 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
     if (nil != self.networkField) {
         return self.networkField;
     }
-    NSArray *dataFields = self.rawData[SF_OBJECTYPE_FIELDS_FIELD];
+    NSArray *dataFields = self.rawData[kFieldsField];
     if (nil != dataFields) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nameField = YES"];
         NSArray *nameFields = [dataFields filteredArrayUsingPredicate:predicate];
         if (nameFields && nameFields.count > 0) {
             for (int i = 0; i < nameFields.count; i++) {
                 NSString *nameField = nameFields[i];
-                if (nil != nameField && ([nameField isEqualToString:SF_OBJECTTPE_NETWORK_ID_FIELD]
-                            || [nameField isEqualToString:SF_OBJECTTPE_NETWORK__SCOPE_FIELD])) {
+                if (nil != nameField && ([nameField isEqualToString:kNetworkIdField]
+                            || [nameField isEqualToString:kNetworkScopeField])) {
                     self.networkField = nameField;
                 }
             }
@@ -119,15 +103,15 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
 
 - (BOOL)isSearchable {
     BOOL flag = (self.rawData &&
-                 ![self.rawData[SF_OBJECTYPE_HIDDEN_FIELD] boolValue] &&
-                 [self.rawData[SF_OBJECTYPE_SEARCHABLE_FIELD] boolValue]);
+                 ![self.rawData[kHiddenField] boolValue] &&
+                 [self.rawData[kSearchableField] boolValue]);
     return flag;
 }
 
 - (BOOL)isLayoutable {
     BOOL flag = (self.rawData &&
-                 ![self.rawData[SF_OBJECTYPE_HIDDEN_FIELD] boolValue] &&
-                 [self.rawData[SF_OBJECTYPE_LAYOUTABLE_FIELD] boolValue]);
+                 ![self.rawData[kHiddenField] boolValue] &&
+                 [self.rawData[kLayoutableField] boolValue]);
     return flag;
 }
 
@@ -163,23 +147,23 @@ static NSString * const SF_OBJECTTPE_NETWORK__SCOPE_FIELD = @"NetworkScope";
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
-    [self encodeObject:self.keyPrefix forKey:SF_OBJECTYPE_KEYPREFIX_FIELD encoder:encoder];
-    [self encodeObject:self.name forKey:SF_OBJECTYPE_NAME_FIELD encoder:encoder];
-    [self encodeObject:self.label forKey:SF_OBJECTYPE_LABEL_FIELD encoder:encoder];
-    [self encodeObject:self.labelPlural forKey:SF_OBJECTYPE_LABELPLURAL_FIELD encoder:encoder];
-    [self encodeObject:self.nameField forKey:SF_OBJECTTYPE_NAMEFIELD_FIELD encoder:encoder];
-    [self encodeObject:self.rawData forKey:SF_OBJECTTYPE_RAWDATA_FIELD encoder:encoder];
+    [self encodeObject:self.keyPrefix forKey:kKeyPrefixField encoder:encoder];
+    [self encodeObject:self.name forKey:kNameField encoder:encoder];
+    [self encodeObject:self.label forKey:kLabelField encoder:encoder];
+    [self encodeObject:self.labelPlural forKey:kLabelPluralField encoder:encoder];
+    [self encodeObject:self.nameField forKey:kNameFieldField encoder:encoder];
+    [self encodeObject:self.rawData forKey:kRawData encoder:encoder];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
     self = [self init];
     if (self) {
-        self.keyPrefix = [decoder decodeObjectForKey:SF_OBJECTYPE_KEYPREFIX_FIELD];
-        self.name = [decoder decodeObjectForKey:SF_OBJECTYPE_NAME_FIELD];
-        self.label = [decoder decodeObjectForKey:SF_OBJECTYPE_LABEL_FIELD];
-        self.labelPlural = [decoder decodeObjectForKey:SF_OBJECTYPE_LABELPLURAL_FIELD];
-        self.nameField = [decoder decodeObjectForKey:SF_OBJECTTYPE_NAMEFIELD_FIELD];
-        self.rawData = [decoder decodeObjectForKey:SF_OBJECTTYPE_RAWDATA_FIELD];
+        self.keyPrefix = [decoder decodeObjectForKey:kKeyPrefixField];
+        self.name = [decoder decodeObjectForKey:kNameField];
+        self.label = [decoder decodeObjectForKey:kLabelField];
+        self.labelPlural = [decoder decodeObjectForKey:kLabelPluralField];
+        self.nameField = [decoder decodeObjectForKey:kNameFieldField];
+        self.rawData = [decoder decodeObjectForKey:kRawData];
     }
     return self;
 }

@@ -23,17 +23,7 @@
  */
 
 #import "SFObjectTypeLayout+Internal.h"
-
-static NSString * const SF_LAYOUT_LIMITS_FIELD = @"limitRows";
-static NSString * const SF_LAYOUT_COLUMNS_FIELD = @"searchColumns";
-static NSString * const SF_LAYOUT_OBJECT_TYPE_FIELD = @"objectType";
-static NSString * const SF_LAYOUT_RAWDATA_FIELD = @"rawData";
-static NSString * const SF_OBJECT_LAYOUT_NAME_FIELD = @"name";
-static NSString * const SF_OBJECT_LAYOUT_FIELD_FIELD = @"field";
-static NSString * const SF_OBJECT_LAYOUT_FORMAT_FIELD = @"format";
-static NSString * const SF_OBJECT_LAYOUT_LABEL_FIELD= @"label";
-static NSString * const SF_OBJECT_LAYOUT_DATE_FORMAT = @"date";
-static NSString * const SF_OBJECT_LAYOUT_DATETIME_FORMAT = @"datetime";
+#import "SFConstants.h"
 
 @implementation SFObjectTypeLayout
 
@@ -63,8 +53,8 @@ static NSString * const SF_OBJECT_LAYOUT_DATETIME_FORMAT = @"datetime";
     if (nil == self.rawData) {
         return;
     }
-    self.limit = dataDiction[SF_LAYOUT_LIMITS_FIELD];
-    self.columns = dataDiction[SF_LAYOUT_COLUMNS_FIELD];
+    self.limit = dataDiction[kLayoutLimitsField];
+    self.columns = dataDiction[kLayoutColumnsField];
 }
 
 #pragma mark - Class Method
@@ -129,15 +119,15 @@ static NSString * const SF_OBJECT_LAYOUT_DATETIME_FORMAT = @"datetime";
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
-    [self encodeObject:self.objectType forKey:SF_LAYOUT_OBJECT_TYPE_FIELD encoder:encoder];
-    [self encodeObject:self.rawData forKey:SF_LAYOUT_RAWDATA_FIELD encoder:encoder];
+    [self encodeObject:self.objectType forKey:kLayoutObjectTypeField encoder:encoder];
+    [self encodeObject:self.rawData forKey:kRawData encoder:encoder];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
     self = [self init];
     if (self) {
-        self.objectType = [decoder decodeObjectForKey:SF_LAYOUT_OBJECT_TYPE_FIELD];
-        self.rawData = [decoder decodeObjectForKey:SF_LAYOUT_RAWDATA_FIELD];
+        self.objectType = [decoder decodeObjectForKey:kLayoutObjectTypeField];
+        self.rawData = [decoder decodeObjectForKey:kRawData];
         [self configureDataWithDictionary:self.rawData];
     }
     return self;

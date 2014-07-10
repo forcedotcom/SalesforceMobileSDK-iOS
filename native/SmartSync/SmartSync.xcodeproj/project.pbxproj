@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CE617396196F3B0700C63BDE /* SFConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617395196F3B0700C63BDE /* SFConstants.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -59,6 +60,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CE617394196F374400C63BDE /* SFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFConstants.h; sourceTree = "<group>"; };
+		CE617395196F3B0700C63BDE /* SFConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFConstants.m; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 		CEF50A84196B3EB60076264C /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				CE617395196F3B0700C63BDE /* SFConstants.m */,
+				CE617394196F374400C63BDE /* SFConstants.h */,
 				CEF50A8B196B57190076264C /* SFSoqlBuilder.h */,
 				CEF50A8C196B57190076264C /* SFSoqlBuilder.m */,
 				CEF50A8D196B57190076264C /* SFSoslBuilder.h */,
@@ -316,6 +321,7 @@
 				CEF50A89196B3EB60076264C /* SFObjectTypeLayout.m in Sources */,
 				CEF50A92196B57190076264C /* SFSoslBuilder.m in Sources */,
 				CEF50A87196B3EB60076264C /* SFObject.m in Sources */,
+				CE617396196F3B0700C63BDE /* SFConstants.m in Sources */,
 				CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
