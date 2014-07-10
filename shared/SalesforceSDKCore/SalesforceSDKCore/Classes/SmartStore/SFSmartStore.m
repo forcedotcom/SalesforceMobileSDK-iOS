@@ -41,7 +41,7 @@
 #import "SFUserAccountManager.h"
 
 static NSMutableDictionary *_allSharedStores;
-
+static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
@@ -59,7 +59,7 @@ static NSString * const kSFSmartStoreExtIdLookupError           = @"There was an
 static NSInteger  const kSFSmartStoreOtherErrorCode             = 999;
 
 // Encryption constants
-static NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
+NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
 
 // Table to keep track of soup names
 static NSString *const SOUP_NAMES_TABLE = @"soup_names";
@@ -102,6 +102,10 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     // We do store upgrades as the very first thing, because there are so many class methods that access
     // the data stores without initializing an SFSmartStore instance.
+    _encryptionKeyBlock = ^NSString *{
+        SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+        return [key keyAsString];
+    };
     [SFSmartStoreUpgrade updateStoreLocations];
     [SFSmartStoreUpgrade updateEncryption];
 }
@@ -515,8 +519,17 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (NSString *)encKey
 {
-    SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
-    return [key keyAsString];
+    return (_encryptionKeyBlock ? _encryptionKeyBlock() : nil);
+}
+
++ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock {
+    return _encryptionKeyBlock;
+}
+
++ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock {
+    if (newEncryptionKeyBlock != _encryptionKeyBlock) {
+        _encryptionKeyBlock = newEncryptionKeyBlock;
+    }
 }
 
 - (NSNumber *)currentTimeInMilliseconds {
