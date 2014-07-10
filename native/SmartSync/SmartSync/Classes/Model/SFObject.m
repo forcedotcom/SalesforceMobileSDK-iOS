@@ -24,7 +24,7 @@
 
 #import "SFObject+Internal.h"
 #import "ObjectUtils.h"
-#import "SFConstants.h"
+#import "SFSmartSyncConstants.h"
 
 @implementation SFObject
 

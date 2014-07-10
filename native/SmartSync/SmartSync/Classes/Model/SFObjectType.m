@@ -23,7 +23,7 @@
  */
 
 #import "SFObjectType+Internal.h"
-#import "SFConstants.h"
+#import "SFSmartSyncConstants.h"
 
 @implementation SFObjectType
 
