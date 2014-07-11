@@ -55,18 +55,19 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 
 @implementation SFOAuthCredentials
 
-@synthesize identifier           = _identifier;
-@synthesize domain               = _domain;
-@synthesize clientId             = _clientId;
-@synthesize redirectUri          = _redirectUri;
-@synthesize organizationId       = _organizationId; // cached org ID dervied from identityURL
-@synthesize identityUrl          = _identityUrl;
-@synthesize userId               = _userId;         // cached user ID derived from identityURL
-@synthesize instanceUrl          = _instanceUrl;
-@synthesize issuedAt             = _issuedAt;
-@synthesize logLevel             = _logLevel;
-@synthesize protocol             = _protocol;
-@synthesize encrypted            = _encrypted;
+@synthesize identifier                = _identifier;
+@synthesize domain                    = _domain;
+@synthesize clientId                  = _clientId;
+@synthesize redirectUri               = _redirectUri;
+@synthesize organizationId            = _organizationId; // cached org ID dervied from identityURL
+@synthesize identityUrl               = _identityUrl;
+@synthesize userId                    = _userId;         // cached user ID derived from identityURL
+@synthesize instanceUrl               = _instanceUrl;
+@synthesize issuedAt                  = _issuedAt;
+@synthesize logLevel                  = _logLevel;
+@synthesize protocol                  = _protocol;
+@synthesize encrypted                 = _encrypted;
+@synthesize legacyIdentityInformation = _legacyIdentityInformation;
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
@@ -100,6 +101,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             self.protocol = kSFOAuthProtocolHttps;
 
         _encrypted          = [[coder decodeObjectForKey:@"SFOAuthEncrypted"] boolValue];
+        _legacyIdentityInformation = [coder decodeObjectForKey:@"SFOAuthIdentityInformation"];
         [self updateTokenEncryption];
     }
     return self;
