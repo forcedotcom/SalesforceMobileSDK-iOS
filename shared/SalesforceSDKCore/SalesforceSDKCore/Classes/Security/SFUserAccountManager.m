@@ -52,6 +52,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 // Persistence Keys
 static NSString * const kUserAccountsMapCodingKey  = @"accountsMap";
 static NSString * const kUserDefaultsLastUserIdKey = @"LastUserId";
+static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 
 // Oauth
 static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
@@ -549,7 +550,12 @@ static NSString * const kUserPrefix = @"005";
     if (nil == curUserId) {
         [self log:SFLogLevelInfo msg:@"Current active user id is nil"];
     }
-    [self setCurrentUser:[self userAccountForUserId:curUserId]];
+    
+    self.previousCommunityId = [self activeCommunityId];
+    
+    SFUserAccount *account = [self userAccountForUserId:curUserId];
+    account.communityId = nil;
+    [self setCurrentUser:account];
     
     // update the client ID in case it's changed (via settings, etc)
     [[[self currentUser] credentials] setClientId:self.oauthClientId];
@@ -676,13 +682,24 @@ static NSString * const kUserPrefix = @"005";
     return result;
 }
 
-- (void)setActiveUserId:(NSString*)userId {
+- (NSString *)activeCommunityId {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kUserDefaultsLastUserCommunityIdKey];
+}
+
+- (void)setActiveUser:(SFUserAccount *)user {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults]; 
-    if (nil == userId) {
+    if (nil == user) {
         [defs removeObjectForKey:kUserDefaultsLastUserIdKey];
+        [defs removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
     } else {
-        NSString *safeUserId = [self makeUserIdSafe:userId];
-        [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey]; 
+        NSString *safeUserId = [self makeUserIdSafe:user.credentials.userId];
+        [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey];
+        NSString *communityId = user.communityId;
+        if (communityId) {
+            [defs setObject:communityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        } else {
+            [defs removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+        }
     }
     [defs synchronize];
 }
@@ -695,14 +712,13 @@ static NSString * const kUserPrefix = @"005";
     
     NSString *defUserId = [self activeUserId];
     if (!defUserId || [defUserId isEqualToString:oldUserId]) {
-        [self setActiveUserId:newUserId];
+        [self setActiveUser:newUser];
     }
 }
 
-- (void)setCurrentUser:(SFUserAccount*)user {    
+- (void)setCurrentUser:(SFUserAccount*)user {
+    [self setActiveUser:user];
     if (![_currentUser isEqual:user]) {
-        NSString *userId = [self makeUserIdSafe:user.credentials.userId];
-        [self setActiveUserId:userId];
         
         [self willChangeValueForKey:@"currentUser"];
         _currentUser = user;

@@ -102,6 +102,14 @@
  */
 - (id)initWithIdentifier:(NSString*)identifier;
 
+/** Returns the community API url for a particular
+ community ID if it exists in the communities array
+ 
+ @communityId The id of the community
+ @return The url of the API endpoint for that community
+ */
+- (NSURL*)communityUrlWithId:(NSString *)communityId;
+
 /** Returns the community dictionary for the specified ID
  */
 - (SFCommunityData*)communityWithId:(NSString*)communityId;
