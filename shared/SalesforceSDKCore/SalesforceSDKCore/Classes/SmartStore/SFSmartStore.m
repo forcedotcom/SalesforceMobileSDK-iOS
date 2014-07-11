@@ -42,6 +42,7 @@
 
 static NSMutableDictionary *_allSharedStores;
 static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
+static BOOL _storeUpgradeHasRun = NO;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
@@ -92,14 +93,12 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 + (void)initialize
 {
-    // We do store upgrades as the very first thing, because there are so many class methods that access
-    // the data stores without initializing an SFSmartStore instance.
-    _encryptionKeyBlock = ^NSString *{
-        SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
-        return [key keyAsString];
-    };
-    [SFSmartStoreUpgrade updateStoreLocations];
-    [SFSmartStoreUpgrade updateEncryption];
+    if (!_encryptionKeyBlock) {
+        _encryptionKeyBlock = ^NSString *{
+            SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+            return [key keyAsString];
+        };
+    }
 }
 
 - (id) initWithName:(NSString*)name user:(SFUserAccount *)user {
@@ -107,6 +106,14 @@ static NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     if (nil != self)  {
         [self log:SFLogLevelDebug format:@"SFSmartStore initWithName: %@, user: %@", name, [SFSmartStoreUtils userKeyForUser:user]];
+        
+        @synchronized ([SFSmartStore class]) {
+            if (!_storeUpgradeHasRun) {
+                _storeUpgradeHasRun = YES;
+                [SFSmartStoreUpgrade updateStoreLocations];
+                [SFSmartStoreUpgrade updateEncryption];
+            }
+        }
         
         _storeName = name;
         if ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser]) {

@@ -173,6 +173,12 @@ typedef enum {
  */
 @property (nonatomic, copy) NSURL *identityUrl;
 
+/**
+ Contains legacy identity service information from some previous app versions. Not
+ applicable to most applications.  See SFIdentityData for current identity management.
+ */
+@property (nonatomic, readonly) NSDictionary *legacyIdentityInformation;
+
 /** The community URL, if present. The instance URL, otherwise.
  */
 @property (readonly) NSURL *apiUrl;
