@@ -294,10 +294,10 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  accessed outside that user's sandbox. This data will be persisted
  between launches and should only be used for non-sensitive information.
  The NSDictionary should be NSCoder encodeable.
- @param orgSettings The dictionary of custom data to attach to this user.
+ @param object  The NScoding enabled object to set
+ @param key     The key to retrieve this data for
  */
-- (void)applyCustomDataToCurrentUser:(NSDictionary *)customData;
-
+- (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key;
 /**
  Switches away from the current user, to a new user context.
  */
