@@ -227,4 +227,8 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 	[self processResponse];
 }
 
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+    return nil;
+}
+
 @end
