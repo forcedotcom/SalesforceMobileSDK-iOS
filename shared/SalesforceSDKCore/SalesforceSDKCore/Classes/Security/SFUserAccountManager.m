@@ -26,6 +26,9 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
+#import <SalesforceSecurity/SFKeyStoreManager.h>
+#import <SalesforceSecurity/SFKeyStoreKey.h>
+#import <SalesforceSecurity/SFSDKCryptoUtils.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 
 // Notifications
@@ -79,6 +82,9 @@ static NSString * const kOrgPrefix = @"00D";
 
 // Prefix of a user ID
 static NSString * const kUserPrefix = @"005";
+
+// Label for encryption key for user account persistence.
+static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
 
 #pragma mark - SFLoginHostUpdateResult
 
@@ -519,14 +525,12 @@ static NSString * const kUserPrefix = @"005";
                 // Now let's try to load the user account file in there
                 NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
                 if ([fm fileExistsAtPath:userAccountPath]) {
-                    SFUserAccount *userAccount = nil;
-                    @try {
-                        userAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:userAccountPath];
+                    SFUserAccount *userAccount = [self loadUserAccountFromFile:userAccountPath];
+                    if (userAccount) {
                         [self addAccount:userAccount];
-                    }
-                    @catch (NSException *exception) {
+                    } else {
+                        // Error logging will already have occurred.  Make sure account file data is removed.
                         [[NSFileManager defaultManager] removeItemAtPath:userAccountPath error:nil];
-                        [self log:SFLogLevelDebug format:@"Error decrypting user account %@: %@", userAccountPath, exception];
                     }
                 } else {
                     [self log:SFLogLevelDebug format:@"There is no user account file in this user directory: %@", orgPath];
@@ -565,6 +569,51 @@ static NSString * const kUserPrefix = @"005";
     return YES;
 }
 
+- (SFUserAccount *)loadUserAccountFromFile:(NSString *)filePath {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        [self log:SFLogLevelDebug format:@"No account data exists at '%@'", filePath];
+        return nil;
+    }
+    
+    @try {
+        SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        
+        // Upgrade step.  If we got this far, the file is in the old plaintext format, and we'll
+        // convert it to the encrypted format before returning the object.
+        BOOL encryptUserAccountSuccess = [self saveUserAccount:plainTextUserAccount toFile:filePath];
+        if (!encryptUserAccountSuccess) {
+            // Specific error messages will already be logged.  Make sure old user account file is removed.
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            return nil;
+        }
+    }
+    @finally {
+        NSData *encryptedUserAccountData = [[NSFileManager defaultManager] contentsAtPath:filePath];
+        if (!encryptedUserAccountData) {
+            [self log:SFLogLevelDebug format:@"Could not retrieve user account data from '%@'", filePath];
+            return nil;
+        }
+        
+        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
+        NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
+        if (!decryptedArchiveData) {
+            [self log:SFLogLevelDebug msg:@"User account data could not be decrypted.  Can't load account."];
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            return nil;
+        }
+        
+        @try {
+            SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
+            return decryptedAccount;
+        }
+        @catch (NSException *exception) {
+            [self log:SFLogLevelDebug format:@"Error deserializing the user account data: %@", [exception reason]];
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            return nil;
+        }
+    }
+}
+
 - (BOOL)saveAccounts:(NSError**)error {
     for (NSString *userId in self.userAccountMap) {
         // Don't save the temporary user id
@@ -588,10 +637,54 @@ static NSString * const kUserPrefix = @"005";
         }
         
         // And now save its content
-        if (![NSKeyedArchiver archiveRootObject:user toFile:userAccountPath]) {
+        if (![self saveUserAccount:user toFile:userAccountPath]) {
             [self log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
             return NO;
         }
+    }
+    
+    return YES;
+}
+
+- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath {
+    if (!userAccount) {
+        [self log:SFLogLevelDebug msg:@"Cannot save empty user account."];
+        return NO;
+    }
+    if ([filePath length] == 0) {
+        [self log:SFLogLevelDebug msg:@"File path cannot be empty.  Can't save account."];
+        return NO;
+    }
+    
+    // Remove any existing file.
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSError *removeAccountFileError = nil;
+        if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&removeAccountFileError]) {
+            [self log:SFLogLevelDebug format:@"Failed to remove old user account data at path '%@': %@", filePath, [removeAccountFileError localizedDescription]];
+            return NO;
+        }
+    }
+    
+    // Serialize the user account data.
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount];
+    if (!archiveData) {
+        [self log:SFLogLevelDebug msg:@"Could not archive user account data to save it."];
+        return NO;
+    }
+    
+    // Encrypt it.
+    SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
+    NSData *encryptedArchiveData = [SFSDKCryptoUtils aes256EncryptData:archiveData withKey:encKey.key iv:encKey.initializationVector];
+    if (!encryptedArchiveData) {
+        [self log:SFLogLevelDebug msg:@"User account data could not be encrypted.  Can't save account."];
+        return NO;
+    }
+    
+    // Save it.
+    BOOL saveFileSuccess = [[NSFileManager defaultManager] createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : NSFileProtectionComplete }];
+    if (!saveFileSuccess) {
+        [self log:SFLogLevelDebug format:@"Could not create user account data file at path '%@'", filePath];
+        return NO;
     }
     
     return YES;
