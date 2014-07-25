@@ -200,6 +200,30 @@
     STAssertEquals(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
 }
 
+- (void)testPlaintextToEncryptedAccountUpgrade {
+    // Create and store plaintext user account (old format).
+    SFUserAccount *user = [self createAndVerifyUserAccounts:1][0];
+    NSString *userFilePath = [SFUserAccountManager userAccountPlistFileForUser:user];
+    STAssertTrue([NSKeyedArchiver archiveRootObject:user toFile:userFilePath], @"Could not write plaintext user data to '%@'", userFilePath);
+    
+    NSError *loadAccountsError = nil;
+    STAssertTrue([self.uam loadAccounts:&loadAccountsError], @"Error loading accounts: %@", [loadAccountsError localizedDescription]);
+    
+    // Verify user information is still available after a new load.
+    NSString *userId = @"005R0000000Dsl0";
+    STAssertNotNil([self.uam userAccountForUserId:userId], @"User acccount with ID '%@' should exist.", userId);
+    STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for ID '%@' should exist.", userId);
+    
+    // Verify that the user data is now encrypted on the filesystem.
+    STAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for '%@' should now be encrypted.", userId);
+    
+    // Remove account.
+    NSError *deleteAccountError = nil;
+    [self.uam deleteAccountForUserId:userId error:&deleteAccountError];
+    STAssertNil(deleteAccountError, @"Error deleting account with ID '%@': %@", userId, [deleteAccountError localizedDescription]);
+    STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for ID '%@' should be removed.", userId);
+}
+
 #pragma mark - Helper methods
 
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts {
