@@ -18,8 +18,8 @@ let scopes = ["api"];
 class AppDelegate : UIResponder, UIApplicationDelegate, SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate
 {
     var window: UIWindow?
-    var initialLoginSuccessBlock: SFOAuthFlowSuccessCallbackBlock?
-    var initialLoginFailureBlock: SFOAuthFlowFailureCallbackBlock?
+    let initialLoginSuccessBlock: SFOAuthFlowSuccessCallbackBlock?
+    let initialLoginFailureBlock: SFOAuthFlowFailureCallbackBlock?
     
     init()
     {
@@ -101,8 +101,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate, SFAuthenticationManagerD
     
     func setupRootViewController()
     {
-        var rootVC = RootViewController(nibName: nil, bundle: nil)
-        var navVC = UINavigationController(rootViewController: rootVC)
+        let rootVC = RootViewController(nibName: nil, bundle: nil)
+        let navVC = UINavigationController(rootViewController: rootVC)
         self.window!.rootViewController = navVC
     }
     
@@ -121,32 +121,30 @@ class AppDelegate : UIResponder, UIApplicationDelegate, SFAuthenticationManagerD
         // Alternatively, you could just go straight to re-initializing your app state, if you know
         // your app does not support multiple accounts.  The logic below will work either way.
         
-        /* FIXME
-        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        if ([allAccounts count] > 1) {
-            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-                }];
-            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
-        } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-            [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-            failure:self.initialLoginFailureBlock];
-        } else {
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-                failure:self.initialLoginFailureBlock];
-        */
+        let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts
+        if (allAccounts.count > 1)
+        {
+            let userSwitchVc = SFDefaultUserManagementViewController(completionBlock: {
+                [unowned self] action in
+                self.window!.rootViewController.dismissViewControllerAnimated(true, completion: nil)
+                })
+            self.window!.rootViewController.presentViewController(userSwitchVc, animated: true, completion: nil)
+        }
+        else if (SFUserAccountManager.sharedInstance().allUserAccounts.count == 1)
+        {
+            SFUserAccountManager.sharedInstance().currentUser = SFUserAccountManager.sharedInstance().allUserAccounts[0] as SFUserAccount
+            SFAuthenticationManager.sharedManager().loginWithCompletion(self.initialLoginSuccessBlock, failure: self.initialLoginFailureBlock)
+        }
+        else {
+            SFAuthenticationManager.sharedManager().loginWithCompletion(self.initialLoginSuccessBlock, failure: self.initialLoginFailureBlock)
+        }
     }
     
     // MARK: - SFUserAccountManagerDelegate
     func userAccountManager(userAccountManager: SFUserAccountManager!, didSwitchFromUser fromUser: SFUserAccount!, toUser: SFUserAccount!)
     {
-        /* FIXME
-        [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
-        fromUser.userName, toUser.userName];
-        [self initializeAppViewState];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
-        */
-        
+        self.log(SFLogLevelDebug, msg: "SFUserAccountManager changed from user \(fromUser.userName) to \(toUser.userName).  Resetting app.")
+        self.initializeAppViewState()
+        SFAuthenticationManager.sharedManager().loginWithCompletion(self.initialLoginSuccessBlock, failure: self.initialLoginFailureBlock)
     }
 }
