@@ -25,6 +25,7 @@
  */
 
 #import "SFRestAPI+Blocks.h"
+#import "SFRestAPI+Files.h"
 #import <objc/runtime.h>
 
 // Pattern demonstrated in the Apple documentation. We use a static key
@@ -179,6 +180,21 @@ static char CompleteBlockKey;
 
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForVersions];
+    [self sendRESTRequest:request
+                failBlock:failBlock
+            completeBlock:completeBlock];
+    
+    return request;
+}
+
+- (SFRestRequest *) performRequestForFileRendition:(NSString *)sfdcId
+                                           version:(NSString *)version
+                                     renditionType:(NSString *)renditionType
+                                              page:(NSUInteger)page
+                                         failBlock:(SFRestFailBlock)failBlock
+                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileRendition:sfdcId version:version renditionType:renditionType page:page];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];

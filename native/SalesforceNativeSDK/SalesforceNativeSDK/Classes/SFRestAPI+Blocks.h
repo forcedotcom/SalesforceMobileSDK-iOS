@@ -202,4 +202,22 @@ typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
+/**
+ * Executes a request to get a file rendition
+ * @param sfdcId The Id of the file
+ * @param version if nil fetches the most recent version, otherwise fetches this specific version
+ * @param renditionType What format of rendition do you want to get
+ * @param page which page to fetch, pages start at 0.
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
+ */
+
+- (SFRestRequest *) performRequestForFileRendition:(NSString *)sfdcId
+                                           version:(NSString *)version
+                                     renditionType:(NSString *)renditionType
+                                              page:(NSUInteger)page
+                                         failBlock:(SFRestFailBlock)failBlock
+                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+
 @end
