@@ -44,6 +44,12 @@ static NSString * const kUser_CUSTOM_DATA       = @"customData";
  */
 static NSString * const kGlobalScopingKey = @"-global-";
 
+@interface SFUserAccount ()
+
+@property (nonatomic, strong) NSMutableDictionary *customData;
+
+@end
+
 @implementation SFUserAccount
 
 @synthesize photo = _photo;
@@ -172,6 +178,30 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self.fullName = idData.displayName;
     self.email = idData.email;
     self.userName = idData.username;
+}
+
+- (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
+    if (!self.customData) {
+        self.customData = [NSMutableDictionary dictionary];
+    }
+    
+    [self.customData setObject:object forKey:key];
+}
+
+- (void)removeCustomDataObjectForKey:(id)key {
+    if (!self.customData) {
+        self.customData = [NSMutableDictionary dictionary];
+    }
+    
+    [self.customData removeObjectForKey:key];
+}
+
+- (id)customDataObjectForKey:(id)key {
+    if (!self.customData) {
+        self.customData = [NSMutableDictionary dictionary];
+    }
+    
+    return [self.customData objectForKey:key];
 }
 
 - (BOOL)isSessionValid {

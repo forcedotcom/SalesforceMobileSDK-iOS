@@ -867,8 +867,8 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     [self userChanged:change];
 }
 
-- (void)applyCustomDataToCurrentUser:(NSDictionary *)customData {
-    self.currentUser.customData = customData;
+- (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key {
+    [self.currentUser setCustomDataObject:object forKey:key];
 }
 
 - (void)switchToNewUser {
