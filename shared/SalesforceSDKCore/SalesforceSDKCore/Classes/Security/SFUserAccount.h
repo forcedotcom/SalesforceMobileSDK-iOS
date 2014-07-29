@@ -92,10 +92,6 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
-/** The custom data for the user, should be encodeable by NSCoder
- */
-@property (nonatomic, copy) NSDictionary *customData;
-
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance
@@ -113,6 +109,24 @@
 /** Returns the community dictionary for the specified ID
  */
 - (SFCommunityData*)communityWithId:(NSString*)communityId;
+
+/** Set object in customData dictionary
+ 
+ @property object The object to store, must be NSCoding enabled
+ @property key An NSCopying key to store the object at
+ */
+- (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key;
+
+/** Remove a custom data object for a key
+ 
+ @property key The key for the object to remove
+ */
+- (void)removeCustomDataObjectForKey:(id)key;
+
+/** Retrieve the object stored in the custom data dictionary
+ @return The object for a particular key
+ */
+- (id)customDataObjectForKey:(id)key;
 
 /** Function that returns a key that uniquely identifies this user account for the
  given scope. Note that if you use SFUserAccountScopeGlobal,
