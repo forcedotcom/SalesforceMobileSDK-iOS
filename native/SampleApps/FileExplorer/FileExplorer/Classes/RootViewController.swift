@@ -129,15 +129,14 @@ class RootViewController : UITableViewController, SFRestDelegate
     
     func downloadThumbnail(fileId:String, completeBlock:(UIImage!) -> Void)
     {
-        var imageRequest = SFRestAPI.sharedInstance().requestForFileRendition(fileId, version:nil , renditionType: "THUMB120BY90", page: 0)
-        SFRestAPI.sharedInstance().sendRESTRequest(imageRequest, failBlock: nil, completeBlock: nil) /*{
-            responseData in
-            self.log(SFLogLevelDebug, msg:"downloadThumbnail:\(fileId) completed")
-            var image = UIImage(data: responseData)
-            dispatch_async(dispatch_get_main_queue(), {
-                completeBlock(image)
+        SFRestAPI.sharedInstance().performRequestForFileRendition(fileId, version: nil, renditionType: "THUMB120BY90", page: 0, failBlock: nil, completeBlock: {
+                responseData in
+                self.log(SFLogLevelDebug, msg:"downloadThumbnail:\(fileId) completed")
+                var image = UIImage(data: responseData)
+                dispatch_async(dispatch_get_main_queue(), {
+                    completeBlock(image)
+                })
             })
-        })*/
     }
     
     // MARK: - Table view data source
