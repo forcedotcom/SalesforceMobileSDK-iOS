@@ -23,7 +23,7 @@
  */
 
 #import "AppDelegate.h"
-#import "InitialViewController.h"
+#import "FileExplorer-Swift.h"
 #import "RootViewController.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
