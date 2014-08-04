@@ -5,6 +5,7 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
+    <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
     <property name="baseTemplateFilesDir" location="app_template_files" />
     <property name="srcAppCreationScript" value="${baseTemplateFilesDir}/createApp.sh.base" />
     <property name="destAppCreationScriptName" value="createApp.sh" />
@@ -78,6 +79,9 @@
         <!-- SDK resources -->
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
             <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
+        </copy>
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkAppSettingsBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkAppSettingsBundleName}" />
         </copy>
         
     </target>
