@@ -37,12 +37,12 @@
 // Instead we will use method swizzling. we set this up in the load call.
 + (void)load
 {
-    method_exchangeImplementations(class_getInstanceMethod(self, @selector(init)), class_getInstanceMethod(self, @selector(swizzled_init)));
-    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didFinishLaunchingWithOptions:)), class_getInstanceMethod(self, @selector(swizzled_application:didFinishLaunchingWithOptions:)));
-    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)), class_getInstanceMethod(self, @selector(swizzled_application:didRegisterForRemoteNotificationsWithDeviceToken:)));
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(init)), class_getInstanceMethod(self, @selector(sfsdk_swizzled_init)));
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didFinishLaunchingWithOptions:)), class_getInstanceMethod(self, @selector(sfsdk_swizzled_application:didFinishLaunchingWithOptions:)));
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)), class_getInstanceMethod(self, @selector(sfsdk_swizzled_application:didRegisterForRemoteNotificationsWithDeviceToken:)));
 }
 
-- (AppDelegate *)swizzled_init
+- (AppDelegate *)sfsdk_swizzled_init
 {
 #if defined(DEBUG)
     [SFLogger setLogLevel:SFLogLevelDebug];
@@ -54,7 +54,7 @@
     [[SFAuthenticationManager sharedManager] addDelegate:self];
     [[SFUserAccountManager sharedInstance] addDelegate:self];
     
-    return [self swizzled_init];
+    return [self sfsdk_swizzled_init];
 }
 
 - (void)dealloc
@@ -65,7 +65,7 @@
 
 #pragma mark - App event lifecycle
 
-- (BOOL)swizzled_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)sfsdk_swizzled_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.autoresizesSubviews = YES;
@@ -74,14 +74,14 @@
     return YES;
 }
 
-- (void)swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+- (void)sfsdk_swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     if ([SFUserAccountManager sharedInstance].currentUser != nil) {
         [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
     }
     
-    [self swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 
@@ -106,8 +106,8 @@
             [self.viewController dismissViewControllerAnimated:YES completion:NULL];
         }];
         [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
-    } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+    } else if ([allAccounts count] == 1) {
+        [SFUserAccountManager sharedInstance].currentUser = allAccounts[0];
         [self initializeAppViewState];
     } else {
         [self initializeAppViewState];
