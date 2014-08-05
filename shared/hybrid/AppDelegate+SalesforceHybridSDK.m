@@ -39,7 +39,7 @@
 {
     method_exchangeImplementations(class_getInstanceMethod(self, @selector(init)), class_getInstanceMethod(self, @selector(swizzled_init)));
     method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didFinishLaunchingWithOptions:)), class_getInstanceMethod(self, @selector(swizzled_application:didFinishLaunchingWithOptions:)));
-
+    method_exchangeImplementations(class_getInstanceMethod(self, @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)), class_getInstanceMethod(self, @selector(swizzled_application:didRegisterForRemoteNotificationsWithDeviceToken:)));
 }
 
 - (AppDelegate *)swizzled_init
@@ -73,6 +73,17 @@
     [self initializeAppViewState];
     return YES;
 }
+
+- (void)swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+        [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
+    }
+    
+    [self swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
 
 #pragma mark - SFAuthenticationManagerDelegate
 
