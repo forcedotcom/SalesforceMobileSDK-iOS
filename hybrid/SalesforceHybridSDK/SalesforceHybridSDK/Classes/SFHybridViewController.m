@@ -412,7 +412,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     // TODO: This piece of code has got to go at some point, once we standardize on the correct redirection for communities as well.
     if ([[url absoluteString] rangeOfString:kLoginRedirect].location != NSNotFound) {
-        return self.startPage;
+        return _hybridViewConfig.startPage;
     }
     return nil;
 }
