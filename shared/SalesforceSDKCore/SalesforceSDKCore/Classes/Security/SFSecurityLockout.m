@@ -38,6 +38,7 @@
 
 static NSUInteger const kDefaultPasscodeLength               = 4;
 static NSString * const kTimerSecurity                       = @"security.timer";
+static NSString * const kLegacyPasscodeLengthKey             = @"security.pinlength";
 static NSString * const kPasscodeLengthKey                   = @"security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kKeychainIdentifierLockoutTime       = @"com.salesforce.security.lockoutTime";
@@ -116,6 +117,22 @@ static BOOL _showPasscode = YES;
         // Try to fall back to the user defaults if isLocked isn't found in the keychain
         BOOL locked = [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
         [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
+    }
+    
+    NSNumber *currentPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
+    
+    if (currentPasscodeLength) {
+        NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+        if (previousLength) {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+        }
+        return;
+    }
+    
+    NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+    if (previousLength) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+        [self setPasscodeLength:[previousLength intValue]];
     }
 }
 
