@@ -25,6 +25,7 @@
 #import <objc/runtime.h>
 
 #import "AppDelegate+SalesforceHybridSDK.h"
+#import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
@@ -67,6 +68,9 @@
 
 - (BOOL)sfsdk_swizzled_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    SFLocalhostSubstitutionCache *cache = [[SFLocalhostSubstitutionCache alloc] init];
+    [NSURLCache setSharedURLCache:cache];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.autoresizesSubviews = YES;
     
