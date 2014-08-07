@@ -4,7 +4,7 @@
     version   = "2.3.0">
     <name>Hybrid Test Application</name>
     
-    <access origin="https://localhost"/> <!-- allow local pages -->
+    <access origin="http://127.0.0.1*"/> <!-- allow local pages -->
     <access origin="https://*.force.com" />
     <access origin="https://*.salesforce.com" />
     
