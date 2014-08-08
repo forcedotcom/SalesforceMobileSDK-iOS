@@ -25,6 +25,8 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "SFLocalhostSubstitutionCache.h"
 
+#define WWW_DIR @"www"
+
 @implementation SFLocalhostSubstitutionCache
 
 - (NSString *)mimeTypeForPath:(NSString *)filePath
@@ -39,41 +41,53 @@
 - (NSString*)pathForResource:(NSString*)resourcepath
 {
     NSBundle* mainBundle = [NSBundle mainBundle];
-    NSMutableArray* directoryParts = [NSMutableArray arrayWithArray:[resourcepath componentsSeparatedByString:@"/"]];
-    NSString* filename = [directoryParts lastObject];
     
-    [directoryParts removeLastObject];
-    
-    NSString* directoryPartsJoined = [directoryParts componentsJoinedByString:@"/"];
-    NSString* directoryStr = @"www";
-    
-    if ([directoryPartsJoined length] > 0) {
-        directoryStr = [NSString stringWithFormat:@"%@/%@", @"www", [directoryParts componentsJoinedByString:@"/"]];
+    // When passed @"" returned full path to www directory
+    if ([resourcepath length] == 0) {
+        return [[mainBundle bundlePath] stringByAppendingPathComponent:WWW_DIR];
     }
     
-    return [mainBundle pathForResource:filename ofType:@"" inDirectory:directoryStr];
+    // Otherwise
+    NSString* filename = [resourcepath lastPathComponent];
+    NSString* directory = [WWW_DIR stringByAppendingString:[resourcepath substringToIndex:[resourcepath length] - [filename length]]];
+    return [[mainBundle pathForResource:filename ofType:@"" inDirectory:directory] stringByStandardizingPath];
 }
 
 - (NSCachedURLResponse *)cachedResponseForRequest:(NSURLRequest *)request
 {
     NSURL* url = [request URL];
-    if ([[url host] isEqualToString:@"localhost"]) {
-        NSString *filePath = [self pathForResource:[[request URL] path]];
-
-        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-            NSData *data = [NSData dataWithContentsOfFile:filePath];
-            
-            NSURLResponse *response =
-            [[NSURLResponse alloc]
-             initWithURL:[request URL]
-             MIMEType:[self mimeTypeForPath:filePath]
-             expectedContentLength:[data length]
-             textEncodingName:@"utf-8"];
-            return [[NSCachedURLResponse alloc] initWithResponse:response data:data];
-            
-        }
+    
+    // Not a localhost request
+    if (![[url host] isEqualToString:@"localhost"]) {
+        return [super cachedResponseForRequest:request];
     }
-    return [super cachedResponseForRequest: request];
+    
+    // Localhost request
+    NSString* urlPath = [url path];
+    NSString* filePath = [self pathForResource:urlPath];
+    NSString* wwwDirPath = [self pathForResource:@""];
+    
+    NSData* data = nil;
+    NSString* mimeType = @"text/plain";
+    if (![filePath hasPrefix:wwwDirPath]) {
+        [self log:SFLogLevelError format:@"Trying to access files outside www: %@", url];
+    }
+    else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        [self log:SFLogLevelError format:@"Trying to access non-existent file: %@", url];
+    }
+    else {
+        data = [NSData dataWithContentsOfFile:filePath];
+        mimeType = [self mimeTypeForPath:filePath];
+        [self log:SFLogLevelInfo format:@"Loading local file: %@", urlPath];
+    }
+    
+    NSURLResponse *response = [[NSURLResponse alloc]
+                               initWithURL:[request URL]
+                               MIMEType:mimeType
+                               expectedContentLength:[data length]
+                               textEncodingName:@"utf-8"];
+    
+    return [[NSCachedURLResponse alloc] initWithResponse:response data:data];
 }
 
 @end
