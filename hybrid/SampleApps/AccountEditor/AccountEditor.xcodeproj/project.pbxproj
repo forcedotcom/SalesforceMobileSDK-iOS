@@ -144,8 +144,8 @@
 		4F6D839819525B66003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D839919525B66003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		4FF15E2A190884FE00705FE0 /* AccountEditor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = AccountEditor.html; path = ../../../../external/samples/hybrid/accounteditor/AccountEditor.html; sourceTree = "<group>"; };
-		4FF15E2B190884FE00705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/accounteditor/bootconfig.json; sourceTree = "<group>"; };
+		4FF15E2A190884FE00705FE0 /* AccountEditor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = AccountEditor.html; path = ../../../../external/shared/samples/accounteditor/AccountEditor.html; sourceTree = "<group>"; };
+		4FF15E2B190884FE00705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/samples/accounteditor/bootconfig.json; sourceTree = "<group>"; };
 		4FF15E2D190884FE00705FE0 /* ratchet-theme-android.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "ratchet-theme-android.css"; sourceTree = "<group>"; };
 		4FF15E2E190884FE00705FE0 /* ratchet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ratchet.css; sourceTree = "<group>"; };
 		4FF15E2F190884FE00705FE0 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 				4FF15E2F190884FE00705FE0 /* styles.css */,
 			);
 			name = css;
-			path = ../../../../external/samples/hybrid/accounteditor/css;
+			path = ../../../../external/shared/samples/accounteditor/css;
 			sourceTree = "<group>";
 		};
 		4FF15E30190884FE00705FE0 /* js */ = {
@@ -269,7 +269,7 @@
 				4FF15E3C190884FE00705FE0 /* underscore-min.js */,
 			);
 			name = js;
-			path = ../../../../external/samples/hybrid/accounteditor/js;
+			path = ../../../../external/shared/samples/accounteditor/js;
 			sourceTree = "<group>";
 		};
 		4FF15E5F1908852E00705FE0 /* plugins */ = {

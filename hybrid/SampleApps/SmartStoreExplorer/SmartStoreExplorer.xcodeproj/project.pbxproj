@@ -132,13 +132,13 @@
 		4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D83AA1952638C003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D83AB1952638C003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
-		4FFEF92219087FBC00C7A193 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/smartstoreexplorer/bootconfig.json; sourceTree = "<group>"; };
+		4FFEF92219087FBC00C7A193 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/samples/smartstoreexplorer/bootconfig.json; sourceTree = "<group>"; };
 		4FFEF92419087FBC00C7A193 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.mobile.min.css; sourceTree = "<group>"; };
-		4FFEF94619087FBC00C7A193 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../../external/samples/hybrid/smartstoreexplorer/index.html; sourceTree = "<group>"; };
+		4FFEF94619087FBC00C7A193 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../../external/shared/samples/smartstoreexplorer/index.html; sourceTree = "<group>"; };
 		4FFEF94819087FBC00C7A193 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FFEF94919087FBC00C7A193 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
 		4FFEF94A19087FBC00C7A193 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.mobile.min.js; sourceTree = "<group>"; };
-		4FFEF94B19087FBC00C7A193 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = smartstoreexplorer.js; path = ../../../../external/samples/hybrid/smartstoreexplorer/smartstoreexplorer.js; sourceTree = "<group>"; };
+		4FFEF94B19087FBC00C7A193 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = smartstoreexplorer.js; path = ../../../../external/shared/samples/smartstoreexplorer/smartstoreexplorer.js; sourceTree = "<group>"; };
 		4FFEF9691908801100C7A193 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
 		4FFEF96B1908802B00C7A193 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../external/shared/gen/cordova_plugins.js; sourceTree = "<group>"; };
 		4FFEF96E1908802B00C7A193 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 				4FFEF92419087FBC00C7A193 /* jquery.mobile.min.css */,
 			);
 			name = css;
-			path = ../../../../external/samples/hybrid/smartstoreexplorer/css;
+			path = ../../../../external/shared/samples/smartstoreexplorer/css;
 			sourceTree = "<group>";
 		};
 		4FFEF94719087FBC00C7A193 /* js */ = {
@@ -245,7 +245,7 @@
 				4FFEF94A19087FBC00C7A193 /* jquery.mobile.min.js */,
 			);
 			name = js;
-			path = ../../../../external/samples/hybrid/smartstoreexplorer/js;
+			path = ../../../../external/shared/samples/smartstoreexplorer/js;
 			sourceTree = "<group>";
 		};
 		4FFEF96C1908802B00C7A193 /* plugins */ = {

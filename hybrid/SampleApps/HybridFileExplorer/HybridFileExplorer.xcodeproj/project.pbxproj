@@ -141,10 +141,10 @@
 		4F6D83A419526344003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D83A519526344003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		4FF15DD7190882E600705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/samples/hybrid/fileexplorer/bootconfig.json; sourceTree = "<group>"; };
+		4FF15DD7190882E600705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/samples/fileexplorer/bootconfig.json; sourceTree = "<group>"; };
 		4FF15DD9190882E600705FE0 /* ratchet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ratchet.css; sourceTree = "<group>"; };
 		4FF15DDA190882E600705FE0 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
-		4FF15DDB190882E600705FE0 /* FileExplorer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = FileExplorer.html; path = ../../../../external/samples/hybrid/fileexplorer/FileExplorer.html; sourceTree = "<group>"; };
+		4FF15DDB190882E600705FE0 /* FileExplorer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = FileExplorer.html; path = ../../../../external/shared/samples/fileexplorer/FileExplorer.html; sourceTree = "<group>"; };
 		4FF15DDD190882E600705FE0 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
 		4FF15DDF190882E600705FE0 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
 		4FF15DE1190882E600705FE0 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
@@ -248,7 +248,7 @@
 				4FF15DDA190882E600705FE0 /* styles.css */,
 			);
 			name = css;
-			path = ../../../../external/samples/hybrid/fileexplorer/css;
+			path = ../../../../external/shared/samples/fileexplorer/css;
 			sourceTree = "<group>";
 		};
 		4FF15DDC190882E600705FE0 /* js */ = {
@@ -264,7 +264,7 @@
 				4FF15DE7190882E600705FE0 /* underscore-min.js */,
 			);
 			name = js;
-			path = ../../../../external/samples/hybrid/fileexplorer/js;
+			path = ../../../../external/shared/samples/fileexplorer/js;
 			sourceTree = "<group>";
 		};
 		4FF15DFA1908833800705FE0 /* plugins */ = {
