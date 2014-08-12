@@ -192,7 +192,7 @@ static char CompleteBlockKey;
                                      renditionType:(NSString *)renditionType
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+                                     completeBlock:(SFRestDataResponseBlock)completeBlock {
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileRendition:sfdcId version:version renditionType:renditionType page:page];
     [self sendRESTRequest:request
