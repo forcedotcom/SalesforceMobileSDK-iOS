@@ -25,6 +25,7 @@
 #import "SFOAuthCredentials.h"
 #import "SalesforceOAuthTestAppDelegate.h"
 #import "SalesforceOAuthTestViewController.h"
+#import <SalesforceCommonUtils/SFLogger.h>
 
 @implementation SalesforceOAuthTestAppDelegate
 

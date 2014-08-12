@@ -28,6 +28,7 @@
 #import "SalesforceOAuthTestViewController.h"
 #import "SFOAuthInfo.h"
 #import "SFOAuthInfo+Internal.h"
+#import <SalesforceCommonUtils/SFLogger.h>
 
 @interface SalesforceOAuthTestViewController ()
 
