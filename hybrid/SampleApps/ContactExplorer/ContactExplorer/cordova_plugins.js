@@ -92,11 +92,8 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.contacts/src/windows8/ContactProxy.js",
-        "id": "org.apache.cordova.contacts.ContactProxy",
-        "merges": [
-            ""
-        ]
+        "file": "plugins/org.apache.cordova.contacts/www/ContactFieldType.js",
+        "id": "org.apache.cordova.contacts.ContactFieldType"
     },
     {
         "file": "plugins/org.apache.cordova.contacts/www/ios/contacts.js",
@@ -117,7 +114,7 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "com.salesforce": "2.3.0",
-    "org.apache.cordova.contacts": "0.2.9"
+    "org.apache.cordova.contacts": "0.2.13-dev"
 }
 // BOTTOM OF METADATA
 });
