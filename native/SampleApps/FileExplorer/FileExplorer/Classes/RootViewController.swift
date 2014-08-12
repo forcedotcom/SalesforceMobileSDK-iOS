@@ -29,7 +29,7 @@ class RootViewController : UITableViewController, SFRestDelegate
     var dataRows = [NSDictionary]()
     
     // very basic in-memory cache
-    let thumbnailCache = [String : UIImage]()
+    var thumbnailCache = [String : UIImage]()
     
     // MARK: - View lifecycle
     override func loadView()
@@ -120,7 +120,7 @@ class RootViewController : UITableViewController, SFRestDelegate
                 let thumbnailImage = UIGraphicsGetImageFromCurrentImageContext() as UIImage
                 UIGraphicsEndImageContext()
                 // cache it
-                // FIXME self!.thumbnailCache[fileId] = thumbnailImage;
+                self!.thumbnailCache[fileId] = thumbnailImage
                 // done
                 completeBlock(thumbnailImage);
             })
