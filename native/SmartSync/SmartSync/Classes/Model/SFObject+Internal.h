@@ -30,7 +30,6 @@
 @property (nonatomic, strong, readwrite) NSString *objectType;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSString *objectId;
-@property (nonatomic, assign, readwrite) BOOL isExternal;
 
 - (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
 

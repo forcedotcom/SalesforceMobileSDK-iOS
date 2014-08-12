@@ -31,7 +31,6 @@
 @property (nonatomic, strong, readwrite) NSString *label;
 @property (nonatomic, strong, readwrite) NSString *labelPlural;
 @property (nonatomic, strong, readwrite) NSString *nameField;
-@property (nonatomic, strong, readwrite) NSString *networkField;
 @property (nonatomic, strong, readwrite) NSDictionary *rawData;
 
 - (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
