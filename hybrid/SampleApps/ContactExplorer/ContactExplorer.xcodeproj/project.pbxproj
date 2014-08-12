@@ -75,6 +75,7 @@
 		8251CA6616ED3CD200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6516ED3CD200BD1EA2 /* CoreData.framework */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
 		82AA406418E3B15500BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406318E3B15500BD34D8 /* libSalesforceSecurity.a */; };
+		82E689FE199A93B600953452 /* ContactFieldType.js in Copy contact plugins Files */ = {isa = PBXBuildFile; fileRef = 82E689FC199A938D00953452 /* ContactFieldType.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,6 +107,7 @@
 				4FF15EE9190891A400705FE0 /* ContactAddress.js in Copy contact plugins Files */,
 				4FF15EEA190891A400705FE0 /* ContactError.js in Copy contact plugins Files */,
 				4FF15EEB190891A400705FE0 /* ContactField.js in Copy contact plugins Files */,
+				82E689FE199A93B600953452 /* ContactFieldType.js in Copy contact plugins Files */,
 				4FF15EEC190891A400705FE0 /* ContactFindOptions.js in Copy contact plugins Files */,
 				4FF15EED190891A400705FE0 /* ContactName.js in Copy contact plugins Files */,
 				4FF15EEE190891A400705FE0 /* ContactOrganization.js in Copy contact plugins Files */,
@@ -177,12 +179,12 @@
 		4F6D839F195262FB003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15E4E1908851900705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = samples/contactexplorer/bootconfig.json; sourceTree = "<group>"; };
-		4FF15E501908851900705FE0 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = jquery.mobile.min.css; path = ../../common/jquery.mobile.min.css; sourceTree = "<group>"; };
+		4FF15E501908851900705FE0 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.mobile.min.css; sourceTree = "<group>"; };
 		4FF15E511908851900705FE0 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = samples/contactexplorer/index.html; sourceTree = "<group>"; };
 		4FF15E521908851900705FE0 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = inline.js; path = samples/contactexplorer/inline.js; sourceTree = "<group>"; };
 		4FF15E541908851900705FE0 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.mobilesdk.js; path = ../../../libs/forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FF15E551908851900705FE0 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../../../dependencies/jquery/jquery.min.js; sourceTree = "<group>"; };
-		4FF15E561908851900705FE0 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.mobile.min.js; path = ../../common/jquery.mobile.min.js; sourceTree = "<group>"; };
+		4FF15E561908851900705FE0 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.mobile.min.js; sourceTree = "<group>"; };
 		4FF15E751908854800705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		4FF15E761908854800705FE0 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
 		4FF15E771908854800705FE0 /* com.salesforce.plugin.sfaccountmanager.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sfaccountmanager.js; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		8251CA6516ED3CD200BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82AA406318E3B15500BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82E689FC199A938D00953452 /* ContactFieldType.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactFieldType.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +392,7 @@
 				4FF15EAC1908897700705FE0 /* ContactAddress.js */,
 				4FF15EAD1908897700705FE0 /* ContactError.js */,
 				4FF15EAE1908897700705FE0 /* ContactField.js */,
+				82E689FC199A938D00953452 /* ContactFieldType.js */,
 				4FF15EAF1908897700705FE0 /* ContactFindOptions.js */,
 				4FF15EB01908897700705FE0 /* ContactName.js */,
 				4FF15EB11908897700705FE0 /* ContactOrganization.js */,
