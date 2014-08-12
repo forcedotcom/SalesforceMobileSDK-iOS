@@ -73,6 +73,11 @@
 - (id)initWithDict:(NSDictionary *)configDict;
 
 /**
+ * Return config as dictionary
+ */
+- (NSDictionary*) asDictionary;
+
+/**
  * @return The hybrid view config from the default configuration file location (/www/bootconfig.json).
  */
 + (SFHybridViewConfig *)fromDefaultConfigFile;

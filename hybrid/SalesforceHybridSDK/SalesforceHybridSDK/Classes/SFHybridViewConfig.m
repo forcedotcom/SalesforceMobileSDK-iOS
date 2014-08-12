@@ -185,6 +185,12 @@ static NSString* const kDefaultErrorPage = @"error.html";
     (self.configDict)[kAttemptOfflineLoad] = attemptOfflineLoadNum;
 }
 
+- (NSDictionary*) asDictionary
+{
+    return self.configDict;
+}
+
+
 #pragma mark - Configuration helpers
 
 + (SFHybridViewConfig *)fromDefaultConfigFile
