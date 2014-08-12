@@ -176,13 +176,13 @@
 		4F6D839E195262FB003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D839F195262FB003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
 		4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		4FF15E4E1908851900705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../samples/hybrid/contactexplorer/bootconfig.json; sourceTree = "<group>"; };
-		4FF15E501908851900705FE0 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.mobile.min.css; sourceTree = "<group>"; };
-		4FF15E511908851900705FE0 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../samples/hybrid/contactexplorer/index.html; sourceTree = "<group>"; };
-		4FF15E521908851900705FE0 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = inline.js; path = ../samples/hybrid/contactexplorer/inline.js; sourceTree = "<group>"; };
-		4FF15E541908851900705FE0 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
-		4FF15E551908851900705FE0 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		4FF15E561908851900705FE0 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.mobile.min.js; sourceTree = "<group>"; };
+		4FF15E4E1908851900705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = samples/contactexplorer/bootconfig.json; sourceTree = "<group>"; };
+		4FF15E501908851900705FE0 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = jquery.mobile.min.css; path = ../../common/jquery.mobile.min.css; sourceTree = "<group>"; };
+		4FF15E511908851900705FE0 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = samples/contactexplorer/index.html; sourceTree = "<group>"; };
+		4FF15E521908851900705FE0 /* inline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = inline.js; path = samples/contactexplorer/inline.js; sourceTree = "<group>"; };
+		4FF15E541908851900705FE0 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = forcetk.mobilesdk.js; path = ../../../libs/forcetk.mobilesdk.js; sourceTree = "<group>"; };
+		4FF15E551908851900705FE0 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.min.js; path = ../../../dependencies/jquery/jquery.min.js; sourceTree = "<group>"; };
+		4FF15E561908851900705FE0 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.mobile.min.js; path = ../../common/jquery.mobile.min.js; sourceTree = "<group>"; };
 		4FF15E751908854800705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		4FF15E761908854800705FE0 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
 		4FF15E771908854800705FE0 /* com.salesforce.plugin.sfaccountmanager.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sfaccountmanager.js; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 				4FF15E501908851900705FE0 /* jquery.mobile.min.css */,
 			);
 			name = css;
-			path = ../samples/hybrid/contactexplorer/css;
+			path = samples/contactexplorer/css;
 			sourceTree = "<group>";
 		};
 		4FF15E531908851900705FE0 /* js */ = {
@@ -302,7 +302,7 @@
 				4FF15E561908851900705FE0 /* jquery.mobile.min.js */,
 			);
 			name = js;
-			path = ../samples/hybrid/contactexplorer/js;
+			path = samples/contactexplorer/js;
 			sourceTree = "<group>";
 		};
 		4FF15E731908854800705FE0 /* plugins */ = {
