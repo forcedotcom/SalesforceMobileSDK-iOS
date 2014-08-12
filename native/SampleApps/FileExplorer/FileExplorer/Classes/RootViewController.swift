@@ -29,19 +29,19 @@ class RootViewController : UITableViewController, SFRestDelegate
     var dataRows = [NSDictionary]()
     
     // very basic in-memory cache
-    var thumbnailCache = [String : UIImage]()
+    let thumbnailCache = [String : UIImage]()
     
     // MARK: - View lifecycle
     override func loadView()
     {
         super.loadView()
         self.title = "FileExplorer"
-        var logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
-        var cancelRequestsButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelRequests")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
+        let cancelRequestsButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelRequests")
         self.navigationItem.leftBarButtonItems = [logoutButton, cancelRequestsButton]
-        var ownedFilesButton = UIBarButtonItem(title: "Owned", style: .Plain, target: self, action: "showOwnedFiles")
-        var groupsFilesButton = UIBarButtonItem(title: "Groups", style: .Plain, target: self, action: "showGroupsFiles")
-        var sharedFilesButton = UIBarButtonItem(title: "Shared", style: .Plain, target: self, action: "showSharedFiles")
+        let ownedFilesButton = UIBarButtonItem(title: "Owned", style: .Plain, target: self, action: "showOwnedFiles")
+        let groupsFilesButton = UIBarButtonItem(title: "Groups", style: .Plain, target: self, action: "showGroupsFiles")
+        let sharedFilesButton = UIBarButtonItem(title: "Shared", style: .Plain, target: self, action: "showSharedFiles")
         self.navigationItem.rightBarButtonItems = [ownedFilesButton, groupsFilesButton, sharedFilesButton]
     }
     
@@ -58,19 +58,19 @@ class RootViewController : UITableViewController, SFRestDelegate
     
     func showOwnedFiles()
     {
-        var request = SFRestAPI.sharedInstance().requestForOwnedFilesList(nil, page: 0)
+        let request = SFRestAPI.sharedInstance().requestForOwnedFilesList(nil, page: 0)
         SFRestAPI.sharedInstance().send(request, delegate: self)
     }
     
     func showGroupsFiles()
     {
-        var request = SFRestAPI.sharedInstance().requestForFilesInUsersGroups(nil, page: 0)
+        let request = SFRestAPI.sharedInstance().requestForFilesInUsersGroups(nil, page: 0)
         SFRestAPI.sharedInstance().send(request, delegate: self)
     }
     
     func showSharedFiles()
     {
-        var request = SFRestAPI.sharedInstance().requestForFilesSharedWithUser(nil, page: 0)
+        let request = SFRestAPI.sharedInstance().requestForFilesSharedWithUser(nil, page: 0)
         SFRestAPI.sharedInstance().send(request, delegate: self)
     }
     
@@ -106,8 +106,8 @@ class RootViewController : UITableViewController, SFRestDelegate
     func getThumbnail(fileId:String, completeBlock:(UIImage!) -> Void)
     {
         // cache hit
-        if (self.thumbnailCache[fileId]) {
-            completeBlock(self.thumbnailCache[fileId])
+        if let cachedImage = self.thumbnailCache[fileId] {
+            completeBlock(cachedImage)
         }
             // cache miss
         else {
@@ -117,7 +117,7 @@ class RootViewController : UITableViewController, SFRestDelegate
                 // size it
                 UIGraphicsBeginImageContext(CGSizeMake(120,90))
                 image.drawInRect(CGRectMake(0, 0, image.size.width, 90))
-                var thumbnailImage = UIGraphicsGetImageFromCurrentImageContext() as UIImage
+                let thumbnailImage = UIGraphicsGetImageFromCurrentImageContext() as UIImage
                 UIGraphicsEndImageContext()
                 // cache it
                 // FIXME self!.thumbnailCache[fileId] = thumbnailImage;
@@ -132,7 +132,7 @@ class RootViewController : UITableViewController, SFRestDelegate
         SFRestAPI.sharedInstance().performRequestForFileRendition(fileId, version: nil, renditionType: "THUMB120BY90", page: 0, failBlock: nil, completeBlock: {
                 responseData in
                 self.log(SFLogLevelDebug, msg:"downloadThumbnail:\(fileId) completed")
-                var image = UIImage(data: responseData)
+                let image = UIImage(data: responseData)
                 dispatch_async(dispatch_get_main_queue(), {
                     completeBlock(image)
                 })

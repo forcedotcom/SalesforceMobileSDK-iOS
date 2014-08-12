@@ -33,6 +33,7 @@
 typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
+typedef void (^SFRestDataResponseBlock) (NSData* data);
 
 + (NSError *)errorWithDescription:(NSString *)description;
 
@@ -218,6 +219,6 @@ typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
                                      renditionType:(NSString *)renditionType
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                     completeBlock:(SFRestDataResponseBlock)completeBlock;
 
 @end

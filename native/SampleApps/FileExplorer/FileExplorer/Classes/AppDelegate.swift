@@ -37,6 +37,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, SFAuthenticationManagerD
     let initialLoginSuccessBlock: SFOAuthFlowSuccessCallbackBlock?
     let initialLoginFailureBlock: SFOAuthFlowFailureCallbackBlock?
     
+    override
     init()
     {
         super.init()
