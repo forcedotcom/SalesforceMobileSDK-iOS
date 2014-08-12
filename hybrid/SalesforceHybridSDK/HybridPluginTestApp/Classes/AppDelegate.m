@@ -31,6 +31,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceCommonUtils/SFLogger.h>
 
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
@@ -189,7 +190,7 @@
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
     NSString *covFile = @(filename);
-    [self log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
+    [SFLogger log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
     return fopen(filename, mode);
 }
 
