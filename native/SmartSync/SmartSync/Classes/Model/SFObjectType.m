@@ -80,27 +80,6 @@
     return self.name;
 }
 
-- (NSString *)networkField {
-    if (nil != self.networkField) {
-        return self.networkField;
-    }
-    NSArray *dataFields = self.rawData[kFieldsField];
-    if (nil != dataFields) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nameField = YES"];
-        NSArray *nameFields = [dataFields filteredArrayUsingPredicate:predicate];
-        if (nameFields && nameFields.count > 0) {
-            for (int i = 0; i < nameFields.count; i++) {
-                NSString *nameField = nameFields[i];
-                if (nil != nameField && ([nameField isEqualToString:kNetworkIdField]
-                            || [nameField isEqualToString:kNetworkScopeField])) {
-                    self.networkField = nameField;
-                }
-            }
-        }
-    }
-    return self.networkField;
-}
-
 - (BOOL)isSearchable {
     BOOL flag = (self.rawData &&
                  ![self.rawData[kHiddenField] boolValue] &&

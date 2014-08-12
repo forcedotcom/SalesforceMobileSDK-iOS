@@ -41,9 +41,6 @@
 /** Object name field */
 @property (nonatomic, strong, readonly) NSString *nameField;
 
-/** Network field name */
-@property (nonatomic, strong, readonly) NSString *networkField;
-
 /** Fields, array of NSDictionary objects */
 @property (nonatomic, strong, readonly) NSArray *fields;
 
