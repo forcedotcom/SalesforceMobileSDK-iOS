@@ -28,6 +28,7 @@
 		CEAAAE5A195911E600CBBFE9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE59195911E600CBBFE9 /* UIKit.framework */; };
 		CEAAAE5D195911E600CBBFE9 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartSync.a */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		CEB808B8199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */; };
 		CEDA4EDF19745B870009D865 /* SFSmartSyncNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */; };
 		CEDA4EE319747AC30009D865 /* SFSmartSyncCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */; };
 		CEF50A87196B3EB60076264C /* SFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A7D196B3EB60076264C /* SFObject.m */; };
@@ -72,6 +73,8 @@
 		CEAAAE59195911E600CBBFE9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE60195911E600CBBFE9 /* SmartSyncTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SmartSyncTests-Info.plist"; sourceTree = "<group>"; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncMetadataManager.h; path = Manager/SFSmartSyncMetadataManager.h; sourceTree = "<group>"; };
+		CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncMetadataManager.m; path = Manager/SFSmartSyncMetadataManager.m; sourceTree = "<group>"; };
 		CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncNetworkManager.h; path = Manager/SFSmartSyncNetworkManager.h; sourceTree = "<group>"; };
 		CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncNetworkManager.m; path = Manager/SFSmartSyncNetworkManager.m; sourceTree = "<group>"; };
 		CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncCacheManager.h; path = Manager/SFSmartSyncCacheManager.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 		CEDA4EE019745B950009D865 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */,
+				CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */,
 				CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */,
 				CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */,
 				CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */,
@@ -342,6 +347,7 @@
 				CEF50A89196B3EB60076264C /* SFObjectTypeLayout.m in Sources */,
 				CEF50A92196B57190076264C /* SFSoslBuilder.m in Sources */,
 				CEF50A87196B3EB60076264C /* SFObject.m in Sources */,
+				CEB808B8199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m in Sources */,
 				CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
