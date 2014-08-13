@@ -63,23 +63,27 @@ static NSMutableDictionary *cacheMgrList = nil;
     dispatch_once(&pred, ^{
         cacheMgrList = [[NSMutableDictionary alloc] init];
 	});
-    if (user) {
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        id cacheMgr = [cacheMgrList objectForKey:key];
-        if (!cacheMgr) {
-            cacheMgr = [[SFSmartSyncCacheManager alloc] init:user];
-            [cacheMgrList setObject:cacheMgr forKey:key];
+    @synchronized([SFSmartSyncCacheManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            id cacheMgr = [cacheMgrList objectForKey:key];
+            if (!cacheMgr) {
+                cacheMgr = [[SFSmartSyncCacheManager alloc] init:user];
+                [cacheMgrList setObject:cacheMgr forKey:key];
+            }
+            return cacheMgr;
+        } else {
+            return nil;
         }
-        return cacheMgr;
-    } else {
-        return nil;
     }
 }
 
 + (void)removeSharedInstance:(SFUserAccount*)user {
-    if (user) {
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        [cacheMgrList removeObjectForKey:key];
+    @synchronized([SFSmartSyncCacheManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            [cacheMgrList removeObjectForKey:key];
+        }
     }
 }
 

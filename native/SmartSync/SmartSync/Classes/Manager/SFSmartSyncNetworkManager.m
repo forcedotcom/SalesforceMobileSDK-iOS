@@ -45,23 +45,27 @@ static NSMutableDictionary *networkMgrList = nil;
     dispatch_once(&pred, ^{
         networkMgrList = [[NSMutableDictionary alloc] init];
 	});
-    if (user) {
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        id networkMgr = [networkMgrList objectForKey:key];
-        if (!networkMgr) {
-            networkMgr = [[SFSmartSyncNetworkManager alloc] init:user];
-            [networkMgrList setObject:networkMgr forKey:key];
+    @synchronized([SFSmartSyncNetworkManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            id networkMgr = [networkMgrList objectForKey:key];
+            if (!networkMgr) {
+                networkMgr = [[SFSmartSyncNetworkManager alloc] init:user];
+                [networkMgrList setObject:networkMgr forKey:key];
+            }
+            return networkMgr;
+        } else {
+            return nil;
         }
-        return networkMgr;
-    } else {
-        return nil;
     }
 }
 
 + (void)removeSharedInstance:(SFUserAccount*)user {
-    if (user) {
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        [networkMgrList removeObjectForKey:key];
+    @synchronized([SFSmartSyncNetworkManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            [networkMgrList removeObjectForKey:key];
+        }
     }
 }
 
