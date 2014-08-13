@@ -24,13 +24,21 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFUserAccount;
+
 /** This class uses SalesforceNetworkSDK to send and process remote service calls.
  */
 @interface SFSmartSyncNetworkManager : NSObject
 
-/** Singleton method for accessing an instance of this class.
+/** Singleton method for accessing network manager instance.
+ @param user A user that will scope this manager instance data
  */
-+ (id)sharedInstance;
++ (id)sharedInstance:(SFUserAccount *)user;
+
+/** Removes the shared instance associated with the specified user
+ @param user The user
+ */
++ (void)removeSharedInstance:(SFUserAccount*)user;
 
 - (void)setServerRootUrl:(NSURL *)serverRootUrl;
 

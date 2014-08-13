@@ -23,11 +23,13 @@
  */
 
 #import "SFSmartSyncNetworkManager.h"
+#import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceNetworkSDK/SFNetworkEngine.h>
 #import <SalesforceNetworkSDK/SFNetworkUtils.h>
 
 @interface SFSmartSyncNetworkManager ()
 
+@property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) NSURL *serverRootUrl;
 
 @end
@@ -36,22 +38,47 @@
 
 #pragma mark - SFSmartSyncNetworkManager
 
-+ (id)sharedInstance {
+static NSMutableDictionary *networkMgrList = nil;
+
++ (id)sharedInstance:(SFUserAccount *)user {
     static dispatch_once_t pred;
-    static SFSmartSyncNetworkManager *serviceMgr = nil;
     dispatch_once(&pred, ^{
-		serviceMgr = [[self alloc] init];
+        networkMgrList = [[NSMutableDictionary alloc] init];
 	});
-    return serviceMgr;
+    @synchronized([SFSmartSyncNetworkManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            id networkMgr = [networkMgrList objectForKey:key];
+            if (!networkMgr) {
+                networkMgr = [[SFSmartSyncNetworkManager alloc] init:user];
+                [networkMgrList setObject:networkMgr forKey:key];
+            }
+            return networkMgr;
+        } else {
+            return nil;
+        }
+    }
+}
+
++ (void)removeSharedInstance:(SFUserAccount*)user {
+    @synchronized([SFSmartSyncNetworkManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            [networkMgrList removeObjectForKey:key];
+        }
+    }
+}
+
+- (id)init:(SFUserAccount *)user {
+    self = [super init];
+    if (self) {
+        self.user = user;
+    }
+    return self;
 }
 
 - (NSString *)accessToken {
-    SFNetworkEngine *networkEngine = [SFNetworkEngine sharedInstance];
-    if (networkEngine.coordinator) {
-        return networkEngine.coordinator.accessToken;
-    } else {
-        return nil;
-    }
+    return [self.user credentials].accessToken;
 }
 
 - (BOOL)isNetworkError:(NSError *)error {
