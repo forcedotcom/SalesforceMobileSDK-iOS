@@ -89,7 +89,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     self = [super init];
     if (self) {
-        if (_configDict == nil) {
+        if (configDict == nil) {
             _configDict = [NSMutableDictionary dictionary];
         } else {
             _configDict = [NSMutableDictionary dictionaryWithDictionary:configDict];
