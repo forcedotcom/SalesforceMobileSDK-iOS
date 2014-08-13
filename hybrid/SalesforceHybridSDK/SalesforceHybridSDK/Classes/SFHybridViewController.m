@@ -256,6 +256,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (SFHybridViewConfig *)hybridViewConfig
+{
+    return _hybridViewConfig;
+}
+
 #pragma mark - Public methods
 
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock

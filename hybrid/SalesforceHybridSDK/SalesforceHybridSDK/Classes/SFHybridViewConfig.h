@@ -67,6 +67,11 @@
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
 
 /**
+ * The config as a dictionary
+ */
+@property (nonatomic, strong, readonly) NSDictionary *configDict;
+
+/**
  * Initializer with a given JSON-based configuration dictionary.
  * @param configDict The dictionary containing the configuration.
  */
