@@ -67,15 +67,15 @@
 @property (nonatomic, assign) BOOL attemptOfflineLoad;
 
 /**
+ * The config as a dictionary
+ */
+@property (nonatomic, strong, readonly) NSDictionary *configDict;
+
+/**
  * Initializer with a given JSON-based configuration dictionary.
  * @param configDict The dictionary containing the configuration.
  */
 - (id)initWithDict:(NSDictionary *)configDict;
-
-/**
- * Return config as dictionary
- */
-- (NSDictionary*) asDictionary;
 
 /**
  * @return The hybrid view config from the default configuration file location (/www/bootconfig.json).

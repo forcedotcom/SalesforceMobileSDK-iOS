@@ -27,11 +27,13 @@
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 @interface SFHybridViewConfig ()
+{
+    /**
+     * The backing dictionary containing the configuration properties.
+     */
+    NSMutableDictionary *_configDict;
+}
 
-/**
- * The backing dictionary containing the configuration properties.
- */
-@property (nonatomic, strong) NSMutableDictionary *configDict;
 
 /**
  * Reads the contents of a bootconfig.json file into an NSDictionary.
@@ -69,7 +71,12 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 @implementation SFHybridViewConfig
 
-@synthesize configDict = _configDict;
+
+#pragma mark - Property implementations
+- (NSDictionary*) configDict
+{
+    return _configDict;
+}
 
 #pragma mark - Init / dealloc / overrides
 
@@ -82,10 +89,10 @@ static NSString* const kDefaultErrorPage = @"error.html";
 {
     self = [super init];
     if (self) {
-        if (configDict == nil) {
-            self.configDict = [NSMutableDictionary dictionary];
+        if (_configDict == nil) {
+            _configDict = [NSMutableDictionary dictionary];
         } else {
-            self.configDict = [NSMutableDictionary dictionaryWithDictionary:configDict];
+            _configDict = [NSMutableDictionary dictionaryWithDictionary:configDict];
         }
         
         // Set defaults for non-existent values.
@@ -109,7 +116,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setRemoteAccessConsumerKey:(NSString *)remoteAccessConsumerKey
 {
-    (self.configDict)[kRemoteAccessConsumerKey] = [remoteAccessConsumerKey copy];
+    _configDict[kRemoteAccessConsumerKey] = [remoteAccessConsumerKey copy];
 }
 
 - (NSString *)oauthRedirectURI
@@ -119,7 +126,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setOauthRedirectURI:(NSString *)oauthRedirectURI
 {
-    (self.configDict)[kOauthRedirectURI] = [oauthRedirectURI copy];
+    _configDict[kOauthRedirectURI] = [oauthRedirectURI copy];
 }
 
 - (NSSet *)oauthScopes
@@ -129,7 +136,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setOauthScopes:(NSSet *)oauthScopes
 {
-    (self.configDict)[kOauthScopes] = [oauthScopes allObjects];
+    _configDict[kOauthScopes] = [oauthScopes allObjects];
 }
 
 - (BOOL)isLocal
@@ -140,7 +147,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setIsLocal:(BOOL)isLocal
 {
     NSNumber *isLocalNum = @(isLocal);
-    (self.configDict)[kIsLocal] = isLocalNum;
+    _configDict[kIsLocal] = isLocalNum;
 }
 
 - (NSString *)startPage
@@ -150,7 +157,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setStartPage:(NSString *)startPage
 {
-    (self.configDict)[kStartPage] = [startPage copy];
+    _configDict[kStartPage] = [startPage copy];
 }
 
 - (NSString *)errorPage
@@ -160,7 +167,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 
 - (void)setErrorPage:(NSString *)errorPage
 {
-    (self.configDict)[kErrorPage] = [errorPage copy];
+    _configDict[kErrorPage] = [errorPage copy];
 }
 
 - (BOOL)shouldAuthenticate
@@ -171,7 +178,7 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setShouldAuthenticate:(BOOL)shouldAuthenticate
 {
     NSNumber *shouldAuthenticateNum = @(shouldAuthenticate);
-    (self.configDict)[kShouldAuthenticate] = shouldAuthenticateNum;
+    _configDict[kShouldAuthenticate] = shouldAuthenticateNum;
 }
 
 - (BOOL)attemptOfflineLoad
@@ -182,14 +189,8 @@ static NSString* const kDefaultErrorPage = @"error.html";
 - (void)setAttemptOfflineLoad:(BOOL)attemptOfflineLoad
 {
     NSNumber *attemptOfflineLoadNum = @(attemptOfflineLoad);
-    (self.configDict)[kAttemptOfflineLoad] = attemptOfflineLoadNum;
+    _configDict[kAttemptOfflineLoad] = attemptOfflineLoadNum;
 }
-
-- (NSDictionary*) asDictionary
-{
-    return self.configDict;
-}
-
 
 #pragma mark - Configuration helpers
 

@@ -24,6 +24,7 @@
 
 #import "SFSDKInfoPlugin.h"
 #import "SFHybridViewConfig.h"
+#import "SFHybridViewController.h"
 #import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVInvokedUrlCommand.h>
@@ -110,7 +111,8 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
     
-    NSDictionary *bootConfig = [[SFHybridViewConfig fromDefaultConfigFile] asDictionary];
+    
+    NSDictionary *bootConfig = ((SFHybridViewController *)self.viewController).hybridViewConfig.configDict;
     
     NSDictionary *sdkInfo = @{kSDKVersionKey: SALESFORCE_SDK_VERSION,
                               kAppNameKey: appName,
