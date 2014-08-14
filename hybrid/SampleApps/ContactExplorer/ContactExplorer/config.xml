@@ -27,5 +27,12 @@
     <feature name="com.salesforce.sfaccountmanager"><param name="ios-package" value="SFAccountManagerPlugin"/></feature>
     <feature name="com.salesforce.smartstore"><param name="ios-package" value="SFSmartStorePlugin"/></feature>
     <feature name="Contacts"><param name="ios-package" value="CDVContacts" /></feature>
+    <feature name="StatusBar"><param name="ios-package" onload="true" value="CDVStatusBar" /></feature>
+
+    <!-- Preferences for StatusBar -->
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+
     
 </widget>
