@@ -13,7 +13,6 @@
 		4F6D83A0195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839C195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D83A1195262FB003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839E195262FB003EBB16 /* AppDelegate.m */; };
 		4FA70CDB199D78C600A82BC3 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA70CD8199D78C600A82BC3 /* CDVStatusBar.m */; };
-		4FA70CDC199D78C600A82BC3 /* statusbar.js in Sources */ = {isa = PBXBuildFile; fileRef = 4FA70CDA199D78C600A82BC3 /* statusbar.js */; };
 		4FA70CDE199D790B00A82BC3 /* statusbar.js in Copy status bar plugin file */ = {isa = PBXBuildFile; fileRef = 4FA70CDA199D78C600A82BC3 /* statusbar.js */; };
 		4FF15E24190884BD00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */; };
 		4FF15E571908851900705FE0 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FF15E4E1908851900705FE0 /* bootconfig.json */; };
@@ -85,7 +84,7 @@
 		4FA70CDD199D78E200A82BC3 /* Copy status bar plugin file */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
+			dstPath = www/plugins/org.apache.cordova.statusbar/www;
 			dstSubfolderSpec = 7;
 			files = (
 				4FA70CDE199D790B00A82BC3 /* statusbar.js in Copy status bar plugin file */,
@@ -646,7 +645,6 @@
 			files = (
 				4FF15EB61908897700705FE0 /* CDVContact.m in Sources */,
 				4FA70CDB199D78C600A82BC3 /* CDVStatusBar.m in Sources */,
-				4FA70CDC199D78C600A82BC3 /* statusbar.js in Sources */,
 				7DBD0785149AA9630043A9E0 /* main.m in Sources */,
 				4F6D83A0195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				4FF15EB71908897700705FE0 /* CDVContacts.m in Sources */,
