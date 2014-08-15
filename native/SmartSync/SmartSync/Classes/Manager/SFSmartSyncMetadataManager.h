@@ -23,3 +23,120 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFObjectType.h"
+#import "SFObject.h"
+#import "SFObjectTypeLayout.h"
+#import "SFSmartSyncNetworkManager.h"
+#import "SFSmartSyncCacheManager.h"
+
+// Constants for creating NSError object
+extern NSString * const SFMetadataManagerErrorDomain;
+extern NSInteger  const SFMetadataManagerErrorCode;
+
+@class SFUserAccount;
+
+/** This class defines APIs required to interact with metadata.
+ */
+@interface SFSmartSyncMetadataManager : NSObject
+
+/** Community ID to use.
+ Specify nil for the internal community (aka org)
+ or when no communities are configured for the current org.
+ This property is used internally to scope all the search
+ queries toward the server.
+ */
+@property (nonatomic, copy) NSString *networkId;
+
+/** API version being used.
+ */
+@property (nonatomic, copy) NSString *apiVersion;
+
+/** Singleton method for accessing metadata manager instance.
+ @param user A user that will scope this manager instance data
+ */
++ (id)sharedInstance:(SFUserAccount *)user;
+
+/** Removes the shared instance associated with the specified user
+ @param user The user
+ */
++ (void)removeSharedInstance:(SFUserAccount*)user;
+
+/** Set instance of `SFSmartSyncNetworkManager` to use for remote service invocation */
+- (void)setRemoteServiceManager:(SFSmartSyncNetworkManager *)networkManager;
+
+/** Set instance of `SFSmartSyncCacheManager` to use for cache data to local */
+- (void)setCacheManager:(SFSmartSyncCacheManager *)cacheManager;
+
+/** API version to use, e.g. v29.0
+ Default value is v29.0
+ */
+- (void)setApiVersion:(NSString *)apiVersion;
+
+/** Get a list of smart scope object types
+ 
+ @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
+ @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass any value that is <=0 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param completionBlock Block to invoke after list of object types is returned
+ @param errorBlock Block to invoke if failed to load object types
+ 
+ */
+- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+
+/** Get a list of recently accessed objects by object type
+ 
+ @param objectType Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types
+ @param limit Fetch limit of objects. Set to <=0 to specify no limit
+ @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
+ @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param completionBlock Block to invoke after recently access objects are loaded
+ @param errorBlock Block to invoke if failed to load objects
+ 
+ */
+- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+
+/** Load all object types
+ 
+ @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
+ @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param completion Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of `SFMetadataModel` objects
+ @param error Block to invoke if failed to load objects list
+ 
+ */
+- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+
+/** Load a specific object type information
+ 
+ Object type information returned by this method is what /sobjects/xxxx/describe returns, include object describe and object detailed information
+ @param objectTypeName Object type name
+ @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
+ @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param completion Block to invoke after object type info is loaded
+ @param error Block to invoke if loading metadata failed
+ 
+ */
+- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectTypeModel *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+
+/** Load object layout information
+ 
+ @param objectTypesToLoad Array of `SFObjectTypeModel` objects to load layout for
+ @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
+ @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param completion Block to invoke after object type info is loaded
+ @param error Block to invoke if loading metadata failed
+ 
+ */
+- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+
+/** Color for the specific object type
+ 
+ @param objectTypeName Object type name
+ */
+- (UIColor *)colorForObjectType:(NSString *)objectTypeName;
+
+/** Return YES if object type is searchable
+ 
+ @param objectType Object type
+ */
+- (BOOL)isObjectTypeSearchable:(SFObjectTypeModel *)objectType;
+
+@end

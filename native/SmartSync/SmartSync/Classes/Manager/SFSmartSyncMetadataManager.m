@@ -21,3 +21,66 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#import "SFSmartSyncMetadataManager.h"
+#import <SalesforceSDKCore/SFUserAccount.h>
+
+static NSString * kDefaultApiVersion = @"v29.0";
+
+@interface SFSmartSyncMetadataManager ()
+
+@property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFSmartSyncNetworkManager *networkManager;
+@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager;
+@property (nonatomic, assign) BOOL cacheEnabled;
+@property (nonatomic, assign) BOOL encryptCache;
+
+@end
+
+@implementation SFSmartSyncMetadataManager
+
+static NSMutableDictionary *metadataMgrList = nil;
+
++ (id)sharedInstance:(SFUserAccount *)user {
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        metadataMgrList = [[NSMutableDictionary alloc] init];
+	});
+    @synchronized([SFSmartSyncMetadataManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            id metadataMgr = [metadataMgrList objectForKey:key];
+            if (!metadataMgr) {
+                metadataMgr = [[SFSmartSyncMetadataManager alloc] init:user];
+                [metadataMgrList setObject:metadataMgr forKey:key];
+            }
+            return metadataMgr;
+        } else {
+            return nil;
+        }
+    }
+}
+
++ (void)removeSharedInstance:(SFUserAccount*)user {
+    @synchronized([SFSmartSyncMetadataManager class]) {
+        if (user) {
+            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            [metadataMgrList removeObjectForKey:key];
+        }
+    }
+}
+
+- (id)init:(SFUserAccount *)user {
+    self = [super init];
+    if (self) {
+        self.user = user;
+        self.networkManager = [SFSmartSyncNetworkManager sharedInstance:user];
+        self.cacheManager = [SFSmartSyncCacheManager sharedInstance:user];
+        self.apiVersion = kDefaultApiVersion;
+        self.cacheEnabled = YES;
+        self.encryptCache = YES;
+    }
+    return self;
+}
+
+@end
