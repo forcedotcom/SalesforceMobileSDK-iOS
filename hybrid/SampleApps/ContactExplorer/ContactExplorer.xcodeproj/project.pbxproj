@@ -12,6 +12,8 @@
 		4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F6D83A0195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839C195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D83A1195262FB003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839E195262FB003EBB16 /* AppDelegate.m */; };
+		4FA70CDB199D78C600A82BC3 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA70CD8199D78C600A82BC3 /* CDVStatusBar.m */; };
+		4FA70CDE199D790B00A82BC3 /* statusbar.js in Copy status bar plugin file */ = {isa = PBXBuildFile; fileRef = 4FA70CDA199D78C600A82BC3 /* statusbar.js */; };
 		4FF15E24190884BD00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */; };
 		4FF15E571908851900705FE0 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FF15E4E1908851900705FE0 /* bootconfig.json */; };
 		4FF15EB61908897700705FE0 /* CDVContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15EA21908897700705FE0 /* CDVContact.m */; };
@@ -79,6 +81,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4FA70CDD199D78E200A82BC3 /* Copy status bar plugin file */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/org.apache.cordova.statusbar/www;
+			dstSubfolderSpec = 7;
+			files = (
+				4FA70CDE199D790B00A82BC3 /* statusbar.js in Copy status bar plugin file */,
+			);
+			name = "Copy status bar plugin file";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FF15EC319088A5100705FE0 /* Copy salesforce plugins Files (8 items) */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -177,6 +190,9 @@
 		4F6D839D195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D839E195262FB003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D839F195262FB003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
+		4FA70CD7199D78C600A82BC3 /* CDVStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVStatusBar.h; sourceTree = "<group>"; };
+		4FA70CD8199D78C600A82BC3 /* CDVStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVStatusBar.m; sourceTree = "<group>"; };
+		4FA70CDA199D78C600A82BC3 /* statusbar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = statusbar.js; sourceTree = "<group>"; };
 		4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15E4E1908851900705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = samples/contactexplorer/bootconfig.json; sourceTree = "<group>"; };
 		4FF15E501908851900705FE0 /* jquery.mobile.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.mobile.min.css; sourceTree = "<group>"; };
@@ -288,6 +304,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4FA70CD5199D78C600A82BC3 /* cordova-plugin-statusbar */ = {
+			isa = PBXGroup;
+			children = (
+				4FA70CD6199D78C600A82BC3 /* Classes */,
+				4FA70CD9199D78C600A82BC3 /* www */,
+			);
+			path = "cordova-plugin-statusbar";
+			sourceTree = "<group>";
+		};
+		4FA70CD6199D78C600A82BC3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4FA70CD7199D78C600A82BC3 /* CDVStatusBar.h */,
+				4FA70CD8199D78C600A82BC3 /* CDVStatusBar.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		4FA70CD9199D78C600A82BC3 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				4FA70CDA199D78C600A82BC3 /* statusbar.js */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
 		4FF15E4F1908851900705FE0 /* css */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,6 +472,7 @@
 		7DBD0750149AA9620043A9E0 = {
 			isa = PBXGroup;
 			children = (
+				4FA70CD5199D78C600A82BC3 /* cordova-plugin-statusbar */,
 				4FF15E9F1908897700705FE0 /* cordova-plugin-contacts */,
 				7DBD077E149AA9620043A9E0 /* ContactExplorer */,
 				7DBD075F149AA9620043A9E0 /* Frameworks */,
@@ -542,6 +585,7 @@
 				4FF15EC319088A5100705FE0 /* Copy salesforce plugins Files (8 items) */,
 				4FF15ED819088B3800705FE0 /* Copy contact plugins Files */,
 				4FF15EF0190891AA00705FE0 /* Copy contact-ios plugins Files */,
+				4FA70CDD199D78E200A82BC3 /* Copy status bar plugin file */,
 			);
 			buildRules = (
 			);
@@ -600,6 +644,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FF15EB61908897700705FE0 /* CDVContact.m in Sources */,
+				4FA70CDB199D78C600A82BC3 /* CDVStatusBar.m in Sources */,
 				7DBD0785149AA9630043A9E0 /* main.m in Sources */,
 				4F6D83A0195262FB003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				4FF15EB71908897700705FE0 /* CDVContacts.m in Sources */,
