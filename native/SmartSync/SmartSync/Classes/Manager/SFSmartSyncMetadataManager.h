@@ -23,11 +23,13 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIColor.h>
 #import "SFObjectType.h"
 #import "SFObject.h"
 #import "SFObjectTypeLayout.h"
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
+#import "ObjectUtils.h"
 
 // Constants for creating NSError object
 extern NSString * const SFMetadataManagerErrorDomain;
@@ -62,7 +64,7 @@ extern NSInteger  const SFMetadataManagerErrorCode;
 + (void)removeSharedInstance:(SFUserAccount*)user;
 
 /** Set instance of `SFSmartSyncNetworkManager` to use for remote service invocation */
-- (void)setRemoteServiceManager:(SFSmartSyncNetworkManager *)networkManager;
+- (void)setNetworkManager:(SFSmartSyncNetworkManager *)networkManager;
 
 /** Set instance of `SFSmartSyncCacheManager` to use for cache data to local */
 - (void)setCacheManager:(SFSmartSyncCacheManager *)cacheManager;
@@ -114,7 +116,7 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param error Block to invoke if loading metadata failed
  
  */
-- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectTypeModel *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 /** Load object layout information
  
@@ -137,6 +139,6 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  
  @param objectType Object type
  */
-- (BOOL)isObjectTypeSearchable:(SFObjectTypeModel *)objectType;
+- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType;
 
 @end

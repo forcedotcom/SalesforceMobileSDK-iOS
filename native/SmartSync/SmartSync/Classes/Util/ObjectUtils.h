@@ -28,4 +28,8 @@
 
 + (NSString *)formatValue:(NSObject *)value;
 
++ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
+
++ (BOOL)isEmpty:(NSString *)value;
+
 @end

@@ -24,6 +24,8 @@
 
 #import "ObjectUtils.h"
 
+__strong static NSDateFormatter *utcDateFormatter;
+
 @implementation ObjectUtils
 
 + (NSString *)formatValue:(NSObject *)value {
@@ -50,6 +52,22 @@
         returnValue = (NSString *)[value performSelector:@selector(stringValue)];
     }
     return returnValue;
+}
+
++ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate {
+    if (nil == localDate) {
+        return nil;
+    }
+    NSString *dateString = [utcDateFormatter stringFromDate:localDate];
+    return dateString;
+}
+
++ (BOOL)isEmpty:(NSString *)value {
+    BOOL isEmpty = NO;
+    if (nil == value || [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
+        isEmpty = YES;
+    }
+    return isEmpty;
 }
 
 @end
