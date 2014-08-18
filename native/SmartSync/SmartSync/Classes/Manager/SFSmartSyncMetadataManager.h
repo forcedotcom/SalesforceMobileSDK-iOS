@@ -24,9 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIColor.h>
-#import "SFObjectType.h"
-#import "SFObject.h"
-#import "SFObjectTypeLayout.h"
+#import "SFObjectType+Internal.h"
+#import "SFObject+Internal.h"
+#import "SFObjectTypeLayout+Internal.h"
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "ObjectUtils.h"
@@ -90,11 +90,12 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param limit Fetch limit of objects. Set to <=0 to specify no limit
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
+ @param networkFieldName Network field name
  @param completionBlock Block to invoke after recently access objects are loaded
  @param errorBlock Block to invoke if failed to load objects
  
  */
-- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 /** Load all object types
  

@@ -24,6 +24,8 @@
 
 #import "SFSmartSyncMetadataManager.h"
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import "SFSoqlBuilder.h"
+#import "SFSmartSyncConstants.h"
 
 // Default API version.
 static NSString * kDefaultApiVersion = @"v29.0";
@@ -289,6 +291,216 @@ static NSMutableDictionary *metadataMgrList = nil;
         }];
     };
     loadAllSearchableObjects();
+}
+
+- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+    NSString *errorMessage = nil;
+    if (!self.networkManager) {
+        errorMessage = @"NetworkManager not specified";
+    }
+    if (nil != errorMessage) {
+        errorMessage = [NSString stringWithFormat:@"Unable to load recently accessed objects by type [%@]", errorMessage];
+        [self log:SFLogLevelError msg:errorMessage];
+        if (errorBlock) {
+            NSError *error = [self errorWithDescription:errorMessage];
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }
+        return;
+    }
+    if (limit > kSFMetadataMaximumLimit || limit < 0) {
+        limit = kSFMetadataMaximumLimit;
+    }
+    NSString *cacheType = kSFMRUCacheType;
+    NSString *cacheKey = nil;
+    BOOL globalMRU = NO;
+    if ([ObjectUtils isEmpty:objectTypeName]) {
+
+        // Gets global MRU objects.
+        globalMRU = YES;
+        cacheKey = [NSString stringWithFormat:kSFMRUObjectsByObjectType, @"global"];
+    } else {
+        cacheKey = [NSString stringWithFormat:kSFMRUObjectsByObjectType, objectTypeName];
+    }
+
+    // Checks the cache first.
+    NSDate *cachedTime = nil;
+    NSArray *cachedData = (NSArray *)[self cachedObject:cachePolicy cacheType:cacheType cacheKey:cacheKey objectClass:[NSArray class] containedObjectClass:[SFObject class] cachedTime:&cachedTime];
+    __block BOOL completionBlockInvoked = NO;
+    if (cachedData && limit > 0 && limit < cachedData.count) {
+
+        // Removes items based on the limit passed in.
+        NSMutableArray *updatedItems = [NSMutableArray arrayWithArray:cachedData];
+        [updatedItems removeObjectsInRange:NSMakeRange(limit, cachedData.count - limit)];
+        cachedData = updatedItems;
+    }
+    BOOL needToReloadCache = YES;
+
+    // Checks to see if we need to refresh the cache.
+    if (![self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
+        needToReloadCache = NO;
+    }
+    if (cachedData && cachedData.count > 0 && cachePolicy!= SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+        completionBlockInvoked = YES;
+        if (completionBlock) {
+            completionBlock(cachedData, YES, needToReloadCache);
+        }
+    }
+
+    // Checks to see if need to refresh the cache.
+    if (!needToReloadCache) {
+
+        // No need to refresh the cache, hence returns directly.
+        if (!completionBlockInvoked && completionBlock) {
+            completionBlock(cachedData, YES, needToReloadCache);
+        }
+        return;
+    }
+    __block NSArray *recentItems = nil;
+    void(^callErrorBlock)(NSError *error) = ^(NSError *error) {
+        if (error.code != kSFNetworkRequestFailedDueToNoModification) {
+            [self log:SFLogLevelError format:@"Failed to get recently accessed objects by type [%@], %@", objectTypeName, [error localizedDescription]];
+        }
+        if (!completionBlockInvoked && error.code == kSFNetworkRequestFailedDueToNoModification) {
+            completionBlock(cachedData, YES, needToReloadCache);
+        } else if (!completionBlockInvoked && cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+            if (completionBlock) {
+                completionBlock(cachedData, YES, needToReloadCache);
+            }
+        } else if (errorBlock && !completionBlockInvoked) {
+            errorBlock(error);
+        }
+    };
+
+    // Loads the MRU objects.
+    void (^loadRecentsBlock)(SFObjectType *objectType) = ^(SFObjectType *objectType){
+        NSString *path = nil;
+        NSDictionary *queryParams = nil;
+        SFSoqlBuilder *queryBuilder = nil;
+        if (globalMRU) {
+            queryBuilder = [SFSoqlBuilder withFields:@"Id, Name, Type"];
+            [queryBuilder from:kRecentlyViewed];
+            NSString *whereClause = @"LastViewedDate != NULL";
+            if ([ObjectUtils isEmpty:self.networkId]) {
+                whereClause = [NSString stringWithFormat:@"%@ AND NetworkId = '%@'", whereClause, self.networkId];
+            }
+            [queryBuilder where:whereClause];
+            [queryBuilder limit:limit];
+        } else {
+            BOOL objectContainedLastViewedDate = NO;
+            NSPredicate *viewPredicate = [NSPredicate predicateWithFormat:@"name = %@", @"LastViewedDate"];
+            NSArray *fields = [objectType.fields filteredArrayUsingPredicate:viewPredicate];
+            if (fields && fields.count > 0) {
+                objectContainedLastViewedDate = YES;
+            }
+            NSString *queryFields = nil;
+            queryFields = [self returnFieldsForObjectType:objectType];
+            if (![ObjectUtils isEmpty:queryFields]) {
+                queryBuilder = [SFSoqlBuilder withFields:queryFields];
+            } else {
+                queryBuilder = [SFSoqlBuilder withFields:@"Id, Name, Type"];
+            }
+            NSString *whereClause = nil;
+            if (objectContainedLastViewedDate) {
+                [queryBuilder from:[NSString stringWithFormat:@"%@ using MRU", objectTypeName]];
+                whereClause = @"LastViewedDate != NULL";
+                [queryBuilder orderBy:@"LastViewedDate DESC"];
+                [queryBuilder limit:limit];
+            } else {
+                [queryBuilder from:kRecentlyViewed];
+                whereClause = [NSString stringWithFormat:@"LastViewedDate != NULL and Type = '%@'", objectTypeName];
+                [queryBuilder limit:limit];
+            }
+            if ([ObjectUtils isEmpty:self.networkId]) {
+                if ([ObjectUtils isEmpty:networkFieldName]) {
+                    whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.networkId];
+                }
+            }
+            [queryBuilder where:whereClause];
+        }
+        NSString * queryString = [queryBuilder build];
+        queryParams = @{@"q": queryString};
+        path =[NSString stringWithFormat:@"%@/%@/query/", kSFMetadataRestApiPath, self.apiVersion];
+
+        // Executes the query.
+        [self.networkManager remoteJSONGetRequest:path params:queryParams requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
+            if (nil != responseAsJson) {
+                if ([responseAsJson isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *returnDict = (NSDictionary *)responseAsJson;
+                    NSArray *returnedItems = returnDict[@"records"];
+                    if (!returnedItems && [objectTypeName isEqualToString:kContent]) {
+                        returnedItems = returnDict[@"recentItems"];
+                    }
+                    if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
+                        recentItems = returnedItems;
+                    }
+                }
+                NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:recentItems.count];
+                for (NSDictionary *item in recentItems) {
+                    SFObject *object = [[SFObject alloc] initWithDictionary:item];
+                    if (globalMRU) {
+                        if ([object.objectType isEqualToString:kContent]) {
+                            object.objectType = kContentVersion;
+                        }
+                        SFObjectType *objectDef = [self cachedObjectType:object.objectType cachedTime:nil];
+                        if ([self isObjectTypeSearchable:objectDef]) {
+                            [returnList addObject:object];
+                        }
+                    } else {
+                        [returnList addObject:object];
+                    }
+                }
+                recentItems = returnList;
+                if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                    completionBlock(recentItems, NO, needToReloadCache);
+                }
+
+                // Save data to the cache.
+                if ([self shouldCacheData:cachePolicy]) {
+                    [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
+                }
+            }
+        } error:^(NSError *error) {
+            if (error.code == 400) {
+
+                // 400 error could be due to cached search layout, so retry it at least once.
+                [self log:SFLogLevelError format:@"Load MRU failed with %@, retry with updated search layout ", [error localizedDescription]];
+                [self removeObjectsLayout:@[objectType]];
+                [self loadRecentlyAccessedObjects:objectTypeName limit:limit cachePolicy:cachePolicy refreshCacheIfOlderThan:refreshCacheIfOlderThan loadItemDetails:loadItemDetails completion:completionBlock error:errorBlock inRetry:YES];
+            } else {
+                callErrorBlock(error);
+            }
+        }];
+    };
+
+    // Loads the object layouts.
+    void(^loadObjectLayoutBlock)(SFObjectType *objectType)=^(SFObjectType *objectType) {
+        SFDataCachePolicy layoutCachePolicy = SFDataCachePolicyReloadAndReturnCacheOnFailure;
+        [self loadObjectTypesLayout:@[objectType] cachePolicy:layoutCachePolicy refreshCacheIfOlderThan:kSFMetadataRefreshInterval completion:^(NSArray *result, BOOL isDataFromCache) {
+            loadRecentsBlock(objectType);
+        } error:^(NSError *error) {
+            callErrorBlock(error);
+        }];
+    };
+
+    // Loads the object definition.
+    void(^loadCompleteObjectDefBlock)(NSString *objectType)=^(NSString *objectType) {
+        [self loadObjectType:objectType cachePolicy:SFDataCachePolicyReturnCacheDataAndReloadIfExpired refreshCacheIfOlderThan:kSFMetadataRefreshInterval completion:^(SFObjectType *result, BOOL isDataFromCache) {
+            if ([self canLoadLayoutForObjectType:result]) {
+                loadObjectLayoutBlock(result);
+            } else {
+                loadRecentsBlock(result);
+            }
+        } error:^(NSError *error) {
+            callErrorBlock(error);
+        }];
+    };
+    if (objectTypeName) {
+        loadCompleteObjectDefBlock(objectTypeName);
+    } else {
+        loadRecentsBlock(nil);
+    }
 }
 
 #pragma mark - Private Methods
