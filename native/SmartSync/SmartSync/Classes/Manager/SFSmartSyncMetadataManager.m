@@ -69,6 +69,9 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 - (SFObjectType *)objectTypeInArray:(NSArray *)objectTypes name:(NSString *)name;
 - (SFObjectType *)objectTypeInArray:(NSArray *)objectTypes keyPrefix:(NSString *)keyPrefix;
 - (NSDictionary *)requestHeader:(NSDate *)cacheTime;
+- (SFObjectType *)cachedObjectType:(NSString *)objectTypeName cachedTime:(out NSDate **)cachedTime;
+- (void)removeObjectTypesLayout:(NSArray *)objectTypesToLoad;
+- (BOOL)canLoadLayoutForObjectType:(SFObjectType *)objectType;
 
 - (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 - (NSObject * )cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass containedObjectClass:(Class)objectClass cachedTime:(out NSDate **)cachedTime;
@@ -466,8 +469,8 @@ static NSMutableDictionary *metadataMgrList = nil;
 
                 // 400 error could be due to cached search layout, so retry it at least once.
                 [self log:SFLogLevelError format:@"Load MRU failed with %@, retry with updated search layout ", [error localizedDescription]];
-                [self removeObjectsLayout:@[objectType]];
-                [self loadRecentlyAccessedObjects:objectTypeName limit:limit cachePolicy:cachePolicy refreshCacheIfOlderThan:refreshCacheIfOlderThan loadItemDetails:loadItemDetails completion:completionBlock error:errorBlock inRetry:YES];
+                [self removeObjectTypesLayout:@[objectType]];
+                [self loadMRUObjects:objectTypeName limit:limit cachePolicy:cachePolicy refreshCacheIfOlderThan:refreshCacheIfOlderThan networkFieldName:nil inRetry:NO completion:completionBlock error:errorBlock];
             } else {
                 callErrorBlock(error);
             }
@@ -575,6 +578,32 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
     }
     return headers;
+}
+
+- (SFObjectType *)cachedObjectType:(NSString *)objectTypeName cachedTime:(out NSDate **)cachedTime {
+    NSString *cacheType = kSFMetadataCacheType;
+    NSString *cacheKey = [NSString stringWithFormat:kSFObjectByType, objectTypeName];
+    SFObjectType *typeModel = (SFObjectType *)[self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] containedObjectClass:[SFObjectType class] cachedTime:cachedTime];
+    return typeModel;
+}
+
+- (void)removeObjectTypesLayout:(NSArray *)objectTypesToLoad {
+    if (nil == objectTypesToLoad || objectTypesToLoad.count == 0) {
+        return;
+    }
+    NSString *cacheType = kSFMetadataCacheType;
+    for (NSUInteger idx = 0; idx < objectTypesToLoad.count; idx++) {
+        SFObjectType *objectType = objectTypesToLoad[idx];
+        NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, objectType.name];
+        [self.cacheManager removeCache:cacheType cacheKey:cacheKey];
+    }
+}
+
+- (BOOL)canLoadLayoutForObjectType:(SFObjectType *)objectType {
+    if (objectType == nil) {
+        return false;
+    }
+    return ([objectType isLayoutable] && [objectType isSearchable]);
 }
 
 @end
