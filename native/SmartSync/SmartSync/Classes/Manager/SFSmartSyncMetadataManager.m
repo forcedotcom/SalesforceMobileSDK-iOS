@@ -72,14 +72,9 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 - (SFObjectType *)cachedObjectType:(NSString *)objectTypeName cachedTime:(out NSDate **)cachedTime;
 - (void)removeObjectTypesLayout:(NSArray *)objectTypesToLoad;
 - (BOOL)canLoadLayoutForObjectType:(SFObjectType *)objectType;
-
 - (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 - (NSObject * )cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass containedObjectClass:(Class)objectClass cachedTime:(out NSDate **)cachedTime;
-- (void)addObject:(NSObject *)object toArray:(NSMutableArray *)array;
 - (NSString *)returnFieldsForObjectType:(SFObjectType *)objectType;
-- (NSString *)objectIdsForObjects:(NSArray *)objects;
-- (NSDictionary *)findObject:(NSString *)objectId inList:(NSArray *)objects;
-- (NSArray *)filterSearchableObjects:(NSArray *)allObjects;
 
 @end
 
@@ -931,6 +926,62 @@ static NSMutableDictionary *metadataMgrList = nil;
         return false;
     }
     return ([objectType isLayoutable] && [objectType isSearchable]);
+}
+
+- (void)cacheObject:(NSObject *)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    [self.cacheManager writeArchivableObjectToCache:object cacheType:cacheType cacheKey:cacheKey encryptCache:self.encryptCache];
+}
+
+- (NSObject *)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass containedObjectClass:(Class)containedObjectClass cachedTime:(out NSDate **)cachedTime {
+    NSObject *cachedData =  [self.cacheManager readArchivableObjectWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:self.encryptCache cachedTime:cachedTime];
+    if (cachedData && ![cachedData isKindOfClass:objectClass]) {
+        [self.cacheManager removeCache:cacheType cacheKey:cacheKey];
+        cachedData = nil;
+    }
+    return cachedData;
+}
+
+- (NSString *)returnFieldsForObjectType:(SFObjectType *)objectType {
+    if (nil == objectType) {
+        return nil;
+    }
+    NSString *objectTypeName = objectType.name;
+    if (nil == objectTypeName) {
+        return nil;
+    }
+    NSMutableArray *returnFields = [NSMutableArray array];
+    NSArray *extraValues = [self serverLayoutFieldsForObjectType:objectType];
+    if (nil != extraValues) {
+        [returnFields addObjectsFromArray:extraValues];
+    }
+    if (![returnFields containsObject:@"Id"]) {
+        [returnFields addObject:@"Id"];
+    }
+    if (objectType.nameField && ![returnFields containsObject:objectType.nameField]) {
+        [returnFields addObject:objectType.nameField];
+    }
+    return [returnFields componentsJoinedByString:@","];
+}
+
+- (NSArray *)serverLayoutFieldsForObjectType:(SFObjectType *)objectType {
+    SFObjectTypeLayout *layout = [self cachedObjectTypeLayout:objectType cachedTime:nil];
+    if (layout && layout.columns) {
+        NSMutableArray *returnValues = [NSMutableArray arrayWithCapacity:layout.columns.count];
+        for (NSDictionary *dictionary in layout.columns) {
+            NSString *name = dictionary[kNameField];
+            if (name) {
+                [returnValues addObject:name];
+            }
+        }
+        return returnValues;
+    }
+    return nil;
+}
+
+- (SFObjectTypeLayout *)cachedObjectTypeLayout:(SFObjectType *)objectType cachedTime:(out NSDate **)cachedTime {
+    NSString *cacheType = kSFMetadataCacheType;
+    NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, objectType.name];
+    return (SFObjectTypeLayout *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] containedObjectClass:[SFObjectTypeLayout class] cachedTime:cachedTime];
 }
 
 @end
