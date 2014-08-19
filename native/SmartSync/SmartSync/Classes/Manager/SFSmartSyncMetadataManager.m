@@ -799,6 +799,40 @@ static NSMutableDictionary *metadataMgrList = nil;
     }];
 }
 
+- (UIColor *)colorForObjectType:(NSString *)objectTypeName {
+    if (nil == objectTypeName) {
+        return nil;
+    }
+    if ([objectTypeName isEqualToString:kAccount]) {
+        return [UIColor colorWithRed:0.243 green:0.502 blue:0.765 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kContact]) {
+        return [UIColor colorWithRed:0.506 green:0.447 blue:0.678 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kTask]) {
+        return [UIColor colorWithRed:0.106 green:0.714 blue:0.549 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kCase]) {
+        return [UIColor colorWithRed:0.769 green:0.698 blue:0.314 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kOpportunity]) {
+        return [UIColor colorWithRed:0.976 green:0.796 blue:0.173 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kLead]) {
+        return [UIColor colorWithRed:1.0 green:0.647 blue:0.145 alpha:1.0];
+    } else if ([objectTypeName isEqualToString:kCampaign]) {
+        return [UIColor colorWithRed:0.929 green:0.725 blue:0.231 alpha:1.0];
+    } else {
+        return [UIColor colorWithRed:0.733 green:0.733 blue:0.733 alpha:1.0];
+    }
+}
+
+- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType {
+    if (objectType == nil) {
+        return false;
+    }
+    NSString *objectName = [objectType name];
+    if (![ObjectUtils isEmpty:objectName]) {
+        return [objectType isSearchable];
+    }
+    return NO;
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)shouldCallCompletionBlock:(id)completionBlock completionBlockInvoked:(BOOL)completionBlockInvoked cachePolicy:(SFDataCachePolicy)cachePolicy {
