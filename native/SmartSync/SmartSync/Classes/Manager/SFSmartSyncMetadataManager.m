@@ -663,6 +663,142 @@ static NSMutableDictionary *metadataMgrList = nil;
     }];
 }
 
+- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+    NSString *errorMessage = nil;
+    if (objectTypesToLoad == nil || objectTypesToLoad.count == 0) {
+        errorMessage = @"Object types to load is empty";
+    } else if (!self.networkManager) {
+        errorMessage = @"NetworkManager not specified";
+    }
+    if (nil != errorMessage) {
+        errorMessage = [NSString stringWithFormat:@"Unable to load object layout, [%@]", errorMessage];
+        [self log:SFLogLevelError msg:errorMessage];
+        if (errorBlock) {
+            NSError *error = [self errorWithDescription:errorMessage];
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }
+        return;
+    }
+    NSString *cacheType = kSFMetadataCacheType;
+    NSMutableArray *layouts = [NSMutableArray arrayWithCapacity:objectTypesToLoad.count];
+    NSDate *oldestCacheTime = nil;
+    BOOL needToLoadDataFromServer = NO;
+    NSMutableArray *layoutObjectsToLoad = [NSMutableArray arrayWithCapacity:objectTypesToLoad.count];
+    BOOL cacheDataExistsForAllObjectTypes = YES;
+    for (NSUInteger idx = 0; idx < objectTypesToLoad.count; idx++) {
+        SFObjectType *objectType = objectTypesToLoad[idx];
+        if (![self canLoadLayoutForObjectType:objectType]) {
+
+            // Layout does not exist.
+            continue;
+        }
+        NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, objectType.name];
+
+        // Checks the cache first.
+        NSDate *cachedTime = nil;
+        SFObjectTypeLayout *cachedData = (SFObjectTypeLayout *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+        if (cachedTime) {
+            if (nil == oldestCacheTime) {
+                oldestCacheTime = cachedTime;
+            } else if ([cachedTime compare:oldestCacheTime] == NSOrderedAscending) {
+                oldestCacheTime = cachedTime;
+            }
+        }
+        if (nil != cachedData) {
+            [layouts addObject:cachedData];
+
+            // Checks to see if we need to refresh the cache for the specified object type.
+            if ([self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
+                if (cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+                    if (!needToLoadDataFromServer) {
+                        needToLoadDataFromServer = YES;
+                    }
+                }
+
+                // Cache needs to be refreshed.
+                [layoutObjectsToLoad addObject:objectType];
+            }
+        } else {
+            if (cacheDataExistsForAllObjectTypes) {
+                cacheDataExistsForAllObjectTypes = NO;
+            }
+            if (!needToLoadDataFromServer) {
+                needToLoadDataFromServer = YES;
+            }
+            [layoutObjectsToLoad addObject:objectType];
+        }
+    }
+    if (!cacheDataExistsForAllObjectTypes) {
+        oldestCacheTime = nil;
+    }
+    BOOL completionBlockInvoked = NO;
+    if ((!needToLoadDataFromServer || layoutObjectsToLoad.count == 0) && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+        completionBlockInvoked = YES;
+
+        // No need to refresh anything, since we have data in the cache.
+        if (completionBlock) {
+            completionBlock(layouts, YES);
+        }
+        if (layoutObjectsToLoad.count == 0) {
+
+            // No need to refresh anything, since we have data in the cache.
+            return;
+        }
+    }
+    NSMutableString *objectsString = [NSMutableString string];
+    for (SFObjectType *objectType in layoutObjectsToLoad) {
+        if (objectsString.length > 0) {
+            [objectsString appendString:@","];
+        }
+        [objectsString appendString:objectType.name];
+    }
+    if ([ObjectUtils isEmpty:objectsString]) {
+        completionBlock(nil, NO);
+        return;
+    }
+    NSString *path =[NSString stringWithFormat:@"%@/%@/search/layout/", kSFMetadataRestApiPath, self.apiVersion];
+    NSDictionary *params = @{@"q": objectsString};
+    [self.networkManager remoteJSONGetRequest:path params:params requestHeaders:[self requestHeader:oldestCacheTime] completion:^(id responseAsJson, NSInteger statusCode) {
+        if (nil != responseAsJson) {
+            if ([responseAsJson isKindOfClass:[NSArray class]]) {
+                NSArray *data = (NSArray *)responseAsJson;
+                for (NSUInteger idx = 0; idx < data.count; idx++) {
+                    NSDictionary *layoutDict = data[idx];
+                    SFObjectType *typeModel = layoutObjectsToLoad[idx];
+                    NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, typeModel.name];
+                    SFObjectTypeLayout *layoutObj = [[SFObjectTypeLayout alloc] initWithDictionary:layoutDict forObjectType:typeModel.name];
+                    [layouts addObject:layoutObj];
+
+                    // Saves data to the cache.
+                    if ([self shouldCacheData:cachePolicy]) {
+                        [self cacheObject:layoutObj cacheType:cacheType cacheKey:cacheKey];
+                    }
+                }
+            }
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(layouts, NO);
+        }
+    } error:^(NSError *error) {
+        if (error.code != kSFNetworkRequestFailedDueToNoModification) {
+            [self log:SFLogLevelError format:@"failed to get get objects layout, [%@]", [error localizedDescription]];
+        }
+        if (error.code == kSFNetworkRequestFailedDueToNoModification) {
+            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                completionBlock(layouts, YES);
+            }
+        } else if (!completionBlockInvoked && cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+            if (completionBlock) {
+                completionBlock(layouts, YES);
+            }
+        } else  if (errorBlock && !completionBlockInvoked) {
+            errorBlock(error);
+        }
+    }];
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)shouldCallCompletionBlock:(id)completionBlock completionBlockInvoked:(BOOL)completionBlockInvoked cachePolicy:(SFDataCachePolicy)cachePolicy {
