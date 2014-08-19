@@ -587,6 +587,82 @@ static NSMutableDictionary *metadataMgrList = nil;
     }];
 }
 
+- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+    NSString *errorMessage = nil;
+    if (objectTypeName == nil) {
+        errorMessage = @"Object type name is nil";
+    } else if (!self.networkManager) {
+        errorMessage = @"NetworkManager not specified";
+    }
+    if (nil != errorMessage) {
+        errorMessage = [NSString stringWithFormat:@"Unable to load objectTypeInfo, [%@]", errorMessage];
+        [self log:SFLogLevelError msg:errorMessage];
+        if (errorBlock) {
+            NSError *error = [self errorWithDescription:errorMessage];
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }
+        return;
+    }
+    NSString *cacheType = kSFMetadataCacheType;
+    NSString *cacheKey = [NSString stringWithFormat:kSFObjectByType, objectTypeName];
+
+    // Checks the cache first.
+    NSDate *cachedTime = nil;
+    SFObjectType *cachedData = (SFObjectType *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+    BOOL completionBlockInvoked = NO;
+    if (cachedData && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+        completionBlockInvoked = YES;
+        if (completionBlock) {
+            completionBlock(cachedData, YES);
+        }
+    }
+
+    // Checks to see if we need to refresh the cache.
+    if (![self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
+
+        // No need to refresh the cache, hence returns directly.
+        if (!completionBlockInvoked && completionBlock) {
+            completionBlock(cachedData, YES);
+        }
+        return;
+    }
+    NSString *path =[NSString stringWithFormat:@"%@/%@/sobjects/%@/describe", kSFMetadataRestApiPath, self.apiVersion, objectTypeName];
+    [self.networkManager remoteJSONGetRequest:path params:nil requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
+        SFObjectType *objectType = nil;
+        if (nil != responseAsJson) {
+            if ([responseAsJson isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *data = (NSDictionary *)responseAsJson;
+                objectType = [[SFObjectType alloc] initWithDictionary:data];
+            }
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(objectType, NO);
+        }
+
+        // Saves data to the cache.
+        if ([self shouldCacheData:cachePolicy]) {
+            [self cacheObject:objectType cacheType:cacheType cacheKey:cacheKey];
+        }
+    } error:^(NSError *error) {
+        if (error.code != kSFNetworkRequestFailedDueToNoModification) {
+            [self log:SFLogLevelError format:@"Failed to get get object information for %@, [%@]", objectTypeName, [error localizedDescription]];
+        }
+        if (error.code == kSFNetworkRequestFailedDueToNoModification) {
+            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                completionBlock(cachedData, YES);
+            }
+        } else if (!completionBlockInvoked && cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+            if (completionBlock) {
+                completionBlock(cachedData, YES);
+            }
+        } else  if (errorBlock && !completionBlockInvoked) {
+            errorBlock(error);
+        }
+    }];
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)shouldCallCompletionBlock:(id)completionBlock completionBlockInvoked:(BOOL)completionBlockInvoked cachePolicy:(SFDataCachePolicy)cachePolicy {
