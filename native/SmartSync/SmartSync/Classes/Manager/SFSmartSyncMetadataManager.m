@@ -417,7 +417,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             }
             [queryBuilder where:whereClause];
         }
-        NSString * queryString = [queryBuilder build];
+        NSString * queryString = [queryBuilder encodeAndBuild];
         queryParams = @{@"q": queryString};
         path =[NSString stringWithFormat:@"%@/%@/query/", kSFMetadataRestApiPath, self.apiVersion];
 
@@ -826,6 +826,57 @@ static NSMutableDictionary *metadataMgrList = nil;
         return [objectType isSearchable];
     }
     return NO;
+}
+
+- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock {
+    if (nil == objectType || nil == objectId || [objectType isEqualToString:kContentVersion] || [objectType isEqualToString:kContent]) {
+        if (completionBlock) {
+            completionBlock();
+        }
+        return;
+    }
+    void(^callErrorBlock)(NSError *error) = ^(NSError * error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    };
+    [self loadObjectType:objectType cachePolicy:SFDataCachePolicyReturnCacheDataAndReloadIfExpired refreshCacheIfOlderThan:kSFMetadataRefreshInterval completion:^(SFObjectType *result, BOOL isDataFromCache) {
+        SFSoqlBuilder *queryBuilder = [[SFSoqlBuilder withFields:@"Id"] from:objectType];
+        NSString *whereClause = nil;
+        if (result && [self isObjectTypeSearchable:result]) {
+            whereClause = [NSString stringWithFormat:@"Id = '%@' FOR VIEW", objectId];
+        } else {
+            whereClause = [NSString stringWithFormat:@"Id = '%@'", objectId];
+        }
+        if (![ObjectUtils isEmpty:self.networkId] && ![ObjectUtils isEmpty:networkFieldName]) {
+            whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.networkId];
+        }
+        queryBuilder = [queryBuilder where:whereClause];
+        NSString *queryString = [[queryBuilder where:whereClause] encodeAndBuild];
+        NSString *path =[NSString stringWithFormat:@"%@/%@/query/", kSFMetadataRestApiPath, self.apiVersion];
+        [self.networkManager remoteJSONGetRequest:path params:@{@"q": queryString} autoRetryOnNetworkError:YES requestHeaders:nil completion:^(id responseAsJson, NSInteger statusCode) {
+            NSArray *records = responseAsJson[@"records"];
+            if (records && [records isKindOfClass:[NSArray class]]) {
+                if (records.count == 0) {
+
+                    // Object no longer exists.
+                    NSError *error = [self errorWithDescription:@"Object no longer exists"];
+                    [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, error];
+                    callErrorBlock(error);
+                } else {
+                    if (completionBlock) {
+                        completionBlock();
+                    }
+                }
+            }
+        } error:^(NSError *error) {
+            [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
+            callErrorBlock(error);
+        }];
+    } error:^(NSError *error) {
+        [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
+        callErrorBlock(error);
+    }];
 }
 
 #pragma mark - Private Methods

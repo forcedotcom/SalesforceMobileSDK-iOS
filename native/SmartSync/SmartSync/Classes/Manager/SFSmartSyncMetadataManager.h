@@ -142,4 +142,15 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  */
 - (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType;
 
+/** Mark an object as viewed
+ 
+ @param objectId Object ID
+ @param objectType Object type
+ @param networkFieldName Network field name
+ @param completion Block to invoke after object is marked viewed
+ @param error Block to invoke if marking viewed failed
+ 
+ */
+- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock;
+
 @end
