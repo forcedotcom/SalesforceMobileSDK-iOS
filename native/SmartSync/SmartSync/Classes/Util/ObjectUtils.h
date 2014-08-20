@@ -26,7 +26,7 @@
 
 @interface ObjectUtils : NSObject
 
-+ (NSString *)formatValue:(NSObject *)value;
++ (NSString *)formatValue:(id)value;
 
 + (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
 

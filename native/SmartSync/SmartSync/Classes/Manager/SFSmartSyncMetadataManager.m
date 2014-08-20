@@ -28,7 +28,7 @@
 #import "SFSmartSyncConstants.h"
 
 // Default API version.
-static NSString * kDefaultApiVersion = @"v29.0";
+static NSString * kDefaultApiVersion = @"v31.0";
 
 // Error constants.
 static NSInteger kSFNetworkRequestFailedDueToNoModification = 304;
@@ -57,12 +57,11 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 @interface SFSmartSyncMetadataManager ()
 
 @property (nonatomic, strong) SFUserAccount *user;
-@property (nonatomic, strong) SFSmartSyncNetworkManager *networkManager;
-@property (nonatomic, strong) SFSmartSyncCacheManager *cacheManager;
 @property (nonatomic, assign) BOOL cacheEnabled;
 @property (nonatomic, assign) BOOL encryptCache;
 
-- (BOOL)shouldCallCompletionBlock:(id)completionBlock completionBlockInvoked:(BOOL)completionBlockInvoked cachePolicy:(SFDataCachePolicy)cachePolicy;
+- (BOOL)shouldCallCompletionBlock:(id)completionBlock completionBlockInvoked:(BOOL)completionBlockInvoked
+                      cachePolicy:(SFDataCachePolicy)cachePolicy;
 - (NSError *)errorWithDescription:(NSString *)errorMessage;
 - (BOOL)shouldCacheData:(SFDataCachePolicy)cachePolicy;
 - (BOOL)shouldIgnoreCache:(SFDataCachePolicy)cachePolicy;
@@ -73,7 +72,8 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 - (void)removeObjectTypesLayout:(NSArray *)objectTypesToLoad;
 - (BOOL)canLoadLayoutForObjectType:(SFObjectType *)objectType;
 - (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
-- (NSObject * )cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass containedObjectClass:(Class)objectClass cachedTime:(out NSDate **)cachedTime;
+- (id)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey
+                objectClass:(Class)objectClass containedObjectClass:(Class)objectClass cachedTime:(out NSDate **)cachedTime;
 - (NSString *)returnFieldsForObjectType:(SFObjectType *)objectType;
 
 @end
@@ -92,7 +92,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
             id metadataMgr = [metadataMgrList objectForKey:key];
             if (!metadataMgr) {
-                metadataMgr = [[SFSmartSyncMetadataManager alloc] init:user];
+                metadataMgr = [[SFSmartSyncMetadataManager alloc] initWithUser:user];
                 [metadataMgrList setObject:metadataMgr forKey:key];
             }
             return metadataMgr;
@@ -111,7 +111,7 @@ static NSMutableDictionary *metadataMgrList = nil;
     }
 }
 
-- (id)init:(SFUserAccount *)user {
+- (id)initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
         self.user = user;
@@ -124,25 +124,13 @@ static NSMutableDictionary *metadataMgrList = nil;
     return self;
 }
 
-- (void)setNetworkManager:(SFSmartSyncNetworkManager *)networkManager {
-    self.networkManager = networkManager;
-}
-
-- (void)setCacheManager:(SFSmartSyncCacheManager *)cacheManager {
-    self.cacheManager = cacheManager;
-}
-
-- (void)setApiVersion:(NSString *)apiVersion {
-    self.apiVersion = apiVersion;
-}
-
-- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy
+          refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                  completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock
+                            error:(void(^)(NSError *error))errorBlock {
     NSString *errorMessage = nil;
     if (!self.networkManager) {
-        errorMessage = @"remoteServiceManager not specified";
-    }
-    if (nil != errorMessage) {
-        errorMessage = [NSString stringWithFormat:@"Unable to load recently searched object types [%@]", errorMessage];
+        errorMessage = @"Unable to load recently searched object types [NetworkManager not specified]";
         [self log:SFLogLevelError msg:errorMessage];
         if (errorBlock) {
             NSError *error = [self errorWithDescription:errorMessage];
@@ -291,13 +279,14 @@ static NSMutableDictionary *metadataMgrList = nil;
     loadAllSearchableObjects();
 }
 
-- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
+            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry
+                    completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
+                        error:(void(^)(NSError *error))errorBlock {
     NSString *errorMessage = nil;
     if (!self.networkManager) {
-        errorMessage = @"NetworkManager not specified";
-    }
-    if (nil != errorMessage) {
-        errorMessage = [NSString stringWithFormat:@"Unable to load recently accessed objects by type [%@]", errorMessage];
+        errorMessage = @"Unable to load recently accessed objects by type [NetworkManager not specified]";
         [self log:SFLogLevelError msg:errorMessage];
         if (errorBlock) {
             NSError *error = [self errorWithDescription:errorMessage];
@@ -380,8 +369,8 @@ static NSMutableDictionary *metadataMgrList = nil;
             queryBuilder = [SFSoqlBuilder withFields:@"Id, Name, Type"];
             [queryBuilder from:kRecentlyViewed];
             NSString *whereClause = @"LastViewedDate != NULL";
-            if ([ObjectUtils isEmpty:self.networkId]) {
-                whereClause = [NSString stringWithFormat:@"%@ AND NetworkId = '%@'", whereClause, self.networkId];
+            if ([ObjectUtils isEmpty:self.communityId]) {
+                whereClause = [NSString stringWithFormat:@"%@ AND NetworkId = '%@'", whereClause, self.communityId];
             }
             [queryBuilder where:whereClause];
             [queryBuilder limit:limit];
@@ -410,9 +399,9 @@ static NSMutableDictionary *metadataMgrList = nil;
                 whereClause = [NSString stringWithFormat:@"LastViewedDate != NULL and Type = '%@'", objectTypeName];
                 [queryBuilder limit:limit];
             }
-            if ([ObjectUtils isEmpty:self.networkId]) {
+            if ([ObjectUtils isEmpty:self.communityId]) {
                 if ([ObjectUtils isEmpty:networkFieldName]) {
-                    whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.networkId];
+                    whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
                 }
             }
             [queryBuilder where:whereClause];
@@ -501,13 +490,12 @@ static NSMutableDictionary *metadataMgrList = nil;
     }
 }
 
-- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock
+                     error:(void(^)(NSError *error))errorBlock {
     NSString *errorMessage = nil;
     if (!self.networkManager) {
-        errorMessage = @"NetworkManager not specified";
-    }
-    if (nil != errorMessage) {
-        errorMessage = [NSString stringWithFormat:@"Unable to load all objects [%@]", errorMessage];
+        errorMessage = @"Unable to load all objects [NetworkManager not specified]";
         [self log:SFLogLevelError msg:errorMessage];
         if (errorBlock) {
             NSError *error = [self errorWithDescription:errorMessage];
@@ -582,7 +570,10 @@ static NSMutableDictionary *metadataMgrList = nil;
     }];
 }
 
-- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy
+            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock
+                    error:(void(^)(NSError *error))errorBlock {
     NSString *errorMessage = nil;
     if (objectTypeName == nil) {
         errorMessage = @"Object type name is nil";
@@ -658,7 +649,10 @@ static NSMutableDictionary *metadataMgrList = nil;
     }];
 }
 
-- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy
+            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                   completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock
+                        error:(void(^)(NSError *error))errorBlock {
     NSString *errorMessage = nil;
     if (objectTypesToLoad == nil || objectTypesToLoad.count == 0) {
         errorMessage = @"Object types to load is empty";
@@ -828,7 +822,9 @@ static NSMutableDictionary *metadataMgrList = nil;
     return NO;
 }
 
-- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock {
+- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType
+          networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock
+                     error:(void(^)(NSError *error))errorBlock {
     if (nil == objectType || nil == objectId || [objectType isEqualToString:kContentVersion] || [objectType isEqualToString:kContent]) {
         if (completionBlock) {
             completionBlock();
@@ -848,8 +844,8 @@ static NSMutableDictionary *metadataMgrList = nil;
         } else {
             whereClause = [NSString stringWithFormat:@"Id = '%@'", objectId];
         }
-        if (![ObjectUtils isEmpty:self.networkId] && ![ObjectUtils isEmpty:networkFieldName]) {
-            whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.networkId];
+        if (![ObjectUtils isEmpty:self.communityId] && ![ObjectUtils isEmpty:networkFieldName]) {
+            whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
         }
         queryBuilder = [queryBuilder where:whereClause];
         NSString *queryString = [[queryBuilder where:whereClause] encodeAndBuild];
@@ -979,12 +975,14 @@ static NSMutableDictionary *metadataMgrList = nil;
     return ([objectType isLayoutable] && [objectType isSearchable]);
 }
 
-- (void)cacheObject:(NSObject *)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+- (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
     [self.cacheManager writeArchivableObjectToCache:object cacheType:cacheType cacheKey:cacheKey encryptCache:self.encryptCache];
 }
 
-- (NSObject *)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass containedObjectClass:(Class)containedObjectClass cachedTime:(out NSDate **)cachedTime {
-    NSObject *cachedData =  [self.cacheManager readArchivableObjectWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:self.encryptCache cachedTime:cachedTime];
+- (id)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType
+                cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass
+                    containedObjectClass:(Class)containedObjectClass cachedTime:(out NSDate **)cachedTime {
+    id cachedData =  [self.cacheManager readArchivableObjectWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:self.encryptCache cachedTime:cachedTime];
     if (cachedData && ![cachedData isKindOfClass:objectClass]) {
         [self.cacheManager removeCache:cacheType cacheKey:cacheKey];
         cachedData = nil;

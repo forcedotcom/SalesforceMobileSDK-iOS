@@ -47,11 +47,19 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  This property is used internally to scope all the search
  queries toward the server.
  */
-@property (nonatomic, copy) NSString *networkId;
+@property (nonatomic, copy) NSString *communityId;
 
 /** API version being used.
  */
 @property (nonatomic, copy) NSString *apiVersion;
+
+/** Network manager being used.
+ */
+@property (nonatomic, copy) SFSmartSyncNetworkManager *networkManager;
+
+/** Cache manager being used.
+ */
+@property (nonatomic, copy) SFSmartSyncCacheManager *cacheManager;
 
 /** Singleton method for accessing metadata manager instance.
  @param user A user that will scope this manager instance data
@@ -63,17 +71,6 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  */
 + (void)removeSharedInstance:(SFUserAccount*)user;
 
-/** Set instance of `SFSmartSyncNetworkManager` to use for remote service invocation */
-- (void)setNetworkManager:(SFSmartSyncNetworkManager *)networkManager;
-
-/** Set instance of `SFSmartSyncCacheManager` to use for cache data to local */
-- (void)setCacheManager:(SFSmartSyncCacheManager *)cacheManager;
-
-/** API version to use, e.g. v29.0
- Default value is v29.0
- */
-- (void)setApiVersion:(NSString *)apiVersion;
-
 /** Get a list of smart scope object types
  
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
@@ -82,7 +79,8 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param errorBlock Block to invoke if failed to load object types
  
  */
-- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                  completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 /** Get a list of recently accessed objects by object type
  
@@ -95,7 +93,10 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param errorBlock Block to invoke if failed to load objects
  
  */
-- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
+            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName
+                inRetry:(BOOL)inRetry completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
+                    error:(void(^)(NSError *error))errorBlock;
 
 /** Load all object types
  
@@ -105,7 +106,9 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param error Block to invoke if failed to load objects list
  
  */
-- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock
+                     error:(void(^)(NSError *error))errorBlock;
 
 /** Load a specific object type information
  
@@ -117,7 +120,8 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param error Block to invoke if loading metadata failed
  
  */
-- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+            completion:(void(^)(SFObjectType *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 /** Load object layout information
  
@@ -128,7 +132,8 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param error Block to invoke if loading metadata failed
  
  */
-- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+                   completion:(void(^)(NSArray *result, BOOL isDataFromCache))completionBlock error:(void(^)(NSError *error))errorBlock;
 
 /** Color for the specific object type
  
@@ -151,6 +156,7 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param error Block to invoke if marking viewed failed
  
  */
-- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock;
+- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName
+           completionBlock:(void(^)())completionBlock error:(void(^)(NSError *error))errorBlock;
 
 @end

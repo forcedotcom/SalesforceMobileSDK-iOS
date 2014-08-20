@@ -28,7 +28,7 @@ __strong static NSDateFormatter *utcDateFormatter;
 
 @implementation ObjectUtils
 
-+ (NSString *)formatValue:(NSObject *)value {
++ (NSString *)formatValue:(id)value {
     if (nil == value) {
         value = nil;
     } else {
