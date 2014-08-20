@@ -22,52 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ObjectUtils.h"
+#import <Foundation/Foundation.h>
 
-__strong static NSDateFormatter *utcDateFormatter;
+@interface SFSmartSyncObjectUtils : NSObject
 
-@implementation ObjectUtils
++ (NSString *)formatValue:(id)value;
 
-+ (NSString *)formatValue:(id)value {
-    if (nil == value) {
-        value = nil;
-    } else {
-        if ([value isEqual:[NSNull null]]) {
-            value = nil;
-        } else if ([value isKindOfClass:[NSString class]]) {
-            if ([((NSString *)value) isEqualToString:@"<null>"]) {
-                value = nil;
-            }
-        }
-    }
-    NSString *returnValue;
-    if (nil == value) {
-        returnValue = @"";
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        NSNumber *number = (NSNumber *)value;
-        returnValue = [number stringValue];
-    } else if ([value isKindOfClass:[NSString class]]) {
-        returnValue = (NSString *)value;
-    } else if ([value respondsToSelector:@selector(stringValue)]) {
-        returnValue = (NSString *)[value performSelector:@selector(stringValue)];
-    }
-    return returnValue;
-}
++ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
 
-+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate {
-    if (nil == localDate) {
-        return nil;
-    }
-    NSString *dateString = [utcDateFormatter stringFromDate:localDate];
-    return dateString;
-}
-
-+ (BOOL)isEmpty:(NSString *)value {
-    BOOL isEmpty = NO;
-    if (nil == value || [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
-        isEmpty = YES;
-    }
-    return isEmpty;
-}
++ (BOOL)isEmpty:(NSString *)value;
 
 @end

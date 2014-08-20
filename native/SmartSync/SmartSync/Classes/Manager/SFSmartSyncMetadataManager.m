@@ -302,7 +302,7 @@ static NSMutableDictionary *metadataMgrList = nil;
     NSString *cacheType = kSFMRUCacheType;
     NSString *cacheKey = nil;
     BOOL globalMRU = NO;
-    if ([ObjectUtils isEmpty:objectTypeName]) {
+    if ([SFSmartSyncObjectUtils isEmpty:objectTypeName]) {
 
         // Gets global MRU objects.
         globalMRU = YES;
@@ -369,7 +369,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             queryBuilder = [SFSoqlBuilder withFields:@"Id, Name, Type"];
             [queryBuilder from:kRecentlyViewed];
             NSString *whereClause = @"LastViewedDate != NULL";
-            if ([ObjectUtils isEmpty:self.communityId]) {
+            if ([SFSmartSyncObjectUtils isEmpty:self.communityId]) {
                 whereClause = [NSString stringWithFormat:@"%@ AND NetworkId = '%@'", whereClause, self.communityId];
             }
             [queryBuilder where:whereClause];
@@ -383,7 +383,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             }
             NSString *queryFields = nil;
             queryFields = [self returnFieldsForObjectType:objectType];
-            if (![ObjectUtils isEmpty:queryFields]) {
+            if (![SFSmartSyncObjectUtils isEmpty:queryFields]) {
                 queryBuilder = [SFSoqlBuilder withFields:queryFields];
             } else {
                 queryBuilder = [SFSoqlBuilder withFields:@"Id, Name, Type"];
@@ -399,8 +399,8 @@ static NSMutableDictionary *metadataMgrList = nil;
                 whereClause = [NSString stringWithFormat:@"LastViewedDate != NULL and Type = '%@'", objectTypeName];
                 [queryBuilder limit:limit];
             }
-            if ([ObjectUtils isEmpty:self.communityId]) {
-                if ([ObjectUtils isEmpty:networkFieldName]) {
+            if ([SFSmartSyncObjectUtils isEmpty:self.communityId]) {
+                if ([SFSmartSyncObjectUtils isEmpty:networkFieldName]) {
                     whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
                 }
             }
@@ -743,7 +743,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
         [objectsString appendString:objectType.name];
     }
-    if ([ObjectUtils isEmpty:objectsString]) {
+    if ([SFSmartSyncObjectUtils isEmpty:objectsString]) {
         completionBlock(nil, NO);
         return;
     }
@@ -816,7 +816,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         return false;
     }
     NSString *objectName = [objectType name];
-    if (![ObjectUtils isEmpty:objectName]) {
+    if (![SFSmartSyncObjectUtils isEmpty:objectName]) {
         return [objectType isSearchable];
     }
     return NO;
@@ -844,7 +844,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         } else {
             whereClause = [NSString stringWithFormat:@"Id = '%@'", objectId];
         }
-        if (![ObjectUtils isEmpty:self.communityId] && ![ObjectUtils isEmpty:networkFieldName]) {
+        if (![SFSmartSyncObjectUtils isEmpty:self.communityId] && ![SFSmartSyncObjectUtils isEmpty:networkFieldName]) {
             whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
         }
         queryBuilder = [queryBuilder where:whereClause];
@@ -941,8 +941,8 @@ static NSMutableDictionary *metadataMgrList = nil;
 - (NSDictionary *)requestHeader:(NSDate *)cacheTime {
     NSDictionary *headers = nil;
     if (cacheTime) {
-        NSString *cacheDateStr = [ObjectUtils formatLocalDateToGMTString:cacheTime];
-        if (![ObjectUtils isEmpty:cacheDateStr]) {
+        NSString *cacheDateStr = [SFSmartSyncObjectUtils formatLocalDateToGMTString:cacheTime];
+        if (![SFSmartSyncObjectUtils isEmpty:cacheDateStr]) {
             headers = @{@"If-Modified-Since" : cacheDateStr};
         }
     }

@@ -29,7 +29,7 @@
 #import "SFObjectTypeLayout+Internal.h"
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
-#import "ObjectUtils.h"
+#import "SFSmartSyncObjectUtils.h"
 
 // Constants for creating NSError object
 extern NSString * const SFMetadataManagerErrorDomain;

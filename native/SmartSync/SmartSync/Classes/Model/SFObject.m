@@ -23,7 +23,7 @@
  */
 
 #import "SFObject+Internal.h"
-#import "ObjectUtils.h"
+#import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 
 @implementation SFObject
@@ -47,9 +47,9 @@
         self.name = dataDiction[[kName lowercaseString]];
     } else {
         self.name = dataDiction[kName];
-        NSString *type = [ObjectUtils formatValue:[dataDiction valueForKeyPath:kObjectTypeField]];
+        NSString *type = [SFSmartSyncObjectUtils formatValue:[dataDiction valueForKeyPath:kObjectTypeField]];
         if ([type isEqualToString:kRecentlyViewed]) {
-            type = [ObjectUtils formatValue:dataDiction[kType]];
+            type = [SFSmartSyncObjectUtils formatValue:dataDiction[kType]];
         }
         self.objectType = type;
     }
