@@ -265,7 +265,6 @@ static NSMutableDictionary *metadataMgrList = nil;
                 processSmartScopes(nil, searchableObjects);
             }
         }];
-        
     };
 
     // Loads all searchable objects.
