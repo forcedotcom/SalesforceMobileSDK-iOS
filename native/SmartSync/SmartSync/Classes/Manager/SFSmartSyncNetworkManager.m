@@ -50,7 +50,7 @@ static NSMutableDictionary *networkMgrList = nil;
             NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
             id networkMgr = [networkMgrList objectForKey:key];
             if (!networkMgr) {
-                networkMgr = [[SFSmartSyncNetworkManager alloc] init:user];
+                networkMgr = [[SFSmartSyncNetworkManager alloc] initWithUser:user];
                 [networkMgrList setObject:networkMgr forKey:key];
             }
             return networkMgr;
@@ -69,7 +69,7 @@ static NSMutableDictionary *networkMgrList = nil;
     }
 }
 
-- (id)init:(SFUserAccount *)user {
+- (id)initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
         self.user = user;

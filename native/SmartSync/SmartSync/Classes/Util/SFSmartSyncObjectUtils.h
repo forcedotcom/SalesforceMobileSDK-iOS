@@ -22,34 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ObjectUtils.h"
+#import <Foundation/Foundation.h>
 
-@implementation ObjectUtils
+@interface SFSmartSyncObjectUtils : NSObject
 
-+ (NSString *)formatValue:(NSObject *)value {
-    if (nil == value) {
-        value = nil;
-    } else {
-        if ([value isEqual:[NSNull null]]) {
-            value = nil;
-        } else if ([value isKindOfClass:[NSString class]]) {
-            if ([((NSString *)value) isEqualToString:@"<null>"]) {
-                value = nil;
-            }
-        }
-    }
-    NSString *returnValue;
-    if (nil == value) {
-        returnValue = @"";
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        NSNumber *number = (NSNumber *)value;
-        returnValue = [number stringValue];
-    } else if ([value isKindOfClass:[NSString class]]) {
-        returnValue = (NSString *)value;
-    } else if ([value respondsToSelector:@selector(stringValue)]) {
-        returnValue = (NSString *)[value performSelector:@selector(stringValue)];
-    }
-    return returnValue;
-}
++ (NSString *)formatValue:(id)value;
+
++ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
+
++ (BOOL)isEmpty:(NSString *)value;
 
 @end

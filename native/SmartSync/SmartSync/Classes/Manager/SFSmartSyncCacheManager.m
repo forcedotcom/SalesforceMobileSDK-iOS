@@ -68,7 +68,7 @@ static NSMutableDictionary *cacheMgrList = nil;
             NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
             id cacheMgr = [cacheMgrList objectForKey:key];
             if (!cacheMgr) {
-                cacheMgr = [[SFSmartSyncCacheManager alloc] init:user];
+                cacheMgr = [[SFSmartSyncCacheManager alloc] initWithUser:user];
                 [cacheMgrList setObject:cacheMgr forKey:key];
             }
             return cacheMgr;
@@ -87,7 +87,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
 }
 
-- (id)init:(SFUserAccount *)user {
+- (id)initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
         self.inMemCache = [[NSCache alloc] init];
