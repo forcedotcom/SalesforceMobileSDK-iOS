@@ -1283,6 +1283,14 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void)oauthCoordinatorWillBeginSessionRefresh:(SFOAuthCoordinator *)coordinator {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillBeginSessionRefresh:)]) {
+            [delegate authManagerWillBeginSessionRefresh:self];
+        }
+    }];
+}
+
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinatorDidAuthenticate for userId: %@, auth info: %@", coordinator.credentials.userId, info];

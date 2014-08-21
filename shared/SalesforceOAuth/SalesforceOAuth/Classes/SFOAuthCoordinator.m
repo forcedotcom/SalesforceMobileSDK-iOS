@@ -173,6 +173,11 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
     
     if (self.credentials.refreshToken) {
+        
+        // over here need to set _accessTokenBeingRefreshed = YES;
+        if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginSessionRefresh:)]) {
+            [self.delegate oauthCoordinatorWillBeginSessionRefresh:self];
+        }
         // clear any access token we may have and begin refresh flow
         [self beginTokenRefreshFlow];
     } else {

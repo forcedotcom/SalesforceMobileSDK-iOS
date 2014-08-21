@@ -108,6 +108,13 @@ enum {
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator __attribute__((deprecated));
 
 /**
+ Sent before oauthcoordinator will refresh session token
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ */
+- (void)oauthCoordinatorWillBeginSessionRefresh:(SFOAuthCoordinator *)coordinator;
+
+/**
  Sent when authentication successfully completes.
  
  @param coordinator The SFOAuthCoordinator instance processing this message.
