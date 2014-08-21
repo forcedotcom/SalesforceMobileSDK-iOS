@@ -79,10 +79,10 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 - (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(UIWebView *)view;
 
 /**
- Called when the auth manager is going to refresh the session token.
+ Called before the auth manager will perform an authentication, this includes token refresh.
  @param manager The instance of SFAuthenticationManager making the call.
  */
-- (void)authManagerWillBeginSessionRefresh:(SFAuthenticationManager *)manager;
+- (void)authManagerWillBeginAuthentication:(SFAuthenticationManager *)manager;
 
 /**
  Called after the auth manager has successfully authenticated.
