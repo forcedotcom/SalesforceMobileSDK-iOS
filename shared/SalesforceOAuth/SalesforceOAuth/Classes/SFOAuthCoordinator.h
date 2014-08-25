@@ -112,7 +112,7 @@ enum {
  
  @param coordinator The SFOAuthCoordinator instance processing this message
  */
-- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator;
+- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info;
 
 /**
  Sent when authentication successfully completes.

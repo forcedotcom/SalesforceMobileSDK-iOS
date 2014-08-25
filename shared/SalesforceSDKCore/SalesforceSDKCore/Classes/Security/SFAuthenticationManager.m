@@ -1283,10 +1283,10 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator {
+- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerWillBeginAuthentication:)]) {
-            [delegate authManagerWillBeginAuthentication:self];
+        if ([delegate respondsToSelector:@selector(authManagerWillBeginAuthentication:authInfo:)]) {
+            [delegate authManagerWillBeginAuthentication:self authInfo:info];
         }
     }];
 }

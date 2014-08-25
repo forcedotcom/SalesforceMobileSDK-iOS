@@ -157,24 +157,25 @@ static NSString * const kHttpPostContentType                    = @"application/
 
     self.authenticating = YES;
     
+    SFOAuthInfo *authInfo;
+    if (self.credentials.refreshToken) {
+        authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    } else {
+        authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
+    }
+    
     // Don't try to authenticate if there is no network available
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)] &&
         ![self.delegate oauthCoordinatorIsNetworkAvailable:self]) {
         [self log:SFLogLevelDebug msg:@"Network is not available, so bypassing login"];
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
-        SFOAuthInfo *authInfo;
-        if (self.credentials.refreshToken) {
-            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-        } else {
-            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
-        }
         [self notifyDelegateOfFailure:error authInfo:authInfo];
 		return;
     }
     
     // make sure client knows authcoordinator is about to perform some kind of authentication.
-    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:)]) {
-        [self.delegate oauthCoordinatorWillBeginAuthentication:self];
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:authInfo::)]) {
+        [self.delegate oauthCoordinatorWillBeginAuthentication:self authInfo:authInfo];
     }
     
     if (self.credentials.refreshToken) {
