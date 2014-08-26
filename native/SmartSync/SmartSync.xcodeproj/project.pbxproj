@@ -493,8 +493,9 @@
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -514,8 +515,9 @@
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -540,13 +542,9 @@
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceNetworkSDK/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceSDKCore/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SalesforceNativeSDK/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
@@ -566,13 +564,9 @@
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceNetworkSDK/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceSDKCore/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SalesforceNativeSDK/build/Debug-iphoneos",
-					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
