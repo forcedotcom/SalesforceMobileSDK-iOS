@@ -23,6 +23,8 @@
  */
 
 #import "SFSDKInfoPlugin.h"
+#import "SFHybridViewConfig.h"
+#import "SFHybridViewController.h"
 #import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVInvokedUrlCommand.h>
@@ -32,6 +34,7 @@ NSString * const kSDKVersionKey = @"sdkVersion";
 NSString * const kAppNameKey = @"appName";
 NSString * const kAppVersionKey = @"appVersion";
 NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
+NSString * const kBootConfigKey = @"bootConfig";
 
 // Other constants
 NSString * const kForcePluginPrefix = @"com.salesforce.";
@@ -108,10 +111,14 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
     NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
     
+    
+    NSDictionary *bootConfig = ((SFHybridViewController *)self.viewController).hybridViewConfig.configDict;
+    
     NSDictionary *sdkInfo = @{kSDKVersionKey: SALESFORCE_SDK_VERSION,
                               kAppNameKey: appName,
                               kAppVersionKey: appVersion,
-                              kForcePluginsAvailableKey: self.forcePlugins};
+                              kForcePluginsAvailableKey: self.forcePlugins,
+                              kBootConfigKey: bootConfig};
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }

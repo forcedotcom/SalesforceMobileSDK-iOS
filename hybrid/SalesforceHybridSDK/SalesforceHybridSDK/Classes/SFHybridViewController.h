@@ -81,6 +81,11 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 @property (nonatomic, readonly) NSSet *oauthScopes;
 
 /**
+ The full config
+ */
+@property (nonatomic, readonly) SFHybridViewConfig *hybridViewConfig;
+
+/**
  The offline "home page" for the app.  Will be nil if no value has been
  found.
  */

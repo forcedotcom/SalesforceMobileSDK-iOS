@@ -5,9 +5,6 @@
       location = "container:"
       name = "Native SDK">
       <FileRef
-         location = "group:native/SmartSync/SmartSync.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
       </FileRef>
       <FileRef
