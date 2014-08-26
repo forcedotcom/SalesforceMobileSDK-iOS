@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */; };
 		CE617399196F469A00C63BDE /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
@@ -30,6 +31,13 @@
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CEB808B8199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */; };
 		CECDF84119A5468E007A29E5 /* SFSmartSyncObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84019A5468E007A29E5 /* SFSmartSyncObjectUtils.m */; };
+		CECDF84419ABE009007A29E5 /* SmartSyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84319ABE009007A29E5 /* SmartSyncTests.m */; };
+		CECDF84A19ABF9B3007A29E5 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84519ABF9B3007A29E5 /* libMKNetworkKit-iOS.a */; };
+		CECDF84B19ABF9B3007A29E5 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84619ABF9B3007A29E5 /* libSalesforceNetworkSDK.a */; };
+		CECDF84C19ABF9B3007A29E5 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */; };
+		CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */; };
+		CECDF84E19ABF9B3007A29E5 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */; };
+		CECDF85019ABF9BE007A29E5 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84F19ABF9BE007A29E5 /* libSalesforceNativeSDK.a */; };
 		CEDA4EDF19745B870009D865 /* SFSmartSyncNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */; };
 		CEDA4EE319747AC30009D865 /* SFSmartSyncCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */; };
 		CEF50A87196B3EB60076264C /* SFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A7D196B3EB60076264C /* SFObject.m */; };
@@ -63,6 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncConstants.m; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +86,13 @@
 		CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncMetadataManager.m; path = Manager/SFSmartSyncMetadataManager.m; sourceTree = "<group>"; };
 		CECDF83F19A5468E007A29E5 /* SFSmartSyncObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncObjectUtils.h; sourceTree = "<group>"; };
 		CECDF84019A5468E007A29E5 /* SFSmartSyncObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncObjectUtils.m; sourceTree = "<group>"; };
+		CECDF84319ABE009007A29E5 /* SmartSyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncTests.m; sourceTree = "<group>"; };
+		CECDF84519ABF9B3007A29E5 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
+		CECDF84619ABF9B3007A29E5 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../shared/SalesforceNetworkSDK/build/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
+		CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = "../../shared/SalesforceOAuth/build/Debug-iphoneos/libSalesforceOAuth.a"; sourceTree = "<group>"; };
+		CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../../shared/SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
+		CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphoneos/libSalesforceSecurity.a"; sourceTree = "<group>"; };
+		CECDF84F19ABF9BE007A29E5 /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNativeSDK.a; path = "../SalesforceNativeSDK/build/Debug-iphoneos/libSalesforceNativeSDK.a"; sourceTree = "<group>"; };
 		CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncNetworkManager.h; path = Manager/SFSmartSyncNetworkManager.h; sourceTree = "<group>"; };
 		CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncNetworkManager.m; path = Manager/SFSmartSyncNetworkManager.m; sourceTree = "<group>"; };
 		CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncCacheManager.h; path = Manager/SFSmartSyncCacheManager.h; sourceTree = "<group>"; };
@@ -111,10 +127,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
+				CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */,
+				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
+				CECDF84C19ABF9B3007A29E5 /* libSalesforceOAuth.a in Frameworks */,
+				CECDF84A19ABF9B3007A29E5 /* libMKNetworkKit-iOS.a in Frameworks */,
+				CECDF84B19ABF9B3007A29E5 /* libSalesforceNetworkSDK.a in Frameworks */,
+				CECDF85019ABF9BE007A29E5 /* libSalesforceNativeSDK.a in Frameworks */,
+				CECDF84E19ABF9B3007A29E5 /* libSalesforceSecurity.a in Frameworks */,
 				CEAAAE5D195911E600CBBFE9 /* libSmartSync.a in Frameworks */,
 				CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */,
 				CEAAAE5A195911E600CBBFE9 /* UIKit.framework in Frameworks */,
-				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +166,13 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */,
+				CECDF84F19ABF9BE007A29E5 /* libSalesforceNativeSDK.a */,
+				CECDF84519ABF9B3007A29E5 /* libMKNetworkKit-iOS.a */,
+				CECDF84619ABF9B3007A29E5 /* libSalesforceNetworkSDK.a */,
+				CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */,
+				CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */,
+				CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */,
 				CEAAAE48195911E600CBBFE9 /* Foundation.framework */,
 				CEAAAE56195911E600CBBFE9 /* XCTest.framework */,
 				CEAAAE59195911E600CBBFE9 /* UIKit.framework */,
@@ -170,6 +200,7 @@
 		CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */ = {
 			isa = PBXGroup;
 			children = (
+				CECDF84319ABE009007A29E5 /* SmartSyncTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			path = SmartSyncTests;
@@ -356,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CECDF84419ABE009007A29E5 /* SmartSyncTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +492,10 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -476,6 +512,10 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -498,6 +538,16 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceNetworkSDK/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceSDKCore/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SalesforceNativeSDK/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -514,6 +564,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/MKNetworkKit/MKNetworkKit-iOS/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceNetworkSDK/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/shared/SalesforceSDKCore/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-gwabzgkqvuiabqhavyipjwljefxe/Build/Products/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SalesforceNativeSDK/build/Debug-iphoneos",
+					"/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
