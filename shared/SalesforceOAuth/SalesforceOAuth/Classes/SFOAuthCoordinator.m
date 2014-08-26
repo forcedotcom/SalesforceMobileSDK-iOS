@@ -174,7 +174,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
     
     // make sure client knows authcoordinator is about to perform some kind of authentication.
-    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:authInfo::)]) {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:authInfo:)]) {
         [self.delegate oauthCoordinatorWillBeginAuthentication:self authInfo:authInfo];
     }
     
