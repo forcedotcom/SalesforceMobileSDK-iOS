@@ -223,11 +223,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     }
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 #pragma mark - Property implementations
 
 - (NSString *)remoteAccessConsumerKey
@@ -254,6 +249,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     [[NSUserDefaults standardUserDefaults] setURL:appHomeUrl forKey:kAppHomeUrlPropKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (SFHybridViewConfig *)hybridViewConfig
+{
+    return _hybridViewConfig;
 }
 
 #pragma mark - Public methods

@@ -1,3 +1,4 @@
+
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
@@ -92,11 +93,8 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.contacts/src/windows8/ContactProxy.js",
-        "id": "org.apache.cordova.contacts.ContactProxy",
-        "merges": [
-            ""
-        ]
+        "file": "plugins/org.apache.cordova.contacts/www/ContactFieldType.js",
+        "id": "org.apache.cordova.contacts.ContactFieldType"
     },
     {
         "file": "plugins/org.apache.cordova.contacts/www/ios/contacts.js",
@@ -111,13 +109,20 @@ module.exports = [
         "merges": [
             "Contact"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "com.salesforce": "2.3.0",
-    "org.apache.cordova.contacts": "0.2.9"
+    "org.apache.cordova.contacts": "0.2.13-dev"
 }
 // BOTTOM OF METADATA
 });
