@@ -25,13 +25,13 @@
 #import "AppDelegate.h"
 #import "SFHybridViewConfig.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import "CDVCommandDelegateImpl.h"
 #import "SFTestRunnerPlugin.h"
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceCommonUtils/SFLogger.h>
 
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 
@@ -119,7 +119,7 @@
         }];
         [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
     } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccountManager sharedInstance].allUserAccounts objectAtIndex:0];
+        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
         [self initializeAppViewState];
     } else {
         [self initializeAppViewState];
@@ -180,7 +180,6 @@
     }
     
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
-    self.viewController.useSplashScreen = NO;
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 }
@@ -190,8 +189,8 @@
 
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
-    NSString *covFile = [NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
-    [self log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
+    NSString *covFile = @(filename);
+    [SFLogger log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
     return fopen(filename, mode);
 }
 

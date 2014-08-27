@@ -3,7 +3,7 @@
     <property name="npmRepoLocation" location="${artifactsDir}/npm_repo" />
     <property name="npmRepoBranch" value="unstable" />
     
-    <target name="makeNpm" depends="nativeAppTemplate,hybridAppTemplate">
+    <target name="makeNpm" depends="clean,nativeAppTemplate">
         <!-- Stage the iOS npm repo -->
         <echo>--- Cloning the npm repo at branch '${npmRepoBranch}' ---</echo>
         <delete dir="${npmRepoLocation}" />
@@ -18,35 +18,26 @@
         
         <!-- Create and copy the template shells -->
         <antcall target="nativeAppTemplateShell" />
-        <antcall target="hybridAppTemplateShell" />
         <delete dir="${npmRepoLocation}/Templates/NativeAppTemplate" />
-        <delete dir="${npmRepoLocation}/Templates/HybridAppTemplate" />
         <copy todir="${npmRepoLocation}/Templates/NativeAppTemplate">
             <fileset dir="${destNativeTemplateDir}" />
         </copy>
-        <copy todir="${npmRepoLocation}/Templates/HybridAppTemplate">
-            <fileset dir="${destHybridTemplateDir}" />
-        </copy>
         <chmod file="${npmRepoLocation}/Templates/NativeAppTemplate/${destAppCreationScriptName}" perm="755" />
-        <chmod file="${npmRepoLocation}/Templates/HybridAppTemplate/${destAppCreationScriptName}" perm="755" />
         
         <!-- Copy binary packages -->
         <copy todir="${npmRepoLocation}/Dependencies" overwrite="true">
             <fileset dir="${artifactsDir}">
-                <include name="Salesforce*-Release.zip" />
+                <include name="Salesforce*.zip" />
             </fileset>
         </copy>
-        <copy file="${artifactsDir}/Cordova-Release.zip" todir="${npmRepoLocation}/Dependencies/Cordova" overwrite="true" />
         
         <!-- Copy resources -->
         <copy todir="${npmRepoLocation}/Dependencies/${sdkResourcesBundleName}" overwrite="true">
             <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
         </copy>
-        <copy todir="${npmRepoLocation}/Dependencies/Cordova/${cordovaCaptureBundleName}" overwrite="true">
-            <fileset dir="${sharedHybridDir}/${cordovaCaptureBundleName}" />
+        <copy todir="${npmRepoLocation}/Dependencies/${sdkAppSettingsBundleName}" overwrite="true">
+            <fileset dir="${sharedResourcesDir}/${sdkAppSettingsBundleName}" />
         </copy>
-        <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${npmRepoLocation}/Dependencies/Cordova" overwrite="true" />
-        <copy file="${sharedHybridDir}/${cordovaConfigXmlName}" todir="${npmRepoLocation}/Dependencies/Cordova" overwrite="true" />
         
         <!-- Make the npm package -->
         <echo>--- Creating the npm package ---</echo>

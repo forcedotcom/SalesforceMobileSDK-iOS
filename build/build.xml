@@ -5,26 +5,22 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
+    <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
     <property name="baseTemplateFilesDir" location="app_template_files" />
     <property name="srcAppCreationScript" value="${baseTemplateFilesDir}/createApp.sh.base" />
     <property name="destAppCreationScriptName" value="createApp.sh" />
-    <property name="destHybridTemplateDir" value="${artifactsDir}/HybridAppTemplate" />
-    <property name="destHybridTemplateName" value="__HybridTemplateAppName__" />
     <property name="destNativeTemplateDir" value="${artifactsDir}/NativeAppTemplate" />
     <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
-    <property name="cordovaCaptureBundleName" value="Capture.bundle" />
-    <property name="cordovaLibraryName" value="cordova-2.3.0.js" />
-    <property name="cordovaConfigXmlName" value="config.xml" />
     
     <target name="all" description="Cleans the projects and builds all libraries and templates">
         <antcall target="clean" />
         <antcall target="buildAll" />
     </target>
     
-    <target name="buildAll" depends="nativeAppTemplate, hybridAppTemplate" />
+    <target name="buildAll" depends="nativeAppTemplate" />
     
-    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageCordova" />
+    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -84,6 +80,9 @@
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
             <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
         </copy>
+        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkAppSettingsBundleName}">
+            <fileset dir="${sharedResourcesDir}/${sdkAppSettingsBundleName}" />
+        </copy>
         
     </target>
     
@@ -100,119 +99,6 @@
         <!-- App generator script -->
         <copy file="${srcAppCreationScript}" tofile="${destNativeTemplateDir}/${destAppCreationScriptName}" />
         <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
-    </target>
-    
-    <target name="hybridAppTemplate" depends="libPackages, hybridAppTemplateShell" description="Creates the hybrid app template">
-        <property name="hybridTemplateDependenciesDir" value="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/Dependencies" />
-        <property name="wwwDir" value="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/www" />
-        <property name="externalSharedDir" location="../external/shared" />
-        
-        <!-- Copy in the third party dependencies -->
-        <copy todir="${hybridTemplateDependenciesDir}/SalesforceCommonUtils">
-            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
-        </copy>
-        <copy todir="${hybridTemplateDependenciesDir}/openssl">
-            <fileset dir="${thirdPartyLibDir}/openssl">
-                <exclude name="openssl/**" />
-            </fileset>
-        </copy>
-        <copy todir="${hybridTemplateDependenciesDir}/sqlcipher">
-            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
-        </copy>
-        
-        <!-- Add the SDK dependencies -->
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${hybridTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/Cordova-Debug.zip" />
-        </exec>
-        <move file="${hybridTemplateDependenciesDir}/Cordova-Debug" tofile="${hybridTemplateDependenciesDir}/Cordova" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${hybridTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceHybridSDK-Debug.zip" />
-        </exec>
-        <move file="${hybridTemplateDependenciesDir}/SalesforceHybridSDK-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceHybridSDK" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${hybridTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
-        </exec>
-        <move file="${hybridTemplateDependenciesDir}/SalesforceOAuth-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceOAuth" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${hybridTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
-        </exec>
-        <move file="${hybridTemplateDependenciesDir}/SalesforceSDKCore-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceSDKCore" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${hybridTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceSecurity-Debug.zip" />
-        </exec>
-        <move file="${hybridTemplateDependenciesDir}/SalesforceSecurity-Debug" tofile="${hybridTemplateDependenciesDir}/SalesforceSecurity" />
-        
-        <!-- SDK and Cordova resources -->
-        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}/${sdkResourcesBundleName}">
-            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
-        </copy>
-        <copy file="${sharedHybridDir}/${cordovaConfigXmlName}" todir="${destHybridTemplateDir}/${destHybridTemplateName}/${destHybridTemplateName}" />
-        
-        <!-- Hybrid www/ resources -->
-        <copy todir="${wwwDir}">
-            <fileset dir="${externalSharedDir}/SampleApps/contactexplorer" />
-        </copy>
-        <copy file="${sharedHybridDir}/${cordovaLibraryName}" todir="${wwwDir}" />
-        <copy file="${externalSharedDir}/libs/cordova.force.js" todir="${wwwDir}" />
-        <copy file="${externalSharedDir}/libs/smartsync.js" todir="${wwwDir}" />
-        <copy file="${externalSharedDir}/libs/forcetk.mobilesdk.js" todir="${wwwDir}" />
-        <copy todir="${wwwDir}/jquery">
-            <fileset dir="${externalSharedDir}/external/jquery" />
-        </copy>
-        <copy todir="${wwwDir}/backbone">
-            <fileset dir="${externalSharedDir}/external/backbone" />
-        </copy>
-    </target>
-    
-    <target name="hybridAppTemplateShell" description="Creates the basic hybrid template shell, minus dependenies.  NB: npm package will use this.">
-        <property name="srcHybridTemplateFilesDir" value="${baseTemplateFilesDir}/__HybridTemplateAppFiles__" />
-        
-        <!-- Copy over the hybrid template -->
-        <delete dir="${destHybridTemplateDir}" />
-        <mkdir dir="${destHybridTemplateDir}" />
-        <copy todir="${destHybridTemplateDir}/${destHybridTemplateName}">
-            <fileset dir="${srcHybridTemplateFilesDir}" />
-        </copy>
-        
-        <!-- App generator script -->
-        <copy file="${srcAppCreationScript}" tofile="${destHybridTemplateDir}/${destAppCreationScriptName}" />
-        <chmod file="${destHybridTemplateDir}/${destAppCreationScriptName}" perm="755" />
-    </target>
-    
-    <target name="packageCordova" depends="buildCordova" description="Packages and builds the Cordova library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="Cordova" />
-            <param name="libName" value="libCordova.a" />
-            <param name="headerDir" value="include/Cordova" />
-        </antcall>
-    </target>
-    
-    <target name="buildCordova">
-        <antcall target="buildLib">
-            <param name="projectName" value="Cordova" />
-            <param name="libName" value="libCordova.a" />
-            <param name="headerDir" value="include/Cordova" />
-            <param name="schemeName" value="CordovaLib" />
-        </antcall>
-    </target>
-    
-    <target name="cleanCordova" description="Cleans the build artifacts and output of the Cordova library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="Cordova" />
-            <param name="libName" value="libCordova.a" />
-            <param name="headerDir" value="include/Cordova" />
-            <param name="schemeName" value="CordovaLib" />
-        </antcall>
     </target>
     
     <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
@@ -545,7 +431,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanCordova, cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

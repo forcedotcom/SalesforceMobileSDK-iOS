@@ -23,7 +23,6 @@
  */
 
 #import "SalesforceOAuthPlugin.h"
-#import "CDVViewController.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
@@ -132,12 +131,12 @@
 + (NSDictionary *)authErrorDictionaryFromError:(NSError *)error authInfo:(SFOAuthInfo *)authInfo
 {
     NSMutableDictionary *authDict = [NSMutableDictionary dictionary];
-    [authDict setObject:error.domain forKey:@"Domain"];
-    [authDict setObject:[NSNumber numberWithInteger:error.code] forKey:@"Code"];
-    [authDict setObject:error.localizedDescription forKey:@"Description"];
-    if ([error.userInfo objectForKey:@"error"] != nil)
-        [authDict setObject:[error.userInfo objectForKey:@"error"] forKey:@"Type"];
-    [authDict setObject:[authInfo description] forKey:@"AuthInfo"];
+    authDict[@"Domain"] = error.domain;
+    authDict[@"Code"] = @(error.code);
+    authDict[@"Description"] = error.localizedDescription;
+    if ((error.userInfo)[@"error"] != nil)
+        authDict[@"Type"] = (error.userInfo)[@"error"];
+    authDict[@"AuthInfo"] = [authInfo description];
     return authDict;
 }
 

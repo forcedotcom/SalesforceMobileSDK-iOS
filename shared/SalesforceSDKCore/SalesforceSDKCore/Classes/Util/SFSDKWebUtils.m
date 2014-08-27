@@ -46,7 +46,7 @@ static NSString *gUserAgentForApp = nil;
 + (void)configureUserAgent:(NSString *)userAgentString
 {
     if (userAgentString != nil) {
-        NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:userAgentString, kUserAgentPropKey, nil];
+        NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
     }
 }

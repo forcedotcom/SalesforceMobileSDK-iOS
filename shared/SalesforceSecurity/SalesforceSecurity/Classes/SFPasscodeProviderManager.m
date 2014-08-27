@@ -92,20 +92,20 @@ static NSMutableDictionary *PasscodeProviderMap;
 
 + (id<SFPasscodeProvider>)passcodeProviderForProviderName:(NSString *)providerName
 {
-    return (id<SFPasscodeProvider>)[PasscodeProviderMap objectForKey:providerName];
+    return (id<SFPasscodeProvider>)PasscodeProviderMap[providerName];
 }
 
 + (void)addPasscodeProvider:(id<SFPasscodeProvider>)provider
 {
     NSAssert(provider != nil, @"provider must not be nil.");
     NSString *newProviderName = provider.providerName;
-    id<SFPasscodeProvider> existingProvider = [PasscodeProviderMap objectForKey:newProviderName];
+    id<SFPasscodeProvider> existingProvider = PasscodeProviderMap[newProviderName];
     if (existingProvider != nil) {
         [SFLogger log:[SFPasscodeProviderManager class]
                 level:SFLogLevelError
                   msg:[NSString stringWithFormat:@"A passcode provider is already configured for '%@'.  Will not overwrite the current provider.", newProviderName]];
     } else {
-        [PasscodeProviderMap setObject:provider forKey:newProviderName];
+        PasscodeProviderMap[newProviderName] = provider;
     }
 }
 

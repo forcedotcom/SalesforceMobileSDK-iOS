@@ -24,7 +24,6 @@
 
 #import "SFTestRunnerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import "CDVInvokedUrlCommand.h"
 
 NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
@@ -42,7 +41,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         _testName = [testName copy];
         _success = success;
         _message = [message copy];
-        NSNumber *durationMs = [testStatus objectForKey:@"testDuration"];
+        NSNumber *durationMs = testStatus[@"testDuration"];
         _duration = [durationMs doubleValue] / 1000;
     }
     
@@ -103,9 +102,9 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSString *testName = [argsDict objectForKey:@"testName"];
+    NSString *testName = argsDict[@"testName"];
     BOOL success = [[argsDict valueForKey:@"success"] boolValue];
-    NSString *message = [argsDict valueForKey:@"message"];
+    NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
     
     [self log:SFLogLevelDebug format:@"testName: %@ success: %d message: %@",testName,success,message];
@@ -117,6 +116,21 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     [self writeCommandOKResultToJsRealm: callbackId];    
 }
 
-    
+// Remove html tags to make output more readable
+- (NSString*)stringByStrippingHTML:(NSString*)str
+{
+    NSRange r;
+    // Replacing html tags by |
+    while ((r = [str rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+    {
+        str = [str stringByReplacingCharactersInRange:r withString:@"|"];
+    }
+    // Replacing multiple | by a single space
+    while ((r = [str rangeOfString:@"[|]+" options:NSRegularExpressionSearch]).location != NSNotFound)
+    {
+        str = [str stringByReplacingCharactersInRange:r withString:@" "];
+    }
+    return str;
+}
 
 @end

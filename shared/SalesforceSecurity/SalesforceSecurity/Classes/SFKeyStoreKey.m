@@ -57,7 +57,7 @@ static NSString * const kKeyStoreKeyTypeDataArchiveKey = @"com.salesforce.keysto
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:self.encryptionKey forKey:kKeyStoreKeyDataArchiveKey];
-    NSNumber *keyTypeNum = [NSNumber numberWithUnsignedInteger:self.keyType];
+    NSNumber *keyTypeNum = @(self.keyType);
     [aCoder encodeObject:keyTypeNum forKey:kKeyStoreKeyTypeDataArchiveKey];
 }
 

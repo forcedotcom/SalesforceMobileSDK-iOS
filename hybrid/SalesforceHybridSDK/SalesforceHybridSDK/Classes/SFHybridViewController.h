@@ -24,7 +24,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "CDVViewController.h"
+#import <Cordova/CDVViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
@@ -79,6 +79,11 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  The set of oauth scopes that should be requested for this app.
  */
 @property (nonatomic, readonly) NSSet *oauthScopes;
+
+/**
+ The full config
+ */
+@property (nonatomic, readonly) SFHybridViewConfig *hybridViewConfig;
 
 /**
  The offline "home page" for the app.  Will be nil if no value has been

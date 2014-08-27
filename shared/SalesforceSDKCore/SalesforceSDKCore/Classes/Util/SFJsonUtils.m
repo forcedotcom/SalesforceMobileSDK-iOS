@@ -107,7 +107,7 @@ static NSError *sLastError = nil;
         NSArray *pathElements = [path componentsSeparatedByString:@"."];
         for (NSString *pathElement in pathElements) {
             if ([o isKindOfClass:[NSDictionary class]]) {
-                o = [(NSDictionary*)o objectForKey:pathElement];
+                o = ((NSDictionary*)o)[pathElement];
             } else  {
                 [self log:SFLogLevelDebug format:@"unexpected object in compound path (%@): %@",pathElement, o];
                 o = nil;

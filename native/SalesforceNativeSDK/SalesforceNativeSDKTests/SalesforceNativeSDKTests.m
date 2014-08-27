@@ -220,17 +220,15 @@ static NSException *authException = nil;
     NSString *soslLastName = lastName;
     
     
-    NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"John", @"FirstName", 
-                             lastName, @"LastName", 
-                             nil];
+    NSDictionary *fields = @{@"FirstName": @"John", 
+                             @"LastName": lastName};
 
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // make sure we got an id
-    NSString *contactId = [(NSDictionary *)listener.dataResponse objectForKey:@"id"];
+    NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
     STAssertNotNil(contactId, @"id not present");
     
     @try {
@@ -238,15 +236,15 @@ static NSException *authException = nil;
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, [(NSDictionary *)listener.dataResponse objectForKey:@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", [(NSDictionary *)listener.dataResponse objectForKey:@"FirstName"], @"invalid first name");
+        STAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
         // try to retrieve again, passing a list of fields
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:@"LastName, FirstName"];
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, [(NSDictionary *)listener.dataResponse objectForKey:@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", [(NSDictionary *)listener.dataResponse objectForKey:@"FirstName"], @"invalid first name");
+        STAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
         // try retrieving the raw data, and converting it to JSON
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
@@ -256,14 +254,14 @@ static NSException *authException = nil;
         STAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"expected raw NSData response");
         id responseAsJson = [SFJsonUtils objectFromJSONData:listener.dataResponse];
         STAssertNotNil(responseAsJson, @"expected valid JSON data response");
-        STAssertEqualObjects(lastName, [(NSDictionary *)responseAsJson objectForKey:@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", [(NSDictionary *)responseAsJson objectForKey:@"FirstName"], @"invalid first name");
+        STAssertEqualObjects(lastName, ((NSDictionary *)responseAsJson)[@"LastName"], @"invalid last name");
+        STAssertEqualObjects(@"John", ((NSDictionary *)responseAsJson)[@"FirstName"], @"invalid first name");
         
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+        NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
         // now search object
@@ -284,15 +282,15 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+    NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
     
     // check the deleted object is here
     request = [[SFRestAPI sharedInstance] requestForQueryAll:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
-    STAssertEquals((int)[records count], 1, @"expected just one query result");
+    NSArray* records2 = ((NSDictionary *)listener.dataResponse)[@"records"];
+    STAssertEquals((int)[records2 count], 1, @"expected just one query result");
 
     // now search object
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
@@ -314,17 +312,15 @@ static NSException *authException = nil;
     NSString *lastName = [NSString stringWithFormat:@"Doe-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
     
-    NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"John", @"FirstName", 
-                            lastName, @"LastName", 
-                            nil];
+    NSDictionary *fields = @{@"FirstName": @"John", 
+                            @"LastName": lastName};
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // make sure we got an id
-    NSString *contactId = [(NSDictionary *)listener.dataResponse objectForKey:@"id"];
+    NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
     STAssertNotNil(contactId, @"id not present");
     [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
     
@@ -333,13 +329,11 @@ static NSException *authException = nil;
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+        NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
         
         // modify object
-        NSDictionary *updatedFields = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       updatedLastName, @"LastName", 
-                                       nil];
+        NSDictionary *updatedFields = @{@"LastName": updatedLastName};
         request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:@"Contact" objectId:contactId fields:updatedFields];
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -348,14 +342,14 @@ static NSException *authException = nil;
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]]; 
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+        records = ((NSDictionary *)listener.dataResponse)[@"records"];
         STAssertEquals((int)[records count], 1, @"expected just one query result");
 
         // let's make sure the old object is not there anymore
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
         STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+        records = ((NSDictionary *)listener.dataResponse)[@"records"];
         STAssertEquals((int)[records count], 0, @"expected no result");
     }
     @finally {
@@ -369,7 +363,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    NSArray *records = [(NSDictionary *)listener.dataResponse objectForKey:@"records"];
+    NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
     STAssertEquals((int)[records count], 0, @"expected no result");
 }
 
@@ -380,9 +374,7 @@ static NSException *authException = nil;
     //create an account name based on timestamp
     NSTimeInterval secs = [NSDate timeIntervalSinceReferenceDate];
     NSString *acctName = [NSString stringWithFormat:@"GenAccount %.2f",secs];
-    NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
-                            acctName,@"Name",
-                            nil];
+    NSDictionary *fields = @{@"Name": acctName};
     
     //create a unique account number
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
@@ -399,7 +391,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
     NSDictionary *errDict = listener.lastError.userInfo;
-    NSString *restErrCode = [errDict objectForKey:NSLocalizedFailureReasonErrorKey];
+    NSString *restErrCode = errDict[NSLocalizedFailureReasonErrorKey];
     STAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
 
 }
@@ -529,7 +521,7 @@ static NSException *authException = nil;
     NSDictionary *fileAttrs2 = [self uploadFile];
     
     // get batch details
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
@@ -543,7 +535,7 @@ static NSException *authException = nil;
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // get batch details (expect 404 for first file)
-    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
@@ -556,7 +548,7 @@ static NSException *authException = nil;
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // get batch details (expect 404 for both files)
-    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:[NSArray arrayWithObjects:fileAttrs[@"id"], fileAttrs2[@"id"], nil]];
+    request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     listener = [self sendSyncRequest:request];
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
@@ -1014,21 +1006,17 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            failBlock:UNEXPECTED_ERROR_BLOCK(@"performCreateWithObjectType")
                        completeBlock:^(NSDictionary *d) {
                            _blocksUncompletedCount--;
-                           __strong NSString *recordId = [d objectForKey:@"id"];
+                           __strong NSString *recordId = d[@"id"];
                            [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
                            [api performRetrieveWithObjectType:@"Contact"
                                                      objectId:recordId
-                                                    fieldList:[NSArray arrayWithObject:@"LastName"]
+                                                    fieldList:@[@"LastName"]
                                                     failBlock:UNEXPECTED_ERROR_BLOCK(@"performRetrieveWithObjectType")
                                                 completeBlock:DICT_SUCCESS_BLOCK(@"performRetrieveWithObjectType")
                             ];
                            _blocksUncompletedCount++;
-                           
-
-
                            [self log:SFLogLevelDebug format:@"Updating LastName for recordId: %@",recordId];
-                           [fields setObject:updatedLastName forKey:@"LastName"];
-
+                           fields[@"LastName"] = updatedLastName;
                            [api performUpdateWithObjectType:@"Contact"
                                                    objectId:recordId
                                                      fields:fields
@@ -1040,7 +1028,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            //Note: this performUpsertWithObjectType test requires that your test user credentials
                            //have proper permissions, otherwise you will get "insufficient access rights on cross-reference id"
                            [self log:SFLogLevelDebug format:@"Reverting LastName for recordId: %@",recordId];
-                           [fields setObject:lastName forKey:@"LastName"];
+                           fields[@"LastName"] = lastName;
                            [api performUpsertWithObjectType:@"Contact"
                                             externalIdField:@"Id"
                                                  externalId:recordId
@@ -1284,24 +1272,24 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     STAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil where:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
-    STAssertNil( [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObject:@"Id"] sObject:nil where:nil limit:0],
+    STAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil where:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
     NSString *complexQuery = @"select id,status from Lead where id<>null group by status limit 10";
     
     STAssertTrue( [simpleQuery isEqualToString:
-                        [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObject:@"id"]
+                        [SFRestAPI SOQLQueryWithFields:@[@"id"]
                                                sObject:@"Lead"
                                                  where:@"id<>null"
                                                  limit:10]],                 
                  @"Simple SOQL query does not match.");
     
     
-    NSString *generatedComplexQuery = [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObjects:@"id", @"status", nil]
+    NSString *generatedComplexQuery = [SFRestAPI SOQLQueryWithFields:@[@"id", @"status"]
                                                              sObject:@"Lead"
                                                                where:@"id<>null"
-                                                             groupBy:[NSArray arrayWithObject:@"status"]
+                                                             groupBy:@[@"status"]
                                                               having:nil
                                                              orderBy:nil
                                                                limit:10];

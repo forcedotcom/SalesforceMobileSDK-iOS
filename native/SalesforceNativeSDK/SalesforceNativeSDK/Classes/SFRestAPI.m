@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v28.0";
+NSString* const kSFRestDefaultAPIVersion = @"v31.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 NSString * const kSFMobileSDKNativeDesignator = @"Native";
@@ -145,8 +145,8 @@ static dispatch_once_t _sharedInstanceGuard;
     NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
     
     UIDevice *curDevice = [UIDevice currentDevice];
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
 
     NSString *myUserAgent = [NSString stringWithFormat:
                              @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
@@ -263,7 +263,7 @@ static dispatch_once_t _sharedInstanceGuard;
                                            objectId:(NSString *)objectId
                                           fieldList:(NSString *)fieldList {
     NSDictionary *queryParams = (fieldList ?
-                                 [NSDictionary dictionaryWithObjectsAndKeys:fieldList, @"fields", nil]
+                                 @{@"fields": fieldList}
                                  : nil);
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", self.apiVersion, objectType, objectId];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
@@ -297,19 +297,19 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 - (SFRestRequest *)requestForQuery:(NSString *)soql {
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
+    NSDictionary *queryParams = @{@"q": soql};
     NSString *path = [NSString stringWithFormat:@"/%@/query", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
 - (SFRestRequest *)requestForQueryAll:(NSString *)soql {
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:soql, @"q", nil];
+    NSDictionary *queryParams = @{@"q": soql};
     NSString *path = [NSString stringWithFormat:@"/%@/queryAll", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
 - (SFRestRequest *)requestForSearch:(NSString *)sosl {
-    NSDictionary *queryParams = [NSDictionary dictionaryWithObjectsAndKeys:sosl, @"q", nil];
+    NSDictionary *queryParams = @{@"q": sosl};
     NSString *path = [NSString stringWithFormat:@"/%@/search", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }

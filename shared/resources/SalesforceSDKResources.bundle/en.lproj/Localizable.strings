@@ -53,3 +53,16 @@
 
 "hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
 
+// SmartStore Inspector
+
+"inspectorTitle" = "Inspector";
+"inspectorBackButtonTitle" = "Back";
+"inspectorRunButtonTitle" = "Run";
+"inspectorPageSizeHint" = "Page size (default: 10)";
+"inspectorPageIndexHint" = "Page index (default: 0)";
+"inspectorClearButtonTitle" = "Clear";
+"inspectorSoupsButtonTitle" = "Soups";
+"inspectorIndicesButtonTitle" = "Indices";
+"inspectorQueryFailed" = "Query failed";
+"inspectorOK" = "OK";
+"inspectorNoRowsReturned" = "No rows returned";

@@ -126,7 +126,7 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     SFUserAccount *selectedUser = (indexPath.section == 0 ?
                                   [SFUserAccountManager sharedInstance].currentUser :
-                                  [_userAccountList objectAtIndex:indexPath.row]);
+                                  _userAccountList[indexPath.row]);
     SFDefaultUserManagementDetailViewController *dvc = [[SFDefaultUserManagementDetailViewController alloc] initWithUser:selectedUser];
     [self.navigationController pushViewController:dvc animated:YES];
 }
@@ -159,7 +159,7 @@
 	// Configure the cell to show the data.
     SFUserAccount *displayUser = (indexPath.section == 0 ?
                                   [SFUserAccountManager sharedInstance].currentUser :
-                                  [_userAccountList objectAtIndex:indexPath.row]);
+                                  _userAccountList[indexPath.row]);
     cell.textLabel.text = displayUser.fullName;
     cell.detailTextLabel.text = displayUser.userName;
     

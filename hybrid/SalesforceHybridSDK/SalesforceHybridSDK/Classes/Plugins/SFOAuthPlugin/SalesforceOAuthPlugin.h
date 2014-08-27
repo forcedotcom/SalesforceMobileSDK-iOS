@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import "CDVPlugin.h"
+#import <Cordova/CDVPlugin.h>
 
 @class CDVInvokedUrlCommand;
 

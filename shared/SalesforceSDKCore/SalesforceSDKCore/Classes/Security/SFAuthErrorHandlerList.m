@@ -102,7 +102,7 @@
 {
     NSArray *resultArray = [self.authHandlerMutableArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"SELF.name MATCHES %@", name]];
     if ([resultArray count] > 0) {
-        return [resultArray objectAtIndex:0];
+        return resultArray[0];
     } else {
         return nil;
     }

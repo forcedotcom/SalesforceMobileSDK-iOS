@@ -23,15 +23,18 @@
  */
 
 #import "SFSDKInfoPlugin.h"
-#import "CDVViewController.h"
+#import "SFHybridViewConfig.h"
+#import "SFHybridViewController.h"
+#import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
-#import "CDVInvokedUrlCommand.h"
+#import <Cordova/CDVInvokedUrlCommand.h>
 
 // Keys in sdk info map
 NSString * const kSDKVersionKey = @"sdkVersion";
 NSString * const kAppNameKey = @"appName";
 NSString * const kAppVersionKey = @"appVersion";
 NSString * const kForcePluginsAvailableKey = @"forcePluginsAvailable";
+NSString * const kBootConfigKey = @"bootConfig";
 
 // Other constants
 NSString * const kForcePluginPrefix = @"com.salesforce.";
@@ -105,15 +108,17 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     NSString* callbackId = command.callbackId;
     /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:command.arguments];
     
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
     
-    NSDictionary *sdkInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              SALESFORCE_SDK_VERSION, kSDKVersionKey,
-                              appName, kAppNameKey,
-                              appVersion, kAppVersionKey,
-                              self.forcePlugins, kForcePluginsAvailableKey,
-                              nil];
+    
+    NSDictionary *bootConfig = ((SFHybridViewController *)self.viewController).hybridViewConfig.configDict;
+    
+    NSDictionary *sdkInfo = @{kSDKVersionKey: SALESFORCE_SDK_VERSION,
+                              kAppNameKey: appName,
+                              kAppVersionKey: appVersion,
+                              kForcePluginsAvailableKey: self.forcePlugins,
+                              kBootConfigKey: bootConfig};
     
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }

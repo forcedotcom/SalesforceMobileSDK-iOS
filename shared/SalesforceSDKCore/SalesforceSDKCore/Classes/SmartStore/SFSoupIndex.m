@@ -24,9 +24,13 @@
 
 #import "SFSoupIndex.h"
 
-NSString * const kSoupIndexTypeString = @"string";
-NSString * const kSoupIndexTypeInteger = @"integer";
+NSString * const kSoupIndexTypeString   = @"string";
+NSString * const kSoupIndexTypeInteger  = @"integer";
 NSString * const kSoupIndexTypeFloating = @"floating";
+NSString * const kSoupIndexPath         = @"path";
+NSString * const kSoupIndexType         = @"type";
+NSString * const kSoupIndexColumnName   = @"columnName";
+
 
 @implementation SFSoupIndex
 
@@ -44,10 +48,10 @@ NSString * const kSoupIndexTypeFloating = @"floating";
     return self;
 }
 
-- (id)initWithIndexSpec:(NSDictionary*)indexSpec {
-    self = [self initWithPath:[indexSpec objectForKey:@"path"] 
-                    indexType:[indexSpec objectForKey:@"type"]  
-                   columnName:nil
+- (id)initWithDictionary:(NSDictionary*)dict {
+    self = [self initWithPath:dict[kSoupIndexPath]
+                    indexType:dict[kSoupIndexType]
+                   columnName:dict[kSoupIndexColumnName]
             ];
     return self;
 }
@@ -72,5 +76,65 @@ NSString * const kSoupIndexTypeFloating = @"floating";
     }
     return  result;
 }
+    
+#pragma mark - Converting to JSON
+    
+- (NSDictionary*)asDictionary
+{
+    return [self asDictionary:NO];
+}
+
+- (NSDictionary*)asDictionary:(BOOL)withColumnName
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    result[kSoupIndexPath] = self.path;
+    result[kSoupIndexType] = self.indexType;
+    if (withColumnName && self.columnName)
+        result[kSoupIndexColumnName] = self.columnName;
+    return result;
+}
+
++ (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName
+{
+    NSMutableArray* result = [NSMutableArray array];
+    for (id soupIndex in arrayOfSoupIndexes) {
+        NSDictionary* dict = [soupIndex isKindOfClass:[SFSoupIndex class]]
+                                               ? [(SFSoupIndex*) soupIndex asDictionary:withColumnName]
+                                               : (NSDictionary*) soupIndex;
+        [result addObject:dict];
+    }
+    return result;
+}
+
++ (NSArray*) asArraySoupIndexes:(NSArray*) arrayOfDictionaries
+{
+    NSMutableArray* result = [NSMutableArray array];
+    for (id dict in arrayOfDictionaries) {
+        SFSoupIndex* soupIndex= [dict isKindOfClass:[SFSoupIndex class]]
+                                        ? (SFSoupIndex*) dict
+                                        : [[SFSoupIndex alloc] initWithDictionary:dict];
+        [result addObject:soupIndex];
+    }
+    return result;
+}
+
+
+#pragma mark - Useful methods
+
++ (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes
+{
+    NSMutableDictionary* map = [NSMutableDictionary dictionary];
+    for (SFSoupIndex* soupIndex in soupIndexes) {
+        map[soupIndex.path] = soupIndex;
+    }
+    return map;
+}
+
+- (NSString*) getPathType
+{
+    // XXX shouldn't create a new string every time
+    return [NSString stringWithFormat:@"%@--%@", self.path, self.indexType];
+}
+
 
 @end

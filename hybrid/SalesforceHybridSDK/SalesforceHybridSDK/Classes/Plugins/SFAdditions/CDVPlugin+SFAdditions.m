@@ -72,7 +72,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 {
     NSString *jsVersionStr = nil;
     if ([self hasVersion:arguments]) {
-        jsVersionStr = [[arguments objectAtIndex:0] substringFromIndex:([kPluginSDKVersion length] + 1)];
+        jsVersionStr = [arguments[0] substringFromIndex:([kPluginSDKVersion length] + 1)];
     }
     
     [self log:SFLogLevelDebug format:@"%@ jsVersion:%@ ", action, jsVersionStr];
@@ -86,7 +86,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
     }
     
     if ([arguments count] > argIndex) {
-        id arg = [arguments objectAtIndex:argIndex];
+        id arg = arguments[argIndex];
         return (arg == [NSNull null] ? nil : arg);
     } else {
         return nil;
@@ -97,7 +97,7 @@ NSString * const kPluginSDKVersion = @"pluginSDKVersion";
 {
     BOOL versionExists = NO;
     if ([arguments count] > 0) {
-        id elt = [arguments objectAtIndex:0];
+        id elt = arguments[0];
         if ([elt isKindOfClass:[NSString class]] && [elt hasPrefix:kPluginSDKVersion]) {
             versionExists = YES;
         }

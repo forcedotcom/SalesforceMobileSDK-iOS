@@ -171,16 +171,14 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     
     NSString *localized = [NSString stringWithFormat:@"%@ %@ : %@", kSFIdentityErrorDomain, type, description];
     NSInteger intCode = kSFIdentityErrorUnknown;
-    NSNumber *numCode = [self.typeToCodeDict objectForKey:type];
+    NSNumber *numCode = (self.typeToCodeDict)[type];
     if (numCode != nil) {
         intCode = [numCode intValue];
     }
     
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          type,        kSFIdentityError,
-                          description, kSFIdentityErrorDescription,
-                          localized,   NSLocalizedDescriptionKey,
-                          nil];
+    NSDictionary *dict = @{kSFIdentityError: type,
+                          kSFIdentityErrorDescription: description,
+                          NSLocalizedDescriptionKey: localized};
     NSError *error = [NSError errorWithDomain:kSFIdentityErrorDomain code:intCode userInfo:dict];
     return error;
 }
@@ -191,11 +189,9 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 {
     static NSDictionary *_typeToCodeDict = nil;
     if (_typeToCodeDict == nil) {
-        _typeToCodeDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           [NSNumber numberWithInteger:kSFIdentityErrorNoData],        kSFIdentityErrorTypeNoData,
-                           [NSNumber numberWithInteger:kSFIdentityErrorDataMalformed], kSFIdentityErrorTypeDataMalformed,
-                           [NSNumber numberWithInteger:kSFIdentityErrorBadHttpResponse], kSFIdentityErrorTypeBadHttpResponse,
-                           nil];
+        _typeToCodeDict = @{kSFIdentityErrorTypeNoData: @(kSFIdentityErrorNoData),
+                           kSFIdentityErrorTypeDataMalformed: @(kSFIdentityErrorDataMalformed),
+                           kSFIdentityErrorTypeBadHttpResponse: @(kSFIdentityErrorBadHttpResponse)};
     }
     
     return _typeToCodeDict;

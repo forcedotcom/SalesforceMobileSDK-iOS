@@ -31,7 +31,7 @@
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
-static NSString* const kSFPushNotificationEndPoint = @"services/data/v29.0/sobjects/MobilePushServiceDevice";
+static NSString* const kSFPushNotificationEndPoint = @"services/data/v31.0/sobjects/MobilePushServiceDevice";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
@@ -153,7 +153,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
             else {
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                _deviceSalesforceId = (NSString*) [responseAsJson objectForKey:@"id"];
+                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
                 [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }

@@ -120,7 +120,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
-    [coder encodeObject:[NSNumber numberWithBool:self.isEncrypted]          forKey:@"SFOAuthEncrypted"];
+    [coder encodeObject:@(self.isEncrypted)          forKey:@"SFOAuthEncrypted"];
 }
 
 - (id)init {
@@ -202,8 +202,8 @@ static NSException * kSFOAuthExceptionNilIdentifier;
                 [self log:SFLogLevelDebug format:@"%@:setIdentityUrl: invalid identityUrl: %@", [self class], _identityUrl];
                 return;
             }
-            self.userId = [pathComps objectAtIndex:pathComps.count - 1];
-            self.organizationId = [pathComps objectAtIndex:pathComps.count - 2];
+            self.userId = pathComps[pathComps.count - 1];
+            self.organizationId = pathComps[pathComps.count - 2];
         } else {
             [self log:SFLogLevelDebug format:@"%@:setIdentityUrl: invalid or nil identityUrl: %@", [self class], _identityUrl];
         }
@@ -236,7 +236,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     OSStatus result;
     NSMutableDictionary *dict = [self modelKeychainDictionaryForKey:kSFOAuthServiceActivation];
     if ([token length] > 0) {
-        [dict setObject:token forKey:(__bridge id)kSecValueData];
+        dict[(__bridge id)kSecValueData] = token;
         result = [self writeToKeychain:dict];
     } else {
         result = SecItemDelete((__bridge CFDictionaryRef)dict); // remove token
@@ -254,11 +254,6 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     if (![truncUserId isEqualToString:_userId]) {
         _userId = [truncUserId copy];
     }
-}
-
-- (NSString *)communityId {
-    // TODO: This can be removed once the community ID is being returned from the service as an 18-char ID.
-    return [_communityId entityId18];
 }
 
 - (NSString *)description {
@@ -309,9 +304,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:5];
-    [dict setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [dict setObject:self.identifier forKey:(__bridge id)kSecAttrAccount];
-    [dict setObject:key forKey:(__bridge id)kSecAttrService];
+    dict[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+    dict[(__bridge id)kSecAttrAccount] = self.identifier;
+    dict[(__bridge id)kSecAttrService] = key;
     return dict;
 }
 
@@ -324,7 +319,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     NSMutableDictionary *outDict = nil;
     
     NSMutableDictionary *theTokenQuery = self.tokenQuery;
-    [theTokenQuery setObject:key forKey:(__bridge id)kSecAttrService];
+    theTokenQuery[(__bridge id)kSecAttrService] = key;
     
     result = SecItemCopyMatching((__bridge CFDictionaryRef)[NSDictionary dictionaryWithDictionary:theTokenQuery], (void *)&outDict);
     if (noErr == result) {
@@ -336,7 +331,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     } else {
         [self log:SFLogLevelDebug format:@"%@:tokenForKey: (%d) error retrieving \"%@\" item matching \"%@\"", [self class], (int)result, key, theTokenQuery];
     }
-    return [itemDict objectForKey:(__bridge id)kSecValueData];
+    return itemDict[(__bridge id)kSecValueData];
 }
 
 - (NSString *)accessTokenWithKey:(NSData *)key {
@@ -380,9 +375,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             NSData *encryptedData = [SFSDKCryptoUtils aes256EncryptData:[token dataUsingEncoding:NSUTF8StringEncoding]
                                                                 withKey:encryptionKey.key
                                                                      iv:encryptionKey.initializationVector];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = encryptedData;
         } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = token;
         }
         result = [self writeToKeychain:dict];
     } else {
@@ -404,9 +399,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:key];
             [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
             NSData *encryptedData = [cipher finalizeCipher];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = encryptedData;
         } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = token;
         }
         result = [self writeToKeychain:dict];
     } else {
@@ -458,9 +453,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             NSData *encryptedData = [SFSDKCryptoUtils aes256EncryptData:[token dataUsingEncoding:NSUTF8StringEncoding]
                                                                 withKey:encryptionKey.key
                                                                      iv:encryptionKey.initializationVector];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = encryptedData;
         } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = token;
         }
         result = [self writeToKeychain:dict];
     } else {
@@ -487,9 +482,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
             SFOAuthCrypto *cipher = [[SFOAuthCrypto alloc] initWithOperation:SFOAEncrypt key:key];
             [cipher encryptData:[token dataUsingEncoding:NSUTF8StringEncoding]];
             NSData *encryptedData = [cipher finalizeCipher];
-            [dict setObject:encryptedData forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = encryptedData;
         } else {
-            [dict setObject:token forKey:(__bridge id)kSecValueData];
+            dict[(__bridge id)kSecValueData] = token;
         }
         result = [self writeToKeychain:dict];
     } else {
@@ -509,10 +504,10 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     NSAssert([self.identifier length] > 0, @"identifier cannot be nil or empty");
     
     NSMutableDictionary *tokenQuery = [[NSMutableDictionary alloc] init];
-    [tokenQuery setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [tokenQuery setObject:(__bridge id)kSecMatchLimitOne        forKey:(__bridge id)kSecMatchLimit];
-    [tokenQuery setObject:(id)kCFBooleanTrue           forKey:(__bridge id)kSecReturnAttributes];
-    [tokenQuery setObject:self.identifier              forKey:(__bridge id)kSecAttrAccount];
+    tokenQuery[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+    tokenQuery[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
+    tokenQuery[(__bridge id)kSecReturnAttributes] = (id)kCFBooleanTrue;
+    tokenQuery[(__bridge id)kSecAttrAccount] = self.identifier;
     // TODO: kSecAttrAccessGroup for keychain item sharing amongst apps
     return tokenQuery;
 }
@@ -523,15 +518,15 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     OSStatus result;
     NSData *tokenData = nil;
     NSMutableDictionary *returnDict = [NSMutableDictionary dictionaryWithDictionary:matchDict];
-    [returnDict setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
-    [returnDict setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+    returnDict[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
+    returnDict[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
     
     result = SecItemCopyMatching((__bridge CFDictionaryRef)returnDict, (void *)&tokenData);
     if (noErr == result) {
         // first, remove the data key-value
         [returnDict removeObjectForKey:(__bridge id)kSecReturnData];
         if (tokenData) {
-             [returnDict setObject:tokenData forKey:(__bridge id)kSecValueData];
+             returnDict[(__bridge id)kSecValueData] = tokenData;
         }
         
     } else if (errSecItemNotFound == result) {
@@ -550,26 +545,26 @@ static NSException * kSFOAuthExceptionNilIdentifier;
     NSDictionary *existingDict = nil;
     
     NSMutableDictionary *theTokenQuery = self.tokenQuery;
-    [theTokenQuery setObject:[dictionary objectForKey:(__bridge id)kSecAttrService] forKey:(__bridge id)kSecAttrService];
+    theTokenQuery[(__bridge id)kSecAttrService] = dictionary[(__bridge id)kSecAttrService];
     
     NSMutableDictionary *updateDict = [NSMutableDictionary dictionary];
-    NSObject *obj = [dictionary objectForKey:(__bridge id)kSecValueData];
+    NSObject *obj = dictionary[(__bridge id)kSecValueData];
     if (obj) {
         if ([obj isKindOfClass:[NSString class]]) {
             // convert string token to data
-            NSString *tokenString = [dictionary objectForKey:(__bridge id)kSecValueData];
-            [updateDict setObject:[tokenString dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id)kSecValueData];
+            NSString *tokenString = dictionary[(__bridge id)kSecValueData];
+            updateDict[(__bridge id)kSecValueData] = [tokenString dataUsingEncoding:NSUTF8StringEncoding];
         } else {
-            [updateDict setObject:obj forKey:(__bridge id)kSecValueData];
+            updateDict[(__bridge id)kSecValueData] = obj;
         }
     }
-    [updateDict setObject:(__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly forKey:(__bridge id)kSecAttrAccessible];
+    updateDict[(__bridge id)kSecAttrAccessible] = (__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly;
     
     result = SecItemCopyMatching((__bridge CFDictionaryRef)theTokenQuery, (void *)&existingDict);
     if (noErr == result) {
         // update an existing keychain item
         NSMutableDictionary *updateQuery = [NSMutableDictionary dictionaryWithDictionary:existingDict];
-        [updateQuery setObject:[theTokenQuery objectForKey:(__bridge id)kSecClass] forKey:(__bridge id)kSecClass];
+        updateQuery[(__bridge id)kSecClass] = theTokenQuery[(__bridge id)kSecClass];
         result = SecItemUpdate((__bridge CFDictionaryRef)updateQuery, (__bridge CFDictionaryRef)updateDict);
         if (noErr != result) {
             [self log:SFLogLevelDebug format:@"%@:writeToKeychain: (%d) %@ Updating item: %@",
@@ -577,9 +572,9 @@ static NSException * kSFOAuthExceptionNilIdentifier;
         }
     } else if (errSecItemNotFound == result) {
         // add a new keychain item
-        [updateDict setObject:[theTokenQuery objectForKey:(__bridge id)kSecClass] forKey:(__bridge id)kSecClass];
-        [updateDict setObject:self.identifier forKey:(__bridge id)kSecAttrAccount];
-        [updateDict setObject:[dictionary objectForKey:(__bridge id)kSecAttrService] forKey:(__bridge id)kSecAttrService];
+        updateDict[(__bridge id)kSecClass] = theTokenQuery[(__bridge id)kSecClass];
+        updateDict[(__bridge id)kSecAttrAccount] = self.identifier;
+        updateDict[(__bridge id)kSecAttrService] = dictionary[(__bridge id)kSecAttrService];
         // TODO: [updateDict setObject:self.accessGroup forKey:(id)kSecAttrAccessGroup];
         result = SecItemAdd((__bridge CFDictionaryRef)updateDict, NULL);
         if (noErr != result) {

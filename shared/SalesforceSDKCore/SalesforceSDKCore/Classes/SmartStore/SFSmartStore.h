@@ -47,10 +47,51 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
  */
 typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
 
+/**
+ The columns of a soup table
+ */
+extern NSString *const ID_COL;
+extern NSString *const CREATED_COL;
+extern NSString *const LAST_MODIFIED_COL;
+extern NSString *const SOUP_COL;
+
+/**
+ Soup index map table
+ */
+extern NSString *const SOUP_INDEX_MAP_TABLE;
+
+/**
+ Table to keep track of status of long operations in flight
+*/
+extern NSString *const LONG_OPERATIONS_STATUS_TABLE;
+
+
+/*
+ Columns of the soup index map table
+ */
+extern NSString *const SOUP_NAME_COL;
+extern NSString *const PATH_COL;
+extern NSString *const COLUMN_NAME_COL;
+extern NSString *const COLUMN_TYPE_COL;
+
+/*
+ Columns of the long operations status table
+ */
+extern NSString *const TYPE_COL;
+extern NSString *const DETAILS_COL;
+extern NSString *const STATUS_COL;
+
+/*
+ JSON fields added to soup element on insert/update
+*/
+extern NSString *const SOUP_ENTRY_ID;
+extern NSString *const SOUP_LAST_MODIFIED_DATE;
+
+
 @class FMDatabaseQueue;
-@class SFStoreCursor;
 @class SFQuerySpec;
 @class SFUserAccount;
+
 
 @interface SFSmartStore : NSObject {
 
@@ -61,7 +102,8 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
     
     FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
-    
+
+    NSMutableDictionary *_soupNameToTableName;
     NSMutableDictionary *_indexSpecsBySoup;
     NSMutableDictionary *_smartSqlToSql;
 }
@@ -152,7 +194,7 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
  Either creates a new soup or returns an existing soup.
  
  @param soupName The name of the soup to register
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param indexSpecs Array of one ore more SFSoupIndex objects
  @return YES if the soup registered OK
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
@@ -162,28 +204,20 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
  Get the number of entries that would be returned with the given query spec
  
  @param querySpec a native query spec
+ @param error Sets/returns any error generated as part of the process.
  */
-- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec;
-
-/**
- Search for entries matching the querySpec
-
- @param querySpec A querySpec as a dictionary
- @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
-
- @return A cursor
- */
-- (SFStoreCursor*)queryWithQuerySpec:(NSDictionary *)querySpec withSoupName:(NSString*) targetSoupName;
-
+- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
 
 /**
  Search for entries matching the querySpec
  
  @param querySpec A native SFSoupQuerySpec
  @param pageIndex The page index to start the entries at (this supports paging)
+ @param error Sets/returns any error generated as part of the process.
+ 
  @return A set of entries given the pageSize provided in the querySpec
  */
-- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex;
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 
 /**
  Search soup for entries exactly matching the soup entry IDs
@@ -229,6 +263,12 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
  */
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;
 
+/**
+ Remove all elements from soup.
+ 
+ @param soupName The name of the soup to clear.
+ */
+- (void)clearSoup:(NSString*)soupName;
 
 /**
  Remove soup completely from the store.
@@ -242,6 +282,39 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
  */
 - (void)removeAllSoups;
 
+/**
+ Return database file size
+ */
+- (long)getDatabaseSize;
+
+/**
+ Alter soup indexes
+
+ @param soupName The name of the soup to alter
+ @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs
+ @param reIndexData pass true if you want existing records to be re-indexed for new index specs
+ @return YES if the soup got altered OK
+ */
+- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+
+
+/**
+ Re-index soup
+ 
+ @param soupName The name of the soup to alter
+ @param indexPaths Array of one ore more paths that should be re-indexed
+ @param handleTx TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction
+ @return YES if the soup got re-indexed OK
+ */
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
+
+#pragma mark - Long operations recovery methods
+
+/**
+ Complete long operations that were interrupted
+ */
+- (void) resumeLongOperations;
+
 
 #pragma mark - Utility methods
 
@@ -254,5 +327,10 @@ typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
  */
 - (BOOL)isFileDataProtectionActive;
 
+
+/**
+ Return all soup names
+ */
+- (NSArray*) allSoupNames;
 
 @end

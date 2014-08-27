@@ -104,7 +104,7 @@ static BOOL _showPasscode = YES;
         // Try falling back to user defaults if there's no timeout in the keychain.
         lockoutTime = [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
         if (lockoutTime == nil) {
-            [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:kDefaultLockoutTime]];
+            [SFSecurityLockout writeLockoutTimeToKeychain:@(kDefaultLockoutTime)];
         } else {
             [SFSecurityLockout writeLockoutTimeToKeychain:lockoutTime];
         }
@@ -115,7 +115,7 @@ static BOOL _showPasscode = YES;
     if (n == nil) {
         // Try to fall back to the user defaults if isLocked isn't found in the keychain
         BOOL locked = [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
-        [SFSecurityLockout writeIsLockedToKeychain:[NSNumber numberWithBool:locked]];
+        [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
     }
 }
 
@@ -223,7 +223,7 @@ static BOOL _showPasscode = YES;
     // NOTE: This method directly alters securityLockoutTime and its persisted value.  Do not call
     // if passcode policy evaluation is required.
     securityLockoutTime = newSecurityLockoutTime;
-    [SFSecurityLockout writeLockoutTimeToKeychain:[NSNumber numberWithUnsignedInteger:securityLockoutTime]];
+    [SFSecurityLockout writeLockoutTimeToKeychain:@(securityLockoutTime)];
 }
 
 + (BOOL)nonCurrentUsersHavePasscodePolicy
@@ -276,7 +276,7 @@ static BOOL _showPasscode = YES;
 {
     // NOTE: This method directly alters the passcode length global preference persisted value.  Do not call if
     // passcode policy evaluation is required.
-    [[SFPreferences globalPreferences] setObject:[NSNumber numberWithInteger:newPasscodeLength] forKey:kPasscodeLengthKey];
+    [[SFPreferences globalPreferences] setObject:@(newPasscodeLength) forKey:kPasscodeLengthKey];
     [[SFPreferences globalPreferences] synchronize];
 }
 
@@ -484,7 +484,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self log:SFLogLevelDebug
        format:@"Sending passcode flow completed notification with validation success = %d", validationSuccess];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowCompleted
-                                                      object:[NSNumber numberWithBool:validationSuccess]
+                                                      object:@(validationSuccess)
                                                     userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:n];
 }
@@ -501,7 +501,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)setIsLocked:(BOOL)locked
 {
-    [SFSecurityLockout writeIsLockedToKeychain:[NSNumber numberWithBool:locked]];
+    [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
 }
 
 + (BOOL)locked
@@ -617,7 +617,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     if (valueData) {
         NSUInteger i = 0;
         [valueData getBytes:&i length:sizeof(i)];
-        time = [NSNumber numberWithUnsignedInteger:i];
+        time = @(i);
     }
     return time;
 }
@@ -644,7 +644,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     if (valueData) {
         BOOL b = NO;
         [valueData getBytes:&b length:sizeof(b)];
-        locked = [NSNumber numberWithBool:b];
+        locked = @(b);
     }
     return locked;
 }

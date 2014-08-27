@@ -45,32 +45,32 @@
 
 - (NSString *)accessToken
 {
-    return [_credentialsDict objectForKey:@"access_token"];
+    return _credentialsDict[@"access_token"];
 }
 
 - (NSString *)refreshToken
 {
-    return [_credentialsDict objectForKey:@"refresh_token"];
+    return _credentialsDict[@"refresh_token"];
 }
 
 - (NSString *)instanceUrl
 {
-    return [_credentialsDict objectForKey:@"instance_url"];
+    return _credentialsDict[@"instance_url"];
 }
 
 - (NSString *)clientId
 {
-    return [_credentialsDict objectForKey:@"test_client_id"];
+    return _credentialsDict[@"test_client_id"];
 }
 
 - (NSString *)redirectUri
 {
-    return [_credentialsDict objectForKey:@"test_redirect_uri"];
+    return _credentialsDict[@"test_redirect_uri"];
 }
 
 - (NSString *)loginHost
 {
-    return [_credentialsDict objectForKey:@"test_login_domain"];
+    return _credentialsDict[@"test_login_domain"];
 }
 
 @end

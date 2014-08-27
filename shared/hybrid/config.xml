@@ -19,46 +19,31 @@
 # under the License.
 #
 -->
-<cordova>
-    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
-    <preference name="SuppressesIncrementalRendering" value="false" />
-    <preference name="UIWebViewBounce" value="true" />
-    <preference name="TopActivityIndicator" value="gray" />
-    <preference name="EnableLocation" value="false" />
-    <preference name="EnableViewportScale" value="false" />
-    <preference name="AutoHideSplashScreen" value="true" />
-    <preference name="ShowSplashScreenSpinner" value="true" />
-    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        id        = "com.salesforce.iossdk"
+        version   = "2.3.0">
+    <name>Hybrid Application</name>
+
+    <access origin="https://localhost"/> <!-- allow local pages -->
+    <access origin="https://*.force.com" />
+    <access origin="https://*.salesforce.com" />
+
+    <!-- Preferences for iOS -->
     <preference name="AllowInlineMediaPlayback" value="false" />
-    <preference name="OpenAllWhitelistURLsInWebView" value="true" />
     <preference name="BackupWebStorage" value="cloud" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="TopActivityIndicator" value="gray" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" /> <!-- page, column -->
+    <preference name="PaginationMode" value="unpaginated" /> <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
 
-    <plugins>
-        <plugin name="com.salesforce.sdkinfo" value="SFSDKInfoPlugin" />
-        <plugin name="com.salesforce.oauth" value="SalesforceOAuthPlugin" />
-        <plugin name="com.salesforce.smartstore" value="SFSmartStorePlugin" />
-        <plugin name="com.salesforce.sfaccountmanager" value="SFAccountManagerPlugin" />
-        <plugin name="Device" value="CDVDevice" />
-        <plugin name="Logger" value="CDVLogger" />
-        <plugin name="Compass" value="CDVLocation" />
-        <plugin name="Accelerometer" value="CDVAccelerometer" />
-        <plugin name="Camera" value="CDVCamera" />
-        <plugin name="NetworkStatus" value="CDVConnection" />
-        <plugin name="Contacts" value="CDVContacts" />
-        <plugin name="Debug Console" value="CDVDebugConsole" />
-        <plugin name="Echo" value="CDVEcho" />
-        <plugin name="File" value="CDVFile" />
-        <plugin name="FileTransfer" value="CDVFileTransfer" />
-        <plugin name="Geolocation" value="CDVLocation" />
-        <plugin name="Notification" value="CDVNotification" />
-        <plugin name="Media" value="CDVSound" />
-        <plugin name="Capture" value="CDVCapture" />
-        <plugin name="SplashScreen" value="CDVSplashScreen" />
-        <plugin name="Battery" value="CDVBattery" />
-        <plugin name="Globalization" value="CDVGlobalization" />
-        <plugin name="InAppBrowser" value="CDVInAppBrowser" />
-    </plugins>
-
-    <access origin="*.force.com" />
-    <access origin="*.salesforce.com" />
-</cordova>
+    <feature name="com.salesforce.oauth"><param name="ios-package" value="SalesforceOAuthPlugin"/></feature>
+    <feature name="com.salesforce.sdkinfo"><param name="ios-package" value="SFSDKInfoPlugin"/></feature>
+    <feature name="com.salesforce.sfaccountmanager"><param name="ios-package" value="SFAccountManagerPlugin"/></feature>
+    <feature name="com.salesforce.smartstore"><param name="ios-package" value="SFSmartStorePlugin"/></feature>
+</widget>

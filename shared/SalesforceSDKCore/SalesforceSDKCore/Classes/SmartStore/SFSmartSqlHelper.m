@@ -47,9 +47,8 @@ static SFSmartSqlHelper *sharedInstance = nil;
     if ([smartSqlLowerCase hasPrefix:@"insert"]
         || [smartSqlLowerCase hasPrefix:@"update"]
         || [smartSqlLowerCase hasPrefix:@"delete"]) {
-        
-        [self log:SFLogLevelDebug msg:@"Only SELECT are supported"];
-        return nil;
+
+        @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:@"Only SELECT are supported" userInfo:nil];
     }
     
     // Replacing {soupName} and {soupName:path}
@@ -67,10 +66,10 @@ static SFSmartSqlHelper *sharedInstance = nil;
             [scanner scanUpToString:@"}" intoString:&foundString];
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
-            NSString* soupName = [parts objectAtIndex:0];
+            NSString* soupName = parts[0];
             NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
             if (nil == soupTableName) {
-                return nil;
+                @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
             }
             BOOL tableQualified = [smartSql characterAtIndex:position-1] == '.';
             NSString* tableQualifier = tableQualified ? @"" : [soupTableName stringByAppendingString:@"."];
@@ -80,7 +79,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 [sql appendString:soupTableName];
             }
             else if ([parts count] == 2) {
-                NSString* path = [parts objectAtIndex:1];
+                NSString* path = parts[1];
                 // {soupName:_soup}
                 if ([path isEqualToString:@"_soup"]) {
                     [sql appendString:tableQualifier];
@@ -100,14 +99,13 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 else {
                     NSString* columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
                     if (nil == columnName) {
-                        return nil;
+                        @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid path:%@", path] userInfo:nil];
                     }
                     [sql appendString:columnName];
                 }
             }
             else if ([parts count] > 2) {
-                [self log:SFLogLevelDebug format:@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position];
-                return nil;
+                @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position] userInfo:nil];
             }
             
             

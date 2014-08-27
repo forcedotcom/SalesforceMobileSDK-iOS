@@ -25,7 +25,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SFPluginTestSuite.h"
-#import "CDVCommandDelegateImpl.h"
 #import "AppDelegate.h"
 #import "SFHybridViewController.h"
 #import "SFTestRunnerPlugin.h"
@@ -123,7 +122,7 @@
     
     self.jsTestName = testName;
     
-    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"salesforce/plugin/testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
+    NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"com.salesforce.plugin.testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
@@ -136,7 +135,7 @@
     if (!timedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-        SFTestResult *testResult = [[plugin testResults] objectAtIndex:0];
+        SFTestResult *testResult = [plugin testResults][0];
         [[plugin testResults] removeObjectAtIndex:0];
         [self log:SFLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
         STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
