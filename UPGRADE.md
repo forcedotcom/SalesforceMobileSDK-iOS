@@ -14,10 +14,10 @@ The 2.3 version of the Mobile SDK uses Cordova 3.5, which represents both a sign
 Follow the instructions in the [forceios package](https://www.npmjs.org/package/forceios) to create your new hybrid app.  You'll choose either a `hybrid_remote` or `hybrid_local` app, depending on the type of hybrid app you've developed.
 
 #### Migrate your old app artifacts to the new project
-- Once you've created your new app, `cd` into the top level folder of the new app you've created.
-- Run `cordova plugin add [Cordova plugin used in your app]` for every plugin that your app uses.  **Note:** You do not need to do this for the Mobile SDK plugins, as the `forceios` app creation process will automatically add those plugins to your app.
-- Remove everything from the `www/` folder, and replace its contents with all of your HTML, CSS, (non-Cordova) JS files, and `bootconfig.json` from your old app.  Basically everything from your old `www/` folder, minus the Cordova and Cordova plugin JS files.
-- Run `cordova prepare`.
+1. Once you've created your new app, `cd` into the top level folder of the new app you've created.
+2. Run `cordova plugin add [Cordova plugin used in your app]` for every plugin that your app uses.  **Note:** You do not need to do this for the Mobile SDK plugins, as the `forceios` app creation process will automatically add those plugins to your app.
+3. Remove everything from the `www/` folder, and replace its contents with all of your HTML, CSS, (non-Cordova) JS files, and `bootconfig.json` from your old app.  Basically everything from your old `www/` folder, minus the Cordova and Cordova plugin JS files.
+4. Run `cordova prepare`.
 
 You should now be able to access your new app project at `platforms/ios/[Project Name].xcodeproj`.
 
