@@ -198,16 +198,13 @@
 }
 
 - (void)setCachedStatement:(FMStatement*)statement forQuery:(NSString*)query {
-    if (nil == query) {
+    if (!query || !statement) {
         return;
     }
-    
     query = [query copy]; // in case we got handed in a mutable string...
     
     [statement setQuery:query];
-    
     [_cachedStatements setObject:statement forKey:query];
-    
     FMDBRelease(query);
 }
 
