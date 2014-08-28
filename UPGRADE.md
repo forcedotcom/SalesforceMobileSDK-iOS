@@ -1,49 +1,27 @@
-## 2.1 to 2.2 upgrade
+## 2.2 to 2.3 upgrade
 
 To upgrade native and hybrid, we strongly recommend creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app into the new template.  Read on if you prefer to update the Mobile SDK artifacts in your existing app.
 
-### Hybrid 2.1 to 2.2 upgrade
+### Hybrid 2.2 to 2.3 upgrade
 
-#### Update the Mobile SDK library packages
-The easiest way to do this is delete everything in the Dependencies folder of your app's Xcode project, and then add the new libraries.
+The 2.3 version of the Mobile SDK uses Cordova 3.5, which represents both a significant upgrade from the previous Cordova 2.3, and a signficant change in how you bootstrap your application.  Please follow the instructions below to migrate your hybrid app to the Cordova 3.5 paradigm.
 
-1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Control-click the folder, choose Delete, and select "Move to Trash".
-2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
-    - Cordova/Cordova-Release.zip
-    - SalesforceHybridSDK-Release.zip
-    - SalesforceOAuth-Release.zip
-    - SalesforceSDKCore-Release.zip
-    - SalesforceSecurity-Release.zip
-3. Also, download the following folders from the ThirdParty folder link in the distribution repo, for placement in your Dependencies folder:
-    - SalesforceCommonUtils
-    - openssl
-    - sqlcipher
-4. Recreate the Dependencies folder, under your app folder.
-5. Unzip the new packages from step 2, and copy the folders from step 3, into the Dependencies folder.
-6. In Project Navigator, control-click your app folder and select 'Add Files to "*&lt;App Name&gt;*"...'.
-7. Select the Dependencies folder, making sure that "Create groups for any added folder" is selected.
-8. Click Add.
+#### Prerequisites
+- You will need to install the `cordova` command line tool from [https://www.npmjs.org/package/cordova](https://www.npmjs.org/package/cordova).  The `forceios` package depends on the `cordova` tool to create hybrid apps.  Make sure you have version 3.5 or greater installed.
+- You will also need to install the `forceios` npm package from [https://www.npmjs.org/package/forceios](https://www.npmjs.org/package/forceios), to create your new hybrid app.
 
-#### Add SalesforceSecurity header search path
-1. Click your project in Project Navigator.
-2. Select the Build Settings tab of your main target.
-3. Scroll down to (or search/filter for) Header Search Paths.
-4. Add the following search path:
-    - $(SRCROOT)/*[App Name]*/Dependencies/SalesforceSecurity/Headers
+#### Create your new hybrid app
+Follow the instructions in the [forceios package](https://www.npmjs.org/package/forceios) to create your new hybrid app.  You'll choose either a `hybrid_remote` or `hybrid_local` app, depending on the type of hybrid app you've developed.
 
-#### Update hybrid local artifacts
-For your hybrid "local" apps, replace the following files in the www/ folder of your app with the new versions from the libs folder of the [SalesforceMobileSDK-Shared repo](https://github.com/forcedotcom/SalesforceMobileSDK-Shared):
+#### Migrate your old app artifacts to the new project
+- Once you've created your new app, `cd` into the top level folder of the new app you've created.
+- Run `cordova plugin add [Cordova plugin used in your app]` for every plugin that your app uses.  **Note:** You do not need to do this for the Mobile SDK plugins, as the `forceios` app creation process will automatically add those plugins to your app.
+- Remove everything from the `www/` folder, and replace its contents with all of your HTML, CSS, (non-Cordova) JS files, and `bootconfig.json` from your old app.  Basically everything from your old `www/` folder, minus the Cordova and Cordova plugin JS files.
+- Run `cordova prepare`.
 
-- cordova.force.js
-- forcetk.mobilesdk.js
-- smartsync.js
+You should now be able to access your new app project at `platforms/ios/[Project Name].xcodeproj`.
 
-#### Update AppDelegate
-Some of the APIs around user management have changed, as well as the patterns for handling logout and login host change events.  It is highly recommended that you consult the AppDelegate code from a new version of a forceios hybrid app, to see the changes.  At a high level, the changes are:
-
-- Logout and login host change notifications have moved into delegate methods.  Your AppDelegate should implement the `SFAuthenticationManagerDelegate` and `SFUserAccountManagerDelegate` delegates, specifically:
-    - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` for user logout.
-    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` for login host changes, which effectively changes users now.
+Please see the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 2.3 SDK and Cordova 3.5.
 
 ### Native 2.1 to 2.2 upgrade
 
