@@ -20,7 +20,7 @@ Follow the instructions in the [forceios package](https://www.npmjs.org/package/
 4. For any of your HTML pages that reference the Cordova JS file, make sure to change the declaration to `<script src="cordova.js"></script>`, i.e. the generic version of the Cordova JS file.  The Cordova framework now handles the versioning of this file.
 5. Remove any `<script src="[Some Plugin JS File]"></script>` references in your HTML files.  Cordova is responsible for handling the inclusion of the proper plugin JS files in your app.
 6. Make sure that any calls in your code to `cordova.require()` do not happen before Cordova's `deviceready` event has fired.
-7. The Mobile SDK's naming convention for our Cordova plugins has changed, to reflect the new conventions used in Cordova 3.5.  Specifically, dot separation has replaced '/' separation for namespacing.  For example, if your app previously called `cordova.require('salesforce/util/logger')`, you would now call that via `cordova.require('com.salesforce.util.logger')`.  Generally:
+7. The naming convention for our Cordova plugins has changed, to reflect the new conventions used in Cordova 3.5.  Specifically, dot separation has replaced '/' separation for namespacing.  For example, if your app previously called `cordova.require('salesforce/util/logger')`, you would now call that via `cordova.require('com.salesforce.util.logger')`.  Generally:
     - Replace `salesforce` with `com.salesforce`.
     - Replace '/' with '.'
 8. Run `cordova prepare`, to stage the changes into your app project(s).  Generally speaking, you'll run `cordova prepare` after any changes made to your app code, and Cordova will stage all of the appropriate changes into your app project(s).
