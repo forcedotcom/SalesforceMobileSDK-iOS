@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v28.0";
+NSString* const kSFRestDefaultAPIVersion = @"v31.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 NSString * const kSFMobileSDKNativeDesignator = @"Native";
