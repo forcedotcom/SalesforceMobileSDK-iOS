@@ -33,23 +33,25 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 2.2
+### What's New in 2.3
 
-**Multi User Support**
-- The Salesforce Mobile SDK now supports the ability to log into multiple user accounts simultaneously.
-	- The different accounts could be different users on the same org, or different users on different orgs (such as production and sandbox, for instance).
-	- After sign-in the user's credentials are saved, so that the user can switch between accounts seamlessly without having to re-authenticate against the server.
-- Access to SmartStore is also now scoped by user account.
-- Push notifications are now supported across multiple users.
-- The ability to add multiple custom login endpoints has been added as well.
-- 64-bit support is available for native apps.  Hybrid apps are still required to be built as 32-bit apps.
+**Push Notifications**
+- Salesforce Mobile SDK now supports the ability to register and receive push notifications from within a hybrid local or remote application.
+
+**SmartStore Enhancements**
+SmartStore now supports:
+- The ability to add and/or remove index specs for an existing soup.
+- A new API to return data size.
+- A new tool, `SmartStoreInspector`, that lets you easily inspect the contents of SmartStore.
 
 **Library Upgrades**
-- Upgraded the `openssl` library to `v1.0.1g`.
+- Upgraded the `Cordova` library to `v3.5`.
 
 **Other Technical Improvements**
-- Thread safety has been improved for SmartStore.
 - Various bug fixes.
+- Support for serving local JavaScript resources through `localhost` in a hybrid remote application.
+
+Check http://developer.force.com/mobilesdk for additional articles and tutorials
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
