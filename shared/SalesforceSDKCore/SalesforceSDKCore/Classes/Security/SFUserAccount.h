@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import "SFCommunityData.h"
+#import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 #import "SFIdentityData.h"
 
@@ -37,6 +38,8 @@
 /** The access scopes for this user
  */
 @property (nonatomic, copy) NSSet *accessScopes;
+
+@property (nonatomic, strong) SFUserAccountIdentity *accountIdentity;
 
 /** The credentials associated with this user
  */

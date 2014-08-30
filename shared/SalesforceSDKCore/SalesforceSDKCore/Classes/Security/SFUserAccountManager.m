@@ -23,6 +23,7 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountIdentity.h"
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
@@ -40,8 +41,9 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The temporary user ID
-NSString * const SFUserAccountManagerTemporaryUserAccountId = @"TEMP_USER_ID";
+// The temporary user identity
+static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
+static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
 
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
@@ -147,6 +149,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         }
         
         _userAccountMap = [[NSMutableDictionary alloc] init];
+        _temporaryUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerTemporaryUserAccountUserId orgId:SFUserAccountManagerTemporaryUserAccountOrgId];
         
         [self loadAccounts:nil];
 	}
@@ -376,30 +379,14 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     }
     
     NSMutableArray *accounts = [NSMutableArray array];
-    for (NSString *userId in [self.userAccountMap allKeys]) {
-        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+    for (SFUserAccountIdentity *key in [self.userAccountMap allKeys]) {
+        if ([key isEqual:self.temporaryUserIdentity]) {
             continue;
         }
-        [accounts addObject:(self.userAccountMap)[userId]];
+        [accounts addObject:(self.userAccountMap)[key]];
     }
     
     return accounts;
-}
-
-- (NSArray*)allUserIds {
-    // Sort the user id
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:NO selector:@selector(localizedCompare:)];
-    NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingDescriptors:@[descriptor]];
-    
-    // Remove the temporary user id from the array
-    NSMutableArray *filteredKeys = [NSMutableArray array];
-    for (NSString *userId in keys) {
-        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
-            continue;
-        }
-        [filteredKeys addObject:userId];
-    }
-    return filteredKeys;
 }
 
 /** Returns all existing account names in the keychain
@@ -451,9 +438,10 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     creds.redirectUri = self.oauthCompletionUrl;
     creds.clientId = self.oauthClientId;
 
-    //when creating a fresh user account, always use a default user ID 
-    // until the server tells us what the actual user ID is
-    creds.userId = SFUserAccountManagerTemporaryUserAccountId;
+    // When creating a fresh user account, always use a default user ID
+    // and org ID until the server tells us what the actual IDs are.
+    creds.userId = self.temporaryUserIdentity.userId;
+    creds.organizationId = self.temporaryUserIdentity.orgId;
 
     //add the account to our list of possible accounts, but
     //don't set this as the current user account until somebody
@@ -706,7 +694,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 
 - (NSArray *)accountsForOrgId:(NSString *)orgId {
     NSMutableArray *array = [NSMutableArray array];
-    for (NSString *key in self.userAccountMap) {
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
         if ([accountOrg isEqualToString:orgId]) {
@@ -719,7 +707,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 - (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
     NSMutableArray *responseArray = [NSMutableArray array];
     
-    for (NSString *key in self.userAccountMap) {
+    for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
             [responseArray addObject:account];
@@ -761,8 +749,8 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (void)addAccount:(SFUserAccount*)acct {
-    NSString *safeUserId = [self makeUserIdSafe:acct.credentials.userId];
-    (self.userAccountMap)[safeUserId] = acct;
+    SFUserAccountIdentity *idKey = [[SFUserAccountIdentity alloc] initWithUserId:acct.credentials.userId orgId:acct.credentials.organizationId];
+    (self.userAccountMap)[idKey] = acct;
 }
 
 - (NSString *)activeUserId {
@@ -821,12 +809,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 // property accessor
-- (NSString *)currentUserId {
-    NSString *uid = self.currentUser.credentials.userId;
-    if ([uid length]) {
-        return [self makeUserIdSafe:uid];
-    }
-    return nil;
+- (SFUserAccountIdentity *)currentUserIdentity {
+    SFUserAccountIdentity *currentIdentity = [SFUserAccountIdentity identityFromUserAccount:self.currentUser];
+    return currentIdentity;
 }
 
 - (NSString *)currentCommunityId {

@@ -24,6 +24,7 @@
 
 #import "SFUserAccount.h"
 #import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 
 /** Notification sent when something has changed with the current user
@@ -49,9 +50,6 @@ extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
  The key for the updated host in a login host change notification.
  */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-
-// The default temporary user ID
-extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 /**
  * Data class for providing information about a login host change.
@@ -128,6 +126,8 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, strong) SFUserAccount *currentUser;
 
+@property (nonatomic, strong, readonly) SFUserAccountIdentity *temporaryUserIdentity;
+
 /** The "temporary" account user.  Useful for determining whether there's a valid user context.
  */
 @property (nonatomic, readonly) SFUserAccount *temporaryUser;
@@ -135,7 +135,7 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 /**  Convenience property to retrieve the current user's ID.
  This property is an alias for `currentUser.credentials.userId`
  */
-@property (nonatomic, readonly) NSString *currentUserId;
+@property (nonatomic, readonly) SFUserAccountIdentity *currentUserIdentity;
 
 /**  Convenience property to retrieve the current user's communityId.
  This property is an alias for `currentUser.communityId`
@@ -145,10 +145,6 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 /** An NSArray of all the SFUserAccount instances for the app.
  */
 @property (nonatomic, readonly) NSArray *allUserAccounts;
-
-/** Returns all the user ids
- */
-@property (nonatomic, readonly) NSArray *allUserIds;
 
 /** The most recently active user ID.
  Note that this may be temporarily different from currentUser if the user with

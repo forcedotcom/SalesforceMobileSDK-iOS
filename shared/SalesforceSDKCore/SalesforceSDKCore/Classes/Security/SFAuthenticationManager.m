@@ -27,6 +27,7 @@
 #import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountIdentity.h"
 #import "SFUserAccountManagerUpgrade.h"
 #import "SFAuthenticationViewHandler.h"
 #import "SFAuthErrorHandler.h"
@@ -569,8 +570,8 @@ static Class InstanceClass = nil;
 
 - (BOOL)haveValidSession {
     // Check that we have a valid current user
-    NSString *userId = [[SFUserAccountManager sharedInstance] currentUserId];
-    if (nil == userId || [userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+    SFUserAccountIdentity *userIdentity = [SFUserAccountManager sharedInstance].currentUserIdentity;
+    if (nil == userIdentity || [userIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) {
         return NO;
     }
     
