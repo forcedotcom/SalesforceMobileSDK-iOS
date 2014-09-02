@@ -160,12 +160,6 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSString *)makeUserIdSafe:(NSString*)aUserId {
-    NSInteger userIdLen = [aUserId length];
-    NSString *shortUserId = [aUserId substringToIndex:MIN(15,userIdLen)];
-    return shortUserId;
-}
-
 #pragma mark - Login Host
 
 - (void)setLoginHost:(NSString*)host {
@@ -527,30 +521,30 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         }
     }
     
-    NSString *curUserId = [self activeUserId];
+    SFUserAccountIdentity *curUserIdentity = self.activeUserIdentity;
     
     // In case the most recently used account was removed, or the most recent account is the temporary account,
     // see if we can load another available account.
-    if (nil == curUserId || [curUserId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+    if (nil == curUserIdentity || [curUserIdentity isEqual:self.temporaryUserIdentity]) {
         for (SFUserAccount *account in self.userAccountMap.allValues) {
             if (account.credentials.userId) {
-                curUserId = account.credentials.userId;
+                curUserIdentity = account.accountIdentity;
                 break;
             }
         }
     }
-    if (nil == curUserId) {
-        [self log:SFLogLevelInfo msg:@"Current active user id is nil"];
+    if (nil == curUserIdentity) {
+        [self log:SFLogLevelInfo msg:@"Current active user identity is nil"];
     }
     
-    self.previousCommunityId = [self activeCommunityId];
+    self.previousCommunityId = self.activeCommunityId;
     
-    SFUserAccount *account = [self userAccountForUserId:curUserId];
+    SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
     account.communityId = nil;
-    [self setCurrentUser:account];
+    self.currentUser = account;
     
     // update the client ID in case it's changed (via settings, etc)
-    [[[self currentUser] credentials] setClientId:self.oauthClientId];
+    self.currentUser.credentials.clientId = self.oauthClientId;
     
     [self userChanged:SFUserAccountChangeCredentials];
     
@@ -603,14 +597,14 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    for (NSString *userId in self.userAccountMap) {
+    for (SFUserAccountIdentity *userIdentity in self.userAccountMap) {
         // Don't save the temporary user id
-        if ([userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
+        if ([userIdentity isEqual:self.temporaryUserIdentity]) {
             continue;
         }
         
         // Grab the user account...
-        SFUserAccount *user = self.userAccountMap[userId];
+        SFUserAccount *user = self.userAccountMap[userIdentity];
         
         // And it's persistent file path
         NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
@@ -679,16 +673,15 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (SFUserAccount *)temporaryUser {
-    SFUserAccount *tempAccount = (self.userAccountMap)[SFUserAccountManagerTemporaryUserAccountId];
+    SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
     if (tempAccount == nil) {
         tempAccount = [self createUserAccount];
     }
     return tempAccount;
 }
 
-- (SFUserAccount*)userAccountForUserId:(NSString*)userId {
-    NSString *safeUserId = [self makeUserIdSafe:userId];
-    SFUserAccount *result = (self.userAccountMap)[safeUserId];
+- (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity {
+    SFUserAccount *result = (self.userAccountMap)[userIdentity];
 	return result;
 }
 
@@ -717,11 +710,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     return responseArray;
 }
 
-- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error {
-    NSString *safeUserId = [self makeUserIdSafe:userId];
-    SFUserAccount *acct = [self userAccountForUserId:safeUserId];
-    if (nil != acct) {
-        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:acct
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
+    if (nil != user) {
+        NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:user
                                                                                  scope:SFUserAccountScopeUser
                                                                                   type:NSLibraryDirectory
                                                                             components:nil];
@@ -730,16 +721,16 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
             BOOL removeUserFolderSucceeded = [[NSFileManager defaultManager] removeItemAtPath:userDirectory error:&folderRemovalError];
             if (!removeUserFolderSucceeded) {
                 [self log:SFLogLevelDebug
-                   format:@"Error removing the user folder for '%@': %@", acct.userName, [folderRemovalError localizedDescription]];
+                   format:@"Error removing the user folder for '%@': %@", user.userName, [folderRemovalError localizedDescription]];
                 if (error) {
                     *error = folderRemovalError;
                 }
                 return removeUserFolderSucceeded;
             }
         } else {
-            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", acct.userName];
+            [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", user.userName];
         }
-        [self.userAccountMap removeObjectForKey:safeUserId];
+        [self.userAccountMap removeObjectForKey:user.accountIdentity];
     }
     return YES;
 }
@@ -749,50 +740,74 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (void)addAccount:(SFUserAccount*)acct {
-    SFUserAccountIdentity *idKey = [[SFUserAccountIdentity alloc] initWithUserId:acct.credentials.userId orgId:acct.credentials.organizationId];
+    SFUserAccountIdentity *idKey = acct.accountIdentity;
     (self.userAccountMap)[idKey] = acct;
 }
 
 - (SFUserAccountIdentity *)activeUserIdentity {
     NSData *resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
-    if (!resultData)
+    if (resultData == nil)
         return nil;
     
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
-    SFUserAccountIdentity *result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
+    SFUserAccountIdentity *result = nil;
+    @try {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
+        result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
+        [unarchiver finishDecoding];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelWarning msg:@"Could not parse active user identity from user defaults.  Setting to nil."];
+        result = nil;
+    }
+    
     return result;
+}
+
+- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    if (activeUserIdentity == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserIdentityKey];
+    } else {
+        NSMutableData *auiData = [NSMutableData data];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:auiData];
+        [archiver encodeObject:activeUserIdentity forKey:kUserDefaultsLastUserIdentityKey];
+        [archiver finishEncoding];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString *)activeCommunityId {
     return [[NSUserDefaults standardUserDefaults] stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
-- (void)setActiveUser:(SFUserAccount *)user {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults]; 
-    if (nil == user) {
-        [defs removeObjectForKey:kUserDefaultsLastUserIdentityKey];
-        [defs removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+- (void)setActiveCommunityId:(NSString *)activeCommunityId {
+    if (activeCommunityId == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
     } else {
-        NSString *safeUserId = [self makeUserIdSafe:user.credentials.userId];
-        [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey];  // TODO: Set active user identity
-        NSString *communityId = user.communityId;
-        if (communityId) {
-            [defs setObject:communityId forKey:kUserDefaultsLastUserCommunityIdKey];
-        } else {
-            [defs removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
-        }
+        [[NSUserDefaults standardUserDefaults] setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
     }
-    [defs synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)replaceOldUser:(NSString*)oldUserId withUser:(SFUserAccount*)newUser {
-    NSString *newUserId = [self makeUserIdSafe:newUser.credentials.userId];
+- (void)setActiveUser:(SFUserAccount *)user {
+    if (nil == user) {
+        self.activeCommunityId = nil;
+        self.activeUserIdentity = nil;
+    } else {
+        SFUserAccountIdentity *userIdentity = user.accountIdentity;
+        self.activeUserIdentity = userIdentity;
+        self.activeCommunityId = user.communityId;
+    }
+}
 
-    [self.userAccountMap removeObjectForKey:oldUserId];
-    (self.userAccountMap)[newUserId] = newUser;
+- (void)replaceOldUser:(SFUserAccountIdentity *)oldUserIdentity withUser:(SFUserAccount *)newUser {
+    [self.userAccountMap removeObjectForKey:oldUserIdentity];
+    SFUserAccountIdentity *newIdentity = newUser.accountIdentity;
+    (self.userAccountMap)[newIdentity] = newUser;
     
-    NSString *defUserId = [self activeUserId];
-    if (!defUserId || [defUserId isEqualToString:oldUserId]) {
+    SFUserAccountIdentity *defUserIdentity = self.activeUserIdentity;
+    if (!defUserIdentity || [defUserIdentity isEqual:oldUserIdentity]) {
         [self setActiveUser:newUser];
     }
 }
@@ -815,8 +830,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 
 // property accessor
 - (SFUserAccountIdentity *)currentUserIdentity {
-    SFUserAccountIdentity *currentIdentity = [SFUserAccountIdentity identityFromUserAccount:self.currentUser];
-    return currentIdentity;
+    return self.currentUser.accountIdentity;
 }
 
 - (NSString *)currentCommunityId {
@@ -847,11 +861,11 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         self.currentUser.communities = nil;
     }
     
-    //if our default user id is currently the temporary user id,
-    //we need to update it with the latest known good user id
-    if ([[self activeUserId] isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
-        [self log:SFLogLevelDebug format:@"Replacing temp user ID with %@",self.currentUser];
-        [self replaceOldUser:SFUserAccountManagerTemporaryUserAccountId withUser:self.currentUser];
+    // If our default user identity is currently the temporary user identity,
+    // we need to update it with the latest known good user identity.
+    if ([self.activeUserIdentity isEqual:self.temporaryUserIdentity]) {
+        [self log:SFLogLevelDebug format:@"Replacing temp user identity with %@", self.currentUser];
+        [self replaceOldUser:self.temporaryUserIdentity withUser:self.currentUser];
     }
     
     [self userChanged:change];

@@ -39,7 +39,10 @@
  */
 @property (nonatomic, copy) NSSet *accessScopes;
 
-@property (nonatomic, strong) SFUserAccountIdentity *accountIdentity;
+/**
+ The unique identifier for this account.
+ */
+@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity;
 
 /** The credentials associated with this user
  */

@@ -40,6 +40,9 @@ static NSString * const kUser_COMMUNITIES       = @"communities";
 static NSString * const kUser_ID_DATA           = @"idData";
 static NSString * const kUser_CUSTOM_DATA       = @"customData";
 
+static NSString * const kCredentialsUserIdPropName = @"userId";
+static NSString * const kCredentialsOrgIdPropName = @"organizationId";
+
 /** Key that identifies the global scope
  */
 static NSString * const kGlobalScopingKey = @"-global-";
@@ -53,6 +56,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 @implementation SFUserAccount
 
 @synthesize photo = _photo;
+@synthesize accountIdentity = _accountIdentity;
+@synthesize credentials = _credentials;
 
 + (NSSet*)keyPathsForValuesAffectingApiUrl {
     return [NSSet setWithObjects:@"communityId", @"credentials", nil];
@@ -71,6 +76,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
         self.credentials = creds;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self.credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+    [self.credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
@@ -101,6 +112,15 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _customData = [decoder decodeObjectForKey:kUser_CUSTOM_DATA];
 	}
 	return self;
+}
+
+- (SFUserAccountIdentity *)accountIdentity
+{
+    if (_accountIdentity == nil) {
+        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:self.credentials.userId orgId:self.credentials.organizationId];
+    }
+    
+    return _accountIdentity;
 }
 
 - (NSURL*)apiUrl {
@@ -180,6 +200,22 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self.userName = idData.username;
 }
 
+- (void)setCredentials:(SFOAuthCredentials *)credentials
+{
+    if (credentials != _credentials) {
+        [_credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+        [_credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+        if (credentials != nil) {
+            [credentials addObserver:self forKeyPath:kCredentialsUserIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+            [credentials addObserver:self forKeyPath:kCredentialsOrgIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+        }
+        
+        _credentials = credentials;
+        self.accountIdentity.userId = _credentials.userId;
+        self.accountIdentity.orgId = _credentials.organizationId;
+    }
+}
+
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
     if (!self.customData) {
         self.customData = [NSMutableDictionary dictionary];
@@ -243,6 +279,26 @@ NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
     }
     
     return key;
+}
+
+#pragma mark - Credentials property changes
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (!(object == self.credentials && ([keyPath isEqualToString:kCredentialsUserIdPropName] || [keyPath isEqualToString:kCredentialsOrgIdPropName]))) {
+        return;
+    }
+    
+    NSString *oldKey = change[NSKeyValueChangeOldKey];
+    NSString *newKey = change[NSKeyValueChangeNewKey];
+    if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
+    if ([newKey isEqual:[NSNull null]]) newKey = nil;
+    
+    if ([keyPath isEqualToString:kCredentialsUserIdPropName]) {
+        self.accountIdentity.userId = newKey;
+    } else if ([keyPath isEqualToString:kCredentialsOrgIdPropName]) {
+        self.accountIdentity.orgId = newKey;
+    }
 }
 
 @end

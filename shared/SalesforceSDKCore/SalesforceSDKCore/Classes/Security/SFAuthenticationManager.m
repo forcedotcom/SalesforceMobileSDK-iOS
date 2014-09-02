@@ -507,7 +507,7 @@ static Class InstanceClass = nil;
     if (![user isEqual:userAccountManager.currentUser]) {
         // NB: SmartStores need to be cleared before user account info is removed.
         [SFSmartStore removeAllStoresForUser:user];
-        [userAccountManager deleteAccountForUserId:user.credentials.userId error:nil];
+        [userAccountManager deleteAccountForUser:user error:nil];
         [user.credentials revoke];
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
@@ -517,9 +517,6 @@ static Class InstanceClass = nil;
     // "Will Logout" notification before the credentials are revoked.  This will ensure
     // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
     SFUserAccount *userAccount = user;
-
-    // Also keep the userId around until the end of the process so we can safely refer to it
-    NSString *userId = userAccount.credentials.userId;
 
 	NSDictionary *userInfo = nil;
     if (userAccount) {
@@ -537,7 +534,7 @@ static Class InstanceClass = nil;
     [self clearAccountState:YES];
     
     [self willChangeValueForKey:@"haveValidSession"];
-    [userAccountManager deleteAccountForUserId:userId error:nil];
+    [userAccountManager deleteAccountForUser:userAccount error:nil];
     [userAccountManager saveAccounts:nil];
     [userAccount.credentials revoke];
     userAccountManager.currentUser = nil;
