@@ -150,7 +150,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  Note that this may be temporarily different from currentUser if the user with
  ID activeUserId is removed from the accounts list. 
  */
-@property (nonatomic, copy) NSString *activeUserId;
+@property (nonatomic, copy) SFUserAccountIdentity *activeUserIdentity;
 
 /** The most recently active community ID. Set when a user
  is changed and stored to disk for retrieval after bootup

@@ -56,7 +56,7 @@ NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 // Persistence Keys
 static NSString * const kUserAccountsMapCodingKey  = @"accountsMap";
-static NSString * const kUserDefaultsLastUserIdKey = @"LastUserId";
+static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 
 // Oauth
@@ -753,8 +753,13 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     (self.userAccountMap)[idKey] = acct;
 }
 
-- (NSString *)activeUserId {
-    NSString *result = [[NSUserDefaults standardUserDefaults] stringForKey:kUserDefaultsLastUserIdKey];
+- (SFUserAccountIdentity *)activeUserIdentity {
+    NSData *resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
+    if (!resultData)
+        return nil;
+    
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
+    SFUserAccountIdentity *result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
     return result;
 }
 
@@ -765,11 +770,11 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 - (void)setActiveUser:(SFUserAccount *)user {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults]; 
     if (nil == user) {
-        [defs removeObjectForKey:kUserDefaultsLastUserIdKey];
+        [defs removeObjectForKey:kUserDefaultsLastUserIdentityKey];
         [defs removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
     } else {
         NSString *safeUserId = [self makeUserIdSafe:user.credentials.userId];
-        [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey];
+        [defs setValue:safeUserId forKey:kUserDefaultsLastUserIdKey];  // TODO: Set active user identity
         NSString *communityId = user.communityId;
         if (communityId) {
             [defs setObject:communityId forKey:kUserDefaultsLastUserCommunityIdKey];
