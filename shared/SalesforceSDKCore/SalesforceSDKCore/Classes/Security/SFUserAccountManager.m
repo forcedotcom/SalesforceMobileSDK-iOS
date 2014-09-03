@@ -24,6 +24,7 @@
 
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
+#import "SFUserAccountManagerUpgrade.h"
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 
@@ -535,6 +536,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
             }
         }
     }
+    
+    // Convert any legacy active user data to the active user identity.
+    [SFUserAccountManagerUpgrade updateToActiveUserIdentity:self];
     
     SFUserAccountIdentity *curUserIdentity = self.activeUserIdentity;
     

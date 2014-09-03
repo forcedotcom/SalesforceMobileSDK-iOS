@@ -24,10 +24,12 @@
 
 #import "SFUserAccountManagerUpgrade.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountIdentity.h"
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 
 static NSString * const kOAuthCredentialsDataKeyPrefix  = @"oauth_credentials_data";
 static NSString * const kLegacyDefaultAccountIdentifier = @"Default";
+static NSString * const kLegacyUserDefaultsLastUserIdKey = @"LastUserId";
 
 @implementation SFUserAccountManagerUpgrade
 
@@ -48,6 +50,33 @@ static NSString * const kLegacyDefaultAccountIdentifier = @"Default";
     [[NSUserDefaults standardUserDefaults] synchronize];
     return accountFromLegacy;
 }
+
++ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager
+{
+    NSString *legacyActiveUserId = [[NSUserDefaults standardUserDefaults] stringForKey:kLegacyUserDefaultsLastUserIdKey];
+    if (legacyActiveUserId == nil)
+        return;
+    
+    // Special case the temporary user, since no account manager "all accounts" methods return it.
+    if ([legacyActiveUserId isEqualToString:accountManager.temporaryUserIdentity.userId]) {
+        [SFLogger log:[SFUserAccountManagerUpgrade class] level:SFLogLevelDebug msg:@"Updating legacy active user (temporary user)."];
+        accountManager.activeUserIdentity = accountManager.temporaryUserIdentity;
+    } else {
+        // Find the first user account that could match the user ID, and set it as the user identity.
+        for (SFUserAccountIdentity *identity in [accountManager allUserIdentities]) {
+            if ([identity.userId isEqualToString:legacyActiveUserId]) {
+                [SFLogger log:[SFUserAccountManagerUpgrade class] level:SFLogLevelDebug msg:@"Updating legacy active user."];
+                accountManager.activeUserIdentity = identity;
+                break;
+            }
+        }
+    }
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyUserDefaultsLastUserIdKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Private methods
 
 + (NSString *)legacyCredentialsDataKey
 {

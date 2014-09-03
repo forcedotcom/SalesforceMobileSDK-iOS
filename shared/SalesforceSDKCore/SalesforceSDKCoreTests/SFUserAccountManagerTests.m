@@ -107,7 +107,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     for (NSUInteger i = 0; i < [keys count]; i++) {
         
         // Equality
-        NSArray *equalIdentitiesArray = [accountIdentityMatrix objectForKey:[keys objectAtIndex:i]];
+        NSArray *equalIdentitiesArray = accountIdentityMatrix[keys[i]];
         for (NSUInteger j = 0; j < [equalIdentitiesArray count]; j++) {
             SFUserAccountIdentity *obj1 = equalIdentitiesArray[j];
             for (NSUInteger k = 0; k < [equalIdentitiesArray count]; k++) {
@@ -121,7 +121,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
             SFUserAccountIdentity *obj1 = equalIdentitiesArray[j];
             for (NSUInteger k = 0; k < [keys count]; k++) {
                 if (k == i) continue;
-                NSArray *unequalIdentitiesArray = [accountIdentityMatrix objectForKey:[keys objectAtIndex:k]];
+                NSArray *unequalIdentitiesArray = accountIdentityMatrix[keys[k]];
                 for (NSUInteger l = 0; l < [unequalIdentitiesArray count]; l++) {
                     SFUserAccountIdentity *obj2 = unequalIdentitiesArray[l];
                     STAssertFalse([obj1 isEqual:obj2], @"Account identity '%@' and '%@' should NOT be equal", obj1, obj2);
@@ -135,6 +135,28 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccount *tempUserAccount = self.uam.temporaryUser;
     SFUserAccountIdentity *tempUserIdentity = self.uam.temporaryUserIdentity;
     STAssertEqualObjects(tempUserAccount.accountIdentity, tempUserIdentity, @"Temporary user identities not equal.");
+}
+
+- (void)testAccountIdentityUpdateFromCredentialsUpdate {
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccount *user = accounts[0];
+    STAssertEquals(user.accountIdentity.userId, user.credentials.userId, @"Account identity UserID and credentials User ID should be equal.");
+    STAssertEquals(user.accountIdentity.orgId, user.credentials.organizationId, @"Account identity UserID and credentials User ID should be equal.");
+    
+    // Changed credentials IDs.
+    user.credentials.userId = @"NewUserId";
+    user.credentials.organizationId = @"NewOrgId";
+    STAssertEquals(user.accountIdentity.userId, @"NewUserId", @"Updated User ID in credentials not reflected in account identity.");
+    STAssertEquals(user.accountIdentity.orgId, @"NewOrgId", @"Updated Org ID in credentials not reflected in account identity.");
+    
+    // Swap out credentials entirely.
+    NSString *newCredentialsIdentifier = [NSString stringWithFormat:@"%@_1", user.credentials.identifier];
+    SFOAuthCredentials *newCreds = [[SFOAuthCredentials alloc] initWithIdentifier:newCredentialsIdentifier clientId:user.credentials.clientId encrypted:YES];
+    newCreds.userId = @"NewCredsUserId";
+    newCreds.organizationId = @"NewCredsOrgId";
+    user.credentials = newCreds;
+    STAssertEquals(user.accountIdentity.userId, @"NewCredsUserId", @"User ID in new credentials not reflected in account identity.");
+    STAssertEquals(user.accountIdentity.orgId, @"NewCredsOrgId", @"Org ID in new credentials not reflected in account identity.");
 }
 
 - (void)testSingleAccount {
@@ -282,6 +304,34 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     
     // Remove account.
     [self deleteUserAndVerify:account userDir:userFilePath];
+}
+
+- (void)testActiveIdentityUpgrade {
+    // Ensure we start with a clean state
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
+    
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccountIdentity *accountIdentity = ((SFUserAccount *)accounts[0]).accountIdentity;
+    SFUserAccountIdentity *activeIdentity = self.uam.activeUserIdentity;
+    STAssertEqualObjects(accountIdentity, activeIdentity, @"Active identity should be account identity.");
+    
+    NSError *error = nil;
+    STAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
+    
+    // Setup legacy active user id
+    NSString *userId = accountIdentity.userId;
+    [self.uam clearAllAccountState];
+    self.uam.activeUserIdentity = nil;
+    [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"LastUserId"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // Reload accounts, verify updates.
+    STAssertTrue([self.uam loadAccounts:&error], @"Load accounts failed: %@", [error localizedDescription]);
+    SFUserAccount *verifyAccount = [self.uam userAccountForUserIdentity:accountIdentity];
+    STAssertNotNil(verifyAccount, @"Original account should have been reloaded.");
+    SFUserAccountIdentity *verifyActiveUserIdentity = self.uam.activeUserIdentity;
+    STAssertEqualObjects(verifyAccount.accountIdentity, verifyActiveUserIdentity, @"Active user identity should have been upgraded from legacy data.");
+    STAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"LastUserId"], @"Legacy active user ID should have been removed.");
 }
 
 #pragma mark - Helper methods

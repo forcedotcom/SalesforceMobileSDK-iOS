@@ -147,7 +147,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 @property (nonatomic, readonly) NSArray *allUserAccounts;
 
-/** Returns all the user identitiesm sorted by Org ID and User ID.
+/** Returns all the user identities sorted by Org ID and User ID.
  */
 @property (nonatomic, readonly) NSArray *allUserIdentities;
 

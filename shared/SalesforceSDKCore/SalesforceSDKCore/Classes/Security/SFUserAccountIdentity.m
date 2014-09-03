@@ -45,9 +45,11 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 
 - (void)setUserId:(NSString *)userId
 {
-    NSInteger userIdLen = [userId length];
-    NSString *shortUserId = [userId substringToIndex:MIN(15,userIdLen)];
-    _userId = [shortUserId copy];
+    if (userId != _userId) {
+        NSInteger userIdLen = [userId length];
+        NSString *shortUserId = [userId substringToIndex:MIN(15,userIdLen)];
+        _userId = [shortUserId copy];
+    }
 }
 
 #pragma mark - Equality, protocols, etc.

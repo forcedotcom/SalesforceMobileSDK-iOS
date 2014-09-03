@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccount.h"
 
+@class SFUserAccountManager;
+
 @interface SFUserAccountManagerUpgrade : NSObject
 
 /**
@@ -34,5 +36,11 @@
  account data.
  */
 + (SFUserAccount *)createUserFromLegacyAccountData;
+
+/**
+ If legacy active user data exists, update it to the user identity data model.
+ @param accountManager The user account manager to query user data.
+ */
++ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager;
 
 @end
