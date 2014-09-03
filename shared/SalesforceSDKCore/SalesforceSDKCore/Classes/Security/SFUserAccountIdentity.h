@@ -23,24 +23,35 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFUserAccount.h"
-
-@class SFUserAccountManager;
-
-@interface SFUserAccountManagerUpgrade : NSObject
 
 /**
- If legacy account data exists, create a user account from that data, and then remove
- the legacy data.
- @return An `SFUserAccount` object based on the legacy data, or `nil` if there is no legacy
- account data.
+ Represents the unique identity of a given user account.
  */
-+ (SFUserAccount *)createUserFromLegacyAccountData;
+@interface SFUserAccountIdentity : NSObject <NSCoding, NSCopying>
 
 /**
- If legacy active user data exists, update it to the user identity data model.
- @param accountManager The user account manager to query user data.
+ The user ID associated with the account.
  */
-+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager;
+@property (nonatomic, copy) NSString *userId;
+
+/**
+ The organization ID associated with the account.
+ */
+@property (nonatomic, copy) NSString *orgId;
+
+/**
+ Creates a new account identity object with the given user ID and org ID.
+ @param userId The user ID associated with the identity.
+ @param orgId The org ID associated with the identity.
+ */
+- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId;
+
+/**
+ Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].
+ @param otherIdentity The other identity to compare to this one.
+ @return NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
+ NSOrderedSame if they're equal.
+ */
+- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity;
 
 @end

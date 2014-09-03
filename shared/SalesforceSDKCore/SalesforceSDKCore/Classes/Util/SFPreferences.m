@@ -24,6 +24,7 @@
 
 #import "SFPreferences.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountIdentity.h"
 #import "SFDirectoryManager.h"
 
 static NSString * const kPreferencesFileName = @"Preferences.plist";
@@ -99,9 +100,9 @@ static NSMutableDictionary *instances = nil;
  is not the temporary user.
  */
 + (SFUserAccount*)currentValidUserAccount {
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-    if (user && user.credentials.userId && ![user.credentials.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountId]) {
-        return user;
+    SFUserAccountIdentity *userIdentity = [SFUserAccountManager sharedInstance].currentUserIdentity;
+    if (userIdentity && ![userIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) {
+        return [SFUserAccountManager sharedInstance].currentUser;
     } else {
         return nil;
     }

@@ -134,6 +134,8 @@
 		82E16D9917E7DEA600E019AD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC0B16E15FA000768DE8 /* libcrypto.a */; };
 		82E16D9A17E7DEB900E019AD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */; };
 		82E16D9B17E7DEE800E019AD /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBEE16E150DA00768DE8 /* test_credentials.json */; };
+		82E273BE19B1322F00BB004E /* SFUserAccountIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E273BC19B1322F00BB004E /* SFUserAccountIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82E273BF19B1322F00BB004E /* SFUserAccountIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E273BD19B1322F00BB004E /* SFUserAccountIdentity.m */; };
 		FD280B8A18A2F14D00CEF12E /* SFCommunityData.h in Headers */ = {isa = PBXBuildFile; fileRef = FD280B8818A2F14D00CEF12E /* SFCommunityData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD280B8B18A2F14D00CEF12E /* SFCommunityData.m in Sources */ = {isa = PBXBuildFile; fileRef = FD280B8918A2F14D00CEF12E /* SFCommunityData.m */; };
 		FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FD62914818AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -311,6 +313,8 @@
 		82C5598618611B4500B2B687 /* SFSecurityLockoutTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSecurityLockoutTests.h; sourceTree = "<group>"; };
 		82C5598718611B4500B2B687 /* SFSecurityLockoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityLockoutTests.m; sourceTree = "<group>"; };
 		82E16D9017E7DDB500E019AD /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		82E273BC19B1322F00BB004E /* SFUserAccountIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountIdentity.h; sourceTree = "<group>"; };
+		82E273BD19B1322F00BB004E /* SFUserAccountIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountIdentity.m; sourceTree = "<group>"; };
 		FD280B8818A2F14D00CEF12E /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
 		FD280B8918A2F14D00CEF12E /* SFCommunityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCommunityData.m; sourceTree = "<group>"; };
 		FD62914818AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFAuthenticationManager+Internal.h"; sourceTree = "<group>"; };
@@ -592,6 +596,8 @@
 				FDC461131891EAA600E4456B /* SFUserAccount.h */,
 				FDC461141891EAA600E4456B /* SFUserAccount.m */,
 				FD8BB17118B6B5F100F6927C /* SFUserAccountConstants.h */,
+				82E273BC19B1322F00BB004E /* SFUserAccountIdentity.h */,
+				82E273BD19B1322F00BB004E /* SFUserAccountIdentity.m */,
 				FDC461161891EAA600E4456B /* SFUserAccountManager.h */,
 				8222088A19391EC00000C635 /* SFUserAccountManager+Internal.h */,
 				FDC461171891EAA600E4456B /* SFUserAccountManager.m */,
@@ -725,6 +731,7 @@
 				82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */,
 				FD280B8A18A2F14D00CEF12E /* SFCommunityData.h in Headers */,
 				822208751937E2D90000C635 /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
+				82E273BE19B1322F00BB004E /* SFUserAccountIdentity.h in Headers */,
 				82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */,
 				8222088819390D660000C635 /* SFUserAccountManagerUpgrade.h in Headers */,
 				82E16D7317E7C59000E019AD /* TestSetupUtils.h in Headers */,
@@ -882,6 +889,7 @@
 				82AF844E16DFD95F008912EF /* SFUserActivityMonitor.m in Sources */,
 				82AF844F16DFD95F008912EF /* SFIdentityCoordinator.m in Sources */,
 				4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */,
+				82E273BF19B1322F00BB004E /* SFUserAccountIdentity.m in Sources */,
 				82AF845016DFD95F008912EF /* SFIdentityData.m in Sources */,
 				82AF845216DFD95F008912EF /* SFAuthenticationManager.m in Sources */,
 				82AF845316DFD95F008912EF /* SFAuthorizingViewController.m in Sources */,

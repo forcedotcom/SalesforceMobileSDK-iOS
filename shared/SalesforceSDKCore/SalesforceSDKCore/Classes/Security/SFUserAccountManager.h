@@ -24,6 +24,7 @@
 
 #import "SFUserAccount.h"
 #import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 
 /** Notification sent when something has changed with the current user
@@ -49,9 +50,6 @@ extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
  The key for the updated host in a login host change notification.
  */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-
-// The default temporary user ID
-extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 
 /**
  * Data class for providing information about a login host change.
@@ -128,14 +126,17 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, strong) SFUserAccount *currentUser;
 
+/** The user identity for the temporary user account.
+ */
+@property (nonatomic, readonly) SFUserAccountIdentity *temporaryUserIdentity;
+
 /** The "temporary" account user.  Useful for determining whether there's a valid user context.
  */
 @property (nonatomic, readonly) SFUserAccount *temporaryUser;
 
-/**  Convenience property to retrieve the current user's ID.
- This property is an alias for `currentUser.credentials.userId`
+/**  Convenience property to retrieve the current user's identity.
  */
-@property (nonatomic, readonly) NSString *currentUserId;
+@property (nonatomic, readonly) SFUserAccountIdentity *currentUserIdentity;
 
 /**  Convenience property to retrieve the current user's communityId.
  This property is an alias for `currentUser.communityId`
@@ -146,15 +147,15 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 @property (nonatomic, readonly) NSArray *allUserAccounts;
 
-/** Returns all the user ids
+/** Returns all the user identities sorted by Org ID and User ID.
  */
-@property (nonatomic, readonly) NSArray *allUserIds;
+@property (nonatomic, readonly) NSArray *allUserIdentities;
 
-/** The most recently active user ID.
- Note that this may be temporarily different from currentUser if the user with
- ID activeUserId is removed from the accounts list. 
+/** The most recently active user identity. Note that this may be temporarily
+ different from currentUser if the user associated with the activeUserIdentity
+ is removed from the accounts list.
  */
-@property (nonatomic, copy) NSString *activeUserId;
+@property (nonatomic, copy) SFUserAccountIdentity *activeUserIdentity;
 
 /** The most recently active community ID. Set when a user
  is changed and stored to disk for retrieval after bootup
@@ -246,9 +247,9 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
  */
 - (SFUserAccount*)createUserAccount;
 
-/** Allows you to lookup the user account associated with a given user ID.
+/** Allows you to lookup the user account associated with a given user identity.
  */
-- (SFUserAccount*)userAccountForUserId:(NSString*)userId;
+- (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity;
 
 /** Returns all accounts that have access to a particular org
  @param orgId The org to match accounts against
@@ -267,22 +268,18 @@ extern NSString * const SFUserAccountManagerTemporaryUserAccountId;
 - (void)addAccount:(SFUserAccount *)acct;
 
 /**
- Allows you to remove a user account associated with the given user ID.
- @param userId The User ID of the account to remove.
+ Allows you to remove the given user account.
+ @param user The user account to remove.
  @param error Output error parameter, populated if there was an error deleting
  the account (likely from the filesystem operations).
- @return YES if the deletion was successful, NO otherwise.  Note: If no account matching the userId
- parameter is found, no action will be taken, and deletion will be reported as successful.
+ @return YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
+ the user parameter is found, no action will be taken, and deletion will be reported as successful.
  */
-- (BOOL)deleteAccountForUserId:(NSString*)userId error:(NSError **)error;
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error;
 
 /** Clear all the accounts state (but do not change anything on the disk).
  */
 - (void)clearAllAccountState;
-
-/** Truncate user ID to 15 chars
- */
-- (NSString *)makeUserIdSafe:(NSString*)aUserId;
 
 /** Invoke this method to apply the specified credentials to the
  current user. If no user exists, a new one is created.
