@@ -11,6 +11,9 @@
 #import "SFUserAccount.h"
 #import "SFDirectoryManager.h"
 
+static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
+static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
+
 @interface TestUserAccountManagerDelegate : NSObject <SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *willSwitchOrigUserAccount;
@@ -79,7 +82,7 @@
 
 - (void)testSingleAccount {
     // Ensure we start with a clean state
-    STAssertEquals(self.uam.allUserIds.count, (NSUInteger)0, @"There should be no accounts");
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
     
     // Create a single user
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
@@ -95,15 +98,16 @@
     
     // Now remove all the users and re-load
     [self.uam clearAllAccountState];
-    STAssertEquals(self.uam.allUserIds.count, (NSUInteger)0, @"There should be no accounts");
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
     STAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);
-    STAssertEqualObjects(self.uam.allUserIds[0], @"005R0000000Dsl0", @"User ID doesn't match after reload");
+    NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
+    STAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[0]).userId, userId, @"User ID doesn't match after reload");
 }
 
 - (void)testMultipleAccounts {
     // Ensure we start with a clean state
-    STAssertEquals(self.uam.allUserIds.count, (NSUInteger)0, @"There should be no accounts");
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
     // Create 10 users
     [self createAndVerifyUserAccounts:10];
@@ -114,8 +118,8 @@
     // Ensure all directories have been correctly created
     {
         for (NSUInteger index=0; index<10; index++) {
-            NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%lu", (unsigned long)index];
-            NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index];
+            NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
+            NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
             NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
             location = [location stringByAppendingPathComponent:@"UserAccount.plist"];
             STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"Unable to find new UserAccount.plist at %@", location);
@@ -125,51 +129,53 @@
     // Remove and re-load all accounts
     {
         [self.uam clearAllAccountState];
-        STAssertEquals([self.uam.allUserIds count], (NSUInteger)0, @"There should be no accounts");
+        STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
 
         STAssertTrue([self.uam loadAccounts:&error], @"Unable to load user accounts: %@", error);
         
         for (NSUInteger index=0; index<10; index++) {
-            // Note: we always use index 0 because of the way the allUserIds are sorted out
-            STAssertEqualObjects(self.uam.allUserIds[9-index], ([NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index]), @"User ID doesn't match");
+            STAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[index]).userId, ([NSString stringWithFormat:kUserIdFormatString, (unsigned long)index]), @"User ID doesn't match");
+            STAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[index]).orgId, ([NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index]), @"Org ID doesn't match");
         }
     }
     
     // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
-    STAssertEquals([self.uam.allUserIds count], (NSUInteger)0, @"There should be no accounts.");
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts.");
     STAssertEquals([self.uam.allUserAccounts count], (NSUInteger)10, @"Should still be 10 accounts on disk.");
-    STAssertEquals([self.uam.allUserIds count], (NSUInteger)10, @"There should now be 10 accounts in memory.");
+    STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)10, @"There should now be 10 accounts in memory.");
     
     // Now make sure each account has a different access token to ensure
     // they are not overlapping in the keychain.
     for (NSUInteger index=0; index<10; index++) {
-        SFUserAccount *user = [self.uam userAccountForUserId:self.uam.allUserIds[9-index]];
+        SFUserAccount *user = [self.uam userAccountForUserIdentity:self.uam.allUserIdentities[index]];
         STAssertEqualObjects(user.credentials.accessToken, ([NSString stringWithFormat:@"accesstoken-%lu", (unsigned long)index]), @"Access token mismatch");
     }
     
     // Remove each account and verify that its user folder is gone.
     for (NSUInteger index = 0; index < 10; index++) {
-        NSString *orgId = [NSString stringWithFormat:@"00D000000000062EA%lu", (unsigned long)index];
-        NSString *userId = [NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index];
+        NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
+        NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
         NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
+        SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
         
-        STAssertNotNil([self.uam userAccountForUserId:userId], @"User acccount with ID '%@' should exist.", userId);
-        STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for ID '%@' should exist.", userId);
+        SFUserAccount *userAccount = [self.uam userAccountForUserIdentity:accountIdentity];
+        STAssertNotNil(userAccount, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
+        STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
         
         NSError *deleteAccountError = nil;
-        [self.uam deleteAccountForUserId:userId error:&deleteAccountError];
-        STAssertNil(deleteAccountError, @"Error deleting account with ID '%@': %@", userId, [deleteAccountError localizedDescription]);
-        STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for ID '%@' should be removed.", userId);
+        [self.uam deleteAccountForUser:userAccount error:&deleteAccountError];
+        STAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", userId, orgId, [deleteAccountError localizedDescription]);
+        STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should be removed.", userId, orgId);
     }
 }
 
 - (void)testTemporaryAccount {
-    SFUserAccount *tempAccount1 = [self.uam userAccountForUserId:SFUserAccountManagerTemporaryUserAccountId];
+    SFUserAccount *tempAccount1 = [self.uam userAccountForUserIdentity:self.uam.temporaryUserIdentity];
     STAssertNil(tempAccount1, @"Temp account should not be defined here.");
     SFUserAccount *tempAccount2 = self.uam.temporaryUser;
     STAssertNotNil(tempAccount2, @"Temp account should be created through the temporaryUser property.");
-    tempAccount1 = [self.uam userAccountForUserId:SFUserAccountManagerTemporaryUserAccountId];
+    tempAccount1 = [self.uam userAccountForUserIdentity:self.uam.temporaryUserIdentity];
     STAssertEquals(tempAccount1, tempAccount2, @"Temp account references should be equal.");
 }
 
@@ -210,18 +216,21 @@
     STAssertTrue([self.uam loadAccounts:&loadAccountsError], @"Error loading accounts: %@", [loadAccountsError localizedDescription]);
     
     // Verify user information is still available after a new load.
-    NSString *userId = @"005R0000000Dsl0";
-    STAssertNotNil([self.uam userAccountForUserId:userId], @"User acccount with ID '%@' should exist.", userId);
-    STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for ID '%@' should exist.", userId);
+    NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
+    NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)0];
+    SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
+    SFUserAccount *account = [self.uam userAccountForUserIdentity:accountIdentity];
+    STAssertNotNil(account, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
+    STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
     
     // Verify that the user data is now encrypted on the filesystem.
-    STAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for '%@' should now be encrypted.", userId);
+    STAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
     
     // Remove account.
     NSError *deleteAccountError = nil;
-    [self.uam deleteAccountForUserId:userId error:&deleteAccountError];
-    STAssertNil(deleteAccountError, @"Error deleting account with ID '%@': %@", userId, [deleteAccountError localizedDescription]);
-    STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for ID '%@' should be removed.", userId);
+    [self.uam deleteAccountForUser:account error:&deleteAccountError];
+    STAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", userId, orgId, [deleteAccountError localizedDescription]);
+    STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should be removed.", userId, orgId);
 }
 
 #pragma mark - Helper methods
@@ -236,7 +245,8 @@
         
         [self.uam addAccount:user];
         // Note: we always use index 0 because of the way the allUserIds are sorted out
-        STAssertEqualObjects(self.uam.allUserIds[0], ([NSString stringWithFormat:@"005R0000000Dsl%lu", (unsigned long)index]), @"User ID doesn't match");
+        STAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[[self.uam.allUserIdentities count] - 1]).userId, ([NSString stringWithFormat:kUserIdFormatString, (unsigned long)index]), @"User ID doesn't match");
+        STAssertEqualObjects(((SFUserAccountIdentity *)self.uam.allUserIdentities[[self.uam.allUserIdentities count] - 1]).orgId, ([NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index]), @"Org ID doesn't match");
         
         // Add to the output array.
         [accounts addObject:user];
@@ -248,7 +258,9 @@
 - (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
     STAssertTrue(index < 10, @"Supports only index up to 9");
     SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index]];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/00D000000000062EA%lu/005R0000000Dsl%lu", (unsigned long)index, (unsigned long)index]];
+    NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
+    NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
     return user;
 }
 

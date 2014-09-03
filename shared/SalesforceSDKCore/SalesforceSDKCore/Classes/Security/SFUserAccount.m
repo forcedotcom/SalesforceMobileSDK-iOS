@@ -48,6 +48,9 @@ static NSString * const kCredentialsOrgIdPropName = @"organizationId";
 static NSString * const kGlobalScopingKey = @"-global-";
 
 @interface SFUserAccount ()
+{
+    BOOL _observingCredentials;
+}
 
 @property (nonatomic, strong) NSMutableDictionary *customData;
 
@@ -70,6 +73,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (id)initWithIdentifier:(NSString*)identifier {
     self = [super init];
     if (self) {
+        _observingCredentials = NO;
         NSString *clientId = [SFUserAccountManager sharedInstance].oauthClientId;
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
@@ -80,8 +84,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 - (void)dealloc
 {
-    [self.credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
-    [self.credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+    if (_observingCredentials) {
+        [self.credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+        [self.credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+    }
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
@@ -203,11 +209,15 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setCredentials:(SFOAuthCredentials *)credentials
 {
     if (credentials != _credentials) {
-        [_credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
-        [_credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+        if (_observingCredentials) {
+            [_credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+            [_credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+            _observingCredentials = NO;
+        }
         if (credentials != nil) {
             [credentials addObserver:self forKeyPath:kCredentialsUserIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
             [credentials addObserver:self forKeyPath:kCredentialsOrgIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+            _observingCredentials = YES;
         }
         
         _credentials = credentials;

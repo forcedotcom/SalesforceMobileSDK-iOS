@@ -147,6 +147,10 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 @property (nonatomic, readonly) NSArray *allUserAccounts;
 
+/** Returns all the user identitiesm sorted by Org ID and User ID.
+ */
+@property (nonatomic, readonly) NSArray *allUserIdentities;
+
 /** The most recently active user identity. Note that this may be temporarily
  different from currentUser if the user associated with the activeUserIdentity
  is removed from the accounts list.

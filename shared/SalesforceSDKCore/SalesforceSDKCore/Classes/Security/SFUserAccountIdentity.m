@@ -97,4 +97,14 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
     return [[NSString stringWithFormat:@"%@_%@", self.userId, self.orgId] hash];
 }
 
+- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity
+{
+    if (otherIdentity == nil)
+        return NSOrderedAscending;
+    
+    NSString *thisStringToCompare = [NSString stringWithFormat:@"%@_%@", self.orgId, self.userId];
+    NSString *otherStringToCompare = [NSString stringWithFormat:@"%@_%@", otherIdentity.orgId, otherIdentity.userId];
+    return [thisStringToCompare localizedCompare:otherStringToCompare];
+}
+
 @end

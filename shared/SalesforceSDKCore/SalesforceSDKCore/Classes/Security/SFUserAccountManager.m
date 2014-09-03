@@ -383,6 +383,21 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     return accounts;
 }
 
+- (NSArray *)allUserIdentities {
+    // Sort the identities
+    NSArray *keys = [[self.userAccountMap allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    
+    // Remove the temporary user id from the array
+    NSMutableArray *filteredKeys = [NSMutableArray array];
+    for (SFUserAccountIdentity *identity in keys) {
+        if ([identity isEqual:self.temporaryUserIdentity]) {
+            continue;
+        }
+        [filteredKeys addObject:identity];
+    }
+    return filteredKeys;
+}
+
 /** Returns all existing account names in the keychain
  */
 - (NSSet*)allExistingAccountNames {

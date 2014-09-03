@@ -46,4 +46,12 @@
  */
 - (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId;
 
+/**
+ Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].
+ @param otherIdentity The other identity to compare to this one.
+ @return NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
+ NSOrderedSame if they're equal.
+ */
+- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity;
+
 @end
