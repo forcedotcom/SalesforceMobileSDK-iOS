@@ -107,4 +107,9 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
     return [thisStringToCompare localizedCompare:otherStringToCompare];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@:%p userId:%@ orgId:%@>", [self class], self, self.userId, self.orgId];
+}
+
 @end

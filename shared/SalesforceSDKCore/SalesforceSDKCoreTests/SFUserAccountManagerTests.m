@@ -80,6 +80,63 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [super setUp];
 }
 
+- (void)testAccountIdentityEquality {
+    NSDictionary *accountIdentityMatrix = @{
+                                            @"MatchGroup1": @[
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil],
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:nil]
+                                                    ],
+                                            @"MatchGroup2": @[
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"],
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:nil orgId:@"OrgID1"]
+                                                    ],
+                                            @"MatchGroup3": @[
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil],
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:nil]
+                                                    ],
+                                            @"MatchGroup4": @[
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"],
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID1" orgId:@"OrgID1"]
+                                                    ],
+                                            @"MatchGroup5": @[
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"],
+                                                    [[SFUserAccountIdentity alloc] initWithUserId:@"UserID2" orgId:@"OrgID2"]
+                                                    ]
+                                            };
+    NSArray *keys = [accountIdentityMatrix allKeys];
+    for (NSUInteger i = 0; i < [keys count]; i++) {
+        
+        // Equality
+        NSArray *equalIdentitiesArray = [accountIdentityMatrix objectForKey:[keys objectAtIndex:i]];
+        for (NSUInteger j = 0; j < [equalIdentitiesArray count]; j++) {
+            SFUserAccountIdentity *obj1 = equalIdentitiesArray[j];
+            for (NSUInteger k = 0; k < [equalIdentitiesArray count]; k++) {
+                SFUserAccountIdentity *obj2 = equalIdentitiesArray[k];
+                STAssertEqualObjects(obj1, obj2, @"Account identity '%@' and '%@' should be equal", obj1, obj2);
+            }
+        }
+        
+        // Inequality
+        for (NSUInteger j = 0; j < [equalIdentitiesArray count]; j++) {
+            SFUserAccountIdentity *obj1 = equalIdentitiesArray[j];
+            for (NSUInteger k = 0; k < [keys count]; k++) {
+                if (k == i) continue;
+                NSArray *unequalIdentitiesArray = [accountIdentityMatrix objectForKey:[keys objectAtIndex:k]];
+                for (NSUInteger l = 0; l < [unequalIdentitiesArray count]; l++) {
+                    SFUserAccountIdentity *obj2 = unequalIdentitiesArray[l];
+                    STAssertFalse([obj1 isEqual:obj2], @"Account identity '%@' and '%@' should NOT be equal", obj1, obj2);
+                }
+            }
+        }
+    }
+}
+
+- (void)testTempUserMatchesTempIdentity {
+    SFUserAccount *tempUserAccount = self.uam.temporaryUser;
+    SFUserAccountIdentity *tempUserIdentity = self.uam.temporaryUserIdentity;
+    STAssertEqualObjects(tempUserAccount.accountIdentity, tempUserIdentity, @"Temporary user identities not equal.");
+}
+
 - (void)testSingleAccount {
     // Ensure we start with a clean state
     STAssertEquals([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
@@ -163,10 +220,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         STAssertNotNil(userAccount, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
         STAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
         
-        NSError *deleteAccountError = nil;
-        [self.uam deleteAccountForUser:userAccount error:&deleteAccountError];
-        STAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", userId, orgId, [deleteAccountError localizedDescription]);
-        STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should be removed.", userId, orgId);
+        [self deleteUserAndVerify:userAccount userDir:location];
     }
 }
 
@@ -227,10 +281,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     STAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
     
     // Remove account.
-    NSError *deleteAccountError = nil;
-    [self.uam deleteAccountForUser:account error:&deleteAccountError];
-    STAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", userId, orgId, [deleteAccountError localizedDescription]);
-    STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should be removed.", userId, orgId);
+    [self deleteUserAndVerify:account userDir:userFilePath];
 }
 
 #pragma mark - Helper methods
@@ -262,6 +313,16 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
     return user;
+}
+
+- (void)deleteUserAndVerify:(SFUserAccount *)user userDir:(NSString *)userDir {
+    SFUserAccountIdentity *identity = user.accountIdentity;
+    NSError *deleteAccountError = nil;
+    [self.uam deleteAccountForUser:user error:&deleteAccountError];
+    STAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", identity.userId, identity.orgId, [deleteAccountError localizedDescription]);
+    STAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userDir], @"User directory for User ID '%@' and Org ID '%@' should be removed.", identity.userId, identity.orgId);
+    SFUserAccount *inMemoryAccount = [self.uam userAccountForUserIdentity:identity];
+    STAssertNil(inMemoryAccount, @"deleteUser should have removed user account with User ID '%@' and OrgID '%@' from the list of users.", identity.userId, identity.orgId);
 }
 
 @end
