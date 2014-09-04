@@ -40,6 +40,14 @@
 @property (nonatomic, copy) NSString *orgId;
 
 /**
+ Convenience method to return a new account identity with the given User ID and Org ID.
+ @param userId The user ID associated with the identity.
+ @param orgId The org ID associated with the identity.
+ @return An account identity representing the given User ID and Org ID.
+ */
++ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId;
+
+/**
  Creates a new account identity object with the given user ID and org ID.
  @param userId The user ID associated with the identity.
  @param orgId The org ID associated with the identity.
