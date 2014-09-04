@@ -33,6 +33,12 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 @synthesize userId = _userId;
 @synthesize orgId = _orgId;
 
++ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId
+{
+    SFUserAccountIdentity *identity = [[self alloc] initWithUserId:userId orgId:orgId];
+    return identity;
+}
+
 - (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId
 {
     self = [super init];
