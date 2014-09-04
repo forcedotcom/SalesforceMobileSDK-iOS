@@ -279,7 +279,6 @@ static BOOL _showPasscode = YES;
     [SFSecurityLockout setSecurityLockoutTime:0];
     [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
-    [[SFUserActivityMonitor sharedInstance] stopMonitoring];
     [[SFPasscodeManager sharedManager] changePasscode:nil];
 }
 
