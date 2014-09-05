@@ -43,6 +43,7 @@
 		8251CAB116ED5FD700BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB016ED5FD700BD1EA2 /* libcrypto.a */; };
 		8251CAB316ED5FEF00BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB216ED5FEF00BD1EA2 /* libCordova.a */; };
 		8251CAB516ED5FF800BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAB416ED5FF800BD1EA2 /* CoreData.framework */; };
+		82638F2419B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F2319B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		82707C12157C49EB00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707C11157C49EB00B50291 /* libz.dylib */; };
 		82954630167A7F5B00A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8295462F167A7F5B00A0FC34 /* config.xml */; };
 		82AA406A18E3B28800BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406918E3B28800BD34D8 /* libSalesforceSecurity.a */; };
@@ -105,6 +106,8 @@
 		8251CAB016ED5FD700BD1EA2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		8251CAB216ED5FEF00BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CAB416ED5FF800BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		82638F2219B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
+		82638F2319B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		82707C11157C49EB00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8295462F167A7F5B00A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		82AA406918E3B28800BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +248,8 @@
 				4F6D83AF195263AC003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
 				4F6D83B0195263AC003EBB16 /* AppDelegate.m */,
 				4F6D83B1195263AC003EBB16 /* AppDelegate.h */,
+				82638F2219B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */,
+				82638F2319B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 			files = (
 				4F6D83B2195263AC003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				7DBD06EE149AA8420043A9E0 /* main.m in Sources */,
+				82638F2419B8F14E00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,
 				4F6D83B3195263AC003EBB16 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

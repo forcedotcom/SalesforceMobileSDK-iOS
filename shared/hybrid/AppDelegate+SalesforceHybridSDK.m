@@ -25,6 +25,7 @@
 #import <objc/runtime.h>
 
 #import "AppDelegate+SalesforceHybridSDK.h"
+#import "UIApplication+SalesforceHybridSDK.h"
 #import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
