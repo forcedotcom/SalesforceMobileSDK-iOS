@@ -1,0 +1,24 @@
+{
+	"searchColumns" : [
+                       {
+                       "field" : "Account.Name",
+                       "label" : "Account Name",
+                       "name" : "Name",
+                       "format" : null
+                       },
+                       {
+                       "field" : "Account.Phone",
+                       "label" : "Phone",
+                       "name" : "Phone",
+                       "format" : null
+                       },
+                       {
+                       "field" : "User.Alias",
+                       "label" : "Account Owner Alias",
+                       "name" : "Owner.Alias",
+                       "format" : null
+                       }
+                       ],
+	"limitRows" : 25,
+	"label" : "Search Results"
+}

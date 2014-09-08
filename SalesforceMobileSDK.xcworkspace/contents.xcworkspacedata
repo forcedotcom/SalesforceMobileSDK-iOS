@@ -8,6 +8,9 @@
          location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:native/SmartSync/SmartSync.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:native/SampleApps/FileExplorer/FileExplorer.xcodeproj">
       </FileRef>
       <FileRef
