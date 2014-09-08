@@ -166,6 +166,16 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 + (SFRestAPI *)sharedInstance;
 
 /**
+ * Specifies whether the current execution is a test run or not.
+ */
++ (void) setIsTestRun:(BOOL)isTestRun;
+
+/**
+ * Specifies whether the current execution is a test run or not.
+ */
++ (BOOL) getIsTestRun;
+
+/**
  * Clean up due to host change or logout
  */
 - (void)cleanup;

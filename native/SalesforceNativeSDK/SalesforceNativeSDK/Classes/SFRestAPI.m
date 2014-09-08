@@ -39,6 +39,7 @@ NSString * const kSFMobileSDKNativeDesignator = @"Native";
 // singleton instance
 static SFRestAPI *_instance;
 static dispatch_once_t _sharedInstanceGuard;
+static BOOL kIsTestRun;
 
 @implementation SFRestAPI
 
@@ -62,7 +63,9 @@ static dispatch_once_t _sharedInstanceGuard;
         _networkEngine.delegate = self;
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [self setupNetworkCoordinator];
-        [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
+        if (!kIsTestRun) {
+            [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
+        }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanup) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
     }
     return self;
@@ -76,6 +79,7 @@ static dispatch_once_t _sharedInstanceGuard;
 }
 
 #pragma mark - Cleanup / cancel all
+
 - (void) cleanup {
     [_activeRequests removeAllObjects];
     self.networkCoordinatorNeedsRefresh = YES;
@@ -93,13 +97,20 @@ static dispatch_once_t _sharedInstanceGuard;
 
 #pragma mark - singleton
 
-
 + (SFRestAPI *)sharedInstance {
     dispatch_once(&_sharedInstanceGuard, 
                   ^{ 
                       _instance = [[SFRestAPI alloc] init];
                   });
     return _instance;
+}
+
++ (void) setIsTestRun:(BOOL)isTestRun {
+    kIsTestRun = isTestRun;
+}
+
++ (BOOL) getIsTestRun {
+    return kIsTestRun;
 }
 
 #pragma mark - Internal
