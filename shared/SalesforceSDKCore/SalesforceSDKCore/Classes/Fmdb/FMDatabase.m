@@ -198,7 +198,7 @@
 }
 
 - (void)setCachedStatement:(FMStatement*)statement forQuery:(NSString*)query {
-    
+    NSAssert(query, @"Need to send a query.");
     query = [query copy]; // in case we got handed in a mutable string...
     
     [statement setQuery:query];
