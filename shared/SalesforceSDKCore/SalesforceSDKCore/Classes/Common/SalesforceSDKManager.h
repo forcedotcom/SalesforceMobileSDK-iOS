@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 salesforce.com. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import "SFUserAccount.h"
+
 typedef enum {
     SFSDKLaunchActionNone             = 0,
     SFSDKLaunchActionAuthenticated    = 1 << 0,
@@ -16,8 +19,8 @@ typedef enum {
 
 typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
 typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
-
-#import <Foundation/Foundation.h>
+typedef void (^SFSDKCurrentUserLogoutCallbackBlock)(void);
+typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 
 @interface SalesforceSDKManager : NSObject
 
@@ -31,6 +34,8 @@ typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
 + (void)setPostLaunchAction:(SFSDKPostLaunchCallbackBlock)postLaunchAction;
 + (SFSDKLaunchErrorCallbackBlock)launchErrorAction;
 + (void)setLaunchErrorAction:(SFSDKLaunchErrorCallbackBlock)launchErrorAction;
++ (SFSDKCurrentUserLogoutCallbackBlock)postCurrentUserLogoutAction;
++ (void)setPostCurrentUserLogoutAction:(SFSDKCurrentUserLogoutCallbackBlock)postCurrentUserLogoutAction;
 + (void)launch;
 
 @end
