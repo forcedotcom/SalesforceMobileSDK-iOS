@@ -19,7 +19,7 @@ typedef enum {
 
 typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
 typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
-typedef void (^SFSDKCurrentUserLogoutCallbackBlock)(void);
+typedef void (^SFSDKLogoutCallbackBlock)(void);
 typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 
 @interface SalesforceSDKManager : NSObject
@@ -34,8 +34,8 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 + (void)setPostLaunchAction:(SFSDKPostLaunchCallbackBlock)postLaunchAction;
 + (SFSDKLaunchErrorCallbackBlock)launchErrorAction;
 + (void)setLaunchErrorAction:(SFSDKLaunchErrorCallbackBlock)launchErrorAction;
-+ (SFSDKCurrentUserLogoutCallbackBlock)postCurrentUserLogoutAction;
-+ (void)setPostCurrentUserLogoutAction:(SFSDKCurrentUserLogoutCallbackBlock)postCurrentUserLogoutAction;
++ (SFSDKLogoutCallbackBlock)postLogoutAction;
++ (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction;
 + (void)launch;
 
 @end

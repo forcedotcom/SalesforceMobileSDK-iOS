@@ -12,6 +12,7 @@
 
 static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
+static SFSDKLogoutCallbackBlock sPostLogoutAction;
 
 @implementation SalesforceSDKManager
 
@@ -63,6 +64,16 @@ static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 + (void)setLaunchErrorAction:(SFSDKLaunchErrorCallbackBlock)launchErrorAction
 {
     sLaunchErrorAction = launchErrorAction;
+}
+
++ (SFSDKLogoutCallbackBlock)postLogoutAction
+{
+    return sPostLogoutAction;
+}
+
++ (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction
+{
+    sPostLogoutAction = postLogoutAction;
 }
 
 + (void)launch
