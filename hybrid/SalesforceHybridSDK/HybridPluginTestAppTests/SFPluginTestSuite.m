@@ -116,7 +116,7 @@
 - (void)runTest:(NSString*)testName inSuite:(NSString*)suiteName 
 {
     if (![self isTestRunnerReady]) {
-        STAssertTrue([self isTestRunnerReady], @"Test runner not ready");
+        XCTAssertTrue([self isTestRunnerReady], @"Test runner not ready");
         return;
     }
     
@@ -130,7 +130,7 @@
     [self log:SFLogLevelDebug format:@"cmdResult: '%@'",cmdResult];
     
     BOOL timedOut = [self waitForOneCompletion];
-    STAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
+    XCTAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
     if (!timedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -138,8 +138,8 @@
         SFTestResult *testResult = [plugin testResults][0];
         [[plugin testResults] removeObjectAtIndex:0];
         [self log:SFLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
-        STAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
-        STAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
+        XCTAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
+        XCTAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
     }
 }
 
