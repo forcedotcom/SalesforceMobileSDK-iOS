@@ -190,7 +190,7 @@
 //The following are required for code coverage to work:
 FILE *fopen$UNIX2003(const char *filename, const char *mode) {
     NSString *covFile = @(filename);
-    [SFLogger log:SFLogLevelDebug format:@"saving coverage file: %@",covFile];
+    [SFLogger log:[AppDelegate class] level:SFLogLevelDebug format:@"saving coverage file: %@", covFile];
     return fopen(filename, mode);
 }
 

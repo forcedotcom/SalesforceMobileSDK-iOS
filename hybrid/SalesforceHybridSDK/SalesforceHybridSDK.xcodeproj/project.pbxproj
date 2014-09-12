@@ -766,7 +766,7 @@
 			name = HybridPluginTestAppTests;
 			productName = HybridPluginTestAppTests;
 			productReference = 82EFF32516E8049600A63CDF /* HybridPluginTestAppTests.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
