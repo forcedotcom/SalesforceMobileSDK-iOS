@@ -78,5 +78,9 @@
     [self runTest:@"testUpsertAndQueryEntries"];
 }
 
+- (void)testUpsertConcurrentEntries {
+    [self runTest:@"testUpsertConcurrentEntries"];
+}
+
 
 @end
