@@ -24,12 +24,12 @@
  */
 
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
 @class SFTestRunnerPlugin;
 
-@interface SFPluginTestSuite : SenTestCase {
+@interface SFPluginTestSuite : XCTestCase {
     NSString *_jsTestName;
     NSString *_jsSuiteName;
     SFTestRunnerPlugin *_testRunnerPlugin;
