@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "SFUserAccount.h"
 
+// Errors
+extern NSString * const kSalesforceSDKManagerErrorDomain;
+extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
+enum {
+    kSalesforceSDKManagerErrorUnknown = 766,
+    kSalesforceSDKManagerErrorLaunchAlreadyInProgress,
+    kSalesforceSDKManagerErrorInvalidLaunchParameters
+};
+
 typedef enum {
     SFSDKLaunchActionNone             = 0,
     SFSDKLaunchActionAuthenticated    = 1 << 0,
@@ -24,6 +33,7 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 
 @interface SalesforceSDKManager : NSObject
 
++ (BOOL)isLaunching;
 + (NSString *)connectedAppId;
 + (void)setConnectedAppId:(NSString *)connectedAppId;
 + (NSString *)connectedAppCallbackUri;

@@ -10,11 +10,21 @@
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
 
+// Error constants
+NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
+NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
+
 static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 static SFSDKLogoutCallbackBlock sPostLogoutAction;
+static BOOL sIsLaunching = NO;
 
 @implementation SalesforceSDKManager
+
++ (BOOL)isLaunching
+{
+    return sIsLaunching;
+}
 
 + (NSString *)connectedAppId
 {
@@ -78,35 +88,60 @@ static SFSDKLogoutCallbackBlock sPostLogoutAction;
 
 + (void)launch
 {
-    if (![self validateLaunchState]) {
+    NSError *launchStateError = nil;
+    if (![self validateLaunchState:&launchStateError]) {
         [SFLogger log:[self class] level:SFLogLevelError msg:@"Please correct errors and try again."];
+        sIsLaunching = NO;
+        if ([self launchErrorAction]) {
+            [self launchErrorAction](launchStateError, SFSDKLaunchActionNone);
+        }
+        return;
+    }
+    
+    if (sIsLaunching) {
+        NSError *alreadyLaunchingError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
+                                                                    code:kSalesforceSDKManagerErrorLaunchAlreadyInProgress
+                                                                userInfo:@{ NSLocalizedDescriptionKey : @"Launch already in progress" }];
+        sIsLaunching = NO;
+        if ([self launchErrorAction]) {
+            [self launchErrorAction](alreadyLaunchingError, SFSDKLaunchActionNone);
+        }
         return;
     }
     
     // If there's a passcode configured, we validate that first.
-    
+    [self passcodeValidationAtLaunch];
 }
 
 #pragma mark - Private methods
 
-+ (BOOL)validateLaunchState
++ (BOOL)validateLaunchState:(NSError **)launchStateError
 {
     BOOL validInputs = YES;
+    NSMutableArray *launchStateErrorMessages = [NSMutableArray array];
     
     if ([[UIApplication sharedApplication] delegate].window == nil) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
+        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
+        [SFLogger log:[self class] level:SFLogLevelError msg:noWindowError];
+        [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
     }
     if ([[self connectedAppId] length] == 0) {
-        [SFLogger log:[self class] level:SFLogLevelError msg:@"No value for Connected App ID.  Cannot continue."];
+        NSString *noConnectedAppIdError = @"No value for Connected App ID.  Cannot continue.";
+        [SFLogger log:[self class] level:SFLogLevelError msg:noConnectedAppIdError];
+        [launchStateErrorMessages addObject:noConnectedAppIdError];
         validInputs = NO;
     }
     if ([[self connectedAppCallbackUri] length] == 0) {
-        [SFLogger log:[self class] level:SFLogLevelError msg:@"No value for Connected App Callback URI.  Cannot continue."];
+        NSString *noCallbackUriError = @"No value for Connected App Callback URI.  Cannot continue.";
+        [SFLogger log:[self class] level:SFLogLevelError msg:noCallbackUriError];
+        [launchStateErrorMessages addObject:noCallbackUriError];
         validInputs = NO;
     }
     if ([[self authScopes] count] == 0) {
-        [SFLogger log:[self class] level:SFLogLevelError msg:@"No auth scopes set.  Cannot continue."];
+        NSString *noAuthScopesError = @"No auth scopes set.  Cannot continue.";
+        [SFLogger log:[self class] level:SFLogLevelError msg:noAuthScopesError];
+        [launchStateErrorMessages addObject:noAuthScopesError];
         validInputs = NO;
     }
     if (![self postLaunchAction]) {
@@ -116,7 +151,21 @@ static SFSDKLogoutCallbackBlock sPostLogoutAction;
         [SFLogger log:[self class] level:SFLogLevelWarning msg:@"No launch error action set.  Nowhere to go if an error occurs during launch."];
     }
     
+    if (!validInputs && launchStateError) {
+        *launchStateError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
+                                                       code:kSalesforceSDKManagerErrorInvalidLaunchParameters
+                                                   userInfo:@{
+                                                              NSLocalizedDescriptionKey : @"Invalid launch parameters",
+                                                              kSalesforceSDKManagerErrorDetailsKey : launchStateErrorMessages
+                                                              }];
+    }
+    
     return validInputs;
+}
+
++ (void)passcodeValidationAtLaunch
+{
+    
 }
 
 @end
