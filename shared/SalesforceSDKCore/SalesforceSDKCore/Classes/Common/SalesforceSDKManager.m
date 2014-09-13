@@ -9,6 +9,8 @@
 #import "SalesforceSDKManager.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
+#import "SFSecurityLockout.h"
+#import <SalesforceOAuth/SFOAuthInfo.h>
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -17,6 +19,7 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 static SFSDKLogoutCallbackBlock sPostLogoutAction;
+static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
 
 @implementation SalesforceSDKManager
@@ -88,24 +91,21 @@ static BOOL sIsLaunching = NO;
 
 + (void)launch
 {
+    sLaunchActions = SFSDKLaunchActionNone;
     NSError *launchStateError = nil;
     if (![self validateLaunchState:&launchStateError]) {
         [SFLogger log:[self class] level:SFLogLevelError msg:@"Please correct errors and try again."];
-        sIsLaunching = NO;
-        if ([self launchErrorAction]) {
-            [self launchErrorAction](launchStateError, SFSDKLaunchActionNone);
-        }
+        [self sendLaunchError:launchStateError];
         return;
     }
     
     if (sIsLaunching) {
+        NSString * alreadyLaunchingMessage = @"Launch already in progress.";
+        [SFLogger log:[self class] level:SFLogLevelError msg:alreadyLaunchingMessage];
         NSError *alreadyLaunchingError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
                                                                     code:kSalesforceSDKManagerErrorLaunchAlreadyInProgress
-                                                                userInfo:@{ NSLocalizedDescriptionKey : @"Launch already in progress" }];
-        sIsLaunching = NO;
-        if ([self launchErrorAction]) {
-            [self launchErrorAction](alreadyLaunchingError, SFSDKLaunchActionNone);
-        }
+                                                                userInfo:@{ NSLocalizedDescriptionKey : alreadyLaunchingMessage }];
+        [self sendLaunchError:alreadyLaunchingError];
         return;
     }
     
@@ -150,6 +150,9 @@ static BOOL sIsLaunching = NO;
     if (![self launchErrorAction]) {
         [SFLogger log:[self class] level:SFLogLevelWarning msg:@"No launch error action set.  Nowhere to go if an error occurs during launch."];
     }
+    if (![self postLogoutAction]) {
+        [SFLogger log:[self class] level:SFLogLevelWarning msg:@"No post-logout action set.  Nowhere to go when the user is logged out."];
+    }
     
     if (!validInputs && launchStateError) {
         *launchStateError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
@@ -163,9 +166,64 @@ static BOOL sIsLaunching = NO;
     return validInputs;
 }
 
++ (void)sendLaunchError:(NSError *)theLaunchError
+{
+    sIsLaunching = NO;
+    if ([self launchErrorAction]) {
+        [self launchErrorAction](theLaunchError, sLaunchActions);
+    }
+}
+
++ (void)sendPostLogout
+{
+    sIsLaunching = NO;
+    if ([self postLogoutAction]) {
+        [self postLogoutAction]();
+    }
+}
+
++ (void)sendPostLaunch
+{
+    sIsLaunching = NO;
+    if ([self postLaunchAction]) {
+        [self postLaunchAction](sLaunchActions);
+    }
+}
+
 + (void)passcodeValidationAtLaunch
 {
-    
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Passcode verified.  Proceeding with authentication validation."];
+        sLaunchActions |= SFSDKLaunchActionPasscodeVerified;
+        [self authValidationAtLaunch];
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [SFLogger log:[self class] level:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
+        [self sendPostLogout];
+    }];
+    [SFSecurityLockout lock];
+}
+
++ (void)authValidationAtLaunch
+{
+    if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) {
+        // Works equally well for any of the above being nil, which are all conditions to
+        // (re-)authenticate.
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            [SFLogger log:[self class] level:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
+            sLaunchActions |= SFSDKLaunchActionAuthenticated;
+            [self postLaunchAction];
+        } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
+            [SFLogger log:[self class] level:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
+            [self sendLaunchError:authError];
+        }];
+    } else {
+        // If credentials already exist, we won't try to refresh them.
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
+        sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
+        [self postLaunchAction];
+    }
 }
 
 @end

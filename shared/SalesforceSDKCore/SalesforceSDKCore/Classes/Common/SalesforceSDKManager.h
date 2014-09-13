@@ -19,11 +19,12 @@ enum {
 };
 
 typedef enum {
-    SFSDKLaunchActionNone             = 0,
-    SFSDKLaunchActionAuthenticated    = 1 << 0,
-    SFSDKLaunchActionPasscodeVerified = 1 << 1,
-    SFSDKLaunchActionPasscodeCreated  = 1 << 2,
-    SFSDKLaunchActionPasscodeUpdated  = 1 << 3
+    SFSDKLaunchActionNone                 = 0,
+    SFSDKLaunchActionAuthenticated        = 1 << 0,
+    SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
+    SFSDKLaunchActionPasscodeVerified     = 1 << 2,
+    SFSDKLaunchActionPasscodeCreated      = 1 << 3,
+    SFSDKLaunchActionPasscodeUpdated      = 1 << 4
 } SFSDKLaunchAction;
 
 typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
