@@ -16,13 +16,27 @@
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
 
+// Helper class to handle user account and auth delegate calls.  Implementation at the end.
+@interface SFSDKManagerDelegateHandler : NSObject <SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+
+@end
+
 static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 static SFSDKLogoutCallbackBlock sPostLogoutAction;
+static SFSDKSwitchUserCallbackBlock sSwitchUserAction;
 static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
+static SFSDKManagerDelegateHandler *sDelegateHandler;
 
 @implementation SalesforceSDKManager
+
++ (void)initialize
+{
+    sDelegateHandler = [[SFSDKManagerDelegateHandler alloc] init];
+    [[SFUserAccountManager sharedInstance] addDelegate:sDelegateHandler];
+    [[SFAuthenticationManager sharedManager] addDelegate:sDelegateHandler];
+}
 
 + (BOOL)isLaunching
 {
@@ -87,6 +101,16 @@ static BOOL sIsLaunching = NO;
 + (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction
 {
     sPostLogoutAction = postLogoutAction;
+}
+
++ (SFSDKSwitchUserCallbackBlock)switchUserAction
+{
+    return sSwitchUserAction;
+}
+
++ (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction
+{
+    sSwitchUserAction = switchUserAction;
 }
 
 + (void)launch
@@ -176,7 +200,6 @@ static BOOL sIsLaunching = NO;
 
 + (void)sendPostLogout
 {
-    sIsLaunching = NO;
     if ([self postLogoutAction]) {
         [self postLogoutAction]();
     }
@@ -190,6 +213,13 @@ static BOOL sIsLaunching = NO;
     }
 }
 
++ (void)sendUserAccountSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+{
+    if ([self switchUserAction]) {
+        [self switchUserAction](fromUser, toUser);
+    }
+}
+
 + (void)passcodeValidationAtLaunch
 {
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
@@ -198,8 +228,11 @@ static BOOL sIsLaunching = NO;
         [self authValidationAtLaunch];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        // Note: Failed passcode verification automatically logs out users, which the logout
+        // delegate handler will catch and pass on.  We just log the error and reset launch
+        // state here.
         [SFLogger log:[self class] level:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
-        [self sendPostLogout];
+        sIsLaunching = NO;
     }];
     [SFSecurityLockout lock];
 }
@@ -224,6 +257,26 @@ static BOOL sIsLaunching = NO;
         sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
         [self postLaunchAction];
     }
+}
+
+@end
+
+@implementation SFSDKManagerDelegateHandler
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
+{
+    [SalesforceSDKManager sendPostLogout];
+}
+
+#pragma mark - SFUserAccountManagerDelegate
+
+- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
+         didSwitchFromUser:(SFUserAccount *)fromUser
+                    toUser:(SFUserAccount *)toUser
+{
+    [SalesforceSDKManager sendUserAccountSwitch:fromUser toUser:toUser];
 }
 
 @end

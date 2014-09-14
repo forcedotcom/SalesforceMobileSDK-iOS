@@ -47,6 +47,8 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 + (void)setLaunchErrorAction:(SFSDKLaunchErrorCallbackBlock)launchErrorAction;
 + (SFSDKLogoutCallbackBlock)postLogoutAction;
 + (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction;
++ (SFSDKSwitchUserCallbackBlock)switchUserAction;
++ (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction;
 + (void)launch;
 
 @end
