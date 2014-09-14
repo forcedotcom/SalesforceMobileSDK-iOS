@@ -22,9 +22,7 @@ typedef enum {
     SFSDKLaunchActionNone                 = 0,
     SFSDKLaunchActionAuthenticated        = 1 << 0,
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
-    SFSDKLaunchActionPasscodeVerified     = 1 << 2,
-    SFSDKLaunchActionPasscodeCreated      = 1 << 3,
-    SFSDKLaunchActionPasscodeUpdated      = 1 << 4
+    SFSDKLaunchActionPasscodeVerified     = 1 << 2
 } SFSDKLaunchAction;
 
 typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
@@ -50,5 +48,6 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 + (SFSDKSwitchUserCallbackBlock)switchUserAction;
 + (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction;
 + (void)launch;
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
 
 @end

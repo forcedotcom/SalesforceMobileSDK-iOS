@@ -27,6 +27,7 @@ static SFSDKLogoutCallbackBlock sPostLogoutAction;
 static SFSDKSwitchUserCallbackBlock sSwitchUserAction;
 static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
+static BOOL sHasVerifiedPasscodeAtStartup = NO;
 static SFSDKManagerDelegateHandler *sDelegateHandler;
 
 @implementation SalesforceSDKManager
@@ -115,6 +116,7 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
 
 + (void)launch
 {
+    [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Launching the Salesforce SDK."];
     sLaunchActions = SFSDKLaunchActionNone;
     NSError *launchStateError = nil;
     if (![self validateLaunchState:&launchStateError]) {
@@ -133,8 +135,37 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
         return;
     }
     
-    // If there's a passcode configured, we validate that first.
-    [self passcodeValidationAtLaunch];
+    // If there's a passcode configured, and we haven't validated before (through a previous call to
+    // launch), we validate that first.
+    if (!sHasVerifiedPasscodeAtStartup) {
+        [self passcodeValidationAtLaunch];
+    } else {
+        // Otherwise, passcode validation is subject to activity timeout.  Skip to auth check.
+        [self authValidationAtLaunch];
+    }
+}
+
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions
+{
+    if (launchActions == SFSDKLaunchActionNone)
+        return @"SFSDKLaunchActionNone";
+    
+    NSMutableString *launchActionString = [NSMutableString string];
+    NSString *joinString = @"";
+    if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
+        [launchActionString appendString:@"SFSDKLaunchActionAlreadyAuthenticated"];
+        joinString = @"|";
+    }
+    if (launchActions & SFSDKLaunchActionAuthenticated) {
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthenticated"];
+        joinString = @"|";
+    }
+    if (launchActions & SFSDKLaunchActionPasscodeVerified) {
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionPasscodeVerified"];
+        joinString = @"|";
+    }
+    
+    return launchActionString;
 }
 
 #pragma mark - Private methods
@@ -223,8 +254,9 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
 + (void)passcodeValidationAtLaunch
 {
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Passcode verified.  Proceeding with authentication validation."];
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
         sLaunchActions |= SFSDKLaunchActionPasscodeVerified;
+        sHasVerifiedPasscodeAtStartup = YES;
         [self authValidationAtLaunch];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
@@ -246,7 +278,7 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             [SFLogger log:[self class] level:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
             sLaunchActions |= SFSDKLaunchActionAuthenticated;
-            [self postLaunchAction];
+            [self sendPostLaunch];
         } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFLogger log:[self class] level:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
             [self sendLaunchError:authError];
@@ -255,7 +287,7 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
         // If credentials already exist, we won't try to refresh them.
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
         sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
-        [self postLaunchAction];
+        [self sendPostLaunch];
     }
 }
 
