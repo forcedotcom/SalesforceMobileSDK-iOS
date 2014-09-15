@@ -157,6 +157,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return nil;
 }
 
+- (void)setCommunities:(NSArray *)communities {
+    _communities = communities;
+}
+
 /** Returns the path to the user's photo.
  */
 - (NSString*)photoPath {

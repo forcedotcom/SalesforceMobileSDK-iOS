@@ -875,7 +875,13 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
-        self.currentUser.communities = @[ communityData ];
+        if (![self.currentUser communityWithId:credentials.communityId]) {
+            if (self.currentUser.communities) {
+                self.currentUser.communities = [self.currentUser.communities arrayByAddingObject:communityData];
+            } else {
+                self.currentUser.communities = @[communityData];
+            }
+        }
     }
     
     // If our default user identity is currently the temporary user identity,
