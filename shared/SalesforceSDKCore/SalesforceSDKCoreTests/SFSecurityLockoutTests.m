@@ -32,23 +32,23 @@
 - (void)testReadWriteLockoutTime
 {
     NSNumber *retrievedLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
-    STAssertNil(retrievedLockoutTime, @"Retrieved lockout time should not be set at the beginning of the test.");
+    XCTAssertNil(retrievedLockoutTime, @"Retrieved lockout time should not be set at the beginning of the test.");
     NSUInteger randInt = arc4random();
     [SFSecurityLockout writeLockoutTimeToKeychain:@(randInt)];
     retrievedLockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
-    STAssertEquals(randInt, [retrievedLockoutTime unsignedIntegerValue], @"Lockout time values are not the same.");
+    XCTAssertEqual(randInt, [retrievedLockoutTime unsignedIntegerValue], @"Lockout time values are not the same.");
 }
 
 - (void)testReadWriteIsLocked
 {
     NSNumber *retrievedIsLocked = [SFSecurityLockout readIsLockedFromKeychain];
-    STAssertNil(retrievedIsLocked, @"'Is Locked' should not be set at the beginning of the test.");
+    XCTAssertNil(retrievedIsLocked, @"'Is Locked' should not be set at the beginning of the test.");
     NSUInteger randInt = arc4random();
     BOOL inIsLocked = (randInt % 2 == 0);
     [SFSecurityLockout writeIsLockedToKeychain:@(inIsLocked)];
     retrievedIsLocked = [SFSecurityLockout readIsLockedFromKeychain];
-    STAssertNotNil(retrievedIsLocked, @"'Is Locked' value should not be nil in the keychain.");
-    STAssertEquals(inIsLocked, [retrievedIsLocked boolValue], @"'Is Locked' values are not the same.");
+    XCTAssertNotNil(retrievedIsLocked, @"'Is Locked' value should not be nil in the keychain.");
+    XCTAssertEqual(inIsLocked, [retrievedIsLocked boolValue], @"'Is Locked' values are not the same.");
 }
 
 - (void)testSettingsUpgrade
@@ -97,12 +97,12 @@
           keychainTimeoutVal:(NSUInteger)keychainTimeoutVal
            keychainLockedVal:(BOOL)keychainLockedVal
 {
-    STAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
-    STAssertEquals(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
+    XCTAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
+    XCTAssertEqual(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
     NSNumber *keychainTimeoutNum = @(keychainTimeoutVal);
-    STAssertEqualObjects(keychainTimeoutNum, [SFSecurityLockout readLockoutTimeFromKeychain], @"Keychain timeout values do not match.");
+    XCTAssertEqualObjects(keychainTimeoutNum, [SFSecurityLockout readLockoutTimeFromKeychain], @"Keychain timeout values do not match.");
     NSNumber *keychainLockedNum = @(keychainLockedVal);
-    STAssertEqualObjects(keychainLockedNum, [SFSecurityLockout readIsLockedFromKeychain], @"Keychain locked values do not match.");
+    XCTAssertEqualObjects(keychainLockedNum, [SFSecurityLockout readIsLockedFromKeychain], @"Keychain locked values do not match.");
 }
 
 @end

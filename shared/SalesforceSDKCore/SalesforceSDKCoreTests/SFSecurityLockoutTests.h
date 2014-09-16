@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 salesforce.com. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface SFSecurityLockoutTests : SenTestCase
+@interface SFSecurityLockoutTests : XCTestCase
 
 @end

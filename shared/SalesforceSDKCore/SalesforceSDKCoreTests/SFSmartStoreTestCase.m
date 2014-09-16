@@ -39,7 +39,7 @@
             return;
         }
         else {
-           STFail(message);
+           XCTFail(@"%@", message);
         }
     }
     // Both arrays
@@ -52,7 +52,7 @@
     }
     // Strings/numbers/booleans
     else {
-        STAssertEqualObjects(expected, actual, message);
+        XCTAssertEqualObjects(expected, actual, @"%@", message);
     }
     
 }
@@ -63,7 +63,7 @@
     NSUInteger expectedCount = [expected count];
     NSUInteger actualCount = [actual count];
 
-    STAssertEquals(expectedCount, actualCount, message);
+    XCTAssertEqual(expectedCount, actualCount, @"%@", message);
  
     // Compare values in array
     for (int i=0; i<expectedCount; i++) {
@@ -76,7 +76,7 @@
     // First compare length
     NSUInteger expectedCount = [expected count];
     NSUInteger actualCount = [actual count];
-    STAssertEquals(expectedCount, actualCount, message);
+    XCTAssertEqual(expectedCount, actualCount, @"%@", message);
     
     // Compare values in array
     NSEnumerator* enumator = [expected keyEnumerator];

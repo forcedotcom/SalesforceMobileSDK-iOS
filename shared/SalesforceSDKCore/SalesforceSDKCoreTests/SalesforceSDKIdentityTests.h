@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 @class SFSDKTestRequestListener;
 @class SFOAuthCoordinator;
@@ -30,7 +30,7 @@
 /**
  * The unit tests associated with SFIdentityCoordinator requests.
  */
-@interface SalesforceSDKIdentityTests : SenTestCase
+@interface SalesforceSDKIdentityTests : XCTestCase
 {
     SFSDKTestRequestListener *_requestListener;
 }

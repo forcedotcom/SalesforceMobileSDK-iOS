@@ -34,7 +34,7 @@
     NSString *inUrlString = @"https://www.myserver.com/path.html";
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSString *outUrlString = [url redactedAbsoluteString:nil];
-    STAssertEquals(inUrlString, outUrlString,
+    XCTAssertEqual(inUrlString, outUrlString,
                    @"'%@' and '%@' should be the same, with no querystring.",
                    inUrlString,
                    outUrlString);
@@ -45,7 +45,7 @@
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSString *outUrlString = [url redactedAbsoluteString:nil];
-    STAssertEquals(inUrlString, outUrlString,
+    XCTAssertEqual(inUrlString, outUrlString,
                    @"'%@' and '%@' should be the same, with no arguments.",
                    inUrlString,
                    outUrlString);
@@ -57,7 +57,7 @@
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSArray *redactParams = @[@"param3", @"param4"];
     NSString *outUrlString = [url redactedAbsoluteString:redactParams];
-    STAssertTrue([inUrlString isEqualToString:outUrlString],
+    XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                  @"'%@' and '%@' should be the same, with no matching arguments.",
                  inUrlString,
                  outUrlString);
@@ -71,7 +71,7 @@
     NSString *expectedOutUrlString = [NSString stringWithFormat:@"https://www.myserver.com/path?param1=%@&param2=val2",
                                       kSFRedactedQuerystringValue];
     NSString *actualOutUrlString = [url redactedAbsoluteString:redactParams];
-    STAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
+    XCTAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
                  @"'%@' should turn into '%@'.  Got '%@' instead.",
                  inUrlString,
                  expectedOutUrlString,
@@ -87,7 +87,7 @@
                                       kSFRedactedQuerystringValue,
                                       kSFRedactedQuerystringValue];
     NSString *actualOutUrlString = [url redactedAbsoluteString:redactParams];
-    STAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
+    XCTAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
                  @"'%@' should turn into '%@'.  Got '%@' instead.",
                  inUrlString,
                  expectedOutUrlString,
@@ -95,23 +95,23 @@
 }
 
 - (void)testStringUrlWithBaseUrlAndComponents {
-    STAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com"] pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080"] pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"http://test.salesforce.com:8080/customers", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v31.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v31.0"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com"] pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080"] pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v31.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v31.0"]]), @"Invalid URL string");
 }
 
 - (void)testStringUrlWithComponents
 {
-    STAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:nil pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:@(8080) pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:nil], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers"]], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers"]], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers/"]], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/"]], @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v31.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v31.0/", @"settings"]]), @"Invalid URL string");
-    STAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v31.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v31.0/", @"/settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:nil pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithScheme:@"http" host:@"test.salesforce.com" port:@(8080) pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:nil], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers"]], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers"]], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers/"]], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/"]], @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v31.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v31.0/", @"settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v31.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v31.0/", @"/settings"]]), @"Invalid URL string");
 }
 
 @end

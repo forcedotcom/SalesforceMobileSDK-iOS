@@ -22,10 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "SFSmartStore.h"
 
-@interface SFSmartStoreTestCase : SenTestCase
+@interface SFSmartStoreTestCase : XCTestCase
 
 - (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message;
 - (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message;
