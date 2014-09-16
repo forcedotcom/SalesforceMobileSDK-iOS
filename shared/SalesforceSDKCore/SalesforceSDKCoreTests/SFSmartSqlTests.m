@@ -90,24 +90,24 @@ NSString* const kName                 = @"name";
 {
     SFSmartSqlHelper* instance1 = [SFSmartSqlHelper sharedInstance];
     SFSmartSqlHelper* instance2 = [SFSmartSqlHelper sharedInstance];
-    STAssertEqualObjects(instance1, instance2, @"There should be only one instance");
+    XCTAssertEqualObjects(instance1, instance2, @"There should be only one instance");
 }
 
 - (void) testConvertSmartSqlWithInsertUpdateDelete
 {
-    STAssertNil([_store convertSmartSql:@"insert into {employees}"], @"Should have returned nil for a insert query");
-    STAssertNil([_store convertSmartSql:@"update {employees}"], @"Should have returned nil for a update query");
-    STAssertNil([_store convertSmartSql:@"delete from {employees}"], @"Should have returned nil for a delete query");
-    STAssertNotNil([_store convertSmartSql:@"select * from {employees}"], @"Should not have returned nil for a proper query");
+    XCTAssertNil([_store convertSmartSql:@"insert into {employees}"], @"Should have returned nil for a insert query");
+    XCTAssertNil([_store convertSmartSql:@"update {employees}"], @"Should have returned nil for a update query");
+    XCTAssertNil([_store convertSmartSql:@"delete from {employees}"], @"Should have returned nil for a delete query");
+    XCTAssertNotNil([_store convertSmartSql:@"select * from {employees}"], @"Should not have returned nil for a proper query");
 }
 
 - (void) testSimpleConvertSmartSql
 {
-    STAssertEqualObjects(@"select TABLE_1_0, TABLE_1_1 from TABLE_1 order by TABLE_1_1",
+    XCTAssertEqualObjects(@"select TABLE_1_0, TABLE_1_1 from TABLE_1 order by TABLE_1_1",
                          [_store convertSmartSql:@"select {employees:firstName}, {employees:lastName} from {employees} order by {employees:lastName}"],
                          @"Bad conversion");
 
-    STAssertEqualObjects(@"select TABLE_2_1 from TABLE_2 order by TABLE_2_0",
+    XCTAssertEqualObjects(@"select TABLE_2_1 from TABLE_2 order by TABLE_2_0",
                          [_store convertSmartSql:@"select {departments:name} from {departments} order by {departments:deptCode}"],
                          @"Bad conversion");
 }
@@ -115,7 +115,7 @@ NSString* const kName                 = @"name";
 
 - (void) testConvertSmartSqlWithJoin
 {
-    STAssertEqualObjects(@"select TABLE_2_1, TABLE_1_0 || ' ' || TABLE_1_1 "
+    XCTAssertEqualObjects(@"select TABLE_2_1, TABLE_1_0 || ' ' || TABLE_1_1 "
                          "from TABLE_1, TABLE_2 "
                          "where TABLE_2_0 = TABLE_1_2 "
                          "order by TABLE_2_1, TABLE_1_1",
@@ -128,7 +128,7 @@ NSString* const kName                 = @"name";
 
 - (void) testConvertSmartSqlWithSelfJoin
 {
-    STAssertEqualObjects(@"select mgr.TABLE_1_1, e.TABLE_1_1 "
+    XCTAssertEqualObjects(@"select mgr.TABLE_1_1, e.TABLE_1_1 "
                          "from TABLE_1 as mgr, TABLE_1 as e "
                          "where mgr.TABLE_1_3 = e.TABLE_1_4",
                          [_store convertSmartSql:@"select mgr.{employees:lastName}, e.{employees:lastName} "
@@ -139,19 +139,19 @@ NSString* const kName                 = @"name";
 
 - (void) testConvertSmartSqlWithSpecialColumns
 {
-    STAssertEqualObjects(@"select TABLE_1.id, TABLE_1.lastModified, TABLE_1.soup from TABLE_1", 
+    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.lastModified, TABLE_1.soup from TABLE_1", 
                          [_store convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}"], @"Bad conversion");
 }
 	
 - (void) testConvertSmartSqlWithSpecialColumnsAndJoin
 {
-    STAssertEqualObjects(@"select TABLE_1.id, TABLE_2.id from TABLE_1, TABLE_2", 
+    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_2.id from TABLE_1, TABLE_2", 
                          [_store convertSmartSql:@"select {employees:_soupEntryId}, {departments:_soupEntryId} from {employees}, {departments}"], @"Bad conversion");
 }
 
 - (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin
 {
-    STAssertEqualObjects(@"select mgr.id, e.id from TABLE_1 as mgr, TABLE_1 as e", 
+    XCTAssertEqualObjects(@"select mgr.id, e.id from TABLE_1 as mgr, TABLE_1 as e", 
                          [_store convertSmartSql:@"select mgr.{employees:_soupEntryId}, e.{employees:_soupEntryId} from {employees} as mgr, {employees} as e"], @"Bad conversion");
 }
 
@@ -200,21 +200,21 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
-    STAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
+    XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    STAssertTrue(1 == [result count], @"Expected one row");
+    XCTAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
-    STAssertEqualObjects(@"Christine", result[0][1], @"Wrong first name");
+    XCTAssertEqualObjects(@"Christine", result[0][1], @"Wrong first name");
     NSNumber* dubNum = result[0][2];
-    STAssertEquals(200000.10, [dubNum doubleValue], @"Wrong salary");
+    XCTAssertEqual(200000.10, [dubNum doubleValue], @"Wrong salary");
 }
 	
 - (void) testSmartQueryWithPaging 
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
-    STAssertTrue(7 ==[_store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
+    XCTAssertTrue(7 ==[_store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
     NSArray* expectedResults = @[@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally"];
     for (int i=0; i<7; i++) {
         NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i  error:nil];
@@ -229,13 +229,13 @@ NSString* const kName                 = @"name";
     [self loadData];
     SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
-    STAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
+    XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    STAssertTrue(1 == [result count], @"Expected one row");
+    XCTAssertTrue(1 == [result count], @"Expected one row");
     [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
-    STAssertEqualObjects(christineJson[@"_soupEntryId"], result[0][1], @"Wrong soupEntryId");
-    STAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
+    XCTAssertEqualObjects(christineJson[@"_soupEntryId"], result[0][1], @"Wrong soupEntryId");
+    XCTAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
 }
 
 #pragma mark - helper methods
