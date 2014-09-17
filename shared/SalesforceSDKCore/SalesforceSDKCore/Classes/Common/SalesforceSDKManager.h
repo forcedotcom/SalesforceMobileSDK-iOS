@@ -47,7 +47,25 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 + (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction;
 + (SFSDKSwitchUserCallbackBlock)switchUserAction;
 + (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction;
++ (BOOL)useSnapshotView;
++ (void)setUseSnapshotView:(BOOL)useSnapshotView;
++ (UIView *)snapshotView;
++ (void)setSnapshotView:(UIView *)snapshotView;
 + (void)launch;
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
+
+/**
+ @return The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
+ */
++ (NSString *)preferredPasscodeProvider;
+
+/**
+ Set the preferred passcode provider to use.  Defaults to kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
+ NOTE: If you wanted to set your own provider, you could do the following:
+         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
+ */
++ (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider;
 
 @end

@@ -10,14 +10,23 @@
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFSecurityLockout.h"
+#import "SFRootViewManager.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
+#import <SalesforceSecurity/SFPasscodeManager.h>
+#import <SalesforceSecurity/SFPasscodeProviderManager.h>
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
 
+// Key for whether or not the user has chosen the app setting to logout of the
+// app when it is re-opened.
+static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
+
+//
 // Helper class to handle user account and auth delegate calls.  Implementation at the end.
-@interface SFSDKManagerDelegateHandler : NSObject <SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+//
+@interface SFSDKManagerEventHandler : NSObject <SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 
 @end
 
@@ -28,15 +37,20 @@ static SFSDKSwitchUserCallbackBlock sSwitchUserAction;
 static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
 static BOOL sHasVerifiedPasscodeAtStartup = NO;
-static SFSDKManagerDelegateHandler *sDelegateHandler;
+static BOOL sUseSnapshotView = YES;
+static UIViewController *sSnapshotViewController;
+static UIView *sSnapshotView;
+static SFSDKManagerEventHandler *sDelegateHandler;
 
 @implementation SalesforceSDKManager
 
 + (void)initialize
 {
-    sDelegateHandler = [[SFSDKManagerDelegateHandler alloc] init];
+    sDelegateHandler = [[SFSDKManagerEventHandler alloc] init];
     [[SFUserAccountManager sharedInstance] addDelegate:sDelegateHandler];
     [[SFAuthenticationManager sharedManager] addDelegate:sDelegateHandler];
+    [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
 }
 
 + (BOOL)isLaunching
@@ -112,6 +126,16 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
 + (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction
 {
     sSwitchUserAction = switchUserAction;
+}
+
++ (NSString *)preferredPasscodeProvider
+{
+    return [SFPasscodeManager sharedManager].preferredPasscodeProvider;
+}
+
++ (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider
+{
+    [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
 }
 
 + (void)launch
@@ -251,6 +275,90 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
     }
 }
 
++ (void)handleAppForeground
+{
+    [SFLogger log:[self class] level:SFLogLevelDebug msg:@"App entering foreground."];
+    [self removeSnapshotView];
+    
+    BOOL shouldLogout = [self logoutSettingEnabled];
+    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
+    if (shouldLogout) {
+        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
+        [[SFAuthenticationManager sharedManager] logout];
+    } else if (result.loginHostChanged) {
+        [SFLogger log:[self class] level:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
+        [[SFAuthenticationManager sharedManager] cancelAuthentication];
+        [[SFUserAccountManager sharedInstance] switchToNewUser];
+    } else {
+        // Check to display pin code screen.
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [self logout];
+        }];
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
+        [SFSecurityLockout validateTimer];
+    }
+}
+
++ (BOOL)logoutSettingEnabled
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults synchronize];
+	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"userLogoutSettingEnabled: %d", logoutSettingEnabled];
+    return logoutSettingEnabled;
+}
+    
++ (void)removeSnapshotView
+{
+    if ([self useSnapshotView]) {
+        [[SFRootViewManager sharedManager] popViewController:sSnapshotViewController];
+    }
+}
+
++ (void)setupSnapshotView
+{
+    if ([self useSnapshotView]) {
+        if ([self snapshotView] == nil) {
+            [self setSnapshotView:[self createDefaultSnapshotView]];
+        }
+        
+        if (sSnapshotViewController == nil) {
+            sSnapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+            [sSnapshotViewController.view addSubview:[self snapshotView]];
+        }
+        
+        [[SFRootViewManager sharedManager] pushViewController:sSnapshotViewController];
+    }
+}
+
++ (UIView *)createDefaultSnapshotView
+{
+    UIView *opaqueView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    opaqueView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    opaqueView.backgroundColor = [UIColor whiteColor];
+    return opaqueView;
+}
+
++ (BOOL)useSnapshotView
+{
+    return sUseSnapshotView;
+}
+
++ (void)setUseSnapshotView:(BOOL)useSnapshotView
+{
+    sUseSnapshotView = useSnapshotView;
+}
+
++ (UIView *)snapshotView
+{
+    return sSnapshotView;
+}
+
++ (void)setSnapshotView:(UIView *)snapshotView
+{
+    sSnapshotView = snapshotView;
+}
+
 + (void)passcodeValidationAtLaunch
 {
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
@@ -293,7 +401,14 @@ static SFSDKManagerDelegateHandler *sDelegateHandler;
 
 @end
 
-@implementation SFSDKManagerDelegateHandler
+@implementation SFSDKManagerEventHandler
+
+#pragma mark - App lifecycle notifications
+
+- (void)appWillEnterForeground:(NSNotification *)notification
+{
+    [SalesforceSDKManager handleAppForeground];
+}
 
 #pragma mark - SFAuthenticationManagerDelegate
 

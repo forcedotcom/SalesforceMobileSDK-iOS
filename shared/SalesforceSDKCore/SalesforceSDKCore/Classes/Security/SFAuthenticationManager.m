@@ -71,10 +71,6 @@ static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
-
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
@@ -173,11 +169,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @property (atomic, strong) NSMutableArray *authBlockList;
 
 /**
- View controller that will display the security snapshot view.
- */
-@property (nonatomic, strong) UIViewController *snapshotViewController;
-
-/**
  Dismisses the authentication retry alert box, if present.
  */
 - (void)cleanupStatusAlert;
@@ -258,23 +249,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)showAlertForConnectedAppVersionMismatchError;
 
 /**
- Sets up the security snapshot view of the screen when the app is backgrounding.
- */
-- (void)setupSnapshotView;
-
-/**
- Removes the security snapshot view of the screen when the app is foregrounding.
- */
-- (void)removeSnapshotView;
-
-/**
- Creates the default snapshot view (a white opaque view that covers the screen) if the snapshotView
- property has not previously been configured.
- @return The UIView representing the default snapshot view.
- */
-- (UIView *)createDefaultSnapshotView;
-
-/**
  Persists the last user activity, for passcode purposes, when the app is backgrounding or terminating.
  */
 - (void)savePasscodeActivityInfo;
@@ -306,9 +280,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize authInfo = _authInfo;
 @synthesize authError = _authError;
 @synthesize authBlockList = _authBlockList;
-@synthesize useSnapshotView = _useSnapshotView;
-@synthesize snapshotView = _snapshotView;
-@synthesize snapshotViewController = _snapshotViewController;
 @synthesize authViewHandler = _authViewHandler;
 @synthesize authErrorHandlerList = _authErrorHandlerList;
 @synthesize invalidCredentialsAuthErrorHandler = _invalidCredentialsAuthErrorHandler;
@@ -345,12 +316,8 @@ static Class InstanceClass = nil;
     if (self) {
         self.authBlockList = [NSMutableArray array];
         _delegates = [[NSMutableOrderedSet alloc] init];
-        self.preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        self.useSnapshotView = YES;
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -404,8 +371,6 @@ static Class InstanceClass = nil;
     SFRelease(_authInfo);
     SFRelease(_authError);
     SFRelease(_authBlockList);
-    SFRelease(_snapshotView);
-    SFRelease(_snapshotViewController);
 }
 
 #pragma mark - Public methods
@@ -581,52 +546,6 @@ static Class InstanceClass = nil;
     }
 }
 
-- (BOOL)logoutSettingEnabled {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
-    [self log:SFLogLevelDebug format:@"userLogoutSettingEnabled: %d", logoutSettingEnabled];
-    return logoutSettingEnabled;
-}
-
-- (NSString *)preferredPasscodeProvider
-{
-    return [SFPasscodeManager sharedManager].preferredPasscodeProvider;
-}
-
-- (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider
-{
-    [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
-}
-
-- (void)appDidFinishLaunching:(NSNotification *)notification
-{
-    [SFSecurityLockout setValidatePasscodeAtStartup:YES];
-}
-
-- (void)appWillEnterForeground:(NSNotification *)notification
-{
-    [self removeSnapshotView];
-    
-    BOOL shouldLogout = [self logoutSettingEnabled];
-    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-    if (shouldLogout) {
-        [self log:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
-        [self logout];
-    } else if (result.loginHostChanged) {
-        [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
-        [self cancelAuthentication];
-        [[SFUserAccountManager sharedInstance] switchToNewUser];
-    } else {
-        // Check to display pin code screen.
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self logout];
-        }];
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
-        [SFSecurityLockout validateTimer];
-    }
-}
-
 - (void)appDidEnterBackground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
@@ -757,37 +676,6 @@ static Class InstanceClass = nil;
 }
 
 #pragma mark - Private methods
-
-- (void)setupSnapshotView
-{
-    if (self.useSnapshotView) {
-        if (self.snapshotView == nil) {
-            self.snapshotView = [self createDefaultSnapshotView];
-        }
-        
-        if (self.snapshotViewController == nil) {
-            self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-            [self.snapshotViewController.view addSubview:self.snapshotView];
-        }
-        [self removeSnapshotView];
-        [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
-    }
-}
-
-- (void)removeSnapshotView
-{
-    if (self.useSnapshotView) {
-        [[SFRootViewManager sharedManager] popViewController:self.snapshotViewController];
-    }
-}
-
-- (UIView *)createDefaultSnapshotView
-{
-    UIView *opaqueView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    opaqueView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    opaqueView.backgroundColor = [UIColor whiteColor];
-    return opaqueView;
-}
 
 - (void)savePasscodeActivityInfo
 {

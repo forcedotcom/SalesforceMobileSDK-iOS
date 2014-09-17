@@ -89,7 +89,9 @@
     
     [self log:SFLogLevelDebug format:@"SFRootViewManager: Presenting view controller (%@).", NSStringFromClass([viewController class])];
     if (currentViewController != nil) {
-        [currentViewController presentViewController:viewController animated:NO completion:NULL];
+        if (currentViewController != viewController) {
+            [currentViewController presentViewController:viewController animated:NO completion:NULL];
+        }
     } else {
         self.mainWindow.rootViewController = viewController;
     }

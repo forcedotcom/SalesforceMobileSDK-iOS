@@ -168,35 +168,6 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, readonly) BOOL logoutSettingEnabled;
 
 /**
- If this property is set, the authentication manager will swap a "blank" view in place
- of the currently displayed view when the app goes into the background, to protect sensitive displayed
- data from being captured in an image file by iOS.  This view will be swapped out for the original
- view when the app enters the foreground.  This property is set to YES by default.
- 
- @see snapshotView
- */
-@property (nonatomic, assign) BOOL useSnapshotView;
-
-/**
- A view to be swapped in for the currently displayed view when the app enters the background, to prevent
- iOS from capturing sensitive data into an image file.  By default, this will be an opaque white screen,
- but you can set this property to any UIView, prior to app backgrounding, to use that view instead.
- 
- @see useSnapshotView which toggles this behavior.
- */
-@property (nonatomic, strong) UIView *snapshotView;
-
-/**
- The preferred passcode provider to use.  In this release, defaults to
- kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
- NOTE: If you wanted to set your own provider, you could do the following:
-         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SFAuthenticationManager sharedManager].preferredPasscodeProvider = myProviderName;
- */
-@property (nonatomic, copy) NSString *preferredPasscodeProvider;
-
-/**
  The class instance to be used to instantiate the singleton.
  */
 + (void)setInstanceClass:(Class)class;
@@ -309,18 +280,6 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
-
-/**
- Notification handler for when the app finishes launching.
- @param notification The notification data associated with the event.
- */
-- (void)appDidFinishLaunching:(NSNotification *)notification;
-
-/**
- Notification handler for when the app enters the foreground.
- @param notification The notification data associated with the event.
- */
-- (void)appWillEnterForeground:(NSNotification *)notification;
 
 /**
  Notification handler for when the app enters the background.
