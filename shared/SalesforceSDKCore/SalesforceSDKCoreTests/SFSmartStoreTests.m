@@ -138,20 +138,24 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testRegisterRemoveSoup
 {
-    // Before
-    XCTAssertFalse([_store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
+    NSUInteger const numRegisterAndDropIterations = 10;
     
-    // Register
-    NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
-    [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
-    BOOL testSoupExists = [_store soupExists:kTestSoupName];
-    XCTAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
-    
-    // Remove
-    [_store removeSoup:kTestSoupName];
-    testSoupExists = [_store soupExists:kTestSoupName];
-    XCTAssertFalse(testSoupExists, @"Soup %@ should no longer exist", kTestSoupName);
-    
+    // Make sure you can register, drop, and re-add a soup through n iterations.
+    for (NSUInteger i = 0; i < numRegisterAndDropIterations; i++) {
+        // Before
+        XCTAssertFalse([_store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
+        
+        // Register
+        NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
+        [_store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
+        BOOL testSoupExists = [_store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+        
+        // Remove
+        [_store removeSoup:kTestSoupName];
+        testSoupExists = [_store soupExists:kTestSoupName];
+        XCTAssertFalse(testSoupExists, @"In iteration %u: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
+    }
 }
 
 /**
