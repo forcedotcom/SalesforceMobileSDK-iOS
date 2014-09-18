@@ -8,12 +8,13 @@
 
 #import "SalesforceSDKManager.h"
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
+#import "SFAuthenticationManager+Internal.h"
 #import "SFSecurityLockout.h"
 #import "SFRootViewManager.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
+#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -34,6 +35,7 @@ static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 static SFSDKLogoutCallbackBlock sPostLogoutAction;
 static SFSDKSwitchUserCallbackBlock sSwitchUserAction;
+static SFSDKAppForegroundCallbackBlock sPostAppForegroundAction;
 static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
 static BOOL sHasVerifiedPasscodeAtStartup = NO;
@@ -50,7 +52,25 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [[SFUserAccountManager sharedInstance] addDelegate:sDelegateHandler];
     [[SFAuthenticationManager sharedManager] addDelegate:sDelegateHandler];
     [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
+    
+    // Make sure the login host settings and dependent data are synced at pre-auth app startup.
+    // Note: No event generation necessary here.  This will happen before the first authentication
+    // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
+    // app state as an initialization step.
+    BOOL logoutAppSettingEnabled = [self logoutSettingEnabled];
+    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
+    if (logoutAppSettingEnabled) {
+        [[SFAuthenticationManager sharedManager] clearAccountState:YES];
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:NO forKey:kAppSettingsAccountLogout];
+        [defs synchronize];
+    } else if (result.loginHostChanged) {
+        // Authentication hasn't started yet.  Just reset the current user.
+        [SFUserAccountManager sharedInstance].currentUser = nil;
+    }
 }
 
 + (BOOL)isLaunching
@@ -126,6 +146,16 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 + (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction
 {
     sSwitchUserAction = switchUserAction;
+}
+
++ (SFSDKAppForegroundCallbackBlock)postAppForegroundAction
+{
+    return sPostAppForegroundAction;
+}
+
++ (void)setPostAppForegroundAction:(SFSDKAppForegroundCallbackBlock)postAppForegroundAction
+{
+    sPostAppForegroundAction = postAppForegroundAction;
 }
 
 + (NSString *)preferredPasscodeProvider
@@ -255,6 +285,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 + (void)sendPostLogout
 {
+    sIsLaunching = NO;
     if ([self postLogoutAction]) {
         [self postLogoutAction]();
     }
@@ -270,8 +301,16 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 + (void)sendUserAccountSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
+    sIsLaunching = NO;
     if ([self switchUserAction]) {
         [self switchUserAction](fromUser, toUser);
+    }
+}
+
++ (void)sendPostAppForeground
+{
+    if ([self postAppForegroundAction]) {
+        [self postAppForegroundAction]();
     }
 }
 
@@ -284,19 +323,49 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
     if (shouldLogout) {
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:NO forKey:kAppSettingsAccountLogout];
+        [defs synchronize];
         [[SFAuthenticationManager sharedManager] logout];
     } else if (result.loginHostChanged) {
         [SFLogger log:[self class] level:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
         [[SFAuthenticationManager sharedManager] cancelAuthentication];
         [[SFUserAccountManager sharedInstance] switchToNewUser];
+    } else if (sIsLaunching) {
+        [SFLogger log:[self class] level:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
+        
         // Check to display pin code screen.
+        
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self logout];
+            // Note: Failed passcode verification automatically logs out users, which the logout
+            // delegate handler will catch and pass on.  We just log the error and reset launch
+            // state here.
+            [SFLogger log:[self class] level:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
         }];
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
+        
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
+            [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Passcode validation succeeded, or was not required, on app foreground.  Triggering postAppForeground handler."];
+            [self sendPostAppForeground];
+        }];
+        
         [SFSecurityLockout validateTimer];
     }
+}
+
++ (void)handleAppBackground
+{
+    [SFLogger log:[self class] level:SFLogLevelDebug msg:@"App is entering the background."];
+    
+    [self savePasscodeActivityInfo];
+    
+    // Set up snapshot security view, if it's configured.
+    [self setupSnapshotView];
+}
+
++ (void)handleAppTerminate
+{
+    [self savePasscodeActivityInfo];
 }
 
 + (BOOL)logoutSettingEnabled
@@ -306,6 +375,12 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"userLogoutSettingEnabled: %d", logoutSettingEnabled];
     return logoutSettingEnabled;
+}
+
++ (void)savePasscodeActivityInfo
+{
+    [SFSecurityLockout removeTimer];
+    [SFInactivityTimerCenter saveActivityTimestamp];
 }
     
 + (void)removeSnapshotView
@@ -372,7 +447,6 @@ static SFSDKManagerEventHandler *sDelegateHandler;
         // delegate handler will catch and pass on.  We just log the error and reset launch
         // state here.
         [SFLogger log:[self class] level:SFLogLevelError msg:@"Passcode validation failed.  Logging the user out."];
-        sIsLaunching = NO;
     }];
     [SFSecurityLockout lock];
 }
@@ -408,6 +482,16 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 - (void)appWillEnterForeground:(NSNotification *)notification
 {
     [SalesforceSDKManager handleAppForeground];
+}
+
+- (void)appDidEnterBackground:(NSNotification *)notification
+{
+    [SalesforceSDKManager handleAppBackground];
+}
+
+- (void)appWillTerminate:(NSNotification *)notification
+{
+    [SalesforceSDKManager handleAppTerminate];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

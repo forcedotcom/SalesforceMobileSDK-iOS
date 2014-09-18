@@ -29,6 +29,7 @@ typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
 typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
 typedef void (^SFSDKLogoutCallbackBlock)(void);
 typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
+typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 
 @interface SalesforceSDKManager : NSObject
 
@@ -47,6 +48,8 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 + (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction;
 + (SFSDKSwitchUserCallbackBlock)switchUserAction;
 + (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction;
++ (SFSDKAppForegroundCallbackBlock)postAppForegroundAction;
++ (void)setPostAppForegroundAction:(SFSDKAppForegroundCallbackBlock)postAppForegroundAction;
 + (BOOL)useSnapshotView;
 + (void)setUseSnapshotView:(BOOL)useSnapshotView;
 + (UIView *)snapshotView;

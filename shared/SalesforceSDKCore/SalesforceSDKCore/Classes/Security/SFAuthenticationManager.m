@@ -174,12 +174,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)cleanupStatusAlert;
 
 /**
- Clears the account state associated with the current account.
- @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
- */
-- (void)clearAccountState:(BOOL)clearAccountData;
-
-/**
  Method to present the authorizing view controller with the given auth webView.
  @param webView The auth webView to present.
  */
@@ -249,11 +243,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)showAlertForConnectedAppVersionMismatchError;
 
 /**
- Persists the last user activity, for passcode purposes, when the app is backgrounding or terminating.
- */
-- (void)savePasscodeActivityInfo;
-
-/**
  Sets up the default error handling chain.
  @return The SFAuthErrorHandlerList instance containing the chain of error handler filters.
  */
@@ -316,8 +305,6 @@ static Class InstanceClass = nil;
     if (self) {
         self.authBlockList = [NSMutableArray array];
         _delegates = [[NSMutableOrderedSet alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -341,19 +328,6 @@ static Class InstanceClass = nil;
         if (user) {
             [self setupWithUser:user];
         }
-        
-        // Make sure the login host settings and dependent data are synced at pre-auth app startup.
-        // Note: No event generation necessary here.  This will happen before the first authentication
-        // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
-        // app state as an initialization step.
-        BOOL logoutAppSettingEnabled = [self logoutSettingEnabled];
-        SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-        if (logoutAppSettingEnabled) {
-            [self clearAccountState:YES];
-        } else if (result.loginHostChanged) {
-            // Authentication hasn't started yet.  Just reset the current user.
-            [SFUserAccountManager sharedInstance].currentUser = nil;
-        }
     }
     
     return self;
@@ -361,10 +335,6 @@ static Class InstanceClass = nil;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
     [self cleanupStatusAlert];
     SFRelease(_statusAlert);
     SFRelease(_authViewController);
@@ -546,21 +516,6 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)appDidEnterBackground:(NSNotification *)notification
-{
-    [self log:SFLogLevelDebug msg:@"App is entering the background."];
-    
-    [self savePasscodeActivityInfo];
-    
-    // Set up snapshot security view, if it's configured.
-    [self setupSnapshotView];
-}
-
-- (void)appWillTerminate:(NSNotification *)notification
-{
-    [self savePasscodeActivityInfo];
-}
-
 + (void)resetSessionCookie
 {
     [self removeCookies:@[@"sid"]
@@ -676,14 +631,6 @@ static Class InstanceClass = nil;
 }
 
 #pragma mark - Private methods
-
-- (void)savePasscodeActivityInfo
-{
-    [SFSecurityLockout removeTimer];
-    if (self.coordinator.credentials != nil) {
-		[SFInactivityTimerCenter saveActivityTimestamp];
-	}
-}
 
 - (void)finalizeAuthCompletion
 {
@@ -859,9 +806,6 @@ static Class InstanceClass = nil;
     if (clearAccountData) {
         [SFSmartStore removeAllStores];
         [SFSecurityLockout clearPasscodeState];
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-        [defs setBool:NO forKey:kAppSettingsAccountLogout];
-        [defs synchronize];
     }
     
     if (self.coordinator.view) {

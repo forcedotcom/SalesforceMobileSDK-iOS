@@ -282,18 +282,6 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (void)cancelAuthentication;
 
 /**
- Notification handler for when the app enters the background.
- @param notification The notification data associated with the event.
- */
-- (void)appDidEnterBackground:(NSNotification *)notification;
-
-/**
- Notification handler for when the app will be terminated.
- @param notification The notification data associated with the event.
- */
-- (void)appWillTerminate:(NSNotification *)notification;
-
-/**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the
  OAuth credentials.
  */
