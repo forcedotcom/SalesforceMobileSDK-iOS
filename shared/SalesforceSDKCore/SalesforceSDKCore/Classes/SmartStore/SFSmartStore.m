@@ -931,6 +931,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self executeUpdateThrows:deleteNameSql withDb:db];
     
     [_indexSpecsBySoup removeObjectForKey:soupName ];
+    [_soupNameToTableName removeObjectForKey:soupName ];
     
     // Cleanup _smartSqlToSql
     NSString* soupRef = [@[@"{", soupName, @"}"] componentsJoinedByString:@""];
