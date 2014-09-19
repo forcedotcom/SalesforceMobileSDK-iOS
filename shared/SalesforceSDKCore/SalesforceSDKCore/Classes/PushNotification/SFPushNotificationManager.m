@@ -28,7 +28,6 @@
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
-#import "SFLogger.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
