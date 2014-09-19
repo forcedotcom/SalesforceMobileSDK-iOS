@@ -36,7 +36,9 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v31.0/sobje
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
 static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
 static UIUserNotificationType const kUserNotificationTypes = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
+#endif
 #pragma clang diagnostic pop
 
 @interface SFPushNotificationManager ()
