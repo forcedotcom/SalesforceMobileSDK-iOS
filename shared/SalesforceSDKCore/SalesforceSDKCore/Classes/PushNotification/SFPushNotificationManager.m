@@ -28,6 +28,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
+#import "SFLogger.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -36,6 +37,7 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v31.0/sobje
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
 static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
+static UIUserNotificationType const kUserNotificationTypes = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
 #pragma clang diagnostic pop
 
 @interface SFPushNotificationManager ()
@@ -63,7 +65,7 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         
         // Restore device token from user defaults if available
         _deviceToken = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceToken];
-
+        
         // Restore device Salesforce ID from user defaults if available
         _deviceSalesforceId = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceSalesforceId];
         
@@ -96,7 +98,18 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
 #else
     // register with Apple for remote notifications
     [self log:SFLogLevelInfo msg:@"Registering with Apple for remote push notifications"];
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kRemoteNotificationTypes];
+
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:kUserNotificationTypes categories:nil]];
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        } else {
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kRemoteNotificationTypes];
+        }
+    #else
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kRemoteNotificationTypes];
+    #endif
+    
 #endif
 }
 
@@ -132,33 +145,33 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
-
+    
     // Body
     NSDictionary* bodyDict = @{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple"};
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
     [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-    {
-        if (error != nil) {
-            [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
-        }
-        else {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-            NSInteger statusCode = httpResponse.statusCode;
-            if (statusCode < 200 || statusCode >= 300) {
-                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
-                [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
-            }
-            else {
-                [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
-                NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
-                [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
-            }
-        }
-    }];
+     {
+         if (error != nil) {
+             [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
+         }
+         else {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+             NSInteger statusCode = httpResponse.statusCode;
+             if (statusCode < 200 || statusCode >= 300) {
+                 [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
+             }
+             else {
+                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
+                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
+                 _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+                 [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
+             }
+         }
+     }];
     
     return YES;
 }
@@ -186,15 +199,15 @@ static UIRemoteNotificationType const kRemoteNotificationTypes = UIRemoteNotific
         return NO;
     }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-
+    
     // URL and method
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSFPushNotificationEndPoint, deviceSFID] relativeToURL:credentials.instanceUrl]];
     [request setHTTPMethod:@"DELETE"];
-
+    
     // Headers
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials.accessToken] forHTTPHeaderField:@"Authorization"];
     [request setHTTPShouldHandleCookies:NO];
-
+    
     // Send (fire and forget)
     NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
     [urlConnection start];
