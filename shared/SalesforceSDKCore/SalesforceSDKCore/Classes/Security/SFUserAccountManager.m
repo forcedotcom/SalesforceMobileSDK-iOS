@@ -497,8 +497,11 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     // each individual user account file.
     // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
     NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
-    if (nil == rootContents && error) {
-        [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, *error];
+    if (nil == rootContents) {
+        if (error) {
+            [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, *error];
+        }
+        
         return NO;
     } else {
         for (NSString *rootContent in rootContents) {
@@ -509,8 +512,10 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
             
             // Fetch the content of the org directory
             NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
-            if (nil == orgContents && error) {
-                [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
+            if (nil == orgContents) {
+                if (error) {
+                    [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
+                }
                 continue;
             }
             
