@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -309,6 +309,11 @@ static BOOL _showPasscode = YES;
     }
 }
 
++ (void)stopActivityMonitoring
+{
+    [[SFUserActivityMonitor sharedInstance] stopMonitoring];
+}
+
 + (void)setupTimer
 {
 	if(securityLockoutTime > 0) {
@@ -494,11 +499,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     return sValidatePasscodeAtStartup;
 }
 
-+ (void)setValidatePasscodeAtStartup:(BOOL)validateAtStartup
-{
-    sValidatePasscodeAtStartup = validateAtStartup;
-}
-
 + (void)setIsLocked:(BOOL)locked
 {
     [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
@@ -542,6 +542,25 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (UIViewController *)passcodeViewController
 {
     return sPasscodeViewController;
+}
+
++ (void)cancelPasscodeScreen
+{
+    void (^cancelPasscodeBlock)(void) = ^{
+        UIViewController *passVc = [SFSecurityLockout passcodeViewController];
+        [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"App requested passcode screen cancel.  Screen %@ displayed.", (passVc != nil ? @"is" : @"is not")];
+        if (passVc != nil) {
+            SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
+            dismissBlock(passVc);
+            [SFSecurityLockout setPasscodeViewController:nil];
+        }
+    };
+    
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), cancelPasscodeBlock);
+    } else {
+        cancelPasscodeBlock();
+    }
 }
 
 + (void)setLockScreenFailureCallbackBlock:(SFLockScreenFailureCallbackBlock)block

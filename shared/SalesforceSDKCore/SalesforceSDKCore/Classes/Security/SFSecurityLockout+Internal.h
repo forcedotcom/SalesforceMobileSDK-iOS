@@ -34,6 +34,11 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
 + (BOOL)passcodeScreenIsPresent;
 
 /**
+ * Closes/dismisses the passcode screen, if it's visible.
+ */
++ (void)cancelPasscodeScreen;
+
+/**
  * Whether or not the app currently has a valid authenticated session.
  */
 + (BOOL)hasValidSession;
