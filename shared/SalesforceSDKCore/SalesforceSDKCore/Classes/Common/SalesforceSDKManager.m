@@ -56,6 +56,7 @@ static SFSDKLaunchAction sLaunchActions;
 static BOOL sIsLaunching = NO;
 static BOOL sHasVerifiedPasscodeAtStartup = NO;
 static BOOL sUseSnapshotView = YES;
+static BOOL sAuthenticateAtLaunch = YES;
 static UIViewController *sSnapshotViewController;
 static UIView *sSnapshotView;
 static SFSDKManagerEventHandler *sDelegateHandler;
@@ -70,6 +71,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:sDelegateHandler selector:@selector(authCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
     [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
     
     // Make sure the login host settings and dependent data are synced at pre-auth app startup.
@@ -124,6 +126,16 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 + (void)setAuthScopes:(NSArray *)authScopes
 {
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithArray:authScopes];
+}
+
++ (BOOL)authenticateAtLaunch
+{
+    return sAuthenticateAtLaunch;
+}
+
++ (void)setAuthenticateAtLaunch:(BOOL)authenticateAtLaunch
+{
+    sAuthenticateAtLaunch = authenticateAtLaunch;
 }
 
 + (SFSDKPostLaunchCallbackBlock)postLaunchAction
@@ -231,6 +243,10 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     }
     if (launchActions & SFSDKLaunchActionAuthenticated) {
         [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthenticated"];
+        joinString = @"|";
+    }
+    if (launchActions & SFSDKLaunchActionAuthBypassed) {
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthBypassed"];
         joinString = @"|";
     }
     if (launchActions & SFSDKLaunchActionPasscodeVerified) {
@@ -387,6 +403,13 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [self savePasscodeActivityInfo];
 }
 
++ (void)handleAuthCompleted
+{
+    // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
+    [SFSecurityLockout setupTimer];
+    [SFSecurityLockout startActivityMonitoring];
+}
+
 + (void)handlePostLogout
 {
     // Close the passcode screen and reset passcode monitoring.
@@ -490,8 +513,8 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 + (void)authValidationAtLaunch
 {
-    if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken) {
-        // Works equally well for any of the above being nil, which are all conditions to
+    if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && sAuthenticateAtLaunch) {
+        // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
@@ -505,9 +528,14 @@ static SFSDKManagerEventHandler *sDelegateHandler;
             [self sendLaunchError:authError];
         }];
     } else {
-        // If credentials already exist, we won't try to refresh them.
-        [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
-        sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
+        // If credentials already exist, or launch shouldn't attempt authentication, we won't try authenticate.
+        if (!sAuthenticateAtLaunch) {
+            [SFLogger log:[self class] level:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
+            sLaunchActions |= SFSDKLaunchActionAuthBypassed;
+        } else {
+            [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
+            sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
+        }
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self sendPostLaunch];
@@ -537,11 +565,16 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [SalesforceSDKManager handleAppTerminate];
 }
 
-#pragma mark - SFAuthenticationManagerDelegate
+#pragma mark - SFAuthenticationManager delegate and notifications
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [SalesforceSDKManager handlePostLogout];
+}
+
+- (void)authCompleted:(NSNotification *)notification
+{
+    [SalesforceSDKManager handleAuthCompleted];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

@@ -233,6 +233,7 @@ static BOOL kIsTestRun;
     if (user.credentials.accessToken == nil && user.credentials.refreshToken == nil) {
         [self log:SFLogLevelInfo msg:@"No auth credentials found.  Authenticating before sending request."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            [self setupNetworkCoordinator];
             [request send:_networkEngine];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
