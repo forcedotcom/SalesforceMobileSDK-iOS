@@ -39,7 +39,8 @@ typedef enum {
     SFSDKLaunchActionNone                 = 0,
     SFSDKLaunchActionAuthenticated        = 1 << 0,
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
-    SFSDKLaunchActionPasscodeVerified     = 1 << 2
+    SFSDKLaunchActionAuthBypassed         = 1 << 2,
+    SFSDKLaunchActionPasscodeVerified     = 1 << 3
 } SFSDKLaunchAction;
 
 /**
@@ -111,6 +112,19 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
  @param authScopes The array of OAuth scopes to associate with this app.
  */
 + (void)setAuthScopes:(NSArray *)authScopes;
+
+/**
+ @return Whether or not to attempt authentication as part of the launch process.  Default
+ value is YES.
+ */
++ (BOOL)authenticateAtLaunch;
+
+/**
+ Sets a flag to determine whether or not to attempt authentication as part of the launch
+ process.  Default value is YES.
+ @param authenticateAtLaunch Whether or not to attempt authentication during the launch process.
+ */
++ (void)setAuthenticateAtLaunch:(BOOL)authenticateAtLaunch;
 
 /**
  @return The configured post launch action block to execute when launch completes.
