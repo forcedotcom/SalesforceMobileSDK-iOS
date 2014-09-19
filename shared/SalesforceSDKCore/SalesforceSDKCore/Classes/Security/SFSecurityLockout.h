@@ -182,6 +182,11 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  */
 + (void)startActivityMonitoring;
 
+/**
+ Stops monitoring for user activity.
+ */
++ (void)stopActivityMonitoring;
+
 /** Lock the device immediately.
  */
 + (void)lock;
@@ -299,12 +304,6 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  * @return Whether or not to validate the passcode at app startup.
  */
 + (BOOL)validatePasscodeAtStartup;
-
-/**
- * Sets whether or not to validate the passcode at app startup.
- * @param validateAtStartup YES to validate at startup, NO otherwise.
- */
-+ (void)setValidatePasscodeAtStartup:(BOOL)validateAtStartup;
 
 @end
 

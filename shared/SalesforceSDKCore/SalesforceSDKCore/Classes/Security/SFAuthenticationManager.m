@@ -426,9 +426,6 @@ static Class InstanceClass = nil;
     if (user == nil) {
         [self log:SFLogLevelInfo msg:@"logoutUser: user is nil.  No action taken."];
         return;
-    } else if (user == [SFUserAccountManager sharedInstance].temporaryUser) {
-        [self log:SFLogLevelInfo msg:@"logoutUser: user is the temporary account.  No action taken."];
-        return;
     }
     
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
@@ -441,7 +438,8 @@ static Class InstanceClass = nil;
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
         // NB: SmartStores need to be cleared before user account info is removed.
-        [SFSmartStore removeAllStoresForUser:user];
+        if (![user isEqual:userAccountManager.temporaryUser])
+            [SFSmartStore removeAllStoresForUser:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [user.credentials revoke];
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
@@ -634,9 +632,6 @@ static Class InstanceClass = nil;
 
 - (void)finalizeAuthCompletion
 {
-    [SFSecurityLockout setValidatePasscodeAtStartup:NO];
-    [SFSecurityLockout startActivityMonitoring];
-    
     // Apply the credentials that will ensure there is a current user and that this
     // current user as the proper credentials.
     [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
@@ -860,30 +855,17 @@ static Class InstanceClass = nil;
     // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     
-    // Post-passcode verification callbacks, where we'll check for passcode creation/update.  Passcode verification section is below.
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [self finalizeAuthCompletion];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self execFailureBlocks];
-        }];
-        
-        // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-        // identity service.
-        [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
-                                 lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
+        [self finalizeAuthCompletion];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         [self execFailureBlocks];
     }];
     
-    // If we're in app startup, we always lock "the first time". Otherwise, pin code screen display depends on inactivity.
-    if ([SFSecurityLockout validatePasscodeAtStartup]) {
-        [SFSecurityLockout lock];
-    } else {
-        [SFSecurityLockout validateTimer];
-    }
+    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+    // identity service.
+    [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
+                             lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag

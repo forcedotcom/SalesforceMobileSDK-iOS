@@ -9,7 +9,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager+Internal.h"
-#import "SFSecurityLockout.h"
+#import "SFSecurityLockout+Internal.h"
 #import "SFRootViewManager.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
@@ -191,6 +191,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     
     // If there's a passcode configured, and we haven't validated before (through a previous call to
     // launch), we validate that first.
+    sIsLaunching = YES;
     if (!sHasVerifiedPasscodeAtStartup) {
         [self passcodeValidationAtLaunch];
     } else {
@@ -368,6 +369,24 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [self savePasscodeActivityInfo];
 }
 
++ (void)handlePostLogout
+{
+    // Close the passcode screen and reset passcode monitoring.
+    [SFSecurityLockout cancelPasscodeScreen];
+    [SFSecurityLockout stopActivityMonitoring];
+    [SFSecurityLockout removeTimer];
+    [self sendPostLogout];
+}
+
++ (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
+{
+    // Close the passcode screen and reset passcode monitoring.
+    [SFSecurityLockout cancelPasscodeScreen];
+    [SFSecurityLockout stopActivityMonitoring];
+    [SFSecurityLockout removeTimer];
+    [self sendUserAccountSwitch:fromUser toUser:toUser];
+}
+
 + (BOOL)logoutSettingEnabled
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -460,6 +479,8 @@ static SFSDKManagerEventHandler *sDelegateHandler;
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             [SFLogger log:[self class] level:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
             sLaunchActions |= SFSDKLaunchActionAuthenticated;
+            [SFSecurityLockout setupTimer];
+            [SFSecurityLockout startActivityMonitoring];
             [self sendPostLaunch];
         } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFLogger log:[self class] level:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
@@ -469,6 +490,8 @@ static SFSDKManagerEventHandler *sDelegateHandler;
         // If credentials already exist, we won't try to refresh them.
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
         sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
+        [SFSecurityLockout setupTimer];
+        [SFSecurityLockout startActivityMonitoring];
         [self sendPostLaunch];
     }
 }
@@ -498,7 +521,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
-    [SalesforceSDKManager sendPostLogout];
+    [SalesforceSDKManager handlePostLogout];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -507,7 +530,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [SalesforceSDKManager sendUserAccountSwitch:fromUser toUser:toUser];
+    [SalesforceSDKManager handleUserSwitch:fromUser toUser:toUser];
 }
 
 @end
