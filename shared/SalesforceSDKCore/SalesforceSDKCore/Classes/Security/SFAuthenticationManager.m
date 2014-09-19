@@ -461,7 +461,7 @@ static Class InstanceClass = nil;
 - (void)loggedIn:(BOOL)fromOffline
 {
     if (!fromOffline) {
-    [self.idCoordinator initiateIdentityDataRetrieval];
+        [self.idCoordinator initiateIdentityDataRetrieval];
     } else {
         [self retrievedIdentityData];
     }
@@ -783,9 +783,9 @@ static Class InstanceClass = nil;
         
         if (self.snapshotViewController == nil) {
             self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-            [self.snapshotViewController.view addSubview:self.snapshotView];
         }
-        
+        [self.snapshotView removeFromSuperview];
+        [self.snapshotViewController.view addSubview:self.snapshotView];
         [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
     }
 }
