@@ -443,7 +443,15 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
             [self sendLaunchError:authError];
         }];
     } else {
-        // If credentials already exist, or launch shouldn't attempt authentication, we won't try authenticate.
+        // If credentials already exist, or launch shouldn't attempt authentication, we won't try
+        // to authenticate.
+        
+        // If there is a current user (from a previous authentication), we still need to set up the
+        // in-memory auth state of that user.
+        if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+            [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
+        }
+        
         SFSDKLaunchAction noAuthLaunchAction;
         if (!self.authenticateAtLaunch) {
             [self log:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];

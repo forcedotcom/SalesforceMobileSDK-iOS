@@ -33,6 +33,8 @@
 
 - (void)loginWithUser:(SFUserAccount*)account;
 
+- (void)setupWithUser:(SFUserAccount*)account;
+
 /**
  Clears the account state associated with the current account.
  @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
