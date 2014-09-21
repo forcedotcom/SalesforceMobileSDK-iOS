@@ -29,7 +29,7 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 
 #pragma mark - Public methods
 
-- (void)resumePausedAuth
+- (void)resumeAuth
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self log:SFLogLevelDebug msg:@"Finishing auth validation."];
@@ -68,7 +68,7 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 {
     [self log:SFLogLevelDebug msg:@"Entering auth validation."];
     if (!self.pauseInAuth) {
-        [self resumePausedAuth];
+        [self resumeAuth];
     }
 }
 

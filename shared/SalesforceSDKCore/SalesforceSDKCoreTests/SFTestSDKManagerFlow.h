@@ -14,7 +14,7 @@
 @property (nonatomic, assign) BOOL pauseInAuth;
 
 - (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs;
-- (void)resumePausedAuth;
+- (void)resumeAuth;
 - (BOOL)waitForLaunchCompletion;
 
 @end

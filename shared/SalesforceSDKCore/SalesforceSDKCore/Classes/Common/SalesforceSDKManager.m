@@ -151,7 +151,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     } else {
         // If there's a passcode configured, and we haven't validated before (through a previous call to
         // launch), we validate that first.
-        if (self.hasVerifiedPasscodeAtStartup) {
+        if (!self.hasVerifiedPasscodeAtStartup) {
             [self.sdkManagerFlow passcodeValidationAtLaunch];
         } else {
             // Otherwise, passcode validation is subject to activity timeout.  Skip to auth check.

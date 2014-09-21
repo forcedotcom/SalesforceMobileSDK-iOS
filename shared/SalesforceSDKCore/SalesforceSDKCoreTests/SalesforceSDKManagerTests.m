@@ -19,6 +19,7 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     NSString *_origConnectedAppCallbackUri;
     NSArray *_origAuthScopes;
     BOOL _origAuthenticateAtLaunch;
+    BOOL _origHasVerifiedPasscodeAtStartup;
     SFSDKPostLaunchCallbackBlock _origPostLaunchAction;
     SFSDKLaunchErrorCallbackBlock _origLaunchErrorAction;
     SFSDKLogoutCallbackBlock _origPostLogoutAction;
@@ -27,6 +28,10 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     SFUserAccount *_origCurrentUser;
     id<SalesforceSDKManagerFlow> _origSdkManagerFlow;
     SFTestSDKManagerFlow *_currentSdkManagerFlow;
+    BOOL _postLaunchBlockCalled;
+    SFSDKLaunchAction _postLaunchActions;
+    BOOL _launchErrorBlockCalled;
+    NSError *_launchError;
 }
 
 @end
@@ -60,78 +65,113 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)testValidateInput
 {
     // Set nothing, validate errors.
-    __block BOOL errorBlockCalled = NO;
-    __block NSError *launchError = nil;
-    [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchAction) {
-        launchError = error;
-        errorBlockCalled = YES;
-    };
-    BOOL didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
-    XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
-    XCTAssertTrue(errorBlockCalled, @"There should have been validation errors.");
-    XCTAssertEqual([launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
-    XCTAssertEqual([launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
-    XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 3UL, @"There should have been three fatal validation errors.");
+    [self createStandardLaunchErrorBlock];
+    [self launchAndVerify:YES failMessage:@"Failed to start launch."];
+    [self verifyLaunchErrorState:YES];
+    XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
+    XCTAssertEqual([_launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
+    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 3UL, @"There should have been three fatal validation errors.");
     
     // Set Connected App ID
     [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
-    errorBlockCalled = NO;
-    launchError = nil;
-    didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
-    XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
-    XCTAssertTrue(errorBlockCalled, @"There should have been validation errors.");
-    XCTAssertEqual([launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
-    XCTAssertEqual([launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
-    XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 2UL, @"There should have been two fatal validation errors.");
+    [self launchAndVerify:YES failMessage:@"Failed to start launch."];
+    [self verifyLaunchErrorState:YES];
+    XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
+    XCTAssertEqual([_launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
+    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 2UL, @"There should have been two fatal validation errors.");
     
     // Set Callback URI
     [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
-    errorBlockCalled = NO;
-    launchError = nil;
-    didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
-    XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
-    XCTAssertTrue(errorBlockCalled, @"There should have been validation errors.");
-    XCTAssertEqual([launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
-    XCTAssertEqual([launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
-    XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
+    [self launchAndVerify:YES failMessage:@"Failed to start launch."];
+    [self verifyLaunchErrorState:YES];
+    XCTAssertEqual([_launchError domain], kSalesforceSDKManagerErrorDomain, @"Wrong error domain.");
+    XCTAssertEqual([_launchError code], kSalesforceSDKManagerErrorInvalidLaunchParameters, @"Wrong error code.");
+    XCTAssertEqual([[_launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
     
     // Set auth scopes
     [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
-    errorBlockCalled = NO;
-    launchError = nil;
-    didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
-    XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
-    XCTAssertFalse(errorBlockCalled, @"There should not have been validation errors.");
-    XCTAssertNil(launchError, @"There should be no error.");
+    [self launchAndVerify:YES failMessage:@"Failed to start launch."];
+    [self verifyLaunchErrorState:NO];
 }
 
 - (void)testOneLaunchAtATime
 {
-    __block BOOL postLaunchBlockCalled = NO;
-    [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActions) {
-        postLaunchBlockCalled = YES;
-    };
-    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
-    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
-    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
-    BOOL didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    didLaunch = [[SalesforceSDKManager sharedManager] launch];
-    XCTAssertFalse(didLaunch, @"Second concurrent launch should not be allowed.");
-    BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
-    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
-    XCTAssertTrue(postLaunchBlockCalled, @"Launch should have succeeded.");
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    
+    [self launchAndVerify:YES failMessage:@"Initial launch attempt should have been successful."];
+    [self launchAndVerify:NO failMessage:@"Second concurrent launch should not be allowed."];
+    
+    [self verifyPostLaunchState];
+}
+
+- (void)testPasscodeVerificationAtLaunch
+{
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    
+    BOOL passcodeVerifiedOnInitialLaunch = ((_postLaunchActions & SFSDKLaunchActionPasscodeVerified) == SFSDKLaunchActionPasscodeVerified);
+    XCTAssertTrue(passcodeVerifiedOnInitialLaunch, @"Passcode should have been verified on initial launch. Actual state: %@", [SalesforceSDKManager launchActionsStringRepresentation:_postLaunchActions]);
+    
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    
+    passcodeVerifiedOnInitialLaunch = ((_postLaunchActions & SFSDKLaunchActionPasscodeVerified) == SFSDKLaunchActionPasscodeVerified);
+    XCTAssertFalse(passcodeVerifiedOnInitialLaunch, @"Passcode should NOT have been verified on subsequent launches.");
 }
 
 #pragma mark - Private helpers
+
+- (void)createStandardPostLaunchBlock
+{
+    [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActions) {
+        _postLaunchBlockCalled = YES;
+        _postLaunchActions = launchActions;
+    };
+}
+
+- (void)createStandardLaunchErrorBlock
+{
+    [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchAction) {
+        _launchError = error;
+        _launchErrorBlockCalled = YES;
+    };
+}
+
+- (void)launchAndVerify:(BOOL)launchShouldSucceed failMessage:(NSString *)failMessage
+{
+    _postLaunchActions = SFSDKLaunchActionNone;
+    _postLaunchBlockCalled = NO;
+    _launchErrorBlockCalled = NO;
+    _launchError = nil;
+    BOOL didLaunch = [[SalesforceSDKManager sharedManager] launch];
+    XCTAssertEqual(didLaunch, launchShouldSucceed, @"%@", failMessage);
+}
+
+- (void)verifyPostLaunchState
+{
+    BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
+    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
+    XCTAssertTrue(_postLaunchBlockCalled, @"Launch should have gone to post-launch.");
+}
+
+- (void)verifyLaunchErrorState:(BOOL)shouldReachErrorState
+{
+    BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
+    XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
+    XCTAssertTrue(_launchErrorBlockCalled == shouldReachErrorState, @"Invalid launch error state.");
+    XCTAssertEqual(_launchError != nil, shouldReachErrorState, @"Launch error not consistent with expected launch error state.");
+}
+
+- (void)createTestAppIdentity
+{
+    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
+    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
+    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+}
 
 - (void)setupSdkManagerState
 {
@@ -142,12 +182,18 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     _origConnectedAppCallbackUri = [SalesforceSDKManager sharedManager].connectedAppCallbackUri; [SalesforceSDKManager sharedManager].connectedAppCallbackUri = nil;
     _origAuthScopes = [SalesforceSDKManager sharedManager].authScopes; [SalesforceSDKManager sharedManager].authScopes = nil;
     _origAuthenticateAtLaunch = [SalesforceSDKManager sharedManager].authenticateAtLaunch; [SalesforceSDKManager sharedManager].authenticateAtLaunch = YES;
+    _origHasVerifiedPasscodeAtStartup = [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup; [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup = NO;
     _origPostLaunchAction = [SalesforceSDKManager sharedManager].postLaunchAction; [SalesforceSDKManager sharedManager].postLaunchAction = NULL;
     _origLaunchErrorAction = [SalesforceSDKManager sharedManager].launchErrorAction; [SalesforceSDKManager sharedManager].launchErrorAction = NULL;
     _origPostLogoutAction = [SalesforceSDKManager sharedManager].postLogoutAction; [SalesforceSDKManager sharedManager].postLogoutAction = NULL;
     _origSwitchUserAction = [SalesforceSDKManager sharedManager].switchUserAction; [SalesforceSDKManager sharedManager].switchUserAction = NULL;
     _origPostAppForegroundAction = [SalesforceSDKManager sharedManager].postAppForegroundAction; [SalesforceSDKManager sharedManager].postAppForegroundAction = NULL;
     _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser; [SFUserAccountManager sharedInstance].currentUser = nil;
+    
+    _postLaunchBlockCalled = NO;
+    _postLaunchActions = SFSDKLaunchActionNone;
+    _launchErrorBlockCalled = NO;
+    _launchError = nil;
 }
 
 - (void)restoreOrigSdkManagerState
@@ -157,6 +203,7 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     [SalesforceSDKManager sharedManager].connectedAppCallbackUri = _origConnectedAppCallbackUri;
     [SalesforceSDKManager sharedManager].authScopes = _origAuthScopes;
     [SalesforceSDKManager sharedManager].authenticateAtLaunch = _origAuthenticateAtLaunch;
+    [SalesforceSDKManager sharedManager].hasVerifiedPasscodeAtStartup = _origHasVerifiedPasscodeAtStartup;
     [SalesforceSDKManager sharedManager].postLaunchAction = _origPostLaunchAction;
     [SalesforceSDKManager sharedManager].launchErrorAction = _origLaunchErrorAction;
     [SalesforceSDKManager sharedManager].postLogoutAction = _origPostLogoutAction;
