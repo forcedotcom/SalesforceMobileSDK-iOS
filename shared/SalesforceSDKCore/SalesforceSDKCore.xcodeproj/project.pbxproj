@@ -131,6 +131,7 @@
 		82D4648219C7CDF30006BDFE /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4648119C7CDF30006BDFE /* libsqlcipher.a */; };
 		82D4648319C7CE530006BDFE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1716E15FFC00768DE8 /* MessageUI.framework */; };
 		82D4648519C7CE670006BDFE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4648419C7CE670006BDFE /* libz.dylib */; };
+		82E11CE819CE3C0900C91E22 /* SalesforceSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E11CE719CE3C0900C91E22 /* SalesforceSDKManagerTests.m */; };
 		82E16D7017E7AED300E019AD /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841116DFD95F008912EF /* SFUserActivityMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF844316DFD95F008912EF /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C7BC16E08A8F0006B3C0 /* SFSDKTestRequestListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -313,6 +314,7 @@
 		82D4647E19C7CDE80006BDFE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		82D4648119C7CDF30006BDFE /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		82D4648419C7CE670006BDFE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82E11CE719CE3C0900C91E22 /* SalesforceSDKManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManagerTests.m; sourceTree = "<group>"; };
 		82E273BC19B1322F00BB004E /* SFUserAccountIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountIdentity.h; sourceTree = "<group>"; };
 		82E273BD19B1322F00BB004E /* SFUserAccountIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountIdentity.m; sourceTree = "<group>"; };
 		FD280B8818A2F14D00CEF12E /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				82D4645E19C7CBD30006BDFE /* NSURL+SFStringUtilsTests.m */,
 				82D4645F19C7CBD30006BDFE /* SalesforceSDKIdentityTests.h */,
 				82D4646019C7CBD30006BDFE /* SalesforceSDKIdentityTests.m */,
+				82E11CE719CE3C0900C91E22 /* SalesforceSDKManagerTests.m */,
 				82D4646119C7CBD30006BDFE /* SFPreferencesTests.m */,
 				82D4646219C7CBD30006BDFE /* SFSecurityLockoutTests.h */,
 				82D4646319C7CBD30006BDFE /* SFSecurityLockoutTests.m */,
@@ -938,6 +941,7 @@
 				82D4646F19C7CBD30006BDFE /* SFSmartSqlTests.m in Sources */,
 				82D4647219C7CBD30006BDFE /* SFUserAccountManagerTests.m in Sources */,
 				82D4646E19C7CBD30006BDFE /* SFSecurityLockoutTests.m in Sources */,
+				82E11CE819CE3C0900C91E22 /* SalesforceSDKManagerTests.m in Sources */,
 				82D4646B19C7CBD30006BDFE /* NSURL+SFStringUtilsTests.m in Sources */,
 				82D4647119C7CBD30006BDFE /* SFSmartStoreTests.m in Sources */,
 				82D4646D19C7CBD30006BDFE /* SFPreferencesTests.m in Sources */,
@@ -1208,11 +1212,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/shared/SalesforceSecurity/build/Debug-iphoneos",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/openssl",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1250,11 +1252,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/SalesforceCommonUtils",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/shared/SalesforceSecurity/build/Debug-iphoneos",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/shared/SalesforceOAuth/build/Debug-iphoneos",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/openssl",
-					"/Users/khawkins/git/SalesforceMobileSDK-iOS/external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
