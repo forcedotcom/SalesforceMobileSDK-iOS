@@ -33,14 +33,14 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self log:SFLogLevelDebug msg:@"Finishing auth validation."];
-        [SalesforceSDKManager authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
+        [[SalesforceSDKManager sharedManager] authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
     });
 }
 
 - (BOOL)waitForLaunchCompletion
 {
     NSDate *startTime = [NSDate date];
-    while ([SalesforceSDKManager isLaunching]) {
+    while ([SalesforceSDKManager sharedManager].isLaunching) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > kMaxLaunchWaitTime) {
             [self log:SFLogLevelDebug format:@"Launch took too long (> %f secs) to complete.", elapsed];
@@ -60,7 +60,7 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     [self log:SFLogLevelDebug msg:@"Entering passcode validation."];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self log:SFLogLevelDebug msg:@"Finishing passcode validation."];
-        [SalesforceSDKManager passcodeValidatedToAuthValidation];
+        [[SalesforceSDKManager sharedManager] passcodeValidatedToAuthValidation];
     });
 }
 
@@ -72,12 +72,12 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     }
 }
 
-- (void)handleAppForeground
+- (void)handleAppForeground:(NSNotification *)notification
 {
     
 }
 
-- (void)handleAppBackground
+- (void)handleAppBackground:(NSNotification *)notification
 {
     
 }
@@ -87,12 +87,12 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     
 }
 
-- (void)handleAppTerminate
+- (void)handleAppTerminate:(NSNotification *)notification
 {
     
 }
 
-- (void)handleAuthCompleted
+- (void)handleAuthCompleted:(NSNotification *)notification
 {
     
 }

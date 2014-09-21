@@ -33,12 +33,16 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 
 @implementation SalesforceSDKManagerTests
 
++ (void)setUp
+{
+    [SFLogger setLogLevel:SFLogLevelDebug];
+}
+
 - (void)setUp
 {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
     
-    XCTAssertFalse([SalesforceSDKManager isLaunching], @"SalesforceSDKManager should not be launching at the beginning of the test.");
+    XCTAssertFalse([SalesforceSDKManager sharedManager].isLaunching, @"SalesforceSDKManager should not be launching at the beginning of the test.");
     
     // Since other tests may have a more "permanent" idea of (essentially global) app identity and
     // launch state, only clear values for the length of the test, then restore them.
@@ -58,11 +62,11 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     // Set nothing, validate errors.
     __block BOOL errorBlockCalled = NO;
     __block NSError *launchError = nil;
-    [SalesforceSDKManager setLaunchErrorAction:^(NSError *error, SFSDKLaunchAction launchAction) {
+    [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchAction) {
         launchError = error;
         errorBlockCalled = YES;
-    }];
-    BOOL didLaunch = [SalesforceSDKManager launch];
+    };
+    BOOL didLaunch = [[SalesforceSDKManager sharedManager] launch];
     BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
     XCTAssertTrue(didLaunch, @"Failed to start launch.");
     XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
@@ -72,10 +76,10 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 3UL, @"There should have been three fatal validation errors.");
     
     // Set Connected App ID
-    [SalesforceSDKManager setConnectedAppId:@"test_connected_app_id"];
+    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
     errorBlockCalled = NO;
     launchError = nil;
-    didLaunch = [SalesforceSDKManager launch];
+    didLaunch = [[SalesforceSDKManager sharedManager] launch];
     launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
     XCTAssertTrue(didLaunch, @"Failed to start launch.");
     XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
@@ -85,10 +89,10 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 2UL, @"There should have been two fatal validation errors.");
     
     // Set Callback URI
-    [SalesforceSDKManager setConnectedAppCallbackUri:@"test_connected_app_callback_uri"];
+    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
     errorBlockCalled = NO;
     launchError = nil;
-    didLaunch = [SalesforceSDKManager launch];
+    didLaunch = [[SalesforceSDKManager sharedManager] launch];
     launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
     XCTAssertTrue(didLaunch, @"Failed to start launch.");
     XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
@@ -98,10 +102,10 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertEqual([[launchError userInfo][kSalesforceSDKManagerErrorDetailsKey] count], 1UL, @"There should have been one fatal validation error.");
     
     // Set auth scopes
-    [SalesforceSDKManager setAuthScopes:@[ @"web", @"api" ]];
+    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
     errorBlockCalled = NO;
     launchError = nil;
-    didLaunch = [SalesforceSDKManager launch];
+    didLaunch = [[SalesforceSDKManager sharedManager] launch];
     launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
     XCTAssertTrue(didLaunch, @"Failed to start launch.");
     XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
@@ -112,15 +116,15 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)testOneLaunchAtATime
 {
     __block BOOL postLaunchBlockCalled = NO;
-    [SalesforceSDKManager setPostLaunchAction:^(SFSDKLaunchAction launchActions) {
+    [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActions) {
         postLaunchBlockCalled = YES;
-    }];
-    [SalesforceSDKManager setConnectedAppId:@"test_connected_app_id"];
-    [SalesforceSDKManager setConnectedAppCallbackUri:@"test_connected_app_callback_uri"];
-    [SalesforceSDKManager setAuthScopes:@[ @"web", @"api" ]];
-    BOOL didLaunch = [SalesforceSDKManager launch];
+    };
+    [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
+    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
+    [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+    BOOL didLaunch = [[SalesforceSDKManager sharedManager] launch];
     XCTAssertTrue(didLaunch, @"Failed to start launch.");
-    didLaunch = [SalesforceSDKManager launch];
+    didLaunch = [[SalesforceSDKManager sharedManager] launch];
     XCTAssertFalse(didLaunch, @"Second concurrent launch should not be allowed.");
     BOOL launchCompleted = [_currentSdkManagerFlow waitForLaunchCompletion];
     XCTAssertTrue(launchCompleted, @"Launch failed to complete.");
@@ -132,32 +136,32 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)setupSdkManagerState
 {
     _currentSdkManagerFlow = [[SFTestSDKManagerFlow alloc] initWithStepTimeDelaySecs:kTimeDelaySecsBetweenLaunchSteps];
-    _origSdkManagerFlow = [SalesforceSDKManager sdkManagerFlow]; [SalesforceSDKManager setSdkManagerFlow:_currentSdkManagerFlow];
+    _origSdkManagerFlow = [SalesforceSDKManager sharedManager].sdkManagerFlow; [SalesforceSDKManager sharedManager].sdkManagerFlow = _currentSdkManagerFlow;
     
-    _origConnectedAppId = [SalesforceSDKManager connectedAppId]; [SalesforceSDKManager setConnectedAppId:nil];
-    _origConnectedAppCallbackUri = [SalesforceSDKManager connectedAppCallbackUri]; [SalesforceSDKManager setConnectedAppCallbackUri:nil];
-    _origAuthScopes = [SalesforceSDKManager authScopes]; [SalesforceSDKManager setAuthScopes:nil];
-    _origAuthenticateAtLaunch = [SalesforceSDKManager authenticateAtLaunch]; [SalesforceSDKManager setAuthenticateAtLaunch:YES];
-    _origPostLaunchAction = [SalesforceSDKManager postLaunchAction]; [SalesforceSDKManager setPostLaunchAction:NULL];
-    _origLaunchErrorAction = [SalesforceSDKManager launchErrorAction]; [SalesforceSDKManager setLaunchErrorAction:NULL];
-    _origPostLogoutAction = [SalesforceSDKManager postLogoutAction]; [SalesforceSDKManager setPostLogoutAction:NULL];
-    _origSwitchUserAction = [SalesforceSDKManager switchUserAction]; [SalesforceSDKManager setSwitchUserAction:NULL];
-    _origPostAppForegroundAction = [SalesforceSDKManager postAppForegroundAction]; [SalesforceSDKManager setPostAppForegroundAction:NULL];
+    _origConnectedAppId = [SalesforceSDKManager sharedManager].connectedAppId; [SalesforceSDKManager sharedManager].connectedAppId = nil;
+    _origConnectedAppCallbackUri = [SalesforceSDKManager sharedManager].connectedAppCallbackUri; [SalesforceSDKManager sharedManager].connectedAppCallbackUri = nil;
+    _origAuthScopes = [SalesforceSDKManager sharedManager].authScopes; [SalesforceSDKManager sharedManager].authScopes = nil;
+    _origAuthenticateAtLaunch = [SalesforceSDKManager sharedManager].authenticateAtLaunch; [SalesforceSDKManager sharedManager].authenticateAtLaunch = YES;
+    _origPostLaunchAction = [SalesforceSDKManager sharedManager].postLaunchAction; [SalesforceSDKManager sharedManager].postLaunchAction = NULL;
+    _origLaunchErrorAction = [SalesforceSDKManager sharedManager].launchErrorAction; [SalesforceSDKManager sharedManager].launchErrorAction = NULL;
+    _origPostLogoutAction = [SalesforceSDKManager sharedManager].postLogoutAction; [SalesforceSDKManager sharedManager].postLogoutAction = NULL;
+    _origSwitchUserAction = [SalesforceSDKManager sharedManager].switchUserAction; [SalesforceSDKManager sharedManager].switchUserAction = NULL;
+    _origPostAppForegroundAction = [SalesforceSDKManager sharedManager].postAppForegroundAction; [SalesforceSDKManager sharedManager].postAppForegroundAction = NULL;
     _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser; [SFUserAccountManager sharedInstance].currentUser = nil;
 }
 
 - (void)restoreOrigSdkManagerState
 {
-    [SalesforceSDKManager setSdkManagerFlow:_origSdkManagerFlow];
-    [SalesforceSDKManager setConnectedAppId:_origConnectedAppId];
-    [SalesforceSDKManager setConnectedAppCallbackUri:_origConnectedAppCallbackUri];
-    [SalesforceSDKManager setAuthScopes:_origAuthScopes];
-    [SalesforceSDKManager setAuthenticateAtLaunch:_origAuthenticateAtLaunch];
-    [SalesforceSDKManager setPostLaunchAction:_origPostLaunchAction];
-    [SalesforceSDKManager setLaunchErrorAction:_origLaunchErrorAction];
-    [SalesforceSDKManager setPostLogoutAction:_origPostLogoutAction];
-    [SalesforceSDKManager setSwitchUserAction:_origSwitchUserAction];
-    [SalesforceSDKManager setPostAppForegroundAction:_origPostAppForegroundAction];
+    [SalesforceSDKManager sharedManager].sdkManagerFlow = _origSdkManagerFlow;
+    [SalesforceSDKManager sharedManager].connectedAppId = _origConnectedAppId;
+    [SalesforceSDKManager sharedManager].connectedAppCallbackUri = _origConnectedAppCallbackUri;
+    [SalesforceSDKManager sharedManager].authScopes = _origAuthScopes;
+    [SalesforceSDKManager sharedManager].authenticateAtLaunch = _origAuthenticateAtLaunch;
+    [SalesforceSDKManager sharedManager].postLaunchAction = _origPostLaunchAction;
+    [SalesforceSDKManager sharedManager].launchErrorAction = _origLaunchErrorAction;
+    [SalesforceSDKManager sharedManager].postLogoutAction = _origPostLogoutAction;
+    [SalesforceSDKManager sharedManager].switchUserAction = _origSwitchUserAction;
+    [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
     [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
 }
 

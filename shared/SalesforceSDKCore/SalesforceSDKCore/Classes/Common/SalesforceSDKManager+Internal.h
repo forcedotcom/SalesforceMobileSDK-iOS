@@ -1,27 +1,31 @@
 #import "SalesforceSDKManager.h"
+#import "SFUserAccountManager.h"
+#import "SFAuthenticationManager.h"
 
 @protocol SalesforceSDKManagerFlow <NSObject>
 
 - (void)passcodeValidationAtLaunch;
 - (void)authValidationAtLaunch;
-- (void)handleAppForeground;
-- (void)handleAppBackground;
-- (void)handleAppTerminate;
+- (void)handleAppForeground:(NSNotification *)notification;
+- (void)handleAppBackground:(NSNotification *)notification;
+- (void)handleAppTerminate:(NSNotification *)notification;
 - (void)handlePostLogout;
-- (void)handleAuthCompleted;
+- (void)handleAuthCompleted:(NSNotification *)notification;
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser;
 
 @end
 
-@interface SalesforceSDKManager ()
+@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+{
+    BOOL _isLaunching;
+    UIViewController *_snapshotViewController;
+}
 
-+ (id<SalesforceSDKManagerFlow>)sdkManagerFlow;
-+ (void)setSdkManagerFlow:(id<SalesforceSDKManagerFlow>)sdkManagerFlow;
-+ (void)passcodeValidatedToAuthValidation;
-+ (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction;
-+ (BOOL)hasVerifiedPasscodeAtStartup;
-+ (void)setHasVerifiedPasscodeAtStartup:(BOOL)hasVerifiedPasscodeAtStartup;
-+ (SFSDKLaunchAction)launchActions;
-+ (void)setLaunchActions:(SFSDKLaunchAction)launchActions;
+@property (nonatomic, weak) id<SalesforceSDKManagerFlow> sdkManagerFlow;
+@property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup;
+@property (nonatomic, assign) SFSDKLaunchAction launchActions;
+
+- (void)passcodeValidatedToAuthValidation;
+- (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction;
 
 @end
