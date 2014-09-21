@@ -30,7 +30,6 @@ extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
 enum {
     kSalesforceSDKManagerErrorUnknown = 766,
-    kSalesforceSDKManagerErrorLaunchAlreadyInProgress,
     kSalesforceSDKManagerErrorInvalidLaunchParameters
 };
 
@@ -213,8 +212,9 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
  postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch
  actions.
+ @return YES if the launch successfully kicks off, NO if launch is already running.
  */
-+ (void)launch;
++ (BOOL)launch;
 
 /**
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.

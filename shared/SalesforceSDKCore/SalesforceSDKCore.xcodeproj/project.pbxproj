@@ -132,6 +132,8 @@
 		82D4648319C7CE530006BDFE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1716E15FFC00768DE8 /* MessageUI.framework */; };
 		82D4648519C7CE670006BDFE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4648419C7CE670006BDFE /* libz.dylib */; };
 		82E11CE819CE3C0900C91E22 /* SalesforceSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E11CE719CE3C0900C91E22 /* SalesforceSDKManagerTests.m */; };
+		82E11CEA19CE5C7600C91E22 /* SalesforceSDKManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E11CE919CE5C7600C91E22 /* SalesforceSDKManager+Internal.h */; };
+		82E11CED19CE63D400C91E22 /* SFTestSDKManagerFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E11CEC19CE63D400C91E22 /* SFTestSDKManagerFlow.m */; };
 		82E16D7017E7AED300E019AD /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF841116DFD95F008912EF /* SFUserActivityMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7117E7AFD400E019AD /* NSURL+SFStringUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF844316DFD95F008912EF /* NSURL+SFStringUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C0C7BC16E08A8F0006B3C0 /* SFSDKTestRequestListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -315,6 +317,9 @@
 		82D4648119C7CDF30006BDFE /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		82D4648419C7CE670006BDFE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82E11CE719CE3C0900C91E22 /* SalesforceSDKManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManagerTests.m; sourceTree = "<group>"; };
+		82E11CE919CE5C7600C91E22 /* SalesforceSDKManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKManager+Internal.h"; sourceTree = "<group>"; };
+		82E11CEB19CE63D400C91E22 /* SFTestSDKManagerFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestSDKManagerFlow.h; sourceTree = "<group>"; };
+		82E11CEC19CE63D400C91E22 /* SFTestSDKManagerFlow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestSDKManagerFlow.m; sourceTree = "<group>"; };
 		82E273BC19B1322F00BB004E /* SFUserAccountIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccountIdentity.h; sourceTree = "<group>"; };
 		82E273BD19B1322F00BB004E /* SFUserAccountIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserAccountIdentity.m; sourceTree = "<group>"; };
 		FD280B8818A2F14D00CEF12E /* SFCommunityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommunityData.h; sourceTree = "<group>"; };
@@ -483,6 +488,7 @@
 			children = (
 				82AF840E16DFD95F008912EF /* SalesforceSDKConstants.h */,
 				822E386D19BE628200C92CA3 /* SalesforceSDKManager.h */,
+				82E11CE919CE5C7600C91E22 /* SalesforceSDKManager+Internal.h */,
 				822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */,
 				82AF840F16DFD95F008912EF /* SFApplication.h */,
 				82AF841016DFD95F008912EF /* SFApplication.m */,
@@ -651,6 +657,7 @@
 		82D4644A19C7C8180006BDFE /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				82E11CEE19CE63E800C91E22 /* Helpers */,
 				82D4645D19C7CBD30006BDFE /* NSURL+SFStringUtilsTests.h */,
 				82D4645E19C7CBD30006BDFE /* NSURL+SFStringUtilsTests.m */,
 				82D4645F19C7CBD30006BDFE /* SalesforceSDKIdentityTests.h */,
@@ -679,6 +686,15 @@
 				82D4645819C7C8DD0006BDFE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		82E11CEE19CE63E800C91E22 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				82E11CEB19CE63D400C91E22 /* SFTestSDKManagerFlow.h */,
+				82E11CEC19CE63D400C91E22 /* SFTestSDKManagerFlow.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -725,6 +741,7 @@
 				82BBB57817909E0D00374DD8 /* SFSecurityLockout.h in Headers */,
 				82B211B1192186F000154BBC /* SFSmartStoreUpgrade.h in Headers */,
 				82BBB57917909E1700374DD8 /* SFSmartStore.h in Headers */,
+				82E11CEA19CE5C7600C91E22 /* SalesforceSDKManager+Internal.h in Headers */,
 				82BBB57A17909E2100374DD8 /* SFSmartStoreDatabaseManager.h in Headers */,
 				82BBB57B17909E2900374DD8 /* SFSoupIndex.h in Headers */,
 				82BBB57C17909E3800374DD8 /* SFStoreCursor.h in Headers */,
@@ -941,6 +958,7 @@
 				82D4646F19C7CBD30006BDFE /* SFSmartSqlTests.m in Sources */,
 				82D4647219C7CBD30006BDFE /* SFUserAccountManagerTests.m in Sources */,
 				82D4646E19C7CBD30006BDFE /* SFSecurityLockoutTests.m in Sources */,
+				82E11CED19CE63D400C91E22 /* SFTestSDKManagerFlow.m in Sources */,
 				82E11CE819CE3C0900C91E22 /* SalesforceSDKManagerTests.m in Sources */,
 				82D4646B19C7CBD30006BDFE /* NSURL+SFStringUtilsTests.m in Sources */,
 				82D4647119C7CBD30006BDFE /* SFSmartStoreTests.m in Sources */,

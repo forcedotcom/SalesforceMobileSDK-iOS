@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFAuthenticationManager+Internal.h"
 #import "SFSecurityLockout+Internal.h"
@@ -47,6 +47,14 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 @end
 
+//
+// Helper class to manage the default (non-test) SDK Manager flows.  Implementation at the end.
+//
+@interface SFSDKManagerDefaultFlowHandler : NSObject <SalesforceSDKManagerFlow>
+
+@end
+
+static id<SalesforceSDKManagerFlow> sSdkManagerFlow;
 static SFSDKPostLaunchCallbackBlock sPostLaunchAction;
 static SFSDKLaunchErrorCallbackBlock sLaunchErrorAction;
 static SFSDKLogoutCallbackBlock sPostLogoutAction;
@@ -65,6 +73,8 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 + (void)initialize
 {
+    id<SalesforceSDKManagerFlow> defaultManagerFlow = [[SFSDKManagerDefaultFlowHandler alloc] init];
+    [self setSdkManagerFlow:defaultManagerFlow];
     sDelegateHandler = [[SFSDKManagerEventHandler alloc] init];
     [[SFUserAccountManager sharedInstance] addDelegate:sDelegateHandler];
     [[SFAuthenticationManager sharedManager] addDelegate:sDelegateHandler];
@@ -198,36 +208,31 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
 }
 
-+ (void)launch
++ (BOOL)launch
 {
+    if (sIsLaunching) {
+        [SFLogger log:[self class] level:SFLogLevelError msg:@"Launch already in progress."];
+        return NO;
+    }
+    
     [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Launching the Salesforce SDK."];
+    sIsLaunching = YES;
     sLaunchActions = SFSDKLaunchActionNone;
     NSError *launchStateError = nil;
     if (![self validateLaunchState:&launchStateError]) {
         [SFLogger log:[self class] level:SFLogLevelError msg:@"Please correct errors and try again."];
         [self sendLaunchError:launchStateError];
-        return;
-    }
-    
-    if (sIsLaunching) {
-        NSString * alreadyLaunchingMessage = @"Launch already in progress.";
-        [SFLogger log:[self class] level:SFLogLevelError msg:alreadyLaunchingMessage];
-        NSError *alreadyLaunchingError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
-                                                                    code:kSalesforceSDKManagerErrorLaunchAlreadyInProgress
-                                                                userInfo:@{ NSLocalizedDescriptionKey : alreadyLaunchingMessage }];
-        [self sendLaunchError:alreadyLaunchingError];
-        return;
-    }
-    
-    // If there's a passcode configured, and we haven't validated before (through a previous call to
-    // launch), we validate that first.
-    sIsLaunching = YES;
-    if (!sHasVerifiedPasscodeAtStartup) {
-        [self passcodeValidationAtLaunch];
     } else {
-        // Otherwise, passcode validation is subject to activity timeout.  Skip to auth check.
-        [self authValidationAtLaunch];
+        // If there's a passcode configured, and we haven't validated before (through a previous call to
+        // launch), we validate that first.
+        if (!sHasVerifiedPasscodeAtStartup) {
+            [sSdkManagerFlow passcodeValidationAtLaunch];
+        } else {
+            // Otherwise, passcode validation is subject to activity timeout.  Skip to auth check.
+            [sSdkManagerFlow authValidationAtLaunch];
+        }
     }
+    return YES;
 }
 
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions
@@ -258,6 +263,36 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 }
 
 #pragma mark - Private methods
+
++ (id<SalesforceSDKManagerFlow>)sdkManagerFlow
+{
+    return sSdkManagerFlow;
+}
+
++ (void)setSdkManagerFlow:(id<SalesforceSDKManagerFlow>)sdkManagerFlow
+{
+    sSdkManagerFlow = sdkManagerFlow;
+}
+
++ (SFSDKLaunchAction)launchActions
+{
+    return sLaunchActions;
+}
+
++ (void)setLaunchActions:(SFSDKLaunchAction)launchActions
+{
+    sLaunchActions = launchActions;
+}
+
++ (BOOL)hasVerifiedPasscodeAtStartup
+{
+    return sHasVerifiedPasscodeAtStartup;
+}
+
++ (void)setHasVerifiedPasscodeAtStartup:(BOOL)hasVerifiedPasscodeAtStartup
+{
+    sHasVerifiedPasscodeAtStartup = hasVerifiedPasscodeAtStartup;
+}
 
 + (BOOL)validateLaunchState:(NSError **)launchStateError
 {
@@ -498,9 +533,7 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 {
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-        sLaunchActions |= SFSDKLaunchActionPasscodeVerified;
-        sHasVerifiedPasscodeAtStartup = YES;
-        [self authValidationAtLaunch];
+        [self passcodeValidatedToAuthValidation];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         // Note: Failed passcode verification automatically logs out users, which the logout
@@ -511,6 +544,13 @@ static SFSDKManagerEventHandler *sDelegateHandler;
     [SFSecurityLockout lock];
 }
 
++ (void)passcodeValidatedToAuthValidation
+{
+    sLaunchActions |= SFSDKLaunchActionPasscodeVerified;
+    sHasVerifiedPasscodeAtStartup = YES;
+    [sSdkManagerFlow authValidationAtLaunch];
+}
+
 + (void)authValidationAtLaunch
 {
     if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && sAuthenticateAtLaunch) {
@@ -519,27 +559,33 @@ static SFSDKManagerEventHandler *sDelegateHandler;
         [SFLogger log:[self class] level:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
         [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
             [SFLogger log:[self class] level:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
-            sLaunchActions |= SFSDKLaunchActionAuthenticated;
             [SFSecurityLockout setupTimer];
             [SFSecurityLockout startActivityMonitoring];
-            [self sendPostLaunch];
+            [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
         } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFLogger log:[self class] level:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
             [self sendLaunchError:authError];
         }];
     } else {
         // If credentials already exist, or launch shouldn't attempt authentication, we won't try authenticate.
+        SFSDKLaunchAction noAuthLaunchAction;
         if (!sAuthenticateAtLaunch) {
             [SFLogger log:[self class] level:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
-            sLaunchActions |= SFSDKLaunchActionAuthBypassed;
+            noAuthLaunchAction = SFSDKLaunchActionAuthBypassed;
         } else {
             [SFLogger log:[self class] level:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
-            sLaunchActions |= SFSDKLaunchActionAlreadyAuthenticated;
+            noAuthLaunchAction = SFSDKLaunchActionAlreadyAuthenticated;
         }
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
-        [self sendPostLaunch];
+        [self authValidatedToPostAuth:noAuthLaunchAction];
     }
+}
+
++ (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction
+{
+    sLaunchActions |= launchAction;
+    [self sendPostLaunch];
 }
 
 @end
@@ -548,40 +594,80 @@ static SFSDKManagerEventHandler *sDelegateHandler;
 
 @implementation SFSDKManagerEventHandler
 
-#pragma mark - App lifecycle notifications
-
 - (void)appWillEnterForeground:(NSNotification *)notification
 {
-    [SalesforceSDKManager handleAppForeground];
+    [[SalesforceSDKManager sdkManagerFlow] handleAppForeground];
 }
 
 - (void)appDidEnterBackground:(NSNotification *)notification
 {
-    [SalesforceSDKManager handleAppBackground];
+    [[SalesforceSDKManager sdkManagerFlow] handleAppBackground];
 }
 
 - (void)appWillTerminate:(NSNotification *)notification
 {
-    [SalesforceSDKManager handleAppTerminate];
+    [[SalesforceSDKManager sdkManagerFlow] handleAppTerminate];
 }
-
-#pragma mark - SFAuthenticationManager delegate and notifications
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
-    [SalesforceSDKManager handlePostLogout];
+    [[SalesforceSDKManager sdkManagerFlow] handlePostLogout];
 }
 
 - (void)authCompleted:(NSNotification *)notification
 {
-    [SalesforceSDKManager handleAuthCompleted];
+    [[SalesforceSDKManager sdkManagerFlow] handleAuthCompleted];
 }
-
-#pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
+{
+    [[SalesforceSDKManager sdkManagerFlow] handleUserSwitch:fromUser toUser:toUser];
+}
+
+@end
+
+#pragma mark - SFSDKManagerDefaultFlowHandler implementation
+
+@implementation SFSDKManagerDefaultFlowHandler
+
+- (void)passcodeValidationAtLaunch
+{
+    [SalesforceSDKManager passcodeValidationAtLaunch];
+}
+
+- (void)authValidationAtLaunch
+{
+    [SalesforceSDKManager authValidationAtLaunch];
+}
+
+- (void)handleAppForeground
+{
+    [SalesforceSDKManager handleAppForeground];
+}
+
+- (void)handleAppBackground
+{
+    [SalesforceSDKManager handleAppBackground];
+}
+
+- (void)handleAppTerminate
+{
+    [SalesforceSDKManager handleAppTerminate];
+}
+
+- (void)handlePostLogout
+{
+    [SalesforceSDKManager handlePostLogout];
+}
+
+- (void)handleAuthCompleted
+{
+    [SalesforceSDKManager handleAuthCompleted];
+}
+
+- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
     [SalesforceSDKManager handleUserSwitch:fromUser toUser:toUser];
 }
