@@ -47,25 +47,25 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         [SFLogger setLogLevel:SFLogLevelDebug];
         
         // These SFAccountManager settings are the minimum required to identify the Connected App.
-        [SalesforceSDKManager setConnectedAppId:RemoteAccessConsumerKey];
-        [SalesforceSDKManager setConnectedAppCallbackUri:OAuthRedirectURI];
-        [SalesforceSDKManager setAuthScopes:@[ @"web", @"api" ]];
+        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
+        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
         __weak AppDelegate *weakSelf = self;
-        [SalesforceSDKManager setPostLaunchAction:^(SFSDKLaunchAction launchActionList) {
+        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [weakSelf setupRootViewController];
-        }];
-        [SalesforceSDKManager setLaunchErrorAction:^(NSError *error, SFSDKLaunchAction launchActionList) {
+        };
+        [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [weakSelf initializeAppViewState];
-            [SalesforceSDKManager launch];
-        }];
-        [SalesforceSDKManager setPostLogoutAction:^{
+            [[SalesforceSDKManager sharedManager] launch];
+        };
+        [SalesforceSDKManager sharedManager].postLogoutAction = ^{
             [weakSelf handleSdkManagerLogout];
-        }];
-        [SalesforceSDKManager setSwitchUserAction:^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+        };
+        [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
             [weakSelf handleUserSwitch:fromUser toUser:toUser];
-        }];
+        };
     }
     
     return self;
@@ -86,7 +86,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
     
-    [SalesforceSDKManager launch];
+    [[SalesforceSDKManager sharedManager] launch];
     
     return YES;
 }
@@ -145,7 +145,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         if ([allAccounts count] == 1) {
             [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
         }
-        [SalesforceSDKManager launch];
+        [[SalesforceSDKManager sharedManager] launch];
     }
 }
 
@@ -153,7 +153,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     [self log:SFLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self initializeAppViewState];
-    [SalesforceSDKManager launch];
+    [[SalesforceSDKManager sharedManager] launch];
 }
 
 #pragma mark - Unit test helpers

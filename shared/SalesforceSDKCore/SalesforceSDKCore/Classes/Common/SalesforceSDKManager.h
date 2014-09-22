@@ -30,7 +30,6 @@ extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
 enum {
     kSalesforceSDKManagerErrorUnknown = 766,
-    kSalesforceSDKManagerErrorLaunchAlreadyInProgress,
     kSalesforceSDKManagerErrorInvalidLaunchParameters
 };
 
@@ -76,163 +75,94 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 @interface SalesforceSDKManager : NSObject
 
 /**
- @return Whether or not the SDK is currently in the middle of a launch process.
+ @return The singleton instance of the SDK Manager.
  */
-+ (BOOL)isLaunching;
++ (instancetype)sharedManager;
 
 /**
- @return The Connected App ID configured for this application.
+ Whether or not the SDK is currently in the middle of a launch process.
  */
-+ (NSString *)connectedAppId;
+@property (nonatomic, readonly) BOOL isLaunching;
 
 /**
- Sets the Connected App ID for this application.
- @param connectedAppId The Connected App ID to associate with this app.
+ The Connected App ID configured for this application.
  */
-+ (void)setConnectedAppId:(NSString *)connectedAppId;
+@property (nonatomic, copy) NSString *connectedAppId;
 
 /**
- @return The Connected App Callback URI configured for this application.
+ The Connected App Callback URI configured for this application.
  */
-+ (NSString *)connectedAppCallbackUri;
+@property (nonatomic, copy) NSString *connectedAppCallbackUri;
 
 /**
- Sets the Connected App Callback URI for this application.
- @param connectedAppCallbackUri The Connected App Callback URI to associate with this app.
+ The OAuth scopes configured for this application.
  */
-+ (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri;
+@property (nonatomic, strong) NSArray *authScopes;
 
 /**
- @return The OAuth scopes configured for this application.
- */
-+ (NSArray *)authScopes;
-
-/**
- Sets the OAuth scopes for this application.
- @param authScopes The array of OAuth scopes to associate with this app.
- */
-+ (void)setAuthScopes:(NSArray *)authScopes;
-
-/**
- @return Whether or not to attempt authentication as part of the launch process.  Default
+ Whether or not to attempt authentication as part of the launch process.  Default
  value is YES.
  */
-+ (BOOL)authenticateAtLaunch;
+@property (nonatomic, assign) BOOL authenticateAtLaunch;
 
 /**
- Sets a flag to determine whether or not to attempt authentication as part of the launch
- process.  Default value is YES.
- @param authenticateAtLaunch Whether or not to attempt authentication during the launch process.
+ The configured post launch action block to execute when launch completes.
  */
-+ (void)setAuthenticateAtLaunch:(BOOL)authenticateAtLaunch;
+@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction;
 
 /**
- @return The configured post launch action block to execute when launch completes.
+ The configured launch error action block to execute in the event of an error during launch.
  */
-+ (SFSDKPostLaunchCallbackBlock)postLaunchAction;
+@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction;
 
 /**
- Sets the post launch action block to execute when launch completes.
- @param postLaunchAction The post launch action block to execute.
+ The post logout action block to execute after the current user has been logged out.
  */
-+ (void)setPostLaunchAction:(SFSDKPostLaunchCallbackBlock)postLaunchAction;
+@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction;
 
 /**
- @return The configured launch error action block to execute in the event of an error during launch.
+ The switch user action block to execute when switching from one user to another.
  */
-+ (SFSDKLaunchErrorCallbackBlock)launchErrorAction;
+@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction;
 
 /**
- Sets the launch error action block to execute in the event of a launch error.
- @param launchErrorAction The block to execute in the event of a launch error.
+ The block to execute after the app has entered the foreground.
  */
-+ (void)setLaunchErrorAction:(SFSDKLaunchErrorCallbackBlock)launchErrorAction;
+@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction;
 
 /**
- @return The post logout action block to execute after the current user has been logged out.
- */
-+ (SFSDKLogoutCallbackBlock)postLogoutAction;
-
-/**
- Sets the post logout action block to execute after the current user has been logged out.
- @param postLogoutAction The action block to execute after logout.
- */
-+ (void)setPostLogoutAction:(SFSDKLogoutCallbackBlock)postLogoutAction;
-
-/**
- @return The switch user action block to execute when switching from one user to another.
- */
-+ (SFSDKSwitchUserCallbackBlock)switchUserAction;
-
-/**
- Sets the switch user action block to execute when the user switches from one user to another.
- @param switchUserAction The block to execute when the user switches.
- */
-+ (void)setSwitchUserAction:(SFSDKSwitchUserCallbackBlock)switchUserAction;
-
-/**
- @return The block to execute after the app has entered the foreground.
- */
-+ (SFSDKAppForegroundCallbackBlock)postAppForegroundAction;
-
-/**
- Sets the block to execute after the app has entered the foreground.  Only required if your
- app needs to take specific actions when it enters the foreground.
- @param postAppForegroundAction The block to execute after the app enters the foreground.
- */
-+ (void)setPostAppForegroundAction:(SFSDKAppForegroundCallbackBlock)postAppForegroundAction;
-
-/**
- @return Whether or not to use a security snapshot view when the app is backgrounded, to prevent
+ Whether or not to use a security snapshot view when the app is backgrounded, to prevent
  sensitive data from being displayed outside of the app context.  Default is YES.
  */
-+ (BOOL)useSnapshotView;
+@property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
- Sets the flag to denote whether or not to use a security snapshot view to prevent sensitive data
- from being displayed when the app is backgrounded.  Default is YES.
- @param useSnapshotView Whether or not to use the security feature.
- */
-+ (void)setUseSnapshotView:(BOOL)useSnapshotView;
-
-/**
- @return A custom view to use as the "image" that represents the app display when it is backgrounded.
+ A custom view to use as the "image" that represents the app display when it is backgrounded.
  Default will be an opaque white view.
  */
-+ (UIView *)snapshotView;
+@property (nonatomic, strong) UIView *snapshotView;
 
 /**
- Sets a custom view to use as the "image" that represents the app display when it is backgrounded.  Default
- is an opaque white view.
- @param snapshotView The custom view to display.
+ The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
+ NOTE: If you wanted to set your own provider, you could do the following:
+         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
+         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
+         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
  */
-+ (void)setSnapshotView:(UIView *)snapshotView;
+@property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
  postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch
  actions.
+ @return YES if the launch successfully kicks off, NO if launch is already running.
  */
-+ (void)launch;
+- (BOOL)launch;
 
 /**
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
-
-/**
- @return The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
- */
-+ (NSString *)preferredPasscodeProvider;
-
-/**
- Set the preferred passcode provider to use.  Defaults to kSFPasscodeProviderPBKDF2.  See SFPasscodeProviderManager.
- NOTE: If you wanted to set your own provider, you could do the following:
-         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
- */
-+ (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider;
 
 @end
