@@ -155,7 +155,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
             [self.sdkManagerFlow passcodeValidationAtLaunch];
         } else {
             // Otherwise, passcode validation is subject to activity timeout.  Skip to auth check.
-            [self.sdkManagerFlow authValidationAtLaunch];
+            [self authValidationAtLaunch];
         }
     }
     return YES;
@@ -168,20 +168,20 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     
     NSMutableString *launchActionString = [NSMutableString string];
     NSString *joinString = @"";
-    if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
-        [launchActionString appendString:@"SFSDKLaunchActionAlreadyAuthenticated"];
-        joinString = @"|";
-    }
-    if (launchActions & SFSDKLaunchActionAuthenticated) {
-        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthenticated"];
+    if (launchActions & SFSDKLaunchActionPasscodeVerified) {
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionPasscodeVerified"];
         joinString = @"|";
     }
     if (launchActions & SFSDKLaunchActionAuthBypassed) {
         [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthBypassed"];
         joinString = @"|";
     }
-    if (launchActions & SFSDKLaunchActionPasscodeVerified) {
-        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionPasscodeVerified"];
+    if (launchActions & SFSDKLaunchActionAuthenticated) {
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAuthenticated"];
+        joinString = @"|";
+    }
+    if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
+        [launchActionString appendString:@"SFSDKLaunchActionAlreadyAuthenticated"];
         joinString = @"|";
     }
     
@@ -424,7 +424,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     self.launchActions |= SFSDKLaunchActionPasscodeVerified;
     self.hasVerifiedPasscodeAtStartup = YES;
-    [self.sdkManagerFlow authValidationAtLaunch];
+    [self authValidationAtLaunch];
 }
 
 - (void)authValidationAtLaunch
@@ -432,38 +432,47 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
-        [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-            [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
-            [SFSecurityLockout setupTimer];
-            [SFSecurityLockout startActivityMonitoring];
-            [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
-        } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
-            [self log:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
-            [self sendLaunchError:authError];
-        }];
+        [self.sdkManagerFlow authAtLaunch];
     } else {
         // If credentials already exist, or launch shouldn't attempt authentication, we won't try
         // to authenticate.
-        
-        // If there is a current user (from a previous authentication), we still need to set up the
-        // in-memory auth state of that user.
-        if ([SFUserAccountManager sharedInstance].currentUser != nil) {
-            [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
-        }
-        
-        SFSDKLaunchAction noAuthLaunchAction;
-        if (!self.authenticateAtLaunch) {
-            [self log:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
-            noAuthLaunchAction = SFSDKLaunchActionAuthBypassed;
-        } else {
-            [self log:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
-            noAuthLaunchAction = SFSDKLaunchActionAlreadyAuthenticated;
-        }
+        [self.sdkManagerFlow authBypassAtLaunch];
+    }
+}
+
+- (void)authAtLaunch
+{
+    [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
-        [self authValidatedToPostAuth:noAuthLaunchAction];
+        [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
+    } failure:^(SFOAuthInfo *authInfo, NSError *authError) {
+        [self log:SFLogLevelError format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
+        [self sendLaunchError:authError];
+    }];
+}
+
+- (void)authBypassAtLaunch
+{
+    // If there is a current user (from a previous authentication), we still need to set up the
+    // in-memory auth state of that user.
+    if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+        [[SFAuthenticationManager sharedManager] setupWithUser:[SFUserAccountManager sharedInstance].currentUser];
     }
+    
+    SFSDKLaunchAction noAuthLaunchAction;
+    if (!self.authenticateAtLaunch) {
+        [self log:SFLogLevelInfo format:@"SDK Manager is configured not to attempt authentication at launch.  Skipping auth."];
+        noAuthLaunchAction = SFSDKLaunchActionAuthBypassed;
+    } else {
+        [self log:SFLogLevelInfo msg:@"Credentials already present.  Will not attempt to authenticate."];
+        noAuthLaunchAction = SFSDKLaunchActionAlreadyAuthenticated;
+    }
+    [SFSecurityLockout setupTimer];
+    [SFSecurityLockout startActivityMonitoring];
+    [self authValidatedToPostAuth:noAuthLaunchAction];
 }
 
 - (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction

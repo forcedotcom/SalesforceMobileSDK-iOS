@@ -123,6 +123,63 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertFalse(passcodeVerifiedOnInitialLaunch, @"Passcode should NOT have been verified on subsequent launches.");
 }
 
+- (void)testAuthAtLaunch
+{
+    XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
+    
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    
+    BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
+    BOOL userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
+    BOOL authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
+    XCTAssertTrue(userAuthenticatedAtLaunch, @"User without credentials should have been authenticated at launch.");
+    XCTAssertFalse(userAlreadyAuthenticated, @"User without credentials should not have generated an already-authenticated status.");
+    XCTAssertFalse(authBypassed, @"User without credentials should not have generated an auth-bypassed status.");
+    
+    [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken = @"test_access_token";
+    
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
+    userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
+    authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
+    XCTAssertFalse(userAuthenticatedAtLaunch, @"User with credentials should not have been authenticated at launch.");
+    XCTAssertTrue(userAlreadyAuthenticated, @"User with credentials should have generated an already-authenticated status.");
+    XCTAssertFalse(authBypassed, @"User with credentials should not have generated an auth-bypassed status.");
+}
+
+- (void)testAuthBypass
+{
+    XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
+    
+    [SalesforceSDKManager sharedManager].authenticateAtLaunch = NO;
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    
+    BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
+    BOOL userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
+    BOOL authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
+    XCTAssertFalse(userAuthenticatedAtLaunch, @"User should not generate an authenticated status at launch when bypass is configured.");
+    XCTAssertFalse(userAlreadyAuthenticated, @"User should not generate an already-authenticated status when bypass is configured.");
+    XCTAssertTrue(authBypassed, @"Launch should have generated an auth-bypassed status.");
+    
+    [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken = @"test_access_token";
+    
+    userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
+    userAlreadyAuthenticated = ((_postLaunchActions & SFSDKLaunchActionAlreadyAuthenticated) == SFSDKLaunchActionAlreadyAuthenticated);
+    authBypassed = ((_postLaunchActions & SFSDKLaunchActionAuthBypassed) == SFSDKLaunchActionAuthBypassed);
+    XCTAssertFalse(userAuthenticatedAtLaunch, @"User should not generate an authenticated status at launch when bypass is configured.");
+    XCTAssertFalse(userAlreadyAuthenticated, @"User should not generate an already-authenticated status when bypass is configured.");
+    XCTAssertTrue(authBypassed, @"Launch should have generated an auth-bypassed status.");
+}
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
@@ -171,6 +228,16 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     [SalesforceSDKManager sharedManager].connectedAppId = @"test_connected_app_id";
     [SalesforceSDKManager sharedManager].connectedAppCallbackUri = @"test_connected_app_callback_uri";
     [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+}
+
+- (SFUserAccount *)createUserAccount
+{
+    u_int32_t userIdentifier = arc4random();
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
+    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    return user;
 }
 
 - (void)setupSdkManagerState

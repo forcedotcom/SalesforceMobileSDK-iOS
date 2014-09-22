@@ -32,8 +32,19 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 - (void)resumeAuth
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self log:SFLogLevelDebug msg:@"Finishing auth validation."];
+        [self log:SFLogLevelDebug msg:@"Finishing auth."];
         [[SalesforceSDKManager sharedManager] authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
+    });
+}
+
+- (void)resumeAuthBypass
+{
+    SFSDKLaunchAction launchAction = ([SalesforceSDKManager sharedManager].authenticateAtLaunch
+                                      ? SFSDKLaunchActionAlreadyAuthenticated
+                                      : SFSDKLaunchActionAuthBypassed);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.stepTimeDelaySecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self log:SFLogLevelDebug msg:@"Finishing auth bypass."];
+        [[SalesforceSDKManager sharedManager] authValidatedToPostAuth:launchAction];
     });
 }
 
@@ -64,11 +75,19 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     });
 }
 
-- (void)authValidationAtLaunch
+- (void)authAtLaunch
 {
-    [self log:SFLogLevelDebug msg:@"Entering auth validation."];
+    [self log:SFLogLevelDebug msg:@"Entering auth at launch."];
     if (!self.pauseInAuth) {
         [self resumeAuth];
+    }
+}
+
+- (void)authBypassAtLaunch
+{
+    [self log:SFLogLevelDebug msg:@"Entering auth at launch."];
+    if (!self.pauseInAuth) {
+        [self resumeAuthBypass];
     }
 }
 

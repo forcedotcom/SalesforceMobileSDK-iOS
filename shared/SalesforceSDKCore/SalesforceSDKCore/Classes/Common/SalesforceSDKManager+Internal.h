@@ -5,7 +5,8 @@
 @protocol SalesforceSDKManagerFlow <NSObject>
 
 - (void)passcodeValidationAtLaunch;
-- (void)authValidationAtLaunch;
+- (void)authAtLaunch;
+- (void)authBypassAtLaunch;
 - (void)handleAppForeground:(NSNotification *)notification;
 - (void)handleAppBackground:(NSNotification *)notification;
 - (void)handleAppTerminate:(NSNotification *)notification;
