@@ -121,6 +121,30 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager;
 
+/**
+ Called after UIApplicationWillResignActiveNotification is received
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerWillResignActive:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationDidBecomeActiveNotification is received.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidBecomeActive:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationWillEnterForegroundNotification is received.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerWillEnterForeground:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationDidEnterBackgroundNotification is received
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidEnterBackground:(SFAuthenticationManager *)manager;
+
 @end
 
 /**

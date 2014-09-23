@@ -629,11 +629,23 @@ static Class InstanceClass = nil;
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
         [SFSecurityLockout validateTimer];
     }
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillEnterForeground:)]) {
+            [delegate authManagerWillEnterForeground:self];
+        }
+    }];
 }
 
 - (void)appWillResignActive:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillResignActive:)]) {
+            [delegate authManagerWillResignActive:self];
+        }
+    }];
     
     // Set up snapshot security view, if it's configured.
     [self setupSnapshotView];
@@ -642,6 +654,12 @@ static Class InstanceClass = nil;
 - (void)appDidBecomeActive:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is resuming active state."];
+
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidBecomeActive:)]) {
+            [delegate authManagerDidBecomeActive:self];
+        }
+    }];
     
     [self removeSnapshotView];
 }
@@ -649,6 +667,12 @@ static Class InstanceClass = nil;
 - (void)appDidEnterBackground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidEnterBackground:)]) {
+            [delegate authManagerDidEnterBackground:self];
+        }
+    }];
     
     [self savePasscodeActivityInfo];
 }
