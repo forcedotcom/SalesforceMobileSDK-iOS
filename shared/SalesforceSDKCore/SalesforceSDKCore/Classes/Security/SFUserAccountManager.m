@@ -621,7 +621,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    for (SFUserAccountIdentity *userIdentity in self.userAccountMap) {
+    for (SFUserAccountIdentity *userIdentity in [self.userAccountMap copy]) {
         // Don't save the temporary user id
         if ([userIdentity isEqual:self.temporaryUserIdentity]) {
             continue;
