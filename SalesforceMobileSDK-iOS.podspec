@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                      :submodules => true }
 
   s.prepare_command = <<-CMD
-      sed -i 's/#import \\"Categories\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
+      sed -i '' s/#import \\"Categories\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
   CMD
 
   s.subspec 'OpenSSL' do |openssl|
