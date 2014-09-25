@@ -14,6 +14,10 @@ Pod::Spec.new do |s|
                      :branch => "cocoapods",
                      :submodules => true }
 
+  s.prepare_command = <<-CMD
+      sed -i 's/#import \"Categories\//#import \"/g' ./external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
+  CMD
+
   s.subspec 'OpenSSL' do |openssl|
 
       openssl.preserve_paths = 'external/ThirdPartyDependencies/openssl/openssl/*.h', 'external/ThirdPartyDependencies/openssl/openssl_license.txt'
@@ -52,10 +56,6 @@ Pod::Spec.new do |s|
       mknet.prefix_header_contents = '#import "MKNetworkKit.h"'
       mknet.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
       mknet.requires_arc = true
-      mknet.prepare_command = <<-CMD
-      echo "prepare_command being called" > prepare_command_output.txt
-      sed -i 's/#import \"Categories\//#import \"/g' ./external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
-      CMD
 
   end
 
