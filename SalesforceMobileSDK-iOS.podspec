@@ -53,8 +53,7 @@ Pod::Spec.new do |s|
       mknet.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
       mknet.requires_arc = true
       mknet.prepare_command = <<-CMD
-          echo `pwd` >> /Users/khawkins/git/Sandbox/ios/CocoaPodsTestApp/mknet_pwd.txt
-          sed -i 's/#import \"Categories\//#import \"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
+      sed -i 's/#import \"Categories\//#import \"/g' ./external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
       CMD
 
   end
