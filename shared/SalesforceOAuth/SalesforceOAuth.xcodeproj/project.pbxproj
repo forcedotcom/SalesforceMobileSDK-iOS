@@ -426,7 +426,7 @@
 			name = SalesforceOAuthUnitTests;
 			productName = SalesforceOAuthUnitTests;
 			productReference = CFD31A3213D5956700A9074A /* SalesforceOAuthUnitTests.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
