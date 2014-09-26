@@ -26,6 +26,9 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
+#import "SFObjectType+Internal.h"
+#import "SFObject+Internal.h"
+#import "SFObjectTypeLayout+Internal.h"
 
 // Default API version.
 static NSString * kDefaultApiVersion = @"v31.0";

@@ -24,12 +24,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIColor.h>
-#import "SFObjectType+Internal.h"
-#import "SFObject+Internal.h"
-#import "SFObjectTypeLayout+Internal.h"
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncObjectUtils.h"
+#import "SFObjectType.h"
 
 // Constants for creating NSError object
 extern NSString * const SFMetadataManagerErrorDomain;
