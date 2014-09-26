@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -71,12 +71,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self = [super init];
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
-
+        
         // These SFAccountManager settings are the minimum required to identify the Connected App.
         [SFUserAccountManager sharedInstance].oauthClientId = RemoteAccessConsumerKey;
         [SFUserAccountManager sharedInstance].oauthCompletionUrl = OAuthRedirectURI;
         [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"api", nil];
-
+        
         // Auth manager delegate, for receiving logout and login host change events.
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -91,6 +91,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             [[SFAuthenticationManager sharedManager] logout];
         };
     }
+    
     return self;
 }
 
@@ -99,6 +100,8 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
+
+#pragma mark - App delegate lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -114,6 +117,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //
     
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    
     return YES;
 }
 
@@ -134,6 +138,8 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     // Respond to any push notification registration errors here.
 }
 
+#pragma mark - Private methods
+
 - (void)initializeAppViewState
 {
     self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
@@ -147,35 +153,47 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self.window.rootViewController = navVC;
 }
 
+- (void)resetViewState:(void (^)(void))postResetBlock
+{
+    if ([self.window.rootViewController presentedViewController]) {
+        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+            postResetBlock();
+        }];
+    } else {
+        postResetBlock();
+    }
+}
+
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
-    [self initializeAppViewState];
-    
-    // Multi-user pattern:
-    // - If there are two or more existing accounts after logout, let the user choose the account
-    //   to switch to.
-    // - If there is one existing account, automatically switch to that account.
-    // - If there are no further authenticated accounts, present the login screen.
-    //
-    // Alternatively, you could just go straight to re-initializing your app state, if you know
-    // your app does not support multiple accounts.  The logic below will work either way.
-    NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-    if ([allAccounts count] > 1) {
-        SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-            [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-        }];
-        [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
-    } else if ([[SFUserAccountManager sharedInstance].allUserAccounts count] == 1) {
-        [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-                                                             failure:self.initialLoginFailureBlock];
-    } else {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-                                                             failure:self.initialLoginFailureBlock];
-    }
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        
+        // Multi-user pattern:
+        // - If there are two or more existing accounts after logout, let the user choose the account
+        //   to switch to.
+        // - If there is one existing account, automatically switch to that account.
+        // - If there are no further authenticated accounts, present the login screen.
+        //
+        // Alternatively, you could just go straight to re-initializing your app state, if you know
+        // your app does not support multiple accounts.  The logic below will work either way.
+        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+        if ([allAccounts count] > 1) {
+            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+            }];
+            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
+        } else {
+            if ([allAccounts count] == 1) {
+                [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+            }
+            [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
+                                                                 failure:self.initialLoginFailureBlock];
+        }
+    }];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -186,8 +204,10 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
-    [self initializeAppViewState];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    }];
 }
 
 @end

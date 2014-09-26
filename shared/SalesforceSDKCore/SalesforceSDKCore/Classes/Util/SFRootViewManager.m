@@ -75,41 +75,71 @@
 
 - (void)pushViewController:(UIViewController *)viewController
 {
+    __weak SFRootViewManager *weakSelf = self;
+    void (^pushControllerBlock)(void) = ^{
+        UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
+        while (currentViewController.presentedViewController != nil) {
+            currentViewController = currentViewController.presentedViewController;
+        }
+        
+        
+        if (currentViewController != nil) {
+            if (currentViewController != viewController) {
+                [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
+                __block BOOL presentCompleted = NO;
+                [currentViewController presentViewController:viewController animated:NO completion:^{ presentCompleted = YES; }];
+                [weakSelf waitForPresentCompletion:&presentCompleted];
+            } else {
+                [weakSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
+            }
+        } else {
+            [weakSelf log:SFLogLevelDebug format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
+            weakSelf.mainWindow.rootViewController = viewController;
+        }
+    };
+    
     if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self pushViewController:viewController];
-        });
-        return;
-    }
-    
-    UIViewController *currentViewController = self.mainWindow.rootViewController;
-    while (currentViewController.presentedViewController != nil) {
-        currentViewController = currentViewController.presentedViewController;
-    }
-    
-    [self log:SFLogLevelDebug format:@"SFRootViewManager: Presenting view controller (%@).", NSStringFromClass([viewController class])];
-    if (currentViewController != nil) {
-        [currentViewController presentViewController:viewController animated:NO completion:NULL];
+        dispatch_sync(dispatch_get_main_queue(), pushControllerBlock);
     } else {
-        self.mainWindow.rootViewController = viewController;
+        pushControllerBlock();
     }
 }
 
 - (void)popViewController:(UIViewController *)viewController
 {
-    UIViewController *currentViewController = self.mainWindow.rootViewController;
-    if (currentViewController == viewController) {
-        self.mainWindow.rootViewController = nil;
-    } else {
-        while ((currentViewController != nil) && (currentViewController != viewController)) {
-            currentViewController = [currentViewController presentedViewController];
-        }
-        
-        if (currentViewController == nil) {
-            [self log:SFLogLevelWarning format:@"view controller (%@) not found in the view controller stack.  No action taken.", viewController];
+    __weak SFRootViewManager *weakSelf = self;
+    void (^popControllerBlock)(void) = ^{
+        UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
+        if (currentViewController == viewController) {
+            [weakSelf log:SFLogLevelDebug format:@"popViewController: Removing rootViewController (%@).", viewController];
+            weakSelf.mainWindow.rootViewController = nil;
         } else {
-            [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:NULL];
+            while ((currentViewController != nil) && (currentViewController != viewController)) {
+                currentViewController = [currentViewController presentedViewController];
+            }
+            
+            if (currentViewController == nil) {
+                [weakSelf log:SFLogLevelWarning format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
+            } else {
+                [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
+                __block BOOL dismissCompleted = NO;
+                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{ dismissCompleted = YES; }];
+                [weakSelf waitForPresentCompletion:&dismissCompleted];
+            }
         }
+    };
+    
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), popControllerBlock);
+    } else {
+        popControllerBlock();
+    }
+}
+
+- (void)waitForPresentCompletion:(BOOL *)completionVar
+{
+    while (*completionVar == NO) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     }
 }
 

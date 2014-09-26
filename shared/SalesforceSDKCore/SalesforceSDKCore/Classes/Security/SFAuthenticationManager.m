@@ -349,6 +349,8 @@ static Class InstanceClass = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         self.useSnapshotView = YES;
         
@@ -606,6 +608,8 @@ static Class InstanceClass = nil;
 
 - (void)appWillEnterForeground:(NSNotification *)notification
 {
+    [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
+    
     [self removeSnapshotView];
     
     BOOL shouldLogout = [self logoutSettingEnabled];
@@ -627,14 +631,26 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void)appWillResignActive:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    
+    // Set up snapshot security view, if it's configured.
+    [self setupSnapshotView];
+}
+
+- (void)appDidBecomeActive:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"App is resuming active state."];
+    
+    [self removeSnapshotView];
+}
+
 - (void)appDidEnterBackground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
     
     [self savePasscodeActivityInfo];
-    
-    // Set up snapshot security view, if it's configured.
-    [self setupSnapshotView];
 }
 
 - (void)appWillTerminate:(NSNotification *)notification
@@ -769,7 +785,7 @@ static Class InstanceClass = nil;
             self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
             [self.snapshotViewController.view addSubview:self.snapshotView];
         }
-        [self removeSnapshotView];
+        
         [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
     }
 }
