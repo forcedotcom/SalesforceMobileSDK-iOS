@@ -6,12 +6,12 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
-  s.author             = { "Kevin Hawkins" => "khawkins@salesforce.com" }
+  s.author       = { "Kevin Hawkins" => "khawkins@salesforce.com" }
 
   s.platform     = :ios, "6.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
-                     :branch => "cocoapods",
+                     :branch => "unstable",
                      :submodules => true }
 
   s.prepare_command = <<-CMD
@@ -22,7 +22,6 @@ Pod::Spec.new do |s|
 
       openssl.preserve_paths = 'external/ThirdPartyDependencies/openssl/openssl/*.h', 'external/ThirdPartyDependencies/openssl/openssl_license.txt'
       openssl.vendored_libraries = 'external/ThirdPartyDependencies/openssl/libcrypto.a', 'external/ThirdPartyDependencies/openssl/libssl.a'
-      # openssl.libraries = 'ssl', 'crypto'
 
   end
 
@@ -30,7 +29,6 @@ Pod::Spec.new do |s|
 
       sqlcipher.preserve_paths = 'external/ThirdPartyDependencies/sqlcipher/LICENSE'
       sqlcipher.vendored_libraries = 'external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a'
-      # sqlcipher.libraries = 'sqlcipher'
 
   end
 
@@ -41,7 +39,6 @@ Pod::Spec.new do |s|
       commonutils.header_dir = 'Headers/SalesforceCommonUtils'
       commonutils.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       commonutils.vendored_libraries = 'external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a'
-      # commonutils.libraries = 'SalesforceCommonUtils'
       commonutils.frameworks = 'MessageUI'
       commonutils.libraries = 'z'
       commonutils.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
