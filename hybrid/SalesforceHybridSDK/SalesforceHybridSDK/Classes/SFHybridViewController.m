@@ -184,16 +184,14 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     // Remote app.  If the device is offline, we should attempt to load cached content.
     if ([self isOffline]) {
         // Device is offline, and we have to try to load cached content.
-        if (_hybridViewConfig.attemptOfflineLoad) {
-            NSString *urlString = [self.appHomeUrl absoluteString];
-            if ([urlString length] == 0) {
-                NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
-                [self loadErrorPageWithCode:kErrorCodeNetworkOffline description:offlineErrorDescription context:kErrorContextAppLoading];
-            } else {
-                // Try to load offline page.
-                self.startPage = urlString;
-                [super viewDidLoad];
-            }
+        NSString *urlString = [self.appHomeUrl absoluteString];
+        if (_hybridViewConfig.attemptOfflineLoad && [urlString length] > 0) {
+            // Try to load offline page.
+            self.startPage = urlString;
+            [super viewDidLoad];
+        } else {
+            NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
+            [self loadErrorPageWithCode:kErrorCodeNetworkOffline description:offlineErrorDescription context:kErrorContextAppLoading];
         }
         return;
     }
@@ -542,7 +540,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self log:SFLogLevelError format:@"Error while attempting to load web page: %@", error];
-    [super webView:webView didFailLoadWithError:error];
+    if ([webView isEqual:self.webView]) {
+        [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
+        [super webView:webView didFailLoadWithError:error];
+    }
 }
 
 #pragma mark - URL evaluation helpers
