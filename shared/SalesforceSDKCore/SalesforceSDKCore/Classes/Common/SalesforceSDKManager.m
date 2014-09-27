@@ -195,6 +195,11 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     BOOL validInputs = YES;
     NSMutableArray *launchStateErrorMessages = [NSMutableArray array];
     
+    // If an app config has been specified, set values from that first.
+    if (self.appConfig != nil) {
+        [self configureWithAppConfig];
+    }
+    
     if ([[UIApplication sharedApplication] delegate].window == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
@@ -239,6 +244,14 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     }
     
     return validInputs;
+}
+
+- (void)configureWithAppConfig
+{
+    self.connectedAppId = self.appConfig.remoteAccessConsumerKey;
+    self.connectedAppCallbackUri = self.appConfig.oauthRedirectURI;
+    self.authScopes = [self.appConfig.oauthScopes allObjects];
+    self.authenticateAtLaunch = self.appConfig.shouldAuthenticate;
 }
 
 - (void)sendLaunchError:(NSError *)theLaunchError
