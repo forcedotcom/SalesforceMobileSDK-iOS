@@ -46,7 +46,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
         
-        // These SFAccountManager settings are the minimum required to identify the Connected App.
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -122,38 +121,53 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self.window.rootViewController = rootVC;
 }
 
+- (void)resetViewState:(void (^)(void))postResetBlock
+{
+    if ([self.window.rootViewController presentedViewController]) {
+        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+            postResetBlock();
+        }];
+    } else {
+        postResetBlock();
+    }
+}
+
 - (void)handleSdkManagerLogout
 {
     [self log:SFLogLevelDebug msg:@"SDK Manager logged out.  Resetting app."];
-    [self initializeAppViewState];
-    
-    // Multi-user pattern:
-    // - If there are two or more existing accounts after logout, let the user choose the account
-    //   to switch to.
-    // - If there is one existing account, automatically switch to that account.
-    // - If there are no further authenticated accounts, present the login screen.
-    //
-    // Alternatively, you could just go straight to re-initializing your app state, if you know
-    // your app does not support multiple accounts.  The logic below will work either way.
-    NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-    if ([allAccounts count] > 1) {
-        SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-            [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-        }];
-        [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
-    } else {
-        if ([allAccounts count] == 1) {
-            [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        
+        // Multi-user pattern:
+        // - If there are two or more existing accounts after logout, let the user choose the account
+        //   to switch to.
+        // - If there is one existing account, automatically switch to that account.
+        // - If there are no further authenticated accounts, present the login screen.
+        //
+        // Alternatively, you could just go straight to re-initializing your app state, if you know
+        // your app does not support multiple accounts.  The logic below will work either way.
+        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+        if ([allAccounts count] > 1) {
+            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+            }];
+            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
+        } else {
+            if ([allAccounts count] == 1) {
+                [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+            }
+            [[SalesforceSDKManager sharedManager] launch];
         }
-        [[SalesforceSDKManager sharedManager] launch];
-    }
+    }];
 }
 
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
     [self log:SFLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
-    [self initializeAppViewState];
-    [[SalesforceSDKManager sharedManager] launch];
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        [[SalesforceSDKManager sharedManager] launch];
+    }];
 }
 
 #pragma mark - Unit test helpers
