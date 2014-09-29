@@ -140,23 +140,23 @@ class RootViewController : UITableViewController, SFRestDelegate
     }
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int
+    override func numberOfSectionsInTableView(tableView: UITableView?) -> Int
     {
         return 1
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int
+    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int
     {
         return self.dataRows.count
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell!
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cellIdentifier = "CellIdentifier"
 
         // Dequeue or create a cell of the appropriate type.
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as UITableViewCell!
-        if (!cell)
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+        if (cell == nil)
         {
             cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
         }
@@ -166,23 +166,23 @@ class RootViewController : UITableViewController, SFRestDelegate
         let fileId = obj["id"] as String
         let tag = fileId.hash
         
-        cell.textLabel.text =  obj["title"] as String
-        cell.detailTextLabel.text = obj["owner"]["name"] as String
-        cell.tag = tag;
+        cell!.textLabel!.text =  obj["title"] as? String
+        cell!.detailTextLabel!.text = (obj["owner"] as NSDictionary)["name"] as? String
+        cell!.tag = tag;
         self.getThumbnail(fileId, completeBlock: {
             thumbnailImage in
             // Cell are recycled - we don't want to set the image if the cell is showing a different file
-            if (cell.tag == tag)
+            if (cell!.tag == tag)
             {
-                cell.imageView.image = thumbnailImage
-                cell.setNeedsLayout()
+                cell!.imageView!.image = thumbnailImage
+                cell!.setNeedsLayout()
             }
         })
         
-        return cell;
+        return cell!
     }
     
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
         return 90
     }
