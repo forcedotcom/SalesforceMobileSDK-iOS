@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,51 +22,41 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIApplication.h>
+#import "InitialViewController.h"
 
-@class SFUserAccount;
+static NSString * const kDefaultHybridAppLabel = @"SDK Hybrid App";
 
+@implementation InitialViewController
 
-@interface SFPushNotificationManager : NSObject
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.appLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    }
+    return self;
+}
 
-@property (nonatomic, strong) NSString* deviceToken;
-@property (nonatomic, strong) NSString* deviceSalesforceId;
+- (void)loadView
+{
+    [super loadView];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    if (!self.appLabel.text) {
+        self.appLabel.text = kDefaultHybridAppLabel;
+        self.appLabel.font = [UIFont systemFontOfSize:25.0];
+    }
+    [self.view addSubview:self.appLabel];
+}
 
-+ (SFPushNotificationManager *) sharedInstance;
-
-
-/**
- * Register with APNS
- */
-- (void)registerForRemoteNotifications;
-
-/**
- * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
- * @param deviceTokenData The device token returned by APNS
- */
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData;
-
-/**
- * Register for notifications with Salesforce
- * Call this method after authenticating with Salesforce and registering with APNS
- * @return YES for successful registration call made.
- */
-- (BOOL)registerForSalesforceNotifications;
-
-/**
- * Unregister from notifications with Salesforce
- * Is called at log out
- * @return YES for successful unregistration call being made.
- */
-- (BOOL)unregisterSalesforceNotifications;
-
-/**
- * Unregister from notifications with Salesforce
- * Is called at log out
- * @param user User account.
- * @return YES for successful unregistration call being made.
- */
-- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
+- (void)viewWillLayoutSubviews
+{
+    CGSize appLabelTextSize = [self.appLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.appLabel.font }];
+    CGFloat w = appLabelTextSize.width;
+    CGFloat h = appLabelTextSize.height;
+    CGFloat x = CGRectGetMidX(self.view.frame) - (w / 2.0);
+    CGFloat y = CGRectGetMidY(self.view.frame) - (h / 2.0);
+    self.appLabel.frame = CGRectMake(x, y, w, h);
+}
 
 @end

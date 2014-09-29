@@ -51,6 +51,7 @@ static NSString * const kErrorCodeParameterName = @"errorCode";
 static NSString * const kErrorDescriptionParameterName = @"errorDescription";
 static NSString * const kErrorContextParameterName = @"errorContext";
 static NSInteger  const kErrorCodeNetworkOffline = 1;
+static NSInteger  const kErrorCodeNoCredentials = 2;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 
@@ -80,11 +81,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
  * @return YES if the value is one of the reserved URLs, NO otherwise.
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
-
-/**
- Makes sure the values in the hybrid view config are sufficient configuration.
- */
-- (void)validateHybridViewConfig;
 
 /**
  Reports whether the device is offline.
@@ -128,12 +124,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (NSString *)createDefaultErrorPageContentWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
- Sets up the actual start page URL, which will be different depending on whether the app is
- local vs. remote.
- */
-- (void)configureStartPage;
-
-/**
  * Method called after re-authentication completes (after session timeout).
  * @param originalUrl The original URL being called before the session timed out.
  */
@@ -162,13 +152,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (self) {
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized.  See output log for errors.");
-        
-        // There are a number of required values from the config file.
-        [self validateHybridViewConfig];
-        
-        [SFUserAccountManager sharedInstance].oauthClientId = _hybridViewConfig.remoteAccessConsumerKey;
-        [SFUserAccountManager sharedInstance].oauthCompletionUrl = _hybridViewConfig.oauthRedirectURI;
-        [SFUserAccountManager sharedInstance].scopes = _hybridViewConfig.oauthScopes;
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;
@@ -184,43 +167,39 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
-    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
-    if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
-        // Device is offline, and we have to try to load cached content.
-        if (_hybridViewConfig.attemptOfflineLoad) {
-            NSString *urlString = [self.appHomeUrl absoluteString];
-            if ([urlString length] == 0) {
-                NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
-                [self loadErrorPageWithCode:kErrorCodeNetworkOffline description:offlineErrorDescription context:kErrorContextAppLoading];
-            } else {
-                // Try to load offline page.
-                self.startPage = urlString;
-                [super viewDidLoad];
-            }
-        }
-    } else {
-        // Device is online.
-        if (_hybridViewConfig.shouldAuthenticate) {
-            [[SFAuthenticationManager sharedManager]
-             loginWithCompletion:^(SFOAuthInfo *authInfo) {
-                 [self authenticationCompletion:nil authInfo:authInfo];
-                 [self configureStartPage];
-                 [super viewDidLoad];
-             }
-             failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                 if ([self logoutOnInvalidCredentials:error]) {
-                     [self log:SFLogLevelError msg:@"Initial authentication failed.  Logging out."];
-                     [[SFAuthenticationManager sharedManager] logout];
-                 } else {
-                     // Error is not invalid credentials, or developer otherwise wants to handle it.
-                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAppLoading];
-                 }
-             }];
-        } else {
-            // Start page already set.  Just try to load through Cordova.
-            [super viewDidLoad];
-        }
+    // If this app requires authentication at startup, and authentication hasn't happened, that's an error.
+    NSString *accessToken = [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken;
+    if (_hybridViewConfig.shouldAuthenticate && [accessToken length] == 0) {
+        NSString *noCredentials = [SFSDKResourceUtils localizedString:@"hybridBootstrapNoCredentialsAtStartup"];
+        [self loadErrorPageWithCode:kErrorCodeNoCredentials description:noCredentials context:kErrorContextAppLoading];
+        return;
     }
+    
+    // If the app is local, we should just be able to load it.
+    if (_hybridViewConfig.isLocal) {
+        [super viewDidLoad];
+        return;
+    }
+    
+    // Remote app.  If the device is offline, we should attempt to load cached content.
+    if ([self isOffline]) {
+        // Device is offline, and we have to try to load cached content.
+        NSString *urlString = [self.appHomeUrl absoluteString];
+        if (_hybridViewConfig.attemptOfflineLoad && [urlString length] > 0) {
+            // Try to load offline page.
+            self.startPage = urlString;
+            [super viewDidLoad];
+        } else {
+            NSString *offlineErrorDescription = [SFSDKResourceUtils localizedString:@"hybridBootstrapDeviceOffline"];
+            [self loadErrorPageWithCode:kErrorCodeNetworkOffline description:offlineErrorDescription context:kErrorContextAppLoading];
+        }
+        return;
+    }
+    
+    // Remote app.  Device is online.
+    [SFAuthenticationManager resetSessionCookie];
+    [self configureRemoteStartPage];
+    [super viewDidLoad];
 }
 
 #pragma mark - Property implementations
@@ -366,11 +345,15 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *instUrl = creds.apiUrl.absoluteString;
-    NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
-    [mutableReturnUrl appendString:returnUrl];
-    NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    NSString *fullReturnUrl;
+    if (![returnUrl hasPrefix:@"http"]) {
+        fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
+    } else {
+        fullReturnUrl = returnUrl;
+    }
+    NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"])
         [frontDoorUrl appendString:@"/"];
@@ -466,27 +449,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return htmlContent;
 }
 
-- (void)configureStartPage
+- (void)configureRemoteStartPage
 {
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
-    
-    // If the start page is local, Cordova knows how to parse the start page.  Just leave it for the parent.
-    if (!_hybridViewConfig.isLocal) {
-        self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
-    }
-    
+    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
     startPageConfigured = YES;
-}
-
-- (void)validateHybridViewConfig
-{
-    NSAssert(_hybridViewConfig != nil, @"You must supply a valid hybrid view configuration.");
-    NSString *trimmedConsumerKey = [_hybridViewConfig.remoteAccessConsumerKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *trimmedRedirectURI = [_hybridViewConfig.oauthRedirectURI stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSAssert([trimmedConsumerKey length] > 0, @"remoteAccessConsumerKey must have a value in the hybrid view configuration.");
-    NSAssert([trimmedRedirectURI length] > 0, @"oauthRedirectURI must have a value in the hybrid view configuration.");
-    NSAssert([_hybridViewConfig.oauthScopes count] > 0, @"You must provide at least one OAuth scope in the hybrid view configuration.");
 }
 
 #pragma mark - UIWebViewDelegate
@@ -576,7 +544,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self log:SFLogLevelError format:@"Error while attempting to load web page: %@", error];
-    [super webView:webView didFailLoadWithError:error];
+    if ([webView isEqual:self.webView]) {
+        [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
+        [super webView:webView didFailLoadWithError:error];
+    }
 }
 
 #pragma mark - URL evaluation helpers

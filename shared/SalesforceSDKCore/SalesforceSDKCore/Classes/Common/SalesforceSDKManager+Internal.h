@@ -10,6 +10,8 @@
 - (void)handleAppForeground:(NSNotification *)notification;
 - (void)handleAppBackground:(NSNotification *)notification;
 - (void)handleAppTerminate:(NSNotification *)notification;
+- (void)handleAppDidBecomeActive:(NSNotification *)notification;
+- (void)handleAppWillResignActive:(NSNotification *)notification;
 - (void)handlePostLogout;
 - (void)handleAuthCompleted:(NSNotification *)notification;
 - (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser;

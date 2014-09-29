@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFUserAccount.h"
+#import "SFSDKAppConfig.h"
 
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
@@ -78,6 +79,8 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
  @return The singleton instance of the SDK Manager.
  */
 + (instancetype)sharedManager;
+
+@property (nonatomic, strong) SFSDKAppConfig *appConfig;
 
 /**
  Whether or not the SDK is currently in the middle of a launch process.

@@ -52,6 +52,7 @@
 // Hybrid bootstrap
 
 "hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
+"hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
 
 // SmartStore Inspector
 

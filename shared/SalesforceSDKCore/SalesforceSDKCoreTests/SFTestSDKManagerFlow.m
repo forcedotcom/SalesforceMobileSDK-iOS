@@ -111,6 +111,16 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
     
 }
 
+- (void)handleAppDidBecomeActive:(NSNotification *)notification
+{
+    
+}
+
+- (void)handleAppWillResignActive:(NSNotification *)notification
+{
+    
+}
+
 - (void)handleAuthCompleted:(NSNotification *)notification
 {
     

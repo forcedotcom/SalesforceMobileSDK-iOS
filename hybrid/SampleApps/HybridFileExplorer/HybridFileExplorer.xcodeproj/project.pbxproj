@@ -65,6 +65,7 @@
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
 		824A9DC11724CE4600C9BD79 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
 		82638F1E19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F1D19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
+		8272302219D7743B0066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272302119D7743B0066A350 /* InitialViewController.m */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
 		82F6F65A18E4A23D0033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */; };
 /* End PBXBuildFile section */
@@ -200,6 +201,8 @@
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		82638F1C19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F1D19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
+		8272302019D7743B0066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
+		8272302119D7743B0066A350 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ../../../../shared/hybrid/InitialViewController.m; sourceTree = "<group>"; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -402,6 +405,8 @@
 				4F6D83A319526344003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
 				4F6D83A419526344003EBB16 /* AppDelegate.m */,
 				4F6D83A519526344003EBB16 /* AppDelegate.h */,
+				8272302019D7743B0066A350 /* InitialViewController.h */,
+				8272302119D7743B0066A350 /* InitialViewController.m */,
 				82638F1C19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.h */,
 				82638F1D19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m */,
 			);
@@ -478,6 +483,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8272302219D7743B0066A350 /* InitialViewController.m in Sources */,
 				4F6D83A619526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
 				82638F1E19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,

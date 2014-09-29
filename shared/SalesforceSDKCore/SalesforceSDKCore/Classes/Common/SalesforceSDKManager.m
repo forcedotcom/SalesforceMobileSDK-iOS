@@ -61,6 +61,8 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
@@ -195,6 +197,11 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     BOOL validInputs = YES;
     NSMutableArray *launchStateErrorMessages = [NSMutableArray array];
     
+    // If an app config has been specified, set values from that first.
+    if (self.appConfig != nil) {
+        [self configureWithAppConfig];
+    }
+    
     if ([[UIApplication sharedApplication] delegate].window == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
@@ -241,6 +248,14 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     return validInputs;
 }
 
+- (void)configureWithAppConfig
+{
+    self.connectedAppId = self.appConfig.remoteAccessConsumerKey;
+    self.connectedAppCallbackUri = self.appConfig.oauthRedirectURI;
+    self.authScopes = [self.appConfig.oauthScopes allObjects];
+    self.authenticateAtLaunch = self.appConfig.shouldAuthenticate;
+}
+
 - (void)sendLaunchError:(NSError *)theLaunchError
 {
     _isLaunching = NO;
@@ -282,7 +297,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
-    [self log:SFLogLevelDebug msg:@"App entering foreground."];
+    [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
     [self removeSnapshotView];
     
     BOOL shouldLogout = [[self class] logoutSettingEnabled];
@@ -324,14 +339,26 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
     
     [self savePasscodeActivityInfo];
-    
-    // Set up snapshot security view, if it's configured.
-    [self setupSnapshotView];
 }
 
 - (void)handleAppTerminate:(NSNotification *)notification
 {
     [self savePasscodeActivityInfo];
+}
+
+- (void)handleAppDidBecomeActive:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"App is resuming active state."];
+    
+    [self removeSnapshotView];
+}
+
+- (void)handleAppWillResignActive:(NSNotification *)notification
+{
+    [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    
+    // Set up snapshot security view, if it's configured.
+    [self setupSnapshotView];
 }
 
 - (void)handleAuthCompleted:(NSNotification *)notification

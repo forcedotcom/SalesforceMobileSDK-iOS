@@ -48,6 +48,8 @@
 		8222088B19391EC00000C635 /* SFUserAccountManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8222088A19391EC00000C635 /* SFUserAccountManager+Internal.h */; };
 		822E386F19BE628200C92CA3 /* SalesforceSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822E386D19BE628200C92CA3 /* SalesforceSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822E387019BE628200C92CA3 /* SalesforceSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */; };
+		8272300C19D5FA520066A350 /* SFSDKAppConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 8272300A19D5FA520066A350 /* SFSDKAppConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8272300D19D5FA520066A350 /* SFSDKAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272300B19D5FA520066A350 /* SFSDKAppConfig.m */; };
 		8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8281E90D1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m */; };
 		82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82867575181C759A007AA18A /* SFAuthenticationViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -207,6 +209,8 @@
 		8222088A19391EC00000C635 /* SFUserAccountManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccountManager+Internal.h"; sourceTree = "<group>"; };
 		822E386D19BE628200C92CA3 /* SalesforceSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKManager.h; sourceTree = "<group>"; };
 		822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManager.m; sourceTree = "<group>"; };
+		8272300A19D5FA520066A350 /* SFSDKAppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppConfig.h; sourceTree = "<group>"; };
+		8272300B19D5FA520066A350 /* SFSDKAppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppConfig.m; sourceTree = "<group>"; };
 		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBB516E14E9F00768DE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -492,6 +496,8 @@
 				822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */,
 				82AF840F16DFD95F008912EF /* SFApplication.h */,
 				82AF841016DFD95F008912EF /* SFApplication.m */,
+				8272300A19D5FA520066A350 /* SFSDKAppConfig.h */,
+				8272300B19D5FA520066A350 /* SFSDKAppConfig.m */,
 				82AF841116DFD95F008912EF /* SFUserActivityMonitor.h */,
 				82AF841216DFD95F008912EF /* SFUserActivityMonitor.m */,
 			);
@@ -710,6 +716,7 @@
 				82BBB56B17909D3100374DD8 /* SalesforceSDKConstants.h in Headers */,
 				82BBB56D17909D5500374DD8 /* SFApplication.h in Headers */,
 				82BBB56E17909D6800374DD8 /* SFAuthenticationManager.h in Headers */,
+				8272300C19D5FA520066A350 /* SFSDKAppConfig.h in Headers */,
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
 				821C8F5718CD162E000FAF96 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */,
@@ -911,6 +918,7 @@
 				82AF845D16DFD95F008912EF /* SFSmartStore.m in Sources */,
 				82B211B2192186F000154BBC /* SFSmartStoreUpgrade.m in Sources */,
 				82AF845E16DFD95F008912EF /* SFSmartStoreDatabaseManager.m in Sources */,
+				8272300D19D5FA520066A350 /* SFSDKAppConfig.m in Sources */,
 				822E387019BE628200C92CA3 /* SalesforceSDKManager.m in Sources */,
 				8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */,
 				82AF845F16DFD95F008912EF /* SFSoupIndex.m in Sources */,

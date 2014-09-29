@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,50 +23,38 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIApplication.h>
 
-@class SFUserAccount;
-
-
-@interface SFPushNotificationManager : NSObject
-
-@property (nonatomic, strong) NSString* deviceToken;
-@property (nonatomic, strong) NSString* deviceSalesforceId;
-
-+ (SFPushNotificationManager *) sharedInstance;
-
+@interface SFSDKAppConfig : NSObject
 
 /**
- * Register with APNS
+ * The Connected App key associated with this application.
  */
-- (void)registerForRemoteNotifications;
+@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
 
 /**
- * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
- * @param deviceTokenData The device token returned by APNS
+ * The OAuth Redirect URI associated with the configured Connected Application.
  */
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData;
+@property (nonatomic, copy) NSString *oauthRedirectURI;
 
 /**
- * Register for notifications with Salesforce
- * Call this method after authenticating with Salesforce and registering with APNS
- * @return YES for successful registration call made.
+ * The OAuth Scopes being requested for this app.
  */
-- (BOOL)registerForSalesforceNotifications;
+@property (nonatomic, strong) NSSet *oauthScopes;
 
 /**
- * Unregister from notifications with Salesforce
- * Is called at log out
- * @return YES for successful unregistration call being made.
+ * Whether or not this app should authenticate when it first starts.
  */
-- (BOOL)unregisterSalesforceNotifications;
+@property (nonatomic, assign) BOOL shouldAuthenticate;
 
 /**
- * Unregister from notifications with Salesforce
- * Is called at log out
- * @param user User account.
- * @return YES for successful unregistration call being made.
+ * The config as a dictionary
  */
-- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user;
+@property (nonatomic, strong) NSMutableDictionary *configDict;
+
+/**
+ * Initializer with a given JSON-based configuration dictionary.
+ * @param configDict The dictionary containing the configuration.
+ */
+- (instancetype)initWithDict:(NSDictionary *)configDict;
 
 @end
