@@ -79,6 +79,13 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 - (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(UIWebView *)view;
 
 /**
+ Called before the auth manager will perform an authentication, this includes token refresh.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param info The auth info associated with authentication.
+ */
+- (void)authManagerWillBeginAuthentication:(SFAuthenticationManager *)manager authInfo:(SFOAuthInfo *)info;
+
+/**
  Called after the auth manager has successfully authenticated.
  @param manager The instance of SFAuthenticationManager making the call.
  @param credentials The newly-authenticated credentials.
@@ -113,6 +120,30 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  @param manager The instance of SFAuthenticationManager making the call.
  */
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationWillResignActiveNotification is received
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerWillResignActive:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationDidBecomeActiveNotification is received.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidBecomeActive:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationWillEnterForegroundNotification is received.
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerWillEnterForeground:(SFAuthenticationManager *)manager;
+
+/**
+ Called after UIApplicationDidEnterBackgroundNotification is received
+ @param manager The instance of SFAuthenticationManager making the call.
+ */
+- (void)authManagerDidEnterBackground:(SFAuthenticationManager *)manager;
 
 @end
 

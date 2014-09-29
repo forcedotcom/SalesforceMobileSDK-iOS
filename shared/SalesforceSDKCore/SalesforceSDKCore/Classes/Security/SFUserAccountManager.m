@@ -498,7 +498,10 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
     NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:error];
     if (nil == rootContents) {
-        [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, error];
+        if (error) {
+            [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootDirectory, *error];
+        }
+        
         return NO;
     } else {
         for (NSString *rootContent in rootContents) {
@@ -510,7 +513,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
             // Fetch the content of the org directory
             NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
             if (nil == orgContents) {
-                [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, error];
+                if (error) {
+                    [self log:SFLogLevelDebug format:@"Unable to enumerate the content at %@: %@", rootPath, *error];
+                }
                 continue;
             }
             
@@ -616,7 +621,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    for (SFUserAccountIdentity *userIdentity in self.userAccountMap) {
+    for (SFUserAccountIdentity *userIdentity in [self.userAccountMap copy]) {
         // Don't save the temporary user id
         if ([userIdentity isEqual:self.temporaryUserIdentity]) {
             continue;
@@ -632,7 +637,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         NSFileManager *fm = [NSFileManager defaultManager];
         if ([fm fileExistsAtPath:userAccountPath]) {
             if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, error];
+                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, *error];
                 return NO;
             }
         }
@@ -875,9 +880,13 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
-        self.currentUser.communities = @[ communityData ];
-    } else {
-        self.currentUser.communities = nil;
+        if (![self.currentUser communityWithId:credentials.communityId]) {
+            if (self.currentUser.communities) {
+                self.currentUser.communities = [self.currentUser.communities arrayByAddingObject:communityData];
+            } else {
+                self.currentUser.communities = @[communityData];
+            }
+        }
     }
     
     // If our default user identity is currently the temporary user identity,

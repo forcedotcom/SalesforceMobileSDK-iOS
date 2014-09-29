@@ -25,10 +25,10 @@
 #import <Security/Security.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCrypto.h"
-#import "SFOAuth_UIDevice+Hardware.h"
 #import "SFOAuth_NSString+Additions.h"
 #import <SalesforceCommonUtils/SFCrypto.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceSecurity/SFSDKCryptoUtils.h>
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 

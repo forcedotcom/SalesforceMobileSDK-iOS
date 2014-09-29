@@ -157,19 +157,25 @@ static NSString * const kHttpPostContentType                    = @"application/
 
     self.authenticating = YES;
     
+    SFOAuthInfo *authInfo;
+    if (self.credentials.refreshToken) {
+        authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    } else {
+        authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
+    }
+    
     // Don't try to authenticate if there is no network available
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)] &&
         ![self.delegate oauthCoordinatorIsNetworkAvailable:self]) {
         [self log:SFLogLevelDebug msg:@"Network is not available, so bypassing login"];
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
-        SFOAuthInfo *authInfo;
-        if (self.credentials.refreshToken) {
-            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-        } else {
-            authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
-        }
         [self notifyDelegateOfFailure:error authInfo:authInfo];
 		return;
+    }
+    
+    // make sure client knows authcoordinator is about to perform some kind of authentication.
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorWillBeginAuthentication:authInfo:)]) {
+        [self.delegate oauthCoordinatorWillBeginAuthentication:self authInfo:authInfo];
     }
     
     if (self.credentials.refreshToken) {
@@ -417,7 +423,7 @@ static NSString * const kHttpPostContentType                    = @"application/
                 // In a non-IP flow, we already have the refresh token here.
             }
 
-            [self updateCredentials:dict];
+            [self updateCredentials:dict forTokenRefresh:YES];
             
             [self notifyDelegateOfSuccess:authInfo];
         }
@@ -446,19 +452,25 @@ static NSString * const kHttpPostContentType                    = @"application/
  - communityId
  - communityUrl
  */
-- (void)updateCredentials:(NSDictionary*)params
-{
-    self.credentials.identityUrl    = [NSURL URLWithString:params[kSFOAuthId]];
-    self.credentials.accessToken    = params[kSFOAuthAccessToken];
-    self.credentials.instanceUrl    = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
-    self.credentials.issuedAt       = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
 
-    self.credentials.communityId    = params[kSFOAuthCommunityId];
-    NSString *communityUrl = params[kSFOAuthCommunityUrl];
-    if (communityUrl) {
-        self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
-    } else {
-        self.credentials.communityUrl = nil;
+- (void)updateCredentials:(NSDictionary*)params forTokenRefresh:(BOOL)tokenRefresh
+{
+    self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
+    self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
+    
+    if (!tokenRefresh) {
+        self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
+        self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
+        
+        NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
+        if (nil != communityId) {
+            self.credentials.communityId = communityId;
+        }
+        
+        NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
+        if (nil != communityUrl) {
+            self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
+        }
     }
 }
 
@@ -542,7 +554,7 @@ static NSString * const kHttpPostContentType                    = @"application/
             NSDictionary *params = [[self class] parseQueryString:response];
             NSString *error = params[kSFOAuthError];
             if (nil == error) {
-                [self updateCredentials:params];
+                [self updateCredentials:params forTokenRefresh:NO];
                 
                 self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
 
