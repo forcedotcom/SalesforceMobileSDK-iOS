@@ -347,9 +347,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *instUrl = creds.apiUrl.absoluteString;
-    NSMutableString *mutableReturnUrl = [NSMutableString stringWithString:instUrl];
-    [mutableReturnUrl appendString:returnUrl];
-    NSString *encodedUrl = (isEncoded ? mutableReturnUrl : [mutableReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    NSString *fullReturnUrl;
+    if (![returnUrl hasPrefix:@"http"]) {
+        fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
+    } else {
+        fullReturnUrl = returnUrl;
+    }
+    NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"])
         [frontDoorUrl appendString:@"/"];
