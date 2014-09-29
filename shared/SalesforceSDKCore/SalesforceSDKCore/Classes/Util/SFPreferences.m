@@ -136,7 +136,12 @@ static NSMutableDictionary *instances = nil;
 
 - (void)setObject:(id)object forKey:(NSString*)key {
     @synchronized (self) {
-        self.attributes[key] = object;
+        @try {
+            self.attributes[key] = object;
+        }
+        @catch (NSException *exception) {
+            [self log:SFLogLevelError format:@"Unable to set preference entry (key:%@, object:%@): %@", exception];
+        }
     }
 }
 

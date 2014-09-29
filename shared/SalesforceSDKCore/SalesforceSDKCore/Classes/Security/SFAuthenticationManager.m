@@ -461,7 +461,7 @@ static Class InstanceClass = nil;
 - (void)loggedIn:(BOOL)fromOffline
 {
     if (!fromOffline) {
-    [self.idCoordinator initiateIdentityDataRetrieval];
+        [self.idCoordinator initiateIdentityDataRetrieval];
     } else {
         [self retrievedIdentityData];
     }
@@ -629,11 +629,23 @@ static Class InstanceClass = nil;
         [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
         [SFSecurityLockout validateTimer];
     }
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillEnterForeground:)]) {
+            [delegate authManagerWillEnterForeground:self];
+        }
+    }];
 }
 
 - (void)appWillResignActive:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillResignActive:)]) {
+            [delegate authManagerWillResignActive:self];
+        }
+    }];
     
     // Set up snapshot security view, if it's configured.
     [self setupSnapshotView];
@@ -642,6 +654,12 @@ static Class InstanceClass = nil;
 - (void)appDidBecomeActive:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is resuming active state."];
+
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidBecomeActive:)]) {
+            [delegate authManagerDidBecomeActive:self];
+        }
+    }];
     
     [self removeSnapshotView];
 }
@@ -649,6 +667,12 @@ static Class InstanceClass = nil;
 - (void)appDidEnterBackground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidEnterBackground:)]) {
+            [delegate authManagerDidEnterBackground:self];
+        }
+    }];
     
     [self savePasscodeActivityInfo];
 }
@@ -783,9 +807,9 @@ static Class InstanceClass = nil;
         
         if (self.snapshotViewController == nil) {
             self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-            [self.snapshotViewController.view addSubview:self.snapshotView];
         }
-        
+        [self.snapshotView removeFromSuperview];
+        [self.snapshotViewController.view addSubview:self.snapshotView];
         [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
     }
 }
@@ -1281,6 +1305,14 @@ static Class InstanceClass = nil;
     } else {
         self.authViewHandler.authViewDisplayBlock(self, view);
     }
+}
+
+- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerWillBeginAuthentication:authInfo:)]) {
+            [delegate authManagerWillBeginAuthentication:self authInfo:info];
+        }
+    }];
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
