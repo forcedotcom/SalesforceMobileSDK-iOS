@@ -1076,8 +1076,9 @@ static Class InstanceClass = nil;
 {
     if (nil == _statusAlert) {
         // show alert and allow retry
+        [self log:SFLogLevelError format:@"Error during authentication: %@", error];
         _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], error]
+                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
                                                  delegate:self
                                         cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
                                         otherButtonTitles: nil];
