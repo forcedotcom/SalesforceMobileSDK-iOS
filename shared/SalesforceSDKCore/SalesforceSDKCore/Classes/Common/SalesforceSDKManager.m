@@ -56,6 +56,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     self = [super init];
     if (self) {
         self.sdkManagerFlow = self;
+        _delegates = [[NSMutableOrderedSet alloc] init];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -298,6 +299,13 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
+    
+    [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(sdkManagerWillEnterForeground)]) {
+            [delegate sdkManagerWillEnterForeground];
+        }
+    }];
+    
     [self removeSnapshotView];
     
     BOOL shouldLogout = [[self class] logoutSettingEnabled];
@@ -338,6 +346,12 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     [self log:SFLogLevelDebug msg:@"App is entering the background."];
     
+    [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(sdkManagerDidEnterBackground)]) {
+            [delegate sdkManagerDidEnterBackground];
+        }
+    }];
+    
     [self savePasscodeActivityInfo];
 }
 
@@ -350,12 +364,24 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     [self log:SFLogLevelDebug msg:@"App is resuming active state."];
     
+    [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(sdkManagerDidBecomeActive)]) {
+            [delegate sdkManagerDidBecomeActive];
+        }
+    }];
+    
     [self removeSnapshotView];
 }
 
 - (void)handleAppWillResignActive:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is resigning active state."];
+    
+    [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(sdkManagerWillResignActive)]) {
+            [delegate sdkManagerWillResignActive];
+        }
+    }];
     
     // Set up snapshot security view, if it's configured.
     [self setupSnapshotView];
@@ -417,8 +443,10 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         
         if (_snapshotViewController == nil) {
             _snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-            [_snapshotViewController.view addSubview:[self snapshotView]];
         }
+        
+        [self.snapshotView removeFromSuperview];
+        [_snapshotViewController.view addSubview:self.snapshotView];
         
         [[SFRootViewManager sharedManager] pushViewController:_snapshotViewController];
     }
@@ -506,6 +534,38 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     self.launchActions |= launchAction;
     [self sendPostLaunch];
+}
+
+- (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates addObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate
+{
+    @synchronized(self) {
+        if (delegate) {
+            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
+            [_delegates removeObject:nonretainedDelegate];
+        }
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SalesforceSDKManagerDelegate>))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SalesforceSDKManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

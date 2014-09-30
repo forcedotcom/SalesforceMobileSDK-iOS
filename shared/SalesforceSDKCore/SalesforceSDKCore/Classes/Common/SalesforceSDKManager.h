@@ -68,6 +68,32 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
  */
 typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 
+@protocol SalesforceSDKManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Called after UIApplicationWillResignActiveNotification is received
+ */
+- (void)sdkManagerWillResignActive;
+
+/**
+ Called after UIApplicationDidBecomeActiveNotification is received.
+ */
+- (void)sdkManagerDidBecomeActive;
+
+/**
+ Called after UIApplicationWillEnterForegroundNotification is received.
+ */
+- (void)sdkManagerWillEnterForeground;
+
+/**
+ Called after UIApplicationDidEnterBackgroundNotification is received
+ */
+- (void)sdkManagerDidEnterBackground;
+
+@end
+
 /**
  This class will manage the basic infrastructure of the Mobile SDK elements of the app,
  including the orchestration of authentication, passcode displaying, and management of app
@@ -162,6 +188,18 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
 - (BOOL)launch;
+
+/**
+ Adds an SDK Manager delegate to the list of delegates.
+ @param delegate The delegate to add.
+ */
+- (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate;
+
+/**
+ Removes an SDK Manager delegate from the list of delegates.
+ @param delegate The delegate to remove.
+ */
+- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate;
 
 /**
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
