@@ -119,7 +119,7 @@
             }
             
             if (currentViewController == nil) {
-                [weakSelf log:SFLogLevelWarning format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
+                [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
                 __block BOOL dismissCompleted = NO;

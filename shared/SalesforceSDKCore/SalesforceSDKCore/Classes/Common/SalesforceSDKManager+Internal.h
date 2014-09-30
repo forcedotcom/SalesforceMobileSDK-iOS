@@ -22,6 +22,7 @@
 {
     BOOL _isLaunching;
     UIViewController *_snapshotViewController;
+    NSMutableOrderedSet *_delegates;
 }
 
 @property (nonatomic, weak) id<SalesforceSDKManagerFlow> sdkManagerFlow;
