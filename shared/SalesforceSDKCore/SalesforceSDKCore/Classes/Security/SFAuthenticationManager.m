@@ -71,10 +71,6 @@ static NSInteger  const kOAuthGenericAlertViewTag    = 444;
 static NSInteger  const kIdentityAlertViewTag = 555;
 static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 
-// Key for whether or not the user has chosen the app setting to logout of the
-// app when it is re-opened.
-static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
-
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
@@ -173,20 +169,9 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @property (atomic, strong) NSMutableArray *authBlockList;
 
 /**
- View controller that will display the security snapshot view.
- */
-@property (nonatomic, strong) UIViewController *snapshotViewController;
-
-/**
  Dismisses the authentication retry alert box, if present.
  */
 - (void)cleanupStatusAlert;
-
-/**
- Clears the account state associated with the current account.
- @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
- */
-- (void)clearAccountState:(BOOL)clearAccountData;
 
 /**
  Method to present the authorizing view controller with the given auth webView.
@@ -258,28 +243,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)showAlertForConnectedAppVersionMismatchError;
 
 /**
- Sets up the security snapshot view of the screen when the app is backgrounding.
- */
-- (void)setupSnapshotView;
-
-/**
- Removes the security snapshot view of the screen when the app is foregrounding.
- */
-- (void)removeSnapshotView;
-
-/**
- Creates the default snapshot view (a white opaque view that covers the screen) if the snapshotView
- property has not previously been configured.
- @return The UIView representing the default snapshot view.
- */
-- (UIView *)createDefaultSnapshotView;
-
-/**
- Persists the last user activity, for passcode purposes, when the app is backgrounding or terminating.
- */
-- (void)savePasscodeActivityInfo;
-
-/**
  Sets up the default error handling chain.
  @return The SFAuthErrorHandlerList instance containing the chain of error handler filters.
  */
@@ -306,9 +269,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize authInfo = _authInfo;
 @synthesize authError = _authError;
 @synthesize authBlockList = _authBlockList;
-@synthesize useSnapshotView = _useSnapshotView;
-@synthesize snapshotView = _snapshotView;
-@synthesize snapshotViewController = _snapshotViewController;
 @synthesize authViewHandler = _authViewHandler;
 @synthesize authErrorHandlerList = _authErrorHandlerList;
 @synthesize invalidCredentialsAuthErrorHandler = _invalidCredentialsAuthErrorHandler;
@@ -345,14 +305,6 @@ static Class InstanceClass = nil;
     if (self) {
         self.authBlockList = [NSMutableArray array];
         _delegates = [[NSMutableOrderedSet alloc] init];
-        self.preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidFinishLaunching:) name:UIApplicationDidFinishLaunchingNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        self.useSnapshotView = YES;
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -376,19 +328,6 @@ static Class InstanceClass = nil;
         if (user) {
             [self setupWithUser:user];
         }
-        
-        // Make sure the login host settings and dependent data are synced at pre-auth app startup.
-        // Note: No event generation necessary here.  This will happen before the first authentication
-        // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
-        // app state as an initialization step.
-        BOOL logoutAppSettingEnabled = [self logoutSettingEnabled];
-        SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-        if (logoutAppSettingEnabled) {
-            [self clearAccountState:YES];
-        } else if (result.loginHostChanged) {
-            // Authentication hasn't started yet.  Just reset the current user.
-            [SFUserAccountManager sharedInstance].currentUser = nil;
-        }
     }
     
     return self;
@@ -396,18 +335,12 @@ static Class InstanceClass = nil;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
     [self cleanupStatusAlert];
     SFRelease(_statusAlert);
     SFRelease(_authViewController);
     SFRelease(_authInfo);
     SFRelease(_authError);
     SFRelease(_authBlockList);
-    SFRelease(_snapshotView);
-    SFRelease(_snapshotViewController);
 }
 
 #pragma mark - Public methods
@@ -493,9 +426,6 @@ static Class InstanceClass = nil;
     if (user == nil) {
         [self log:SFLogLevelInfo msg:@"logoutUser: user is nil.  No action taken."];
         return;
-    } else if (user == [SFUserAccountManager sharedInstance].temporaryUser) {
-        [self log:SFLogLevelInfo msg:@"logoutUser: user is the temporary account.  No action taken."];
-        return;
     }
     
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
@@ -508,7 +438,8 @@ static Class InstanceClass = nil;
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
         // NB: SmartStores need to be cleared before user account info is removed.
-        [SFSmartStore removeAllStoresForUser:user];
+        if (![user isEqual:userAccountManager.temporaryUser])
+            [SFSmartStore removeAllStoresForUser:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [user.credentials revoke];
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
@@ -581,105 +512,6 @@ static Class InstanceClass = nil;
     } else {
         return NO;
     }
-}
-
-- (BOOL)logoutSettingEnabled {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults synchronize];
-	BOOL logoutSettingEnabled =  [userDefaults boolForKey:kAppSettingsAccountLogout];
-    [self log:SFLogLevelDebug format:@"userLogoutSettingEnabled: %d", logoutSettingEnabled];
-    return logoutSettingEnabled;
-}
-
-- (NSString *)preferredPasscodeProvider
-{
-    return [SFPasscodeManager sharedManager].preferredPasscodeProvider;
-}
-
-- (void)setPreferredPasscodeProvider:(NSString *)preferredPasscodeProvider
-{
-    [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProvider;
-}
-
-- (void)appDidFinishLaunching:(NSNotification *)notification
-{
-    [SFSecurityLockout setValidatePasscodeAtStartup:YES];
-}
-
-- (void)appWillEnterForeground:(NSNotification *)notification
-{
-    [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
-    
-    [self removeSnapshotView];
-    
-    BOOL shouldLogout = [self logoutSettingEnabled];
-    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-    if (shouldLogout) {
-        [self log:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
-        [self logout];
-    } else if (result.loginHostChanged) {
-        [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
-        [self cancelAuthentication];
-        [[SFUserAccountManager sharedInstance] switchToNewUser];
-    } else {
-        // Check to display pin code screen.
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self logout];
-        }];
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:NULL];
-        [SFSecurityLockout validateTimer];
-    }
-    
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerWillEnterForeground:)]) {
-            [delegate authManagerWillEnterForeground:self];
-        }
-    }];
-}
-
-- (void)appWillResignActive:(NSNotification *)notification
-{
-    [self log:SFLogLevelDebug msg:@"App is resigning active state."];
-    
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerWillResignActive:)]) {
-            [delegate authManagerWillResignActive:self];
-        }
-    }];
-    
-    // Set up snapshot security view, if it's configured.
-    [self setupSnapshotView];
-}
-
-- (void)appDidBecomeActive:(NSNotification *)notification
-{
-    [self log:SFLogLevelDebug msg:@"App is resuming active state."];
-
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidBecomeActive:)]) {
-            [delegate authManagerDidBecomeActive:self];
-        }
-    }];
-    
-    [self removeSnapshotView];
-}
-
-- (void)appDidEnterBackground:(NSNotification *)notification
-{
-    [self log:SFLogLevelDebug msg:@"App is entering the background."];
-    
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidEnterBackground:)]) {
-            [delegate authManagerDidEnterBackground:self];
-        }
-    }];
-    
-    [self savePasscodeActivityInfo];
-}
-
-- (void)appWillTerminate:(NSNotification *)notification
-{
-    [self savePasscodeActivityInfo];
 }
 
 + (void)resetSessionCookie
@@ -798,50 +630,8 @@ static Class InstanceClass = nil;
 
 #pragma mark - Private methods
 
-- (void)setupSnapshotView
-{
-    if (self.useSnapshotView) {
-        if (self.snapshotView == nil) {
-            self.snapshotView = [self createDefaultSnapshotView];
-        }
-        
-        if (self.snapshotViewController == nil) {
-            self.snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-        }
-        [self.snapshotView removeFromSuperview];
-        [self.snapshotViewController.view addSubview:self.snapshotView];
-        [[SFRootViewManager sharedManager] pushViewController:self.snapshotViewController];
-    }
-}
-
-- (void)removeSnapshotView
-{
-    if (self.useSnapshotView) {
-        [[SFRootViewManager sharedManager] popViewController:self.snapshotViewController];
-    }
-}
-
-- (UIView *)createDefaultSnapshotView
-{
-    UIView *opaqueView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    opaqueView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    opaqueView.backgroundColor = [UIColor whiteColor];
-    return opaqueView;
-}
-
-- (void)savePasscodeActivityInfo
-{
-    [SFSecurityLockout removeTimer];
-    if (self.coordinator.credentials != nil) {
-		[SFInactivityTimerCenter saveActivityTimestamp];
-	}
-}
-
 - (void)finalizeAuthCompletion
 {
-    [SFSecurityLockout setValidatePasscodeAtStartup:NO];
-    [SFSecurityLockout startActivityMonitoring];
-    
     // Apply the credentials that will ensure there is a current user and that this
     // current user as the proper credentials.
     [[SFUserAccountManager sharedInstance] applyCredentials:self.coordinator.credentials];
@@ -1011,9 +801,6 @@ static Class InstanceClass = nil;
     if (clearAccountData) {
         [SFSmartStore removeAllStores];
         [SFSecurityLockout clearPasscodeState];
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-        [defs setBool:NO forKey:kAppSettingsAccountLogout];
-        [defs synchronize];
     }
     
     if (self.coordinator.view) {
@@ -1068,30 +855,17 @@ static Class InstanceClass = nil;
     // already exists.
     NSAssert(self.idCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     
-    // Post-passcode verification callbacks, where we'll check for passcode creation/update.  Passcode verification section is below.
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [self finalizeAuthCompletion];
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            [self execFailureBlocks];
-        }];
-        
-        // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-        // identity service.
-        [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
-                                 lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
+        [self finalizeAuthCompletion];
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         [self execFailureBlocks];
     }];
     
-    // If we're in app startup, we always lock "the first time". Otherwise, pin code screen display depends on inactivity.
-    if ([SFSecurityLockout validatePasscodeAtStartup]) {
-        [SFSecurityLockout lock];
-    } else {
-        [SFSecurityLockout validateTimer];
-    }
+    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+    // identity service.
+    [SFSecurityLockout setPasscodeLength:self.idCoordinator.idData.mobileAppPinLength
+                             lockoutTime:(self.idCoordinator.idData.mobileAppScreenLockTimeout * 60)];
 }
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag

@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,23 +22,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFAuthenticationManager.h"
+#import <Foundation/Foundation.h>
 
-@class SFUserAccount;
-
-@interface SFAuthenticationManager ()
-
-- (void)login;
-
-- (void)loginWithUser:(SFUserAccount*)account;
-
-- (void)setupWithUser:(SFUserAccount*)account;
+@interface SFSDKAppConfig : NSObject
 
 /**
- Clears the account state associated with the current account.
- @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
+ * The Connected App key associated with this application.
  */
-- (void)clearAccountState:(BOOL)clearAccountData;
+@property (nonatomic, copy) NSString *remoteAccessConsumerKey;
+
+/**
+ * The OAuth Redirect URI associated with the configured Connected Application.
+ */
+@property (nonatomic, copy) NSString *oauthRedirectURI;
+
+/**
+ * The OAuth Scopes being requested for this app.
+ */
+@property (nonatomic, strong) NSSet *oauthScopes;
+
+/**
+ * Whether or not this app should authenticate when it first starts.
+ */
+@property (nonatomic, assign) BOOL shouldAuthenticate;
+
+/**
+ * The config as a dictionary
+ */
+@property (nonatomic, strong) NSMutableDictionary *configDict;
+
+/**
+ * Initializer with a given JSON-based configuration dictionary.
+ * @param configDict The dictionary containing the configuration.
+ */
+- (instancetype)initWithDict:(NSDictionary *)configDict;
 
 @end
-

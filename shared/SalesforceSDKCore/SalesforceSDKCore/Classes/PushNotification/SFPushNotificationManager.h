@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIApplication.h>
 
+@class SFUserAccount;
+
 
 @interface SFPushNotificationManager : NSObject
 

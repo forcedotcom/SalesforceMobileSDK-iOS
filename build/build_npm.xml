@@ -45,5 +45,11 @@
             <arg value="pack" />
             <arg file="${npmRepoLocation}" />
         </exec>
+        
+        <!-- Clean up after npm -->
+        <echo>--- Post-npm cleanup ---</echo>
+        <exec executable="node">
+            <arg file="${npmRepoLocation}/postpublish.js" />
+        </exec>
     </target>
 </project>

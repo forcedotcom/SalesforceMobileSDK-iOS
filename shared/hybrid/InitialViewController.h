@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,23 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFAuthenticationManager.h"
+#import <UIKit/UIKit.h>
 
-@class SFUserAccount;
+@interface InitialViewController : UIViewController
 
-@interface SFAuthenticationManager ()
-
-- (void)login;
-
-- (void)loginWithUser:(SFUserAccount*)account;
-
-- (void)setupWithUser:(SFUserAccount*)account;
-
-/**
- Clears the account state associated with the current account.
- @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
- */
-- (void)clearAccountState:(BOOL)clearAccountData;
+@property (nonatomic, strong) IBOutlet UILabel *appLabel;
 
 @end
-

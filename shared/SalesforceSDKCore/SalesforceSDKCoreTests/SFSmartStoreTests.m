@@ -365,7 +365,7 @@ NSString * const kTestSoupName   = @"testSoup";
     NSArray *noStoresArray = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     if (noStoresArray != nil) {
         NSUInteger expectedCount = [noStoresArray count];
-        XCTAssertEqual(expectedCount, (NSUInteger)0, @"There should not be any stores defined.  Count = %lu", expectedCount);
+        XCTAssertEqual(expectedCount, (NSUInteger)0, @"There should not be any stores defined.  Count = %u", expectedCount);
     }
     
     // Create some stores.  Verify them.

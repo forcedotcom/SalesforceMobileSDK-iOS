@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,23 +22,41 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFAuthenticationManager.h"
+#import "InitialViewController.h"
 
-@class SFUserAccount;
+static NSString * const kDefaultHybridAppLabel = @"SDK Hybrid App";
 
-@interface SFAuthenticationManager ()
+@implementation InitialViewController
 
-- (void)login;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.appLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    }
+    return self;
+}
 
-- (void)loginWithUser:(SFUserAccount*)account;
+- (void)loadView
+{
+    [super loadView];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    if (!self.appLabel.text) {
+        self.appLabel.text = kDefaultHybridAppLabel;
+        self.appLabel.font = [UIFont systemFontOfSize:25.0];
+    }
+    [self.view addSubview:self.appLabel];
+}
 
-- (void)setupWithUser:(SFUserAccount*)account;
-
-/**
- Clears the account state associated with the current account.
- @param clearAccountData Whether to also remove all of the account data (e.g. YES for logout)
- */
-- (void)clearAccountState:(BOOL)clearAccountData;
+- (void)viewWillLayoutSubviews
+{
+    CGSize appLabelTextSize = [self.appLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.appLabel.font }];
+    CGFloat w = appLabelTextSize.width;
+    CGFloat h = appLabelTextSize.height;
+    CGFloat x = CGRectGetMidX(self.view.frame) - (w / 2.0);
+    CGFloat y = CGRectGetMidY(self.view.frame) - (h / 2.0);
+    self.appLabel.frame = CGRectMake(x, y, w, h);
+}
 
 @end
-

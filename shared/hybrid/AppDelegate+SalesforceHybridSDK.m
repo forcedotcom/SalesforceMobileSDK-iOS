@@ -26,9 +26,11 @@
 
 #import "AppDelegate+SalesforceHybridSDK.h"
 #import "UIApplication+SalesforceHybridSDK.h"
+#import "InitialViewController.h"
 #import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceHybridSDK/SFHybridViewConfig.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceCommonUtils/SFLogger.h>
@@ -52,17 +54,26 @@
     [SFLogger setLogLevel:SFLogLevelInfo];
 #endif
     
-    // Auth manager delegate, for receiving logout and login host change events.
-    [[SFAuthenticationManager sharedManager] addDelegate:self];
-    [[SFUserAccountManager sharedInstance] addDelegate:self];
+    SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
+    [SalesforceSDKManager sharedManager].appConfig = appConfig;
+    __weak AppDelegate *weakSelf = self;
+    [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+        [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [weakSelf setupRootViewController];
+    };
+    [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
+        [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [weakSelf initializeAppViewState];
+        [[SalesforceSDKManager sharedManager] launch];
+    };
+    [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+        [weakSelf handleSdkManagerLogout];
+    };
+    [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+        [weakSelf handleUserSwitch:fromUser toUser:toUser];
+    };
     
     return [self sfsdk_swizzled_init];
-}
-
-- (void)dealloc
-{
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - App event lifecycle
@@ -78,6 +89,7 @@
     self.window.autoresizesSubviews = YES;
     
     [self initializeAppViewState];
+    [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
 
@@ -92,14 +104,12 @@
 }
 
 
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
+- (void)handleSdkManagerLogout
 {
-    [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
-    
     [self resetViewState:^{
+        [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
+        [self initializeAppViewState];
         
         // Multi-user pattern:
         // - If there are two or more existing accounts after logout, let the user choose the account
@@ -112,28 +122,26 @@
         NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         if ([allAccounts count] > 1) {
             SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                [self.viewController dismissViewControllerAnimated:YES completion:NULL];
+                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
             }];
-            [self.viewController presentViewController:userSwitchVc animated:YES completion:NULL];
+            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
         } else {
             if ([allAccounts count] == 1) {
                 [SFUserAccountManager sharedInstance].currentUser = allAccounts[0];
             }
-            [self initializeAppViewState];
+            [[SalesforceSDKManager sharedManager] launch];
         }
     }];
 }
 
-#pragma mark - SFUserAccountManagerDelegate
-
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
-         didSwitchFromUser:(SFUserAccount *)fromUser
-                    toUser:(SFUserAccount *)toUser
+- (void)handleUserSwitch:(SFUserAccount *)fromUser
+                  toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
-     fromUser.userName, toUser.userName];
     [self resetViewState:^{
+        [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+         fromUser.userName, toUser.userName];
         [self initializeAppViewState];
+        [[SalesforceSDKManager sharedManager] launch];
     }];
 }
 
@@ -148,9 +156,14 @@
         return;
     }
     
-    self.viewController = [[SFHybridViewController alloc] init];
-    self.window.rootViewController = self.viewController;
+    self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
     [self.window makeKeyAndVisible];
+}
+
+- (void)setupRootViewController
+{
+    self.viewController = [[SFHybridViewController alloc] initWithConfig:(SFHybridViewConfig*)[SalesforceSDKManager sharedManager].appConfig];
+    self.window.rootViewController = self.viewController;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock
