@@ -78,7 +78,7 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
 }
 
 + (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents {
-    NSMutableString *absoluteUrl = [[NSMutableString alloc] initWithString:[baseUrl absoluteString]];
+    NSMutableString *absoluteUrl = [[NSMutableString alloc] initWithString:[baseUrl absoluteString]?:@""];
     [self appendPathComponents:pathComponents toMutableUrlString:absoluteUrl];
     return absoluteUrl;
 }

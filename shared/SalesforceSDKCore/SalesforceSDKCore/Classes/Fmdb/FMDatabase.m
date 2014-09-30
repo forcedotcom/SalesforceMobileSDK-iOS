@@ -198,6 +198,9 @@
 }
 
 - (void)setCachedStatement:(FMStatement*)statement forQuery:(NSString*)query {
+    if (nil == query) {
+        return;
+    }
     
     query = [query copy]; // in case we got handed in a mutable string...
     
@@ -1008,7 +1011,7 @@
     
     if (![self executeUpdate:[NSString stringWithFormat:@"savepoint '%@';", name]]) {
         
-        if (*outErr) {
+        if (outErr) {
             *outErr = [self lastError];
         }
         
@@ -1024,7 +1027,7 @@
     
     BOOL worked = [self executeUpdate:[NSString stringWithFormat:@"release savepoint '%@';", name]];
     
-    if (!worked && *outErr) {
+    if (!worked && outErr) {
         *outErr = [self lastError];
     }
     
@@ -1037,7 +1040,7 @@
     
     BOOL worked = [self executeUpdate:[NSString stringWithFormat:@"rollback transaction to savepoint '%@';", name]];
     
-    if (!worked && *outErr) {
+    if (!worked && outErr) {
         *outErr = [self lastError];
     }
     
